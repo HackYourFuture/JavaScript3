@@ -1,6 +1,6 @@
 >Please help us improve and share your feedback! If you find better tutorials or links, please share them by opening a Pull Request.
 
-# HackYourJavaScript
+# JavaScript3
 
 Here you can find course content and homework for the JavaScript3 modules
 
