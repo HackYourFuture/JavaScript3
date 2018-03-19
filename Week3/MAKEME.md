@@ -1,4 +1,4 @@
-# Homework Week 9
+# Homework Week 3
 
 ```
 Topics discussed this week:
@@ -64,6 +64,6 @@ writeDataToFile(data);
 
 _Deadline Sunday morning_
 
-Go trough the reading material in the [README.md](/Week9/README.md) to prepare for your next class
+Go trough the reading material in the [README.md](https://github.com/HackYourFuture/Node.js) to prepare for your next class
 
 > To hand in your homework, make a pull request to the original repository you forked from. Remember, our master branches are protected, you cannot push to a directly cloned repository you first have to make a fork to your own Github.

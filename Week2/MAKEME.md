@@ -1,4 +1,4 @@
-# Homework Week 8
+# Homework Week 2
 
 ```
 Topics discussed this week:
@@ -8,7 +8,7 @@ Topics discussed this week:
 ```
 
 
->[Here](/Week8/README.md) you find the readings you have to complete before the ninth lecture.
+>[Here](/Week3/README.md) you find the readings you have to complete before the ninth lecture.
 
 ## Step 1: Feedback
 
@@ -95,7 +95,7 @@ _BONUS_ : Code Kata Race
 
 _Deadline Sunday morning_
 
-Go trough the reading material in the [README.md](/Week8/README.md) to prepare for your next class
+Go trough the reading material in the [README.md](/Week3/README.md) to prepare for your next class
 
 >Upload your homework in your "hyf-javascript3" Github repository. Make sure to create a new folder "week2" first. 
 Upload your homework files inside the week2 folder and write a description for this “commit”.

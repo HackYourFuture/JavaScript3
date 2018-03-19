@@ -1,18 +1,36 @@
-# Reading material for your first Node lecture:
+# Reading material for the third lecture:
 
 ```
-Next week you will start with Node
+In week three we will discuss the following topics:
+• (re)writing data structures (in JSON)
+• Async VS Sync 
+• Code flow (order of execution)
 ```
 
-### Refresher
-:star: Timir wrote a really nice javaScript REVIEW that explains which concepts are most important to know in JavaScript when you continue your coding journey to Node, this is a __MUST__ read: [Timir's JavaScript Review](./../../../../fundamentals/blob/master/fundamentals/javascript_review.md) :star:
+### Here are resources that we like you to read as a preparation for the coming lecture:
 
-- https://forum.freecodecamp.com/t/javascript-callback-functions/14658/2
-http://www.learn-js.org/en/Callbacks
+#### Async VS Sync 
+- Read about Asynchronous vs. Synchronous programming: http://www.hongkiat.com/blog/synchronous-asynchronous-javascript/
 
-## Check out how to prepare for your first Node lecture here:
+#### Closures and async code
+- [Why closures are helpful with async code](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript)
 
-- https://github.com/HackYourFuture/Node.js/blob/master/week0/README.md
+_Please go through the material and come to class prepared!_# Reading material for the ninth lecture:
+
+```
+In week nine we will discuss the following topics:
+• (re)writing data structures (in JSON)
+• Async VS Sync 
+• Code flow (order of execution)
+```
+
+### Here are resources that we like you to read as a preparation for the coming lecture:
+
+#### Async VS Sync 
+- Read about Asynchronous vs. Synchronous programming: http://www.hongkiat.com/blog/synchronous-asynchronous-javascript/
+
+#### Closures and async code
+- [Why closures are helpful with async code](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript)
 
 _Please go through the material and come to class prepared!_
 
