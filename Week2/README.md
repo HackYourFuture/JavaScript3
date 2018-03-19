@@ -1,20 +1,16 @@
-# Reading material for the ninth lecture:
+# Reading material for the second lecture:
 
 ```
-In week nine we will discuss the following topics:
-• (re)writing data structures (in JSON)
-• Async VS Sync 
-• Code flow (order of execution)
+In week two we will discuss the following topics:
+• Structure for a basic SPA
+• XMLHttpRequests
+• API calls
 ```
 
 ### Here are resources that we like you to read as a preparation for the coming lecture:
 
-#### Async VS Sync 
-- Read about Asynchronous vs. Synchronous programming: http://www.hongkiat.com/blog/synchronous-asynchronous-javascript/
+#### APIs
+- Read about APIS: https://www.programmableweb.com/api-university/what-are-apis-and-how-do-they-work
 
-#### Closures and async code
-- [Why closures are helpful with async code](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript)
-
-_Please go through the material and come to class prepared!_
-
-
+#### XMLHttpRequests
+- XMLHttpRequests: https://www.kirupa.com/html5/making_http_requests_js.htm

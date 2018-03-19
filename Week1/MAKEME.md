@@ -1,4 +1,4 @@
-# Homework Week 7
+# Homework Week 1
 
 ```
 Topics discussed this week:
@@ -10,7 +10,7 @@ Topics discussed this week:
 • Code flow (order of execution)
 ```
 
->[Here](/Week7/README.md) you find the readings you have to complete before the eighth lecture.
+>[Here](/Week2/README.md) you find the readings you have to complete before the eighth lecture.
 
 ## Step 1: Give feedback
 
@@ -134,7 +134,7 @@ Fun extra step: If you get bored, template them and make a page by rendering the
 
 _Deadline Sunday morning_
 
-Go trough the reading material in the [README.md](/Week7/README.md) to prepare for your next class
+Go trough the reading material in the [README.md](/Week2/README.md) to prepare for your next class
 
 ## _BONUS_ : Code Kata Race
 
