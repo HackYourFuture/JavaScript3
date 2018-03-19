@@ -1,69 +1,169 @@
-# Homework Week 3
+# Homework Week 1
 
 ```
 Topics discussed this week:
-• (re)writing data structures (in JSON)
-• Async VS Sync 
+• Object Oriented Programming
+    • this
+    • call
+    • apply
+    • bind
 • Code flow (order of execution)
 ```
 
-## Step 1: Read
+>[Here](/Week2/README.md) you find the readings you have to complete before the eighth lecture.
 
-- If you need to refresh your memory on es6 classes: [es6-classes-in-depth](https://ponyfoo.com/articles/es6-classes-in-depth)
-- Also read this article on scopes & closures: [explaining-javascript-scope-and-closures](https://robertnyman.com/2008/10/09/explaining-javascript-scope-and-closures/)
+## Step 1: Give feedback
 
-## Step 2: Feedback
+_Deadline Monday_
 
-- Create at least 2 issues (bug / feature / code improvement) on another teams github repository. Do this in pairs. 
--  Solve the issue proposed by another students in your github repo. More info [here](https://hackyourfuture.slack.com/files/michahell/F31BX1XT6/Merging_a_local_branch_into_master)
+Give feedback on Step 4 and 5 of last weeks homework. Please provide the feedback in an issue.
 
-## Step 3: Pair programming promises challenge 
+## Step 2: Issues
 
-This week you will work in a team!
+_Deadline Monday_
 
-So please:
+- Solve all your Git issues. DO NO CLOSE AN ISSUE WITHOUT AN EXPLANATION OR CODE COMMIT REFERENCING THAT ISSUE.
 
-- (one of your team mates should) Fork this repository: https://github.com/HackYourFuture/PromisessObjectsAndStringRendering
-- make sure you are all collaborators on the same repository
-- Follow the instructions in the REAME.md of the above repository
-- To hand in your homework you make a PR to the existing repository
 
-## Step 4: Async challenge
+## Step 3: Fix issues
+
+_Deadline Thursday_
+
+- Fix the issues from the last weeks and make sure you explain how you fixed the issue in a comment (or commit message)
+
+## Step 4: Some Challenges
 
 _Deadline Saturday_
 
-1. Rewrite the code below to Async: 
+Let's practice working with Objects and Arrays. Go to FreeCodeCamp and complete all challenges under "Object Oriented and Functional Programming" and the _first four challenges_ under "Basic Algorithm Scripting", up until 'Find the longest word in a string.'
+
+Also make:
+
+1. [Comparisons with the Logical And Operator](https://www.freecodecamp.com/challenges/comparisons-with-the-logical-and-operator)
+
+2. [Record Collection](https://www.freecodecamp.com/challenges/record-collection)
+
+3. [Iterate over Arrays with map](https://www.freecodecamp.com/challenges/iterate-over-arrays-with-map)
+
+## Step 5: OOP
+
+_Deadline Wednesday_
+
+Complete the following code:
 
 ```js
-1.
+class Movie {
+  constructor(title, director) {
+    // add your code here
+  }
 
-let sum = calculateSum(2, 6);
-console.log(sum);
+  getTitle() {
+    // add your code here
+  }
 
-2.
+  getDirector() {
+    // add your code here
+  }
 
-let results = $.getJSON('http://myapi.com');
-showResults(results);
+  addStar(star) {
+    // add your code here
+  }
 
-3.
+  getStars() {
+    // add your code here
+  }
 
-let sum = calculateSum(2, 6);
-if (sum > 8) {
-    console.log('larger than 8');
+  addWriter(writer) {
+    // add your code here
+  }
+
+  getWriters() {
+    // add your code here
+  }
+
+  addRating(rating) {
+    // add your code here
+  }
+
+  getAverageRating() {
+    // add your code here
+  }
+
+  // ... Add yours :-) Look to IMDB for inspiration
 }
 
-4.
+class StaffMember {
+  constructor(name, role, dateOfBirth) {
+    // add your code here
+  }
 
-let data = $.getJSON('http://myapi.com');
-data = data.map(function (x) { return x * 8; });
+  addMovie(movie) {
+    // add your code here
+  }
 
-writeDataToFile(data);
+  getName() {
+    // add your code here
+  }
+
+  getRole() {
+    // add your code here
+  }
+
+  getAge() {
+    // add your code here
+  }
+}
+
+// Pick your favorite movie from http://www.imdb.com/
+
+const myMovie = new Movie(...);
+
+const firstActor = new StaffMember(...);
+myMovie.addStar(firstActor);
+// create and add more staff members
+
+// Make sure that the following actions work.
+console.log(myMovie.getStars().map(actor => `${actor.getName()} ${actor.getAge()}`));
+const director = myMovie.getDirector();
+console.log(`Director: ${director.getName()}`);
 ```
 
-## Step 5: Read before next lecture
+Fun extra step: If you get bored, template them and make a page by rendering the results in HTML :smile: with something like `document.querySelector('.move').innerHTML = ...`
+
+## Step 6: Read before next lecture
 
 _Deadline Sunday morning_
 
-Go trough the reading material in the [README.md](https://github.com/HackYourFuture/Node.js) to prepare for your next class
+Go trough the reading material in the [README.md](/Week2/README.md) to prepare for your next class
 
-> To hand in your homework, make a pull request to the original repository you forked from. Remember, our master branches are protected, you cannot push to a directly cloned repository you first have to make a fork to your own Github.
+## _BONUS_ : Code Kata Race
+
+If you haven't already join our clan: "Hack Your Future" in codewars
+
+Solve the following problems:
+- [Problem 1](https://www.codewars.com/kata/keep-up-the-hoop)
+- [Problem 2](https://www.codewars.com/kata/find-the-first-non-consecutive-number)
+- [Problem 3](https://www.codewars.com/kata/negation-of-a-value)
+- Some more [Homework](https://www.codewars.com/collections/hyf-homework-1)
+
+_Hints_
+- Hint for Q1: split your code into two parts, one part for the case that one of the two strings has an extra letter at the start or the end but is otherwise identical & one part for the case that the strings are the same length but one character is different in one of the strings
+- Also for Q1 this function on strings might be useful: [JavaScript String slice() method](https://www.w3schools.com/jsref/jsref_slice_string.asp)
+- Also potentially useful: [JavaScript String charAt() Method](https://www.w3schools.com/jsref/jsref_charat.asp)
+- [Hint for Q2](https://www.w3schools.com/jsref/jsref_sort.asp) Also there are no sample tests, you need to use submit
+
+Remember the person with the most kata points gets a prize from Gijs (and you can do exercises on this website without us assigning them - anything kyu 7 or kyu 8 you can try to do - kyu 6 or lower is probably too hard) -->
+
+-[MORE BONUS](https://www.codewars.com/collections/hyf-homework-1-bonus-credit) :collision:
+
+## To watch before the next lecture:
+
+(watch in this order)
+
+1. [Stacks/Queues](https://www.youtube.com/watch?v=wjI1WNcIntg) (5 mins)
+2. [JS Event Loops](https://www.youtube.com/watch?v=8aGhZQkoFbQ) (26 mins, watch this one twice or until you understand it)
+
+>Create a new repository "hyf-javascript3". Also create a new folder "week1" inside this repository.
+Upload your homework files inside the week1 folder and write a description for this “commit”.
+Your hyf-javascript3/week1 should now contain the files of your homework.
+Place the link to your repository folder in Trello.

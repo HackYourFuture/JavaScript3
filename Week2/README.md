@@ -1,16 +1,40 @@
-# Reading material for the second lecture:
+# Reading material for the third lecture:
 
 ```
-In week two we will discuss the following topics:
-• Structure for a basic SPA
-• XMLHttpRequests
-• API calls
+In week three we will discuss the following topics:
+• Async vs Sync
+• Event Loop (order of execution)
+• Promises
 ```
 
 ### Here are resources that we like you to read as a preparation for the coming lecture:
 
-#### APIs
-- Read about APIS: https://www.programmableweb.com/api-university/what-are-apis-and-how-do-they-work
+#### Async VS Sync
+- Read about Asynchronous vs. Synchronous programming: http://www.hongkiat.com/blog/synchronous-asynchronous-javascript/
 
-#### XMLHttpRequests
-- XMLHttpRequests: https://www.kirupa.com/html5/making_http_requests_js.htm
+#### Closures and async code
+- [Why closures are helpful with async code](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript)
+
+_Please go through the material and come to class prepared!_# Reading material for the ninth lecture:
+
+```
+In week nine we will discuss the following topics:
+• (re)writing data structures (in JSON)
+• Async VS Sync
+• Code flow (order of execution)
+```
+
+### Here are resources that we like you to read as a preparation for the coming lecture:
+
+#### Async VS Sync
+- Read about Asynchronous vs. Synchronous programming: http://www.hongkiat.com/blog/synchronous-asynchronous-javascript/
+
+#### Closures and async code
+- [Why closures are helpful with async code](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript)
+
+_Please go through the material and come to class prepared!_
+
+
+
+
+
