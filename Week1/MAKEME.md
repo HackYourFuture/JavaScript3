@@ -79,7 +79,7 @@ GitHub API documentation: [Get](https://developer.github.com/v3/repos/#get)
 
 The response object that is returned by GitHub from the request to get repository information includes a property with the `contributors_url`. Use the value of this property to make a new request to GitHub to obtain a list of contributors.
 
-Note that, as a result of selecting a repository from the `\<select\>` element, your code must make two XMLHttpRequests, one after the other:
+Note that, as a result of selecting a repository from the `<select>` element, your code must make two XMLHttpRequests, one after the other:
 
 1. A first request to obtain repository information.
 2. A second request using the `contributors_url` obtained from (1) to get a list of contributor information.
