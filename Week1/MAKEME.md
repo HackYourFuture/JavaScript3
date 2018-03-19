@@ -46,7 +46,7 @@ Figure 1. Example User Interface using [Material Design](https://material.io/gui
 1. Create this application in the `week1` folder of your `hyf-javascript1` repo. Your application should at minimum consist of the files `index.html`, `style.css` and `app.js`.
 2. Your `index.html` file should load the `style.css` and `app.js` files, using the appropriate HTML tags.
 3. The `body` of your `index.html` should contain a single `div` element like this: `<div id="root"></div>`.
-4. All other HTML elements should be generated programmatically by your `app.js` file and ultimately be hanging of the root `div` element.
+4. All other HTML elements should be generated programmatically by your `app.js` file and ultimately be hanging off the root `div` element.
 5. Implement the repository selection list by means of an HTML [\<select\>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select) element.
 
 You will need to use XMLHttpRequests against the GitHub API to get the relevant information. The GitHub API documentation is very extensive. An overview is given [here](https://developer.github.com/v3/) but we will point you to the relevant sections in the documentation needed for this assignment.
@@ -84,7 +84,7 @@ Note that, as a result of selecting a repository from the `<select>` element, yo
 1. A first request to obtain repository information.
 2. A second request using the `contributors_url` obtained from (1) to get a list of contributor information.
 
-Both request must be done asynchronously.
+Both requests must be done asynchronously.
 
 Making two XMLHttpRequests in a row, where the second requests depends on the response of the first request is part of the assignment. While it is possible to figure out beforehand what the value of the `contributors_url` will be (by carefully reading the documentation), and subsequently make two independent XMLHttpRequests, this is not what is expected.
 
