@@ -1,40 +1,24 @@
-# Reading material for the third lecture:
+# Reading material for the second lecture:
 
 ```
-In week three we will discuss the following topics:
+In week two we will discuss the following topics:
 • Async vs Sync
 • Event Loop (order of execution)
 • Promises
 ```
 
-### Here are resources that we like you to read as a preparation for the coming lecture:
+Here are resources that we like you to read as a preparation for the second lecture:
 
-#### Async VS Sync
+### Async VS Sync
+
+- [Stacks/Queues](https://www.youtube.com/watch?v=wjI1WNcIntg) (5 mins)
 - Read about Asynchronous vs. Synchronous programming: http://www.hongkiat.com/blog/synchronous-asynchronous-javascript/
-
-#### Closures and async code
 - [Why closures are helpful with async code](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript)
 
-_Please go through the material and come to class prepared!_# Reading material for the ninth lecture:
+### Fundamentals
 
-```
-In week nine we will discuss the following topics:
-• (re)writing data structures (in JSON)
-• Async VS Sync
-• Code flow (order of execution)
-```
+- [Event Loop](../../../fundamentals/blob/master/fundamentals/event_loop.md)
+- [Promises](../../../fundamentals/blob/master/fundamentals/promises.md)
 
-### Here are resources that we like you to read as a preparation for the coming lecture:
-
-#### Async VS Sync
-- Read about Asynchronous vs. Synchronous programming: http://www.hongkiat.com/blog/synchronous-asynchronous-javascript/
-
-#### Closures and async code
-- [Why closures are helpful with async code](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript)
 
 _Please go through the material and come to class prepared!_
-
-
-
-
-

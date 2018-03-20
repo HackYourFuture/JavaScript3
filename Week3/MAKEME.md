@@ -2,15 +2,10 @@
 
 ```
 Topics discussed this week:
-• Object Oriented Programming
-    • this
-    • call
-    • apply
-    • bind
-• Code flow (order of execution)
+• Object Oriented Programming and ES6 Classes
+• The this keyword
+• call, apply, bind
 ```
-
->[Here](/Week2/README.md) you find the readings you have to complete before the eighth lecture.
 
 ## Step 1: Give feedback
 
@@ -31,110 +26,119 @@ _Deadline Thursday_
 
 - Fix the issues from the last weeks and make sure you explain how you fixed the issue in a comment (or commit message)
 
-## Step 4: Some Challenges
+## Step 4: Refactor GitHub app using OOP and ES6 classes
+
+- If you need to refresh your memory on es6 classes: [es6-classes-in-depth](https://ponyfoo.com/articles/es6-classes-in-depth)
 
 _Deadline Saturday_
 
-Let's practice working with Objects and Arrays. Go to FreeCodeCamp and complete all challenges under "Object Oriented and Functional Programming" and the _first four challenges_ under "Basic Algorithm Scripting", up until 'Find the longest word in a string.'
+The assignment is to refactor your GitHub to use OOP with ES6 classes (see skeleton code below). We will be introducing a `Repository` and `Contributor` class that will each be responsible for rendering their own data. A third `View` class will contain all remaining code.
 
-Also make:
+1. You should refactor your code to use three classes, named `Repository`, `Contributor` and `View`.
+2. Move your existing code that deals with rendering the repository information to the `render()` method of the `Repository` class.
+3. Move your existing code that deals with rendering the information for a single contributor to the `render()` method of the `Contributor` class.
+4. Move your existing code responsible for initializing your application to the `constructor` of the `View` class.
+5. Your remaining code should probably go to the `fetchAndRender()` method of the `View` class.
 
-1. [Comparisons with the Logical And Operator](https://www.freecodecamp.com/challenges/comparisons-with-the-logical-and-operator)
+### Skeleton
 
-2. [Record Collection](https://www.freecodecamp.com/challenges/record-collection)
-
-3. [Iterate over Arrays with map](https://www.freecodecamp.com/challenges/iterate-over-arrays-with-map)
-
-## Step 5: OOP
-
-_Deadline Wednesday_
-
-Complete the following code:
+Use this skeleton as overall design for your code in `app.js`:
 
 ```js
-class Movie {
-  constructor(title, director) {
-    // add your code here
+'use strict';
+{
+  const hyfUrl = 'https://api.github.com';
+  const hyfReposUrl = hyfUrl + '/orgs/HackYourFuture/repos?per_page=100';
+  const repoUrl = hyfUrl + '/repos/HackYourFuture/';
+
+  class Repository {
+    constructor(data) {
+      this.data = data;
+    }
+
+    /**
+     * Render the repository info into the DOM.
+     * @param {HTML element} parent The parent element in which to render the repository
+     * info.
+     */
+    render(parent) {
+      // Add your code here.
+      // This method should render the repository data stored in the 'data' property
+      // as HTML elements and append them to the `parent` element.
+    }
   }
 
-  getTitle() {
-    // add your code here
+  class Contributor {
+    constructor(data) {
+      this.data = data;
+    }
+
+    /**
+     * Render the contributor info into the DOM.
+     * @param {HTML element} parent The parent element in which to render the contributor
+     * info.
+     */
+    render(parent) {
+      // Add your code here.
+      // This method should render the contributor data stored in the 'data' property
+      // as HTML elements and append them to the `parent` element.
+    }
   }
 
-  getDirector() {
-    // add your code here
+  class View {
+    constructor() {
+      // Add code here to initialize your app
+      // 1. Create the fixed HTML elements of your page
+      // 2. Make an initial XMLHttpRequest to populate your <select> element
+    }
+
+    /**
+     * Fetch information for the selected repository and render the
+     * information as HTML elements in the DOM
+     * @param {*} repoName The name of the selected repository
+     */
+    fetchAndRender(repoName) {
+      const leftDiv = ...;
+      const rightDiv = ...;
+
+      // ...
+
+      this.fetchJSON(repoUrl + repoName)
+        .then(repoInfo => {
+          const repo = new Repository(repoInfo);
+          return this.fetchJSON(repoInfo.contributors_url)
+            .then(contributors => {
+              repo.render(leftDiv);
+              contributors
+                .map(contributor => new Contributor(contributor))
+                .forEach(contributor => contributor.render(rightDiv));
+            });
+        })
+        .catch(error => {
+          // add error handling code here
+        });
+    }
+
+
+    /**
+     * Fetch API data as JSON data in a promise
+     * @param {string} url The URL of the API endpoint.
+     * @returns A promise.
+     */
+    fetchJSON(url) {
+      // Add your code here
+    }
   }
 
-  addStar(star) {
-    // add your code here
-  }
-
-  getStars() {
-    // add your code here
-  }
-
-  addWriter(writer) {
-    // add your code here
-  }
-
-  getWriters() {
-    // add your code here
-  }
-
-  addRating(rating) {
-    // add your code here
-  }
-
-  getAverageRating() {
-    // add your code here
-  }
-
-  // ... Add yours :-) Look to IMDB for inspiration
+  window.onload = new View();
 }
-
-class StaffMember {
-  constructor(name, role, dateOfBirth) {
-    // add your code here
-  }
-
-  addMovie(movie) {
-    // add your code here
-  }
-
-  getName() {
-    // add your code here
-  }
-
-  getRole() {
-    // add your code here
-  }
-
-  getAge() {
-    // add your code here
-  }
-}
-
-// Pick your favorite movie from http://www.imdb.com/
-
-const myMovie = new Movie(...);
-
-const firstActor = new StaffMember(...);
-myMovie.addStar(firstActor);
-// create and add more staff members
-
-// Make sure that the following actions work.
-console.log(myMovie.getStars().map(actor => `${actor.getName()} ${actor.getAge()}`));
-const director = myMovie.getDirector();
-console.log(`Director: ${director.getName()}`);
 ```
-
-Fun extra step: If you get bored, template them and make a page by rendering the results in HTML :smile: with something like `document.querySelector('.move').innerHTML = ...`
 
 ## Step 6: Read before next lecture
 
 _Deadline Sunday morning_
 
-Go trough the reading material in the [README.md](/Week2/README.md) to prepare for your next class
+Go trough the reading material in the [README.md](https://github.com/HackYourFuture/Node.js) of the Node repository to prepare for your next class.
 
 ## _BONUS_ : Code Kata Race
 
@@ -155,15 +159,3 @@ _Hints_
 Remember the person with the most kata points gets a prize from Gijs (and you can do exercises on this website without us assigning them - anything kyu 7 or kyu 8 you can try to do - kyu 6 or lower is probably too hard) -->
 
 -[MORE BONUS](https://www.codewars.com/collections/hyf-homework-1-bonus-credit) :collision:
-
-## To watch before the next lecture:
-
-(watch in this order)
-
-1. [Stacks/Queues](https://www.youtube.com/watch?v=wjI1WNcIntg) (5 mins)
-2. [JS Event Loops](https://www.youtube.com/watch?v=8aGhZQkoFbQ) (26 mins, watch this one twice or until you understand it)
-
->Create a new repository "hyf-javascript3". Also create a new folder "week1" inside this repository.
-Upload your homework files inside the week1 folder and write a description for this “commit”.
-Your hyf-javascript3/week1 should now contain the files of your homework.
-Place the link to your repository folder in Trello.

@@ -7,12 +7,16 @@ In week one we will discuss the following topics:
 • API calls
 ```
 
+Here are resources that we like you to read as a preparation for the third lecture:
 
-#### APIs
+### Fundamentals
+
+- [XMLHttpRequest](../../../fundamentals/blob/master/fundamentals/XMLHttpRequest.md)
+
+### APIs
 
 - Read about APIS: https://www.programmableweb.com/api-university/what-are-apis-and-how-do-they-work
 
-#### XMLHttpRequests
+### XMLHttpRequests
 
-- HYF fundamental: [XMLHttpRequest](../../../fundamentals/blob/master/fundamentals/XMLHttpRequest.md)
 - [Making HTTP Requests in JavaScript](https://www.kirupa.com/html5/making_http_requests_js.htm)
