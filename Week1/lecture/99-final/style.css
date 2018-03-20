@@ -1,0 +1,69 @@
+body {
+  font-family: 'Roboto', sans-serif;
+  width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fafafa;
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: center;
+  padding: 8px;
+  border: solid 1px darkgray;
+  border-radius: 0.25rem;
+  background-color: white;
+}
+
+select {
+  margin-bottom: 16px;
+  font-size: 14px;
+  width: 100%;
+  height: 32px;
+}
+
+table {
+  margin-top: 16px;
+  padding: 16px;
+  table-layout: fixed;
+  color: rgb(0, 0, 0, 81%);
+}
+
+td {
+  padding: 10px;
+  vertical-align: top;
+}
+
+td:first-child {
+  width: 80px;
+}
+
+td.label {
+  font-weight: bold;
+}
+
+td ul {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-left: 16px;
+}
+
+td li {
+  padding-bottom: 8px;
+}
+
+#list-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.list-item {
+  margin-bottom: 8px;
+  border: none;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
+    0 3px 3px -2px rgba(0, 0, 0, 0.12);
+}
