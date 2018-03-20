@@ -11,9 +11,9 @@ Topics discussed this week:
 
 - Read this article on scopes & closures: [explaining-javascript-scope-and-closures](https://robertnyman.com/2008/10/09/explaining-javascript-scope-and-closures/)
 
-- If you are still not completely clear on promises, here are some additional nice resources :ring:
+- If you are still not completely clear on promises, here are some additional resources :ring:
 
-    - [Googles post about Promises](https://developers.google.com/web/fundamentals/getting-started/primers/promises)
+    - [Google's post about Promises](https://developers.google.com/web/fundamentals/getting-started/primers/promises)
     - [A nice article from David Walsh](https://davidwalsh.name/promises)
     - [A real life example](https://github.com/mdn/js-examples/blob/master/promises-test/index.html)
     - [stackoverflow](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript)
@@ -31,9 +31,14 @@ _Deadline Saturday_
 
 The assignment for this week is:
 
-- Complete your GitHub app code as needed to meet the requirements from the assignment of week 1.
+- Complete your GitHub app code from the previous week, if needed, to meet the requirements from that week's assignment.
 - Replace all asynchronous callbacks (e.g. as used with XMLHttpRequest) by ES6 promises.
 - Beautify your app's styling.
+
+Note:
+
+1. Please remove all redundant, commented-out code and console.log's from your files before pushing your homework as finished. There is no need for your mentors to review this stuff.
+2. Please make sure your code is well-formatted and follows the recommended naming conventions.
 
 ## Step 5: Read before next lecture
 

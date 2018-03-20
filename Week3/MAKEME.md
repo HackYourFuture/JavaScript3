@@ -26,19 +26,19 @@ _Deadline Thursday_
 
 - Fix the issues from the last weeks and make sure you explain how you fixed the issue in a comment (or commit message)
 
-## Step 4: Refactor GitHub app using OOP and ES6 classes
+## Step 4: Refactor the GitHub app using OOP and ES6 classes
 
 - If you need to refresh your memory on es6 classes: [es6-classes-in-depth](https://ponyfoo.com/articles/es6-classes-in-depth)
 
 _Deadline Saturday_
 
-The assignment is to refactor your GitHub to use OOP with ES6 classes (see skeleton code below). We will be introducing a `Repository` and `Contributor` class that will each be responsible for rendering their own data. A third `View` class will contain all remaining code.
+The assignment is to refactor your GitHub app to use OOP with ES6 classes (see skeleton code below). We will be introducing a `Repository` and a `Contributor` class that will each be responsible for rendering their own data. A third `View` class will contain all remaining code.
 
 1. You should refactor your code to use three classes, named `Repository`, `Contributor` and `View`.
 2. Move your existing code that deals with rendering the repository information to the `render()` method of the `Repository` class.
 3. Move your existing code that deals with rendering the information for a single contributor to the `render()` method of the `Contributor` class.
 4. Move your existing code responsible for initializing your application to the `constructor` of the `View` class.
-5. Your remaining code should probably go to the `fetchAndRender()` method of the `View` class.
+5. The bulk of your remaining code should probably go to the `fetchAndRender()` method of the `View` class.
 
 ### Skeleton
 
@@ -134,6 +134,10 @@ Use this skeleton as overall design for your code in `app.js`:
 }
 ```
 
+Note:
+
+1. Please remove all redundant, commented-out code and console.log's from your files before pushing your homework as finished. There is no need for your mentors to review this stuff.
+2. Please make sure your code is well-formatted and follows the recommended naming conventions.
 ## Step 6: Read before next lecture
 
 _Deadline Sunday morning_

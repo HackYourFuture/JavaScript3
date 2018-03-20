@@ -58,7 +58,7 @@ Use the `live-coding` folder for all live coding.
 
 ### 13-xhr-html
 
-- Show that HTML we want to create from the JSON data
+- Show an example of the HTML we want to create dynamically from the JSON data
 
 ### 14-xhr-first
 

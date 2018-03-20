@@ -7,7 +7,7 @@ In week one we will discuss the following topics:
 • API calls
 ```
 
-Here are resources that we like you to read as a preparation for the third lecture:
+Here are resources that we like you to read as a preparation for the first lecture:
 
 ### Fundamentals
 

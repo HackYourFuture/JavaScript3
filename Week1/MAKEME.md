@@ -106,6 +106,11 @@ In the lecture we developed some utility functions to simplify making XMLHttpReq
 - When the user changes the selected repository, any existing repository information in your page should be cleared before displaying the new information.
 - Make your functions small and reusable (modular)! That means create separate functions to handle certain steps.
 
+Note:
+
+1. Please remove all redundant, commented-out code and console.log's from your files before pushing your homework as finished. There is no need for your mentors to review this stuff.
+2. Please make sure your code is well-formatted and follows the recommended naming conventions.
+
 _GO WILD_
 
 Again, check out the GitHub API documentation to see what kind of magic stuff you can do with it.
