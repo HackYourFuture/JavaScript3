@@ -1,0 +1,22 @@
+{
+  "name": "hyf-js3-wk1",
+  "version": "1.0.0",
+  "description": "XMLHttpRequest and API example",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/remarcmij/hyf-js3-wk1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/remarcmij/hyf-js3-wk1/issues"
+  },
+  "homepage": "https://github.com/remarcmij/hyf-js3-wk1#readme",
+  "dependencies": {
+    "json-server": "^0.12.1"
+  }
+}

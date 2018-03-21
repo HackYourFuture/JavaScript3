@@ -2,27 +2,21 @@
 
 ```
 In week one we will discuss the following topics:
-• (Object Oriented Programming)
-    • this
-    • call
-    • apply
-    • bind
-• Promises
+• Structure for a basic SPA (Single Page Application)
+• XMLHttpRequests
+• API calls
 ```
 
-### Here are resources that we like you to read as a preparation for the coming lecture:
+Here are resources that we like you to read as a preparation for the first lecture:
 
-### `call` `apply`, `bind`
-- [Function.prototype.call()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call)
-- [Function.prototype.apply()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply)
-- [Function.prototype.bind()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
+### Fundamentals
 
-#### Promises
-Some nice resources about promises :ring:
-- [Googles post about Promises](https://developers.google.com/web/fundamentals/getting-started/primers/promises)
-- [A nice article from David Walsh](https://davidwalsh.name/promises)
-- [A real life example](https://github.com/mdn/js-examples/blob/master/promises-test/index.html)
-- [stackoverflow](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript)
-- [promises](https://www.youtube.com/watch?v=WBupia9oidU)
+- [XMLHttpRequest](../../../fundamentals/blob/master/fundamentals/XMLHttpRequest.md)
 
-_Please go through the material and come to class prepared!_
+### APIs
+
+- Read about APIS: https://www.programmableweb.com/api-university/what-are-apis-and-how-do-they-work
+
+### XMLHttpRequests
+
+- [Making HTTP Requests in JavaScript](https://www.kirupa.com/html5/making_http_requests_js.htm)
