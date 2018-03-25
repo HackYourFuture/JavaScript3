@@ -11,7 +11,7 @@ Here are resources that we like you to read as a preparation for the third lectu
 
 ### Fundamentals
 
-- [Object-Oriented Programming & Classes]../../../../fundamentals/blob/master/fundamentals/oop_classes.md)
+- [Object-Oriented Programming & Classes](../../../../fundamentals/blob/master/fundamentals/oop_classes.md)
 - [What is 'this'?](../../../../fundamentals/blob/master/fundamentals/this.md)
 
 ### `call` `apply`, `bind`
