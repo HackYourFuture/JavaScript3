@@ -17,8 +17,8 @@ Here are resources that we like you to read as a preparation for the second lect
 
 ### Fundamentals
 
-- [Event Loop](../../../fundamentals/blob/master/fundamentals/event_loop.md)
-- [Promises](../../../fundamentals/blob/master/fundamentals/promises.md)
+- [Event Loop](../../../../fundamentals/blob/master/fundamentals/event_loop.md)
+- [Promises](../../../../fundamentals/blob/master/fundamentals/promises.md)
 
 
 _Please go through the material and come to class prepared!_
