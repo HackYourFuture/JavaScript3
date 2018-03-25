@@ -11,7 +11,7 @@ Here are resources that we like you to read as a preparation for the first lectu
 
 ### Fundamentals
 
-- [XMLHttpRequest](../../../fundamentals/blob/master/fundamentals/XMLHttpRequest.md)
+- [XMLHttpRequest](../../../../fundamentals/blob/master/fundamentals/XMLHttpRequest.md)
 
 ### APIs
 
