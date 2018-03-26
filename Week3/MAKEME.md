@@ -11,7 +11,7 @@ Topics discussed this week:
 
 _Deadline Monday_
 
-Give feedback on Step 4 and 5 of last weeks homework. Please provide the feedback in an issue.
+Give feedback on Step 3 of last weeks homework. Please provide the feedback in an issue.
 
 ## Step 2: Issues
 
@@ -19,20 +19,37 @@ _Deadline Monday_
 
 - Solve all your Git issues. DO NO CLOSE AN ISSUE WITHOUT AN EXPLANATION OR CODE COMMIT REFERENCING THAT ISSUE.
 
-
 ## Step 3: Fix issues
 
 _Deadline Thursday_
 
 - Fix the issues from the last weeks and make sure you explain how you fixed the issue in a comment (or commit message)
 
-## Step 4: Refactor the GitHub app using OOP and ES6 classes
+## Step 4: async/await
+
+_Deadline Wednesday_
+
+Refactor your app to replace `.then()` and `.catch()` with `async`/`await` and `try...catch`
+
+Read:
+
+- [try...catch](../../../../fundamentals/blob/master/fundamentals/try_catch.md)
+- [async/await](../../../../fundamentals/blob/master/fundamentals/async_await.md)
+
+## Step 5: OOP and ES6 classes
 
 - If you need to refresh your memory on es6 classes: [es6-classes-in-depth](https://ponyfoo.com/articles/es6-classes-in-depth)
 
 _Deadline Saturday_
 
-The assignment is to refactor your GitHub app to use OOP with ES6 classes (see skeleton code below). We will be introducing a `Repository` and a `Contributor` class that will each be responsible for rendering their own data. A third `View` class will contain all remaining code.
+Refactor your GitHub app to use OOP with ES6 classes (see skeleton code below). We will be introducing a `Repository` and a `Contributor` class that will each be responsible for rendering their own data. A third `View` class will contain all remaining code.
+
+Read:
+
+- [Object Oriented Programming and ES6 Classes](../../../../fundamentals/blob/master/fundamentals/oop_classes.md)
+- [The `this` keyword](../../../../fundamentals/blob/master/fundamentals/this.md)
+
+Instructions:
 
 1. You should refactor your code to use three classes, named `Repository`, `Contributor` and `View`.
 2. Move your existing code that deals with rendering the repository information to the `render()` method of the `Repository` class.
