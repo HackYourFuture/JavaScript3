@@ -35,12 +35,17 @@ The assignment for this week is:
 - Replace all asynchronous callbacks (e.g. as used with XMLHttpRequest) by ES6 promises.
 - Beautify your app's styling.
 
+Bonus assignments:
+
+- Make your app responsive (using media queries)
+- Make your app ARIA-compliant
+
 Note:
 
 1. Please remove all redundant, commented-out code and console.log's from your files before pushing your homework as finished. There is no need for your mentors to review this stuff.
 2. Please make sure your code is well-formatted and follows the recommended naming conventions.
 
-## Step 5: Read before next lecture
+## Step 4: Read before next lecture
 
-Go trough the reading material in the [README.md](/Week3/README.md) to prepare for your next class.
+Go through the reading material in the [README.md](../Week3/README.md) to prepare for your next class.
 

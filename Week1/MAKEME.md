@@ -63,38 +63,16 @@ GitHub API documentation: [List organization repositories](https://developer.git
 
 Note the query string `?per_page=100`. If you don't specify this query string you will only get the first 30 repositories (the default `per_page` is 30 and HYF has more than 30 - but less than 100).
 
-#### Get repository information
-
-You can get information about a specific repository through this API endpoint:
-
-```
-https://api.github.com/repos/HackYourFuture/[repositoryName]
-```
-
-You should replace `[repositoryName]` with the actual name of the repository.
-
-GitHub API documentation: [Get](https://developer.github.com/v3/repos/#get)
-
-### Get contributor information
+#### Get contributor information
 
 The response object that is returned by GitHub from the request to get repository information includes a property with the `contributors_url`. Use the value of this property to make a new request to GitHub to obtain a list of contributors.
 
-Note that, as a result of selecting a repository from the `<select>` element, your code must make two XMLHttpRequests, one after the other:
-
-1. A first request to obtain repository information.
-2. A second request using the `contributors_url` obtained from (1) to get a list of contributor information.
-
-Both requests must be done asynchronously.
-
-Making two XMLHttpRequests in a row, where the second requests depends on the response of the first request is part of the assignment. While it is possible to figure out beforehand what the value of the `contributors_url` will be (by carefully reading the documentation), and subsequently make two independent XMLHttpRequests, this is not what is expected.
-
-In the lecture we developed some utility functions to simplify making XMLHttpRequests and creating and manipulating HTML elements. You are free to copy and use these utility functions, but if you do we expect that you can explain how they work.
+In the lecture we developed some utility functions to simplify making XMLHttpRequests (function `fetchJSON()`) and creating and manipulating HTML elements (function `createAndAppend()`). You are free to copy and use these utility functions, but if you do we expect that you can explain how they work.
 
 ### Refinements
 
 - Make all the repositories link to their own page in GitHub. Use the value of the key: `name` to make this work (hint: GitHub urls always look like this https://api.github.com/repos/HackYourFuture/[repositoryName] where [repositoryName] would be replaced by the actual `name` of the repository, for example `CommandLine`).
 - Make sure the link opens in a new tab.
-
 
 ### Important
 

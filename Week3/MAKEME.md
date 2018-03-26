@@ -1,4 +1,4 @@
-# Homework Week 1
+# Homework Week 3
 
 ```
 Topics discussed this week:
@@ -11,7 +11,7 @@ Topics discussed this week:
 
 _Deadline Monday_
 
-Give feedback on Step 4 and 5 of last weeks homework. Please provide the feedback in an issue.
+Give feedback on Step 3 of last weeks homework. Please provide the feedback in an issue.
 
 ## Step 2: Issues
 
@@ -19,20 +19,38 @@ _Deadline Monday_
 
 - Solve all your Git issues. DO NO CLOSE AN ISSUE WITHOUT AN EXPLANATION OR CODE COMMIT REFERENCING THAT ISSUE.
 
-
 ## Step 3: Fix issues
 
-_Deadline Thursday_
+_Deadline Wednesday_
 
 - Fix the issues from the last weeks and make sure you explain how you fixed the issue in a comment (or commit message)
 
-## Step 4: Refactor the GitHub app using OOP and ES6 classes
+## Step 4
+
+_Deadline Thursday_
+
+- Sort the list the repositories in the `<select>` by name (case-insensitive).
+- Refactor your app to replace `.then()` and `.catch()` with `async`/`await` and `try...catch`.
+
+Read:
+
+- [try...catch](../../../../fundamentals/blob/master/fundamentals/try_catch.md)
+- [async/await](../../../../fundamentals/blob/master/fundamentals/async_await.md)
+
+## Step 5: OOP and ES6 classes
 
 - If you need to refresh your memory on es6 classes: [es6-classes-in-depth](https://ponyfoo.com/articles/es6-classes-in-depth)
 
 _Deadline Saturday_
 
-The assignment is to refactor your GitHub app to use OOP with ES6 classes (see skeleton code below). We will be introducing a `Repository` and a `Contributor` class that will each be responsible for rendering their own data. A third `View` class will contain all remaining code.
+Refactor your GitHub app to use OOP with ES6 classes (see skeleton code below). We will be introducing a `Repository` and a `Contributor` class that will each be responsible for rendering their own data. A third `View` class will contain all remaining code.
+
+Read:
+
+- [Object Oriented Programming and ES6 Classes](../../../../fundamentals/blob/master/fundamentals/oop_classes.md)
+- [The `this` keyword](../../../../fundamentals/blob/master/fundamentals/this.md)
+
+Instructions:
 
 1. You should refactor your code to use three classes, named `Repository`, `Contributor` and `View`.
 2. Move your existing code that deals with rendering the repository information to the `render()` method of the `Repository` class.
@@ -40,42 +58,55 @@ The assignment is to refactor your GitHub app to use OOP with ES6 classes (see s
 4. Move your existing code responsible for initializing your application to the `constructor` of the `View` class.
 5. The bulk of your remaining code should probably go to the `fetchAndRender()` method of the `View` class.
 
-### Skeleton
+### Suggested skeleton
 
-Use this skeleton as overall design for your code in `app.js`:
+You could use this skeleton as overall design for your code in `app.js`:
 
 ```js
 'use strict';
 {
   const hyfUrl = 'https://api.github.com';
   const hyfReposUrl = hyfUrl + '/orgs/HackYourFuture/repos?per_page=100';
-  const repoUrl = hyfUrl + '/repos/HackYourFuture/';
 
   class Repository {
     constructor(data) {
-      this.data = data;
+      this._data = data;
     }
 
     /**
-     * Render the repository info into the DOM.
-     * @param {HTML element} parent The parent element in which to render the repository
+     * Render the repository info to the DOM.
+     * @param {HTML element} parent The parent element in which to render the repository.
      * info.
      */
     render(parent) {
       // Add your code here.
-      // This method should render the repository data stored in the 'data' property
+      // This method should render the repository data stored in the '_data' property
       // as HTML elements and append them to the `parent` element.
+    }
+
+    /**
+     * Returns an array of contributors as a promise
+    */
+    fetchContributors() {
+      // Add your code here
+    }
+
+    /**
+     * Returns the name of the repository
+    */
+    name() {
+      // Add your code here
     }
   }
 
   class Contributor {
     constructor(data) {
-      this.data = data;
+      this._data = data;
     }
 
     /**
-     * Render the contributor info into the DOM.
-     * @param {HTML element} parent The parent element in which to render the contributor
+     * Render the contributor info to the DOM.
+     * @param {HTML element} parent The parent element in which to render the contributor.
      * info.
      */
     render(parent) {
@@ -87,6 +118,13 @@ Use this skeleton as overall design for your code in `app.js`:
 
   class View {
     constructor() {
+      this.initialize();
+    }
+
+    /**
+     * View initialization
+     */
+    async initialize() {
       // Add code here to initialize your app
       // 1. Create the fixed HTML elements of your page
       // 2. Make an initial XMLHttpRequest to populate your <select> element
@@ -97,28 +135,23 @@ Use this skeleton as overall design for your code in `app.js`:
      * information as HTML elements in the DOM
      * @param {*} repoName The name of the selected repository
      */
-    fetchAndRender(repoName) {
+    async fetchAndRender(repoName) {
       const leftDiv = ...;
       const rightDiv = ...;
 
       // ...
 
-      this.fetchJSON(repoUrl + repoName)
-        .then(repoInfo => {
-          const repo = new Repository(repoInfo);
-          return this.fetchJSON(repoInfo.contributors_url)
-            .then(contributors => {
-              repo.render(leftDiv);
-              contributors
-                .map(contributor => new Contributor(contributor))
-                .forEach(contributor => contributor.render(rightDiv));
-            });
-        })
-        .catch(error => {
-          // add error handling code here
-        });
+      try {
+        const contributors = await repo.fetchContributors();
+        repo.render(leftDiv);
+        contributors
+          .map(contributor => new Contributor(contributor))
+          .forEach(contributor => contributor.render(contributorList));
+      }
+      catch (error) {
+        createAndAppend('div', container, { html: error.message, class: 'alert alert-error' });
+      }
     }
-
 
     /**
      * Fetch API data as JSON data in a promise
