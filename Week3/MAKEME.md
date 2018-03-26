@@ -21,13 +21,13 @@ _Deadline Monday_
 
 ## Step 3: Fix issues
 
-_Deadline Thursday_
+_Deadline Wednesday_
 
 - Fix the issues from the last weeks and make sure you explain how you fixed the issue in a comment (or commit message)
 
 ## Step 4
 
-_Deadline Wednesday_
+_Deadline Thursday_
 
 - Sort the list the repositories in the `<select>` by name (case-insensitive).
 - Refactor your app to replace `.then()` and `.catch()` with `async`/`await` and `try...catch`.
