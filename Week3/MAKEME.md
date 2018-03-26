@@ -1,4 +1,4 @@
-# Homework Week 1
+# Homework Week 3
 
 ```
 Topics discussed this week:
