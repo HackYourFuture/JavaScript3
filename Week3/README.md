@@ -2,39 +2,23 @@
 
 ```
 In week three we will discuss the following topics:
-• (re)writing data structures (in JSON)
-• Async VS Sync 
-• Code flow (order of execution)
+• Object Oriented Programming and ES6 Classes
+• The this keyword
+• call, apply, bind
 ```
 
-### Here are resources that we like you to read as a preparation for the coming lecture:
+Here are resources that we like you to read as a preparation for the third lecture:
 
-#### Async VS Sync 
-- Read about Asynchronous vs. Synchronous programming: http://www.hongkiat.com/blog/synchronous-asynchronous-javascript/
+### Fundamentals
 
-#### Closures and async code
-- [Why closures are helpful with async code](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript)
+- [Object-Oriented Programming & Classes](../../../../fundamentals/blob/master/fundamentals/oop_classes.md)
+- [What is 'this'?](../../../../fundamentals/blob/master/fundamentals/this.md)
 
-_Please go through the material and come to class prepared!_# Reading material for the ninth lecture:
+### `call` `apply`, `bind`
 
-```
-In week nine we will discuss the following topics:
-• (re)writing data structures (in JSON)
-• Async VS Sync 
-• Code flow (order of execution)
-```
+- [Function.prototype.call()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call)
+- [Function.prototype.apply()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply)
+- [Function.prototype.bind()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
 
-### Here are resources that we like you to read as a preparation for the coming lecture:
-
-#### Async VS Sync 
-- Read about Asynchronous vs. Synchronous programming: http://www.hongkiat.com/blog/synchronous-asynchronous-javascript/
-
-#### Closures and async code
-- [Why closures are helpful with async code](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript)
 
 _Please go through the material and come to class prepared!_
-
-
-
-
-

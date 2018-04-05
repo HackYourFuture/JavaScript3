@@ -2,168 +2,113 @@
 
 ```
 Topics discussed this week:
-• Object Oriented Programming
-    • this
-    • call
-    • apply
-    • bind
-• Code flow (order of execution)
+• Structure for a basic SPA
+• XMLHttpRequests
+• API calls
 ```
 
->[Here](/Week2/README.md) you find the readings you have to complete before the eighth lecture.
 
-## Step 1: Give feedback
+>[Here](/Week3/README.md) you find the readings you have to complete before the ninth lecture.
 
-_Deadline Monday_
-
-Give feedback on Step 4 and 5 of last weeks homework. Please provide the feedback in an issue.
-
-## Step 2: Issues
+## Step 1: Feedback
 
 _Deadline Monday_
 
-- Solve all your Git issues. DO NO CLOSE AN ISSUE WITHOUT AN EXPLANATION OR CODE COMMIT REFERENCING THAT ISSUE.
+Please provide feedback in an issue.
 
+_Deadline Monday_
 
-## Step 3: Fix issues
-
-_Deadline Thursday_
-
-- Fix the issues from the last weeks and make sure you explain how you fixed the issue in a comment (or commit message)
-
-## Step 4: Some Challenges
+## Step 2: FINISH ALL YOUR JAVASCRIPT HOMEWORK
 
 _Deadline Saturday_
 
-Let's practice working with Objects and Arrays. Go to FreeCodeCamp and complete all challenges under "Object Oriented and Functional Programming" and the _first four challenges_ under "Basic Algorithm Scripting", up until 'Find the longest word in a string.'
+:point_up:
 
-Also make:
+## Step 3: SPA :sweat_drops:
 
-1. [Comparisons with the Logical And Operator](https://www.freecodecamp.com/challenges/comparisons-with-the-logical-and-operator)
+_Deadline Saturday_
 
-2. [Record Collection](https://www.freecodecamp.com/challenges/record-collection)
+You are going to write a SPA (Single Page Application) that uses the [GitHub API](https://developer.github.com/guides/getting-started/).
 
-3. [Iterate over Arrays with map](https://www.freecodecamp.com/challenges/iterate-over-arrays-with-map)
+This application should display information about the available [HYF repositories](https://github.com/hackyourfuture):
 
-## Step 5: OOP
+- You should be able to select a repository from a list of available repositories.
+- The application should display high-level information about the selected repository and show a list of its contributors.
 
-_Deadline Wednesday_
+Figure 1 below shows an example of what your application could look like. Note that this is just an example. If you find it boring or unimaginative, please improve on it! On the other hand, a simpler version is OK too, so long as you implement the expected functionality.
 
-Complete the following code:
+![UI Example](./assets/hyf-github.png)
 
-```js
-class Movie {
-  constructor(title, director) {
-    // add your code here
-  }
+Figure 1. Example User Interface using [Material Design](https://material.io/guidelines/) principles.
 
-  getTitle() {
-    // add your code here
-  }
+### Instructions
 
-  getDirector() {
-    // add your code here
-  }
+1. Create this application in the `week1` folder of your `hyf-javascript1` repo. Your application should at minimum consist of the files `index.html`, `style.css` and `app.js`.
+2. Your `index.html` file should load the `style.css` and `app.js` files, using the appropriate HTML tags.
+3. The `body` of your `index.html` should contain a single `div` element like this: `<div id="root"></div>`.
+4. All other HTML elements should be generated programmatically by your `app.js` file and ultimately be hanging off the root `div` element.
+5. Implement the repository selection list by means of an HTML [\<select\>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select) element.
 
-  addStar(star) {
-    // add your code here
-  }
+You will need to use XMLHttpRequests against the GitHub API to get the relevant information. The GitHub API documentation is very extensive. An overview is given [here](https://developer.github.com/v3/) but we will point you to the relevant sections in the documentation needed for this assignment.
 
-  getStars() {
-    // add your code here
-  }
+#### List of repositories
 
-  addWriter(writer) {
-    // add your code here
-  }
+You can obtain a list of HYF repositories through this API endpoint ([What is an API Endpoint?](https://teamtreehouse.com/community/what-is-an-api-endpoint)):
 
-  getWriters() {
-    // add your code here
-  }
-
-  addRating(rating) {
-    // add your code here
-  }
-
-  getAverageRating() {
-    // add your code here
-  }
-
-  // ... Add yours :-) Look to IMDB for inspiration
-}
-
-class StaffMember {
-  constructor(name, role, dateOfBirth) {
-    // add your code here
-  }
-
-  addMovie(movie) {
-    // add your code here
-  }
-
-  getName() {
-    // add your code here
-  }
-
-  getRole() {
-    // add your code here
-  }
-
-  getAge() {
-    // add your code here
-  }
-}
-
-// Pick your favorite movie from http://www.imdb.com/
-
-const myMovie = new Movie(...);
-
-const firstActor = new StaffMember(...);
-myMovie.addStar(firstActor);
-// create and add more staff members
-
-// Make sure that the following actions work.
-console.log(myMovie.getStars().map(actor => `${actor.getName()} ${actor.getAge()}`));
-const director = myMovie.getDirector();
-console.log(`Director: ${director.getName()}`);
+```
+https://api.github.com/orgs/HackYourFuture/repos?per_page=100
 ```
 
-Fun extra step: If you get bored, template them and make a page by rendering the results in HTML :smile: with something like `document.querySelector('.move').innerHTML = ...`
+GitHub API documentation: [List organization repositories](https://developer.github.com/v3/repos/#list-organization-repositories)
 
-## Step 6: Read before next lecture
+Note the query string `?per_page=100`. If you don't specify this query string you will only get the first 30 repositories (the default `per_page` is 30 and HYF has more than 30 - but less than 100).
+
+#### Get contributor information
+
+The response object that is returned by GitHub from the request to get repository information includes a property with the `contributors_url`. Use the value of this property to make a new request to GitHub to obtain a list of contributors.
+
+In the lecture we developed some utility functions to simplify making XMLHttpRequests (function `fetchJSON()`) and creating and manipulating HTML elements (function `createAndAppend()`). You are free to copy and use these utility functions, but if you do we expect that you can explain how they work.
+
+### Refinements
+
+- Make all the repositories link to their own page in GitHub. Use the value of the key: `name` to make this work (hint: GitHub urls always look like this https://api.github.com/repos/HackYourFuture/[repositoryName] where [repositoryName] would be replaced by the actual `name` of the repository, for example `CommandLine`).
+- Make sure the link opens in a new tab.
+
+### Important
+
+- Do not duplicate code! This is especially important for making requests since we are making multiple ones with different urls and we want to do different actions based on the call we are making. Here are some handles to get you started:
+  - Write a function called `fetchJSON` (or copy from the lecture code) which accepts (at least) the following parameters: `url` and `callback`.
+  - Make sure your `callback` is called when the request errors or when it sends a response (look at the documentation)
+  - Your `callback` functions should accept two parameters so it can handle both errors: `err` and `response`.
+  So when a user selects a repository from the list you want to call `fetchJSON` with a different `url` and supply it with a function that handles both errors (display an error message to the user for example) and responses (render it correctly as HTML elements in your page).
+- When the user changes the selected repository, any existing repository information in your page should be cleared before displaying the new information.
+- Make your functions small and reusable (modular)! That means create separate functions to handle certain steps.
+
+Note:
+
+1. Please remove all redundant, commented-out code and console.log's from your files before pushing your homework as finished. There is no need for your mentors to review this stuff.
+2. Please make sure your code is well-formatted and follows the recommended naming conventions.
+
+_GO WILD_
+
+Again, check out the GitHub API documentation to see what kind of magic stuff you can do with it.
+
+The assignment is to implement something extra that is not in the assignment :scream: (nice and vague, right?)
+
+Endless fun and possibilities. Need inspiration? Check out the GitHub API documentation. Oh, and please make it look nice (hint: use the stuff you learned in HTML/CSS)!
+
+
+_BONUS_ : Code Kata Race
+
+- [Codewars](https://www.codewars.com/collections/hyf-homework-number-2)
+
+
+## Step 5: Read before next lecture
 
 _Deadline Sunday morning_
 
-Go trough the reading material in the [README.md](/Week2/README.md) to prepare for your next class
+Go trough the reading material in the [README.md](/Week2/README.md) to prepare for your next class.
 
-## _BONUS_ : Code Kata Race
-
-If you haven't already join our clan: "Hack Your Future" in codewars
-
-Solve the following problems:
-- [Problem 1](https://www.codewars.com/kata/keep-up-the-hoop)
-- [Problem 2](https://www.codewars.com/kata/find-the-first-non-consecutive-number)
-- [Problem 3](https://www.codewars.com/kata/negation-of-a-value)
-- Some more [Homework](https://www.codewars.com/collections/hyf-homework-1)
-
-_Hints_
-- Hint for Q1: split your code into two parts, one part for the case that one of the two strings has an extra letter at the start or the end but is otherwise identical & one part for the case that the strings are the same length but one character is different in one of the strings
-- Also for Q1 this function on strings might be useful: [JavaScript String slice() method](https://www.w3schools.com/jsref/jsref_slice_string.asp)
-- Also potentially useful: [JavaScript String charAt() Method](https://www.w3schools.com/jsref/jsref_charat.asp)
-- [Hint for Q2](https://www.w3schools.com/jsref/jsref_sort.asp) Also there are no sample tests, you need to use submit
-
-Remember the person with the most kata points gets a prize from Gijs (and you can do exercises on this website without us assigning them - anything kyu 7 or kyu 8 you can try to do - kyu 6 or lower is probably too hard) -->
-
--[MORE BONUS](https://www.codewars.com/collections/hyf-homework-1-bonus-credit) :collision:
-
-## To watch before the next lecture:
-
-(watch in this order)
-
-1. [Stacks/Queues](https://www.youtube.com/watch?v=wjI1WNcIntg) (5 mins)
-2. [JS Event Loops](https://www.youtube.com/watch?v=8aGhZQkoFbQ) (26 mins, watch this one twice or until you understand it)
-
->Create a new repository "hyf-javascript3". Also create a new folder "week1" inside this repository.
-Upload your homework files inside the week1 folder and write a description for this “commit”.
-Your hyf-javascript3/week1 should now contain the files of your homework.
+>Commit and push your homework in your "hyf-javascript3" GitHub repository.
+Make sure that your commit message are meaningful.
 Place the link to your repository folder in Trello.
