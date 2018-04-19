@@ -90,13 +90,6 @@ You could use this skeleton as overall design for your code in `app.js`:
     fetchContributors() {
       // Add your code here
     }
-
-    /**
-     * Returns the name of the repository
-    */
-    name() {
-      // Add your code here
-    }
   }
 
   class Contributor {
@@ -163,7 +156,7 @@ You could use this skeleton as overall design for your code in `app.js`:
     }
   }
 
-  window.onload = new View();
+  window.onload = () => new View();
 }
 ```
 
