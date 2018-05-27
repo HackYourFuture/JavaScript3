@@ -27,18 +27,44 @@ Topics discussed this week:
 
 ## Step 3: Promises
 
-_Deadline Saturday_
+**_Deadline Thursday_**
 
-The assignment for this week is:
+### 3.1 Preparation
+
+The homework for week 2 will build on the work you did in week 1. You will create a new branch based on the `week1` branch.
+
+1. Make sure that you committed all changes in the week 1 version of your homework.
+2. Create a new `week2` branch:
+
+    ```
+    git checkout -b week2
+    ```
+
+### 3.2 Assignment
+
+You will continue to work on the files `index.js` and (possibly) `style.css`.
 
 - Complete your GitHub app code from the previous week, if needed, to meet the requirements from that week's assignment.
 - Replace all asynchronous callbacks (e.g. as used with XMLHttpRequest) by ES6 promises.
 - Beautify your app's styling.
+- Make your app responsive (use CSS media queries and [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)).
+- Make your app ARIA-compliant.
 
-Bonus assignments:
+**ARIA-compliance**
 
-- Make your app responsive (using media queries)
-- Make your app ARIA-compliant
+Please review the material from the HTML/CSS module: [Get familiar with Accessible Rich Internet Applications (ARIA)](https://github.com/HackYourFuture/HTML-CSS/tree/master/Week1#get-familiar-with-accessible-rich-internet-applications-aria).
+
+For the GitHub application ARIA-compliance means that the Contributors list should either be a native HTML list (i.e. using `ul` and `li` elements) or otherwise marked with an appropriate ARIA **role**. Furthermore, a user should be able to navigate to all interactive elements using the keyboard (e.g., using the **Tab** key). Pressing **Enter** on such an element should be equivalent to a clicking the mouse.
+
+### 3.3 Handing in your homework
+
+1. Push your `week2` branch to GitHub:
+
+    ```
+    git push -u origin week2
+    ```
+
+2. Create a pull request for your `week2` branch.
 
 Note:
 

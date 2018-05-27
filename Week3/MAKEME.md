@@ -7,37 +7,90 @@ Topics discussed this week:
 • call, apply, bind
 ```
 
-## Step 1: Give feedback
-
-_Deadline Monday_
-
-Give feedback on Step 3 of last weeks homework. Please provide the feedback in an issue.
-
-## Step 2: Issues
-
-_Deadline Monday_
-
-- Solve all your Git issues. DO NO CLOSE AN ISSUE WITHOUT AN EXPLANATION OR CODE COMMIT REFERENCING THAT ISSUE.
-
-## Step 3: Fix issues
+## Step 1: Fix requested changes
 
 _Deadline Wednesday_
 
-- Fix the issues from the last weeks and make sure you explain how you fixed the issue in a comment (or commit message)
+- Fix the requested changes from the PR from the last weeks and make sure you explain how you fixed the issue in a comment.
 
-## Step 4
+## Step 2
 
-_Deadline Thursday_
+### 2.1 Preparation
 
-- Sort the list the repositories in the `<select>` by name (case-insensitive).
-- Refactor your app to replace `.then()` and `.catch()` with `async`/`await` and `try...catch`.
+The homework for week 3 will build on the work you did in week 2. You will create a new branch based on the `week2` branch.
 
-Read:
+1. Make sure that you committed all changes in the week 2 version of your homework.
+2. Create a new `week3` branch:
+
+    ```
+    git checkout -b week3
+    ```
+
+### 2.2 Assignment
+
+This week you will work with all JavaScript files in the `src` folder. The assignment consists of two parts:
+
+1. Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
+2. Refactor your application to use ES6 classes.
+
+#### 2.2.1 async/await
+
+**_Deadline Thursday_**
+
+_Read:_
 
 - [try...catch](../../../../fundamentals/blob/master/fundamentals/try_catch.md)
 - [async/await](../../../../fundamentals/blob/master/fundamentals/async_await.md)
 
-## Step 5: OOP and ES6 classes
+_Instructions:_
+
+- Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
+
+TODO: ARIA-compliance
+
+#### 2.2.2 Bonus assignment: ES6 Classes
+
+**_Deadline Saturday_**
+
+This final **bonus** assignment requires you to got the extra mile and master Object Oriented Programming and ES6 classes. ES6 classes are not used in the Node and Database modules. You will not come across them again until the React module.
+
+TODO: Is this optional/bonus? Separate branch `final`?
+
+**_Deadline Thursday_**
+
+In this assignment you need to redistribute and adapt the code from `index.js` to the files `App.js`, `Repository.js` and `Contributor.js`. You do not need to modify `Util.js`.
+
+| File             | Description |
+|------------------|-------------|
+| `App.js`         | The `App` class contains the start-up code and manages the overall orchestration of the app. |
+| `Repository.js`  | The `Repository` class holds code and data for a single repository. |
+| `Contributor.js` | The `Contributor` class holds code and data for a single contributor. |
+| `Util.js`        | The `Util` class contains static helper methods for use in the other classes. |
+
+The `App.js`, `Repository.js` and `Contributor.js` files each contain skeleton code that you can use to migrate portions of your code from `index.js` to.
+
+_Read:_
+
+- HYF fundamental: [ES6 Classes](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/oop_classes.md#es6-classes)
+- More on ES6 classes: [ES6 Classes in Depth](https://ponyfoo.com/articles/es6-classes-in-depth)
+
+_Instructions:_
+
+1. Commit any outstanding changes.
+2. Change the content of the `body` tag of `index.html` as follows:
+
+    ```html
+    <body>
+      <div id="root"></div>
+      <script src="./Util.js"></script>
+      <script src="./Repository.js"></script>
+      <script src="./Contributor.js"></script>
+      <script src="./App.js"></script>
+    </body>
+    ```
+
+
+## Step 3: OOP and ES6 classes
 
 - If you need to refresh your memory on es6 classes: [es6-classes-in-depth](https://ponyfoo.com/articles/es6-classes-in-depth)
 
@@ -52,113 +105,24 @@ Read:
 
 Instructions:
 
-1. You should refactor your code to use three classes, named `Repository`, `Contributor` and `View`.
+1. You should refactor your code into four classes, named `App`, `Repository`, `Contributor` and `Util`.
 2. Move your existing code that deals with rendering the repository information to the `render()` method of the `Repository` class.
 3. Move your existing code that deals with rendering the information for a single contributor to the `render()` method of the `Contributor` class.
 4. Move your existing code responsible for initializing your application to the `constructor` of the `View` class.
 5. The bulk of your remaining code should probably go to the `fetchAndRender()` method of the `View` class.
 
-### Suggested skeleton
+TODO: describe the division of work between the classes
 
-You could use this skeleton as overall design for your code in `app.js`:
 
-```js
-'use strict';
-{
-  const hyfUrl = 'https://api.github.com';
-  const hyfReposUrl = hyfUrl + '/orgs/HackYourFuture/repos?per_page=100';
+### 3.3 Handing in your homework
 
-  class Repository {
-    constructor(data) {
-      this._data = data;
-    }
+1. Push your `week2` branch to GitHub:
 
-    /**
-     * Render the repository info to the DOM.
-     * @param {HTML element} parent The parent element in which to render the repository.
-     * info.
-     */
-    render(parent) {
-      // Add your code here.
-      // This method should render the repository data stored in the '_data' property
-      // as HTML elements and append them to the `parent` element.
-    }
+    ```
+    git push -u origin week2
+    ```
 
-    /**
-     * Returns an array of contributors as a promise
-    */
-    fetchContributors() {
-      // Add your code here
-    }
-  }
-
-  class Contributor {
-    constructor(data) {
-      this._data = data;
-    }
-
-    /**
-     * Render the contributor info to the DOM.
-     * @param {HTML element} parent The parent element in which to render the contributor.
-     * info.
-     */
-    render(parent) {
-      // Add your code here.
-      // This method should render the contributor data stored in the 'data' property
-      // as HTML elements and append them to the `parent` element.
-    }
-  }
-
-  class View {
-    constructor() {
-      this.initialize();
-    }
-
-    /**
-     * View initialization
-     */
-    async initialize() {
-      // Add code here to initialize your app
-      // 1. Create the fixed HTML elements of your page
-      // 2. Make an initial XMLHttpRequest to populate your <select> element
-    }
-
-    /**
-     * Fetch information for the selected repository and render the
-     * information as HTML elements in the DOM
-     * @param {*} repoName The name of the selected repository
-     */
-    async fetchAndRender(repoName) {
-      const leftDiv = ...;
-      const rightDiv = ...;
-
-      // ...
-
-      try {
-        const contributors = await repo.fetchContributors();
-        repo.render(leftDiv);
-        contributors
-          .map(contributor => new Contributor(contributor))
-          .forEach(contributor => contributor.render(contributorList));
-      }
-      catch (error) {
-        createAndAppend('div', container, { html: error.message, class: 'alert alert-error' });
-      }
-    }
-
-    /**
-     * Fetch API data as JSON data in a promise
-     * @param {string} url The URL of the API endpoint.
-     * @returns A promise.
-     */
-    fetchJSON(url) {
-      // Add your code here
-    }
-  }
-
-  window.onload = () => new View();
-}
-```
+2. Create a pull request for your `week2` branch.
 
 Note:
 
@@ -170,7 +134,7 @@ _Deadline Sunday morning_
 
 Go trough the reading material in the [README.md](https://github.com/HackYourFuture/Node.js) of the Node repository to prepare for your next class.
 
-## _BONUS_ : Code Kata Race
+## Alternative _BONUS_ : Code Kata Race
 
 If you haven't already join our clan: "Hack Your Future" in codewars
 
