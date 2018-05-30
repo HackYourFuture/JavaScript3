@@ -20,12 +20,11 @@ Topics discussed this week:
     - YouTube: [promises](https://www.youtube.com/watch?v=WBupia9oidU)
 
 
-## Step 2: Feedback
+## Step 2: Implement requested PR changes
 
-- Create at least 2 issues (bug / feature / code improvement) on another student's GitHub repository.
-- Solve the issue(s) proposed by another students in your GitHub repository. More info [here](https://hackyourfuture.slack.com/files/michahell/F31BX1XT6/Merging_a_local_branch_into_master).
+- Fix Requested Changes (if any) on the Pull Request.
 
-## Step 3: Promises
+## Step 3: Convert callbacks to promises
 
 **_Deadline Thursday_**
 
@@ -47,16 +46,17 @@ You will continue to work on the files `index.js` and (possibly) `style.css`.
 - Complete your GitHub app code from the previous week, if needed, to meet the requirements from that week's assignment.
 - Replace all asynchronous callbacks (e.g. as used with XMLHttpRequest) by ES6 promises.
 - Beautify your app's styling.
-- Make your app responsive (use CSS media queries and [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)).
-- Make your app ARIA-compliant.
-
-**ARIA-compliance**
-
-Please review the material from the HTML/CSS module: [Get familiar with Accessible Rich Internet Applications (ARIA)](https://github.com/HackYourFuture/HTML-CSS/tree/master/Week1#get-familiar-with-accessible-rich-internet-applications-aria).
-
-For the GitHub application ARIA-compliance means that the Contributors list should either be a native HTML list (i.e. using `ul` and `li` elements) or otherwise marked with an appropriate ARIA **role**. Furthermore, a user should be able to navigate to all interactive elements using the keyboard (e.g., using the **Tab** key). Pressing **Enter** on such an element should be equivalent to a clicking the mouse.
+- If not yet completed in week 1, make your app responsive (use CSS media queries and [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)).
 
 ### 3.3 Handing in your homework
+
+- Have you removed all commented out code (should never be present in a PR)?
+- Have you used `const` and `let` and avoided `var`?
+- Do the variable, function and argument names you created follow the [Naming Conventions](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md)?
+- Is your code well-formatted (see [Code Formatting](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md))?
+- Have you resolved all issues flagged by ESLint and the spell checker (no wavy red and green underlines in VSCode)?
+
+If the answer is 'yes' to all preceding questions you are ready to follow these instructions:
 
 1. Push your `week2` branch to GitHub:
 

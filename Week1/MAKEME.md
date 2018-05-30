@@ -19,7 +19,7 @@ Please provide feedback on last week's homework from a fellow student as a GitHu
 
 **_Deadline Thursday_**
 
-_This homework is more extensive and challenging than previous homework! Please read the instructions below carefully and follow them precisely. Start this homework as soon as you can and allow time for discussion and questions (slack!)._
+_This homework is more extensive and challenging than previous homework! Please read the instructions below carefully and follow them meticulously. Start this homework as soon as you can and allow time for discussion and questions (slack!)._
 
 ### 2.1 Introduction
 
@@ -54,7 +54,7 @@ If you open this URL in the browser (_try it!_) you will receive JSON data about
 
 <small>Note the query string `?per_page=100` in the above URL. If you don't specify this query string you will only get the first 30 repositories (the default `per_page` is 30). HackYourFuture has more than 30 repositories but less than 100.</small>
 
-The returned JSON data contains some basic information about each repository, such as `name`, `full_name`, `description` etc. There are also many properties that contain URLs to obtain detail information about certain aspects of the repository.
+The returned JSON data contains some basic information about each repository, such as `name`, `full_name`, `description` etc. There are also many properties that contain URLs that can be used to obtain detail information about certain aspects of the repository.
 
 #### 2.2.2 Get contributor information for a repository
 
@@ -73,8 +73,8 @@ You will be working on this same application during the next three weeks. For ea
 | Week | Branch | Assignment |
 |:----:|--------|------------|
 | 1   | `week1` | Create a basic application using callbacks to handle network requests. |
-| 2   | `week2`  | 1. Refactor the callbacks to promises.<br>2. Make the UI responsive.|
-| 3   | `week3`   | 1. Refactor the application to use ES6 Classes and async/await.<br>2. Make the app ARIA-compliant. |
+| 2   | `week2` | - Refactor the callbacks to promises.<br>- Make the UI responsive.|
+| 3   | `week3` | - Refactor the application to use ES6 Classes and async/await.<br>- Make the app ARIA-compliant. |
 
 <small>Table 1. Homework schedule</small>
 
@@ -190,11 +190,18 @@ It should include the following components:
 
 - Use CSS media queries and [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) to make the UI responsive. 
 
-- To force a 404 network error so that you can test the rendering of errors, change the URL to make an invalid GitHub request, e.g. append an `x` to `orgs`: `orgsx`.
+- To force a `404` network error so that you can test the rendering of errors, change the URL to make an invalid GitHub request, e.g. append an `x` to `orgs`: `orgsx`.
 
 
 ### 2.5 Handing in your homework
 
+- Have you removed all commented out code (should never be present in a PR)?
+- Have you used `const` and `let` and avoided `var`?
+- Do the variable, function and argument names you created follow the [Naming Conventions](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md)?
+- Is your code well-formatted (see [Code Formatting](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md))?
+- Have you resolved all issues flagged by ESLint and the spell checker (no wavy red and green underlines in VSCode)?
+
+If the answer is 'yes' to all preceding questions you are ready to follow these instructions:
 
 1. Push your `week1` branch to GitHub:
 

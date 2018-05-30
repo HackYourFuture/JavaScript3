@@ -7,15 +7,24 @@ Topics discussed this week:
 • call, apply, bind
 ```
 
+
 ## Step 1: Fix requested changes
 
-_Deadline Wednesday_
+_Deadline Monday_
 
-- Fix the requested changes from the PR from the last weeks and make sure you explain how you fixed the issue in a comment.
+- Fix Requested Changes (if any) on the Pull Request.
 
 ## Step 2
 
+**_Deadline Thursday_**
+
 ### 2.1 Preparation
+
+**Read the fundamental pages on:**
+
+- [try...catch](../../../../fundamentals/blob/master/fundamentals/try_catch.md)
+- [async/await](../../../../fundamentals/blob/master/fundamentals/async_await.md)
+
 
 The homework for week 3 will build on the work you did in week 2. You will create a new branch based on the `week2` branch.
 
@@ -31,32 +40,28 @@ The homework for week 3 will build on the work you did in week 2. You will creat
 This week you will work with all JavaScript files in the `src` folder. The assignment consists of two parts:
 
 1. Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
-2. Refactor your application to use ES6 classes.
+2. Make your app ARIA-compliant (see below).
+3. Refactor your application to use ES6 classes.
+
 
 #### 2.2.1 async/await
 
-**_Deadline Thursday_**
+**Instructions:**
 
-_Read:_
+1. Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
 
-- [try...catch](../../../../fundamentals/blob/master/fundamentals/try_catch.md)
-- [async/await](../../../../fundamentals/blob/master/fundamentals/async_await.md)
+2. Make sure that your error handling code still works. See the week2 MAKEME on how to force an error response from GitHub.
 
-_Instructions:_
 
-- Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
+#### 2.2.2 ARIA-compliance
 
-TODO: ARIA-compliance
+Please review the material from the HTML/CSS module: [Get familiar with Accessible Rich Internet Applications (ARIA)](https://github.com/HackYourFuture/HTML-CSS/tree/master/Week1#get-familiar-with-accessible-rich-internet-applications-aria).
 
-#### 2.2.2 Bonus assignment: ES6 Classes
+For the GitHub application ARIA-compliance means that the Contributors list should either be a native HTML list (i.e. using `ul` and `li` elements) or otherwise marked with an appropriate ARIA **role**. Furthermore, a user should be able to navigate through all interactive elements using the keyboard (e.g., using the **Tab** key). Pressing **Enter** on such an element should be equivalent to clicking the mouse.
 
-**_Deadline Saturday_**
+#### 2.2.3 ES6 Classes (Bonus)
 
 This final **bonus** assignment requires you to got the extra mile and master Object Oriented Programming and ES6 classes. ES6 classes are not used in the Node and Database modules. You will not come across them again until the React module.
-
-TODO: Is this optional/bonus? Separate branch `final`?
-
-**_Deadline Thursday_**
 
 In this assignment you need to redistribute and adapt the code from `index.js` to the files `App.js`, `Repository.js` and `Contributor.js`. You do not need to modify `Util.js`.
 
@@ -76,8 +81,7 @@ _Read:_
 
 _Instructions:_
 
-1. Commit any outstanding changes.
-2. Change the content of the `body` tag of `index.html` as follows:
+1. Copy `index.html` to file named `classes.html` and change the content of the `body` tag of `classes.html` as follows:
 
     ```html
     <body>
@@ -90,45 +94,25 @@ _Instructions:_
     ```
 
 
-## Step 3: OOP and ES6 classes
+#### 2.2.4 Handing in your homework
 
-- If you need to refresh your memory on es6 classes: [es6-classes-in-depth](https://ponyfoo.com/articles/es6-classes-in-depth)
+- Have you removed all commented out code (should never be present in a PR)?
+- Have you used `const` and `let` and avoided `var`?
+- Do the variable, function and argument names you created follow the [Naming Conventions](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md)?
+- Is your code well-formatted (see [Code Formatting](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md))?
+- Have you resolved all issues flagged by ESLint and the spell checker (no wavy red and green underlines in VSCode)?
 
-_Deadline Saturday_
+If the answer is 'yes' to all preceding questions you are ready to follow these instructions:
 
-Refactor your GitHub app to use OOP with ES6 classes (see skeleton code below). We will be introducing a `Repository` and a `Contributor` class that will each be responsible for rendering their own data. A third `View` class will contain all remaining code.
-
-Read:
-
-- [Object Oriented Programming and ES6 Classes](../../../../fundamentals/blob/master/fundamentals/oop_classes.md)
-- [The `this` keyword](../../../../fundamentals/blob/master/fundamentals/this.md)
-
-Instructions:
-
-1. You should refactor your code into four classes, named `App`, `Repository`, `Contributor` and `Util`.
-2. Move your existing code that deals with rendering the repository information to the `render()` method of the `Repository` class.
-3. Move your existing code that deals with rendering the information for a single contributor to the `render()` method of the `Contributor` class.
-4. Move your existing code responsible for initializing your application to the `constructor` of the `View` class.
-5. The bulk of your remaining code should probably go to the `fetchAndRender()` method of the `View` class.
-
-TODO: describe the division of work between the classes
-
-
-### 3.3 Handing in your homework
-
-1. Push your `week2` branch to GitHub:
+1. Push your `week3` branch to GitHub:
 
     ```
-    git push -u origin week2
+    git push -u origin week3
     ```
 
-2. Create a pull request for your `week2` branch.
+2. Create a pull request for your `week3` branch.
 
-Note:
-
-1. Please remove all redundant, commented-out code and console.log's from your files before pushing your homework as finished. There is no need for your mentors to review this stuff.
-2. Please make sure your code is well-formatted and follows the recommended naming conventions.
-## Step 6: Read before next lecture
+## Step 3: Read before next lecture
 
 _Deadline Sunday morning_
 
