@@ -59,9 +59,11 @@ Please review the material from the HTML/CSS module: [Get familiar with Accessib
 
 For the GitHub application ARIA-compliance means that the Contributors list should either be a native HTML list (i.e. using `ul` and `li` elements) or otherwise marked with an appropriate ARIA **role**. Furthermore, a user should be able to navigate through all interactive elements using the keyboard (e.g., using the **Tab** key). Pressing **Enter** on such an element should be equivalent to clicking the mouse.
 
-#### 2.2.3 ES6 Classes (Bonus)
+#### 2.2.3 ES6 Classes
 
-This final **bonus** assignment requires you to got the extra mile and master Object Oriented Programming and ES6 classes. ES6 classes are not used in the Node and Database modules. You will not come across them again until the React module.
+**_Deadline Saturday_**
+
+This final assignment requires you to go the extra mile and master Object Oriented Programming and ES6 classes.
 
 In this assignment you need to redistribute and adapt the code from `index.js` to the files `App.js`, `Repository.js` and `Contributor.js`. You do not need to modify `Util.js`.
 
