@@ -1,0 +1,61 @@
+body{
+    font-size: 110%;
+    width: 90%;
+    margin: auto;
+}
+header h2, select{
+    display: inline;
+    margin-right: 10px;
+}
+
+header {
+    height: 50px;
+    background-color: blue;
+    padding-left: 20px;
+    padding-top: 20px;
+}
+
+#info-section, #contributors-section{
+    float: left;
+    margin-top: 20px;
+    padding: 20px 20px;
+    width: 45%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#contributors-section{
+    float: right;
+}
+
+#info-section td:nth-child(1){
+    font-weight: bold;
+
+}
+
+#contributors-section h2{
+    margin-top: 0px;
+}
+
+#contributions-container img{
+    float: left;
+    width: 50px;
+    border-radius: 7px ;
+    margin-right: 10px;
+}
+#contributions-container div{
+    padding: 10px 10px 10px 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+   
+}
+#contributions-container div::after { 
+  content: "";
+  display: block; 
+  clear: both;
+}
+.num{
+    float: right;
+    color: white;
+    background-color: gray;
+    padding: 1px 8px;
+    border-radius: 7px ;
+}
