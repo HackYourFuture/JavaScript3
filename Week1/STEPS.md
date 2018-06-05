@@ -3,7 +3,7 @@
 2. creat a branck week 1
 3. creat STEPS.md
 4. write steps for connecting to the GitHub API
-5. Make XHR object
+5. Make XHR object : xhr;
 6. Write open method: 
 	xhr.open("GET", "https://api.github.com/users/neveenatik", true);
 7. Send request: 

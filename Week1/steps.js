@@ -1,4 +1,4 @@
-
+'use strict';
 let xhr = new XMLHttpRequest();
 xhr.open("GET", "https://api.github.com/users/neveenatik", true);
 xhr.send();
@@ -13,7 +13,7 @@ function processRequest() {
   }
 }
 
-function renderDataToDom(someData){
+function renderDataToDom(someData) {
   let newList = creatHTMLElement('ul');
   for ( let property in someData) {
     let newItem = creatHTMLElement('li', newList);
@@ -21,7 +21,7 @@ function renderDataToDom(someData){
   }
 }
 
-function creatHTMLElement(tag, parent){
+function creatHTMLElement(tag, parent) {
   let item = document.createElement(tag);
   if (parent){
     parent.appendChild(item);
