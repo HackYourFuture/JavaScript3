@@ -1,8 +1,7 @@
 'use strict'
 
 function main() {
-    //const user = 'meazer';
-    //const token = 'b7ca6919a632fa9fcb13680393c3c08462a1dcf8 ';
+
     const url = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
     const root = document.getElementById('root');
