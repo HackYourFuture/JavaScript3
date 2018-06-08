@@ -21,4 +21,9 @@ Here are resources that we like you to read as a preparation for the third lectu
 - [Function.prototype.bind()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
 
 
+## Recommended Readings
+
+[Eloquent JavaScript: Chapter 6 - The Secret Life of Objects](http://eloquentjavascript.net/06_object.html). Read up to the section of **Maps**.
+
+
 _Please go through the material and come to class prepared!_
