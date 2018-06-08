@@ -53,13 +53,7 @@ This week you will work with all JavaScript files in the `src` folder. The assig
 2. Make sure that your error handling code still works. See the week2 MAKEME on how to force an error response from GitHub.
 
 
-#### 2.2.2 ARIA-compliance
-
-Please review the material from the HTML/CSS module: [Get familiar with Accessible Rich Internet Applications (ARIA)](https://github.com/HackYourFuture/HTML-CSS/tree/master/Week1#get-familiar-with-accessible-rich-internet-applications-aria).
-
-For the GitHub application ARIA-compliance means that the Contributors list should either be a native HTML list (i.e. using `ul` and `li` elements) or otherwise marked with an appropriate ARIA **role**. Furthermore, a user should be able to navigate through all interactive elements using the keyboard (e.g., using the **Tab** key). Pressing **Enter** on such an element should be equivalent to clicking the mouse.
-
-#### 2.2.3 ES6 Classes
+#### 2.2.2 ES6 Classes (BONUS)
 
 **_Deadline Saturday_**
 
@@ -95,6 +89,11 @@ _Instructions:_
     </body>
     ```
 
+#### 2.2.3 ARIA-compliance
+
+Please review the material from the HTML/CSS module: [Get familiar with Accessible Rich Internet Applications (ARIA)](https://github.com/HackYourFuture/HTML-CSS/tree/master/Week1#get-familiar-with-accessible-rich-internet-applications-aria).
+
+For the GitHub application ARIA-compliance means that the Contributors list should either be a native HTML list (i.e. using `ul` and `li` elements) or otherwise marked with an appropriate ARIA **role**. Furthermore, a user should be able to navigate through all interactive elements using the keyboard (e.g., using the **Tab** key). Pressing **Enter** on such an element should be equivalent to clicking the mouse.
 
 #### 2.2.4 Handing in your homework
 

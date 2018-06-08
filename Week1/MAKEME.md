@@ -19,7 +19,7 @@ Please provide feedback on last week's homework from a fellow student as a GitHu
 
 **_Deadline Thursday_**
 
-_This homework is more extensive and challenging than previous homework! Please read the instructions below carefully and follow them meticulously. Start this homework as soon as you can and allow time for discussion and questions (slack!)._
+_This homework is more extensive and challenging than previous homework! Please read the instructions below carefully and follow them with great attention to detail. Start this homework as soon as you can and allow time for discussion and questions (slack!)._
 
 ### 2.1 Introduction
 
