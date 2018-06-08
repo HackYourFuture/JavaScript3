@@ -53,7 +53,7 @@ This week you will work with all JavaScript files in the `src` folder. The assig
 2. Make sure that your error handling code still works. See the week2 MAKEME on how to force an error response from GitHub.
 
 
-#### 2.2.2 ES6 Classes (BONUS)
+#### 2.2.2 ES6 Classes
 
 **_Deadline Saturday_**
 
@@ -89,7 +89,7 @@ _Instructions:_
     </body>
     ```
 
-#### 2.2.3 ARIA-compliance
+#### 2.2.3 ARIA-compliance (BONUS)
 
 Please review the material from the HTML/CSS module: [Get familiar with Accessible Rich Internet Applications (ARIA)](https://github.com/HackYourFuture/HTML-CSS/tree/master/Week1#get-familiar-with-accessible-rich-internet-applications-aria).
 
