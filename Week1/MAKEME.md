@@ -25,9 +25,9 @@ _This homework is more extensive and challenging than previous homework! Please 
 
 You are going to write a _Single Page Application_ (SPA) that uses the [GitHub API](https://developer.github.com/guides/getting-started/).
 
-This application should display information about the available [HYF GitHub repositories](https://github.com/hackyourfuture):
+This application should display information about the available [HYF GitHub repositories](https://github.com/hackyourfuture). The functionalities we would like to see in your application are as follows:
 
-- You should be able to select a repository from a list of available repositories.
+- The user should be able to select a repository from a list of available repositories.
 - The application should display high-level information about the selected repository and show a list of its contributors.
 - When clicking on the name of the selected repository the GitHub page for the corresponding repository should be opened in a new browser tab.
 - When clicking on a contributor, the GitHub page for the contributor should be opened in a new browser tab.
