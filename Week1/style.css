@@ -1,0 +1,75 @@
+body {
+  font-family: 'Raleway', sans-serif;
+  background-color:rgb(237,237,237);
+  color:rgb(92,83,74);
+}
+
+h1 {
+  font-size: 2.5vw;
+  color: rgb(0,118,163);
+}
+
+h3 {
+  text-align: center;
+  font-size: 1.5vw;
+  color: rgb(85,85,85);
+}
+
+h2 {
+  text-align: center;
+  padding: 1vw;
+  font-size: 1.8vw;
+  color: rgb(0,118,163);
+}
+h4 {
+  font-size: 1vw;
+  font-weight: normal;
+  color: rgb(51,51,51);
+}
+
+#select-menu {
+  font-size: 1vw;
+  border-radius:0.5vw;
+  padding: 0.3vw;
+}
+
+table {
+  margin: 0 auto;
+  font-size: 1.2vw;
+  padding: 1vw;
+}
+
+th {padding: 1vw;}
+
+td {padding: 1vw;}
+
+#first {
+  position: fixed;
+  top:15vw;
+  left: 3vw;
+  width: 33%;
+  padding: 1%
+}
+
+#information {
+  position: fixed;
+  background-color: white; 
+  top:11vw;
+  left: 30vw;
+  width: 40%;
+  padding: 1%;
+  border-radius:1vw;
+}
+
+#contributors {
+  position: absolute;
+  top:1vw;
+  right: 5vw;
+  width: 15%;
+  padding: 1%;
+}
+
+.profile-pictures {
+  width: 50%;
+  margin-left: 25%;
+}
