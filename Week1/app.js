@@ -43,8 +43,9 @@ function main() {
                 if (XHR.status < 400) { // call the passed function if the request is OK
                     callback(null, JSON.parse(XHR.responseText));
                 } else {// if there is an error create error object and pass it to callback function 
-                    const error = new Error(`Network error`);
-                    callback(error.message, JSON.parse(XHR.responseText));
+
+                    //const error = new Error('Network error: ${ xhr.status } - ${ xhr.statusText }');
+                    callback(new Error(`Network error: ${XHR.status} - ${XHR.statusText}`));
                 }
 
             }
@@ -59,7 +60,7 @@ function main() {
         if (error) {
             const err = document.createElement('div');
             header.parentNode.insertBefore(err, header.nextSibling);
-            err.innerText = error;
+            err.innerText = error.message;
             err.className = 'error';
 
         } else {
@@ -108,7 +109,7 @@ function main() {
 
             const err = document.createElement('div');
             document.querySelector('header').parentNode.insertBefore(err, header.nextSibling);
-            err.innerText = error;
+            err.innerText = error.message;
             err.className = 'error';
 
         } else {
