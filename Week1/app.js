@@ -38,13 +38,13 @@ function main() {
         // when XHR state change call a function check if it DONE
         XHR.onreadystatechange = () => {
 
-            if (XHR.readyState == 4) {
+            if (XHR.readyState === 4) {
 
                 if (XHR.status < 400) { // call the passed function if the request is OK
-                    callback(JSON.parse(XHR.responseText));
-                } else {// if there is an error create error object and consol log error message 
-                    const error = new Error(xhr.statusText);
-                    console.error(error.message);
+                    callback(null, JSON.parse(XHR.responseText));
+                } else {// if there is an error create error object and pass it to callback function 
+                    const error = new Error(`Network error`);
+                    callback(error.message, JSON.parse(XHR.responseText));
                 }
 
             }
@@ -53,32 +53,40 @@ function main() {
     }
 
 
-    function renderReposList(reposObj) {
+    function renderReposList(error, reposObj) {
 
         const header = document.querySelector('header');
-        //create list and append it to header
-        const selectList = createAndAppend('select', header, 'id', 'selectList');
-        //default hidden option 'Select a Repository'
-        const selectOption = createAndAppend('option', selectList, 'selected', '', 'disabled', '');
-        selectOption.setAttribute('hidden', '');
-        selectOption.innerText = 'Select a Repository';
+        if (error) {
+            const err = document.createElement('div');
+            header.parentNode.insertBefore(err, header.nextSibling);
+            err.innerText = error;
+            err.className = 'error';
 
-        for (let rep in reposObj) {
-            // add an option for each repo with value that is his index at reopsObject 
-            const selectOption = createAndAppend('option', selectList, 'value', rep);
-            selectOption.innerText = reposObj[rep].name;
+        } else {
+            reposObj.sort((a, b) => { return a.name.localeCompare(b.name); });
+            //create list and append it to header
+            const selectList = createAndAppend('select', header, 'id', 'selectList');
+            //default hidden option 'Select a Repository'
+            const selectOption = createAndAppend('option', selectList, 'selected', '', 'disabled', '');
+            selectOption.setAttribute('hidden', '');
+            selectOption.innerText = 'Select a Repository';
 
+            for (let rep in reposObj) {
+                // add an option for each repo with value that is his index at reopsObject 
+                const selectOption = createAndAppend('option', selectList, 'value', rep);
+                selectOption.innerText = reposObj[rep].name;
+
+            }
+            //add a listener when select a new option
+            selectList.onchange = () => {
+                //get the value of the selected option
+                const value = document.getElementById('selectList').value;
+                renderInfo(reposObj[value]);// call renderInfo and pass the selected repo to show his info
+                //call fetchJSON to fetch repo's contributors and pass renderContributions to show them
+                fetchJSON(reposObj[value].contributors_url, renderContributions);
+
+            }
         }
-        //add a listener when select a new option
-        selectList.onchange = () => {
-            //get the value of the selected option
-            const value = document.getElementById('selectList').value;
-            renderInfo(reposObj[value]);// call renderInfo and pass the selected repo to show his info
-            //call fetchJSON to fetch repo's contributors and pass renderContributions to show them
-            fetchJSON(reposObj[value].contributors_url, renderContributions);
-
-        }
-
     }
 
     function renderInfo(rep) {
@@ -94,26 +102,35 @@ function main() {
 
     }
 
-    function renderContributions(contributions) {
+    function renderContributions(error, contributions) {
 
-        const ele = document.getElementById('contributions-container');
+        if (error) {
 
-        while (ele.firstChild) { // empty contributions-container
-            ele.removeChild(ele.firstChild); // while contributions-container has a child delete it
+            const err = document.createElement('div');
+            document.querySelector('header').parentNode.insertBefore(err, header.nextSibling);
+            err.innerText = error;
+            err.className = 'error';
+
+        } else {
+
+            const ele = document.getElementById('contributions-container');
+
+            while (ele.firstChild) { // empty contributions-container
+                ele.removeChild(ele.firstChild); // while contributions-container has a child delete it
+            }
+
+            for (let cont of contributions) {
+                // create a div for each contribution with it's data
+                const div = createAndAppend('div', ele);
+                const link = createAndAppend('a', div, 'href', cont.html_url, 'target', '_blank');
+                const img = createAndAppend('img', link, 'src', cont.avatar_url, 'alt', cont.login);
+                const name = createAndAppend('p', div);
+                name.innerText = cont.login;
+                const num = createAndAppend('span', name, 'class', 'num');
+                num.innerText = cont.contributions;
+
+            }
         }
-
-        for (let cont of contributions) {
-            // create a div for each contribution with it's data
-            const div = createAndAppend('div', ele);
-            const link = createAndAppend('a', div, 'href', cont.html_url, 'target', '_blank');
-            const img = createAndAppend('img', link, 'src', cont.avatar_url, 'alt', cont.login);
-            const name = createAndAppend('p', div);
-            name.innerText = cont.login;
-            const num = createAndAppend('span', name, 'class', 'num');
-            num.innerText = cont.contributions;
-
-        }
-
     }
 
     function createAndAppend(tag, parent, atr1, value1, atr2, value2) {
