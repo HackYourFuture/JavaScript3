@@ -2,8 +2,7 @@
 
 const root = document.getElementById("root");
 
-const token = "c3a0e8cd2a3d691a8b15e66551ed3f1f908c026a";
-const hyfGithubRepositories = `https://api.github.com/orgs/HackYourFuture/repos?access_token=${token}&per_page=100`;
+const hyfGithubRepositories = `https://api.github.com/orgs/HackYourFuture/repos?per_page=100`;
 
 
 function fetchJSON(callback, url) {
