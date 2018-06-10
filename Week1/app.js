@@ -106,7 +106,10 @@
             contributorsHeading.innerHTML = 'Contributors';
             for (const contributor of arrayOfContributors) {
                 const contributorName = createHtmlElement('h3', contributorsContainer);
-                contributorName.innerHTML = contributor.login;
+                const contributorLink = createHtmlElement('a', contributorName);
+                contributorLink.setAttribute('href', contributor.html_url);
+                contributorLink.setAttribute('target', '_blank');
+                contributorLink.innerHTML = contributor.login;
                 const contributorImage = createHtmlElement('img', contributorsContainer);
                 contributorImage.setAttribute('src', contributor.avatar_url);
                 contributorImage.setAttribute('alt', 'profile picture of ' + contributor.login);
