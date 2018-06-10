@@ -37,8 +37,6 @@ section {
   padding: 1rem;
   /* color: white; */
   /* background-color: rgb(0, 0, 0, 0.3); */
-  width: calc(50% - 4rem);
-  float: left;
   border-radius: 10px;
 }
 
@@ -85,4 +83,11 @@ img {
   position: relative;
   top: -1rem;
   font-weight: bold;
+}
+
+@media (min-width:768px) {
+  section {
+    width: calc(50% - 4rem);
+    float: left;
+  }
 }
