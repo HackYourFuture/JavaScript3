@@ -20,25 +20,51 @@ Topics discussed this week:
     - YouTube: [promises](https://www.youtube.com/watch?v=WBupia9oidU)
 
 
-## Step 2: Feedback
+## Step 2: Implement requested PR changes
 
-- Create at least 2 issues (bug / feature / code improvement) on another student's GitHub repository.
-- Solve the issue(s) proposed by another students in your GitHub repository. More info [here](https://hackyourfuture.slack.com/files/michahell/F31BX1XT6/Merging_a_local_branch_into_master).
+- Fix Requested Changes (if any) on the Pull Request.
 
-## Step 3: Promises
+## Step 3: Convert callbacks to promises
 
-_Deadline Saturday_
+**_Deadline Thursday_**
 
-The assignment for this week is:
+### 3.1 Preparation
+
+The homework for week 2 will build on the work you did in week 1. You will create a new branch based on the `week1` branch.
+
+1. Make sure that you committed all changes in the week 1 version of your homework.
+2. Create a new `week2` branch:
+
+    ```
+    git checkout -b week2
+    ```
+
+### 3.2 Assignment
+
+You will continue to work on the files `index.js` and (possibly) `style.css`.
 
 - Complete your GitHub app code from the previous week, if needed, to meet the requirements from that week's assignment.
 - Replace all asynchronous callbacks (e.g. as used with XMLHttpRequest) by ES6 promises.
 - Beautify your app's styling.
+- If not yet completed in week 1, make your app responsive (use CSS media queries and [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)).
 
-Bonus assignments:
+### 3.3 Handing in your homework
 
-- Make your app responsive (using media queries)
-- Make your app ARIA-compliant
+- Have you removed all commented out code (should never be present in a PR)?
+- Have you used `const` and `let` and avoided `var`?
+- Do the variable, function and argument names you created follow the [Naming Conventions](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md)?
+- Is your code well-formatted (see [Code Formatting](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md))?
+- Have you resolved all issues flagged by ESLint and the spell checker (no wavy red and green underlines in VSCode)?
+
+If the answer is 'yes' to all preceding questions you are ready to follow these instructions:
+
+1. Push your `week2` branch to GitHub:
+
+    ```
+    git push -u origin week2
+    ```
+
+2. Create a pull request for your `week2` branch.
 
 Note:
 
