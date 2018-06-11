@@ -2,9 +2,6 @@ html{
     margin:0;
     padding:0;
     font-family: 'Open Sans', sans-serif;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
     font-weight:500;
     background: linear-gradient(90deg,  #E73C7E, #23A6D5,#fff);
 	background-size: 300% 300%;
