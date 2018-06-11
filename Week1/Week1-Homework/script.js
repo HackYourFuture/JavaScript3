@@ -32,7 +32,6 @@ function main() {
         }
     });
 
-
     //HTML Content creator
     function createHTMLElement(tag, parent, text) {
         const newElement = document.createElement(tag);
@@ -98,6 +97,7 @@ function main() {
     }
 
     function detailsOfRepository(repository) {
+
         ulRepInfo.innerHTML = '';
 
         const liRepInfo = createHTMLElement('li', ulRepInfo);
@@ -123,10 +123,14 @@ function main() {
     }
 
     function contributorsInfo(url) {
+
         ulContribInfo.innerHTML = '';
+
         dataRequest(url, (error, contributors) => {
-            if (error !== null) {
-                console.error(error.message);
+            if (error) {
+                ulContribInfo.innerHTML = ('Network Error: 404 Not Found');
+                ulContribInfo.style.backgroundColor = 'red';
+                ulContribInfo.style.padding = '30px';
             }
             else {
                 contributors.forEach((contributor, prop) => {
