@@ -7,7 +7,6 @@ html{
     background-repeat: no-repeat;
     background-position: center;
     font-weight:500;
-  
 }
 
 label{
@@ -19,11 +18,10 @@ label{
     color: #fff;
 }
 
-
 select {
     border-color: transparent;
-    padding:10px;
-    font-size: 0.8em;
+    padding:8px;
+    font-size: 0.7em;
   -webkit-appearance: none;
   -moz-appearance: none;
     appearance: none;
@@ -53,7 +51,6 @@ li {
 .repository-info-div{
     float:left;
     width:450px;
-   
 }
 
 .repository-info{
@@ -76,7 +73,6 @@ li {
 
 .contributor-info li {
     border-bottom: 1px solid rgba(0, 0, 0, 0.438);
-    
 }
 
 .contributor-info li:hover{

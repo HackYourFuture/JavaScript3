@@ -15,13 +15,11 @@ function main() {
                 cb(null, xhr.response);
             } else {
                 cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-
             }
         };
         xhr.onerror = () => cb(new Error('Network request failed'));
         xhr.send();
     }
-
 
     dataRequest(url, (error, data) => {
         if (error) {
@@ -85,7 +83,6 @@ function main() {
     const ulContribInfo = createHTMLElement('ul', divContribInfo)
     setAttributes(ulContribInfo, { 'class': 'contributor-info' });
 
-
     function createSelection(repositories) {
 
         repositories.forEach((repository, prop) => {
@@ -98,7 +95,6 @@ function main() {
 
         });
         detailsOfRepository(repositories[0]);
-
     }
 
     function detailsOfRepository(repository) {
@@ -117,7 +113,6 @@ function main() {
 
         const liForks = createHTMLElement('li', liRepInfo, 'Forks: ' + repository.forks);
         const liUpdates = createHTMLElement('li', liRepInfo, 'Updated: ' + repository.updated_at.substring(0, 10));
-
 
         setAttributes(a, {
             'href': repository.html_url,
@@ -155,12 +150,9 @@ function main() {
 
                     const contributionsCounter = createHTMLElement('div', liContribInfo, 'Contributions: ' + contributors[prop].contributions);
                     setAttributes(contributionsCounter, { 'class': 'contributions-counter' });
-
-
                 });
             }
         });
-
     }
 }
 window.addEventListener('load', main);
