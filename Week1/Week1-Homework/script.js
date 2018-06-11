@@ -35,9 +35,8 @@ function main() {
     //HTML Content creator
     function createHTMLElement(tag, parent, text) {
         const newElement = document.createElement(tag);
-        const innerText = document.createTextNode(text);
 
-        (text) ? newElement.appendChild(innerText) : '';
+        (text) ? newElement.innerHTML = text : '';
 
         if (parent) {
             parent.appendChild(newElement);
@@ -104,15 +103,15 @@ function main() {
         const i = createHTMLElement('i', liRepInfo);
         setAttributes(i, { 'class': 'fa fa-github fa-5x' });
 
-        const liRepName = createHTMLElement('li', liRepInfo, 'Repository: ');
+        const liRepName = createHTMLElement('li', liRepInfo, 'Repository: '.bold());
         const a = createHTMLElement('a', liRepName, repository.name);
 
         if (repository.description !== null) {
-            const liDesc = createHTMLElement('li', liRepInfo, 'Description: ' + repository.description);
+            const liDesc = createHTMLElement('li', liRepInfo, 'Description: '.bold() + repository.description);
         }
 
-        const liForks = createHTMLElement('li', liRepInfo, 'Forks: ' + repository.forks);
-        const liUpdates = createHTMLElement('li', liRepInfo, 'Updated: ' + repository.updated_at.substring(0, 10));
+        const liForks = createHTMLElement('li', liRepInfo, 'Forks: '.bold() + repository.forks);
+        const liUpdates = createHTMLElement('li', liRepInfo, 'Updated: '.bold() + repository.updated_at.substring(0, 10));
 
         setAttributes(a, {
             'href': repository.html_url,
@@ -149,10 +148,10 @@ function main() {
                         'alt': 'contributors photo'
                     });
 
-                    const contributorsName = createHTMLElement('div', liContribInfo, 'Username: ' + contributors[prop].login);
+                    const contributorsName = createHTMLElement('div', liContribInfo, 'Username: '.bold() + contributors[prop].login);
                     setAttributes(contributorsName, { 'class': 'contributors-name' });
 
-                    const contributionsCounter = createHTMLElement('div', liContribInfo, 'Contributions: ' + contributors[prop].contributions);
+                    const contributionsCounter = createHTMLElement('div', liContribInfo, 'Contributions: '.bold() + contributors[prop].contributions);
                     setAttributes(contributionsCounter, { 'class': 'contributions-counter' });
                 });
             }

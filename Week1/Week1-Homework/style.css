@@ -2,12 +2,54 @@ html{
     margin:0;
     padding:0;
     font-family: 'Open Sans', sans-serif;
-    background-image: url('bgimage.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     font-weight:500;
+    background: linear-gradient(90deg,  #E73C7E, #23A6D5,#fff);
+	background-size: 300% 300%;
+    -webkit-animation: Gradient 10s ease infinite;
+	-moz-animation: Gradient 10s ease infinite;
+    animation: Gradient 10s ease infinite;
 }
+
+
+@-webkit-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+@-moz-keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
+@keyframes Gradient {
+	0% {
+		background-position: 0% 50%
+	}
+	50% {
+		background-position: 100% 50%
+	}
+	100% {
+		background-position: 0% 50%
+	}
+}
+
 
 label{
     font-size: 1.6em;
@@ -15,7 +57,6 @@ label{
     position: relative;
     left:0;
     text-transform: uppercase;
-    color: #fff;
 }
 
 select {
@@ -41,6 +82,20 @@ select::-ms-expand {
 
 li { 
     list-style: none;
+    margin-top:8px;
+}
+
+.repository-info li a{
+    color:#000;
+    border:1px  outset #000 ;
+    border-radius:10px 10px;
+    padding:5px;
+ 
+}
+
+.repository-info li a:hover {
+  background-color: rgba(255, 255, 255, 0.795);
+  border-color:transparent;
 }
 
 .wrapper {
@@ -63,7 +118,6 @@ li {
      float:right;
      height:500px;
      overflow-y: auto;
-     
 }
 
 .contributor-info li img {
@@ -72,7 +126,7 @@ li {
 }
 
 .contributor-info li {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.438);
+    border-bottom: 1px inset rgba(0, 0, 0, 0.438);  
 }
 
 .contributor-info li:hover{
@@ -81,5 +135,5 @@ li {
  
  .contributors-info-div, .repository-info-div , select , .contributor-info li img{
     border-radius:20px 20px;
-    background-color: rgba(250, 250, 250, 0.87);
+    background-color: rgba(250, 250, 250, 0.534);
 }
