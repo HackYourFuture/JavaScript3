@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 function main() {
 
@@ -17,7 +17,9 @@ function main() {
     const table = createAndAppend('table', infoSection); // create info table 
     createRows('Repository:', 'Description:', 'Forks:', 'Update:'); //create 4 rows * 2 cell
 
-    fetchJSON(url, renderReposList);
+    fetchJSON(url)
+        .then(data => renderReposList(data))
+        .catch(err => renderError(err));
 
     function createRows() {
 
@@ -30,64 +32,60 @@ function main() {
 
     }
 
-    function fetchJSON(url, callback) {
-        // create a XMLHttpRequest object to get a url and send it
-        const XHR = new XMLHttpRequest();
-        XHR.open('GET', url, true);
-        XHR.send();
-        // when XHR state change call a function check if it DONE
-        XHR.onreadystatechange = () => {
+    function fetchJSON(url) {
 
-            if (XHR.readyState === 4) {
+        return new Promise((resolve, reject) => {
+            const XHR = new XMLHttpRequest();
+            XHR.open('GET', url, true);
+            XHR.onload = () => {
+                if (XHR.status < 400) {
+                    // resolve the promise if the request is OK
+                    resolve(JSON.parse(XHR.responseText));
 
-                if (XHR.status < 400) { // call the passed function if the request is OK
-                    callback(null, JSON.parse(XHR.responseText));
-                } else {// if there is an error create error object and pass it to callback function 
+                } else {
+                    // if bad response reject the promise with error object
+                    reject(new Error(`Network error: ${XHR.status} - ${XHR.statusText}`));
 
-                    //const error = new Error('Network error: ${ xhr.status } - ${ xhr.statusText }');
-                    callback(new Error(`Network error: ${XHR.status} - ${XHR.statusText}`));
                 }
-
-            }
-        }
+            };
+            //if XHR not loaded reject the promise
+            XHR.onerror = () => reject(new Error('Network request failed'));
+            XHR.send();
+        });
 
     }
 
 
-    function renderReposList(error, reposObj) {
+    function renderReposList(reposObj) {
 
         const header = document.querySelector('header');
-        if (error) {
-            const err = document.createElement('div');
-            header.parentNode.insertBefore(err, header.nextSibling);
-            err.innerText = error.message;
-            err.className = 'error';
+        reposObj.sort((a, b) => { return a.name.localeCompare(b.name); });
+        //create list and append it to header
+        const selectList = createAndAppend('select', header, 'id', 'selectList');
+        //default hidden option 'Select a Repository'
+        const selectOption = createAndAppend('option', selectList, 'selected', '', 'disabled', '');
+        selectOption.setAttribute('hidden', '');
+        selectOption.innerText = 'Select a Repository';
 
-        } else {
-            reposObj.sort((a, b) => { return a.name.localeCompare(b.name); });
-            //create list and append it to header
-            const selectList = createAndAppend('select', header, 'id', 'selectList');
-            //default hidden option 'Select a Repository'
-            const selectOption = createAndAppend('option', selectList, 'selected', '', 'disabled', '');
-            selectOption.setAttribute('hidden', '');
-            selectOption.innerText = 'Select a Repository';
+        for (const rep in reposObj) {
+            // add an option for each repo with value that is his index at reposObject 
+            const selectOption = createAndAppend('option', selectList, 'value', rep);
+            selectOption.innerText = reposObj[rep].name;
 
-            for (let rep in reposObj) {
-                // add an option for each repo with value that is his index at reposObject 
-                const selectOption = createAndAppend('option', selectList, 'value', rep);
-                selectOption.innerText = reposObj[rep].name;
-
-            }
-            //add a listener when select a new option
-            selectList.onchange = () => {
-                //get the value of the selected option
-                const value = document.getElementById('selectList').value;
-                renderInfo(reposObj[value]);// call renderInfo and pass the selected repo to show his info
-                //call fetchJSON to fetch repo contributors and pass renderContributions to show them
-                fetchJSON(reposObj[value].contributors_url, renderContributions);
-
-            }
         }
+        //add a listener when select a new option
+        selectList.onchange = () => {
+            //get the value of the selected option
+            const value = document.getElementById('selectList').value;
+            renderInfo(reposObj[value]);// call renderInfo and pass the selected repo to show his info
+            //call fetchJSON to fetch repo contributors and pass renderContributions to show them
+            //fetchJSON(reposObj[value].contributors_url, renderContributions);
+            fetchJSON(reposObj[value].contributors_url)
+                .then(data => renderContributions(data))
+                .catch(err => renderError(err));
+
+        };
+
     }
 
     function renderInfo(rep) {
@@ -103,35 +101,33 @@ function main() {
 
     }
 
-    function renderContributions(error, contributions) {
+    function renderError(error) {
+        const err = document.createElement('div');
+        document.querySelector('header').parentNode.insertBefore(err, header.nextSibling);
+        err.innerText = error.message;
+        err.className = 'error';
+    }
 
-        if (error) {
+    function renderContributions(contributions) {
 
-            const err = document.createElement('div');
-            document.querySelector('header').parentNode.insertBefore(err, header.nextSibling);
-            err.innerText = error.message;
-            err.className = 'error';
+        const ele = document.getElementById('contributions-container');
 
-        } else {
-
-            const ele = document.getElementById('contributions-container');
-
-            while (ele.firstChild) { // empty contributions-container
-                ele.removeChild(ele.firstChild); // while contributions-container has a child delete it
-            }
-
-            for (let cont of contributions) {
-                // create a div for each contribution with it's data
-                const div = createAndAppend('div', ele);
-                const link = createAndAppend('a', div, 'href', cont.html_url, 'target', '_blank');
-                const img = createAndAppend('img', link, 'src', cont.avatar_url, 'alt', cont.login);
-                const name = createAndAppend('p', div);
-                name.innerText = cont.login;
-                const num = createAndAppend('span', name, 'class', 'num');
-                num.innerText = cont.contributions;
-
-            }
+        while (ele.firstChild) { // empty contributions-container
+            ele.removeChild(ele.firstChild); // while contributions-container has a child delete it
         }
+
+        for (const cont of contributions) {
+            // create a div for each contribution with it's data
+            const div = createAndAppend('div', ele);
+            const link = createAndAppend('a', div, 'href', cont.html_url, 'target', '_blank');
+            const img = createAndAppend('img', link, 'src', cont.avatar_url, 'alt', cont.login);
+            const name = createAndAppend('p', div);
+            name.innerText = cont.login;
+            const num = createAndAppend('span', name, 'class', 'num');
+            num.innerText = cont.contributions;
+
+        }
+
     }
 
     function createAndAppend(tag, parent, atr1, value1, atr2, value2) {
