@@ -7,12 +7,13 @@ function main() {
     // initial page: create header, info and contributors sections.
     const root = document.getElementById('root');
     const header = createAndAppend('header', root);
-    let h2 = createAndAppend('h2', header);
-    h2.innerText = 'HYF Repositories';
-    const infoSection = createAndAppend('section', root, 'id', 'info-section');
-    const contributorsSection = createAndAppend('section', root, 'id', 'contributors-section');
-    h2 = createAndAppend('h2', contributorsSection);
-    h2.innerText = 'Contributions';
+    let h3 = createAndAppend('h3', header);
+    h3.innerText = 'HYF Repositories';
+    const flexContainer = createAndAppend('div', root, 'class', 'flex-container');
+    const infoSection = createAndAppend('section', flexContainer, 'id', 'info-section');
+    const contributorsSection = createAndAppend('section', flexContainer, 'id', 'contributors-section');
+    h3 = createAndAppend('h3', contributorsSection);
+    h3.innerText = 'Contributions';
     const div = createAndAppend('div', contributorsSection, 'id', 'contributions-container');
     const table = createAndAppend('table', infoSection); // create info table 
     createRows('Repository:', 'Description:', 'Forks:', 'Update:'); //create 4 rows * 2 cell
@@ -77,9 +78,9 @@ function main() {
         selectList.onchange = () => {
             //get the value of the selected option
             const value = document.getElementById('selectList').value;
-            renderInfo(reposObj[value]);// call renderInfo and pass the selected repo to show his info
-            //call fetchJSON to fetch repo contributors and pass renderContributions to show them
-            //fetchJSON(reposObj[value].contributors_url, renderContributions);
+            renderInfo(reposObj[value]);// call renderInfo to show the selected repo info
+            //call fetchJSON to fetch repo contributors if resolved call renderContributions 
+            //if rejected call renderError to show error message
             fetchJSON(reposObj[value].contributors_url)
                 .then(data => renderContributions(data))
                 .catch(err => renderError(err));

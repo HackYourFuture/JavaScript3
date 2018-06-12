@@ -3,7 +3,7 @@ body{
     width: 90%;
     margin: auto;
 }
-header h2, select{
+header h3, select{
     display: inline;
     margin-right: 10px;
 }
@@ -25,21 +25,30 @@ header {
     border-left-style: solid;
 }
 
+.flex-container{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start; 
+}
+
+#info-section{
+    margin-right: 10px;
+}
+
 #info-section, #contributors-section{
-    float: left;
+    box-sizing: border-box;
     margin-top: 20px;
     padding: 20px 20px;
-    width: 45%;
+    width: calc( 100% / 2 - 10px);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #contributors-section{
-    float: right;
+    margin-left: 10px;
 }
 
 #info-section td:nth-child(1){
     font-weight: bold;
-
 }
 
 #contributors-section h2{
@@ -52,16 +61,19 @@ header {
     border-radius: 7px ;
     margin-right: 10px;
 }
+
 #contributions-container div{
     padding: 10px 10px 10px 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
    
 }
+
 #contributions-container div::after { 
   content: "";
   display: block; 
   clear: both;
 }
+
 .num{
     float: right;
     color: white;
@@ -69,3 +81,15 @@ header {
     padding: 1px 8px;
     border-radius: 7px ;
 }
+
+@media (max-width:768px){
+    #info-section, #contributors-section{
+        width: 100%;
+        margin-left: 0px;
+        margin-right: 0px; 
+    }
+    body{
+        width:100%;
+    }
+}
+
