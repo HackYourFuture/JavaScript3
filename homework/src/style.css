@@ -1,3 +1,30 @@
+body{
+  font-family: sans-serif;
+  background: #ddeaff;
+}
 .alert-error {
     color: red;
+}
+h2{
+  text-decoration: underline;
+}
+#sub_root{
+  background:#1e65d8;
+  padding: 20px;
+  color: white;
+}
+.select_menu{
+  padding:10px;
+}
+table{
+  float: right;
+  background:#91b8f7;
+  font-size: 20px;
+  padding:10px;
+  width: 50%;
+  margin: 10px;
+}
+.contributor_img{
+  width: 100px;
+  border-radius: 50%;
 }
