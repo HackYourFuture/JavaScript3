@@ -44,7 +44,6 @@
       }
       newSelect.addEventListener('change', handleNewRepositoryRequest => {
         const newUrl = event.target.value;
-        const root = document.getElementById('root');
         innerRepositoryContainer.innerHTML = '';
         innerContributorContainer.innerHTML = '';
 
