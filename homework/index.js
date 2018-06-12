@@ -73,7 +73,7 @@ function main() {
             selectOption.innerText = 'Select a Repository';
 
             for (let rep in reposObj) {
-                // add an option for each repo with value that is his index at reopsObject 
+                // add an option for each repo with value that is his index at reposObject 
                 const selectOption = createAndAppend('option', selectList, 'value', rep);
                 selectOption.innerText = reposObj[rep].name;
 
@@ -83,7 +83,7 @@ function main() {
                 //get the value of the selected option
                 const value = document.getElementById('selectList').value;
                 renderInfo(reposObj[value]);// call renderInfo and pass the selected repo to show his info
-                //call fetchJSON to fetch repo's contributors and pass renderContributions to show them
+                //call fetchJSON to fetch repo contributors and pass renderContributions to show them
                 fetchJSON(reposObj[value].contributors_url, renderContributions);
 
             }
