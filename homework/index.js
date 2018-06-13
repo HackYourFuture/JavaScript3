@@ -63,10 +63,6 @@ function main() {
         reposObj.sort((a, b) => { return a.name.localeCompare(b.name); });
         //create list and append it to header
         const selectList = createAndAppend('select', header, 'id', 'selectList');
-        //default hidden option 'Select a Repository'
-        const selectOption = createAndAppend('option', selectList, 'selected', '', 'disabled', '');
-        selectOption.setAttribute('hidden', '');
-        selectOption.innerText = 'Select a Repository';
 
         for (const rep in reposObj) {
             // add an option for each repo with value that is his index at reposObject 
@@ -74,6 +70,13 @@ function main() {
             selectOption.innerText = reposObj[rep].name;
 
         }
+
+        document.querySelector('option:first-child').setAttribute('selected', '');
+        renderInfo(reposObj[0]);
+        fetchJSON(reposObj[0].contributors_url)
+            .then(data => renderContributions(data))
+            .catch(err => renderError(err));
+
         //add a listener when select a new option
         selectList.onchange = () => {
             //get the value of the selected option
