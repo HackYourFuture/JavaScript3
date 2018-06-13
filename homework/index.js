@@ -7,14 +7,12 @@ function main() {
     // initial page: create header, info and contributors sections.
     const root = document.getElementById('root');
     const header = createAndAppend('header', root);
-    let h3 = createAndAppend('h3', header);
-    h3.innerText = 'HYF Repositories';
-    const flexContainer = createAndAppend('div', root, 'class', 'flex-container');
-    const infoSection = createAndAppend('section', flexContainer, 'id', 'info-section');
-    const contributorsSection = createAndAppend('section', flexContainer, 'id', 'contributors-section');
-    h3 = createAndAppend('h3', contributorsSection);
-    h3.innerText = 'Contributions';
-    const div = createAndAppend('div', contributorsSection, 'id', 'contributions-container');
+    createAndAppend('h3', header, { text: 'HYF Repositories' });
+    const flexContainer = createAndAppend('div', root, { class: 'flex-container' });
+    const infoSection = createAndAppend('section', flexContainer, { id: 'info-section' });
+    const contributorsSection = createAndAppend('section', flexContainer, { id: 'contributors-section' });
+    createAndAppend('h3', contributorsSection, { text: 'Contributions' });
+    createAndAppend('div', contributorsSection, { id: 'contributions-container' });
     const table = createAndAppend('table', infoSection); // create info table 
     createRows('Repository:', 'Description:', 'Forks:', 'Update:'); //create 4 rows * 2 cell
 
@@ -62,12 +60,11 @@ function main() {
         const header = document.querySelector('header');
         reposObj.sort((a, b) => { return a.name.localeCompare(b.name); });
         //create list and append it to header
-        const selectList = createAndAppend('select', header, 'id', 'selectList');
+        const selectList = createAndAppend('select', header, { id: 'selectList' });
 
         for (const rep in reposObj) {
             // add an option for each repo with value that is his index at reposObject 
-            const selectOption = createAndAppend('option', selectList, 'value', rep);
-            selectOption.innerText = reposObj[rep].name;
+            createAndAppend('option', selectList, { value: rep, text: reposObj[rep].name });
 
         }
 
@@ -97,8 +94,8 @@ function main() {
         // add repo data to the appropriate cells in info table.
         const cell = document.querySelector('#info-section tr:nth-child(1) td:nth-child(2)');
         cell.innerText = '';
-        const link = createAndAppend('a', cell, 'href', rep.html_url, 'target', '_blank');
-        link.innerText = rep.name;
+        createAndAppend('a', cell, { href: rep.html_url, target: '_blank', text: rep.name });
+
         document.querySelector('#info-section tr:nth-child(2) td:nth-child(2)').innerText = rep.description;
         document.querySelector('#info-section tr:nth-child(3) td:nth-child(2)').innerText = rep.forks;
         document.querySelector('#info-section tr:nth-child(4) td:nth-child(2)').innerText = rep.updated_at.substring(0, 10);
@@ -123,30 +120,29 @@ function main() {
         for (const cont of contributions) {
             // create a div for each contribution with it's data
             const div = createAndAppend('div', ele);
-            const link = createAndAppend('a', div, 'href', cont.html_url, 'target', '_blank');
-            const img = createAndAppend('img', link, 'src', cont.avatar_url, 'alt', cont.login);
-            const name = createAndAppend('p', div);
-            name.innerText = cont.login;
-            const num = createAndAppend('span', name, 'class', 'num');
-            num.innerText = cont.contributions;
+            const link = createAndAppend('a', div, { href: cont.html_url, target: '_blank' });
+            createAndAppend('img', link, { src: cont.avatar_url, alt: cont.login });
+            const name = createAndAppend('p', div, { text: cont.login });
+            createAndAppend('span', name, { class: 'num', text: cont.contributions });
 
         }
 
     }
 
-    function createAndAppend(tag, parent, atr1, value1, atr2, value2) {
+    function createAndAppend(tag, parent, options = {}) {
 
         const element = document.createElement(tag);
-        //add attributes if it's passed
-        if (atr1) {
-            element.setAttribute(atr1, value1);
-        }
-
-        if (atr2) {
-            element.setAttribute(atr2, value2);
-        }
-
         parent.appendChild(element);
+        //add attributes if it's passed
+        Object.keys(options).forEach((key) => {
+            const value = options[key];
+            if (key === 'text') {
+                element.innerText = value;
+            } else {
+                element.setAttribute(key, value);
+            }
+        });
+
         return element;
 
     }
