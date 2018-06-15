@@ -18,18 +18,19 @@ function main() {
                     reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
                 }
             };
+            xhr.onerror = () => cb(new Error('Network request failed'));
             xhr.send();
         });
     }
 
     dataRequest(url)
         .then(createSelection)
-        .catch(handleError)
+        .catch(error => handleError(mainDiv))
 
-    function handleError() {
-        mainDiv.innerHTML = ('Network Error: 404 Not Found');
-        mainDiv.style.backgroundColor = 'red';
-        mainDiv.style.padding = '30px';
+    function handleError(tag) {
+        tag.innerHTML = ('Network Error: 404 Not Found');
+        tag.style.backgroundColor = 'red';
+        tag.style.padding = '30px';
     }
 
 
@@ -83,6 +84,8 @@ function main() {
     setAttributes(ulContribInfo, { 'class': 'contributor-info' });
 
     function createSelection(repositories) {
+
+        repositories.sort((a, b) => a.name.localeCompare(b.name))
 
         repositories.forEach((repository, prop) => {
             const options = createHTMLElement('option', select, repositories[prop].name);
@@ -151,7 +154,7 @@ function main() {
                     setAttributes(contributionsCounter, { 'class': 'contributions-counter' });
                 });
             })
-            .catch(handleError)
+            .catch(error => handleError(ulContribInfo))
     }
 }
 window.addEventListener('load', main);
