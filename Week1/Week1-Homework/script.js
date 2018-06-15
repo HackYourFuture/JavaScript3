@@ -81,7 +81,10 @@ function main() {
     const ulContribInfo = createHTMLElement('ul', divContribInfo)
     setAttributes(ulContribInfo, { 'class': 'contributor-info' });
 
+
     function createSelection(repositories) {
+
+        repositories.sort((a, b) => a.name.localeCompare(b.name))
 
         repositories.forEach((repository, prop) => {
             const options = createHTMLElement('option', select, repositories[prop].name);
