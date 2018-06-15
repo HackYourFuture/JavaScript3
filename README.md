@@ -1,3 +1,10 @@
+
+Homework Week1
+https://pknar.github.io/JavaScript3/Week1/Week1-Homework/
+
+
+
+
 > Please help us improve and share your feedback! If you find better tutorials
 or links, please share them by [opening a pull request](https://github.com/HackYourFuture/JavaScript3/pulls).
 
