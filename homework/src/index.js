@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 {
   const root = document.getElementById('root');
@@ -6,15 +6,8 @@
   const headerStartupContainer = createAndAppend('h1', startupContainer, { html: 'HackYourFuture' });
   const descriptionFirstContainer = createAndAppend('h5', startupContainer, { html: '"Refugee code school in Amsterdam"' });
   const instructionsFirstContainer = createAndAppend('h4', startupContainer, { html: 'Select a repository to display information:' });
-
-  const repositoryContainer = createAndAppend('div', root, { id: 'information' });
-  const headerRepositoryContainer = createAndAppend('h2', repositoryContainer, { html: 'Repository Description' });
-  const innerRepositoryContainer = createAndAppend('div', repositoryContainer);
-
-  const contributorsContainer = createAndAppend('div', root, { id: 'contributors' });
-  const headerContributorsContainer = createAndAppend('h2', contributorsContainer, { html: 'Contributors' });
-  const innerContributorContainer = createAndAppend('div', contributorsContainer);
-
+  const repositoryContainer = createAndAppend('div', root);
+  const contributorsContainer = createAndAppend('div', root);
   function fetchJSON(url, cb) {
 
     const xhr = new XMLHttpRequest();
@@ -39,13 +32,27 @@
       const arrayOfObjects = JSON.parse(data);
       const newSelect = createAndAppend('select', startupContainer, { id: 'select-menu' });
 
-      for (const obj of arrayOfObjects) {
-        const optionItem = createAndAppend('option', newSelect, { html: obj.name, value: 'https://api.github.com/repos/HackYourFuture/' + obj.name });
+      arrayOfObjects.sort(function (a, b) {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      });
+
+      const optionItem = createAndAppend('option', newSelect, { html: 'Select' });
+
+      for (let i = 0; i < arrayOfObjects.length; i++) {
+        const optionItem = createAndAppend('option', newSelect, { html: arrayOfObjects[i].name, value: i });
       }
       newSelect.addEventListener('change', handleNewRepositoryRequest => {
-        const newUrl = event.target.value;
-        innerRepositoryContainer.innerHTML = '';
-        innerContributorContainer.innerHTML = '';
+        const newUrl = 'https://api.github.com/repos/HackYourFuture/' + arrayOfObjects[event.target.value].name;
+        repositoryContainer.innerHTML = '';
+        contributorsContainer.innerHTML = '';
 
         fetchJSON(newUrl, buildRepositoryInfoSection);
       });
@@ -53,6 +60,10 @@
   }
 
   function buildRepositoryInfoSection(error, data) {
+
+    const repositoryContainer2 = createAndAppend('div', repositoryContainer, { id: 'information' });
+    const headerRepositoryContainer = createAndAppend('h2', repositoryContainer2, { html: 'Repository Description' });
+    const innerRepositoryContainer = createAndAppend('div', repositoryContainer2);
 
     if (error !== null) {
       createAndAppend('div', innerRepositoryContainer, { html: error.message, class: 'alert-error' });
@@ -80,6 +91,10 @@
 
   function buildContributorsSection(error, data) {
 
+    const contributorsContainer2 = createAndAppend('div', contributorsContainer, { id: 'contributors' });
+    const headerContributorsContainer = createAndAppend('h2', contributorsContainer2, { html: 'Contributors' });
+    const innerContributorContainer = createAndAppend('div', contributorsContainer2);
+
     if (error !== null) {
       createAndAppend('div', innerContributorContainer, { html: error.message, class: 'alert-error' });
     } else {
@@ -106,7 +121,6 @@
     });
     return elem;
   }
-
   fetchJSON("https://api.github.com/orgs/HackYourFuture/repos?per_page=100", startUpAndBuildSelectList);
-  fetchJSON("https://api.github.com/repos/HackYourFuture/AngularJS", buildRepositoryInfoSection);
 }
+
