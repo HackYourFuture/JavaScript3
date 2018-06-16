@@ -85,6 +85,16 @@ img {
   font-weight: bold;
 }
 
+.alert-error {
+  color: red;
+  background-color: rgb(248, 212, 212);
+  margin: 1rem 0.25rem;
+  padding: 0.5rem;
+  text-align: left;
+  border-radius: 0.5rem;
+  clear: both;
+}
+
 @media (min-width:768px) {
   section {
     width: calc(50% - 4rem);

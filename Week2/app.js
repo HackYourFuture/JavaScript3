@@ -1,11 +1,11 @@
 'use strict';
 
 {
+  let mainUrl = 'https://api.github.com/';
+  let user = 'HackYourFuture';
+  let userUrl = mainUrl + 'users/' + user;
+  let repositoryUrl = userUrl + '/repos?per_page=100';
   function main() {
-    let mainUrl = 'https://api.github.com/';
-    let user = 'HackYourFuture';
-    let userUrl = mainUrl + 'users/' + user;
-    let repositoryUrl = userUrl + '/repos?per_page=100';
     fetchJSON(repositoryUrl)
       .then(CreatRepositoryList, onError)
       .then(selectedValue => fetchJSON(mainUrl + 'repos/' + user + '/' + selectedValue))
@@ -43,16 +43,47 @@
     createAndAppend('div', root, { id: 'container' });
     selected.addEventListener('change', () => {
       removeChildElements();
-      renderRepositoryInfo(selected.value);
+      fetchJSON(mainUrl + 'repos/' + user + '/' + selected.value)
+        .then(renderRepositoryInfo, onError)
+        .then(contributionData => fetchJSON(contributionData.contributors_url))
+        .then(renderContributionsInfo, onError);
     });
     return selected.value;
   }
 
   function onError(error) {
+    removeChildElements();
     createAndAppend('div', root, { html: error.message, class: 'alert-error' });
 
   };
 
+  function renderRepositoryInfo(repoData) {
+    const container = document.getElementById('container');
+    const section = createAndAppend('section', container, { class: 'repository-info' });
+    createAndAppend('div', section, { id: 'container' });
+    renderTable(section,
+      {
+        repository: repoData['name'],
+        description: repoData['description'],
+        forks: repoData['forks'],
+        'last update': ((repoData['updated_at']).substring(0, 10) + ' at ' + (repoData['updated_at']).substring(11, 19)),
+      },
+      repoData['html_url'],
+    );
+    return repoData;
+  }
+
+  function renderContributionsInfo(contData) {
+    const container = document.getElementById('container');
+    const section = createAndAppend('section', container, { class: 'contributions-info' });
+    createAndAppend('h3', section, { html: 'Contributions' });
+    contData.forEach(cont => {
+      const contributorContainer = createAndAppend('div', section, { class: 'contributor' });
+      createAndAppend('img', contributorContainer, { src: cont['avatar_url'], class: 'avatar-img' });
+      createAndAppend('span', contributorContainer, { html: cont['login'], class: 'name' });
+      createAndAppend('p', contributorContainer, { html: cont['contributions'], class: 'contributions' });
+    });
+  }
 
   function createAndAppend(name, parent, options = {}) {
     const element = document.createElement(name);
@@ -72,37 +103,6 @@
     const garbage = document.getElementById('container');
     while (garbage.hasChildNodes()) {
       garbage.removeChild(garbage.firstChild);
-    }
-  }
-
-  function renderRepositoryInfo(repoData) {
-    const repositoryInfo = renderSection('repository-info');
-    renderTable(repositoryInfo,
-      {
-        repository: repoData['name'],
-        description: repoData['description'],
-        forks: repoData['forks'],
-        'last update': ((repoData['updated_at']).substring(0, 10) + ' at ' + (repoData['updated_at']).substring(11, 19)),
-      },
-      repoData['html_url'],
-    );
-  }
-
-  function renderContributionsInfo(contData) {
-    const contributionsInfo = renderSection('contributions-info', 'Contributions');
-    contData.forEach(cont => {
-      const contributorContainer = createAndAppend('div', contributionsInfo, { class: 'contributor' });
-      createAndAppend('img', contributorContainer, { src: cont['avatar_url'], class: 'avatar-img' });
-      createAndAppend('span', contributorContainer, { html: cont['login'], class: 'name' });
-      createAndAppend('p', contributorContainer, { html: cont['contributions'], class: 'contributions' });
-    });
-  }
-
-  function renderSection(sectionClass, headerText) {
-    const container = document.getElementById('container');
-    const section = createAndAppend('section', container, { class: sectionClass });
-    if (headerText) {
-      createAndAppend('h3', section, { html: headerText });
     }
   }
 
@@ -133,5 +133,3 @@
 
   window.onload = main();
 }
-
-

@@ -24,17 +24,17 @@
   function main(url) {
     const root = document.getElementById('root');
     fetchJSON(url, (err, repos) => {
-      const header = createAndAppend('h2',root,{html: 'HYF repositories'});
+      const header = createAndAppend('h2', root, { html: 'HYF repositories' });
       if (err) {
         createAndAppend('div', root, { html: err.message, class: 'alert-error' });
       } else {
-        const dropList = createAndAppend('select', header, { id: 'repository-list'});
-       createAndAppend('option', dropList, {html: 'Select a repository', selected: '', disabled: '', hidden: ''});
+        const dropList = createAndAppend('select', header, { id: 'repository-list' });
+        createAndAppend('option', dropList, { html: 'Select a repository', selected: '', disabled: '', hidden: '' });
         Object.values(repos).forEach(repo => {
-        const newOption = createAndAppend('option', dropList, { html: repo.name, });
+          const newOption = createAndAppend('option', dropList, { html: repo.name, });
         });
         const selected = document.getElementById('repository-list');
-        const returnedInfoContainer = createAndAppend('div', root, {id: 'container'});
+        const returnedInfoContainer = createAndAppend('div', root, { id: 'container' });
         selected.addEventListener('change', () => {
           removeChildElements();
           fetchAndRender(selected.value);
@@ -71,7 +71,7 @@
       } else {
         const repositoryInfo = renderSection('repository-info');
         renderTable(repositoryInfo,
-          { 
+          {
             repository: repoData['name'],
             description: repoData['description'],
             forks: repoData['forks'],
@@ -86,10 +86,10 @@
         } else {
           const contributionsInfo = renderSection('contributions-info', 'Contributions');
           contData.forEach(cont => {
-            const contributorContainer = createAndAppend('div', contributionsInfo, {class: 'contributor'});
-            createAndAppend('img', contributorContainer, {src: cont['avatar_url'], class: 'avatar-img'});
-            createAndAppend('span', contributorContainer, {html: cont['login'], class: 'name'});
-            createAndAppend('p', contributorContainer, {html: cont['contributions'], class: 'contributions'});
+            const contributorContainer = createAndAppend('div', contributionsInfo, { class: 'contributor' });
+            createAndAppend('img', contributorContainer, { src: cont['avatar_url'], class: 'avatar-img' });
+            createAndAppend('span', contributorContainer, { html: cont['login'], class: 'name' });
+            createAndAppend('p', contributorContainer, { html: cont['contributions'], class: 'contributions' });
           });
         }
       });
@@ -99,26 +99,26 @@
       const container = document.getElementById('container');
       const section = createAndAppend('section', container, { class: sectionClass });
       if (headerText) {
-      const sectionHeader = createAndAppend('h3', section, { html: headerText });
+        const sectionHeader = createAndAppend('h3', section, { html: headerText });
       }
       return section;
     }
 
     function renderTable(parent, values = {}, href) {
-      let table = createAndAppend('table', parent, {class: 'table'});
+      let table = createAndAppend('table', parent, { class: 'table' });
       Object.keys(values).forEach((key) => {
         if (key === 'repository') {
           let secondCell = renderRowAndCell(key);
           secondCell.innerText = '';
-          createAndAppend('a', secondCell, {html: values[key] , href: href, target: '_blank'});
+          createAndAppend('a', secondCell, { html: values[key], href: href, target: '_blank' });
         } else if (key === 'avatar') {
           let firstCell = renderRowAndCell(key);
-          createAndAppend('img', firstCell, {src: href});
+          createAndAppend('img', firstCell, { src: href });
         } else {
-        renderRowAndCell(key);
+          renderRowAndCell(key);
         }
       });
-  
+
       function renderRowAndCell(cellKey) {
         let newRow = table.insertRow();
         let firstCell = newRow.insertCell(0);
@@ -129,7 +129,7 @@
       }
     }
   }
-  
+
   window.onload = () => main(repositoryUrl);
-  
+
 }
