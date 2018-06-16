@@ -1,0 +1,93 @@
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* #root {
+  background-image: url(assets/hyf.gif);
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+} */
+
+h2 {
+  color: white;
+  background-color: #0d0d85;
+  padding: 2rem;
+  -moz-box-shadow: 0 8px 6px -6px #bab9b9;
+  -webkit-box-shadow:  0 8px 6px -6px #bab9b9;
+  box-shadow: 0 8px 6px -6px #bab9b9;
+}
+
+h2:hover {
+  text-shadow: 2px 2px 8px #bab9b9;
+}
+
+select {
+  margin-left: 1rem;
+  border-radius: 0.5rem;
+}
+
+section {
+  -moz-box-shadow: inset 0 0 10px #bab9b9;
+  -webkit-box-shadow:  inset 0 0 10px #bab9b9;
+  box-shadow: inset 0 0 10px #bab9b9;
+  margin: 1rem;
+  padding: 1rem;
+  /* color: white; */
+  /* background-color: rgb(0, 0, 0, 0.3); */
+  border-radius: 10px;
+}
+
+h3 {
+  color: gray;  
+  padding: 1rem;
+}
+/* 
+a {
+  color: white;
+} */
+
+td:nth-child(1) {
+  font-weight: bold;
+  padding: 1rem;
+}
+
+.contributor{
+  padding: 1rem;
+  border-bottom: 1px solid #d3d3d3;
+}
+
+img {
+  width: 3.5rem;
+  margin: 0 0.5rem;
+  max-height: 3.5rem;
+  -moz-box-shadow: 0px 2px 1px #ccc;
+  -webkit-box-shadow: 0px 2px 1px #ccc;
+  box-shadow: 0px 2px 1px #ccc;
+  border-radius: 10px;
+}
+
+.contributions {
+  margin-top: 1.75rem;
+  float: right;
+  text-align: center;
+  min-width: 2.5rem;
+  background-color: gray;
+  color: white;
+  border-radius: 5px;
+}
+
+.name {
+  position: relative;
+  top: -1rem;
+  font-weight: bold;
+}
+
+@media (min-width:768px) {
+  section {
+    width: calc(50% - 4rem);
+    float: left;
+  }
+}
