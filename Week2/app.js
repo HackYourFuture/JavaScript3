@@ -1,17 +1,18 @@
 'use strict';
 
 {
-  let mainUrl = 'https://api.github.com/';
-  let user = 'HackYourFuture';
-  let userUrl = mainUrl + 'users/' + user;
-  let repositoryUrl = userUrl + '/repos?per_page=100';
-  let result = fetchJSON(repositoryUrl)
-    .then(CreatRepositoryList, onError)
-    .then(selectedValue => fetchJSON(mainUrl + 'repos/' + user + '/' + selectedValue))
-    .then(renderRepositoryInfo, onError)
-    .then(contributionData => fetchJSON(contributionData.contributors_url))
-    .then(renderContributionsInfo, onError)
-    .then(printToDom);
+  function main() {
+    let mainUrl = 'https://api.github.com/';
+    let user = 'HackYourFuture';
+    let userUrl = mainUrl + 'users/' + user;
+    let repositoryUrl = userUrl + '/repos?per_page=100';
+    fetchJSON(repositoryUrl)
+      .then(CreatRepositoryList, onError)
+      .then(selectedValue => fetchJSON(mainUrl + 'repos/' + user + '/' + selectedValue))
+      .then(renderRepositoryInfo, onError)
+      .then(contributionData => fetchJSON(contributionData.contributors_url))
+      .then(renderContributionsInfo, onError);
+  }
 
   function fetchJSON(url) {
     return new Promise(function (resolve, reject) {
@@ -28,6 +29,7 @@
       xhr.onerror = () => reject(new Error('Network request failed'));
       xhr.send();
     });
+
   }
 
   function CreatRepositoryList(response) {
@@ -48,7 +50,9 @@
 
   function onError(error) {
     createAndAppend('div', root, { html: error.message, class: 'alert-error' });
-  }
+
+  };
+
 
   function createAndAppend(name, parent, options = {}) {
     const element = document.createElement(name);
@@ -116,21 +120,18 @@
         renderRowAndCell(key);
       }
     });
+
+    function renderRowAndCell(cellKey) {
+      let newRow = table.insertRow();
+      let firstCell = newRow.insertCell(0);
+      firstCell.innerText = cellKey + ': ';
+      let secondCell = newRow.insertCell(1);
+      secondCell.innerText = values[cellKey];
+      return secondCell;
+    }
   }
 
-  function renderRowAndCell(cellKey) {
-    let newRow = table.insertRow();
-    let firstCell = newRow.insertCell(0);
-    firstCell.innerText = cellKey + ': ';
-    let secondCell = newRow.insertCell(1);
-    secondCell.innerText = values[cellKey];
-    return secondCell;
-  }
-
-  function printToDom(result) {
-    document.body.innerHTML += result;
-  }
-
+  window.onload = main();
 }
 
 
