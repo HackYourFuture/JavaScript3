@@ -1,0 +1,141 @@
+*{
+     box-sizing:border-box; 
+}
+
+#root {
+  width: 100%;
+  
+}
+#selection-wrapper{
+    margin-top:40px;
+    width : 100%;
+    height:100px;
+    background-color:dimgray;
+    text-align: center;
+    padding-top: 25px;
+    border:2px solid black;
+    border-radius: 25px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 2em;
+    box-shadow: 5px 2px 2px black;
+}
+#selections{
+    width:30%;
+    height:30px;
+    font-size:18px;
+    font-family: 'Josefin Sans', sans-serif;
+    padding: 2px 10px  2px 15px ;
+    box-shadow: 7px 5px 5px rgb(0, 0, 0);
+    border-radius: 25px;
+}
+.main-wrapper{
+  display: flex;
+  flex-wrap: wrap;
+}
+#errText{
+   font-family: 'Josefin Sans', sans-serif; 
+    font-size: 20px;
+}
+#repo-Info{
+
+    background-color:yellow;
+    margin: 40px 0 0 30px;
+    width:45%;
+    height:250px;
+    box-shadow: 10px 2px 2px rgba(0, 0, 0, 0.7);
+    border-radius: 25px;
+    padding:5px; 
+
+}
+
+#repo-info-ul{
+    list-style: none;
+    line-height: 35px;
+    font-family:'Josefin Sans', sans-serif;
+    font-size: 20px;
+}
+.cont-name-link{
+      text-decoration: none;
+}
+#cont-info{
+    background-color:orangered;
+    width:43%;
+    margin:40px 0 0 70px;
+    box-shadow: 10px 2px 2px rgba(0, 0, 0, 0.7);
+    border-radius: 25px;
+    
+}
+.section-name{
+   margin:30px 0 0 30px;
+   font-family:'Josefin Sans', sans-serif;
+   font-size: 25px;
+}
+#cont-info-ul{
+    margin-top:20px;
+
+}
+#per-contributor{
+    list-style: none;
+    display: flex;
+    padding-top:20px;
+}
+.contributor-image{
+    width:50px;
+    height:50px;
+    border-radius: 50%;
+    margin:10px; 
+}
+
+#cont-name{
+    width:120px;
+    margin:18px 35px 0 0 ;   
+}
+.contributor-link{
+    text-decoration: none;
+    font-family:'Josefin Sans', sans-serif;
+    font-size: 20px;
+}
+.Contributions-text{
+    font-family:'Josefin Sans', sans-serif;
+    font-size: 20px;
+}
+#cont-count{
+  width:50px;
+  height:20px;
+  background-color: black;
+  margin-left:30px;
+  text-align: left;
+  border-radius: 5px;
+  color:white;
+  padding-left:20px;
+
+}
+
+
+@media (max-width:950px) {
+    #selection-wrapper{
+        width:100%;
+    }
+    .main-wrapper{
+        width:100%;
+        display: block;
+    }
+    #repo-Info{
+        width:70%;
+        height: 300px;
+        overflow: auto;
+        margin:40px 0 0 100px;
+    }
+    #cont-info{
+       width:89%;
+       margin:40px 0 0 30px;
+    }
+   
+    .Contributions-text{
+        font-size: 15px;
+    }
+    .section-name{
+        padding-top:30px;
+    }
+};
+
