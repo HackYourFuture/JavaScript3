@@ -1,10 +1,12 @@
 'use strict';
 
 {
+
   let mainUrl = 'https://api.github.com/';
   let user = 'HackYourFuture';
   let userUrl = mainUrl + 'users/' + user;
   let repositoryUrl = userUrl + '/repos?per_page=100';
+
   function main() {
     fetchJSON(repositoryUrl)
       .then(CreatRepositoryList, onError)
@@ -34,7 +36,7 @@
 
   function CreatRepositoryList(response) {
     const root = document.getElementById('root');
-    const header = createAndAppend('h2', root, { html: 'HYF repositories' });
+    const header = createAndAppend('h2', root, { html: (user + ' Repositories'), id: 'repositories' });
     const dropList = createAndAppend('select', header, { id: 'repository-list' });
     Object.values(response).forEach(repo => {
       createAndAppend('option', dropList, { html: repo.name, });
@@ -129,6 +131,16 @@
       secondCell.innerText = values[cellKey];
       return secondCell;
     }
+    // I placed this code at the end for readability to make it easier to review the working code
+    // I was trying to make an input field that updates the user and reruns the code but I'm obviously not there yet
+    // please advise me on this if you find that my approach here is completely off
+    // const inputRepository = createAndAppend('input', root, { type: 'text', id: 'input-user', placeholder: 'type GitHub username', value: 'HackYourFuture' });
+    // const inputButton = createAndAppend('button', root, { type: 'submit', html: 'submit' });
+    // inputButton.addEventListener('click', () => {
+    //   user = inputRepository.value;
+    //   removeChildElements();
+    //   main();
+    // });
   }
 
   window.onload = main();
