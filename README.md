@@ -1,6 +1,9 @@
 # Homework week1
 - https://neveenatik.github.io/JavaScript3/Week1
 
+# Homework week2
+- https://neveenatik.github.io/JavaScript3/Week2
+
 > Please help us improve and share your feedback! If you find better tutorials
 or links, please share them by [opening a pull request](https://github.com/HackYourFuture/JavaScript3/pulls).
 
