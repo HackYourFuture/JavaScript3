@@ -76,7 +76,7 @@
       repositoryContainer.innerHTML = '';
       contributorsContainer.innerHTML = '';
 
-      fetchJSON(newUrl).then(buildRepositoryInfoSection, handleErrorRepository);
+      fetchJSON(newUrl).then(buildRepositoryInfoSection, handleErrorRepository).then(buildContributorsSection, handleErrorContributors);
     });
   }
 
@@ -102,7 +102,7 @@
     const tableData4 = createAndAppend('td', tableRow4, { html: repositoryObject.updated_at });
     const contributorsUrl = repositoryObject.contributors_url;
 
-    fetchJSON(contributorsUrl).then(buildContributorsSection, handleErrorContributors);
+    return fetchJSON(contributorsUrl);
   }
 
   function buildContributorsSection(data) {
