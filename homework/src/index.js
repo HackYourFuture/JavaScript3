@@ -42,16 +42,18 @@ function main() {
             const root = document.getElementById('root');
 
             const header = createAndAppend('div', root);
+            header.setAttribute('id', 'header');
 
             const head = createAndAppend('h1', header);
             head.innerHTML = 'HYF Repositories';
 
             const select = createAndAppend('select', header);
 
-            const information = createAndAppend('div', root);
+            const container = createAndAppend('div', root);
+            const information = createAndAppend('div', container);
             information.setAttribute('id', 'information');
 
-            const contributors = createAndAppend('div', root);
+            const contributors = createAndAppend('div', container);
             contributors.setAttribute('id', 'contributors');
 
             const contributorsList = createAndAppend('ul', contributors);
@@ -122,15 +124,20 @@ function main() {
 
             data.forEach(contributor => {
                 const contributorItem = createAndAppend('li', contributorsNames);
+                contributorItem.setAttribute('class', 'contributor-item');
+
                 const contributorLink = createAndAppend('a', contributorItem);
                 contributorLink.setAttribute('href', contributor.html_url);
                 contributorLink.setAttribute('target', '_blank');
 
                 const contributorImg = createAndAppend('img', contributorLink);
                 contributorImg.setAttribute('src', contributor.avatar_url);
-                contributorImg.setAttribute('class', 'contributors-images');
+                contributorImg.setAttribute('class', 'contributor-image');
+                
+                const contributorData = createAndAppend('div', contributorItem);
+                contributorData.setAttribute('class', 'contributor-data');
 
-                const contributorName = createAndAppend('h3', contributorLink);
+                const contributorName = createAndAppend('h3', contributorData);
                 contributorName.setAttribute('class', 'name');
                 contributorName.innerHTML = contributor.login;
             });
