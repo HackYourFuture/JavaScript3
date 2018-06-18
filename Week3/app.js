@@ -55,10 +55,10 @@
     selected.addEventListener('change', () => {
       try {
         removeChildElements('container');
-        fetchJSON(`${mainUrl}repos/${user}/${selected.value}`)
-          .then(renderRepositoryInfo)
-          .then(contributionData => fetchJSON(contributionData['contributors_url']))
-          .then(renderContributionsInfo);
+        let chooseAndFetch = await fetchJSON(`${mainUrl}repos/${user}/${selected.value}`);
+        let renderRepositories = renderRepositoryInfo(chooseAndFetch);
+        let contributionData = await fetchJSON(renderRepositories['contributors_url']);
+        renderContributionsInfo(contributionData);
       }
       catch (error) {
         removeChildElements('container');
