@@ -8,16 +8,6 @@
   let repositoryUrl = `${userUrl}/repos?per_page=100`;
   const root = document.getElementById('root');
   const wrapper = createAndAppend('div', root, { id: 'wrapper' });
-  const userInput = createAndAppend('div', root, { class: 'user-input' });
-  const inputRepository = createAndAppend('input', userInput, { type: 'text', id: 'input-user', placeholder: 'type GitHub username', value: 'HackYourFuture' });
-  const inputButton = createAndAppend('button', userInput, { type: 'submit', html: 'submit' });
-  inputButton.addEventListener('click', () => {
-    user = inputRepository.value;
-    repositoryUrl = `${mainUrl}users/${user}/repos?per_page=100`;
-    removeChildElements('wrapper');
-    main();
-  });
-
 
   async function main() {
     try {
@@ -45,14 +35,22 @@
   }
 
   function createRepositoryList(response) {
-    const header = createAndAppend('h2', wrapper, { html: `${user} Repositories`, id: 'repositories' });
+    const header = createAndAppend('h2', wrapper, { html: `Repositories `, id: 'repositories' });
+    const inputRepository = createAndAppend('input', header, { type: 'text', id: 'input-user', value: `${user}` });
+    const inputButton = createAndAppend('button', header, { type: 'submit', html: 'submit' });
+    inputButton.addEventListener('click', () => {
+      user = inputRepository.value;
+      repositoryUrl = `${mainUrl}users/${user}/repos?per_page=100`;
+      removeChildElements('wrapper');
+      main();
+    });
     const dropList = createAndAppend('select', header, { id: 'repository-list' });
     Object.values(response).forEach(repo => {
       createAndAppend('option', dropList, { html: repo.name, });
     });
     const selected = document.getElementById('repository-list');
     createAndAppend('div', wrapper, { id: 'container' });
-    selected.addEventListener('change', () => {
+    selected.addEventListener('change', async () => {
       try {
         removeChildElements('container');
         let chooseAndFetch = await fetchJSON(`${mainUrl}repos/${user}/${selected.value}`);
