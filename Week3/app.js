@@ -29,7 +29,7 @@
       renderContributionsInfo(contributionData);
     }
     catch (error) {
-      createAndAppend('div', wrapper, { html: `Error on main load ${error.message}`, class: 'alert-error' });
+      createAndAppend('div', wrapper, { html: error.message, class: 'alert-error' });
     }
   }
 
@@ -45,17 +45,12 @@
   }
 
   function createRepositoryList(response) {
-    try {
-      const dropList = createAndAppend('select', wrapper, { id: 'repository-list' });
-      Object.values(response).forEach(repo => {
-        createAndAppend('option', dropList, { html: repo.name, });
-      });
-      const selected = document.getElementById('repository-list');
-      createAndAppend('div', wrapper, { id: 'container' });
-    }
-    catch (error) {
-      createAndAppend('div', wrapper, { html: `Error when creating repositories list ${error.message}`, class: 'alert-error' });
-    }
+    const dropList = createAndAppend('select', wrapper, { id: 'repository-list' });
+    Object.values(response).forEach(repo => {
+      createAndAppend('option', dropList, { html: repo.name, });
+    });
+    const selected = document.getElementById('repository-list');
+    createAndAppend('div', wrapper, { id: 'container' });
     selected.addEventListener('change', async () => {
       try {
         removeChildElements('container');
