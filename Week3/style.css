@@ -2,30 +2,41 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-h2 {
+.header-wrapper {
   color: white;
   background-color: #0d0d85;
   padding: 2rem;
   -moz-box-shadow: 0 8px 6px -6px #bab9b9;
   -webkit-box-shadow:  0 8px 6px -6px #bab9b9;
   box-shadow: 0 8px 6px -6px #bab9b9;
-}
-
-h2:hover {
-  text-shadow: 2px 2px 8px #bab9b9;
+  position: fixed;
+  top: -1rem;
+  width: 100vw;
+  z-index: 1;
 }
 
 select {
   margin-left: 1rem;
   border-radius: 0.5rem;
+  position: fixed;
+  top: 7.5rem;
+  z-index: 1;
 }
 
-.user-input {
-  float: right;
-  position: relative;
-  top: 1rem;
+#input-user {
+  color: white;
+  background-color: #0d0d85;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+button {
+  margin-top: 0.75rem;
+  display: block;
 }
 
 section {
@@ -34,19 +45,20 @@ section {
   box-shadow: inset 0 0 10px #bab9b9;
   margin: 1rem;
   padding: 1rem;
-  /* color: white; */
-  /* background-color: rgb(0, 0, 0, 0.3); */
   border-radius: 10px;
+  position: relative;
+  top: 10rem;
 }
 
 h3 {
   color: gray;  
   padding: 1rem;
 }
-/* 
+
 a {
-  color: white;
-} */
+  text-decoration: none;
+  font-weight: bold;
+}
 
 td:nth-child(1) {
   font-weight: bold;
@@ -92,11 +104,26 @@ img {
   text-align: left;
   border-radius: 0.5rem;
   clear: both;
+  position: relative;
+  top: 10rem;
 }
 
 @media (min-width:768px) {
+  .header-wrapper {
+    top: 0;
+  }
+
   section {
     width: calc(50% - 4rem);
     float: left;
+  }
+
+  select {
+    margin-left: 1rem;
+    border-radius: 0.5rem;
+    position: fixed;
+    top: 2.5rem;
+    left: 60%;
+    z-index: 1;
   }
 }
