@@ -33,7 +33,7 @@ function content() {
 
     const contInfoDiv = createAppendElement('div', wrapperDiv, { id: 'cont-info' });
     createAppendElement('p', contInfoDiv, { html: 'Contributions', class: 'section-name' });
-    createAppendElement('ul', contInfoDiv, { id: 'cont-info-ul' });
+    createAppendElement('div', contInfoDiv, { id: 'cont-info-ul' });
 
     retrieveData(gitHub)
 
@@ -87,7 +87,7 @@ function setEachRepoInfo(repo) {
     const repoUl = document.getElementById('repo-info-ul');
     repoUl.innerHTML = '';
 
-    const nameLink = createAppendElement('li', repoUl, { html: 'Name : ' });
+    const nameLink = createAppendElement('li', repoUl, { html: 'Name : ', class: 'repo-name' });
     createAppendElement('a', nameLink, { html: repo.name, class: 'cont-name-link', href: repo.html_url, target: '_blank' });
     createAppendElement('li', repoUl, { html: 'Description : ' + repo.description });
     createAppendElement('li', repoUl, { html: ' Forks : ' + repo.forks });
@@ -103,12 +103,11 @@ function setContributorsInfo(url) {
     retrieveData(url)
         .then(contributors => {
             contributors.forEach(contributor => {
-                const cont = createAppendElement('li', contributorsInfo, { id: 'per-contributor' });
-                createAppendElement('img', cont, { class: 'contributor-image', src: contributor.avatar_url });
-                const contLink = createAppendElement('div', cont, { id: 'cont-name' });
-                createAppendElement('a', contLink, { html: contributor.login, class: 'contributor-link', href: contributor.html_url, target: '_blank' });
-                createAppendElement('p', cont, { html: ' Contributions # ', class: 'Contributions-text' });
-                createAppendElement('p', cont, { html: contributor.contributions, id: 'cont-count' });
+                const bla = createAppendElement('a', contributorsInfo, { class: 'contributor-link', href: contributor.html_url, target: '_blank' });
+                createAppendElement('img', bla, { class: 'contributor-image', src: contributor.avatar_url });
+                createAppendElement('p', bla, { html: contributor.login, class: 'cont-name' });
+                createAppendElement('p', bla, { html: ' Contributions # ', class: 'Contributions-text' });
+                createAppendElement('p', bla, { html: contributor.contributions, id: 'cont-count' });
 
             });
         })
