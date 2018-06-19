@@ -7,6 +7,16 @@
   let userUrl = `${mainUrl}users/${user}`;
   let repositoryUrl = `${userUrl}/repos?per_page=100`;
   const root = document.getElementById('root');
+  const headerWrapper = createAndAppend('div', root, { class: 'header-wrapper' });
+  const header = createAndAppend('h2', headerWrapper, { html: `Repositories `, id: 'repositories' });
+  const inputRepository = createAndAppend('input', header, { type: 'text', id: 'input-user', value: `${user}` });
+  const inputButton = createAndAppend('button', header, { type: 'submit', html: 'Edit GitHub name and click' });
+  inputButton.addEventListener('click', () => {
+    user = inputRepository.value;
+    repositoryUrl = `${mainUrl}users/${user}/repos?per_page=100`;
+    removeChildElements('wrapper');
+    main();
+  });
   const wrapper = createAndAppend('div', root, { id: 'wrapper' });
 
   async function main() {
@@ -35,16 +45,7 @@
   }
 
   function createRepositoryList(response) {
-    const header = createAndAppend('h2', wrapper, { html: `Repositories `, id: 'repositories' });
-    const inputRepository = createAndAppend('input', header, { type: 'text', id: 'input-user', value: `${user}` });
-    const inputButton = createAndAppend('button', header, { type: 'submit', html: 'submit' });
-    inputButton.addEventListener('click', () => {
-      user = inputRepository.value;
-      repositoryUrl = `${mainUrl}users/${user}/repos?per_page=100`;
-      removeChildElements('wrapper');
-      main();
-    });
-    const dropList = createAndAppend('select', header, { id: 'repository-list' });
+    const dropList = createAndAppend('select', wrapper, { id: 'repository-list' });
     Object.values(response).forEach(repo => {
       createAndAppend('option', dropList, { html: repo.name, });
     });
@@ -94,6 +95,7 @@
       linkUser.addEventListener('click', () => {
         console.log(linkUser);
         user = linkUser.innerText;
+        inputRepository.value = user;
         repositoryUrl = `${mainUrl}users/${user}/repos?per_page=100`;
         removeChildElements('wrapper');
         main();
