@@ -93,7 +93,6 @@
       const linkUser = createAndAppend('a', contributorContainer, { href: cont['html_url'], target: '_blank', html: cont['login'], class: 'name' });
       createAndAppend('p', contributorContainer, { html: cont['contributions'], class: 'contributions' });
       linkUser.addEventListener('click', () => {
-        console.log(linkUser);
         user = linkUser.innerText;
         inputRepository.value = user;
         repositoryUrl = `${mainUrl}users/${user}/repos?per_page=100`;
