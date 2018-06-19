@@ -11,8 +11,13 @@
   const header = createAndAppend('h2', headerWrapper, { html: `Repositories `, id: 'repositories' });
   const inputRepository = createAndAppend('input', header, { type: 'text', id: 'input-user', value: `${user}` });
   const inputButton = createAndAppend('button', header, { type: 'submit', html: 'Edit GitHub name and click' });
+  const headerImg = createAndAppend('img', header, { class: 'header-img', src: 'assets/doubleblink.webp', alt: 'blinking octodex' });
   inputButton.addEventListener('click', () => {
     user = inputRepository.value;
+    headerImg.classList.remove('onclick-image');
+    //triggering reflow calculating style
+    void headerImg.offsetWidth;
+    headerImg.classList.add('onclick-image')
     repositoryUrl = `${mainUrl}users/${user}/repos?per_page=100`;
     removeChildElements('wrapper');
     main();
@@ -94,7 +99,7 @@
       createAndAppend('h3', section, { html: 'Contributions' });
       contData.forEach(cont => {
         const contributorContainer = createAndAppend('div', section, { class: 'contributor' });
-        createAndAppend('img', contributorContainer, { src: cont['avatar_url'], class: 'avatar-img' });
+        createAndAppend('img', contributorContainer, { src: cont['avatar_url'], class: 'avatar-img', alt: 'user avatar' });
         const linkUser = createAndAppend('a', contributorContainer, { href: cont['html_url'], target: '_blank', html: cont['login'], class: 'name' });
         createAndAppend('p', contributorContainer, { html: cont['contributions'], class: 'contributions' });
         linkUser.addEventListener('click', () => {
