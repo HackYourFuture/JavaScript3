@@ -11,8 +11,8 @@ function main() {
   htmlElements.contribInfoBox = createAndAppend('div', htmlElements.container, 'id', 'contribInfoBox');
   htmlElements.contribInfoList = createAndAppend('ul', htmlElements.contribInfoBox, 'id', 'contribInfoList');
 
-  const url = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-  function dataRequest(url) {
+  const url = 'https://api.github.com/users/HackYourFuture/repos?per_page=100';
+  function fetchJSON(url) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open('GET', url, true);
@@ -29,7 +29,7 @@ function main() {
     });
   }
 
-  dataRequest(url)
+  fetchJSON(url)
     .then(createRepList)
     .catch(error => errorPage(htmlElements.mainDiv))
 
@@ -66,7 +66,7 @@ function main() {
   function renderContribInfo(url) {
     htmlElements.contribInfoList.innerText = '';
 
-    dataRequest(url)
+    fetchJSON(url)
       .then(contributors => {
         contributors.forEach((contributor, property) => {
           htmlElements.contribInfoList = createAndAppend('li', htmlElements.contribInfoList, 'class', 'contribInfoList');
