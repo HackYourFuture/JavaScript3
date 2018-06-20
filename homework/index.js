@@ -2,41 +2,28 @@
 
 function main() {
 
-    const url = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+    const mainUrl = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
-    // initial page: create header, info and contributors sections.
+    // initial page: create header and main container.
     const root = document.getElementById('root');
     const header = createAndAppend('header', root);
     createAndAppend('h3', header, { text: 'HYF Repositories' });
     const mainContainer = createAndAppend('main', root, { class: 'main-container' });
-    const infoSection = createAndAppend('section', mainContainer, { id: 'info-section' });
-    const contributorsSection = createAndAppend('section', mainContainer, { id: 'contributors-section' });
-    createAndAppend('h3', contributorsSection, { text: 'Contributions' });
-    createAndAppend('div', contributorsSection, { id: 'contributions-container' });
-    const table = createAndAppend('table', infoSection); // create info table 
-    createRows('Repository:', 'Description:', 'Forks:', 'Update:'); //create 4 rows * 2 cell
 
-    fetchAndRender(url, renderReposList);
+    fetchAndRender(mainUrl);
 
-    function createRows() {
-
-        for (let i = 0; i < arguments.length; i++) {
-            const row = table.insertRow(i);
-            const cell1 = row.insertCell(0);
-            row.insertCell(1);
-            cell1.innerText = arguments[i];
-        }
-
-    }
-
-    async function fetchAndRender(url, func) {
+    async function fetchAndRender(url) {
 
         try {
             const data = await fetchJSON(url);
-            func(data);
+            const rep = await renderReposList(data);
+            const contributors = await fetchJSON(rep.contributors_url);
+            renderInfo(rep);
+            renderContributions(contributors);
         } catch (err) {
             renderError(err);
         }
+
     }
 
     function fetchJSON(url) {
@@ -75,55 +62,55 @@ function main() {
             createAndAppend('option', selectList, { value: rep, text: reposObj[rep].name });
 
         }
-
-        document.querySelector('option:first-child').setAttribute('selected', '');
-
-        await fetchAndRender(reposObj[0].contributors_url, renderContributions);
-        renderInfo(reposObj[0]);
-
         //add a listener when select a new option
         selectList.onchange = async () => {
-            //get the value of the selected option
-            const value = document.getElementById('selectList').value;
-            await fetchAndRender(reposObj[value].contributors_url, renderContributions);
-            renderInfo(reposObj[value]);// call renderInfo to show the selected repo info
+
+            try {
+                const contributors = await fetchJSON(reposObj[selectList.value].contributors_url);
+                renderInfo(reposObj[selectList.value]);
+                renderContributions(contributors);
+            } catch (err) {
+                renderError(err);
+            }
 
         };
+        return reposObj[selectList.value];
 
     }
 
     function renderInfo(rep) {
 
-        // add repo data to the appropriate cells in info table.
-        const cell = document.querySelector('#info-section tr:nth-child(1) td:nth-child(2)');
-        cell.innerText = '';
-        createAndAppend('a', cell, { href: rep.html_url, target: '_blank', text: rep.name });
+        mainContainer.innerText = '';
+        const infoSection = createAndAppend('section', mainContainer, { id: 'info-section' });
+        const table = createAndAppend('table', infoSection); // create info table 
+        const infoObj = { 'Repository': '', 'Description': rep.description, 'Forks': rep.forks, 'Update': rep.updated_at.substring(0, 10) }; //create 4 rows * 2 cell
 
-        document.querySelector('#info-section tr:nth-child(2) td:nth-child(2)').innerText = rep.description;
-        document.querySelector('#info-section tr:nth-child(3) td:nth-child(2)').innerText = rep.forks;
-        document.querySelector('#info-section tr:nth-child(4) td:nth-child(2)').innerText = rep.updated_at.substring(0, 10);
+        for (const atr in infoObj) {
+            const row = table.insertRow();
+            row.insertCell(0).innerText = atr;
+            row.insertCell(1).innerText = infoObj[atr];
+        }
+
+        createAndAppend('a', document.querySelector('#info-section tr:nth-child(1) td:nth-child(2)'),
+            { href: rep.html_url, target: '_blank', text: rep.name });
 
     }
 
     function renderError(error) {
-
-        const err = document.createElement('div');
-        document.querySelector('header').parentNode.insertBefore(err, header.nextSibling);
-        err.innerText = error.message;
-        err.className = 'error';
+        mainContainer.innerText = '';
+        createAndAppend('div', mainContainer, { text: error.message, class: 'error' });
     }
 
     function renderContributions(contributions) {
 
-        const ele = document.getElementById('contributions-container');
+        const contributorsSection = createAndAppend('section', mainContainer, { id: 'contributors-section' });
+        createAndAppend('h3', contributorsSection, { text: 'Contributions' });
+        const contributionsContainer = createAndAppend('div', contributorsSection, { id: 'contributions-container' });
 
-        while (ele.firstChild) { // empty contributions-container
-            ele.removeChild(ele.firstChild); // while contributions-container has a child delete it
-        }
         if (contributions) {
             for (const cont of contributions) {
                 // create a div for each contribution with it's data
-                const div = createAndAppend('div', ele);
+                const div = createAndAppend('div', contributionsContainer);
                 const link = createAndAppend('a', div, { href: cont.html_url, target: '_blank' });
                 createAndAppend('img', link, { src: cont.avatar_url, alt: cont.login });
                 const name = createAndAppend('p', div, { text: cont.login });
@@ -138,7 +125,7 @@ function main() {
 
         const element = document.createElement(tag);
         parent.appendChild(element);
-        //add attributes if it's passed
+
         Object.keys(options).forEach((key) => {
             const value = options[key];
             if (key === 'text') {

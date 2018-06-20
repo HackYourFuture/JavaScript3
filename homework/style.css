@@ -18,6 +18,7 @@ header {
 .error{
     background: #ffe7e8;
     border-color: #e66465;
+    width:100%;
     margin: 20px 0px;
     padding: 10px;
     font-size: 1.125rem;
