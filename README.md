@@ -1,4 +1,4 @@
-##Homework: https://meazer.github.io/JavaScript3/homework/
+## Homework: https://meazer.github.io/JavaScript3/homework/
 
 > Please help us improve and share your feedback! If you find better tutorials
 or links, please share them by [opening a pull request](https://github.com/HackYourFuture/JavaScript3/pulls).
