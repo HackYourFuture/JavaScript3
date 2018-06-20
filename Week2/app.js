@@ -11,15 +11,14 @@ function main() {
   htmlElements.contribInfoBox = createAndAppend('div', htmlElements.container, 'id', 'contribInfoBox');
   htmlElements.contribInfoList = createAndAppend('ul', htmlElements.contribInfoBox, 'id', 'contribInfoList');
 
-  const url = 'https://api.github.com/users/HackYourFuture/repos?per_page=100';
-
-  function fetchJSON(url) {
-    return new Promise(function (resolve, reject) {
-      const xhr = new XMLHttpRequest;
-      xhr.open = ('GET', url, true);
+  const url = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+  function dataRequest(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
       xhr.responseType = 'json';
       xhr.onload = () => {
-        if (xhr.response < 400) {
+        if (xhr.status < 400) {
           resolve(xhr.response);
         } else {
           reject(new Error(`An error has occurred : ${xhr.status} - ${xhr.statusText}`));
@@ -30,9 +29,9 @@ function main() {
     });
   }
 
-  fetchJSON(url)
+  dataRequest(url)
     .then(createRepList)
-    .catch(errorPage(htmlElements.mainDiv))
+    .catch(error => errorPage(htmlElements.mainDiv))
 
   function errorPage(element) {
     element.innerText = 'Network Error : 404 Not Found';
@@ -41,7 +40,7 @@ function main() {
 
   function createRepList(rep) {
     rep.forEach((repository, prop) => {
-      const dropListItems = createAndAppend('option', htmlElements.dropList, 'value', prop, rep[prop].name);
+      htmlElements.dropListItems = createAndAppend('option', htmlElements.dropList, 'value', prop, rep[prop].name);
     });
     htmlElements.dropList.addEventListener('change', () => {
       renderRepInfo(rep[htmlElements.dropList.value]);
@@ -52,36 +51,32 @@ function main() {
   function renderRepInfo(rep) {
     htmlElements.repInfoList.innerText = '';
 
-    const repInfoName = createAndAppend('li', htmlElements.repInfoList, 'class', 'repInfoListItem');
-    const repLink = createAndAppend('a', repInfoName, 'href', rep.html_url, rep.name, 'target', '_blank');
+    htmlElements.repInfoName = createAndAppend('li', htmlElements.repInfoList, 'class', 'repInfoListItem');
+    htmlElements.repLink = createAndAppend('a', htmlElements.repInfoName, 'href', rep.html_url, rep.name, 'target', '_blank');
 
     if (rep.description) {
-      const repInfoDescription = createAndAppend('li', htmlElements.repInfoList, '', '', rep.description);
-      repInfoDescription.innerText = 'Description :';
+      htmlElements.repInfoDescription = createAndAppend('li', htmlElements.repInfoList, '', '', 'Description : ' + rep.description);
     }
-    const repInfoFork = createAndAppend('li', htmlElements.repInfoList, '', '', rep.forks);
-    repInfoFork.innerText = 'Forks :';
-    const repInfoUpdate = createAndAppend('li', htmlElements.repInfoList, '', '', rep.updated_at.replace(/T/g, ' ').replace(/Z/g, ''));
-    repInfoUpdate.innerText = 'Updated :'
+    htmlElements.repInfoFork = createAndAppend('li', htmlElements.repInfoList, '', '', 'Forks : ' + rep.forks);
+    htmlElements.repInfoUpdate = createAndAppend('li', htmlElements.repInfoList, '', '', 'Updated : ' + rep.updated_at.replace(/T/g, ' ').replace(/Z/g, ''));
 
     renderContribInfo(rep.contributors_url);
-
   }
 
   function renderContribInfo(url) {
     htmlElements.contribInfoList.innerText = '';
 
-    fetchJSON(url)
+    dataRequest(url)
       .then(contributors => {
         contributors.forEach((contributor, property) => {
-          const contribInfoList = createAndAppend('li', htmlElements.contribInfoList, 'class', 'contribInfoList');
-          const contribInfoLink = createAndAppend('a', contribInfoList, 'href', contributors[property].html_url, '', 'target', '_blank');
-          const contribInfoImg = createAndAppend('img', contribInfoLink, 'src', contributors[property].avatar_url, '', 'alt', 'Contributor Photo');
-          const contribInfoName = createAndAppend('div', contribInfoList, 'class', 'contribInfoName', contributors[property].login);
-          const contribInfoBadge = createAndAppend('div', contribInfoList, 'class', 'contribInfoBadge', contributors[property].contributions);
+          htmlElements.contribInfoList = createAndAppend('li', htmlElements.contribInfoList, 'class', 'contribInfoList');
+          htmlElements.contribInfoLink = createAndAppend('a', htmlElements.contribInfoList, 'href', contributors[property].html_url, '', 'target', '_blank');
+          htmlElements.contribInfoImg = createAndAppend('img', htmlElements.contribInfoLink, 'src', contributors[property].avatar_url, '', 'alt', 'Contributor Photo');
+          htmlElements.contribInfoName = createAndAppend('div', htmlElements.contribInfoList, 'class', 'contribInfoName', contributors[property].login);
+          htmlElements.contribInfoBadge = createAndAppend('div', htmlElements.contribInfoList, 'class', 'contribInfoBadge', contributors[property].contributions);
         });
       })
-      .catch(errorPage(htmlElements.contribInfoList))
+      .catch(error => errorPage(htmlElements.contribInfoList))
   }
   function createAndAppend(tag, parent, attr, attrValue, elValue, attr2, attrValue2) {
     let el = document.createElement(tag);
