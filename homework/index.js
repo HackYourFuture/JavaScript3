@@ -8,9 +8,9 @@ function main() {
     const root = document.getElementById('root');
     const header = createAndAppend('header', root);
     createAndAppend('h3', header, { text: 'HYF Repositories' });
-    const flexContainer = createAndAppend('div', root, { class: 'flex-container' });
-    const infoSection = createAndAppend('section', flexContainer, { id: 'info-section' });
-    const contributorsSection = createAndAppend('section', flexContainer, { id: 'contributors-section' });
+    const mainContainer = createAndAppend('main', root, { class: 'main-container' });
+    const infoSection = createAndAppend('section', mainContainer, { id: 'info-section' });
+    const contributorsSection = createAndAppend('section', mainContainer, { id: 'contributors-section' });
     createAndAppend('h3', contributorsSection, { text: 'Contributions' });
     createAndAppend('div', contributorsSection, { id: 'contributions-container' });
     const table = createAndAppend('table', infoSection); // create info table 
@@ -36,10 +36,11 @@ function main() {
         return new Promise((resolve, reject) => {
             const XHR = new XMLHttpRequest();
             XHR.open('GET', url, true);
+            XHR.responseType = 'json';
             XHR.onload = () => {
                 if (XHR.status < 400) {
                     // resolve the promise if the request is OK
-                    resolve(JSON.parse(XHR.responseText));
+                    resolve(XHR.response);
 
                 } else {
                     // if bad response reject the promise with error object
@@ -53,7 +54,6 @@ function main() {
         });
 
     }
-
 
     function renderReposList(reposObj) {
 
