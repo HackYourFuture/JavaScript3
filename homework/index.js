@@ -17,9 +17,6 @@ function main() {
     createRows('Repository:', 'Description:', 'Forks:', 'Update:'); //create 4 rows * 2 cell
 
     fetchAndRender(url, renderReposList);
-    // fetchJSON(url)
-    //     .then(data => renderReposList(data))
-    //     .catch(err => renderError(err));
 
     function createRows() {
 
@@ -66,7 +63,7 @@ function main() {
 
     }
 
-    function renderReposList(reposObj) {
+    async function renderReposList(reposObj) {
 
         const header = document.querySelector('header');
         reposObj.sort((a, b) => { return a.name.localeCompare(b.name); });
@@ -80,23 +77,16 @@ function main() {
         }
 
         document.querySelector('option:first-child').setAttribute('selected', '');
+
+        await fetchAndRender(reposObj[0].contributors_url, renderContributions);
         renderInfo(reposObj[0]);
-        fetchAndRender(reposObj[0].contributors_url, renderContributions);
-        // fetchJSON(reposObj[0].contributors_url)
-        //     .then(data => renderContributions(data))
-        //     .catch(err => renderError(err));
 
         //add a listener when select a new option
-        selectList.onchange = () => {
+        selectList.onchange = async () => {
             //get the value of the selected option
             const value = document.getElementById('selectList').value;
+            await fetchAndRender(reposObj[value].contributors_url, renderContributions);
             renderInfo(reposObj[value]);// call renderInfo to show the selected repo info
-            //call fetchJSON to fetch repo contributors if resolved call renderContributions 
-            //if rejected call renderError to show error message
-            fetchAndRender(reposObj[value].contributors_url, renderContributions);
-            // fetchJSON(reposObj[value].contributors_url)
-            //     .then(data => renderContributions(data))
-            //     .catch(err => renderError(err));
 
         };
 
@@ -116,6 +106,7 @@ function main() {
     }
 
     function renderError(error) {
+
         const err = document.createElement('div');
         document.querySelector('header').parentNode.insertBefore(err, header.nextSibling);
         err.innerText = error.message;
@@ -129,15 +120,16 @@ function main() {
         while (ele.firstChild) { // empty contributions-container
             ele.removeChild(ele.firstChild); // while contributions-container has a child delete it
         }
+        if (contributions) {
+            for (const cont of contributions) {
+                // create a div for each contribution with it's data
+                const div = createAndAppend('div', ele);
+                const link = createAndAppend('a', div, { href: cont.html_url, target: '_blank' });
+                createAndAppend('img', link, { src: cont.avatar_url, alt: cont.login });
+                const name = createAndAppend('p', div, { text: cont.login });
+                createAndAppend('span', name, { class: 'num', text: cont.contributions });
 
-        for (const cont of contributions) {
-            // create a div for each contribution with it's data
-            const div = createAndAppend('div', ele);
-            const link = createAndAppend('a', div, { href: cont.html_url, target: '_blank' });
-            createAndAppend('img', link, { src: cont.avatar_url, alt: cont.login });
-            const name = createAndAppend('p', div, { text: cont.login });
-            createAndAppend('span', name, { class: 'num', text: cont.contributions });
-
+            }
         }
 
     }
