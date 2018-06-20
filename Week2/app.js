@@ -3,7 +3,8 @@
 function main() {
   let htmlElements = {};
   htmlElements.mainDiv = document.getElementById('root');
-  htmlElements.header = createAndAppend('header', htmlElements.mainDiv, 'id', 'header', 'HYF Repositories');
+  htmlElements.header = createAndAppend('header', htmlElements.mainDiv, 'id', 'header');
+  htmlElements.title = createAndAppend('h1', htmlElements.header, 'id', 'title', 'HYF Repositories');
   htmlElements.dropList = createAndAppend('select', htmlElements.header, 'id', 'dropList');
   htmlElements.container = createAndAppend('div', htmlElements.mainDiv, 'id', 'container');
   htmlElements.repInfoBox = createAndAppend('div', htmlElements.container, 'id', 'repInfoBox');

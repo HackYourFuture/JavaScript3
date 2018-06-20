@@ -8,18 +8,18 @@ body{
     background-color :#fff;
 }
 
+#title{
+  display : inline-block; 
+}
 #root{
 width : 100%;
 }
-select{
-    margin : 10px;
+#dropList{
+    margin : 20px;
     border-radius: 3px;
 }
 
-h1{
-    display : inline-block;
-}
-header{
+#header{
   color: white;
   background-color: #0d0d85;
   -moz-box-shadow: 0 8px 6px -6px #bab9b9;
@@ -31,11 +31,10 @@ img {
   height : 50px;
   width: 50px;
   border-radius: 5px;
-  display : inline-block;
   margin : 10px;
 }
 
-#rep_div {
+#repInfoBox {
   padding : 5px;
   border : 2px solid #bab9b9 ;
   border-radius: 5px;
@@ -44,18 +43,21 @@ img {
 }
 
 
-#con_div {
+#contribInfoBox {
   padding: 5px;
   margin : 20px;}
 
-li{
-  list-style: none;
+.contribInfoLIst{
   border-bottom: 1px solid black;
+}
+
+li{
+   list-style: none;
 }
 
 
 
-.con_name_badge{
+.contribInfoName .contribInfoBadge{
   display : inline-block;
   font-weight: bold;
   margin : 10px;
