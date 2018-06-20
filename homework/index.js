@@ -16,9 +16,10 @@ function main() {
     const table = createAndAppend('table', infoSection); // create info table 
     createRows('Repository:', 'Description:', 'Forks:', 'Update:'); //create 4 rows * 2 cell
 
-    fetchJSON(url)
-        .then(data => renderReposList(data))
-        .catch(err => renderError(err));
+    fetchAndRender(url, renderReposList);
+    // fetchJSON(url)
+    //     .then(data => renderReposList(data))
+    //     .catch(err => renderError(err));
 
     function createRows() {
 
@@ -29,6 +30,16 @@ function main() {
             cell1.innerText = arguments[i];
         }
 
+    }
+
+    async function fetchAndRender(url, func) {
+
+        try {
+            const data = await fetchJSON(url);
+            func(data);
+        } catch (err) {
+            renderError(err);
+        }
     }
 
     function fetchJSON(url) {
@@ -70,9 +81,10 @@ function main() {
 
         document.querySelector('option:first-child').setAttribute('selected', '');
         renderInfo(reposObj[0]);
-        fetchJSON(reposObj[0].contributors_url)
-            .then(data => renderContributions(data))
-            .catch(err => renderError(err));
+        fetchAndRender(reposObj[0].contributors_url, renderContributions);
+        // fetchJSON(reposObj[0].contributors_url)
+        //     .then(data => renderContributions(data))
+        //     .catch(err => renderError(err));
 
         //add a listener when select a new option
         selectList.onchange = () => {
@@ -81,9 +93,10 @@ function main() {
             renderInfo(reposObj[value]);// call renderInfo to show the selected repo info
             //call fetchJSON to fetch repo contributors if resolved call renderContributions 
             //if rejected call renderError to show error message
-            fetchJSON(reposObj[value].contributors_url)
-                .then(data => renderContributions(data))
-                .catch(err => renderError(err));
+            fetchAndRender(reposObj[value].contributors_url, renderContributions);
+            // fetchJSON(reposObj[value].contributors_url)
+            //     .then(data => renderContributions(data))
+            //     .catch(err => renderError(err));
 
         };
 
