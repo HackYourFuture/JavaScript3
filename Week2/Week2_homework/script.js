@@ -18,7 +18,7 @@ function main() {
                     reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
                 }
             };
-            xhr.onerror = () => cb(new Error('Network request failed'));
+            xhr.onerror = () => reject(new Error('Network request failed'));
             xhr.send();
         });
     }
