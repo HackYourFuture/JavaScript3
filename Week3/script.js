@@ -22,14 +22,11 @@ function main() {
             xhr.onerror = () => reject(networkError());
             xhr.send();
         });
-
     }
-
 
     function networkError() {
         document.body.innerHTML = ('<h1><i class="fa fa-exclamation-triangle fa-2x"></i><br>There is no Internet connection <br> Please check the network and try again.</h1>')
     }
-
 
     async function gettingData() {
         try {
@@ -48,7 +45,6 @@ function main() {
         tag.style.backgroundColor = 'red';
         tag.style.padding = '30px';
     }
-
 
     //HTML Content creator
     function createHTMLElement(tag, parent, text) {
@@ -71,7 +67,6 @@ function main() {
             el.setAttribute(key, attrib[key]);
         }
     }
-
 
     const logo = createHTMLElement('img', mainDiv);
 
@@ -101,8 +96,6 @@ function main() {
 
     const ulContribInfo = createHTMLElement('ul', divContribInfo)
     setAttributes(ulContribInfo, { 'class': 'contributor-info' });
-
-
 
     function createSelection(repositories) {
 
@@ -165,7 +158,6 @@ function main() {
     async function contributorsInfo(url) {
 
         try {
-
             ulContribInfo.innerHTML = '';
 
             const contributors = await dataRequest(url);
