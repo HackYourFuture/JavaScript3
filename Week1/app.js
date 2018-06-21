@@ -63,4 +63,5 @@ function createAndAppend(name, parent, options = {}) {
   return elem;
 }
 
-window.onload = main; 
+window.onload = main;
+
