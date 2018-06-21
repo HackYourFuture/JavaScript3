@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.header {
+  background-color: rgb(72, 67, 184);
+}
+
+.leftContainer {
+  float: left;
+}
+
+.rightContainer {
+  float: right;
+}
