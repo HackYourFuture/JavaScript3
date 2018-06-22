@@ -7,10 +7,10 @@
   let userUrl = `${mainUrl}users/${user}`;
   let repositoryUrl = `${userUrl}/repos?per_page=100`;
   const root = document.getElementById('root');
-  const headerWrapper = createAndAppend('div', root, { class: 'header-wrapper' });
+  const headerWrapper = createAndAppend('div', root, { class: 'header-wrapper', role: 'navigation' });
   const header = createAndAppend('h2', headerWrapper, { html: `Repositories `, id: 'repositories' });
-  const inputRepository = createAndAppend('input', header, { type: 'text', id: 'input-user', value: `${user}` });
-  const inputButton = createAndAppend('button', header, { type: 'submit', html: 'Edit GitHub name and click' });
+  const inputRepository = createAndAppend('input', header, { type: 'text', id: 'input-user', value: `${user}`, role: 'enter new username' });
+  const inputButton = createAndAppend('button', header, { type: 'submit', html: 'Edit GitHub name and click', for: 'input-user' });
   const headerImg = createAndAppend('img', header, { class: 'header-img', src: 'assets/doubleblink.webp', alt: 'blinking octodex' });
   inputButton.addEventListener('click', () => {
     user = inputRepository.value;
@@ -34,7 +34,7 @@
       renderContributionsInfo(contributionData);
     }
     catch (error) {
-      createAndAppend('div', wrapper, { html: error.message, class: 'alert-error' });
+      createAndAppend('div', wrapper, { html: error.message, class: 'alert-error', role: 'alert' });
     }
   }
 
@@ -66,7 +66,7 @@
       }
       catch (error) {
         removeChildElements('container');
-        createAndAppend('div', wrapper, { html: `Error in rendering repositories on change ${error.message}`, class: 'alert-error' });
+        createAndAppend('div', wrapper, { html: `Error in rendering repositories on change ${error.message}`, class: 'alert-error', role: 'alert' });
       }
     });
     return selected.value;
@@ -87,7 +87,7 @@
         repoData['html_url'],
       );
     } catch {
-      createAndAppend('div', wrapper, { html: `Error in rendering repository information ${error.message}`, class: 'alert-error' });
+      createAndAppend('div', wrapper, { html: `Error in rendering repository information ${error.message}`, class: 'alert-error', role: 'alert' });
     }
     return repoData;
   }
@@ -111,7 +111,7 @@
         });
       });
     } catch {
-      createAndAppend('div', wrapper, { html: `Error in rendering contributions information ${error.message}`, class: 'alert-error' });
+      createAndAppend('div', wrapper, { html: `Error in rendering contributions information ${error.message}`, class: 'alert-error', role: 'alert' });
     }
   }
 
