@@ -98,10 +98,10 @@
       const section = createAndAppend('section', container, { class: 'contributions-info' });
       createAndAppend('h3', section, { html: 'Contributions' });
       contData.forEach(cont => {
-        const contributorContainer = createAndAppend('div', section, { class: 'contributor' });
-        createAndAppend('img', contributorContainer, { src: cont['avatar_url'], class: 'avatar-img', alt: 'user avatar' });
-        const linkUser = createAndAppend('a', contributorContainer, { href: cont['html_url'], target: '_blank', html: cont['login'], class: 'name' });
-        createAndAppend('p', contributorContainer, { html: cont['contributions'], class: 'contributions' });
+        const contributorContainer = createAndAppend('div', section, { class: 'contributor', id: cont['login'] });
+        createAndAppend('img', contributorContainer, { src: cont['avatar_url'], class: 'avatar-img', alt: 'user avatar', for: cont['login'] });
+        const linkUser = createAndAppend('a', contributorContainer, { href: cont['html_url'], target: '_blank', html: cont['login'], class: 'name', for: cont['login'] });
+        createAndAppend('p', contributorContainer, { html: cont['contributions'], class: 'contributions', for: cont['login'] });
         linkUser.addEventListener('click', () => {
           user = linkUser.innerText;
           inputRepository.value = user;
