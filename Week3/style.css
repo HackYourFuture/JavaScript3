@@ -1,0 +1,159 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-wrapper {
+  color: white;
+  background-color: #0d0d85;
+  padding: 2rem;
+  -moz-box-shadow: 0 8px 6px -6px #bab9b9;
+  -webkit-box-shadow:  0 8px 6px -6px #bab9b9;
+  box-shadow: 0 8px 6px -6px #bab9b9;
+  position: fixed;
+  top: -1rem;
+  width: 100vw;
+  z-index: 1;
+}
+
+select {
+  margin-left: 1rem;
+  border-radius: 0.5rem;
+  position: fixed;
+  top: 7.5rem;
+  left: 1rem;
+  z-index: 1;
+}
+
+#input-user {
+  color: white;
+  background-color: #0d0d85;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+button {
+  margin-top: 0.75rem;
+  display: block;
+}
+
+.header-img {
+position: fixed;
+top : 2rem;
+right: 1rem;
+box-shadow: none;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+  40% {transform: translateY(-30px);}
+  60% {transform: translateY(-20px);}
+} 
+
+
+.onclick-image {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-name: bounce;
+  animation-name: bounce;
+  box-shadow: none;
+  position: fixed;
+  top: 2rem;
+  right: 1rem;
+}
+
+section {
+  -moz-box-shadow: inset 0 0 10px #bab9b9;
+  -webkit-box-shadow:  inset 0 0 10px #bab9b9;
+  box-shadow: inset 0 0 10px #bab9b9;
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  position: relative;
+  top: 10rem;
+}
+
+h3 {
+  color: gray;  
+  padding: 1rem;
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+td {
+  vertical-align: text-top;
+}
+
+td:nth-child(1) {
+  font-weight: bold;
+  padding: 1rem;
+}
+
+.contributor {
+  padding: 1rem;
+  border-bottom: 1px solid #d3d3d3;
+}
+
+img {
+  width: 3.5rem;
+  margin: 0 0.5rem;
+  max-height: 3.5rem;
+  -moz-box-shadow: 0px 2px 1px #ccc;
+  -webkit-box-shadow: 0px 2px 1px #ccc;
+  box-shadow: 0px 2px 1px #ccc;
+  border-radius: 10px;
+}
+
+.contributions {
+  margin-top: 1.75rem;
+  float: right;
+  text-align: center;
+  min-width: 2.5rem;
+  background-color: gray;
+  color: white;
+  border-radius: 5px;
+}
+
+.name {
+  position: relative;
+  top: -1rem;
+  font-weight: bold;
+}
+
+.alert-error {
+  color: red;
+  background-color: rgb(248, 212, 212);
+  margin: 1rem 0.25rem;
+  padding: 0.5rem;
+  text-align: left;
+  border-radius: 0.5rem;
+  clear: both;
+  position: relative;
+  top: 10rem;
+}
+
+@media (min-width:768px) {
+  .header-wrapper {
+    top: 0;
+  }
+
+  section {
+    width: calc(50% - 4rem);
+    float: left;
+  }
+
+  select {
+    margin-left: 1rem;
+    border-radius: 0.5rem;
+    position: fixed;
+    top: 2.75rem;
+    left: 60%;
+    z-index: 1;
+  }
+}

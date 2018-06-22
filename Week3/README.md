@@ -1,3 +1,6 @@
+# Homework week3
+- https://neveenatik.github.io/JavaScript3/Week3
+
 # Reading material for the third lecture:
 
 ```
