@@ -25,28 +25,74 @@ function main() {
     if (err) {
       console.error(err.message);
     } else {
-      //console.log(data); this part is replaced by the one below; render(data)
+      //console.log(data); //this part is replaced by the one below; render(data)
       render(data);
     }
   });
 }
 function render(repos) {
-  // gets the <div> with the id of 'root' from index.html
   const root = document.getElementById('root');
-  //const jsonText = JSON.stringify(data, null, 2);
-  const ul = document.createElement('ul');
-  root.appendChild(ul);
-  //pre.innerHTML = jsonText;
+  const header = createAndAppend('header', root);
 
-  repos.forEach(repo => {
-    const li = document.createElement('li');
-    ul.appendChild(li);
-    li.innerHTML = repo.name
+  const select = createAndAppend('select', header);
+  const unifierDiv = createAndAppend('div', root, { id: 'unifier-div' });
+  const mainDiv = createAndAppend('div', unifierDiv, { id: 'main-div' });
+  const contributorList = createAndAppend('ul', unifierDiv, { id: 'contributor-list' });
+
+  select.addEventListener('change', e => {
+    const selectedValue = e.target.value;
+    renderRepo(repos[selectedValue], mainDiv, contributorList);
   });
+
+
+  repos.forEach((repo, index) => {
+    createAndAppend('option', select, { html: repo.name, value: index });
+  });
+
+  renderRepo(repos[0], mainDiv, contributorList);
+
 }
 
+function renderRepo(repo, mainDiv, contributorList) {
+  mainDiv.innerHTML = '';
+  const table = createAndAppend('table', mainDiv);
+  const tr1 = createAndAppend('tr', table);
+  createAndAppend('td', tr1, { html: 'Repository:' });
+  createAndAppend('td', tr1, { html: repo.name });
+  const tr2 = createAndAppend('tr', table);
+  createAndAppend('td', tr2, { html: 'Description:' });
+  createAndAppend('td', tr2, { html: repo.description });
+  const tr3 = createAndAppend('tr', table);
+  createAndAppend('td', tr3, { html: 'Forks:' });
+  createAndAppend('td', tr3, { html: repo.forks });
+  const tr4 = createAndAppend('tr', table);
+  createAndAppend('td', tr4, { html: 'Created:' });
+  createAndAppend('td', tr4, { html: repo.created_at });
+  const tr5 = createAndAppend('tr', table);
+  createAndAppend('td', tr5, { html: 'Updated:' });
+  createAndAppend('td', tr5, { html: repo.updated_at });
 
-//I think here I should create a function that will render an innerHTML right?
+  fetchJSON(repo.contributors_url, (err, data) => {
+    if (err) {
+      console.error(err.message);
+    } else {
+      //console.log(data); //this part is replaced by the one below; render(data)
+      renderContributors(data, contributorList);
+    }
+  });
+
+}
+function renderContributors(contributors, contributorList) {
+  contributorList.innerHTML = '';
+  contributors.forEach(contributor => {
+    const li = createAndAppend('li', contributorList, { class: 'contributor' });
+    createAndAppend('img', li, { src: contributor.avatar_url, class: 'avatar' });
+    createAndAppend('div', li, { html: contributor.login });
+    createAndAppend('div', li, { html: contributor.contributions });
+  });
+
+
+}
 
 
 function createAndAppend(name, parent, options = {}) {
