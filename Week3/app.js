@@ -83,10 +83,10 @@ function main() {
 
       conFetchResult.forEach((contributor, property) => {
         htmlElements.contribInfoListItem = createAndAppend('li', htmlElements.contribInfoList, 'class', 'contribInfoListItem');
-        htmlElements.contribInfoLink = createAndAppend('a', htmlElements.contribInfoListItem, 'href', contributors[property].html_url, '', 'target', '_blank');
-        htmlElements.contribInfoImg = createAndAppend('img', htmlElements.contribInfoLink, 'src', contributors[property].avatar_url, '', 'alt', 'Contributor Photo');
-        htmlElements.contribInfoName = createAndAppend('div', htmlElements.contribInfoList, 'class', 'contribInfoName', contributors[property].login);
-        htmlElements.contribInfoBadge = createAndAppend('div', htmlElements.contribInfoList, 'class', 'contribInfoBadge', contributors[property].contributions);
+        htmlElements.contribInfoLink = createAndAppend('a', htmlElements.contribInfoListItem, 'href', conFetchResult[property].html_url, '', 'target', '_blank');
+        htmlElements.contribInfoImg = createAndAppend('img', htmlElements.contribInfoLink, 'src', conFetchResult[property].avatar_url, '', 'alt', 'Contributor Photo');
+        htmlElements.contribInfoName = createAndAppend('div', htmlElements.contribInfoList, 'class', 'contribInfoName', conFetchResult[property].login);
+        htmlElements.contribInfoBadge = createAndAppend('div', htmlElements.contribInfoList, 'class', 'contribInfoBadge', conFetchResult[property].contributions);
       });
     }
     catch (error) {

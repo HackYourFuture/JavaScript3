@@ -47,8 +47,12 @@ img {
   padding: 5px;
   margin : 20px;}
 
-.contribInfoLIst{
+.contribInfoLIstItem{
   border-bottom: 1px solid black;
+}
+
+#contribInfoBox{
+  border : 2px solid #000;
 }
 
 li{
