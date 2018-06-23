@@ -8,27 +8,25 @@ class Repository {
     this.data = data;
   }
 
-  /**
-   * Render the repository info to the DOM.
-   * @param {HTMLElement} parent The parent element in which to render the repository.
-   */
   render(parent) {
-    //
-    // Replace this comment with your code
-    //
-  }
 
-  /**
-   * Returns an array of contributors as a promise
-   */
-  fetchContributors() {
-    return Util.fetchJSON(this.data.contributors_url);
-  }
+    const {
+      name, svn_url, description, forks, updated_at
+    } = this.data;
 
-  /**
-   * Returns the name of the repository
-   */
-  name() {
-    return this.data.name;
+    const table = Util.createAndAppend('table', parent);
+    const tableRow1 = Util.createAndAppend('tr', table);
+    Util.createAndAppend('th', tableRow1, { html: 'Repository' });
+    const tableData1 = Util.createAndAppend('td', tableRow1);
+    Util.createAndAppend('a', tableData1, { html: name, href: svn_url, target: '_blank' });
+    const tableRow2 = Util.createAndAppend('tr', table);
+    Util.createAndAppend('th', tableRow2, { html: 'Description:' });
+    Util.createAndAppend('td', tableRow2, { html: description });
+    const tableRow3 = Util.createAndAppend('tr', table);
+    Util.createAndAppend('th', tableRow3, { html: 'Forks:' });
+    Util.createAndAppend('td', tableRow3, { html: forks });
+    const tableRow4 = Util.createAndAppend('tr', table);
+    Util.createAndAppend('th', tableRow4, { html: 'Updated:' });
+    Util.createAndAppend('td', tableRow4, { html: updated_at });
   }
 }

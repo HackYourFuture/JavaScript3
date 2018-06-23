@@ -8,11 +8,11 @@ class Contributor {
     this.data = data;
   }
 
-  /**
-   * Render the contributor info to the DOM.
-   * @param {HTMLElement} contributorList The parent element in which to render the contributor.
-  */
   render(contributorList) {
-    // Replace this comment with your code
+
+    const singleContributorContainer = Util.createAndAppend('div', contributorList, { class: 'single-contributor' });
+    const contributorName = Util.createAndAppend('h3', singleContributorContainer);
+    Util.createAndAppend('a', contributorName, { html: this.data.login, href: this.data.html_url, target: '_blank' });
+    Util.createAndAppend('img', singleContributorContainer, { src: this.data.avatar_url, alt: 'profile picture of ' + this.data.login, class: 'profile-pictures' });
   }
 }
