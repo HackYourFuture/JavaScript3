@@ -116,8 +116,8 @@ function main() {
         });
       });
     } catch (error) {
-      let wrongInput = createAppendAndSetAria("p", root);
-      wrongInput.textContent = `caught error: ${error.message}`;
+      let renderedErrorMessage = createAppendAndSetAria("p", root);
+      renderedErrorMessage.textContent = `caught error: ${error.message}`;
     }
   }
   renderHtmlElements();
