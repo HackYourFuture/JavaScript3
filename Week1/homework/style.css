@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Play');
+
+@keyframes pageLoad {
+    from {opacity: 0}
+    to {opacity: 1};
+}
+
+* {
+    box-sizing: border-box;
+    list-style-type: none;
+    animation: pageLoad 200ms 1 both;
+}
+body {
+    background-color: rgb(250, 250, 250);
+    font-family: 'Montserrat', sans-serif;
+    background: url(https://thewallpaper.co/wp-content/uploads/2016/10/All-White-Background-for-Desktop-wallpaper-desktop-images-download-hd-windows-wallpaper-samsung-iphone-mac-1920x1200.jpg) no-repeat fixed;
+    background-size: cover;
+}
+
+header {
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background: linear-gradient(to right, rebeccapurple, #8040bf);
+    margin-top: -8px;
+}
+
+p {
+    background: rgb(32, 32, 32);
+    color: floralwhite;
+    border-radius: 5px;
+    padding-left: 15px;
+    line-height: 35px;
+    font-weight: 500;
+}
+select {
+    margin: 0 auto;
+    height: 35px;
+    margin-top: 16px;
+    margin-bottom: 30px;
+}
+
+a {
+    color: rgb(32, 32, 32);
+    background: salmon;
+    width: 200px;
+    border-top-right-radius: 5px;
+    transition: color ease-in-out 200ms;
+}
+a:hover {
+    color: rgb(74, 84, 95);    
+}
+#contributions {
+    background-color: salmon;
+    width: 200px;
+    margin-top: -5px;
+}
+
+#contributions::before {
+    content: "Contributions: ";
+}
+
+img {
+    border-radius: 10px;
+    border-bottom-left-radius: 0px;
+    filter: sepia(10%) saturate(70%) brightness(85%);
+    transition: filter ease-in-out 500ms;
+    display: block;
+    width: 200px;
+}
+img:hover {
+    filter: sepia(0%) saturate(100%) brightness(95%);
+}
+
+#repositoryText {
+	width: 255px;
+	text-align: center;
+	border-radius: 5px 5px 0 0;
+	margin: 0 auto;
+	margin-bottom: -15px;
+	margin-top: 30px;
+	padding: 10px;
+	background: linear-gradient(to right, #ddd, #ccc);
+	color: rgba(5,5,5,0.6);
+	display: none;
+}
+/*hidden*/
+#repositoryDisplayName {
+    background: linear-gradient(to right, #ddd, #ccc);
+    font-size: 23px;
+    color: rgb(32, 32, 32);
+    line-height: 35px;
+    font-weight: 600;
+    border-top-right-radius: 0;
+    padding: 15px;
+    text-align: center;
+    display: block;
+	width: 550px;
+  	min-width: 255px;
+	margin: 0 auto;
+    margin-bottom: 15px;
+    margin-top: 15px; 
+    border-bottom: 10px solid rgb(11, 14, 11);
+    border-radius: 5px;
+    font-family: 'Play', sans-serif;
+}
+#shown {
+	width: 255px;
+	text-align: center;
+	border-radius: 5px 5px 0 0;
+	margin: 0 auto;
+	margin-bottom: -15px;
+	margin-top: 30px;
+	padding: 10px;
+	background: linear-gradient(to right, #ddd, #ccc);
+	color: rgb(90,90,90);
+    display: block;
+}
+
+#repositoryDisplayName:hover {
+    background: linear-gradient(to left, #ddd, #ccc);	
+}
+
+@media (max-width: 615px) {
+	#repositoryDisplayName {
+        width: 250px;
+        border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+}
+
+ul {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin-left: 25px;
+    
+}
+ul li {
+    margin: 10px;
+}
+
+#infoContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+#infoContainer p {
+    min-width: 255px;
+    border-bottom: 10px solid #bfbfbf;
+    margin: 20px;
+	margin-top: -8px;
+}
+
+#contributorName {
+    display: block;
+    margin-top: 10px;
+    padding: 5px 20px 2px 15px;
+    font-weight: 600;
+    font-family: 'Play', sans-serif;
+
+}
