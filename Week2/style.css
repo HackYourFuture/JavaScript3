@@ -47,15 +47,18 @@ img {
   padding: 5px;
   margin : 20px;}
 
-.contribInfoLIst{
-  border-bottom: 1px solid black;
+.contribInfoLIstItem{
+  border-bottom: 1px solid #000;
 }
+
+#contribInfoBox{
+  border : 2px solid #000;
+}
+
 
 li{
    list-style: none;
 }
-
-
 
 .contribInfoName .contribInfoBadge{
   display : inline-block;
