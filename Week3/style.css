@@ -1,0 +1,64 @@
+*{
+    padding : 0 ;
+    margin :0 , auto;
+}
+
+body{
+    font-family :Helvetica, sans-serif;
+    background-color :#fff;
+}
+
+#title{
+  display : inline-block; 
+}
+#root{
+width : 100%;
+}
+#dropList{
+    margin : 20px;
+    border-radius: 3px;
+}
+
+#header{
+  color: white;
+  background-color: #0d0d85;
+  -moz-box-shadow: 0 8px 6px -6px #bab9b9;
+  -webkit-box-shadow:  0 8px 6px -6px #bab9b9;
+  box-shadow: 0 8px 6px -6px #bab9b9;
+}
+
+img {
+  height : 50px;
+  width: 50px;
+  border-radius: 5px;
+  margin : 10px;
+}
+
+#repInfoBox {
+  padding : 5px;
+  border : 2px solid #bab9b9 ;
+  border-radius: 5px;
+  margin : 10px;
+  margin-left : 0;
+}
+
+
+#contribInfoBox {
+  padding: 5px;
+  margin : 20px;}
+
+.contribInfoLIst{
+  border-bottom: 1px solid black;
+}
+
+li{
+   list-style: none;
+}
+
+
+
+.contribInfoName .contribInfoBadge{
+  display : inline-block;
+  font-weight: bold;
+  margin : 10px;
+}
