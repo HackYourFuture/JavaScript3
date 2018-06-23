@@ -3,8 +3,7 @@
 const root = document.getElementById("root");
 root.setAttribute("role", "application");
 
-const token = "74549feb01fee4e294cadd88f2aff4f9e2eb2c02";
-const hyfGithubRepositories = `https://api.github.com/orgs/HackYourFuture/repos?access_token=${token}&per_page=100`;
+const hyfGithubRepositories = `https://api.github.com/orgs/HackYourFuture/repos?per_page=100`;
 
 let header = createAppendAndSetAria("header", root, "banner");
 let selectTag = createAppendAndSetAria("select", header, "listbox");
