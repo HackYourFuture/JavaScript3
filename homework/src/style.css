@@ -1,3 +1,27 @@
 .alert-error {
-    color: red;
+  color: red;
+}
+
+*{
+list-style-type: none;
+
+}
+
+th{
+text-align: left;
+}
+
+img{
+width: 50px;
+}
+
+@media (min-width:768px) {
+  #contributors {
+    width: calc(50% - 4rem);
+    float: left;
+  }
+  #information{
+      width: calc(50% - 4rem);
+      float: left; 
+  }
 }
