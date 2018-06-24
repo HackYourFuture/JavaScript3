@@ -32,7 +32,6 @@ function main(){
     catch (error) {
       const err = document.getElementById('root');
       err.innerHTML = error.message;
-      console.log('error here');
     }
 
   }
