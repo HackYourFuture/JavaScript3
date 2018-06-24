@@ -24,8 +24,22 @@ function main(){
     });
   }
 
+  async function fetchAndCreate() {
+    try {
+      const fetchResult = await fetchJSON(url);
+      repoData(fetchResult);
+    }
+    catch (error) {
+      const err = document.getElementById('root');
+      err.innerHTML = error.message;
+      console.log('error here');
+    }
 
- async function repoData(data) {
+  }
+
+  fetchAndCreate();
+
+  function repoData(data) {
 
     const root = document.getElementById('root');
 
