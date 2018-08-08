@@ -33,13 +33,13 @@
   function main(url) {
     fetchJSON(url, (err, data) => {
       const root = document.getElementById('root');
+      const header = createAndAppend('header', root);
+      createAndAppend('p', header, {html: 'HYF Repositories', class: 'header-lable'});
+      const select = createAndAppend('select', header, { id: 'selectMenu' });
       if (err) {
         createAndAppend('div', root, { html: err.message, class: 'alert-error' });
       } else {
         //createAndAppend('pre', root, { html: JSON.stringify(data, null, 2) });
-        const header = createAndAppend('header', root);
-        createAndAppend('p', header, {html: 'HYF Repositories', class: 'header-lable'});
-        const select = createAndAppend('select', header, { id: 'selectMenu' });
         /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
         data.sort((a, b) => a.name.localeCompare(b.name, 'fr', {ignorePunctuation: true}));
         data.forEach((reopsitory, index) => {

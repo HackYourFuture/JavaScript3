@@ -18,6 +18,9 @@ body {
 }
 .alert-error {
     color: red;
+    background-color: #f8d7da;
+    border-radius: 3px;
+    padding: 10px;
 }
 
 p {
