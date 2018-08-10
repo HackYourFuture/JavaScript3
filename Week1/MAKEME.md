@@ -36,6 +36,8 @@ Figure 1 below shows an example of what your application could look like. Note t
 
 ![UI Example](./assets/hyf-github.png)
 
+In this assignment you will built upon some existing code that is already pre-written by your teachers. Your homework consist of writing the  code to make the application work as requested per week.
+
 <small>Figure 1. Example User Interface using [Material Design](https://material.io/guidelines/) principles.</small>
 
 A live version of this application can be found here: http://hyf-github.netlify.com/
