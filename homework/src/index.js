@@ -97,7 +97,8 @@ function showTableRepo(leftSection, data, dataIndex) {
   const td4 = createAndAppend('td', tr4);
   const defaultElDate = data[dataIndex].updated_at;
   const defaultDate = new Date(defaultElDate);
-  createAndAppend('p', td4, {html: defaultDate});
+  const endDate = defaultDate.toLocaleString();
+  createAndAppend('p', td4, {html: endDate});
 }
 
 
