@@ -45,3 +45,7 @@
     box-shadow:10px 7px 5px 5px rgba(0, 0, 0, 0.075);
     padding:5px; 
 }
+.alert-error{
+   background-color: bisque;
+   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; 
+}
