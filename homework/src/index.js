@@ -1,19 +1,21 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -30,25 +32,29 @@
     return elem;
   }
 
+
   function main(url) {
-    fetchJSON(url, (err, data) => {
 
-      //blue part of the page
-      const root = document.getElementById('root');
+    //blue part of the page
+    const root = document.getElementById('root');
 
-      createAndAppend('div', root, { id: 'myheading' });
+    createAndAppend('div', root, { id: 'myheading' });
 
-      const myHeading = document.getElementById('myheading');
+    const myHeading = document.getElementById('myheading');
 
-      createAndAppend('label', myHeading, { html: 'HYF Repositories ', class: 'rep-select' });
+    createAndAppend('label', myHeading, { html: 'HYF Repositories ', class: 'rep-select' });
 
-      createAndAppend('select', myHeading, { class: 'rep-select', id: 'selectID' });
+    createAndAppend('select', myHeading, { class: 'rep-select', id: 'selectID' });
 
-      const select = document.getElementById('selectID');
+    const select = document.getElementById('selectID');
 
-      if (err) {
+
+    fetchJSON(url)
+      .catch(err => {
         createAndAppend('div', root, { html: err.message, class: 'alert-error' });
-      } else {
+      })
+
+      .then(data => {
 
         data.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -128,11 +134,9 @@
           //and then show the details of newly selected repo
           showDetails();
         });
-      }
-    });
-
-
+      });
   }
+
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
