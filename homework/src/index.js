@@ -32,21 +32,99 @@
     return elem;
   }
 
+  //this is an object creator
+  function RepositoryInfo(sourceObj) {
+    this.Description = sourceObj['description'];
+    this.Forks = sourceObj['forks'];
+    const someDate = new Date(sourceObj['updated_at']);
+    this.Updated = someDate.toLocaleString();
+  }
+
+  //info-box of the page
+  function createInfoBox(data, container) {
+
+    const info = new RepositoryInfo(data);
+
+
+    const infoDiv = createAndAppend('div', container, { id: 'infoDiv' });
+
+    const infoTable = createAndAppend('table', infoDiv, { id: 'infoTable' });
+
+    const infoBody = createAndAppend('tbody', infoTable, { id: 'infoBody' });
+
+
+    const repoTr = createAndAppend('tr', infoBody, { id: 'repoTr', class: 'rows' });
+
+    createAndAppend('td', repoTr, { html: 'Repository:', class: 'keys' });
+
+    const repoTd = createAndAppend('td', repoTr, { id: 'repoTd', class: 'values' });
+
+    createAndAppend('a', repoTd, { href: data['html_url'], target: '_blank', html: data['name'] });
+
+
+    Object.keys(info).forEach((key) => {
+      const value = info[key];
+      const tr = createAndAppend('tr', infoBody, { id: `${key}Tr`, class: 'rows' });
+      createAndAppend('td', tr, { html: key + ':', class: 'keys' });
+      createAndAppend('td', tr, { html: value, class: 'values' });
+    });
+  }
+
+  //contributors box of the page
+  function createContributorsBox(data, container) {
+
+    const contributorsDiv = createAndAppend('div', container, { id: 'contributorsDiv' });
+
+    const contributorsURL = data['contributors_url'];
+
+    createAndAppend('p', contributorsDiv, { html: 'Contributions' });
+
+
+    fetchJSON(contributorsURL)
+      .catch(err => {
+        createAndAppend('div', contributorsDiv, { html: err.message, class: 'alert-error' });
+      })
+
+      .then(contributors => {
+
+        const contributorsTable = createAndAppend('table', contributorsDiv, { id: 'contributorsTable' });
+
+        const contributorsTbody = createAndAppend('tbody', contributorsTable, { id: 'contributorsTbody' });
+
+
+        contributors.forEach(contributor => {
+
+          const contLink = contributor.html_url;
+          const contImg = contributor.avatar_url;
+          const contName = contributor.login;
+          const contNum = contributor.contributions;
+
+          const contributorsLink = createAndAppend('a', contributorsTbody, { href: contLink, target: '_blank', class: 'contributorsLink' });
+
+          const contributorsTr = createAndAppend('tr', contributorsLink, { id: `${contributor['id']}`, class: 'contributorsTr' });
+
+          const tdImg = createAndAppend('td', contributorsTr, { id: `${contName}Td`, class: 'cont-info' });
+
+          createAndAppend('img', tdImg, { src: contImg, alt: `picture of ${contName}`, class: 'cont-images' });
+
+          createAndAppend('td', contributorsTr, { html: contName, class: 'cont-info cont-name' });
+
+          createAndAppend('td', contributorsTr, { html: contNum, class: 'cont-info cont-num' });
+        });
+      });
+  }
+
 
   function main(url) {
 
     //blue part of the page
     const root = document.getElementById('root');
 
-    createAndAppend('div', root, { id: 'myheading' });
+    const headingDiv = createAndAppend('div', root, { id: 'headingDiv' });
 
-    const myHeading = document.getElementById('myheading');
+    createAndAppend('label', headingDiv, { html: 'HYF Repositories ', class: 'rep-select' });
 
-    createAndAppend('label', myHeading, { html: 'HYF Repositories ', class: 'rep-select' });
-
-    createAndAppend('select', myHeading, { class: 'rep-select', id: 'selectID' });
-
-    const select = document.getElementById('selectID');
+    const select = createAndAppend('select', headingDiv, { class: 'rep-select', id: 'selectID' });
 
 
     fetchJSON(url)
@@ -54,89 +132,41 @@
         createAndAppend('div', root, { html: err.message, class: 'alert-error' });
       })
 
-      .then(data => {
+      .then(repositories => {
 
-        data.sort((a, b) => a.name.localeCompare(b.name));
+        repositories.sort((a, b) => a.name.localeCompare(b.name));
 
-        data.forEach((obj) => { createAndAppend('option', select, { html: obj['name'], class: 'rep-names' }); });
-
-
-        //info-box of the page
-        function showDetails() {
-
-          //maybe there is more effective way but I couldnt find it
-          //that's why, firstly I found the index of the object of the selected repo
-          const num = data.findIndex(i => i.name === select.value);
-
-          //this is an object constructor.
-          function createDetail() {
-
-            //then I used the index in order to fetch the other details of the selected repo
-            this.Description = data[num]['description'];
-            this.Forks = data[num]['forks'];
-            let someDate = new Date(data[num]['updated_at']);
-            this.Updated = someDate.toLocaleString();
-          }
-
-          //the object contains all details of selected repo except repository name.
-          //you can see the repo name below
-          const details = new createDetail();
-
-          //first of all I created a table element and then I identified it with a variable
-          createAndAppend('table', root, { id: 'info-box' });
-
-          const infoBox = document.getElementById('info-box');
-
-          //secondly I created a tbody element and then I identified it with a variable
-          createAndAppend('tbody', infoBox, { id: 'info-body' });
-
-          const tBody = document.getElementById('info-body');
-
-          //thirdly I create a tr element for repo name.
-          //the repo name is different from other details of the selected repo.
-          //because there must be a link in the repo name.
-          createAndAppend('tr', tBody, { id: 'tr1' });
-
-          const tr1 = document.getElementById('tr1');
-
-          //in the tr, first data is: below
-          createAndAppend('td', tr1, { html: 'Repository:', id: 'td1', class: 'keys' });
-
-          //in the tr, second data:
-          createAndAppend('td', tr1, { id: 'td2', class: 'values' });
-
-          const td2 = document.getElementById('td2');
-
-          //I created 'a' element inside of second td element
-          createAndAppend('a', td2, { href: data[num]['html_url'], html: data[num]['name'] });
-
-          //this function creates and appends all details in the 'details' object
-          Object.keys(details).forEach((key) => {
-            const value = details[key];
-            createAndAppend('tr', tBody, { id: `row-${key}`, class: 'rows' });
-            const tr = document.getElementById(`row-${key}`);
-            createAndAppend('td', tr, { html: key + ':', class: 'keys' });
-            createAndAppend('td', tr, { html: value, class: 'values' });
+        repositories.forEach((repository, index) => {
+          createAndAppend('option', select, {
+            html: repository.name,
+            class: 'rep-names',
+            value: index
           });
-        };
+        });
 
-        //when the page open at the beginning, the details of the already selected repo should be there
-        showDetails();
 
-        //when s.o. change the selected repo, the details of the just selected repo should be there in every time
+        createInfoBox(repositories[0], root);
+
+        createContributorsBox(repositories[0], root);
+
+
         select.addEventListener('change', function () {
 
-          //while s.o. is changing selected repo, there is previous details on the page.
-          //thats why, first of all I must remove it
-          const myTable = document.querySelector('#info-box');
+          const selectedRepository = repositories[select.value];
+
+          const myTable = document.querySelector('#infoDiv');
           myTable.remove();
 
-          //and then show the details of newly selected repo
-          showDetails();
-        });
-      });
-  }
+          const contributorsDiv = document.querySelector('#contributorsDiv');
+          contributorsDiv.remove();
 
+          createInfoBox(selectedRepository, root, select);
+          createContributorsBox(selectedRepository, root, select);
+        });
+
+      });
+
+  }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
