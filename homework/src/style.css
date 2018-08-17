@@ -5,6 +5,8 @@ body {
 
 .alert-error {
     color: red;
+    padding: 20%;
+    font-size: 23px;
 }
 
 .label {
