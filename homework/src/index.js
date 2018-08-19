@@ -60,42 +60,42 @@
   // function who creates a left content section
   function contentLeft(container, data, select) {
     const leftSection = createAndAppend('div', container, { id: 'leftSection', class: 'whiteframe' });
-    showTableRepo(leftSection, data, 0);
+    showTableRepo(leftSection, data[0]);
 
     select.addEventListener('change', (event) => {
-      document.getElementById('leftSection').innerHTML = "";
-      const theEvent = event.target.value;
-      showTableRepo(leftSection, data, theEvent);
+      leftSection.innerHTML = "";
+      const theEventIndex = event.target.value;
+      showTableRepo(leftSection, data[theEventIndex]);
     });
   }
 
   
 
   // drow the table
-function showTableRepo(leftSection, data, dataIndex) {
+function showTableRepo(leftSection, repository) {
   // create table of the contents
   const lTable = createAndAppend('table', leftSection);
   // line one
   const tr1 = createAndAppend('tr', lTable);
   createAndAppend('td', tr1, {html: 'Repository :', class: 'lable'});
   const td1 = createAndAppend('td', tr1);
-  let nameLink = '<a href="' + data[dataIndex].html_url + '" target="_blank">' + data[dataIndex].name + '</a>';
+  const nameLink = '<a href="' + repository.html_url + '" target="_blank">' + repository.name + '</a>';
   createAndAppend('p', td1, {html: nameLink });
   // line two
   const tr2 = createAndAppend('tr', lTable);
   createAndAppend('td', tr2, {html: 'Description :', class: 'lable'});
   const td2 = createAndAppend('td', tr2);
-  createAndAppend('p', td2, {html: data[dataIndex].description});
+  createAndAppend('p', td2, {html: repository.description});
   // line three
   const tr3 = createAndAppend('tr', lTable);
   createAndAppend('td', tr3, {html: 'Forks :', class: 'lable'});
   const td3 = createAndAppend('td', tr3);
-  createAndAppend('p', td3, {html: data[dataIndex].forks});
+  createAndAppend('p', td3, {html: repository.forks});
   // line four
   const tr4 = createAndAppend('tr', lTable);
   createAndAppend('td', tr4, {html: 'Updated :', class: 'lable'});
   const td4 = createAndAppend('td', tr4);
-  const defaultElDate = data[dataIndex].updated_at;
+  const defaultElDate = repository.updated_at;
   const defaultDate = new Date(defaultElDate);
   const endDate = defaultDate.toLocaleString();
   createAndAppend('p', td4, {html: endDate});
@@ -106,9 +106,9 @@ function showTableRepo(leftSection, data, dataIndex) {
   // function who creates a right content section
   function contentRight(container, data, select) {
     const rightSection = createAndAppend('div', container, { id: 'rightSection', class: 'whiteframe' });
-    const ContributionsLable = createAndAppend('h5', rightSection, {class: 'ContributionsLable'});
-    ContributionsLable.innerHTML = "Contributions :";
-    let contrubutorsURL = data[0].contributors_url;
+    const contributionsLable = createAndAppend('h5', rightSection, {class: 'contributionsLable'});
+    contributionsLable.innerHTML = "Contributions :";
+    const contrubutorsURL = data[0].contributors_url;
     fetchJSON(contrubutorsURL, (err, subData) => {
       if (err) {
         createAndAppend('div', rightSection, { html: err.message, class: 'alert-error' });
@@ -117,10 +117,10 @@ function showTableRepo(leftSection, data, dataIndex) {
       }
     });
     select.addEventListener('change', (event) => {
-      document.getElementById('rightSection').innerHTML = "";
-      ContributionsLable.innerHTML = "Contributions :";
-      const theEvent = event.target.value;
-      let contrubutorsURL = data[theEvent].contributors_url;
+      rightSection.innerHTML = "";
+      contributionsLable.innerHTML = "Contributions :";
+      const theEventIndex = event.target.value;
+      const contrubutorsURL = data[theEventIndex].contributors_url;
       fetchJSON(contrubutorsURL, (err, subData) => {
         if (err) {
           createAndAppend('div', rightSection, { html: err.message, class: 'alert-error' });
@@ -135,16 +135,14 @@ function showTableRepo(leftSection, data, dataIndex) {
 
 
 /*  ************************************ */
-function showContributors(rightSection, subData) {
-  subData.forEach(el => {
+function showContributors(rightSection, contributors) {
+  contributors.forEach(contributor => {
     const contrSection = createAndAppend('section', rightSection);
-    const contrMainLink = createAndAppend('a', contrSection);
-    contrMainLink.setAttribute('href', el.html_url);
-    const contrAvater = createAndAppend('img', contrMainLink, {class: 'avater'});
-    contrAvater.setAttribute('src', el.avatar_url);
+    const contrMainLink = createAndAppend('a', contrSection, {href:  contributor.html_url});
+    createAndAppend('img', contrMainLink, {class: 'avatar', src: contributor.avatar_url});
     const contrDataDiv = createAndAppend('div', contrMainLink, {class: 'contrData'});
-    createAndAppend('div', contrDataDiv, {html: el.login});
-    createAndAppend('div', contrDataDiv, {html: el.contributions, class: 'contributor-badge'});
+    createAndAppend('div', contrDataDiv, {html: contributor.login});
+    createAndAppend('div', contrDataDiv, {html: contributor.contributions, class: 'contributor-badge'});
   });
 }
 
