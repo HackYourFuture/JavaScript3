@@ -4,7 +4,7 @@ body {
     color: rgb(0, 0, 0, 87%);
     margin: 0 auto;
     padding: 0;
-    width: 770px;
+    max-width: 770px;
     background-color: #f8f8f8;
     margin-top: 0;
 }
@@ -116,7 +116,7 @@ header {
     padding: 0;
 }
 /* %%%%%%%%%%%%%%%%%%%%%%%%%%%    padding: 16px;
-margin-right: 16px;*/
+margin-right: 16px;*/ 
 @media only screen and (min-width:770px) {
     #container {
         display: flex;
