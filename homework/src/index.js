@@ -1,19 +1,21 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -31,25 +33,24 @@
   }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
-      const root = document.getElementById('root');
-      const header = createAndAppend('header', root);
-      createAndAppend('p', header, {html: 'HYF Repositories', class: 'header-lable'});
-      const select = createAndAppend('select', header, { id: 'selectMenu' });
-      if (err) {
-        createAndAppend('div', root, { html: err.message, class: 'alert-error' });
-      } else {
-        //createAndAppend('pre', root, { html: JSON.stringify(data, null, 2) });
-        /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
-        data.sort((a, b) => a.name.localeCompare(b.name, 'fr', {ignorePunctuation: true}));
-        data.forEach((reopsitory, index) => {
-          createAndAppend('option', select, {html: reopsitory.name, value: index});
-        });
-        /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
-        const container = createAndAppend('div', root, { id: 'container'});
-        contentLeft(container, data, select);
-        contentRight(container, data, select);
-      }
+    const root = document.getElementById('root');
+    const header = createAndAppend('header', root);
+    createAndAppend('p', header, {html: 'HYF Repositories', class: 'header-lable'});
+    const select = createAndAppend('select', header, { id: 'selectMenu' });
+    // use promise object
+    const promise = fetchJSON(url);
+    promise.then(data => {
+      data.sort((a, b) => a.name.localeCompare(b.name, 'fr', {ignorePunctuation: true}));
+      data.forEach((repository, index) => {
+        createAndAppend('option', select, {html: repository.name, value: index});
+      });
+      
+      const container = createAndAppend('div', root, { id: 'container'});
+      contentLeft(container, data, select);
+      contentRight(container, data, select);
+    })
+    .catch(error => {
+      createAndAppend('div', root, { html: error.message, class: 'alert-error' });
     });
   }
 
@@ -106,35 +107,38 @@ function showTableRepo(leftSection, repository) {
   // function who creates a right content section
   function contentRight(container, data, select) {
     const rightSection = createAndAppend('div', container, { id: 'rightSection', class: 'whiteframe' });
-    const contributionsLable = createAndAppend('h5', rightSection, {class: 'contributionsLable'});
-    contributionsLable.innerHTML = "Contributions :";
-    const contrubutorsURL = data[0].contributors_url;
-    fetchJSON(contrubutorsURL, (err, subData) => {
-      if (err) {
-        createAndAppend('div', rightSection, { html: err.message, class: 'alert-error' });
-      } else {
-        showContributors(rightSection, subData);
-      }
-    });
+    createAndAppend('h5', rightSection, {html: "Contributions :", class: 'contributionsLable'});
+    const contributorsURL = data[0].contributors_url;
+    const ContributorsPromise = fetchJSON(contributorsURL);
+    ContributorsPromise
+      .then(contributors => {
+        showContributors(rightSection, contributors);
+      })
+      .catch(error => {
+        createAndAppend('div', rightSection, { html: error.message, class: 'alert-error' });
+      });
+
     select.addEventListener('change', (event) => {
       rightSection.innerHTML = "";
-      contributionsLable.innerHTML = "Contributions :";
+      createAndAppend('h5', rightSection, {html: "Contributions :", class: 'contributionsLable'});
       const theEventIndex = event.target.value;
-      const contrubutorsURL = data[theEventIndex].contributors_url;
-      fetchJSON(contrubutorsURL, (err, subData) => {
-        if (err) {
-          createAndAppend('div', rightSection, { html: err.message, class: 'alert-error' });
-        } else {
-          showContributors(rightSection, subData);
-        }
+      const contributorsURL = data[theEventIndex].contributors_url;
+      const ContributorsPromise = fetchJSON(contributorsURL);
+      ContributorsPromise
+      .then(contributors => {
+        showContributors(rightSection, contributors);
+      })
+      .catch(error => {
+        createAndAppend('div', rightSection, { html: error.message, class: 'alert-error' });
       });
     });
+
   }
 
 
 
 
-/*  ************************************ */
+
 function showContributors(rightSection, contributors) {
   contributors.forEach(contributor => {
     const contrSection = createAndAppend('section', rightSection);
@@ -145,8 +149,6 @@ function showContributors(rightSection, contributors) {
     createAndAppend('div', contrDataDiv, {html: contributor.contributions, class: 'contributor-badge'});
   });
 }
-
-
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
