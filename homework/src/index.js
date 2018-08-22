@@ -1,5 +1,5 @@
 'use strict';
-//version2
+
 {
     function fetchJSON(url) {
         return new Promise((resolve, reject) => {
@@ -38,9 +38,8 @@
 
     function renderRepo(container, link, description, fork, date, linkName) {
 
-        const root = document.getElementById('root');
-        container.innerHTML = '';
 
+        container.innerHTML = '';
         const table = createAndAppend('table', container, { class: 'table' });
         const tr = createAndAppend('tr', table);
         const td = createAndAppend('td', tr, { text: "<b>Repository: </b> " });
@@ -51,20 +50,47 @@
         repoTitle.innerText = linkName;
 
         createAndAppend('tr', table, { text: "<b>Description: </b>" + description });
+
         createAndAppend('tr', table, { text: "<b>Forks: </b> " + fork });
+
         createAndAppend('tr', table, { text: "<b>Updated: </b>" + new Date(date).toLocaleString() });
 
-    }
+    };
+
+    function renderContributors(container, contributors_url) {
+
+        const ul = createAndAppend('ul', container, { text: "<small>Contributions: ", class: 'table' });
+        const li = createAndAppend('li', ul);
+
+        const contributorsList = fetchJSON(contributors_url)
+
+        // console.log(contributorsList);  
+        contributorsList.then(data => {
+            data.forEach((item) => {
+
+                const link_to_repo = createAndAppend('a', li);
+                link_to_repo.setAttribute("href", item.html_url);
+                link_to_repo.setAttribute("target", "_blank");
+
+                const avatar = createAndAppend('img', link_to_repo, { class: 'avatar' });
+                avatar.setAttribute("src", item.avatar_url);
+                avatar.setAttribute("width", "60");
+                createAndAppend('p', li, { text: item.login });
+                createAndAppend('p', li, { text: item.contributions, class: 'contributors_number' });
+                createAndAppend('li', li, { class: 'line', });
+            });
+
+        });
+
+    };
 
     function main(url) {
         const root = document.getElementById('root');
 
-        const div = createAndAppend('div', root, { class: 'container' });
+        const div = createAndAppend('div', root, { class: '' });
         const header = createAndAppend('h3', div, { text: "HYF Repositories  ", class: 'header' });
         const select = createAndAppend('select', header, { class: "select" });
-        const container = createAndAppend('div', root);
-        //data.forEach((item, index) => {
-        //console.log(item.contributors_url, index)});
+        const container = createAndAppend('div', root, { class: "container" });
 
         fetchJSON(url)
             .then(data => {
@@ -77,13 +103,20 @@
 
                 select.addEventListener('change', (event) => {
                     const index = event.target.value;
+
+
                     renderRepo(container, data[index].html_url, data[index].description, data[index].forks, data[index].updated_at, select[index].textContent);
+
+                    renderContributors(container, data[index].contributors_url);
                 });
 
-                renderRepo(container, data[0].html_url, data[0].description, data[0].forks, data[0].updated_at, select[0].textContent);
+                renderRepo(container, data[0].html_url, data[0].description, data[0].forks, data[0].updated_at, select[0].textContent)
+                renderContributors(container, data[0].contributors_url);
+
             })
             .catch(error => {
                 createAndAppend('div', root, { text: error.message, class: 'alert-error' });
+
             })
     }
 
