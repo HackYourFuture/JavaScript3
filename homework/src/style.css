@@ -1,3 +1,103 @@
+body {
+    box-sizing: border-box;
+    background-color: #f8f8f8;
+}
+
 .alert-error {
     color: red;
+    padding: 20%;
+    font-size: 23px;
+}
+
+.header {
+    margin: auto;
+    width: 60%;
+    font-family: 'Bradley Hand', cursive;
+    padding: 30px;
+    color: white;
+    background-color: #3F51B5;
+}
+
+.select {
+    background-color: buttonface;
+    margin-left: 16px;
+    font-size: 14px;
+    width: 250px;
+    height: 32px;
+    padding: 2px;
+}
+
+.container {
+    display: flex;
+}
+
+.table {
+    margin: 10px;
+    width: calc(55.5%/2);
+    position: relative;
+    left: 17%;
+    font-size: 18px;
+    background-color: white;
+    padding: 25px;
+    box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .2), 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .12);
+}
+
+.table:nth-child(1) {
+    line-height: 1.6;
+    font-family: sans-serif;
+}
+
+li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    cursor: pointer;
+    position: relative;
+    animation-direction: alternate;
+    animation: myfirst 3s;
+}
+
+@keyframes myfirst {
+    0% {
+        left: 400px;
+        top: 0px;
+    }
+    100% {
+        right: 0px;
+        left: 0px;
+    }
+}
+
+.line {
+    width: 100%;
+    height: 8px;
+    margin: 10px;
+    border-bottom: solid 2px rgb(0, 0, 0, 12%);
+    animation-direction: alternate;
+    animation: my2 6s infinite;
+    border-radius: 15px;
+}
+
+@keyframes my2 {
+    0% {
+        background-color: #09f3ea70;
+        left: 0px;
+        top: 0px;
+    }
+    100% {
+        right: 0px;
+        left: 0px;
+    }
+}
+
+.contributors_number {
+    padding: 2px 8px;
+    font-size: 1rem;
+    background-color: gray;
+    color: white;
+    border-radius: 4px;
+}
+
+.avatar {
+    border-radius: 5px;
 }
