@@ -1,3 +1,64 @@
 .alert-error {
     color: red;
 }
+
+.root {
+    background-color:	rgb(249,249,249);
+    ;
+}
+
+.container {
+    background-color: white;
+    box-shadow: 2px 4px rgb(238, 238, 238);
+    border-radius: 5px white;
+    width: 45%;
+    padding: 10px;
+    margin-top: 15px;
+    margin-left: 8px;
+    position: absolute;
+    left: 20px;
+   
+}
+.table-info {
+    color: black;
+}
+
+.headbox {
+    background-color: rgb(96, 118, 245);
+    width: 96%;
+    height: 80px;
+    margin: auto;
+
+}
+.heading {
+    font-size: 18px;
+    color: white;
+    position: absolute;
+    top: 40px;
+    left: 40px;
+
+
+}
+
+.select {
+    font-size: 15px;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 15px;
+    position: absolute;
+    top: 40px;
+    left: 200px;
+
+}
+/*
+.container1 {
+    background-color: white;
+    box-shadow: 2px 4px rgb(238, 238, 238);
+    border-radius: 5px white;
+    width: 45%;
+    height: 100%;
+    position: absolute;
+    top: 105px;
+    left: 650px;
+   
+}*/
