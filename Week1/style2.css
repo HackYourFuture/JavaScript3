@@ -1,0 +1,119 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(232, 232, 236);
+    min-width: 330px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+}
+#root {
+    width: 100%
+}
+* {
+    box-sizing: border-box;
+}
+h5 {
+    padding: 0;
+    margin: 0;
+}
+#container-select {
+    color: white;
+    background-color: rgb(34, 51, 150);
+    padding: 20px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+#menu {
+    margin-left: 15px;
+    font-size: 14px;
+    width: 270px;
+    height: 32px;
+    padding: 5px;
+}
+#root {
+    max-width: 800px;
+    margin: 0 auto;
+}
+#first-container {
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 5px 5px 8px ;
+    margin-bottom: 15px;
+}
+table {
+    border-collapse: collapse;
+}
+td {
+    padding-left: 15px;
+}
+td.nameRow {
+    font-weight: bold;
+}
+#second-container {
+    margin: 5px;
+    background-color: rgb(241, 241, 243);
+    border: 2px rgb(241, 241, 243) solid;
+    border-radius: 7px;
+    box-shadow: 1px 2px 5px 1px #888888;
+    background-color: rgb(208, 245, 245);
+}
+#second-container p {
+    margin: 20px 10px 20px 10px;
+    color: black;
+    font-size: 0.8em;
+}
+#contributorsTable {
+    width: 100%;
+}
+#second-container a:link {
+    text-decoration: none;
+    color: inherit;
+}
+#second-container a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+#second-container a:nth-last-child(n+2) tr  {
+    border-bottom: 1.2px solid rgb(232, 232, 236);
+}
+.contributorsTr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.contributor-images {
+    width: 60px;
+    border-radius: 6px;
+    margin: 10px;
+}
+.contributor-name {
+    margin-right: auto;
+}
+.contributor-number {
+    display: inline;
+    background-color: rgb(111, 111, 111);
+    min-width: 25px;
+    border-radius: 5px;
+    color: rgb(232, 232, 236);
+    padding: 5px;
+    text-align: center;
+    margin-right: 5px;
+}
+@media only screen and (min-width:700px) {
+    #root {
+        max-width: 800px;
+    }
+
+    #first-container {
+        width: calc(60% - 10px);
+        float:left;
+    }
+
+    #second-container {
+        width: calc(40% - 15px);
+        float: right;
+    }
+}
