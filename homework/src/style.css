@@ -1,3 +1,111 @@
+body {
+    width: 768px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #f8f8f8;
+    font-family: 'Roboto', sans-serif;
+    color: rgb(0, 0, 0, 87%);
+    margin-top: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 .alert-error {
+    width: 100%;
+    padding: 10px;
+    background: white;
     color: red;
+}
+
+.header {
+    padding: 15px;
+    margin-bottom: 10px;
+    background: rgb(19, 124, 230);
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+p {
+    margin-right: 15px;
+}
+
+#menu {
+    height: 30px;
+    min-width: 200px;
+}
+
+.container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.left_div {
+    width: calc(50% - 10px);
+    margin-right: 20px;
+    box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .2);
+}
+
+.right_div {
+    width: calc(50% - 10px);
+    box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .2);
+}
+
+.label {
+    font-weight: bold;
+}
+
+.contributor-header {
+    margin-left: 10px;
+    font-size: 10px;
+    color: gray;
+}
+
+.contributor-list {
+    padding: 0;
+}
+.contributor-list a {
+    text-decoration: none;
+    color: black;
+    display: flex;
+    align-items: center;
+}
+
+.contributor-item {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: solid 1px silver;
+    padding: 15px;
+   
+}
+
+.contributor-avatar {
+    border-radius: 3px;
+    margin-right: 16px;
+    width: 40px; 
+}
+
+.contributor-data {
+    display: flex;
+}
+
+.contributor_name {
+    margin-right: 16px;
+}
+
+.contributor_badge {
+    position: absolute;
+    right: 0;
+    font-size: 13px;
+    margin-right: 16px;
+    padding: 2px 8px;
+    background-color: gray;
+    color: white;
+    border-radius: 4px;
+    
 }
