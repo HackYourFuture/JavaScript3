@@ -1,20 +1,27 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+
+
+  function fetchJSON(url) {
+    return new Promise(function(resolve, reject) {
+      var xhr = new XMLHttpRequest();
+     
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
+
 
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
@@ -62,56 +69,49 @@
   function renderContrib(repo)
   {
     const contributors = document.getElementById('contribInfo');
-    fetchJSON(repo.contributors_url, (err, data) => {
-      if(err){
-        createAndAppend('div', contributors, { html: err.message, class: 'alert-error' });
-      }
-      else{
-        data.forEach((contributor, index)=>{
-          if(index >= 10) return;
-          const item = createAndAppend('div', contributors, {class: 'item'});
-          const contribData = createAndAppend('div', item, {class: 'contrib-data'});
-          createAndAppend('img', contribData, {src:contributor.avatar_url, width:'50px', height:'50px;'});
-          createAndAppend('h2', contribData, {html: contributor.login});
-          createAndAppend('h2', item, {html: contributor.contributions, class:'contributions'});
-        });
-      }
-    }
-  );
+    fetchJSON(repo.contributors_url).then(function(response){
+      response.forEach((contributor, index)=>{
+        if(index >= 10) return;
+        const item = createAndAppend('div', contributors, {class: 'item'});
+        const contribData = createAndAppend('div', item, {class: 'contrib-data'});
+        createAndAppend('img', contribData, {src:contributor.avatar_url, width:'50px', height:'50px;'});
+        createAndAppend('h2', contribData, {html: contributor.login});
+        createAndAppend('h2', item, {html: contributor.contributions, class:'contributions'});
+      });
+    }).catch(function(error){
+      createAndAppend('div', contributors, { html: error.message, class: 'alert-error' });
+    });
 
   }
   
   function main(url) {
-    fetchJSON(url, (err, data) => {
-      const root = document.getElementById('root');
-      const nav = createAndAppend('div', root, {id:'nav'});
-      createAndAppend('label', nav, {html:'HYF Repositories'});
-      const select = createAndAppend('select', nav);
-      createAndAppend('div', root, {id: 'content'});
+    const root = document.getElementById('root');
+    const nav = createAndAppend('div', root, {id:'nav'});
+    createAndAppend('label', nav, {html:'HYF Repositories'});
+    const select = createAndAppend('select', nav);
+    createAndAppend('div', root, {id: 'content'});
 
-      if (err) {
-        createAndAppend('div', root, { html: err.message, class: 'alert-error' });
-      } else {
-
-        data.sort((repo1, repo2) => {
-          let name1 = repo1.name.toLowerCase(), name2 = repo2.name.toLowerCase();
-          if(name1 < name2) return -1;
-          if(name1 == name2) return 0;
-          return 1;
-        });
-       
-        data.forEach((repo, index) => { 
-          createAndAppend('option', select, {text: repo.name, value: index, html:repo.name});
-        });
-        renderRepo(data[0]);
-        renderContrib(data[0]);
+    fetchJSON(url).then(function(response){
+      response.sort((repo1, repo2) => {
+        let name1 = repo1.name.toLowerCase(), name2 = repo2.name.toLowerCase();
+        if(name1 < name2) return -1;
+        if(name1 == name2) return 0;
+        return 1;
+      });
+     
+      response.forEach((repo, index) => { 
+        createAndAppend('option', select, {text: repo.name, value: index, html:repo.name});
+      });
+      renderRepo(response[0]);
+      renderContrib(response[0]);
 
 
-        select.addEventListener('change', (event) =>{
-          renderRepo(data[event.target.value]);
-          renderContrib(data[event.target.value]);
-        });
-      }
+      select.addEventListener('change', (event) =>{
+        renderRepo(response[event.target.value]);
+        renderContrib(response[event.target.value]);
+      });
+    }).catch(function(error){
+      createAndAppend('div', root, { html: error.message, class: 'alert-error' });
     });
   }
 
