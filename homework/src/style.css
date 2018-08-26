@@ -109,3 +109,21 @@ p {
     border-radius: 4px;
     
 }
+
+@media all and (max-width: 700px) {
+    body {
+        width: 100%;
+    }
+    #menu {
+        width: 50%;
+    }
+    .container {
+        flex-direction: column;
+    }
+    .left_div {
+        width: 100%;
+    }
+    .right_div {
+        width: 100%;
+    }
+} 
