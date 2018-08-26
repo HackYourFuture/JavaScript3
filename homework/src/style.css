@@ -76,7 +76,7 @@ img.avatar {
     border-radius: 3px;
     margin-right: 16px;
     float: left;
-    display: inline-block;
+    display: block;
 }
 section {
     overflow: hidden;

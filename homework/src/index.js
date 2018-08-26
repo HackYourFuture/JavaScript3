@@ -53,11 +53,6 @@
       createAndAppend('div', root, { html: error.message, class: 'alert-error' });
     });
   }
-
-
-
-
-
   // function who creates a left content section
   function contentLeft(container, data, select) {
     const leftSection = createAndAppend('div', container, { id: 'leftSection', class: 'whiteframe' });
@@ -69,8 +64,6 @@
       showTableRepo(leftSection, data[theEventIndex]);
     });
   }
-
-  
 
   // drow the table
 function showTableRepo(leftSection, repository) {
@@ -101,8 +94,6 @@ function showTableRepo(leftSection, repository) {
   const endDate = defaultDate.toLocaleString();
   createAndAppend('p', td4, {html: endDate});
 }
-
-
 
   // function who creates a right content section
   function contentRight(container, data, select) {
@@ -135,11 +126,7 @@ function showTableRepo(leftSection, repository) {
 
   }
 
-
-
-
-
-function showContributors(rightSection, contributors) {
+  function showContributors(rightSection, contributors) {
   contributors.forEach(contributor => {
     const contrSection = createAndAppend('section', rightSection);
     const contrMainLink = createAndAppend('a', contrSection, {href:  contributor.html_url});
