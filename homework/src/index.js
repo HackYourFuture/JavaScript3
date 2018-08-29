@@ -32,27 +32,27 @@
     return elem;
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
     const header = createAndAppend('header', root);
     createAndAppend('p', header, {html: 'HYF Repositories', class: 'header-lable'});
     const select = createAndAppend('select', header, { id: 'selectMenu' });
     // use promise object
-    const promise = fetchJSON(url);
-    promise.then(data => {
-      data.sort((a, b) => a.name.localeCompare(b.name, 'fr', {ignorePunctuation: true}));
-      data.forEach((repository, index) => {
-        createAndAppend('option', select, {html: repository.name, value: index});
-      });
-      
-      const container = createAndAppend('div', root, { id: 'container'});
-      contentLeft(container, data, select);
-      contentRight(container, data, select);
-    })
-    .catch(error => {
+    try {
+      const data = await fetchJSON(url);
+        data.sort((a, b) => a.name.localeCompare(b.name, 'fr', {ignorePunctuation: true}));
+        data.forEach((repository, index) => {
+          createAndAppend('option', select, {html: repository.name, value: index});
+        });
+        const container = createAndAppend('div', root, { id: 'container'});
+        contentLeft(container, data, select);
+        contentRight(container, data, select);
+    }
+    catch(error) {
       createAndAppend('div', root, { html: error.message, class: 'alert-error' });
-    });
+    }
   }
+  
   // function who creates a left content section
   function contentLeft(container, data, select) {
     const leftSection = createAndAppend('div', container, { id: 'leftSection', class: 'whiteframe' });
@@ -96,32 +96,30 @@ function showTableRepo(leftSection, repository) {
 }
 
   // function who creates a right content section
-  function contentRight(container, data, select) {
+  async function contentRight(container, data, select) {
     const rightSection = createAndAppend('div', container, { id: 'rightSection', class: 'whiteframe' });
     createAndAppend('h5', rightSection, {html: "Contributions :", class: 'contributionsLable'});
     const contributorsURL = data[0].contributors_url;
-    const ContributorsPromise = fetchJSON(contributorsURL);
-    ContributorsPromise
-      .then(contributors => {
-        showContributors(rightSection, contributors);
-      })
-      .catch(error => {
-        createAndAppend('div', rightSection, { html: error.message, class: 'alert-error' });
-      });
+    try {
+      const contributors = await fetchJSON(contributorsURL);
+      showContributors(rightSection, contributors);
+    }
+    catch(error) {
+      createAndAppend('div', rightSection, { html: error.message, class: 'alert-error' });
+    }
 
-    select.addEventListener('change', (event) => {
+    select.addEventListener('change', async (event) => {
       rightSection.innerHTML = "";
       createAndAppend('h5', rightSection, {html: "Contributions :", class: 'contributionsLable'});
       const theEventIndex = event.target.value;
       const contributorsURL = data[theEventIndex].contributors_url;
-      const ContributorsPromise = fetchJSON(contributorsURL);
-      ContributorsPromise
-      .then(contributors => {
+      try {
+        const contributors = await fetchJSON(contributorsURL);
         showContributors(rightSection, contributors);
-      })
-      .catch(error => {
+      }
+      catch(error) {
         createAndAppend('div', rightSection, { html: error.message, class: 'alert-error' });
-      });
+      }
     });
 
   }
