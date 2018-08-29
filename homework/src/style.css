@@ -13,8 +13,7 @@ body {
 .font {
    font-weight: 600;
     font-family: monospace;
-    font-size: 14px;
-
+    font-size: 30px;
 }
 
 .header {
@@ -40,12 +39,11 @@ body {
 
 table {
     width: 50%;
-    left:150px;
+    left:20px;
     top: 20px;
-    font-size: 18px;
     padding: 20px;
     box-shadow: 2px 2px 2px 2px black;
-    align-items: center;
+    
 }
 .avatar{
     width:20%;
