@@ -36,7 +36,7 @@
         const root = document.getElementById('root');
         const div = createAndAppend('div', root, { class: 'container' });
         const contributorsContainer = createAndAppend('div', root, { class: 'container' });
-        const header = createAndAppend('h2', div, { html: "HYF Repositories  ", class: 'header' });
+        const header = createAndAppend('h1', div, { html: "HYF Repositories  ", class: 'header' });
         const select = createAndAppend('select', header, { class: "chose" });
         const table = createAndAppend('table', div, { class: 'font' });
         const tablebody = createAndAppend('tablebody', table);
