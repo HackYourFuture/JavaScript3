@@ -1,5 +1,6 @@
 'use strict';
 
+
 {
     function fetchJSON(url, cb) {
         const xhr = new XMLHttpRequest();
