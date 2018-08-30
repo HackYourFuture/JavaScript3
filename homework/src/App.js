@@ -17,16 +17,32 @@ class App {
     // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
 
     const root = document.getElementById('root');
+    this.root = root;
+    const header = Util.createAndAppend('header', root);
+    Util.createAndAppend('p', header, {html: 'HYF Repositories', class: 'header-lable'});
+    const select = Util.createAndAppend('select', header, { id: 'selectMenu' });
+    this.select = select;
     // ...
 
     try {
       // ...
       const repos = await Util.fetchJSON(url);
+      repos.sort((a, b) => a.name.localeCompare(b.name, 'fr', {ignorePunctuation: true}));
       this.repos = repos.map(repo => new Repository(repo));
-      // ...
+      this.repos.forEach((repository, index) => {
+        Util.createAndAppend('option', this.select, {html: repository.name(), value: index});
+      });
+      this.fetchContributorsAndRender(0);
     } catch (error) {
       this.renderError(error);
     }
+
+    this.select.addEventListener('change', (event) => {
+      const index = event.target.value;
+      this.container.innerHTML = '';  
+      this.fetchContributorsAndRender(index);
+    });
+
   }
 
   /**
@@ -38,18 +54,19 @@ class App {
     try {
       const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
-
-      const container = document.getElementById('container');
+      //const container = document.getElementById('container');
+      const container = Util.createAndAppend('div', this.root, { id: 'container'});
+      this.container = container;
       // Erase previously generated inner HTML from the container div
       container.innerHTML = '';
 
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
-
-      const contributorList = Util.createAndAppend('ul', rightDiv);
-
-      repo.render(leftDiv);
-
+      //const leftDiv = Util.createAndAppend('div', container);
+      const leftSection = Util.createAndAppend('div', container, { id: 'leftSection', class: 'whiteframe' });
+      //const rightDiv = Util.createAndAppend('div', container);
+      const contributorList = Util.createAndAppend('div', container, { id: 'rightSection', class: 'whiteframe' });
+      Util.createAndAppend('h5', contributorList, {html: "Contributions :", class: 'contributionsLable'});
+      //const contributorList = Util.createAndAppend('section', rightSection);
+      repo.render(leftSection);
       contributors
         .map(contributor => new Contributor(contributor))
         .forEach(contributor => contributor.render(contributorList));
@@ -63,7 +80,7 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    // Replace this comment with your code
+    Util.createAndAppend('div', this.root, { html: error.message, class: 'alert-error' });
   }
 }
 

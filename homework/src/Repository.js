@@ -16,6 +16,33 @@ class Repository {
     //
     // Replace this comment with your code
     //
+    // ..
+    // create table of the contents
+    const lTable = Util.createAndAppend('table', parent);
+    // line one
+    const tr1 = Util.createAndAppend('tr', lTable);
+    Util.createAndAppend('td', tr1, {html: 'Repository :', class: 'lable'});
+    const td1 = Util.createAndAppend('td', tr1);
+    const nameLink = '<a href="' + this.data.html_url + '" target="_blank">' + this.name() + '</a>';
+    Util.createAndAppend('p', td1, {html: nameLink });
+    // line two
+    const tr2 = Util.createAndAppend('tr', lTable);
+    Util.createAndAppend('td', tr2, {html: 'Description :', class: 'lable'});
+    const td2 = Util.createAndAppend('td', tr2);
+    Util.createAndAppend('p', td2, {html: this.data.description});
+    // line three
+    const tr3 = Util.createAndAppend('tr', lTable);
+    Util.createAndAppend('td', tr3, {html: 'Forks :', class: 'lable'});
+    const td3 = Util.createAndAppend('td', tr3);
+    Util.createAndAppend('p', td3, {html: this.data.forks});
+    // line four
+    const tr4 = Util.createAndAppend('tr', lTable);
+    Util.createAndAppend('td', tr4, {html: 'Updated :', class: 'lable'});
+    const td4 = Util.createAndAppend('td', tr4);
+    const defaultElDate = this.data.updated_at;
+    const defaultDate = new Date(defaultElDate);
+    const endDate = defaultDate.toLocaleString();
+    Util.createAndAppend('p', td4, {html: endDate});
   }
 
   /**
