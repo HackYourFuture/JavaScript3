@@ -7,11 +7,11 @@ function fetchJSON(url) {
     xhr.responseType = 'json';
     xhr.onload = () => {
         if (xhr.status < 400) {
-            resolve(xhr.response)
+            resolve(xhr.response);
         } else {
             reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
         }
-    }
+    };
     xhr.onerror = ()=> {
         reject(new Error('Network request failed'));
     };
@@ -27,7 +27,7 @@ function createAndAppend(name, parent, options = {}) {
         } else {
             elem.setAttribute(key, options[key]);
         }
-    })
+    });
     return elem;
 }
 window.fetchJSON = fetchJSON;

@@ -1,15 +1,16 @@
+/* global createAndAppend, fetchJSON */
 'use strict';
-
+{
     const URL_Rep = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
     function renderRepository(container, repository) {
-        let dateOfRepository = new Date(repository.updated_at);
+        const dateOfRepository = new Date(repository.updated_at);
         container.innerHTML = "";
         const innerTable = createAndAppend("table", container);
         const tBody = createAndAppend("tbody", innerTable);
         const tr = createAndAppend('tr', tBody);
         createAndAppend('td', tr, {text: "Repository:", class: "nameRow"});
         const tdForLink = createAndAppend('td', tr,);
-        createAndAppend('a', tdForLink, {text: repository.name, href: repository.html_url})
+        createAndAppend('a', tdForLink, {text: repository.name, href: repository.html_url});
         const tr1 = createAndAppend('tr', tBody);
         createAndAppend('td', tr1, {text: "Description:", class: "nameRow"});
         createAndAppend('td', tr1, {text: repository.description});
@@ -23,16 +24,12 @@
 
     }
     //contributors box
-    function renderContributors(containerForContributors, repository) {
-        containerForContributors.innerHTML = "";
+    async function renderContributors(containerForContributors, repository) {
         const contributorsURL = repository['contributors_url'];
         createAndAppend('p', containerForContributors, { text: 'Contributions' });
-        fetchJSON(contributorsURL)
-            .catch(err => {
-                createAndAppend('div', containerForContributors, { text: err.message, class: 'alert-error' });
-              })
-
-              .then(contributors => {
+        try {
+            const contributors = await fetchJSON(contributorsURL);
+                containerForContributors.innerHTML = "";
                 const contributorsTable = createAndAppend('table', containerForContributors, { id: 'contributorsTable' });
 
                 const contributorsTbody = createAndAppend('tbody', contributorsTable, { id: 'contributorsTbody' });
@@ -55,26 +52,25 @@
 
                 createAndAppend('td', contributorsTr, { text: contNum, class: 'inform-contrib contributor-number' });
             });
-        })
+        }
+        catch(err){
+            createAndAppend('div', containerForContributors, { text: err.message, class: 'alert-error' });
+          }
     }
     
 
-    function main(url) {
+    async function main(url) {
        const root = document.getElementById('root');
        const divForSelect = createAndAppend('div', root, {id: "container-select"});
        createAndAppend('h5', divForSelect, {text: "HYF Repositories", class: "heading"});
        const select = createAndAppend('select', divForSelect, {id: "menu"});
        const container = createAndAppend('div', root, {id: "first-container"});
-       const containerForContributors = createAndAppend('div', root, {id: "second-container"})
+       const containerForContributors = createAndAppend('div', root, {id: "second-container"});
 
-    fetchJSON(url)
-        .catch(err => {
-            container.innerHTML = error.message;
-            return;
-        })
-    
-        .then(repositories => {
-        
+   // use async await method
+    try {
+        const repositories = await fetchJSON(url);
+
             repositories.sort((a, b) => a.name.localeCompare(b.name));
 
             repositories.forEach((repository, index) => {
@@ -82,12 +78,18 @@
         });
         
         select.addEventListener('change', (event) => {
-            renderRepository(container, repositories[event.target.value])
-            renderContributors(containerForContributors, repositories[event.target.value])
+            renderContributors(containerForContributors, repositories[event.target.value]);
+            renderRepository(container, repositories[event.target.value]);
         });
 
         renderRepository(container, repositories[0]);
-        renderContributors(containerForContributors, repositories[0])
-    })
+        renderContributors(containerForContributors, repositories[0]);
+    }
+    catch(error){
+        container.innerHTML = error.message;
+        return;
+    }
     }
     window.onload = () => main(URL_Rep);
+}
+
