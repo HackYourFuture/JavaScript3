@@ -84,18 +84,12 @@ select {
     font-size: 0.8em;
 }
 
-#contributorsTable {
+.loadingGif {
     width: 100%;
 }
 
-#contributorsDiv a:link {
-    text-decoration: none;
-    color: inherit;
-}
-
-#contributorsDiv a:visited {
-    text-decoration: none;
-    color: inherit;
+#contributorsTable {
+    width: 100%;
 }
 
 .contributorsTr {
@@ -104,7 +98,11 @@ select {
     justify-content: space-between;
 }
 
-#contributorsDiv a:nth-last-child(n+2) tr  {
+.contributorsTr:hover {
+    cursor: pointer;
+}
+
+#contributorsDiv tr:nth-last-child(n+2)   {
     border-bottom: 1.2px solid rgb(232, 232, 236);
 }
 
