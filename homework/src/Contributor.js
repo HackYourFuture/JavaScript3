@@ -14,5 +14,11 @@ class Contributor {
   */
   render(contributorList) {
     // Replace this comment with your code
+    const contrSection = Util.createAndAppend('section', contributorList);  
+    const contrMainLink = Util.createAndAppend('a', contrSection, {href:  this.data.html_url});
+    Util.createAndAppend('img', contrMainLink, {class: 'avatar', src: this.data.avatar_url});
+    const contrDataDiv = Util.createAndAppend('div', contrMainLink, {class: 'contrData'});
+    Util.createAndAppend('div', contrDataDiv, {html: this.data.login});
+    Util.createAndAppend('div', contrDataDiv, {html: this.data.contributions, class: 'contributor-badge'});
   }
 }
