@@ -1,3 +1,145 @@
+* {
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+  }
+
+#imgLogo {
+    margin-left: 40%;
+    width:20%;
+    max-width: 150px ;
+    min-width: 90px;
+}
+
+#divSelect {
+    width: 90%;
+    background-color: rgb(0, 153, 255);
+    margin: auto;
+    margin:20px; 
+    padding-bottom:10px;
+}
+
+#p1 {
+    text-align: center;
+    font-weight: bold;
+    padding-top: 5%;
+}
+
+#select {
+    width: 60%;
+    max-width: 600px;;
+    text-align: center;
+    background-color: rgba(223, 223, 223, 0.719);
+    margin-left : 20%;
+    margin-left : 20%;
+}
+
+#divInfo {
+    background-color: aliceblue;
+    width:80%;
+    margin:auto;
+    margin:20px;
+    padding:5%;
+    vertical-align: middle;
+}
+
+#divCont {
+    background-color: rgb(145, 174, 199);
+    width:80%;
+    margin:auto;
+    margin:20px;
+    padding:5%;
+    vertical-align: middle;
+}
+
+.contImg {
+    width: 55px;
+    border-radius: 3px;
+}
+
+.contNameLink {
+    padding-left: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
+
+.liContributor {
+    background-color: white;
+    list-style-type: none;
+    display: flex;
+    flex-basis: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: solid 1px rgb(0, 0, 0, 12%);
+    padding: 5px;
+}
+
+.liNumberContribution{
+    font-size: 12px;
+    padding: 2px 8px;
+    line-height: 1rem;
+    background-color: gray;
+    color: white;
+    border-radius: 4px;
+}
+
+.h2 {
+    text-align: center; 
+}
+
 .alert-error {
     color: red;
+}
+
+@media (min-width: 100px) and (max-width: 600px) { 
+    body {
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 50px;
+        width: 100%;
+        margin:auto;
+        font-size: 0.9em;
+        font-family: "RO Sans",Calibri,sans-serif;
+        background-color: #f8f8f8;
+    }
+
+    #divFlex {
+        background-color: rgb(233, 171, 171);
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;       
+        justify-content: space-around;
+        align-items: flex-start;
+        width:90%;
+        margin:20px;
+    
+    }
+    
+   
+}
+@media (min-width: 601px) and (max-width: 1280px) {
+    body {
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 50px;
+        width: 80%;
+        margin:auto;
+        font-size: 0.9em;
+        font-family: "RO Sans",Calibri,sans-serif;
+        background-color: #f8f8f8;
+    }
+
+    #divFlex {
+        background-color: rgb(112, 23, 23);
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;       
+        justify-content: space-around;
+        align-items: flex-start;
+        width:90%;
+        margin:20px;
+    }
+
 }
