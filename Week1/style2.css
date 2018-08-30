@@ -6,6 +6,9 @@ body {
     display: flex;
     justify-content: center;
 }
+p {
+    font-weight: bold;
+}
 #root {
     width: 100%
 }

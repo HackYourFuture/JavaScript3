@@ -26,10 +26,10 @@
     //contributors box
     async function renderContributors(containerForContributors, repository) {
         const contributorsURL = repository['contributors_url'];
-        createAndAppend('p', containerForContributors, { text: 'Contributions' });
         try {
             const contributors = await fetchJSON(contributorsURL);
                 containerForContributors.innerHTML = "";
+                createAndAppend('p', containerForContributors, { text: 'Contributions' });
                 const contributorsTable = createAndAppend('table', containerForContributors, { id: 'contributorsTable' });
 
                 const contributorsTbody = createAndAppend('tbody', contributorsTable, { id: 'contributorsTbody' });
@@ -66,7 +66,6 @@
        const select = createAndAppend('select', divForSelect, {id: "menu"});
        const container = createAndAppend('div', root, {id: "first-container"});
        const containerForContributors = createAndAppend('div', root, {id: "second-container"});
-
    // use async await method
     try {
         const repositories = await fetchJSON(url);
