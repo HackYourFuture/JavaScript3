@@ -1,3 +1,60 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  background-color: #ffffff;
+  min-width: 300px;
+}
+.header {
+  color: white;
+  background-color: rgb(63, 81, 181);
+  margin-bottom: 16px;
+  margin-top: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 16px;
+  padding-top: 22px;
+  padding-right: 16px;
+  padding-bottom: 22px;
+  padding-left: 16px;
+  border-radius: 5px;
+}
 .alert-error {
-    color: red;
+  color: #721c24;
+  background-color: #f8d7da;
+}
+
+.select {
+  font-size: 14px;
+  width: 100%;
+  
+}
+
+tr.label {
+  font-weight: bold;
+}
+
+.label {
+  margin: 3px;
+}
+
+
+table {
+  margin-bottom: 8px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+  box-shadow: rgba(2, 1, 1, 0.2) 0px 1px 8px 0px,
+    rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 4px 5px 5px -2px;
+    padding-right: 5%;
+}
+
+ @media only screen and (min-width:768px) and (max-width:1024px) {
+    .header .select {
+        width: 60%;
+    }
+}
+@media (min-width: 1025px) {
+  .header .select {
+    width: 60%;
+  }
 }
