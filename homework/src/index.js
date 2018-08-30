@@ -32,32 +32,8 @@
         });
         return elem;
     }
-    const root = document.getElementById('root');
-    const header = createAndAppend('header', root, {
-        class: 'header'
-    });
-    const container = createAndAppend('div', root, {
-        class: 'container'
-    });
-    createAndAppend('p', header, {
-        html: 'HYF Repositories'
-    });
-    const select = createAndAppend('select', header, {
-        id: 'list'
-    });
-    const repositoriesInfoSec = createAndAppend('section', container, {
-        class: 'repos-info-sec box'
-    });
-    const contributorsSec = createAndAppend('section', container, {
-        class: 'contributors-sec box'
-    });
-    createAndAppend('p', contributorsSec, {
-        html: 'Contributions',
-        class: 'contributions'
-    });
-    const ul = createAndAppend('ul', contributorsSec);
 
-    function ShowRepository(repository) {
+    function showRepository(repository, repositoriesInfoSec) {
         const table2 = document.getElementById('info-table');
         if (table2 !== null) {
             table2.outerHTML = '';
@@ -73,44 +49,42 @@
         const repoName = createAndAppend('td', repoNameLine, {
             id: 'repoName'
         });
-        const repoNameLink = createAndAppend('a', repoName, {
+        createAndAppend('a', repoName, {
             target: '_blank',
+            href: repository.html_url,
+            html: repository.name,
         });
         const descriptionLine = createAndAppend('tr', table);
         const descriptionLabel = createAndAppend('td', descriptionLine, {
             html: 'Description :',
             class: 'label'
         });
-        const descriptionValue = createAndAppend('td', descriptionLine);
+        if (repository.description === null) {
+            descriptionLabel.innerHTML = '';
+
+        } else {
+            descriptionLabel.innerText = "Description :";
+            createAndAppend('td', descriptionLine, { html: repository.description });
+        }
         const forkLine = createAndAppend('tr', table);
         createAndAppend('td', forkLine, {
             html: 'Forks :',
             class: 'label'
         });
-        const forkValue = createAndAppend('td', forkLine);
         const updateLine = createAndAppend('tr', table);
         createAndAppend('td', updateLine, {
             html: 'Updated :',
             class: 'label'
         });
-        const updateValue = createAndAppend('td', updateLine);
-        repoNameLink.innerText = repository.name;
-        repoNameLink.setAttribute('href', repository.html_url);
-        if (repository.description === null) {
-            descriptionLabel.innerHTML = '';
-            descriptionValue.innerText = '';
-        } else {
-            descriptionLabel.innerText = "Description :";
-            descriptionValue.innerText = repository.description;
-        }
-        forkValue.innerText = repository.forks;
+        createAndAppend('td', forkLine, { html: repository.forks });
         const updateRepo = new Date(repository.updated_at);
-        updateValue.innerText = updateRepo.toLocaleString();
+        createAndAppend('td', updateLine, { html: updateRepo.toLocaleString() });
     }
 
-    function fetchAndShowContributors(contributorsUrl) {
+    function fetchAndShowContributors(contributorsUrl, ul) {
         fetchJSON(contributorsUrl)
             .then((contributors) => {
+                ul.innerHTML = '';
                 contributors.forEach(contributor => {
                     const li = createAndAppend('li', ul);
                     createAndAppend('img', li, {
@@ -131,26 +105,50 @@
     }
 
     function main(url) {
+        const root = document.getElementById('root');
+        const header = createAndAppend('header', root, {
+            class: 'header'
+        });
+        const container = createAndAppend('div', root, {
+            class: 'container'
+        });
+        createAndAppend('p', header, {
+            html: 'HYF Repositories'
+        });
+        const select = createAndAppend('select', header, {
+            id: 'list'
+        });
+        const repositoriesInfoSec = createAndAppend('section', container, {
+            class: 'repos-info-sec box'
+        });
+        const contributorsSec = createAndAppend('section', container, {
+            class: 'contributors-sec box'
+        });
+        createAndAppend('p', contributorsSec, {
+            html: 'Contributions',
+            class: 'contributions'
+        });
+        const ul = createAndAppend('ul', contributorsSec);
 
         fetchJSON(url)
             .then((repositories) => {
-                repositories.sort((a, b) => a.name.localeCompare(b.name));
-                repositories.forEach((repository, i) => {
-                    createAndAppend('option', select, {
-                        html: repository.name,
-                        value: i
+                repositories
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .forEach((repository, i) => {
+                        createAndAppend('option', select, {
+                            html: repository.name,
+                            value: i
+                        });
                     });
-                });
-                ShowRepository(repositories[0]);
+                showRepository(repositories[0], repositoriesInfoSec);
                 const contributorsUrl = repositories[0].contributors_url;
-                fetchAndShowContributors(contributorsUrl);
+                fetchAndShowContributors(contributorsUrl, ul);
 
                 select.addEventListener('change', (e) => {
                     const index = e.target.value;
-                    ShowRepository(repositories[index]);
-                    ul.innerHTML = '';
+                    showRepository(repositories[index], repositoriesInfoSec);
                     const contributorsUrl = repositories[index].contributors_url;
-                    fetchAndShowContributors(contributorsUrl);
+                    fetchAndShowContributors(contributorsUrl, ul);
                 });
             })
             .catch((err) => {
