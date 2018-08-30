@@ -17,39 +17,42 @@ body {
 }
 
 .header {
-
+    margin: auto;
     text-shadow: 3px 1px black;
     background-color:#3B5998;
-    width: 50%;
+    width: 60%;
     color: white;
     padding: 15px;
-    padding-left: 50px;
-    align-items: center;
-    display: flex;
+    padding-left: 40px;
+    
 }
 
 
 .chose {
-    margin-left: 100px;
-    width: 200px;
+    margin-left: 20px;
+    width: 240px;
     height: 32px;
-    display: flex;
-    
+    font-size: 14px;
 }
 
 table {
     width: 50%;
-    left:20px;
+    left:20%;
+    font-size: 14px;
+    position: relative;
     top: 20px;
     padding: 20px;
+    background-color: white;
     box-shadow: 2px 2px 2px 2px black;
     
 }
 .avatar{
     width:20%;
-    padding-top: 20px;
-    margin-left: 150px;
+    padding-top: 50px;
+    margin-left: 300px;
 }
+
+
 
 .name{
     margin-right: 16px;
@@ -71,7 +74,7 @@ table {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-left: 150px;
+    margin-left: 260px;
 }
 
 .list a {
@@ -81,4 +84,7 @@ table {
 }
 .list{
     font-size: 22px;
+}
+.container {
+    float:left;
 }

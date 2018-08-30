@@ -3,18 +3,20 @@
 
 {
     function fetchJSON(url, cb) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        xhr.responseType = 'json';
-        xhr.onload = () => {
-            if (xhr.status < 400) {
-                cb(null, xhr.response);
-            } else {
-                cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-            }
-        };
-        xhr.onerror = () => cb(new Error('Network request failed'));
-        xhr.send();
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            xhr.responseType = 'json';
+            xhr.onload = () => {
+                if (xhr.status < 400) {
+                    resolve(xhr.response);
+                } else {
+                    reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+                }
+            };
+            xhr.onerror = () => cb(new Error('Network request failed'));
+            xhr.send();
+        });
     }
 
     function createAndAppend(name, parent, options = {}) {
@@ -44,10 +46,8 @@
         const descripTitle = createAndAppend('tr', tablebody);
         const title2 = createAndAppend('tr', tablebody, { class: 'font' });
         const newTitle = createAndAppend('tr', tablebody, { class: 'font' });
-        fetchJSON(url, (err, repositories) => {
-            if (err) {
-                createAndAppend('div', root, { html: err.message, class: 'alert-error' });
-            } else {
+        fetchJSON(url)
+            .then((repositories) => {
                 repositories.sort(function (a, b) {
                     return a.name.localeCompare(b.name);
                 });
@@ -66,19 +66,18 @@
                     renderContributors(repository.contributors_url, contributorsContainer);
                 });
 
-            }
+            })
+            .catch(error => {
+                createAndAppend('div', root, { text: error.message, class: 'alert-error' });
 
-        });
+            });
     }
 
-
     function renderContributors(contributorsUrl, container) {
-        fetchJSON(contributorsUrl, (err, contributors) => {
-            container.innerHTML = '';
-            if (err) {
-                createAndAppend('div', container, { html: err.message, class: 'alert-error' });
-            } else {
-                contributors.forEach((contributor) => {
+        fetchJSON(contributorsUrl)
+            .then((contributors) => {
+                container.innerHTML = '';
+                contributors.forEach(contributor => {
                     const avatar = createAndAppend('img', container, { class: 'avatar' });
                     avatar.setAttribute("src", contributor.avatar_url);
                     const list = createAndAppend('ul', container, { class: 'list' });
@@ -89,9 +88,8 @@
                     createAndAppend("div", data, { "html": contributor.contributions, "class": "badge" });
 
                 });
-
-            }
-        });
+            })
+            .catch((err) => console.log(err));
     }
 
     const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
