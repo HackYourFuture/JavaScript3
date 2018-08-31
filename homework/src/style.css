@@ -1,3 +1,150 @@
-.alert-error {
-    color: red;
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(232, 232, 236);
+    min-width: 330px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
 }
+
+#root {
+    width: 100%;
+}
+
+
+#headingDiv {
+    background-color: rgb(65, 65, 121);
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+label {
+    color: rgb(232, 232, 236);
+    margin: 3px;
+}
+
+select {
+    border-radius: 3px;
+    padding: 3px;
+    width: 250px;
+}
+
+
+.alert-error {
+    color: rgb(104, 6, 6);
+    background-color: rgb(223, 198, 198);
+    margin-top: 5px;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+
+ #infoDiv {
+    margin: 5px;
+    background-color: rgb(241, 241, 243);
+    border: 2px rgb(241, 241, 243) solid;
+    border-radius: 7px;
+    box-shadow: 1px 1px 1px 1px #888888
+}
+
+.keys {
+    width: 100px;
+}
+
+#DescriptionTr > td.keys {
+    display: flex;
+    align-items: flex-start;
+}
+
+#infoDiv a:link {
+    text-decoration: underline;
+    color: blue;
+}
+
+#infoDiv a:visited {
+    text-decoration: underline;
+    color: blue;
+}
+
+
+
+#contributorsDiv {
+    margin: 5px;
+    background-color: rgb(241, 241, 243);
+    border: 2px rgb(241, 241, 243) solid;
+    border-radius: 7px;
+    box-shadow: 1px 1px 1px 1px #888888
+}
+
+#contributorsDiv p {
+    margin: 20px 10px 20px 10px;
+    color: rgb(112, 111, 111);
+    font-size: 0.8em;
+}
+
+.loadingGif {
+    width: 100%;
+}
+
+#contributorsTable {
+    width: 100%;
+}
+
+.contributorsTr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.contributorsTr:hover {
+    cursor: pointer;
+}
+
+#contributorsDiv tr:nth-last-child(n+2)   {
+    border-bottom: 1.2px solid rgb(232, 232, 236);
+}
+
+.cont-images {
+    width: 60px;
+    border-radius: 6px;
+    margin: 10px;
+}
+
+.cont-name {
+    margin-right: auto;
+}
+
+.cont-num {
+    display: inline;
+    background-color: rgb(111, 111, 111);
+    min-width: 25px;
+    border-radius: 5px;
+    color: rgb(232, 232, 236);
+    padding: 5px;
+    text-align: center;
+}
+
+
+
+@media only screen and (min-width:700px) {
+    #root {
+        max-width: 800px;
+    }
+
+    #infoDiv {
+        width: calc(60% - 15px);
+        float:left;
+    }
+
+    #contributorsDiv {
+        width: calc(40% - 15px);
+        float: right;
+    }
+}
+
+/* @media only screen and (min-width:1025px) {
+// no need to add extra media query
+} */
+
