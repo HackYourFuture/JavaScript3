@@ -53,12 +53,11 @@
   //info-box of the page
   function createInfoBox(repoData, container) {
 
+    container.innerHTML = "";
+
     const info = new RepositoryInfo(repoData);
 
-
-    const infoDiv = createAndAppend('div', container, { id: 'infoDiv' });
-
-    const infoTable = createAndAppend('table', infoDiv, { id: 'infoTable' });
+    const infoTable = createAndAppend('table', container, { id: 'infoTable' });
 
     const infoBody = createAndAppend('tbody', infoTable, { id: 'infoBody' });
 
@@ -83,16 +82,16 @@
   //contributors box of the page
   async function createContributorsBox(repoData, container) {
 
-    const contributorsDiv = createAndAppend('div', container, { id: 'contributorsDiv' });
+    container.innerHTML = "";
 
     const contributorsURL = repoData.contributors_url;
 
-    createAndAppend('p', contributorsDiv, { html: 'Contributions' });
+    createAndAppend('p', container, { html: 'Contributions' });
 
     try {
-      const contributors = await fetchJSON(contributorsURL, contributorsDiv);
+      const contributors = await fetchJSON(contributorsURL, container);
 
-      const contributorsTable = createAndAppend('table', contributorsDiv, { id: 'contributorsTable' });
+      const contributorsTable = createAndAppend('table', container, { id: 'contributorsTable' });
 
       const contributorsTbody = createAndAppend('tbody', contributorsTable, { id: 'contributorsTbody' });
 
@@ -153,25 +152,21 @@
         });
       });
 
-      createInfoBox(repositories[0], root);
+      const infoDiv = createAndAppend('div', root, { id: 'infoDiv' });
 
-      createContributorsBox(repositories[0], root);
+      const contributorsDiv = createAndAppend('div', root, { id: 'contributorsDiv' });
+
+      createInfoBox(repositories[0], infoDiv);
+
+      createContributorsBox(repositories[0], contributorsDiv);
 
 
       select.addEventListener('change', function () {
 
-        const repositoryIndex = event.target.value;
+        const selectedRepository = repositories[event.target.value];
 
-        const selectedRepository = repositories[repositoryIndex];
-
-        const myTable = document.querySelector('#infoDiv');
-        myTable.remove();
-
-        const contributorsDiv = document.querySelector('#contributorsDiv');
-        contributorsDiv.remove();
-
-        createInfoBox(selectedRepository, root);
-        createContributorsBox(selectedRepository, root);
+        createInfoBox(selectedRepository, infoDiv);
+        createContributorsBox(selectedRepository, contributorsDiv);
       });
     }
 
