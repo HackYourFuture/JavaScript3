@@ -63,7 +63,6 @@
 
     catch (error) {
       const divError = createAndAppend("container", root, { id: "divError" });
-      divError.innerHTML = "";
       divError.innerHTML = error;
       return;
     }
@@ -91,7 +90,8 @@
 
       const trUpdated = createAndAppend("tr", tBody);
       createAndAppend("td", trUpdated, { html: "Updated : " });
-      createAndAppend("td", trUpdated, { html: repository.updated_at.toLocaleString() });
+      const updateTime = new Date(repository.updated_at)
+      createAndAppend("td", trUpdated, { html: updateTime.toDateString() });
     }
     catch (error) {
       error => {
