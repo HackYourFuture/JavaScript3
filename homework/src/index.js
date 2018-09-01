@@ -59,7 +59,7 @@
     trUpdated.className = "table-info";
   }
 
-  function main(url) {
+  async function main(url) {
    
     const root = document.getElementById('root');
     root.className = "root";
@@ -76,12 +76,9 @@
     const rightContainer = createAndAppend('div', divContainers)
     rightContainer.className = "right-container"
     
+    try {
+    const repositories = await fetchJSON(url) 
     
-    fetchJSON(url) 
-    .catch(err => {
-      createAndAppend('div', root, { html: err.message, class: 'alert-error' });
-    })
-    .then (repositories => {
      
     repositories.forEach((repository, index) => {
       createAndAppend('option', select, {html: repository.name, value: index});
@@ -92,23 +89,24 @@
     });
     renderRepository(container, repositories[0]);
     renderContributors(rightContainer, repositories[0])
-  });
+  }
 
-    
+  catch(err) {
+    createAndAppend('div', root, { html: err.message, class: 'alert-error' });
+    return;
+  }
+
   }
   
 
-  function renderContributors(rightContainer, repository) {
+  async function renderContributors(rightContainer, repository) {
     rightContainer.innerHTML = "";
     createAndAppend('p', rightContainer, { html: "Contributions", class: 'cont-title'});
     
-    
-    fetchJSON(repository.contributors_url) 
-    .catch(err =>{
+    try{
 
-        createAndAppend('div', root, { html: err.message, class: 'alert-error' });
-    })
-    .then(contributors => { 
+       const contributors = await fetchJSON(repository.contributors_url) 
+    
       contributors.forEach(contributor=> {
       const ul = createAndAppend('ul', rightContainer);
        ul.className = "ul";
@@ -119,7 +117,11 @@
        createAndAppend('div', li, { html: contributor.contributions, class: 'cont-number'});
       
     });
-  });
+  }
+  catch(err){
+
+    createAndAppend('div', root, { html: err.message, class: 'alert-error' });
+}
 }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';

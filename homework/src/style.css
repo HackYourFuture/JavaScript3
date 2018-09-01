@@ -13,7 +13,7 @@ body {
      
 }
 .container {
-    width: 100%;
+    width: 90%;
     margin: auto;
     margin: 15px;
     background-color: white;
@@ -22,7 +22,7 @@ body {
     box-shadow: 1px 1px 1px 1px #888888
 }
 .right-container {
-    width: 100%;
+    width: 90%;
     margin: auto;
     margin: 15px;
     background-color:white;
@@ -70,7 +70,7 @@ a:link {
 }
 
 li a:link {
-    font-size: 20px;
+    font-size: 14px;
     text-decoration: none;
     color: black;
 }
