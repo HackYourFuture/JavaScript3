@@ -4,8 +4,8 @@
 
 // eslint-disable-next-line no-unused-vars
 class Contributor {
-  constructor(data) {
-    this.data = data;
+  constructor(contributor) {
+    this.contributor = contributor;
   }
 
   /**
@@ -13,6 +13,20 @@ class Contributor {
    * @param {HTMLElement} contributorList The parent element in which to render the contributor.
   */
   render(contributorList) {
-    // Replace this comment with your code
+    // contributorList.innerHTML = '';
+    const li = Util.creatAndAppend('li', contributorList);
+    Util.creatAndAppend('img', li, {
+      src: this.contributor.avatar_url
+    });
+    Util.creatAndAppend('a', li, {
+      html: this.contributor.login,
+      href: this.contributor.html_url,
+      target: '_blank'
+    });
+    Util.creatAndAppend('div', li, {
+      html: this.contributor.contributions,
+      class: 'contributionNum'
+    });
+
   }
 }
