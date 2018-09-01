@@ -35,20 +35,20 @@
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   const root = document.getElementById('root');
-  createAndAppend("img", root, { src: "./hyf.png", id: "imgLogo" });
+  createAndAppend("img", root, { src: "./hyf.png", id: "imgLogo"});
   const divSelect = createAndAppend("header", root);
-  createAndAppend("p", divSelect, { html: "HYF Repositories : ", id: "pContributors" });
-  const repoSelect = createAndAppend("select", divSelect);
+  createAndAppend("p", divSelect, { html: "HYF Repositories : ", id: "pContributors", role: "Heading" });
+  const repoSelect = createAndAppend("select", divSelect, {role: "listbox"});
   const divFlex = createAndAppend("section", root);
-  const divInfo = createAndAppend("article", divFlex, { id: "divInfo" });
-  const divCont = createAndAppend("article", divFlex, { id: "divCont" });
+  const divInfo = createAndAppend("article", divFlex, { id: "divInfo" , role: "article"});
+  const divCont = createAndAppend("article", divFlex, { id: "divCont" , role: "article" });
 
   async function main(HYF_REPOS_URL) {
     try {
       const repositories = await fetchJSON(HYF_REPOS_URL);
 
       repositories.forEach((repository, index) => {
-        createAndAppend("option", repoSelect, { html: repository.name, value: index });
+        createAndAppend("option", repoSelect, { html: repository.name, value: index, role: "option" });
       });
       repoSelect.addEventListener("change", (event) => {
         const optionIndex = event.target.value;
@@ -58,13 +58,13 @@
       const initialRender = repositories[0];
       renderRepository(divInfo, initialRender);
       renderContributors(divCont, initialRender);
-
     }
 
     catch (error) {
-      const divError = createAndAppend("container", root, { id: "divError" });
-      divError.innerHTML = error;
-      return;
+      error => {
+        createAndAppend('div', root, { html: error.message, class: 'alert-error', role: "alert" });
+        return;
+      };
     }
   }
 
@@ -77,7 +77,7 @@
       const trRepository = createAndAppend("tr", tBody);
       createAndAppend("td", trRepository, { html: "Repository : " });
       const tdRepoLink = createAndAppend("td", trRepository, );
-      createAndAppend('a', tdRepoLink, { html: repository.name, href: repository.html_url });
+      createAndAppend('a', tdRepoLink, { html: repository.name, href: repository.html_url, role: "link" });
 
       const trDescription = createAndAppend("tr", tBody);
       createAndAppend("td", trDescription, { html: "Description : " });
@@ -86,16 +86,16 @@
       const trForks = createAndAppend("tr", tBody);
       createAndAppend("td", trForks, { html: "Forks : " });
       const tdForksLink = createAndAppend("td", trForks, );
-      createAndAppend('a', tdForksLink, { html: repository.forks, href: repository.forks_url });
+      createAndAppend('a', tdForksLink, { html: repository.forks, href: repository.forks_url, role: "link" });
 
       const trUpdated = createAndAppend("tr", tBody);
       createAndAppend("td", trUpdated, { html: "Updated : " });
-      const updateTime = new Date(repository.updated_at)
+      const updateTime = new Date(repository.updated_at);
       createAndAppend("td", trUpdated, { html: updateTime.toDateString() });
     }
     catch (error) {
       error => {
-        createAndAppend('div', root, { html: error.message, class: 'alert-error' });
+        createAndAppend('div', root, { html: error.message, class: 'alert-error', role: "alert" });
         return;
       };
     }
@@ -104,21 +104,21 @@
   async function renderContributors(divCont, repository) {
     try {
       divCont.innerHTML = "";
-      createAndAppend('h2', divCont, { html: "Contributions", class: "h2" });
+      createAndAppend('h2', divCont, { html: "Contributions", class: "h2", role: "heading" });
 
       const contributors = await fetchJSON(repository.contributors_url);
       contributors.forEach(contributor => {
-        const ulContributor = createAndAppend('ul', divCont);
+        const ulContributor = createAndAppend('ul', divCont, {role: "list"});
         const li = createAndAppend('li', ulContributor, { id: "liContributor" });
-        createAndAppend('img', li, { src: contributor.avatar_url, class: "contImg" });
-        createAndAppend('a', li, { html: contributor.login, href: contributor.html_url, target: '_blank', class: "contNameLink" });
+        createAndAppend('img', li, { src: contributor.avatar_url, class: "contImg", role: "img" });
+        createAndAppend('a', li, { html: contributor.login, href: contributor.html_url, target: '_blank', role: "link", class: "contNameLink" });
         createAndAppend('p', li, { html: contributor.contributions, class: "liNumberContribution" });
       });
     }
 
     catch (error) {
       error => {
-        createAndAppend('div', root, { html: error.message, class: 'alert-error' });
+        createAndAppend('div', root, { html: error.message, class: 'alert-error', role: "alert" });
         return;
       };
     }
