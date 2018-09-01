@@ -32,9 +32,9 @@ class App {
     try {
       const repos = await Util.fetchJSON(url);
       this.repos = repos
+        .sort((a, b) => a.name.localeCompare(b.name))
         .map(repo => new Repository(repo));
       repos
-        .sort((a, b) => a.name.localeCompare(b.name))
         .forEach((repo, i) => {
           Util.createAndAppend('option', select, {
             html: repo.name,
@@ -42,6 +42,10 @@ class App {
           });
         });
       this.fetchContributorsAndRender(0);
+      select.addEventListener('change', (e) => {
+        const index = e.target.value;
+        this.fetchContributorsAndRender(index);
+      });
 
     } catch (error) {
       this.renderError(error);
@@ -70,7 +74,7 @@ class App {
         html: 'Contributions',
         class: 'contributions'
       });
-      const contributorList = Util.createAndAppend('ul', rightDiv, { id: 'list' });
+      const contributorList = Util.createAndAppend('ul', rightDiv);
 
       repo.render(leftDiv);
 

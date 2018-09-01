@@ -14,16 +14,16 @@ class Contributor {
   */
   render(contributorList) {
     // contributorList.innerHTML = '';
-    const li = Util.creatAndAppend('li', contributorList);
-    Util.creatAndAppend('img', li, {
+    const li = Util.createAndAppend('li', contributorList);
+    Util.createAndAppend('img', li, {
       src: this.contributor.avatar_url
     });
-    Util.creatAndAppend('a', li, {
+    Util.createAndAppend('a', li, {
       html: this.contributor.login,
       href: this.contributor.html_url,
       target: '_blank'
     });
-    Util.creatAndAppend('div', li, {
+    Util.createAndAppend('div', li, {
       html: this.contributor.contributions,
       class: 'contributionNum'
     });

@@ -104,68 +104,66 @@
         catch (err) {
             console.log(err);
         }
-        // }
-
-        function main(url) {
-            const root = document.getElementById('root');
-            const header = createAndAppend('header', root, {
-                class: 'header'
-            });
-            const container = createAndAppend('div', root, {
-                class: 'container'
-            });
-            createAndAppend('p', header, {
-                html: 'HYF Repositories'
-            });
-            const select = createAndAppend('select', header, {
-                id: 'list'
-            });
-            const repositoriesInfoSec = createAndAppend('section', container, {
-                class: 'repos-info-sec box'
-            });
-            const contributorsSec = createAndAppend('section', container, {
-                class: 'contributors-sec box'
-            });
-            createAndAppend('p', contributorsSec, {
-                html: 'Contributions',
-                class: 'contributions'
-            });
-            const ul = createAndAppend('ul', contributorsSec);
-
-            fetchJSON(url)
-                .then((repositories) => {
-                    repositories
-                        .sort((a, b) => a.name.localeCompare(b.name))
-                        .forEach((repository, i) => {
-                            createAndAppend('option', select, {
-                                html: repository.name,
-                                value: i
-                            });
-                        });
-                    showRepository(repositories[0], repositoriesInfoSec);
-                    const contributorsUrl = repositories[0].contributors_url;
-                    fetchAndShowContributors(contributorsUrl, ul);
-
-                    select.addEventListener('change', (e) => {
-                        const index = e.target.value;
-                        showRepository(repositories[index], repositoriesInfoSec);
-                        const contributorsUrl = repositories[index].contributors_url;
-                        fetchAndShowContributors(contributorsUrl, ul);
-                    });
-                })
-                .catch((err) => {
-                    container.innerHTML = '';
-                    createAndAppend('div', container, {
-                        html: err.message,
-                        class: 'alert-error'
-                    });
-                });
-
-        }
-
-        const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-
-        window.onload = () => main(HYF_REPOS_URL);
     }
 
+    function main(url) {
+        const root = document.getElementById('root');
+        const header = createAndAppend('header', root, {
+            class: 'header'
+        });
+        const container = createAndAppend('div', root, {
+            class: 'container'
+        });
+        createAndAppend('p', header, {
+            html: 'HYF Repositories'
+        });
+        const select = createAndAppend('select', header, {
+            id: 'list'
+        });
+        const repositoriesInfoSec = createAndAppend('section', container, {
+            class: 'repos-info-sec box'
+        });
+        const contributorsSec = createAndAppend('section', container, {
+            class: 'contributors-sec box'
+        });
+        createAndAppend('p', contributorsSec, {
+            html: 'Contributions',
+            class: 'contributions'
+        });
+        const ul = createAndAppend('ul', contributorsSec);
 
+        fetchJSON(url)
+            .then((repositories) => {
+                repositories
+                    .sort((a, b) => a.name.localeCompare(b.name))
+                    .forEach((repository, i) => {
+                        createAndAppend('option', select, {
+                            html: repository.name,
+                            value: i
+                        });
+                    });
+                showRepository(repositories[0], repositoriesInfoSec);
+                const contributorsUrl = repositories[0].contributors_url;
+                fetchAndShowContributors(contributorsUrl, ul);
+
+                select.addEventListener('change', (e) => {
+                    const index = e.target.value;
+                    showRepository(repositories[index], repositoriesInfoSec);
+                    const contributorsUrl = repositories[index].contributors_url;
+                    fetchAndShowContributors(contributorsUrl, ul);
+                });
+            })
+            .catch((err) => {
+                container.innerHTML = '';
+                createAndAppend('div', container, {
+                    html: err.message,
+                    class: 'alert-error'
+                });
+            });
+
+    }
+
+    const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+
+    window.onload = () => main(HYF_REPOS_URL);
+}
