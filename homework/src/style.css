@@ -55,6 +55,7 @@ p {
 
 .label {
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .contributor-header {
