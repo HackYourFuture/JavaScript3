@@ -86,9 +86,10 @@
   function renderContributors(rightDiv, repository) {
     rightDiv.innerHTML = "";
     createAndAppend("p", rightDiv, { html: "Contributions", class: "contributor-header" });
-    const contributorList = createAndAppend("ul", rightDiv, { class: "contributor-list" });
+   
     fetchJSON(repository.contributors_url)
       .then(contributors => {
+        const contributorList = createAndAppend("ul", rightDiv, { class: "contributor-list" });
         contributors.map(contributor => {
           const contributorItem = createAndAppend("li", contributorList, { class: "contributor-item" });
           const contributorLink = createAndAppend("a", contributorItem, { target: "_blank", href: contributor.html_url });
