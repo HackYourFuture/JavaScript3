@@ -32,7 +32,7 @@ p {
     margin-right: 15px;
 }
 
-#menu {
+.select {
     height: 30px;
     min-width: 200px;
 }
@@ -55,6 +55,7 @@ p {
 
 .label {
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .contributor-header {
