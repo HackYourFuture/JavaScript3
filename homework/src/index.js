@@ -128,10 +128,6 @@
 
 
 
-        // const table = createAndAppend('table', div2)
-        // const tr = createAndAppend('tr', table)
-        // const td1_1 = createAndAppend('td', tr, { 'html': '<img src =' + repo.avatar_url + ' >' })
-        // const td1_2 = createAndAppend('td', tr, )
 
 
 
