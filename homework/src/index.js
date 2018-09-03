@@ -1,7 +1,7 @@
 'use strict';
 {
   function fetchJSON(url) {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open('GET', url);
       xhr.responseType = 'json';
@@ -9,11 +9,11 @@
         if (xhr.status < 400) {
           resolve(xhr.response);
         } else {
-          reject(Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+          reject(new Error(xhr.statusText));
         }
       });
-      xhr.onerror = function (error) {
-        reject(error("Network Error"));
+      xhr.onerror = () => {
+        reject(alert("Opppsss, Network Error"));
       };
       xhr.send();
     });
@@ -35,18 +35,23 @@
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   const root = document.getElementById('root');
-  createAndAppend("img", root, { src: "./hyf.png", id: "imgLogo"});
-  const divSelect = createAndAppend("header", root);
-  createAndAppend("p", divSelect, { html: "HYF Repositories : ", id: "pContributors", role: "Heading" });
-  const repoSelect = createAndAppend("select", divSelect, {role: "listbox"});
-  const divFlex = createAndAppend("section", root);
-  const divInfo = createAndAppend("article", divFlex, { id: "divInfo" , role: "article"});
-  const divCont = createAndAppend("article", divFlex, { id: "divCont" , role: "article" });
 
   async function main(HYF_REPOS_URL) {
     try {
+      const divSelect = createAndAppend("header", root);
+      createAndAppend("p", divSelect, { html: "HYF Repositories : ", id: "pContributors" });
+      const repoSelect = createAndAppend("select", divSelect);
+      const divFlex = createAndAppend("section", root);
+      const divInfo = createAndAppend("article", divFlex, { id: "divInfo" });
+      const divCont = createAndAppend("article", divFlex, { id: "divCont" });
+      const divLogo = createAndAppend("div", root, { id: "divLogo" });
+      createAndAppend("img", divLogo, { src: "./hyf.png", id: "imgLogo" });
+
       const repositories = await fetchJSON(HYF_REPOS_URL);
 
+      repositories.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+      });
       repositories.forEach((repository, index) => {
         createAndAppend("option", repoSelect, { html: repository.name, value: index, role: "option" });
       });
@@ -61,10 +66,9 @@
     }
 
     catch (error) {
-      error => {
-        createAndAppend('div', root, { html: error.message, class: 'alert-error', role: "alert" });
-        return;
-      };
+      createAndAppend('div', root,
+        { html: error.message, class: 'alert-error', role: "alert" }
+      );
     }
   }
 
@@ -75,29 +79,28 @@
       const tBody = createAndAppend("tBody", table);
 
       const trRepository = createAndAppend("tr", tBody);
-      createAndAppend("td", trRepository, { html: "Repository : " });
+      createAndAppend("td", trRepository, { html: "Repository : ", class: "tableLeftData" });
       const tdRepoLink = createAndAppend("td", trRepository, );
-      createAndAppend('a', tdRepoLink, { html: repository.name, href: repository.html_url, role: "link" });
+      createAndAppend('a', tdRepoLink, { html: repository.name, href: repository.html_url, class: "tableRightData" });
 
       const trDescription = createAndAppend("tr", tBody);
-      createAndAppend("td", trDescription, { html: "Description : " });
-      createAndAppend("td", trDescription, { html: repository.description });
+      createAndAppend("td", trDescription, { html: "Description : ", class: "tableLeftData" });
+      createAndAppend("td", trDescription, { html: repository.description, class: "tableRightData" });
 
       const trForks = createAndAppend("tr", tBody);
-      createAndAppend("td", trForks, { html: "Forks : " });
+      createAndAppend("td", trForks, { html: "Forks : ", class: "tableLeftData" });
       const tdForksLink = createAndAppend("td", trForks, );
-      createAndAppend('a', tdForksLink, { html: repository.forks, href: repository.forks_url, role: "link" });
+      createAndAppend('a', tdForksLink, { html: repository.forks, href: repository.forks_url, class: "tableRightData" });
 
       const trUpdated = createAndAppend("tr", tBody);
-      createAndAppend("td", trUpdated, { html: "Updated : " });
+      createAndAppend("td", trUpdated, { html: "Updated : ", class: "tableLeftData" });
       const updateTime = new Date(repository.updated_at);
-      createAndAppend("td", trUpdated, { html: updateTime.toDateString() });
+      createAndAppend("td", trUpdated, { html: updateTime.toDateString(), class: "tableRightData" });
     }
     catch (error) {
-      error => {
-        createAndAppend('div', root, { html: error.message, class: 'alert-error', role: "alert" });
-        return;
-      };
+      createAndAppend('div', root,
+        { html: error.message, class: 'alert-error', role: "alert" }
+      );
     }
   }
 
@@ -107,8 +110,8 @@
       createAndAppend('h2', divCont, { html: "Contributions", class: "h2", role: "heading" });
 
       const contributors = await fetchJSON(repository.contributors_url);
+      const ulContributor = createAndAppend('ul', divCont, { role: "list" });
       contributors.forEach(contributor => {
-        const ulContributor = createAndAppend('ul', divCont, {role: "list"});
         const li = createAndAppend('li', ulContributor, { id: "liContributor" });
         createAndAppend('img', li, { src: contributor.avatar_url, class: "contImg", role: "img" });
         createAndAppend('a', li, { html: contributor.login, href: contributor.html_url, target: '_blank', role: "link", class: "contNameLink" });
@@ -117,10 +120,9 @@
     }
 
     catch (error) {
-      error => {
-        createAndAppend('div', root, { html: error.message, class: 'alert-error', role: "alert" });
-        return;
-      };
+      createAndAppend('div', root,
+        { html: error.message, class: 'alert-error', role: "alert" }
+      );
     }
   }
   window.onload = () => main(HYF_REPOS_URL);
