@@ -41,10 +41,10 @@
         const header = createAndAppend('h1', div, { html: "HYF Repositories  ", class: 'header' });
         const select = createAndAppend('select', header, { class: "chose" });
         const table = createAndAppend('table', div, { class: 'font' });
-        const tablebody = createAndAppend('tablebody', table);
+        const tablebody = createAndAppend('tbody', table);
         const title = createAndAppend('a', tablebody);
         const descripTitle = createAndAppend('tr', tablebody);
-        const title2 = createAndAppend('tr', tablebody, { class: 'font' });
+        const titleFork = createAndAppend('tr', tablebody, { class: 'font' });
         const newTitle = createAndAppend('tr', tablebody, { class: 'font' });
         fetchJSON(url)
             .then((repositories) => {
@@ -59,8 +59,9 @@
                 select.addEventListener('change', (event) => {
                     const index = event.target.value;
                     const repository = repositories[index];
+                    title.setAttribute("href", repository.html_url);
                     title.innerHTML = "Repository: " + repository.name;
-                    title2.innerHTML = "Forks: " + repository.forks;
+                    titleFork.innerHTML = "Forks: " + repository.forks;
                     descripTitle.innerHTML = "Description: " + repository.description;
                     newTitle.innerHTML = "Updated: " + new Date(repository.updated_at).toLocaleString();
                     renderContributors(repository.contributors_url, contributorsContainer);
@@ -89,7 +90,11 @@
 
                 });
             })
-            .catch((err) => console.log(err));
+            .catch(error => {
+                createAndAppend('div', container, { text: error.message, class: 'alert-error' });
+
+            });
+
     }
 
     const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
