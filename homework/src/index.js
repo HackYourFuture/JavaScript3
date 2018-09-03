@@ -9,11 +9,13 @@
         if (xhr.status < 400) {
           resolve(xhr.response);
         } else {
-          reject(new Error(xhr.statusText));
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
         }
       });
       xhr.onerror = () => {
         reject(alert("Opppsss, Network Error"));
+        createAndAppend('div', root,
+          { html: "Network Error !!!!", class: 'alert-error', role: "alert" });
       };
       xhr.send();
     });
@@ -33,7 +35,7 @@
     return elem;
   }
 
-  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+  const HYF_REPOS_URL = 'https://api.githugb.com/orgs/HackYourFuture/repos?per_page=100';
   const root = document.getElementById('root');
 
   async function main(HYF_REPOS_URL) {
@@ -81,7 +83,7 @@
       const trRepository = createAndAppend("tr", tBody);
       createAndAppend("td", trRepository, { html: "Repository : ", class: "tableLeftData" });
       const tdRepoLink = createAndAppend("td", trRepository, );
-      createAndAppend('a', tdRepoLink, { html: repository.name, href: repository.html_url, class: "tableRightData" });
+      createAndAppend('a', tdRepoLink, { html: repository.name, href: repository.html_url, class: "tableRightData", role: "link" });
 
       const trDescription = createAndAppend("tr", tBody);
       createAndAppend("td", trDescription, { html: "Description : ", class: "tableLeftData" });
@@ -90,7 +92,7 @@
       const trForks = createAndAppend("tr", tBody);
       createAndAppend("td", trForks, { html: "Forks : ", class: "tableLeftData" });
       const tdForksLink = createAndAppend("td", trForks, );
-      createAndAppend('a', tdForksLink, { html: repository.forks, href: repository.forks_url, class: "tableRightData" });
+      createAndAppend('a', tdForksLink, { html: repository.forks, href: repository.forks_url, class: "tableRightData", role: "link" });
 
       const trUpdated = createAndAppend("tr", tBody);
       createAndAppend("td", trUpdated, { html: "Updated : ", class: "tableLeftData" });
