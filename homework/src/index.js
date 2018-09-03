@@ -35,7 +35,7 @@
     return elem;
   }
 
-  const HYF_REPOS_URL = 'https://api.githugb.com/orgs/HackYourFuture/repos?per_page=100';
+  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   const root = document.getElementById('root');
 
   async function main(HYF_REPOS_URL) {
