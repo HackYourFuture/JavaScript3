@@ -66,7 +66,6 @@
         const divError = createAndAppend("container", root, { id: "divError" });
         divError.innerHTML = error;
       });
-
     createAndAppend("img", divLogo, { src: "./hyf.png", id: "imgLogo" });
   }
 
