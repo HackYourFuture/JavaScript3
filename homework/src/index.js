@@ -33,7 +33,7 @@
         return elem;
     }
 
-    function main(url) {
+    async function main(url) {
 
         const root = document.getElementById('root');
         const div = createAndAppend('div', root, { class: 'container' });
@@ -46,54 +46,52 @@
         const descripTitle = createAndAppend('tr', tablebody);
         const titleFork = createAndAppend('tr', tablebody, { class: 'font' });
         const newTitle = createAndAppend('tr', tablebody, { class: 'font' });
-        fetchJSON(url)
-            .then((repositories) => {
-                repositories.sort(function (a, b) {
-                    return a.name.localeCompare(b.name);
-                });
-                repositories.forEach((repository, index) => {
-                    createAndAppend('option', select, { html: repository.name, value: index });
-                });
-
-
-                select.addEventListener('change', (event) => {
-                    const index = event.target.value;
-                    const repository = repositories[index];
-                    title.setAttribute("href", repository.html_url);
-                    title.innerHTML = "Repository: " + repository.name;
-                    titleFork.innerHTML = "Forks: " + repository.forks;
-                    descripTitle.innerHTML = "Description: " + repository.description;
-                    newTitle.innerHTML = "Updated: " + new Date(repository.updated_at).toLocaleString();
-                    renderContributors(repository.contributors_url, contributorsContainer);
-                });
-
-            })
-            .catch(error => {
-                createAndAppend('div', root, { text: error.message, class: 'alert-error' });
-
+        try {
+            const repositories = await fetchJSON(url);
+            repositories.sort((a, b) => a.name.localeCompare(b.name));
+            repositories.forEach((repository, index) => {
+                createAndAppend('option', select, { html: repository.name, value: index });
             });
+
+
+            select.addEventListener('change', (event) => {
+                const index = event.target.value;
+                const repository = repositories[index];
+                title.setAttribute("href", repository.html_url);
+                title.innerHTML = "Repository: " + repository.name;
+                titleFork.innerHTML = "Forks: " + repository.forks;
+                descripTitle.innerHTML = "Description: " + repository.description;
+                newTitle.innerHTML = "Updated: " + new Date(repository.updated_at).toLocaleString();
+                renderContributors(repository.contributors_url, contributorsContainer);
+            });
+        }
+
+        catch (error) {
+            createAndAppend('div', root, { text: error.message, class: 'alert-error' });
+
+        }
     }
 
-    function renderContributors(contributorsUrl, container) {
-        fetchJSON(contributorsUrl)
-            .then((contributors) => {
-                container.innerHTML = '';
-                contributors.forEach(contributor => {
-                    const avatar = createAndAppend('img', container, { class: 'avatar' });
-                    avatar.setAttribute("src", contributor.avatar_url);
-                    const list = createAndAppend('ul', container, { class: 'list' });
-                    const item = createAndAppend('li', list, { class: 'item' });
-                    const link = createAndAppend("a", item, { "target": "_blank", "href": contributor.html_url });
-                    const data = createAndAppend("div", link, { "class": "data" });
-                    createAndAppend("div", data, { "html": contributor.login, "class": "name" });
-                    createAndAppend("div", data, { "html": contributor.contributions, "class": "badge" });
-
-                });
-            })
-            .catch(error => {
-                createAndAppend('div', container, { text: error.message, class: 'alert-error' });
+    async function renderContributors(contributorsUrl, container) {
+        container.innerHTML = '';
+        try {
+            const contributors = await fetchJSON(contributorsUrl);
+            contributors.forEach(contributor => {
+                const avatar = createAndAppend('img', container, { class: 'avatar' });
+                avatar.setAttribute("src", contributor.avatar_url);
+                const list = createAndAppend('ul', container, { class: 'list' });
+                const item = createAndAppend('li', list, { class: 'item' });
+                const link = createAndAppend("a", item, { "target": "_blank", "href": contributor.html_url });
+                const data = createAndAppend("div", link, { "class": "data" });
+                createAndAppend("div", data, { "html": contributor.login, "class": "name" });
+                createAndAppend("div", data, { "html": contributor.contributions, "class": "badge" });
 
             });
+        }
+        catch (error) {
+            createAndAppend('div', container, { text: error.message, class: 'alert-error' });
+
+        }
 
     }
 
