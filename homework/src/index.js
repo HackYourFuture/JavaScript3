@@ -12,11 +12,8 @@
           reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
         }
       });
-      xhr.onerror = () => {
-        reject(alert("Opppsss, Network Error"));
-        createAndAppend('div', root,
-          { html: "Network Error !!!!", class: 'alert-error', role: "alert" });
-      };
+      xhr.onerror = () =>
+        reject(new Error('Network request failed'));
       xhr.send();
     });
   }
@@ -36,10 +33,10 @@
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-  const root = document.getElementById('root');
-
+  
   async function main(HYF_REPOS_URL) {
     try {
+      const root = document.getElementById('root');
       const divSelect = createAndAppend("header", root);
       createAndAppend("p", divSelect, { html: "HYF Repositories : ", id: "pContributors" });
       const repoSelect = createAndAppend("select", divSelect);
