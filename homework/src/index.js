@@ -40,7 +40,7 @@
       const divSelect = createAndAppend("header", root);
       createAndAppend("p", divSelect, { html: "HYF Repositories : ", id: "pContributors" });
       const repoSelect = createAndAppend("select", divSelect);
-      const divFlex = createAndAppend("section", root, {id: "divFlex"});
+      const divFlex = createAndAppend("section", root);
       const divInfo = createAndAppend("article", divFlex, { id: "divInfo" });
       const divCont = createAndAppend("article", divFlex, { id: "divCont" });
       const divLogo = createAndAppend("div", root, { id: "divLogo" });
@@ -72,6 +72,7 @@
   }
 
   async function renderRepository(divInfo, repository) {
+    const root = document.getElementById('root');
     try {
       divInfo.innerHTML = "";
       const table = createAndAppend("table", divInfo);
@@ -97,13 +98,14 @@
       createAndAppend("td", trUpdated, { html: updateTime.toDateString(), class: "tableRightData" });
     }
     catch (error) {
-      createAndAppend('div', document.getElementById('divFlex'),
+      createAndAppend('div', root,
         { html: error.message, class: 'alert-error', role: "alert" }
       );
     }
   }
 
   async function renderContributors(divCont, repository) {
+    const root = document.getElementById('root');
     try {
       divCont.innerHTML = "";
       createAndAppend('h2', divCont, { html: "Contributions", class: "h2", role: "heading" });
@@ -119,7 +121,7 @@
     }
 
     catch (error) {
-      createAndAppend('div', document.getElementById('divFlex'),
+      createAndAppend('div', root,
         { html: error.message, class: 'alert-error', role: "alert" }
       );
     }
