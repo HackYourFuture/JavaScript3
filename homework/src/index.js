@@ -71,8 +71,7 @@
     }
   }
 
-  async function renderRepository(divInfo, repository) {
-    const root = document.getElementById('root');
+  async function renderRepository(divInfo, root, repository) {
     try {
       divInfo.innerHTML = "";
       const table = createAndAppend("table", divInfo);
@@ -104,8 +103,7 @@
     }
   }
 
-  async function renderContributors(divCont, repository) {
-    const root = document.getElementById('root');
+  async function renderContributors(divCont, root, repository) {
     try {
       divCont.innerHTML = "";
       createAndAppend('h2', divCont, { html: "Contributions", class: "h2", role: "heading" });
