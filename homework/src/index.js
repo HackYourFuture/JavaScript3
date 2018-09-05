@@ -35,12 +35,12 @@
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   
   async function main(HYF_REPOS_URL) {
+    const root = document.getElementById('root');
     try {
-      const root = document.getElementById('root');
       const divSelect = createAndAppend("header", root);
       createAndAppend("p", divSelect, { html: "HYF Repositories : ", id: "pContributors" });
       const repoSelect = createAndAppend("select", divSelect);
-      const divFlex = createAndAppend("section", root);
+      const divFlex = createAndAppend("section", root, {id: "divFlex"});
       const divInfo = createAndAppend("article", divFlex, { id: "divInfo" });
       const divCont = createAndAppend("article", divFlex, { id: "divCont" });
       const divLogo = createAndAppend("div", root, { id: "divLogo" });
@@ -97,7 +97,7 @@
       createAndAppend("td", trUpdated, { html: updateTime.toDateString(), class: "tableRightData" });
     }
     catch (error) {
-      createAndAppend('div', root,
+      createAndAppend('div', document.getElementById('divFlex'),
         { html: error.message, class: 'alert-error', role: "alert" }
       );
     }
@@ -119,7 +119,7 @@
     }
 
     catch (error) {
-      createAndAppend('div', root,
+      createAndAppend('div', document.getElementById('divFlex'),
         { html: error.message, class: 'alert-error', role: "alert" }
       );
     }
