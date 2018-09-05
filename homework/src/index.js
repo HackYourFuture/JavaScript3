@@ -46,6 +46,7 @@
 
     const promise = fetchJSON(url);
     promise.then(data => {
+     
       data.forEach((repo, index) => {
         createAndAppend('option', select, { 'html': repo.name, 'value': index });
         // console.log(repo.name, index);
@@ -103,6 +104,7 @@
 
     const Date1 = new Date(repo.updated_at).toLocaleString();
     const tr4 = createAndAppend('tr', table);
+    createAndAppend('td', tr4, { 'html': 'last update : ', 'class': 'tr' });
     createAndAppend('td', tr4, { 'html': Date1 });
   }
 

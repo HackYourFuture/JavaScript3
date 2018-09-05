@@ -17,12 +17,25 @@ class App {
     // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
 
     const root = document.getElementById('root');
+
+    const header = Util.createAndAppend('header', root, { 'html': '<h3> HYF Repositories <h3>' });
+    const select = Util.createAndAppend('select', header);
+    Util.createAndAppend('div', root, { id: 'container' });
+
     // ...
 
     try {
       // ...
       const repos = await Util.fetchJSON(url);
       this.repos = repos.map(repo => new Repository(repo));
+      repos.forEach((repo, index) => {
+        Util.createAndAppend('option', select, { 'html': repo.name, 'value': index });
+        this.fetchContributorsAndRender(0);
+        select.addEventListener('change', (e) => {
+          const index = e.target.value;
+          this.fetchContributorsAndRender(index);
+        });
+      });
       // ...
     } catch (error) {
       this.renderError(error);
@@ -39,20 +52,20 @@ class App {
       const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
 
+
       const container = document.getElementById('container');
       // Erase previously generated inner HTML from the container div
       container.innerHTML = '';
 
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
-
-      const contributorList = Util.createAndAppend('ul', rightDiv);
+      const leftDiv = Util.createAndAppend('div', container, { id: 'div1' });
+      const rightDiv = Util.createAndAppend('div', container, { id: 'div2' });
 
       repo.render(leftDiv);
 
       contributors
         .map(contributor => new Contributor(contributor))
-        .forEach(contributor => contributor.render(contributorList));
+        .forEach(contributor => contributor.render(rightDiv));
+
     } catch (error) {
       this.renderError(error);
     }
@@ -63,7 +76,7 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    // Replace this comment with your code
+    Util.createAndAppend('p', container, { html: error.message, class: 'alert-error' });
   }
 }
 

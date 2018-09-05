@@ -14,5 +14,12 @@ class Contributor {
   */
   render(contributorList) {
     // Replace this comment with your code
+
+    const div3 = Util.createAndAppend('div', contributorList, { 'class': 'container' });
+
+
+    Util.createAndAppend('img', div3, { 'src': this.data.avatar_url });
+    Util.createAndAppend('a', div3, { 'html': this.data.login, 'href': this.data.html_url });
+    Util.createAndAppend('p', div3, { 'html': this.data.contributions, 'class': 'contributions' });
   }
 }

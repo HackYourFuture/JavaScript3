@@ -33,17 +33,27 @@ header {min-width: 350px;
   background-color: orange;
 }
 
-#div1 {
+#div1 { padding: 15px;
+  margin-bottom: 20px;
    min-width: 350px;
 
-  max-height: 250px;
+  max-height: fit-content;
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   background-color: orange;
 }
 #div2 {min-width: 350px;
+  padding: 15px;
+
     
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   background-color: orange;
+
+  display: flex;
+    flex-direction: column;
+
+    flex: auto;
+    justify-content: space-between;
+    align-content: center;
 
 }
 
@@ -51,11 +61,14 @@ header {min-width: 350px;
 
 
 td {
+  height: 50px;
     vertical-align: top;
     
 }
 
 td:first-child {
+  
+
 min-width: 150px;
    
 }
@@ -95,6 +108,13 @@ padding-right:20px;
   
 }
 
+#container{
+   display: flex;  
+  flex-flow: row wrap;
+  font-weight: bold;
+
+}
+
 
 #root > * {
   margin: 20px;
@@ -108,12 +128,13 @@ padding-right:20px;
   #div1 { 
       
       flex: 1 auto; }
-  #div2 { flex: 1 auto; }
+  #div2 { flex: 1 auto; 
+  }
 }
 
-@media all and (min-width: 800px) {
+@media all and (min-width: 1500px) {
  
-  #div1 { 
+  #div1 { margin-right: 20px;
       min-width: auto;
       flex: 3 0px; order: 1; } 
   #div2 { order: 2; }
