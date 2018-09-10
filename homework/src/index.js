@@ -14,7 +14,7 @@
                     reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
                 }
             };
-            xhr.onerror = () => cb(new Error('Network request failed'));
+            xhr.onerror = () => (new Error('Network request failed'));
             xhr.send();
         });
     }
@@ -79,7 +79,7 @@
             contributors.forEach(contributor => {
                 const avatar = createAndAppend('img', container, { class: 'avatar' });
                 avatar.setAttribute("src", contributor.avatar_url);
-                const list = createAndAppend('ul', container, { class: 'list' });
+                const list = createAndAppend('li', container, { class: 'item' });
                 const item = createAndAppend('li', list, { class: 'item' });
                 const link = createAndAppend("a", item, { "target": "_blank", "href": contributor.html_url });
                 const data = createAndAppend("div", link, { "class": "data" });
