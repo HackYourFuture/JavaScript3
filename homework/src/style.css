@@ -1,3 +1,100 @@
 .alert-error {
     color: red;
 }
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgba(187, 184, 184, 0.657);
+}
+
+.font {
+   font-weight: 600;
+    font-family: monospace;
+    font-size: 30px;
+}
+
+.header {
+    
+    text-shadow: 3px 1px black;
+    background-color:#3B5998;
+    width: 50%;
+    color: white;
+    padding: 15px;
+    margin-left: 60px;
+    padding-left: 40px;
+    
+    
+}
+
+
+.chose {
+    overflow: hidden;
+    width: 90%;
+    height: 31px;
+    font-size: 14px;
+}
+
+table {
+    width: 50%;
+    left:10%;
+    font-size: 14px;
+    position: relative;
+    height: 200px;
+    top: 20px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 2px 2px 2px 2px black;float: left;
+
+    
+}
+.avatar{
+    width:40%;
+    padding-top: 50px;
+    margin-left: 70px;
+}
+
+
+
+.name{
+    margin-right: 16px;
+}
+
+
+.badge{
+    font-size: 21px;
+    align-content: center;
+    color: blue;
+}
+
+.data{
+    display: flex;
+}
+
+.item{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 50px;
+}
+
+.list a {
+    text-decoration: none;
+    color: blue;
+    display: flex;
+}
+.list{
+    font-size: 22px;
+}
+
+.container {
+    float:left;
+}
+
+ul{
+    align-items: center;
+    
+}
