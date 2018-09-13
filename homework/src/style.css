@@ -1,3 +1,143 @@
-.alert-error {
-    color: red;
+.alert-error{
+  color:red;
 }
+select{  
+  
+   height: 30px;
+   overflow: hidden;
+  
+}
+
+body {font-size:20px;
+  color:white;
+  padding: 0 25%;
+    font-weight: 900;
+
+}
+p , a{    text-decoration: none;
+  color:white;
+  font-size:20px;
+  margin-top:25px;
+ 
+}
+h3{
+  margin-right:20px;
+  margin-left:20px
+}
+
+header {min-width: 350px;
+      display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: orange;
+}
+
+#div1 { padding: 15px;
+  margin-bottom: 20px;
+   min-width: 350px;
+
+  max-height: fit-content;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: orange;
+}
+#div2 {min-width: 350px;
+  padding: 15px;
+
+    
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: orange;
+
+  display: flex;
+    flex-direction: column;
+
+    flex: auto;
+    justify-content: space-between;
+    align-content: center;
+
+}
+
+
+
+
+td {
+  height: 50px;
+    vertical-align: top;
+    
+}
+
+td:first-child {
+  
+
+min-width: 150px;
+   
+}
+
+#root {
+  display: flex;  
+  flex-flow: row wrap;
+  font-weight: bold;
+  
+}
+
+
+
+
+
+img{
+height: 100px;
+  width : 100px;
+  
+}
+.contributions{
+padding-right:20px;
+}
+.container{
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: orange;
+  
+  
+      display: flex;
+    flex-direction: row;
+
+    flex: auto;
+    justify-content: space-between;
+    align-content: center;
+    margin-bottom: 10px;
+
+  
+}
+
+#container{
+   display: flex;  
+  flex-flow: row wrap;
+  font-weight: bold;
+
+}
+
+
+#root > * {
+  margin: 20px;
+  padding: 10px;
+  flex: 1 100%;
+}
+
+
+@media all and (min-width: 600px) {
+    header{ flex-direction: row;}
+  #div1 { 
+      
+      flex: 1 auto; }
+  #div2 { flex: 1 auto; 
+  }
+}
+
+@media all and (min-width: 1500px) {
+ 
+  #div1 { margin-right: 20px;
+      min-width: auto;
+      flex: 3 0px; order: 1; } 
+  #div2 { order: 2; }
+ 
+}
+

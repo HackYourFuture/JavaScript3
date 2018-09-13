@@ -22,7 +22,7 @@ class Util {
       xhr.open('GET', url);
       xhr.responseType = 'json';
       xhr.onload = () => {
-        if (xhr.status < 400) {
+        if (xhr.status < 400 && xhr.readyState === 4) {
           resolve(xhr.response);
         } else {
           reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
