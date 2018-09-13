@@ -38,10 +38,10 @@
   function main(url) {
     fetchJSON(url, (err, data) => {
       const root = document.getElementById('root');
-      const header = createAndAppend('header', root, { 'html': '<h3> HYF Repositories <h3>' })
-      const select = createAndAppend('select', header)
-      const div = createAndAppend('div', root, { 'id': 'div1' })
-      const div2 = createAndAppend('div', root, { 'id': 'div2' })
+      const header = createAndAppend('header', root, { 'html': '<h3> HYF Repositories <h3>' });
+      const select = createAndAppend('select', header);
+      const div = createAndAppend('div', root, { 'id': 'div1' });
+      const div2 = createAndAppend('div', root, { 'id': 'div2' });
 
       if (err) {
         createAndAppend('p', div2, { html: err.message, class: 'alert-error' });
@@ -57,7 +57,7 @@
             createAndAppend('p', div2, { html: err.message, class: 'alert-error' });
           } else {
             contdata.forEach((contr) => {
-              rightSection(contr)
+              rightSection(contr);
             });
           }
         });
@@ -84,7 +84,7 @@
       }
       function leftSection(repo) {
 
-        const table = createAndAppend('table', div)
+        const table = createAndAppend('table', div);
         addRow(table, 'Repository :', repo.name);
         addRow(table, 'Description :', repo.description);
         addRow(table, 'Forks :', repo.forks_count);
@@ -93,10 +93,10 @@
       }
 
       function rightSection(repo) {
-        const div3 = createAndAppend('div', div2, { 'class': 'container' })
-        createAndAppend('img', div3, { 'src': repo.avatar_url })
-        createAndAppend('a', div3, { 'html': repo.login, 'href': repo.html_url })
-        createAndAppend('p', div3, { 'html': repo.contributions, 'class': 'contributions' })
+        const div3 = createAndAppend('div', div2, { 'class': 'container' });
+        createAndAppend('img', div3, { 'src': repo.avatar_url });
+        createAndAppend('a', div3, { 'html': repo.login, 'href': repo.html_url });
+        createAndAppend('p', div3, { 'html': repo.contributions, 'class': 'contributions' });
       }
     });
   }
