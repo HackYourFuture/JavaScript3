@@ -63,6 +63,10 @@ body {
     justify-content: space-between;
     
 } 
+.select {
+    background-color:white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
 a:link {
     text-decoration: none;
