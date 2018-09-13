@@ -6,7 +6,7 @@
     xhr.open('GET', url);
     xhr.responseType = 'json';
     xhr.onload = () => {
-      if (xhr.status < 400) {
+      if (xhr.status < 400 && xhr.readyState === 4) {
         cb(null, xhr.response);
       } else {
         cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
@@ -29,114 +29,77 @@
     });
     return elem;
   }
+  function addRow(table, label, value) {
+    const tr = createAndAppend('tr', table);
+    createAndAppend('td', tr, { 'html': label, 'class': 'tr' });
+    createAndAppend('td', tr, { 'html': value });
+  }
 
   function main(url) {
     fetchJSON(url, (err, data) => {
-
       const root = document.getElementById('root');
       const header = createAndAppend('header', root, { 'html': '<h3> HYF Repositories <h3>' })
-
-
       const select = createAndAppend('select', header)
       const div = createAndAppend('div', root, { 'id': 'div1' })
       const div2 = createAndAppend('div', root, { 'id': 'div2' })
 
-
       if (err) {
         createAndAppend('p', div2, { html: err.message, class: 'alert-error' });
       } else {
+        data.sort((a, b) => a.name.localeCompare(b.name, { ignorePunctuation: true }));
         data.forEach((repo, index) => {
-          const option = createAndAppend('option', select, { 'html': repo.name, 'value': index });
-          // console.log(repo.name, index);
-
+          createAndAppend('option', select, { html: repo.name, value: index });
         });
+
+        const contrubutorsURL = data[0].contributors_url;
+        fetchJSON(contrubutorsURL, (err, contdata) => {
+          if (err) {
+            createAndAppend('p', div2, { html: err.message, class: 'alert-error' });
+          } else {
+            contdata.forEach((contr) => {
+              rightSection(contr)
+            });
+          }
+        });
+
         select.addEventListener('change', (event) => {
           const contrubutorsURL = data[event.target.value].contributors_url;
           div2.innerHTML = '';
           fetchJSON(contrubutorsURL, (err, contdata) => {
+            if (err) {
+              createAndAppend('p', div2, { html: err.message, class: 'alert-error' });
+            } else {
+              contdata.forEach((contr) => {
+                rightSection(contr);
+              });
+            }
+          });
+        });
 
-
-
-            data.sort((a, b) => a.name.localeCompare(b.name, 'fr', { ignorePunctuation: true }));
-            contdata.forEach((contr) => {
-              container2(contr)
-            })
-
-
-
-
-
-          })
-
-        })
-
-
-
-
-
-
+        leftSection(data[0]);
         select.addEventListener('change', (event) => {
-          div.innerHTML = ''
-
-          container1(data[event.target.value])
-
-
-
-        })
-
-
-
-
-        // createAndAppend('pre', root, { html: JSON.stringify(data, null, 2) });
+          div.innerHTML = '';
+          leftSection(data[event.target.value]);
+        });
       }
-      function container1(repo) {
+      function leftSection(repo) {
 
         const table = createAndAppend('table', div)
-        const tr = createAndAppend('tr', table)
-        const td1_1 = createAndAppend('td', tr, { 'html': 'Repository  : ', 'class': 'tr' })
-        const td1_2 = createAndAppend('td', tr, { 'html': repo.name })
-
-
-        const tr2 = createAndAppend('tr', table)
-        const td2_1 = createAndAppend('td', tr2, { 'html': 'Description : ', 'class': 'tr' })
-        const td2_2 = createAndAppend('td', tr2, { 'html': repo.description })
-
-        const tr3 = createAndAppend('tr', table)
-        const td3_1 = createAndAppend('td', tr3, { 'html': 'Forks : ', 'class': 'tr' })
-        const td3_2 = createAndAppend('td', tr3, { 'html': repo.forks_count })
-
-
-        const Date1 = new Date(repo.updated_at).toLocaleString();
-        const tr4 = createAndAppend('tr', table)
-        const td4_1 = createAndAppend('td', tr4, { 'html': 'Last update : ', 'class': 'tr' })
-        const td4_2 = createAndAppend('td', tr4, { 'html': Date1 })
+        addRow(table, 'Repository :', repo.name);
+        addRow(table, 'Description :', repo.description);
+        addRow(table, 'Forks :', repo.forks_count);
+        const date = new Date(repo.updated_at).toLocaleString();
+        addRow(table, 'last update :', date);
       }
 
-
-      function container2(repo) {
-
+      function rightSection(repo) {
         const div3 = createAndAppend('div', div2, { 'class': 'container' })
-
-
         createAndAppend('img', div3, { 'src': repo.avatar_url })
         createAndAppend('a', div3, { 'html': repo.login, 'href': repo.html_url })
         createAndAppend('p', div3, { 'html': repo.contributions, 'class': 'contributions' })
-
-
-
-
-
-
-
-
-
-
-
       }
-
     });
   }
-
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
   window.onload = () => main(HYF_REPOS_URL);
