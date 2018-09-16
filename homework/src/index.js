@@ -57,16 +57,23 @@
   async function main(url) {
 
     const root = document.getElementById('root', { class: "root" });
+    //const div = createAndAppend('div', root, { class: "headbox" });
+    //const heading = createAndAppend('heading', div, { html: "HYF Repositories", class: "heading" });
+    // const select = createAndAppend('select', div, { class: "select" });
+    // const divContainers = createAndAppend('div', root, { class: "div-containers" });
+    // const leftContainer = createAndAppend('div', divContainers, { class: "container" });
+    // const rightContainer = createAndAppend('div', divContainers, { class: "right-container" });
+
+    try {
+
+      const repositories = await fetchJSON(url)
+
     const div = createAndAppend('div', root, { class: "headbox" });
     const heading = createAndAppend('heading', div, { html: "HYF Repositories", class: "heading" });
     const select = createAndAppend('select', div, { class: "select" });
     const divContainers = createAndAppend('div', root, { class: "div-containers" });
     const leftContainer = createAndAppend('div', divContainers, { class: "container" });
     const rightContainer = createAndAppend('div', divContainers, { class: "right-container" });
-
-    try {
-      
-      const repositories = await fetchJSON(url)
 
       repositories.forEach((repository, index) => {
         createAndAppend('option', select, { html: repository.name, value: index });

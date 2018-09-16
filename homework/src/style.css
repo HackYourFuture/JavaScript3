@@ -1,6 +1,10 @@
 
 .alert-error {
-    color: red;
+    color:yellow;
+    background-color: blueviolet;
+    font-size: 30px;
+    text-align: center;
+    margin-top: 10%;
 }
 body {
     width: 70%;
