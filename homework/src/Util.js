@@ -7,8 +7,8 @@ class Util {
     parent.appendChild(elem);
     Object.keys(options).forEach((key) => {
       const value = options[key];
-      if (key === 'html') {
-        elem.innerHTML = value;
+      if (key === 'text') {
+        elem.innerText = value;
       } else {
         elem.setAttribute(key, value);
       }

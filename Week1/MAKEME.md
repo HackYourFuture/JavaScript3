@@ -151,6 +151,8 @@ It should include the following components:
 2. A left-hand column that displays basic information about the selected repository.
 3. A right-hand column that displays a list of contributors to the repository.
 
+    >In case you run out of time, you can also do the contributors list in week 2.
+
 **Functional Requirements:**
 
 1. The list of repositories in the `select` element should be sorted (case-insensitive) on repository name.
