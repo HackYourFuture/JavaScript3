@@ -30,6 +30,16 @@ class App {
   }
 
   /**
+   * Removes all child elements from a container element
+   * @param {*} container Container element to clear
+   */
+  clearContainer(container) {
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+  }
+
+  /**
    * Fetch contributor information for the selected repository and render the
    * repo and its contributors as HTML elements in the DOM.
    * @param {number} index The array index of the repository.
@@ -40,8 +50,7 @@ class App {
       const contributors = await repo.fetchContributors();
 
       const container = document.getElementById('container');
-      // Erase previously generated inner HTML from the container div
-      container.innerHTML = '';
+      this.clearContainer(container);
 
       const leftDiv = Util.createAndAppend('div', container);
       const rightDiv = Util.createAndAppend('div', container);

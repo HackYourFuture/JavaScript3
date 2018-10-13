@@ -21,8 +21,8 @@
     parent.appendChild(elem);
     Object.keys(options).forEach((key) => {
       const value = options[key];
-      if (key === 'html') {
-        elem.innerHTML = value;
+      if (key === 'text') {
+        elem.innerText = value;
       } else {
         elem.setAttribute(key, value);
       }
@@ -34,9 +34,9 @@
     fetchJSON(url, (err, data) => {
       const root = document.getElementById('root');
       if (err) {
-        createAndAppend('div', root, { html: err.message, class: 'alert-error' });
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
-        createAndAppend('pre', root, { html: JSON.stringify(data, null, 2) });
+        createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
       }
     });
   }
