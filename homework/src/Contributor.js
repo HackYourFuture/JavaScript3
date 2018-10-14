@@ -1,18 +1,15 @@
 'use strict';
 
-/* global Util */
-
-// eslint-disable-next-line no-unused-vars
 class Contributor {
   constructor(data) {
     this.data = data;
   }
 
-  /**
-   * Render the contributor info to the DOM.
-   * @param {HTMLElement} contributorList The parent element in which to render the contributor.
-  */
-  render(contributorList) {
-    // Replace this comment with your code
+  render(ul) {
+    let li = Util.createEl("li", ul);
+    let a = Util.createEl("a", li, { href: this.data.html_url });
+    a.setAttribute("target", "_blank");
+    Util.createEl("img", a, { src: this.data.avatar_url });
+    a.innerHTML += "<p>" + this.data.login + "</p>" + "<span>" + this.data.contributions + "</span>";
   }
 }
