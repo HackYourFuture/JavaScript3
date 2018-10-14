@@ -1,34 +1,33 @@
 'use strict';
 
-/* global Util */
-
-// eslint-disable-next-line no-unused-vars
 class Repository {
   constructor(data) {
     this.data = data;
   }
 
-  /**
-   * Render the repository info to the DOM.
-   * @param {HTMLElement} parent The parent element in which to render the repository.
-   */
-  render(parent) {
-    //
-    // Replace this comment with your code
-    //
+  render(table) {
+    const tr = Util.createEl("tr", table);
+    Util.createEl("th", tr, { txt: "Repository:" });
+    const td = Util.createEl("td", tr);
+    const a = Util.createEl("a", td, { txt: this.data.name, href: this.data.html_url });
+    a.setAttribute("target", "_blank");
+    if (this.data.description) {
+      Util.createEl("tr", table,
+        { txt: `<th>Description:</th><td>${this.data.description}</td>` });
+    }
+    Util.createEl("tr", table,
+      { txt: `<th>Forks:</th><td>${this.data.forks_count}</td>` });
+    Util.createEl("tr", table,
+      { txt: `<th>Updated:</th><td>${this.data.updated_at}</td>` });
   }
 
-  /**
-   * Returns an array of contributors as a promise
-   */
   fetchContributors() {
     return Util.fetchJSON(this.data.contributors_url);
   }
 
-  /**
-   * Returns the name of the repository
-   */
   name() {
-    return this.data.name;
+    return this.data.name
+      .charAt(0).toUpperCase() +
+      this.data.name.slice(1);
   }
 }
