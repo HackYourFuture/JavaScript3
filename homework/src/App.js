@@ -1,78 +1,65 @@
 'use strict';
 
-/* global Util, Repository, Contributor */
-
 class App {
   constructor(url) {
     this.initialize(url);
   }
 
-  /**
-   * Initialization
-   * @param {string} url The GitHub URL for obtaining the organization's repositories.
-   */
   async initialize(url) {
-    // Add code here to initialize your app
-    // 1. Create the fixed HTML elements of your page
-    // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
-
-    const root = document.getElementById('root');
-    // ...
-
     try {
-      // ...
       const repos = await Util.fetchJSON(url);
       this.repos = repos.map(repo => new Repository(repo));
-      // ...
+
+      const root = document.getElementById('root');
+      const header = Util.createEl("header", root);
+      const article = Util.createEl("article", root);
+      Util.createEl("h3", header, { txt: "HYF Repositories" });
+      const select = Util.createEl("select", header);
+
+      const names = [];
+      this.repos.forEach(repo => names.push(repo.name()));
+      names.sort().forEach((n, i) => {
+        Util.createEl("option", select, { txt: n }).value = i;
+      });
+      select.addEventListener("change", onSelect.bind(null, this));
+      function onSelect(here) {
+        let seled = select.options[select.selectedIndex].text.toUpperCase();
+        here.repos.forEach((repo, i) => {
+          let repoName = repo.name().toUpperCase();
+          if (seled === repoName) {
+            here.fetchContributorsAndRender(i, article);
+          }
+        });
+      }
+      onSelect(this);
+
     } catch (error) {
-      this.renderError(error);
+      this.renderError(error, root);
     }
   }
 
-  /**
-   * Removes all child elements from a container element
-   * @param {*} container Container element to clear
-   */
-  clearContainer(container) {
-    while (container.firstChild) {
-      container.removeChild(container.firstChild);
-    }
-  }
-
-  /**
-   * Fetch contributor information for the selected repository and render the
-   * repo and its contributors as HTML elements in the DOM.
-   * @param {number} index The array index of the repository.
-   */
-  async fetchContributorsAndRender(index) {
+  async fetchContributorsAndRender(index, article) {
     try {
       const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
 
-      const container = document.getElementById('container');
-      this.clearContainer(container);
+      article.innerHTML = '';
+      const table = Util.createEl("table", article);
+      const ul = Util.createEl("ul", article);
 
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
-
-      const contributorList = Util.createAndAppend('ul', rightDiv);
-
-      repo.render(leftDiv);
-
+      repo.render(table);
       contributors
         .map(contributor => new Contributor(contributor))
-        .forEach(contributor => contributor.render(contributorList));
+        .forEach(contributor => contributor.render(ul));
+
     } catch (error) {
-      this.renderError(error);
+      this.renderError(error, article);
     }
   }
 
-  /**
-   * Render an error to the DOM.
-   * @param {Error} error An Error object describing the error.
-   */
-  renderError(error) {
-    // Replace this comment with your code
+  renderError(error, parent) {
+    parent.innerHTML = "";
+    Util.createEl("div", parent, { txt: `Network Error: ${error}`, id: "error" });
   }
 }
 
