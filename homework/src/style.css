@@ -1,3 +1,98 @@
-.alert-error {
-    color: red;
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+body {
+    margin: 0;
+}
+#error {
+    background-color: #f8d7da;
+    color: #7b1c2a;
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 6px;
+}
+#root {
+    max-width: 70%;
+    margin: auto;
+    font-family: 'Roboto', Arial, sans-serif;
+}
+header {
+    width: 100%;
+    background-color: #3f51b5;
+}
+header h3 {
+    display: inline-block;
+    margin: 20px;
+    color: #fff;
+}
+header select {
+    display: inline-block;
+    padding: 6px;
+}
+
+article {
+    display: flex;
+    flex-flow: wrap;
+    padding: 15px 0;
+    font-size: 15px;
+}
+article table {
+    flex: 5;
+    padding: 20px;
+    margin: 0 5px 0 0;
+    box-shadow: 0px 0px 8px rgb(148, 148, 148);
+}
+article table tr th {
+    text-align: left;
+}
+article table tr td {
+    padding: 0 0 0 8px;
+}
+article ul {
+    flex: 5;
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 0 5px;
+    box-shadow: 0px 0px 8px rgb(148, 148, 148);
+}
+article ul p {
+    margin: 0;
+    padding: 15px;
+    font-size: 14px;
+    color: rgb(95, 94, 94);
+}
+article ul li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    margin: 0;
+    padding: 15px;
+}
+article ul li a img {
+    width: 45px;
+    height: 45px;
+    border-radius: 6px;
+}
+article ul li a p {
+    flex: 8;
+    margin: 0;
+    padding: 0 0 0 15px;
+}
+article ul li a span {
+    margin: 0;
+    padding: 1px 6px;
+    background-color: #808080;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #fff;
+}
+
+@media screen and (max-width: 750px) {
+    #root {
+        max-width: 100%;
+    }
+
+    article table, article ul {
+        flex: 100%;
+        width: 100%;
+        margin: 0 0 10px 0;
+    }
 }
