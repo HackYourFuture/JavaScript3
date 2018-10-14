@@ -1,34 +1,32 @@
 'use strict';
 
-// eslint-disable-next-line no-unused-vars
 class Util {
-  static createAndAppend(name, parent, options = {}) {
+  static createEl(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
-    Object.keys(options).forEach((key) => {
-      const value = options[key];
-      if (key === 'text') {
-        elem.innerText = value;
+    for (let key in options) {
+      if (key === "txt") {
+        elem.innerHTML = options.txt;
       } else {
-        elem.setAttribute(key, value);
+        elem.setAttribute(key, options[key]);
       }
-    });
+    }
     return elem;
   }
 
   static fetchJSON(url) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
+      xhr.open('GET', url, true);
       xhr.responseType = 'json';
       xhr.onload = () => {
-        if (xhr.status < 400) {
+        if (xhr.readyState === 4 && xhr.status <= 200) {
           resolve(xhr.response);
         } else {
           reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
         }
       };
-      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.onerror = () => reject(new Error(`Network request failed: ${xhr.status} - ${xhr.statusText}`));
       xhr.send();
     });
   }
