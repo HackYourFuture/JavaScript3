@@ -110,7 +110,7 @@
     addExtraText(divLeftDetails, "Forks: ", sortedRepos[index].forks, null);
     addExtraText(divLeftDetails, "Updated: ", sortedRepos[index].updated_at, null);
 
-    //Right Part - Repository Users
+    //Right Part -    Repository Users
     const divRightDetails = createAndAppend('div', divRepDetails, { class: 'clsRightDetails' });
 
     fetchJSON(sortedRepos[index].contributors_url, (err, dataUser) => {
