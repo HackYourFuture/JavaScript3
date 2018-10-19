@@ -23,19 +23,17 @@ html,body{
   top:40px;
 }
 #root{
-
+  position: relative;
   background-color: #4619af;
   margin: auto;
  
   border: 1px solid #4619af;
   width: 80%;
   height: 60px;
-  position: relative;
   top:10px;
-  
 }
 #repositoryLabel{
-  
+
   color: white;
   font-weight: bold;
   margin-left: 5%;
@@ -44,14 +42,7 @@ html,body{
 select{
   height: 3em;
 }
-#selectRepositories{
-  position: absolute;
-  display: inline-block;
-  width: 50%;
-  margin-left:5%;
-  margin-top: 5px;
- 
-}
+
 .clsRepositoryDetails{
   margin-left:10%;
   margin-top: 2%;
@@ -110,6 +101,13 @@ margin: auto;
     body {
          font-size: 15px;
     }
+    #selectRepositories{
+      position: absolute;
+      display: inline;
+      width: 50%;
+      margin-left:5%;
+      margin-top: 5px;
+    }
 }
 @media only screen and (min-width: 600px) {
    
@@ -129,5 +127,9 @@ margin: auto;
     #selectRepositories{
       width: 40%;
       float: left;
+      position: absolute;
+      display: inline;
+      margin-left:5%;
+      margin-top: 5px;
     }
 }
