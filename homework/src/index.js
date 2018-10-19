@@ -130,7 +130,7 @@
         createAndAppend('div', document.getElementById('idBody'), { text: err.message, class: 'alert-error' });
       } else {
         //createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
-        createAndAppend('p', root, { text: 'HYF Repositories', id: 'repositoryLabelgit' });
+        createAndAppend('p', root, { text: 'HYF Repositories', id: 'repositoryLabel' });
         sortedRepos = fillRepositoryList(data, root);
         detailedInfoRepository();
       }
