@@ -72,26 +72,11 @@ if (document.getElementById("contributors")) {
 const div = createAndAppend ("div" , root, {id:"contributors"});
 const ul = createAndAppend("ul", div);
 const x = data[select.value].contributors_url;
-//createAndAppend ("li", ul,{text:"contributors"});
-createAndAppend ("li", ul,{text:"Maartje" });
-li.addEventListener("click", () => { window.open(contributor.html_url) });
-      createAndAppend('img', li, { 'src': contributor.avatar_url });
-      createAndAppend('p', li, { 'text': contributor.login });
-      createAndAppend('div', li, { 'text': contributor.contributions, 'class': 'contributionNum' });
-
-// //   createAndAppend ("li", ul,{text:"Descrition : " + "  " + description});
-// //   createAndAppend ("li", ul,{text:"Forks : " + "  " + forks});
-// //   createAndAppend ("li", ul,{text:"Updated : " + "  " + updated});
 
 }
   
 
 
-
-
-// function renderError(error){
-// console.log(error);
-// }
 
   function main(url) {
     fetchJSON(url, (err, data) => {
@@ -101,7 +86,6 @@ li.addEventListener("click", () => { window.open(contributor.html_url) });
   //renderError(err);
   
       } else {
- //createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
  repo(data);
  
       }
