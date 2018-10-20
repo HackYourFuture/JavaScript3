@@ -1,3 +1,77 @@
 .alert-error {
     color: red;
 }
+
+#header{
+  padding: 20px;
+  background-color: black;
+  margin-bottom: 20px;
+  display: flex;
+}
+#header h3{
+  padding: 10px;
+  color: white;
+
+}
+#header select {
+  height: 50px;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+#main {
+  display: flex;
+}
+#div1{
+  margin: 10px;
+  display: block;
+  background-color: red;
+  width: 50%;
+  
+}
+
+#div1 li a{
+  text-decoration: none;
+  color: black
+}
+#div1 li a:hover{
+  font:bold;
+  color: white;
+}
+#div2{
+  display: block;
+  margin: 10px;
+  background: gray;
+  width: 50%;
+}
+
+#list-container img{
+  height: 40px;
+  width: 40px;
+}
+#div1 #list-container li {
+  list-style: none;
+  
+}
+#div2 #list-container ul{
+  display: flex;
+  border-bottom: 1px lightgray solid;
+  padding: 10px;
+}
+#div2 #list-container ul li {
+  list-style: none;
+  float: left;
+  width: 33%;
+}
+#div2 #list-container ul li a{
+  text-decoration: none;
+  color: black
+}
+#div2 #list-container ul li a:hover{
+  color: white;
+  font:bold;
+}
+#div2 #list-container  {
+  display: flex;
+  flex-direction: column;
+  
+}
