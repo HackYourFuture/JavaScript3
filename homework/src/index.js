@@ -30,21 +30,55 @@
     return elem;
   }
 
+  function renderRepositoryInfo(info) {
+    const li = createAndAppend('li', ul);
+    const span = createAndAppend('span', li);
+    span.innerText = 'Repository : ';
+    const a = createAndAppend('a', li, { href: info.RepositoryUrl, target: '_blank' });
+    a.innerText = `${info.Repository}`;
+    const li2 = createAndAppend('li', ul);
+    li2.innerText = `Description :  ${info.Description}`;
+    const li3 = createAndAppend('li', ul);
+    li3.innerText = `Forks :  ${info.Forks}`;
+    const li4 = createAndAppend('li', ul);
+    li4.innerText = `Updated :  ${info.Updated}`;
+  }
+
+  function renderContributorsInfo(info) {
+    fetchJSON(info.ContributorsUrl, (err, data) => {
+      if (err) {
+        createAndAppend('div', div2, { text: err.message, class: 'alert-error' });
+      } else {
+        ul2.innerText = '';
+
+        data.forEach(elem => {
+          const ul3 = createAndAppend('ul', ul2);
+          const li = createAndAppend('li', ul3);
+          createAndAppend('img', li, { src: elem.avatar_url });
+          const li2 = createAndAppend('li', ul3);
+          const a = createAndAppend('a', li2, { href: elem.html_url, target: '_blank' });
+          a.innerText = `${elem.login}`;
+          const li3 = createAndAppend('li', ul3);
+          li3.innerText = `${elem.contributions}`;
+
+        });
+      }
+    });
+  }
+
+  const root = document.getElementById('root');
+  const header = createAndAppend('header', root, { id: 'header' });
+  const h3 = createAndAppend('h3', header);
+  h3.innerText = 'HYF Repository';
+  const mainDiv = createAndAppend('div', root, { id: 'main' });
+  const div1 = createAndAppend('div', mainDiv, { id: 'div1' });
+  const div2 = createAndAppend('div', mainDiv, { id: 'div2' });
+  const ul = createAndAppend('ul', div1, { id: 'list-container' });
+  const ul2 = createAndAppend('ul', div2, { id: 'list-container' });
 
   function main(url) {
 
-    const root = document.getElementById('root');
-    const header = createAndAppend('header', root, { id: 'header' });
-    const h3 = createAndAppend('h3', header);
-    h3.innerText = 'HYF Repository';
-    const main = createAndAppend('div', root, { id: 'main' });
-    const div1 = createAndAppend('div', main, { id: 'div1' });
-    const div2 = createAndAppend('div', main, { id: 'div2' });
-    const ul = createAndAppend('ul', div1, { id: 'list-container' });
-    const ul2 = createAndAppend('ul', div2, { id: 'list-container' });
-
     fetchJSON(url, (err, data) => {
-      // const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
@@ -74,43 +108,9 @@
           createAndAppend('option', select, { value: index, text: query.Repository });
         });
 
-        const li = createAndAppend('li', ul);
-        const span = createAndAppend('span', li);
-        span.innerText = 'Repository : ';
-        const a = createAndAppend('a', li, { href: queries[0].RepositoryUrl, target: '_blank' });
-        a.innerText = `${queries[0].Repository}`;
+        renderRepositoryInfo(queries[0]);
 
-        const li2 = createAndAppend('li', ul);
-        li2.innerText = `Description :  ${queries[0].Description}`;
-        const li3 = createAndAppend('li', ul);
-        li3.innerText = `Forks :  ${queries[0].Forks}`;
-        const li4 = createAndAppend('li', ul);
-        li4.innerText = `Updated :  ${queries[0].Updated}`;
-
-
-        // create the right div2
-
-
-        fetchJSON(queries[0].ContributorsUrl, (err, data) => {
-          if (err) {
-            createAndAppend('div', div2, { text: err.message, class: 'alert-error' });
-          } else {
-            ul2.innerText = '';
-
-            data.forEach(elem => {
-              const ul3 = createAndAppend('ul', ul2);
-              const li = createAndAppend('li', ul3);
-              createAndAppend('img', li, { src: elem.avatar_url });
-              const li2 = createAndAppend('li', ul3);
-              const a = createAndAppend('a', li2, { href: elem.html_url, target: '_blank' });
-              a.innerText = `${elem.login}`;
-              const li3 = createAndAppend('li', ul3);
-              li3.innerText = `${elem.contributions}`;
-
-            });
-
-          }
-        });
+        renderContributorsInfo(queries[0]);
 
         select.addEventListener('change', () => {
           console.log(select.value);
@@ -119,41 +119,11 @@
           const que = queries[select.value];
 
           ul.innerText = '';
-          const li = createAndAppend('li', ul);
-          const span = createAndAppend('span', li);
-          span.innerText = 'Repository : ';
-          const a = createAndAppend('a', li, { href: que.RepositoryUrl, target: '_blank' });
-          a.innerText = `${que.Repository}`;
-          const li2 = createAndAppend('li', ul);
-          li2.innerText = `Description :  ${que.Description}`;
-          const li3 = createAndAppend('li', ul);
-          li3.innerText = `Forks :  ${que.Forks}`;
-          const li4 = createAndAppend('li', ul);
-          li4.innerText = `Updated :  ${que.Updated}`;
+          renderRepositoryInfo(que);
 
           // create the right div2
 
-
-          fetchJSON(que.ContributorsUrl, (err, data) => {
-            if (err) {
-              createAndAppend('div', div2, { text: err.message, class: 'alert-error' });
-            } else {
-              ul2.innerText = '';
-              data.forEach(elem => {
-                const ul3 = createAndAppend('ul', ul2);
-                const li = createAndAppend('li', ul3);
-                createAndAppend('img', li, { src: elem.avatar_url });
-                const li2 = createAndAppend('li', ul3);
-                const a = createAndAppend('a', li2, { href: elem.html_url, target: '_blank' });
-                a.innerText = `${elem.login}`;
-                const li3 = createAndAppend('li', ul3);
-                li3.innerText = `${elem.contributions}`;
-
-              });
-
-
-            }
-          });
+          renderContributorsInfo(que);
 
         });
       }
@@ -164,5 +134,3 @@
   window.onload = () => main(HYF_REPOS_URL);
 
 }
-
-
