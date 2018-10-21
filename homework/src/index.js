@@ -28,8 +28,7 @@ function load(url) {
     return elem;
   }
 
-  const proms = fetchJSON(url);
-  proms.then(data => {
+  fetchJSON(url).then(data => {
     const header = createEl("header", root);
     createEl("h3", header, { text: "HYF Repositories" });
     const select = createEl("select", header);
@@ -57,8 +56,7 @@ function load(url) {
         if (seled === repoName) {
           article.innerHTML = "";
           repoDetails(repo, article);
-          const proms = fetchJSON(repo.contributors_url);
-          proms.then(info => {
+          fetchJSON(repo.contributors_url).then(info => {
             contributors(info, article);
           }).catch(error => {
             article.innerHTML = "";
