@@ -1,5 +1,6 @@
 .alert-error {
     color: red;
+    text-align: center;
 }
 html {
   box-sizing: border-box;

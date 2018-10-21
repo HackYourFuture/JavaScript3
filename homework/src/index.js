@@ -79,7 +79,11 @@
     const table = createAndAppend('table', infoBox, { class: 'infoTable' });
     const tbody = createAndAppend('tbody', table);
     addRow('Repository', data.name, tbody);
-    addRow('Description', data.description, tbody);
+
+    if (data.description) {
+      addRow('Description', data.description, tbody);
+    }
+
     addRow('Forks', data.forks, tbody);
     addRow('Updated', data.updated_at, tbody);
   }
