@@ -1,3 +1,108 @@
 .alert-error {
     color: red;
 }
+html {
+  box-sizing: border-box;
+}
+body {
+  background: rgb(255, 255, 255);
+}
+
+#root {
+  display: flex;
+  flex-wrap: wrap;
+  font-family: sans-serif;
+}
+
+.repositoryDiv {
+  display: flex;
+  width: 100%;
+}
+
+.topping {
+  display: flex;
+  width: 65%;
+  margin: auto;
+  background: #3F51B5;
+  box-shadow: 2px 3px 2px  rgba(30, 31, 31, 0.253);
+}
+
+.hyfRepo {
+  font-size: 18px;
+  font-family: serif;
+  color: white;
+  padding: 12px;
+}
+
+.select-box {
+  font-size: 14px;
+  width: 250px;
+  height: 32px;
+  padding: 2px;
+  margin: auto 0;
+}
+
+.infoBox {
+  flex-basis: 50%;
+}
+
+.ContributorBox {
+  flex-basis: 50%;
+}
+
+.infoTable {
+  box-shadow:-1px 1.5px 10px 2px rgba(0, 19, 22, 0.301);
+  margin:2% 35%;
+  width:62%;
+  height: 10em;
+  padding: 10px;
+}
+.ContributorTable {
+  box-shadow:-1px 1.5px 10px 2px rgba(0, 19, 22, 0.322);
+  width:65%;
+}
+
+.contTitle {
+  padding: 10px;
+  font-size: 15px;
+  opacity: 0.6;
+}
+
+.pictures {
+  height: 50px;
+  width: 50px;
+  border-radius: 4px;
+}
+.contributorsList{
+  padding: 10px;
+}
+.listItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 4px;
+  margin-bottom: 5px;
+}
+.contributorName {
+    flex-basis: 70%;
+    font-size: 20px;
+    padding: 2px 30px;
+    line-height: 1rem;
+    font-family: sans-serif;
+    color: rgb(0, 0, 0);
+}
+.badgeNr {
+  font-size: 12px;
+    padding: 5px ;
+    background-color: gray;
+    color: white;
+}
+a {
+  text-decoration: none;
+}
+
+.select-box {
+  background: rgb(255, 255, 255);
+  font-size: 17px;
+  width: 340px;
+}
