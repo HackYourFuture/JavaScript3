@@ -1,0 +1,135 @@
+*{
+  box-sizing: border-box;
+}
+html,body{
+  margin: 0;
+  padding: 0;
+  font-size: calc(15px+(70-15)*((100vw-300px)/(1600-300)));
+}
+.alert-error {
+  position: relative;
+  display: block;
+  
+  color: rgb(77, 14, 14);
+  font-weight: bold;
+  margin-left: 5%;
+
+  background-color: #e79ee7;
+  margin: auto;
+ 
+  border: 1px solid #e79ee7;
+  width: 80%;
+  height: 60px;  
+  top:40px;
+}
+#root{
+  position: relative;
+  background-color: #4619af;
+  margin: auto;
+ 
+  border: 1px solid #4619af;
+  width: 80%;
+  height: 60px;
+  top:10px;
+}
+#repositoryLabel{
+
+  color: white;
+  font-weight: bold;
+  margin-left: 5%;
+  float: left;
+}
+select{
+  height: 3em;
+}
+
+.clsRepositoryDetails{
+  margin-left:10%;
+  margin-top: 2%;
+  
+  width: 80%;
+}
+.clsLeftDetails{
+  height: 200px;
+  text-align: left;
+  width: 100%;
+  
+    
+  border: 1px solid;
+    padding: 10px;
+    box-shadow: 5px 10px;
+
+  margin-right: 10%;
+}
+.clsRightDetails{
+  
+  width: 100%;
+  margin-right: 0%;
+/*margin-left: 10%;*/
+  
+  border: 1px solid black;
+  padding: 10px;
+  box-shadow: 5px 10px;
+  
+}
+
+.userOne{
+  display: block;
+  
+}
+.userImg{
+  width: 50px;
+  float:left;
+  padding: 2%;
+}
+.userLogin{
+float:left;
+padding: 5%;
+margin: auto;
+}
+.userContribution{
+  float: right;
+  margin:  3%;
+  padding: 2%;
+}
+.userOne::after{
+  content: "";
+  clear: both;
+  display: table;
+}
+@media only screen and (max-width: 600px) {
+    body {
+         font-size: 15px;
+    }
+    #selectRepositories{
+      position: absolute;
+      display: inline;
+      width: 50%;
+      margin-left:5%;
+      margin-top: 5px;
+    }
+}
+@media only screen and (min-width: 600px) {
+   
+    .clsLeftDetails{
+      float:left;
+      width: 45%;
+    }
+    .clsRightDetails{
+      float: right;
+      width: 45%;
+    }
+    .clsRightDetails::after, .clsLeftDetails::after,  {
+      content: "";
+      clear: both;
+      display: table;
+    }
+    #selectRepositories{
+      width: 40%;
+      float: left;
+      position: absolute;
+      display: inline;
+      margin-left:5%;
+      margin-top: 5px;
+    }
+}
