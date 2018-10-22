@@ -9,20 +9,20 @@ html,body{
 .alert-error {
   position: relative;
   display: block;
+  
   color: rgb(77, 14, 14);
   font-weight: bold;
+  margin-left: 5%;
+
   background-color: #e79ee7;
   margin: auto;
-  padding-left: 2%;
+ 
   border: 1px solid #e79ee7;
   width: 80%;
   height: 60px;  
   top:40px;
 }
 #root{
- width:100%; 
-}
-#divRepositoryContainer{
   position: relative;
   background-color: #4619af;
   margin: auto;
@@ -33,6 +33,7 @@ html,body{
   top:10px;
 }
 #repositoryLabel{
+
   color: white;
   font-weight: bold;
   margin-left: 5%;
@@ -45,20 +46,26 @@ select{
 .clsRepositoryDetails{
   margin-left:10%;
   margin-top: 2%;
+  
   width: 80%;
 }
 .clsLeftDetails{
   height: 200px;
   text-align: left;
   width: 100%;
+  
     
   border: 1px solid;
-  padding: 10px;
-  box-shadow: 5px 10px;
+    padding: 10px;
+    box-shadow: 5px 10px;
 
+  margin-right: 10%;
 }
 .clsRightDetails{
+  
   width: 100%;
+  margin-right: 0%;
+/*margin-left: 10%;*/
   
   border: 1px solid black;
   padding: 10px;
@@ -68,7 +75,7 @@ select{
 
 .userOne{
   display: block;
-  border-bottom: 1px solid rgb(155, 165, 165);
+  
 }
 .userImg{
   width: 50px;
@@ -76,17 +83,14 @@ select{
   padding: 2%;
 }
 .userLogin{
-  float:left;
-  padding: 5%;
-  margin: auto;
+float:left;
+padding: 5%;
+margin: auto;
 }
 .userContribution{
   float: right;
   margin:  3%;
   padding: 2%;
-  background-color: rgb(155, 165, 165);
-  width: 15%;
-  text-align: center;
 }
 .userOne::after{
   content: "";
@@ -99,11 +103,9 @@ select{
     }
     #selectRepositories{
       position: absolute;
-      display: block;
-      margin-left:40%;
-
-      width: 55%;
-      float: left;
+      display: inline;
+      width: 50%;
+      margin-left:5%;
       margin-top: 5px;
     }
 }
@@ -123,12 +125,11 @@ select{
       display: table;
     }
     #selectRepositories{
-      width: 45%;
+      width: 40%;
       float: left;
-      margin-top: 5px;
       position: absolute;
-      display: block;
-      margin-left:35%;
-      
+      display: inline;
+      margin-left:5%;
+      margin-top: 5px;
     }
 }
