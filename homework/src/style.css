@@ -33,17 +33,19 @@ body {
   width: 100%;
   
 }
-
-tr.label {
-  font-weight: bold;
+tr:first-child {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
 }
-
-.label {
-  margin: 3px;
+tr {
+  font-weight: bold;
 }
 
 
 table {
+  border-spacing: 2px;
+  border-collapse: separate;
   margin-bottom: 8px;
   background-color: rgb(255, 255, 255);
   border-radius: 5px;
@@ -51,7 +53,10 @@ table {
     rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 4px 5px 5px -2px;
     padding-right: 5%;
 }
-
+div.right_div {
+  border-spacing: 2px;
+  border-radius: 5px;
+}
  @media only screen and (min-width:768px) and (max-width:1024px) {
     .header .select {
         width: 60%;
