@@ -1,12 +1,15 @@
 .alert-error {
     color: red;
 }
-
+#root {
+  background-color:rgb(197, 194, 194);
+}
 #header{
   padding: 20px;
   background-color: black;
   margin-bottom: 20px;
   display: flex;
+  border-radius: 20px;
 }
 #header h3{
   padding: 10px;
@@ -16,17 +19,35 @@
 #header select {
   height: 50px;
   border-radius: 10px;
-  margin-top: 15px;
+  margin-top: 25px;
+  width: 60%;
 }
 #main {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 #div1{
-  margin: 10px;
-  display: block;
+  /* margin: 10px; */
   background-color: red;
-  width: 50%;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 20px;  
   
+}
+#div1 ul {
+  padding-left: 10px;
+}
+#div1 li{
+  display: flex;
+  flex-direction: row;
+
+}
+#div1 #title{
+  color: white;
+  font-weight:bold;
+  padding: 15px 7px;
 }
 
 #div1 li a{
@@ -34,14 +55,18 @@
   color: black
 }
 #div1 li a:hover{
-  font:bold;
+  font-weight:bold;
   color: white;
 }
 #div2{
-  display: block;
-  margin: 10px;
+  padding: 30px;
   background: gray;
-  width: 50%;
+  margin: 10px;
+  border-radius: 20px;
+}
+#div2 h3{
+    margin: 10px;
+    color: darkred;
 }
 
 #list-container img{
@@ -52,26 +77,52 @@
   list-style: none;
   
 }
-#div2 #list-container ul{
-  display: flex;
-  border-bottom: 1px lightgray solid;
+ #div2 #list-container {
+  
   padding: 10px;
-}
-#div2 #list-container ul li {
+} 
+#div2 #list-container li {
+  margin: 5px;
   list-style: none;
-  float: left;
-  width: 33%;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px lightgray solid;
+  padding: 10px;  
+  justify-content: space-between;
 }
-#div2 #list-container ul li a{
+#div2 #list-container li a{
   text-decoration: none;
-  color: black
+  font-weight:bold;
+  color: rgb(36, 34, 34);
 }
-#div2 #list-container ul li a:hover{
+#div2 #list-container li a:hover{
   color: white;
-  font:bold;
+  
 }
 #div2 #list-container  {
   display: flex;
   flex-direction: column;
   
 }
+
+
+@media only screen and (min-width:768px){
+
+  #main {
+  flex-direction: row;
+  align-content: space-between;
+}
+#header select {
+  margin-top: 15px;
+}
+#div1{
+  padding: 30px;
+  width: 40%;
+  
+}
+#div2{
+  width: 40%;
+}
+
+};
+
