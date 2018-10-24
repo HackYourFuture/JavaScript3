@@ -7,6 +7,16 @@ body {
   font-size: 16px;
   background-color: #ffffff;
   min-width: 300px;
+  margin-top: 0;
+}
+img{
+  border-radius: 3px;
+  height: 48px;
+}
+div.data {
+    display: block;
+    padding-right: 25%;
+    padding-left: 25%;
 }
 .header {
   color: white;
@@ -16,12 +26,32 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 16px;
-  padding-top: 22px;
+  padding: 10px;
+  padding-top: 32px;
   padding-right: 16px;
-  padding-bottom: 22px;
+  padding-bottom: 8px;
   padding-left: 16px;
   border-radius: 5px;
+}
+.table  {
+  border-spacing: 2px;
+  border-collapse: separate;
+  margin-bottom: 8px;
+  margin-left: 25%;
+  display: inline-block;
+  width: 29%;
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+  box-shadow: rgba(2, 1, 1, 0.2) 0px 1px 8px 0px,
+    rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 4px 5px 5px -2px;
+  }
+
+#list {
+  margin-left: 16px;
+    font-size: 14px;
+    width: 250px;
+    height: 32px;
+    padding: 2px;
 }
 .alert-error {
   color: #721c24;
@@ -41,29 +71,49 @@ tr:first-child {
 tr {
   font-weight: bold;
 }
-
-
-table {
-  border-spacing: 2px;
-  border-collapse: separate;
-  margin-bottom: 8px;
-  background-color: rgb(255, 255, 255);
-  border-radius: 5px;
-  box-shadow: rgba(2, 1, 1, 0.2) 0px 1px 8px 0px,
-    rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 4px 5px 5px -2px;
-    padding-right: 5%;
+.contributor-list {
+  width: 20%;
+  display: inline-block;
 }
-div.right_div {
-  border-spacing: 2px;
-  border-radius: 5px;
+.contributor {
+  font-size: 0.8rem;
+  color: #CEC0A6;
+}
+li {
+    border-bottom: solid 1px rgb(0, 0, 0, 12%);
+    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+}
+
+
+ul.contributor-list {
+    margin-bottom: 8px;
+    border: none;
+    border-radius: 2px;
+    margin-right: 45%;
+    margin-left: 25%;
+    background-color: #fff;
+    box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .2), 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .12);
+}
+div.contributors_badge{
+    font-size: 12px;
+    padding: 2px 8px;
+    line-height: 1rem;
+    background-color: gray;
+    color: white;
+    border-radius: 4px;
 }
  @media only screen and (min-width:768px) and (max-width:1024px) {
-    .header .select {
+    .contributor .header .select {
         width: 60%;
+        
     }
 }
 @media (min-width: 1025px) {
-  .header .select {
+  .contributor .header .select {
     width: 60%;
   }
 }
