@@ -1,19 +1,20 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -29,9 +30,10 @@
     });
     return elem;
   }
-  function Repositories(index, data, container) {
+
+  function renderRepositories(index, repositoriesdata, container) {
     const repoInfo = createAndAppend('div', container, { 'class': 'left-div box' });
-    const table = createAndAppend('table', repoInfo, { 'id': 'info-table' });
+    const table = createAndAppend('table', repoInfo);
 
     const repoTr = createAndAppend('tr', table);
     createAndAppend('td', repoTr, { 'text': 'Repository :', 'class': 'label' });
@@ -50,28 +52,27 @@
     createAndAppend('td', updateTr, { 'text': 'Updated :', 'class': 'label' });
     const updateNum = createAndAppend('td', updateTr);
 
-    url.innerText = data[index].name;
-    url.setAttribute('href', data[index].html_url);
-    if (data[index].description === null) {
+    url.innerText = repositoriesdata[index].name;
+    url.setAttribute('href', repositoriesdata[index].html_url);
+    if (repositoriesdata[index].description === null) {
       descriptionName.innerHTML = '';
       descriptionDetails.innerText = '';
     } else {
-      descriptionName.innerText = "Description :";
-      descriptionDetails.innerText = data[index].description;
+      descriptionName.innerText = "Description: ";
+      descriptionDetails.innerText = repositoriesdata[index].description;
     }
-    forkNum.innerText = data[index].forks;
-    const updateRepo = new Date(data[index].updated_at);
+    forkNum.innerText = repositoriesdata[index].forks;
+    const updateRepo = new Date(repositoriesdata[index].updated_at);
     updateNum.innerText = updateRepo.toLocaleString("en-US");
   }
 
-  function Contributors(data, container) {
+  function renderContributors(contributorsdata, container) {
     const contributorsDiv = createAndAppend('div', container, { 'class': 'right-div box' });
     createAndAppend('p', contributorsDiv, { 'text': 'Contributions', 'class': 'contributions' });
     const ul = createAndAppend('ul', contributorsDiv);
-    data.forEach(contributor => {
+    contributorsdata.forEach(contributor => {
       const li = createAndAppend('li', ul);
-      li.setAttribute('target', '_blank');
-      li.addEventListener("click", () => { window.open(contributor.html_url) });
+      li.addEventListener("click", () => { window.open(contributor.html_url); });
       createAndAppend('img', li, { 'src': contributor.avatar_url });
       createAndAppend('p', li, { 'text': contributor.login });
       createAndAppend('div', li, { 'text': contributor.contributions, 'class': 'contributionNum' });
@@ -85,44 +86,34 @@
     const select = createAndAppend('select', header, { 'id': 'select-list' });
     const container = createAndAppend('div', root, { 'id': 'container' });
 
-    fetchJSON(url, (err, data) => {
-      if (err) {
-        createAndAppend('div', root, { 'text': err.message, class: 'alert-error' });
-      } else {
-        data.sort((x, y) => x.name.localeCompare(y.name));
-        data.forEach((item, index) => {
+    fetchJSON(url)
+      .then((repositories) => {
+        repositories.sort((x, y) => x.name.localeCompare(y.name));
+        repositories.forEach((item, index) => {
           createAndAppend('option', select, { 'text': item.name, 'value': index });
-
         });
-        Repositories(0, data, container);
-
-      }
-      const contributorsInfo = data[0].contributors_url;
-      fetchJSON(contributorsInfo, (err, contributorData) => {
-        Contributors(contributorData, container);
-      });
-
-      select.addEventListener('change', (e) => {
-        container.innerHTML = "";
-        const index = e.target.value;
-        Repositories(index, data, container);
-
-        const contributorOnSelect = data[index].contributors_url;
-        fetchJSON(contributorOnSelect, (err, contributorData) => {
-          Contributors(contributorData, container);
+        const contributorsInfo = repositories[0].contributors_url;
+        renderRepositories(0, repositories, container);
+        select.addEventListener('change', (e) => {
+          container.innerHTML = "";
+          const index = e.target.value;
+          renderRepositories(index, repositories, container);
+          const contributorOnSelect = repositories[index].contributors_url;
+          fetchJSON(contributorOnSelect)
+            .then(contributorOnSelect => renderContributors(contributorOnSelect, container))
+            .catch(err => err.message);
         });
-      });
-    });
-
-
+        return fetchJSON(contributorsInfo);
+      })
+      .then(contributers => {
+        renderContributors(contributers, container);
+      })
+      .catch(err =>
+        createAndAppend('div', root, { 'text': err.message, class: 'alert-error' })
+      );
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
   window.onload = () => main(HYF_REPOS_URL);
 }
-
-
-
-
-

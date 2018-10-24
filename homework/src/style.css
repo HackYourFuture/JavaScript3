@@ -96,21 +96,26 @@ li p {
 
 
 @media all and (max-width: 767px) {
- body{
+  #container {
    display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   padding: 10px;
   align-items: center;
  }
+ body {
+
+  width: 100vw;
+
+}
  #select-list {
-  width:  calc(100% - 20px);
+  width: 50vw;
 }
 
 .left-div {
-  width: calc(100% - 20px);
+  width: 100vw;
 }
 .right-div {
-  width:  calc(100% - 20px);
+  width: 100vw;
 }
 }
