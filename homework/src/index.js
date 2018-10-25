@@ -68,15 +68,15 @@
 
   function addRow(label, value, tbody) {
     const row = createAndAppend('tr', tbody);
-    createAndAppend('td', row, { html: label + ':  ', class: 'label' });
-    createAndAppend('td', row, { html: value, class: 'repo-name', target: '_blank' });
+    createAndAppend('td', row, { html: label + ':&nbsp;&nbsp;', class: 'label' });
+    createAndAppend('td', row, { html: value, class: 'repo-name' });
   }
 
   function renderReposInfo(leftDiv, data) {
     leftDiv.innerHTML = '';
     const table = createAndAppend('table', leftDiv, { class: 'table-item' });
     const tbody = createAndAppend('tbody', table);
-    addRow('Repository', data.name.link(data.html_url), tbody);
+    addRow('Repository', `<a href=${data.html_url} target='_blank'>${data.name}</a>`, tbody);
     addRow('Description', data.description, tbody);
     addRow('Forks', data.forks, tbody);
     addRow('Updated', data.updated_at, tbody);
