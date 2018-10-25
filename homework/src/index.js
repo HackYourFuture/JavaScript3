@@ -29,20 +29,21 @@
     return elem;
   }
 
-  function main(url) {
-    const root = document.getElementById('root');
-    const div = createAndAppend('div', root, { class: 'data' });
-    const header = createAndAppend('p', div, { text: 'HYF Repositories', class: 'header' });
-    const table = createAndAppend('table', root, { class: 'table' });
-    const select = createAndAppend('select', header, { id: 'list' });
-    const tbody = createAndAppend('tbody', table);
-    const tr = createAndAppend('tr', tbody, { text: 'Repository: ', class: 'label' });
-    const repositoryLink = createAndAppend('a', tr);
-    const description = createAndAppend('tr', tbody, { class: 'label' });
-    const forks = createAndAppend('tr', tbody, { class: 'label' });
-    const container = createAndAppend('div', root, { id: 'container' });
-    const updated = createAndAppend('tr', tbody, { class: 'label' });
+  const root = document.getElementById('root');
+  const div = createAndAppend('div', root, { class: 'data' });
+  const header = createAndAppend('p', div, { text: 'HYF Repositories', class: 'header' });
+  const select = createAndAppend('select', header, { id: 'list' });
+  const table = createAndAppend('table', root, { class: 'table' });
+  const tbody = createAndAppend('tbody', table);
+  const tr = createAndAppend('tr', tbody, { text: 'Repository: ', class: 'label' });
 
+  const repositoryLink = createAndAppend('a', tr);
+  const description = createAndAppend('tr', tbody, { class: 'label' });
+  const forks = createAndAppend('tr', tbody, { class: 'label' });
+  const container = createAndAppend('div', root, { id: 'container' });
+  const updated = createAndAppend('tr', tbody, { class: 'label' });
+
+  function main(url) {
     fetchJSON(url, (error, repositories) => {
       if (error) {
         createAndAppend('div', container, {
@@ -52,15 +53,7 @@
       } else {
         repositories.sort((a, b) => a.name.localeCompare(b.name));
         repositories.forEach((item, index) => {
-          createAndAppend('option', select, { 'text': item.name, 'value': index });
-
-          renderRepositoryBox(
-            repositories[0],
-            repositoryLink,
-            description,
-            forks,
-            updated
-          );
+          createAndAppend('option', select, { text: item.name, 'value': index });
         });
       }
 
@@ -70,28 +63,20 @@
 
         renderRepositoryBox(
           repositories[select.value],
-          repositoryLink,
-          description,
-          forks,
-          updated
+
         );
-        const contributorOnSelect = repositories[index].contributors_url;
-        fetchJSON(contributorOnSelect, (err, contributorData) => {
+        const contributors_url = repositories[index].contributors_url;
+        fetchJSON(contributors_url, (_error, contributorData) => {
           renderContributors(contributorData, container);
         });
       });
+
       const contributorsInfo = repositories[0].contributors_url;
-      fetchJSON(contributorsInfo, (error, contributorData) => {
+      fetchJSON(contributorsInfo, (_error, contributorData) => {
         renderContributors(contributorData, container);
       });
 
-      function renderRepositoryBox(
-        repositories,
-        repositoryLink,
-        forks,
-        description,
-        updated,
-      ) {
+      function renderRepositoryBox(repositories) {
         repositoryLink.innerText = repositories.name;
         repositoryLink.setAttribute('href', repositories.html_url);
         repositoryLink.setAttribute('target', '_blank');
@@ -100,20 +85,27 @@
         updated.innerHTML = 'Updated: ' + new Date(repositories.updated_at).toLocaleString();
       }
 
+      renderRepositoryBox(
+        repositories[0],
+        repositoryLink,
+        description,
+        forks,
+        updated
+      );
+
     });
-    function renderContributors(data, container) {
+    function renderContributors(contributor, container) {
       const div = createAndAppend('div', container, { class: 'right_div' });
       const ul = createAndAppend('ul', div, { class: 'contributor-list' });
       createAndAppend('p', ul, { text: 'Contributions', class: 'contributions' });
 
-      data.forEach((contributor) => {
+      contributor.forEach((contributor) => {
 
         const li = createAndAppend('li', ul);
-        li.setAttribute('target', '_blank');
-        li.addEventListener('click', () => { window.open(contributor.html_url); });
-        createAndAppend('img', li, { 'src': contributor.avatar_url });
-        createAndAppend('div', li, { 'text': contributor.contributions, class: 'contributors_badge' });
-        createAndAppend('p', li, { 'text': contributor.login });
+        li.setAttribute('href', contributor.html_url);
+        createAndAppend('img', li, { src: contributor.avatar_url });
+        createAndAppend('div', li, { text: contributor.contributions, class: 'contributors_badge' });
+        createAndAppend('p', li, { text: contributor.login });
       });
     }
   }

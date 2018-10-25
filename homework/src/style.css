@@ -14,9 +14,14 @@ img{
   height: 48px;
 }
 div.data {
-    display: block;
+    display: inline-block;
     padding-right: 25%;
     padding-left: 25%;
+}
+
+.right-div{
+  display: inline-block;
+   
 }
 .header {
   color: white;
