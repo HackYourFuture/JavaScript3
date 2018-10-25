@@ -2,7 +2,6 @@ body{
      display: flex;
      font-family: sans-serif;
 }
-@media screen and (max-width:1500px){
 .alert-error {
     color: red;
 }
@@ -108,7 +107,7 @@ h1{
   color:black;
 }
 
-}
+
 /* _______laptop_________ */
 @media screen and (max-width:768px){
 
