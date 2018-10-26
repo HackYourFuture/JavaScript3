@@ -36,24 +36,24 @@
       if (err) {
         createAndAppend('div', root, { html: err.message, class: 'alert-error' });
       } else {
-        const repositoryDiv = createAndAppend('div', root, { class: 'repositoryDiv' });
+        const repositoryDiv = createAndAppend('div', root, { class: 'repositorydiv' });
         const header = createAndAppend('header', repositoryDiv, { class: 'topping' });
-        createAndAppend('h1', header, { html: 'HYF Repositories ', class: 'hyfRepo' });
+        createAndAppend('h1', header, { html: 'HYF Repositories ', class: 'hyfrepo' });
         const selectBox = createAndAppend('select', header, { class: 'select-box' });
         data.sort(function (a, b) { return a.name.localeCompare(b.name); });
         for (let i = 0; i < data.length; i++) {
           createAndAppend('option', selectBox, { value: i, html: data[i].name });
         }
         const infoBox = createAndAppend('div', root, { class: 'infoBox' });
-        const ContributorBox = createAndAppend('div', root, { class: 'ContributorBox' });
+        const ContributorBox = createAndAppend('div', root, { class: 'contributorbox' });
         selectBox.addEventListener('change', () => {
           const value = data[selectBox.selectedIndex].url;
           fetchJSON(value, (err, data) => {
             repositoryInfo(infoBox, data, value);
           });
-          const contributors = data[selectBox.selectedIndex].contributors_url;
-          fetchJSON(contributors, (err, data) => {
-            ContributorsInfo(ContributorBox, data, contributors);
+          const contributorsUrl = data[selectBox.selectedIndex].contributors_url;
+          fetchJSON(contributorsUrl, (err, contributors) => {
+            ContributorsInfo(ContributorBox, contributors);
           });
         });
         fetchJSON(data[0].url, (err, data) => {
@@ -74,28 +74,28 @@
   }
 
   //information box of each repository
-  function repositoryInfo(infoBox, data) {
+  function repositoryInfo(infoBox, repository) {
     infoBox.innerHTML = '';
     const table = createAndAppend('table', infoBox, { class: 'infoTable' });
     const tbody = createAndAppend('tbody', table);
-    addRow('Repository', data.name, tbody);
+    addRow('Repository', repository.name.link(repository.html_url), tbody);
 
-    if (data.description) {
-      addRow('Description', data.description, tbody);
+    if (repository.description) {
+      addRow('Description', repository.description, tbody);
     }
 
-    addRow('Forks', data.forks, tbody);
-    addRow('Updated', data.updated_at, tbody);
+    addRow('forks', repository.forks, tbody);
+    addRow('updated', repository.updated_at, tbody);
   }
 
-  function ContributorsInfo(ContributorBox, data) {
-    ContributorBox.innerHTML = '';
-    const ContributorTable = createAndAppend('div', ContributorBox, { class: 'ContributorTable' });
+  function ContributorsInfo(contributorBox, data) {
+    contributorBox.innerHTML = '';
+    const ContributorTable = createAndAppend('div', contributorBox, { class: 'ContributorTable' });
     createAndAppend('p', ContributorTable, { html: 'Contributors', class: 'contTitle' });
     const ul = createAndAppend('ul', ContributorTable, { class: 'contributorsList' });
     data.forEach(contributor => {
-      const contributorLink = createAndAppend('a', ul, { href: (`${contributor.html_url}`), target: '_blank' });
-      const li = createAndAppend('li', contributorLink, { class: 'listItem' });
+      const li = createAndAppend('li', ul, { class: 'listItem' });
+      const contributorLink = createAndAppend('a', li, { href: (`${contributor.html_url}`), target: '_blank' });
       createAndAppend('img', li, { src: contributor.avatar_url, class: 'pictures' });
       createAndAppend('div', li, { html: contributor.login, class: 'contributorName' });
       createAndAppend('div', li, { html: contributor.contributions, class: 'badgeNr' });
