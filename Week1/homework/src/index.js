@@ -43,17 +43,18 @@
     return sortedData;
   }
 
-  function fillRepositoryList(data, root) {
+  function fillRepositoryList(dataRepositories, root) {
     const select = createAndAppend('select', root, { id: 'selectRepositories' });
-    const sortedData = sortData(data, 'name');
+    const sortedData = sortData(dataRepositories, 'name');
     sortedData.forEach(elem => {
       createAndAppend('option', select, { text: elem.name, value: elem.id });
     });
 
     //Listener For Repository
     select.addEventListener("change", e => {
-      if (divRepDetails.hasChildNodes) {
-        divRepDetails.remove();
+      const rightRepDetail = document.getElementById("idRepositoryDetails");
+      if (rightRepDetail.hasChildNodes) {
+        rightRepDetail.remove();
       }
       detailedInfoRepository(sortedData);
     });
@@ -87,12 +88,9 @@
 
   }
 
-
-  let divRepDetails;
-
   function detailedInfoRepository(sortedRepos) {
     const index = document.getElementById('selectRepositories').selectedIndex;
-    divRepDetails = createAndAppend('div', document.getElementById("root"), { class: 'clsRepositoryDetails' });
+    const divRepDetails = createAndAppend('div', document.getElementById("root"), { class: 'clsRepositoryDetails', id: 'idRepositoryDetails' });
 
     //Left part - Repository Description
     const divLeftDetails = createAndAppend('div', divRepDetails, { class: 'clsLeftDetails' });
@@ -116,14 +114,14 @@
   }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
+    fetchJSON(url, (err, dataRepositories) => {
       const root = document.getElementById('root');
       const divRepositoryContainer = createAndAppend('div', root, { id: 'divRepositoryContainer' });
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
         createAndAppend('p', divRepositoryContainer, { text: 'HYF Repositories', id: 'repositoryLabel' });
-        const sortedRepos = fillRepositoryList(data, divRepositoryContainer);
+        const sortedRepos = fillRepositoryList(dataRepositories, divRepositoryContainer);
         detailedInfoRepository(sortedRepos);
       }
     });
