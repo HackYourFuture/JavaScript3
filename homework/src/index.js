@@ -88,18 +88,20 @@
     addRow('updated', repository.updated_at, tbody);
   }
 
-  function ContributorsInfo(contributorBox, data) {
+  function ContributorsInfo(contributorBox, contributors) {
     contributorBox.innerHTML = '';
     const ContributorTable = createAndAppend('div', contributorBox, { class: 'ContributorTable' });
     createAndAppend('p', ContributorTable, { html: 'Contributors', class: 'contTitle' });
     const ul = createAndAppend('ul', ContributorTable, { class: 'contributorsList' });
-    data.forEach(contributor => {
-      const li = createAndAppend('li', ul, { class: 'listItem' });
-      const contributorLink = createAndAppend('a', li, { href: (`${contributor.html_url}`), target: '_blank' });
-      createAndAppend('img', li, { src: contributor.avatar_url, class: 'pictures' });
-      createAndAppend('div', li, { html: contributor.login, class: 'contributorName' });
-      createAndAppend('div', li, { html: contributor.contributions, class: 'badgeNr' });
-    });
+    if (contributors !== null) {
+      contributors.forEach(contributor => {
+        const li = createAndAppend('li', ul, { class: 'listItem' });
+        const contributorLink = createAndAppend('a', li, { href: (`${contributor.html_url}`), target: '_blank' });
+        createAndAppend('img', li, { src: contributor.avatar_url, class: 'pictures' });
+        createAndAppend('div', li, { html: contributor.login, class: 'contributorName' });
+        createAndAppend('div', li, { html: contributor.contributions, class: 'badgeNr' });
+      });
+    }
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
