@@ -29,17 +29,16 @@
     });
     return elem;
   }
-
-  function renderRepository(repository, container) {
-    container.innerHTML = ''; //what is this line for?
-    const table = createAndAppend('table', container);//why we create civ elem in main and not here?
+  function renderRepositories(repository, container) {
+    container.innerHTML = '';                                        //what is this line for? cleaning each time it run old info
+    const table = createAndAppend('table', container);
     const tbody = createAndAppend('tbody', table);
     const tr1 = createAndAppend('tr', tbody);
     createAndAppend('td', tr1, {
-      text: 'Repository:'                              //<tr><td>Repository: </td></tr>
+      text: 'Repository:'
     });
-    const td2 = createAndAppend('td', tr1);            // <td><ahref='(look atribute name'html_utl' from data itself),
-    createAndAppend('a', td2, {                        // target=blank> (repository name)></a></td>
+    const td12 = createAndAppend('td', tr1);
+    createAndAppend('a', td12, {
       href: repository.html_url,
       target: '_blank',
       text: repository.name
@@ -67,17 +66,46 @@
     });
   }
 
+  function renderContributors(contributors, container) {
+    container.innerHTML = '';
+    createAndAppend('p', container, {
+      text: 'Contributions'
+    });
+    const ul = createAndAppend('ul', container);
+    contributors.forEach(contributor => {
+      const li = createAndAppend('li', ul);
+      const a = createAndAppend('a', li, {
+        href: contributor.html_url,
+        target: '_blank',
+        text: contributor.login
+      });
+      createAndAppend('img', a, {
+        src: contributor.avatar_url
+      });
+      createAndAppend('div', a, {
+        text: contributor.contributions
+      });
+    });
+  }
+
   function main(url) {
     fetchJSON(url, (err, repositories) => {
+      const root = document.getElementById('root');
+      const header = createAndAppend('div', root, {
+        id: 'header'
+      });
+      createAndAppend('label', header, {
+        text: 'HYF Repositories'
+      });
+      const select = createAndAppend('select', header);
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+
       } else {
-        console.log(repositories);
-        const root = document.getElementById('root');
-        const select = createAndAppend('select', root);
-        const leftHandContainer = createAndAppend('div', root, { //div is container in func
-          id: 'left-hand'
-        });
+        repositories.sort((a, b) => a.name.localeCompare(b.name));
+        const leftHandContainer = createAndAppend('div', root, { id: 'leftHand' });
+        const rightHandContainer = createAndAppend('div', root, { id: 'rightHand' });
+
         repositories.forEach((repository, index) => {
           createAndAppend('option', select, {
             text: repository.name,
@@ -85,11 +113,18 @@
           });
         });
         select.addEventListener('change', () => {
-          const index = select.value;                     //difrence between select value and repo index ?
+          const index = select.value;                     //difference between select value and repo index ?
           const repository = repositories[index];
-          renderRepository(repository, leftHandContainer);
+          renderRepositories(repository, leftHandContainer);
+          fetchJSON(repository.contributors_url, (err, contributors) => {
+            renderContributors(contributors, rightHandContainer);
+          });
         });
-        renderRepository(repositories[0], leftHandContainer);
+        renderRepositories(repositories[0], leftHandContainer);
+
+        fetchJSON(repositories[0].contributors_url, (err, contributors) => {
+          renderContributors(contributors, rightHandContainer);
+        });
       }
     });
   }
@@ -99,5 +134,4 @@
 
   window.onload = () => main(HYF_REPOS_URL);
 }
-
 
