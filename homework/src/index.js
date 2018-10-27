@@ -1,19 +1,22 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status < 400) {
+            resolve(xhr.response);
+          } else {
+            reject(new Error(xhr.statusText));
+          }
+        }
+      };
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -92,51 +95,53 @@
   }
 
   function main(url) {
-    fetchJSON(url, (err, repositories) => {
-      const root = document.getElementById('root');
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-        return;
-      }
-      repositories.sort((a, b) => a.name.localeCompare(b.name));
-      console.log(repositories);
-      const header = createAndAppend('header', root);
-      const h1 = createAndAppend('h2', header, {
-        text: 'HYF Repositories'
-      });
-      const select = createAndAppend('select', header);
-      const leftHandContainer = createAndAppend('div', root, {
-        id: 'left-hand'
-      });
-      const rightHandContainer = createAndAppend('div', root, {
-        id: 'right-hand'
-      });
-      repositories.forEach((repository, index) => {
-        createAndAppend('option', select, {
-          text: repository.name,
-          value: index
+    const root = document.getElementById('root');
+    fetchJSON(url)
+      .then(repositories => {
+
+        repositories.sort((a, b) => a.name.localeCompare(b.name));
+        console.log(repositories);
+        const header = createAndAppend('header', root);
+        const h1 = createAndAppend('h2', header, {
+          text: 'HYF Repositories'
         });
-      });
-      select.addEventListener('change', () => {
-        const index = select.value;
-        const repository = repositories[index];
-        renderRepository(repository, leftHandContainer);
-        fetchJSON(repository.contributors_url, (err, contributors) => {
-          renderContributors(contributors, rightHandContainer);
+        const select = createAndAppend('select', header);
+        const leftHandContainer = createAndAppend('div', root, {
+          id: 'left-hand'
         });
-      });
-      renderRepository(repositories[0], leftHandContainer);
-      fetchJSON(repositories[0].contributors_url, (err, contributors) => {
-        renderContributors(contributors, rightHandContainer);
-      });
-    });
+        const rightHandContainer = createAndAppend('div', root, {
+          id: 'right-hand'
+        });
+        repositories.forEach((repository, index) => {
+          createAndAppend('option', select, {
+            text: repository.name,
+            value: index
+          });
+        });
+        select.addEventListener('change', () => {
+          const index = select.value;
+          const repository = repositories[index];
+          renderRepository(repository, leftHandContainer);
+          fetchJSON(repository.contributors_url)
+            .then(contributors => {
+              renderContributors(contributors, rightHandContainer);
+            })
+            .catch(err => err.message);
+
+        });
+        renderRepository(repositories[0], leftHandContainer);
+        fetchJSON(repositories[0].contributors_url)
+          .then(contributors => {
+            renderContributors(contributors, rightHandContainer);
+          })
+          .catch(err => err.message);
+
+      })
+      .catch(err => createAndAppend('div', root, { text: err.message, class: 'alert-error' }));
 
 
   }
-
-
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
   window.onload = () => main(HYF_REPOS_URL);
 }
-
