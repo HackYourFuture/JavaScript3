@@ -1,0 +1,143 @@
+*{
+  box-sizing: border-box;
+}
+html,body{
+  margin: 0;
+  padding: 0;
+  font-size: calc(15px+(70-15)*((100vw-300px)/(1600-300)));
+}
+.alert-error {
+  position: relative;
+  display: block;
+  color: rgb(77, 14, 14);
+  font-weight: bold;
+  background-color: #e79ee7;
+  margin: auto;
+  padding-left: 2%;
+  border: 1px solid #e79ee7;
+  width: 80%;
+  height: 60px;  
+  top:40px;
+}
+#root{
+ width:100%; 
+}
+#divRepositoryContainer{
+  position: relative;
+  background-color: #4619af;
+  margin: auto;
+ 
+  border: 1px solid #4619af;
+  width: 80%;
+  height: 60px;
+  top:10px;
+}
+#repositoryLabel{
+  color: white;
+  font-weight: bold;
+  margin-left: 5%;
+  float: left;
+}
+select{
+  height: 3em;
+}
+
+.clsRepositoryDetails{
+  display: flex; 
+  flex-flow: row wrap;
+  justify-content: space-around;
+
+  margin-left:10%;
+  margin-top: 2%;
+  width: 80%;
+}
+.clsLeftDetails{
+  flex-basis: 100%;
+
+  height: 200px;
+  text-align: left;
+  /*width: 100%;*/
+    
+  border: 1px solid;
+  padding: 10px;
+  box-shadow: 5px 10px;
+
+}
+.clsRightDetails{
+  flex-basis: 100%;
+  /*width: 100%;*/
+  
+  border: 1px solid black;
+  padding: 10px;
+  box-shadow: 5px 10px;
+  
+}
+
+.userOne{
+  display: block;
+  border-bottom: 1px solid rgb(155, 165, 165);
+}
+.userImg{
+  width: 50px;
+  float:left;
+  padding: 2%;
+}
+.userLogin{
+  float:left;
+  padding: 5%;
+  margin: auto;
+}
+.userContribution{
+  float: right;
+  margin:  3%;
+  padding: 2%;
+  background-color: rgb(155, 165, 165);
+  width: 15%;
+  text-align: center;
+}
+.userOne::after{
+  content: "";
+  clear: both;
+  display: table;
+}
+@media only screen and (max-width: 600px) {
+    body {
+         font-size: 15px;
+    }
+    #selectRepositories{
+      position: absolute;
+      display: block;
+      margin-left:40%;
+
+      width: 55%;
+      float: left;
+      margin-top: 5px;
+    }
+}
+@media only screen and (min-width: 600px) {
+   
+    .clsLeftDetails{
+      /*float:left;
+      width: 45%;*/
+      flex-basis: 45%;
+    }
+    .clsRightDetails{
+      flex-basis: 45%;
+      /*float: right;
+      width: 45%;*/
+    }
+    /*.clsRightDetails::after, .clsLeftDetails::after,  {
+      content: "";
+      clear: both;
+      display: table;
+    }*/
+    #selectRepositories{
+      width: 45%;
+      float: left;
+      margin-top: 5px;
+      position: absolute;
+      display: block;
+      margin-left:35%;
+      
+    }
+}
