@@ -46,17 +46,18 @@
     return sortedData;
   }
 
-  function fillRepositoryList(data, root) {
+  function fillRepositoryList(dataRepositories, root) {
     const select = createAndAppend('select', root, { id: 'selectRepositories' });
-    const sortedData = sortData(data, 'name');
+    const sortedData = sortData(dataRepositories, 'name');
     sortedData.forEach(elem => {
       createAndAppend('option', select, { text: elem.name, value: elem.id });
     });
 
     //Listener For Repository
     document.getElementById('selectRepositories').addEventListener("change", e => {
-      if (divRepDetails.hasChildNodes) {
-        divRepDetails.remove();
+      const rightRepDetail = document.getElementById("idRepositoryDetails");
+      if (rightRepDetail.hasChildNodes) {
+        rightRepDetail.remove();
       }
       detailedInfoRepository();
     });
@@ -89,12 +90,9 @@
 
   }
 
-
-  let divRepDetails;
-
   function detailedInfoRepository() {
     const index = document.getElementById('selectRepositories').selectedIndex;
-    divRepDetails = createAndAppend('div', document.getElementById("root"), { class: 'clsRepositoryDetails' });
+    const divRepDetails = createAndAppend('div', document.getElementById("root"), { class: 'clsRepositoryDetails', id: 'idRepositoryDetails' });
 
     //Left part - Repository Description
     const divLeftDetails = createAndAppend('div', divRepDetails, { class: 'clsLeftDetails' });
@@ -118,8 +116,9 @@
     const root = document.getElementById('root');
     const errContainer = createAndAppend('div', root, { class: 'alert-error' });
     createAndAppend('p', errContainer, { text: error.message });
-    if (divRepDetails.hasChildNodes) {
-      divRepDetails.remove();
+    const rightRepDetail = document.getElementById("idRepositoryDetails");
+    if (rightRepDetail.hasChildNodes) {
+      rightRepDetail.remove();
     }
   }
 

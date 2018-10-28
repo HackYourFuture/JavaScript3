@@ -68,18 +68,18 @@
     //const sortedUser = sortData(dataUser, 'login');
     dataUser.forEach(user => {//sortedUser
 
-      let link2UserPage, divUser;
-      fetchJSON(user.url)
-        .then((user1) => {
+      //let link2UserPage, divUser;
+      //fetchJSON(user.url)
+      // .then((user1) => {
 
-          link2UserPage = createAndAppend('a', root, { href: user.html_url });
-          divUser = createAndAppend('div', link2UserPage, { src: user1.avatar_url, class: 'userOne' });
+      const link2UserPage = createAndAppend('a', root, { href: user.html_url });
+      const divUser = createAndAppend('div', link2UserPage, { src: user.avatar_url, class: 'userOne' });
 
-          createAndAppend('img', divUser, { src: user1.avatar_url, class: 'userImg' });
-          createAndAppend('p', divUser, { text: user1.login, class: 'userLogin' });
-          createAndAppend('p', divUser, { text: user.contributions, class: 'userContribution' });
-        })
-        .catch((err) => errorHandler(err.message));
+      createAndAppend('img', divUser, { src: user.avatar_url, class: 'userImg' });
+      createAndAppend('p', divUser, { text: user.login, class: 'userLogin' });
+      createAndAppend('p', divUser, { text: user.contributions, class: 'userContribution' });
+      //})
+      //.catch((err) => errorHandler(err.message));
     });
   }
 
@@ -117,9 +117,6 @@
     fetchJSON(sortedRepos[index].contributors_url).then((dataUser) => fillUser(dataUser, divRightDetails)
     ).catch((err) => {
       errorHandler(err.message);
-      /*const errContainer = createAndAppend('div',
-        document.getElementById('root'), { class: 'alert-error' });
-      createAndAppend('p', errContainer, { text: err.message });*/
     });
 
 
@@ -143,8 +140,6 @@
         detailedInfoRepository();
       }).catch((err) => {
         errorHandler(err.message);
-        /*const errContainer = createAndAppend('div', root, { class: 'alert-error' });
-        createAndAppend('p', errContainer, { text: err.message });*/
       });
   }
 
