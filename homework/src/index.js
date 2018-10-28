@@ -45,16 +45,8 @@
   const container = createAndAppend('div', root, { id: 'container' });
   const updated = createAndAppend('tr', tbody, { class: 'label' });
 
-
   function main(url) {
     fetchJSON(url)
-      .catch(error => {
-        createAndAppend('div', container, {
-          text: error.message,
-          class: 'alert-error'
-        });
-        return;
-      })
       .then(repositories => {
         repositories.forEach((item, index) => {
           createAndAppend('option', select, {
@@ -62,8 +54,8 @@
             value: index
           });
         });
-        repositories.sort((a, b) => a.name.localeCompare(b.name));
 
+        repositories.sort((a, b) => a.name.localeCompare(b.name));
         select.addEventListener('change', () => {
           container.innerHTML = "";
           const index = event.target.value;
@@ -75,13 +67,28 @@
           fetchJSON(contributors_url)
             .then(contributorData => {
               renderContributors(contributorData, container);
+            })
+            .catch(error => {
+              createAndAppend('div', container, {
+                text: error.message,
+                class: 'alert-error'
+              });
+              return;
             });
+
         });
 
         const contributorsInfo = repositories[0].contributors_url;
         fetchJSON(contributorsInfo)
           .then(contributorData => {
             renderContributors(contributorData, container);
+          })
+          .catch(error => {
+            createAndAppend('div', container, {
+              text: error.message,
+              class: 'alert-error'
+            });
+            return;
           });
 
         function renderRepositoryBox(repositories) {
@@ -101,7 +108,6 @@
           updated
         );
 
-
         function renderContributors(contributor, container) {
           const div = createAndAppend('div', container, { class: 'right_div' });
           const ul = createAndAppend('ul', div, { class: 'contributor-list' });
@@ -116,6 +122,13 @@
             createAndAppend('p', li, { text: contributor.login });
           });
         }
+      })
+      .catch(error => {
+        createAndAppend('div', container, {
+          text: error.message,
+          class: 'alert-error'
+        });
+        return;
       });
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
