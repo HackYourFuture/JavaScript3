@@ -56,14 +56,13 @@
         return;
       })
       .then(repositories => {
-        repositories.sort((a, b) => a.name.localeCompare(b.name));
-
         repositories.forEach((item, index) => {
           createAndAppend('option', select, {
             text: item.name,
             value: index
           });
         });
+        repositories.sort((a, b) => a.name.localeCompare(b.name));
 
         select.addEventListener('change', () => {
           container.innerHTML = "";
@@ -71,18 +70,19 @@
 
           renderRepositoryBox(
             repositories[select.value],
-
           );
           const contributors_url = repositories[index].contributors_url;
-          fetchJSON(contributors_url, (_error, contributorData) => {
-            renderContributors(contributorData, container);
-          });
+          fetchJSON(contributors_url)
+            .then(contributorData => {
+              renderContributors(contributorData, container);
+            });
         });
 
         const contributorsInfo = repositories[0].contributors_url;
-        fetchJSON(contributorsInfo, (_error, contributorData) => {
-          renderContributors(contributorData, container);
-        });
+        fetchJSON(contributorsInfo)
+          .then(contributorData => {
+            renderContributors(contributorData, container);
+          });
 
         function renderRepositoryBox(repositories) {
           repositoryLink.innerText = repositories.name;
