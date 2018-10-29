@@ -34,19 +34,19 @@
 
   const root = document.getElementById('root');
   const header = createAndAppend("header", root, { id: "mainCon" });
-  const select = createAndAppend("select", header);
   const article = createAndAppend("article", root);
 
   function renderRepositories(repositories) {
     repositories.sort((a, b) => a.name.localeCompare(b.name));
     createAndAppend("p", header, { text: "HYF  Repositories", id: "HYF_Repositories" });
+    const select = createAndAppend("select", header);
     for (let i = 0; i < repositories.length; i++) {
       createAndAppend("option", select, { text: repositories[i].name, value: i, class: "options" });
     }
-    renderDetails(repositories);
+    renderDetails(repositories, select);
   }
 
-  function renderDetails(repositories) {
+  function renderDetails(repositories, select) {
     select.addEventListener("change", () => selectElement(repositories));
     function selectElement(repositories) {
       if (document.getElementById("info")) {
@@ -74,7 +74,7 @@
   }
 
   function renderContributors(contributors) {
-      if (document.getElementById("contributors")) {
+    if (document.getElementById("contributors")) {
       document.getElementById("contributors").remove();
     }
     const rightDiv = createAndAppend("div", article, { id: "contributors" });
