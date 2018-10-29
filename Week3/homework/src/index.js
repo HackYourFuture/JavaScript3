@@ -69,10 +69,10 @@
     dataUser.forEach(user => {//sortedUser
 
       const link2UserPage = createAndAppend('a', root, { href: user.html_url });
-      const divUser = createAndAppend('div', link2UserPage, { src: user.avatar_url, class: 'userOne', 'aria-labelledby': user.login });
+      const divUser = createAndAppend('div', link2UserPage, { src: user.avatar_url, class: 'userOne', role: "list" });
 
       createAndAppend('img', divUser, { src: user.avatar_url, class: 'userImg' });
-      createAndAppend('p', divUser, { text: user.login, class: 'userLogin', id: user.login });
+      createAndAppend('p', divUser, { text: user.login, class: 'userLogin', role: "listitem" });
       createAndAppend('p', divUser, { text: user.contributions, class: 'userContribution' });
     });
   }
