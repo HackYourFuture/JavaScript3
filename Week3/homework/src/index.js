@@ -69,10 +69,10 @@
     dataUser.forEach(user => {//sortedUser
 
       const link2UserPage = createAndAppend('a', root, { href: user.html_url });
-      const divUser = createAndAppend('div', link2UserPage, { src: user.avatar_url, class: 'userOne' });
+      const divUser = createAndAppend('div', link2UserPage, { src: user.avatar_url, class: 'userOne', 'aria-labelledby': user.login });
 
       createAndAppend('img', divUser, { src: user.avatar_url, class: 'userImg' });
-      createAndAppend('p', divUser, { text: user.login, class: 'userLogin' });
+      createAndAppend('p', divUser, { text: user.login, class: 'userLogin', id: user.login });
       createAndAppend('p', divUser, { text: user.contributions, class: 'userContribution' });
     });
   }
@@ -80,8 +80,8 @@
   function addExtraText(parent, boldText, normalText, url) {
     const pRepository = createAndAppend('p', parent, { text: "" });
     if (url) {
-      const boldRepoLabelElem = createAndAppend('b', pRepository, { text: boldText });
-      const ancRepository = createAndAppend('a', boldRepoLabelElem, { href: url });
+      const boldRepoLabelElem = createAndAppend('b', pRepository, { text: boldText, id: 'idNameRepo' });
+      const ancRepository = createAndAppend('a', boldRepoLabelElem, { href: url, 'aria-labelledby': "idNameRepo" });
       ancRepository.appendChild(document.createTextNode(normalText));
     } else {
       createAndAppend('b', pRepository, { text: boldText });
@@ -98,9 +98,9 @@
     const divLeftDetails = createAndAppend('div', divRepDetails, { class: 'clsLeftDetails' });
 
     addExtraText(divLeftDetails, "Repository: ", sortedRepos[index].name, sortedRepos[index].html_url);
-    addExtraText(divLeftDetails, "Description: ", sortedRepos[index].description, null);
-    addExtraText(divLeftDetails, "Forks: ", sortedRepos[index].forks, null);
-    addExtraText(divLeftDetails, "Updated: ", sortedRepos[index].updated_at, null);
+    addExtraText(divLeftDetails, "Description: ", sortedRepos[index].description);
+    addExtraText(divLeftDetails, "Forks: ", sortedRepos[index].forks);
+    addExtraText(divLeftDetails, "Updated: ", sortedRepos[index].updated_at);
 
     //Right Part -    Repository Users
     const divRightDetails = createAndAppend('div', divRepDetails, { class: 'clsRightDetails' });
@@ -139,7 +139,4 @@
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
   window.onload = () => main(HYF_REPOS_URL);
-
-
-
 }
