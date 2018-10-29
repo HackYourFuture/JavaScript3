@@ -3,39 +3,40 @@
 class App {
   constructor(url) {
     this.initialize(url);
+    this.root = document.getElementById('root');
+    this.header = Util.createEl("header", this.root, { txt: "<h3>HYF Repositories</h3>" });
+    this.select = Util.createEl("select", this.header);
+    this.article = Util.createEl("article", this.root);
   }
 
   async initialize(url) {
     try {
       const repos = await Util.fetchJSON(url);
       this.repos = repos.map(repo => new Repository(repo));
+      let select = this.select;
 
-      const root = document.getElementById('root');
-      const header = Util.createEl("header", root);
-      const article = Util.createEl("article", root);
-      Util.createEl("h3", header, { txt: "HYF Repositories" });
-      const select = Util.createEl("select", header);
-
-      const names = [];
-      this.repos.forEach(repo => names.push(repo.name()));
-      names.sort().forEach((n, i) => {
-        Util.createEl("option", select, { txt: n }).value = i;
-      });
-      select.addEventListener("change", onSelect.bind(null, this));
-      function onSelect(here) {
-        let seled = select.options[select.selectedIndex].text.toUpperCase();
-        here.repos.forEach((repo, i) => {
-          let repoName = repo.name().toUpperCase();
-          if (seled === repoName) {
-            here.fetchContributorsAndRender(i, article);
-          }
+      this.repos.map(repo => repo.name())
+        .sort().forEach((name, i) => {
+          Util.createEl("option", select, { txt: name }).value = i;
         });
-      }
-      onSelect(this);
 
+      select.addEventListener("change", e => {
+        this.onSelect(e.target[select.selectedIndex].text);
+      });
+      this.onSelect(this.select[select.selectedIndex].text);
     } catch (error) {
-      this.renderError(error, root);
+      this.renderError(error, this.root);
     }
+  }
+
+  onSelect(seltd) {
+    let selected = seltd.toUpperCase();
+    this.repos.forEach((repo, i) => {
+      let repoName = repo.name().toUpperCase();
+      if (selected === repoName) {
+        this.fetchContributorsAndRender(i, this.article);
+      }
+    });
   }
 
   async fetchContributorsAndRender(index, article) {
@@ -51,7 +52,6 @@ class App {
       contributors
         .map(contributor => new Contributor(contributor))
         .forEach(contributor => contributor.render(ul));
-
     } catch (error) {
       this.renderError(error, article);
     }
