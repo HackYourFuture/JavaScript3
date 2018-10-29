@@ -31,69 +31,73 @@
     });
     return elem;
   }
+
   const root = document.getElementById('root');
+  const header = createAndAppend("header", root, { id: "mainCon" });
+  const select = createAndAppend("select", header);
+  const article = createAndAppend("article", root);
 
-  function repo(data) {
-    data.sort((a, b) => a.name.localeCompare(b.name));
-    const root = document.getElementById('root');
-    const div = createAndAppend("div", root, { id: "mainCon" });
-    createAndAppend("p", div, { text: "HYF  Repositories", id: "HYF_Repositories" });
-    const select = createAndAppend("select", div);
-    for (let i = 0; i < data.length; i++) {
-      createAndAppend("option", select, { text: data[i].name, value: i, class: "options" });
+  function renderRepositories(repositories) {
+    repositories.sort((a, b) => a.name.localeCompare(b.name));
+    createAndAppend("p", header, { text: "HYF  Repositories", id: "HYF_Repositories" });
+    for (let i = 0; i < repositories.length; i++) {
+      createAndAppend("option", select, { text: repositories[i].name, value: i, class: "options" });
     }
-    select.addEventListener("change", () => repoInfo(data, select));
-    repoInfo(data, select);
+    renderDetails(repositories);
   }
 
-  function repoInfo(data, select) {
-    if (document.getElementById("info")) {
-      document.getElementById("info").remove();
+  function renderDetails(repositories) {
+    select.addEventListener("change", () => selectElement(repositories));
+    function selectElement(repositories) {
+      if (document.getElementById("info")) {
+        document.getElementById("info").remove();
+      }
+      const link = repositories[select.value].html_url;
+      const name = repositories[select.value].name;
+      const description = repositories[select.value].description;
+      const forks = repositories[select.value].forks;
+      const newDate = new Date(repositories[select.value].updated_at);
+      const leftDiv = createAndAppend("div", article, { id: "info" });
+      const ul = createAndAppend("ul", leftDiv, { id: "repository_info" });
+      const li = createAndAppend("li", ul, { text: "Name:   ", class: "repository_details" });
+      createAndAppend("a", li, { text: name, href: link, target: "_blank" });
+      createAndAppend("li", ul, { text: "Description: " + description, class: "repository_details" });
+      createAndAppend("li", ul, { text: "Forks: " + forks, class: "repository_details" });
+      createAndAppend("li", ul, { text: "Updated: " + newDate.toLocaleString('en-GB', { timeZone: 'UTC' }), class: "repository_details" });
+      fetchJSON(repositories[select.value].contributors_url)
+        .then((contributors) => { renderContributors(contributors); })
+        .catch(err => {
+          renderError(err, article);
+        });
     }
-    const link = data[select.value].html_url;
-    const name = data[select.value].name;
-    const description = data[select.value].description;
-    const forks = data[select.value].forks;
-    const newDate = new Date(data[select.value].updated_at);
-    const div = createAndAppend("div", root, { id: "info" });
-    const ul = createAndAppend("ul", div, { id: "repository_info" });
-    const li = createAndAppend("li", ul, { text: "Name:   ", class: "repository_details" });
-    createAndAppend("a", li, { text: name, href: link, target: "_blank" });
-    createAndAppend("li", ul, { text: "Description: " + description, class: "repository_details" });
-    createAndAppend("li", ul, { text: "Forks: " + forks, class: "repository_details" });
-    createAndAppend("li", ul, { text: "Updated: " + newDate.toLocaleString('en-GB', { timeZone: 'UTC' }), class: "repository_details" });
-    fetchJSON(data[select.value].contributors_url)
-      .then((data) => { contributors(data); });
-  }
-  function contributors(data) {
-    if (document.getElementById("contributors")) {
-      document.getElementById("contributors").remove();
-    }
-
-    const div = createAndAppend("div", root, { id: "contributors" });
-    const h1 = createAndAppend("h1", div, { text: "Contributors" });
-    const ul = createAndAppend("ul", div, { id: "contributors_info" });
-    for (let i = 0; i < data.length; i++) {
-      let li = createAndAppend("li", ul, { id: "contributor" });
-      let img = createAndAppend("img", li, { src: data[i].avatar_url });
-      let contname = data[i].login;
-      let p = createAndAppend("p", li, { id: "name" });
-      let link = data[i].html_url;
-      createAndAppend("a", p, { text: contname, href: link, target: "_blank", id: "links" });
-      let emptyDiv = createAndAppend("div", li, { id: "contributions" });
-      let p1 = createAndAppend("p", emptyDiv, { text: data[i].contributions, id: "numbers" });
-
-    }
+    selectElement(repositories);
   }
 
-  function renderError(error) {
-    console.log(error);
+  function renderContributors(contributors) {
+    const rightDiv = createAndAppend("div", article, { id: "contributors" });
+    createAndAppend("h1", rightDiv, { text: "Contributors" });
+    const ul = createAndAppend("ul", rightDiv, { id: "contributors_info" });
+    for (let i = 0; i < contributors.length; i++) {
+      const li = createAndAppend("li", ul, { id: "contributor" });
+      createAndAppend("img", li, { src: contributors[i].avatar_url });
+      const contributorName = contributors[i].login;
+      const p = createAndAppend("p", li, { id: "name" });
+      const link = contributors[i].html_url;
+      createAndAppend("a", p, { text: contributorName, href: link, target: "_blank", id: "links" });
+      createAndAppend("div", li, { text: contributors[i].contributions, id: "contributions" });
+
+    }
+  }
+
+  function renderError(error, parent) {
+    parent.innerHTML = "";
+    createAndAppend("div", parent, { text: error, id: "error" });
   }
 
   function main(url) {
     fetchJSON(url)
-      .then(data => repo(data))
-      .catch(err => renderError(err));
+      .then(repositories => renderRepositories(repositories))
+      .catch(err => renderError(err, root));
 
   }
 
