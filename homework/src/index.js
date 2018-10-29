@@ -74,6 +74,9 @@
   }
 
   function renderContributors(contributors) {
+      if (document.getElementById("contributors")) {
+      document.getElementById("contributors").remove();
+    }
     const rightDiv = createAndAppend("div", article, { id: "contributors" });
     createAndAppend("h1", rightDiv, { text: "Contributors" });
     const ul = createAndAppend("ul", rightDiv, { id: "contributors_info" });
