@@ -91,7 +91,7 @@
     });
   }
 
-  function main2(err, repositories) {
+  async function main2(err, repositories) {
     const root = document.getElementById('root');
     const header = createAndAppend('div', root, {
       id: 'header'
@@ -114,32 +114,40 @@
           value: index
         });
       });
-      select.addEventListener('change', () => {
+      select.addEventListener('change', async () => {
         const index = select.value;                     //difference between select value and repo index ?
         const repository = repositories[index];
         renderRepositories(repository, leftHandContainer);
-        fetchJSON(repository.contributors_url)
-          .then((contributors) => {
-            renderContributors(contributors, rightHandContainer);
-          })
-          .catch((err) => main2(err));
-
+        try {
+          const contributors = await fetchJSON(repository.contributors_url);
+          renderContributors(contributors, rightHandContainer);
+        }
+        catch (err) {
+          main2(err);
+        }
       });
       renderRepositories(repositories[0], leftHandContainer);
 
-      fetchJSON(repositories[0].contributors_url)
-        .then((contributors) => {
-          renderContributors(contributors, rightHandContainer);
-        })
-        .catch((err) => main2(err));
+      try {
+        const contributors = await fetchJSON(repositories[0].contributors_url);
+        renderContributors(contributors, rightHandContainer);
+      }
+      catch (err) {
+        main2(err);
+      }
+
     }
+
   }
 
-  function main1(url) {
-    fetchJSON(url)
-      .then((data) => main2(null, data))
-      .catch((err) => main2(err));
-
+  async function main1(url) {
+    try {
+      const ReposAndContributors = await fetchJSON(url);
+      main2(null, ReposAndContributors);
+    }
+    catch (err) {
+      main2(err);
+    }
   }
 
 
