@@ -32,9 +32,10 @@
   }
 
   const root = document.getElementById('root');
-  const div = createAndAppend('div', root, { class: 'data' });
-  const header = createAndAppend('p', div, { text: 'HYF Repositories', class: 'header' });
-  const select = createAndAppend('select', header, { id: 'list' });
+  const div = createAndAppend('div', root, { id: 'root' });
+  const header = createAndAppend('header', div, { class: 'header' });
+  createAndAppend('p', header, { text: 'HYF Repositories' });
+  const select = createAndAppend('select', header, { class: 'repo-selector', 'aria-label': 'HYF Repositories' });
   const table = createAndAppend('table', root, { class: 'table' });
   const tbody = createAndAppend('tbody', table);
   const tr = createAndAppend('tr', tbody, { text: 'Repository: ', class: 'label' });
@@ -54,8 +55,8 @@
             value: index
           });
         });
-
         repositories.sort((a, b) => a.name.localeCompare(b.name));
+
         select.addEventListener('change', () => {
           container.innerHTML = "";
           const index = event.target.value;
