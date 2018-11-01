@@ -32,11 +32,10 @@ const article = createEl("article", root);
 
 function load(url) {
   fetchJSON(url).then(repos => {
-    const names = repos.map(repo => {
-      return repo.name.charAt(0).toUpperCase() + repo.name.slice(1);
-    });
-    names.sort().forEach((name, i) => {
-      createEl("option", select, { txt: name }).value = i;
+    repos.sort((a, b) => a.name.localeCompare(b.name));
+    repos.forEach((repo, i) => {
+      let nm = repo.name.charAt(0).toUpperCase() + repo.name.slice(1);
+      createEl("option", select, { txt: nm }).value = i;
     });
     renderRepo(repos);
   }).catch(error => {
