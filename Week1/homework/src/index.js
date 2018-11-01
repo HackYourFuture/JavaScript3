@@ -56,7 +56,7 @@
       if (rightRepDetail.hasChildNodes) {
         rightRepDetail.remove();
       }
-      detailedInfoRepository(sortedData);
+      detailedInfoRepository(select.selectedIndex, sortedData);
     });
 
     return sortedData;
@@ -88,8 +88,8 @@
 
   }
 
-  function detailedInfoRepository(sortedRepos) {
-    const index = document.getElementById('selectRepositories').selectedIndex;
+  function detailedInfoRepository(index, sortedRepos) {
+
     const divRepDetails = createAndAppend('div', document.getElementById("root"), { class: 'clsRepositoryDetails', id: 'idRepositoryDetails' });
 
     //Left part - Repository Description
@@ -122,7 +122,7 @@
       } else {
         createAndAppend('p', divRepositoryContainer, { text: 'HYF Repositories', id: 'repositoryLabel' });
         const sortedRepos = fillRepositoryList(dataRepositories, divRepositoryContainer);
-        detailedInfoRepository(sortedRepos);
+        detailedInfoRepository(0, sortedRepos);
       }
     });
   }
