@@ -18,9 +18,10 @@ header {
     width: 100%;
     background-color: #3f51b5;
 }
-header h3 {
+header label {
     display: inline-block;
-    margin: 20px;
+    margin: 17px;
+    font-size: 20px;
     color: #fff;
 }
 header select {

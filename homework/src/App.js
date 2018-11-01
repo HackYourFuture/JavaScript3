@@ -4,56 +4,47 @@ class App {
   constructor(url) {
     this.initialize(url);
     this.root = document.getElementById('root');
-    this.header = Util.createEl("header", this.root, { txt: "<h3>HYF Repositories</h3>" });
-    this.select = Util.createEl("select", this.header);
-    this.article = Util.createEl("article", this.root);
   }
 
   async initialize(url) {
     try {
       const repos = await Util.fetchJSON(url);
+      repos.sort((a, b) => a.name.localeCompare(b.name));
       this.repos = repos.map(repo => new Repository(repo));
-      let select = this.select;
-
-      this.repos.map(repo => repo.name())
-        .sort().forEach((name, i) => {
-          Util.createEl("option", select, { txt: name }).value = i;
-        });
-
-      select.addEventListener("change", e => {
-        this.onSelect(e.target[select.selectedIndex].text);
+      this.header = Util.createEl("header", this.root, {
+        txt: "<label>HYF Repositories</label>"
       });
-      this.onSelect(this.select[select.selectedIndex].text);
+      this.select = Util.createEl("select", this.header);
+      this.repos.forEach((repo, i) => {
+        Util.createEl("option", this.select, { txt: repo.name() }).value = i;
+      });
+      this.article = Util.createEl("article", this.root);
+      this.fetchContributorsAndRender(this.select.value);
+
+      this.select.addEventListener("change", () => {
+        this.fetchContributorsAndRender(this.select.value);
+      });
     } catch (error) {
       this.renderError(error, this.root);
     }
   }
 
-  onSelect(seltd) {
-    let selected = seltd.toUpperCase();
-    this.repos.forEach((repo, i) => {
-      let repoName = repo.name().toUpperCase();
-      if (selected === repoName) {
-        this.fetchContributorsAndRender(i, this.article);
-      }
-    });
-  }
-
-  async fetchContributorsAndRender(index, article) {
+  async fetchContributorsAndRender(index) {
     try {
       const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
 
-      article.innerHTML = '';
-      const table = Util.createEl("table", article);
-      const ul = Util.createEl("ul", article);
+      this.article.innerHTML = '';
+      const table = Util.createEl("table", this.article);
+      const ul = Util.createEl("ul", this.article);
 
       repo.render(table);
       contributors
         .map(contributor => new Contributor(contributor))
         .forEach(contributor => contributor.render(ul));
+
     } catch (error) {
-      this.renderError(error, article);
+      this.renderError(error, this.article);
     }
   }
 

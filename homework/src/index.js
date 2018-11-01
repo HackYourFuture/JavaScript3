@@ -26,7 +26,9 @@ function createEl(name, parent, obj) {
 }
 
 const root = document.getElementById("root");
-const header = createEl("header", root, { txt: "<h3>HYF Repositories<h3/>" });
+const header = createEl("header", root, {
+  txt: "<label>HYF Repositories</label>"
+});
 const select = createEl("select", header);
 const article = createEl("article", root);
 
