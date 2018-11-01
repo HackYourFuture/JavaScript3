@@ -66,7 +66,7 @@
   }
 
   function fillUser(dataUser, root) {
-    dataUser.forEach(user => {//sortedUser
+    dataUser.forEach(user => {
 
       const link2UserPage = createAndAppend('a', root, { href: user.html_url });
       const divUser = createAndAppend('div', link2UserPage, { src: user.avatar_url, class: 'userOne', role: "list" });

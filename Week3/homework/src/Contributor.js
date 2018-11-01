@@ -14,5 +14,12 @@ class Contributor {
   */
   render(contributorList) {
     // Replace this comment with your code
+
+    const itemUser = Util.createAndAppend('li', contributorList, { src: this.data.avatar_url, class: 'userOne' });
+    const link2UserPage = Util.createAndAppend('a', itemUser, { href: this.data.html_url });
+
+    Util.createAndAppend('img', link2UserPage, { src: this.data.avatar_url, class: 'userImg' });
+    Util.createAndAppend('p', link2UserPage, { text: this.data.login, class: 'userLogin' });
+    Util.createAndAppend('p', link2UserPage, { text: this.data.contributions, class: 'userContribution' });
   }
 }
