@@ -35,50 +35,43 @@
 
   function sortData(data, key) {
     const sortedData = data.sort(function (a, b) {
-      let elem1 = a[key].toLowerCase();
-      let elem2 = b[key].toLowerCase();
-      if (elem1 < elem2) { return -1; }
-      if (elem1 > elem2) { return 1; }
-      return 0;
+      const elem1 = a[key].toLowerCase();
+      const elem2 = b[key].toLowerCase();
+      const n = elem1.localeCompare(elem2);
+      return n;
     });
     return sortedData;
   }
 
-  function fillRepositoryList(data, root) {
+  function fillRepositoryList(dataRepositories, root) {
     const select = createAndAppend('select', root, { id: 'selectRepositories' });
-    const sortedData = sortData(data, 'name');
+    const sortedData = sortData(dataRepositories, 'name');
     sortedData.forEach(elem => {
       createAndAppend('option', select, { text: elem.name, value: elem.id });
     });
 
     //Listener For Repository
-    document.getElementById('selectRepositories').addEventListener("change", e => {
-      if (divRepDetails.hasChildNodes) {
-        divRepDetails.remove();
+    select.addEventListener("change", e => {
+      const rightRepDetail = document.getElementById("idRepositoryDetails");
+      if (rightRepDetail.hasChildNodes) {
+        rightRepDetail.remove();
       }
-      detailedInfoRepository();
+      detailedInfoRepository(sortedData);
     });
 
     return sortedData;
   }
 
   function fillUser(dataUser, root) {
-    //const sortedUser = sortData(dataUser, 'login');
     dataUser.forEach(user => {//sortedUser
 
-      fetchJSON(user.url, (err, user1) => {
-        console.log(user.url);
-        if (err) {
-          createAndAppend('div', document.getElementById("idBody"), { text: err.message, class: 'alert-error' });
-        } else {
-          const link2UserPage = createAndAppend('a', root, { href: user.html_url });
-          const divUser = createAndAppend('div', link2UserPage, { src: user1.avatar_url, class: 'userOne' });
+      const link2UserPage = createAndAppend('a', root, { href: user.html_url });
+      const divUser = createAndAppend('div', link2UserPage, { src: user.avatar_url, class: 'userOne' });
 
-          createAndAppend('img', divUser, { src: user1.avatar_url, class: 'userImg' });
-          createAndAppend('p', divUser, { text: user1.login, class: 'userLogin' });
-          createAndAppend('p', divUser, { text: user.contributions, class: 'userContribution' });
-        }
-      });
+      createAndAppend('img', divUser, { src: user.avatar_url, class: 'userImg' });
+      createAndAppend('p', divUser, { text: user.login, class: 'userLogin' });
+      createAndAppend('p', divUser, { text: user.contributions, class: 'userContribution' });
+
     });
   }
 
@@ -95,27 +88,24 @@
 
   }
 
-
-  let divRepDetails;
-
-  function detailedInfoRepository() {
+  function detailedInfoRepository(sortedRepos) {
     const index = document.getElementById('selectRepositories').selectedIndex;
-    divRepDetails = createAndAppend('div', document.getElementById("idBody"), { class: 'clsRepositoryDetails' });
+    const divRepDetails = createAndAppend('div', document.getElementById("root"), { class: 'clsRepositoryDetails', id: 'idRepositoryDetails' });
 
     //Left part - Repository Description
     const divLeftDetails = createAndAppend('div', divRepDetails, { class: 'clsLeftDetails' });
 
     addExtraText(divLeftDetails, "Repository: ", sortedRepos[index].name, sortedRepos[index].html_url);
-    addExtraText(divLeftDetails, "Description: ", sortedRepos[index].description, null);
-    addExtraText(divLeftDetails, "Forks: ", sortedRepos[index].forks, null);
-    addExtraText(divLeftDetails, "Updated: ", sortedRepos[index].updated_at, null);
+    addExtraText(divLeftDetails, "Description: ", sortedRepos[index].description);
+    addExtraText(divLeftDetails, "Forks: ", sortedRepos[index].forks);
+    addExtraText(divLeftDetails, "Updated: ", sortedRepos[index].updated_at);
 
     //Right Part -    Repository Users
     const divRightDetails = createAndAppend('div', divRepDetails, { class: 'clsRightDetails' });
 
     fetchJSON(sortedRepos[index].contributors_url, (err, dataUser) => {
       if (err) {
-        createAndAppend('div', document.getElementById('idBody'), { text: err.message, class: 'alert-error' });
+        createAndAppend('div', document.getElementById('root'), { text: err.message, class: 'alert-error' });
       } else {
         fillUser(dataUser, divRightDetails);
       }
@@ -124,20 +114,19 @@
   }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
+    fetchJSON(url, (err, dataRepositories) => {
       const root = document.getElementById('root');
+      const divRepositoryContainer = createAndAppend('div', root, { id: 'divRepositoryContainer' });
       if (err) {
-        createAndAppend('div', document.getElementById('idBody'), { text: err.message, class: 'alert-error' });
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
-        //createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
-        createAndAppend('p', root, { text: 'HYF Repositories', id: 'repositoryLabel' });
-        sortedRepos = fillRepositoryList(data, root);
-        detailedInfoRepository();
+        createAndAppend('p', divRepositoryContainer, { text: 'HYF Repositories', id: 'repositoryLabel' });
+        const sortedRepos = fillRepositoryList(dataRepositories, divRepositoryContainer);
+        detailedInfoRepository(sortedRepos);
       }
     });
   }
 
-  let sortedRepos;
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
   window.onload = () => main(HYF_REPOS_URL);
