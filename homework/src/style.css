@@ -52,7 +52,7 @@ p {
   width: calc(40% - 10px);
   
 }
-.repo-name {
+#repo-name {
   font-weight: bold;
   margin-right: 20px;
 }

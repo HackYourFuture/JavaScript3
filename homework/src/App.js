@@ -12,18 +12,25 @@ class App {
    * @param {string} url The GitHub URL for obtaining the organization's repositories.
    */
   async initialize(url) {
-    // Add code here to initialize your app
-    // 1. Create the fixed HTML elements of your page
-    // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
-
     const root = document.getElementById('root');
-    // ...
-
+    const header = Util.createAndAppend('header', root, { 'class': 'header' });
+    Util.createAndAppend('div', root, { 'id': 'container' });
+    Util.createAndAppend('p', header, { 'text': 'HYF Repositories' });
+    const select = Util.createAndAppend('select', header, { 'id': 'select-list', "aria-label": "HYF Repositories" });
     try {
-      // ...
       const repos = await Util.fetchJSON(url);
-      this.repos = repos.map(repo => new Repository(repo));
-      // ...
+      this.repos = repos
+        .sort((x, y) => x.name.localeCompare(y.name))
+        .map(repo => new Repository(repo));
+      repos.forEach((repo, i) => {
+        Util.createAndAppend('option', select, { 'text': repo.name, 'value': i });
+      });
+      this.fetchContributorsAndRender(0);
+
+      select.addEventListener('change', (e) => {
+        const index = e.target.value;
+        this.fetchContributorsAndRender(index);
+      });
     } catch (error) {
       this.renderError(error);
     }
@@ -52,9 +59,9 @@ class App {
       const container = document.getElementById('container');
       this.clearContainer(container);
 
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
-
+      const leftDiv = Util.createAndAppend('div', container, { 'class': 'left-div box' });
+      const rightDiv = Util.createAndAppend('div', container, { 'class': 'right-div box' });
+      Util.createAndAppend('p', rightDiv, { 'text': 'Contributions', 'class': 'contributions' });
       const contributorList = Util.createAndAppend('ul', rightDiv);
 
       repo.render(leftDiv);
@@ -72,7 +79,8 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    // Replace this comment with your code
+    const container = document.getElementById('container');
+    Util.createAndAppend('div', container, { 'text': error.message, 'class': 'alert-error' });
   }
 }
 
