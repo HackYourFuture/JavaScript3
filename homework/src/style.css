@@ -1,30 +1,105 @@
-.alert-error {
-    color: rgb(73, 8, 8);
+body{
+  margin: 0%;
+  padding: 0%;
+  background-color: rgb(236, 240, 247);
 }
-#header{
-  background-color: #3F51B5;
-  padding: 10px 10px;
-  margin: 15px 15px;
-}
-label{
-  font-size: 24px;
-  color: white;
-}
-table{
-  background-color: rgb(251, 252, 230);
-  padding: 5px;
-  margin: 15px 15px;
-  border: 1px solid black;
-  border-radius: 3%;
-}
-
-select,option{
-  background-color: rgb(255, 255, 255);
-  margin: 15px 15px;
-  padding: 5px;
-  font-size: 14px;
+#root{
+  width: 56%;
+  margin-left: auto;
+  margin-right: auto; 
 }
 .alert-error{
+  color: rgb(73, 8, 8);
   background-color: rgb(248, 210, 230);
-  margin: 15px 15px;
+}
+header{
+  background-color: #3F51B5;
+  padding: 20px 5px 11px 5px;
+  height: 40px;
+  margin-bottom: 2%;
+}
+label{
+  font-size: 20px;
+  color: white;
+  margin: 20px 20px 20px 10px;
+}
+select, option{
+  padding: 5px;
+  font-size: 14px;
+  margin: 5px, 5px;
+}
+article{
+  display: flex;
+  flex-direction: row;
+}
+
+table{
+  padding: 15px;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .2), 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .12);
+}
+td:first-child{
+  font-weight: bold;
+}
+a{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;  
+  /* justify-content: space-between;  */
+  cursor: pointer;
+}
+#rightDiv{
+  width: 100%;
+}
+ul{
+  
+  margin-top: 0%;
+  background-color: rgb(255, 255, 255);
+  padding: 15px;
+  padding-bottom: 0;
+  background-color: #fff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .2), 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .12);
+}
+lh{
+  font-size: 15px;
+    color: rgb(0, 0, 0, 54%);
+}
+li{
+  border-bottom: solid 1px rgb(0, 0, 0, 12%);
+  padding: 16px;
+  display: block;
+  cursor: pointer;
+}
+img{
+  width: 45px;
+  border-radius: 3px;
+  margin-right: 16px;
+} 
+#contributorData{
+  width: 100%;
+  display: flex;
+  align-content:space-between ;
+}
+#contributorName{
+  display: flex;
+  flex-grow: 1;
+}
+#contributorBadge {
+  font-size: 12px;
+  text-align: center;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  background-color: gray;
+  color: white;
+  border-radius: 4px;
+  width: 25px;
+}
+
+@media(max-width:773px){
+
+}
+
+@media(min-width:774px){
 }

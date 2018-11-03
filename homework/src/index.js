@@ -86,7 +86,8 @@
         src: contributor.avatar_url
       });
       createAndAppend('div', a, {
-        text: contributor.contributions
+        text: contributor.contributions,
+        class: 'contributions'
       });
     });
   }
@@ -105,8 +106,9 @@
 
     } else {
       repositories.sort((a, b) => a.name.localeCompare(b.name));
-      const leftHandContainer = createAndAppend('div', root, { id: 'leftHand' });
-      const rightHandContainer = createAndAppend('div', root, { id: 'rightHand' });
+      const body = createAndAppend('div', root, { id: 'body' });
+      const leftHandContainer = createAndAppend('div', body, { id: 'leftHand' });
+      const rightHandContainer = createAndAppend('div', body, { id: 'rightHand' });
 
       repositories.forEach((repository, index) => {
         createAndAppend('option', select, {
@@ -115,7 +117,7 @@
         });
       });
       select.addEventListener('change', async () => {
-        const index = select.value;                     //difference between select value and repo index ?
+        const index = select.value;                     //difference between select value and repo index ? the same in the data
         const repository = repositories[index];
         renderRepositories(repository, leftHandContainer);
         try {

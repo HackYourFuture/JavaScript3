@@ -8,26 +8,45 @@ class Repository {
     this.data = data;
   }
 
-  /**
-   * Render the repository info to the DOM.
-   * @param {HTMLElement} parent The parent element in which to render the repository.
-   */
   render(parent) {
-    //
-    // Replace this comment with your code
-    //
+    const tbody = Util.createAndAppend('tbody', parent);
+    const tr1 = Util.createAndAppend('tr', tbody);
+    Util.createAndAppend('td', tr1, {
+      text: 'Repository:',
+    });
+    const td12 = Util.createAndAppend('td', tr1);
+    Util.createAndAppend('a', td12, {
+      href: this.data.html_url,
+      target: '_blank',
+      text: this.data.name
+    });
+    const tr2 = Util.createAndAppend('tr', tbody);
+    Util.createAndAppend('td', tr2, {
+      text: 'Description:'
+    });
+    Util.createAndAppend('td', tr2, {
+      text: this.data.description
+    });
+    const tr3 = Util.createAndAppend('tr', tbody);
+    Util.createAndAppend('td', tr3, {
+      text: 'Forks:'
+    });
+    Util.createAndAppend('td', tr3, {
+      text: this.data.forks
+    });
+    const tr4 = Util.createAndAppend('tr', tbody);
+    Util.createAndAppend('td', tr4, {
+      text: 'Updated:'
+    });
+    Util.createAndAppend('td', tr4, {
+      text: this.data.updated_at
+    });
   }
 
-  /**
-   * Returns an array of contributors as a promise
-   */
   fetchContributors() {
     return Util.fetchJSON(this.data.contributors_url);
   }
 
-  /**
-   * Returns the name of the repository
-   */
   name() {
     return this.data.name;
   }
