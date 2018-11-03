@@ -51,12 +51,12 @@ class App {
       const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
 
-      const repoDetails = Util.createAndAppend('table', this.leftDiv);
+      const leftDiv = Util.createAndAppend('table', this.leftDiv);
 
       const contributorList = Util.createAndAppend('ul', this.rightDiv);
       Util.createAndAppend('lh', contributorList, { text: 'Contributions' });
 
-      repo.render(repoDetails);
+      repo.render(leftDiv);
 
       contributors
         .map(contributor => new Contributor(contributor))
