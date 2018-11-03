@@ -4,7 +4,7 @@ body{
   background-color: rgb(236, 240, 247);
 }
 #root{
-  width: 56%;
+  width: 768px;
   margin-left: auto;
   margin-right: auto; 
 }
@@ -13,6 +13,7 @@ body{
   background-color: rgb(248, 210, 230);
 }
 header{
+  
   background-color: #3F51B5;
   padding: 20px 5px 11px 5px;
   height: 40px;
@@ -28,12 +29,13 @@ select, option{
   font-size: 14px;
   margin: 5px, 5px;
 }
-article{
-  display: flex;
-  flex-direction: row;
-}
 
+#leftDiv{
+  width: 100%;
+  margin-right: 15px;
+}
 table{
+  width: 100%;
   padding: 15px;
   border-radius: 2px;
   background-color: #fff;
@@ -43,18 +45,19 @@ td:first-child{
   font-weight: bold;
 }
 a{
-  width: 100%;
   display: flex;
   flex-direction: row;
-  align-items: center;  
-  /* justify-content: space-between;  */
+  align-items: center;
   cursor: pointer;
+}
+ul a{ 
+  text-decoration: none;
+  color: black;
 }
 #rightDiv{
   width: 100%;
 }
 ul{
-  
   margin-top: 0%;
   background-color: rgb(255, 255, 255);
   padding: 15px;
@@ -98,8 +101,16 @@ img{
 }
 
 @media(max-width:773px){
-
+article{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
 }
 
 @media(min-width:774px){
+  article{
+  display: flex;
+  flex-direction: row;
+}
 }
