@@ -3,6 +3,11 @@
 function main(url) {
 
   const root = document.getElementById("root");
+  const header = createEl("header", root, {
+    text: "<label>HYF Repositories</label>"
+  });
+  const article = createEl("article", root);
+  const select = createEl("select", header);
 
   function fetchJSON(url, cb) {
     const xhr = new XMLHttpRequest();
@@ -31,48 +36,36 @@ function main(url) {
     return elem;
   }
 
-  fetchJSON(url, (err, data) => {
+  fetchJSON(url, (err, repos) => {
     if (err === null) {
-      const header = createEl("header", root);
-      createEl("h3", header, { text: "HYF Repositories" });
-      const select = createEl("select", header);
-      let names = [];
-      data.forEach(el => {
-        let name = el.name.charAt(0).toUpperCase() + el.name.slice(1);
-        names.push(name);
-      });
-      names.sort();
-      for (let i = 0; i < names.length; i++) {
-        let optn = createEl("option", select, { text: names[i] });
-        optn.value = i;
-      }
-      repos(data, select);
+      repos.sort((a, b) => a.name.localeCompare(b.name))
+        .forEach((repo, i) => {
+          let nm = repo.name.charAt(0).toUpperCase() + repo.name.slice(1);
+          createEl("option", select, { text: nm }).value = i;
+        });
+      renderRepo(repos, select.value);
     } else {
+      root.innerHTML = "";
       createEl("div", root, err);
     }
   });
 
-  function repos(data, select) {
-    let article = createEl("article", root);
+  function renderRepo(repos, index) {
+    article.innerHTML = "";
+    repoDetails(repos[index]);
+    contributors(repos[index].contributors_url);
 
-    select.addEventListener("change", onSelect);
-    function onSelect() {
-      let v1 = select.options[select.selectedIndex].text.toUpperCase();
-      for (let i = 0; i < data.length; i++) {
-        let v2 = data[i].name.toUpperCase();
-        if (v1 === v2) {
-          article.innerHTML = "";
-          repoDetails(data[i], article);
-          contributors(data[i].contributors_url, article);
-        }
-      }
-    }
-    onSelect();
+    select.addEventListener("change", () => {
+      article.innerHTML = "";
+      repoDetails(repos[select.value]);
+      contributors(repos[select.value].contributors_url);
+    });
 
   }
 
-  function repoDetails(details, parent) {
-    let table = createEl("table", parent);
+  function repoDetails(details) {
+
+    const table = createEl("table", article);
     let tr = createEl("tr", table);
     createEl("th", tr, { text: "Repository:" });
     let td = createEl("td", tr);
@@ -85,10 +78,10 @@ function main(url) {
     createEl("tr", table, { text: `<th>Updated:</th><td>${details.updated_at}</td>` });
   }
 
-  function contributors(url, parent) {
+  function contributors(url) {
     fetchJSON(url, (err, info) => {
       if (err === null) {
-        let ul = createEl("ul", parent);
+        const ul = createEl("ul", article);
         for (let i = 0; i < info.length; i++) {
           let li = createEl("li", ul);
           let a = createEl("a", li, { id: "href", val: info[i].html_url });
@@ -97,8 +90,8 @@ function main(url) {
           a.innerHTML += `<p>${info[i].login}</p><span>${info[i].contributions}</span>`;
         }
       } else {
-        parent.innerHTML = "";
-        createEl("div", parent, err);
+        article.innerHTML = "";
+        createEl("div", article, err);
       }
     });
   }
