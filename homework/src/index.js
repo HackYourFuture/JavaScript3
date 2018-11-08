@@ -13,7 +13,7 @@ function main(url) {
     xhr.open('GET', url);
     xhr.responseType = 'json';
     xhr.onload = () => {
-      if (xhr.status < 400) {
+      if (xhr.status === 200) {
         cb(null, xhr.response);
       } else {
         cb(new Error(`Network Error: ${xhr.status} - ${xhr.statusText}`));
@@ -104,7 +104,6 @@ function main(url) {
       }
     });
   }
-
 
 }
 
