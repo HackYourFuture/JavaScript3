@@ -3,10 +3,9 @@
 function main(url) {
 
   const root = document.getElementById("root");
-  const header = createEl("header", root, {
-    text: "<label>HYF Repositories</label>"
-  });
+  const header = createEl("header", root);
   const article = createEl("article", root);
+  createEl("label", header, { txt: "HYF Repositories" });
   const select = createEl("select", header);
 
   function fetchJSON(url, cb) {
@@ -14,24 +13,27 @@ function main(url) {
     xhr.open('GET', url);
     xhr.responseType = 'json';
     xhr.onload = () => {
-      if (xhr.status === 200) {
+      if (xhr.status < 400) {
         cb(null, xhr.response);
       } else {
-        cb({ text: `Error: ${xhr.status} - ${xhr.statusText}`, id: "id", val: "error" });
+        cb(new Error(`Network Error: ${xhr.status} - ${xhr.statusText}`));
       }
     };
     xhr.onerror = () => {
-      cb({ text: "Network request failed", id: "id", val: "error" });
+      cb(new Error(`Network request failed`));
     };
     xhr.send();
   }
 
-  function createEl(name, parent, obj) {
+  function createEl(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
-    if (obj) {
-      if (obj.text) { elem.innerHTML = obj.text; }
-      if (obj.id) { elem.setAttribute(obj.id, obj.val); }
+    for (let key in options) {
+      if (key === "txt") {
+        elem.innerText = options.txt;
+      } else {
+        elem.setAttribute(key, options[key]);
+      }
     }
     return elem;
   }
@@ -41,12 +43,12 @@ function main(url) {
       repos.sort((a, b) => a.name.localeCompare(b.name))
         .forEach((repo, i) => {
           let nm = repo.name.charAt(0).toUpperCase() + repo.name.slice(1);
-          createEl("option", select, { text: nm }).value = i;
+          createEl("option", select, { txt: nm, value: i });
         });
       renderRepo(repos, select.value);
     } else {
       root.innerHTML = "";
-      createEl("div", root, err);
+      createEl("div", root, { txt: err.message, id: "error" });
     }
   });
 
@@ -67,31 +69,38 @@ function main(url) {
 
     const table = createEl("table", article);
     let tr = createEl("tr", table);
-    createEl("th", tr, { text: "Repository:" });
+    createEl("th", tr, { txt: "Repository:" });
     let td = createEl("td", tr);
-    let a = createEl("a", td, { text: details.name, id: "href", val: details.html_url });
-    a.setAttribute("target", "_blank");
+    createEl("a", td, {
+      txt: details.name, href: details.html_url, target: "_blank"
+    });
+
     if (details.description) {
-      createEl("tr", table, { text: `<th>Description:</th><td>${details.description}</td>` });
+      createEl("tr", table).innerHTML =
+        `<th>Description:</th><td>${details.description}</td>`;
     }
-    createEl("tr", table, { text: `<th>Forks:</th><td>${details.forks_count}</td>` });
-    createEl("tr", table, { text: `<th>Updated:</th><td>${details.updated_at}</td>` });
+    createEl("tr", table).innerHTML =
+      `<th>Forks:</th><td>${details.forks_count}</td>`;
+    createEl("tr", table).innerHTML =
+      `<th>Updated:</th><td>${details.updated_at}</td>`;
   }
 
   function contributors(url) {
-    fetchJSON(url, (err, info) => {
+    fetchJSON(url, (err, infos) => {
       if (err === null) {
         const ul = createEl("ul", article);
-        for (let i = 0; i < info.length; i++) {
+        infos.forEach(info => {
           let li = createEl("li", ul);
-          let a = createEl("a", li, { id: "href", val: info[i].html_url });
-          a.setAttribute("target", "_blank");
-          createEl("img", a, { id: "src", val: info[i].avatar_url });
-          a.innerHTML += `<p>${info[i].login}</p><span>${info[i].contributions}</span>`;
-        }
+          let a = createEl("a", li, {
+            href: info.html_url, target: "_blank"
+          });
+          createEl("img", a, { src: info.avatar_url });
+          createEl("p", a, { txt: info.login });
+          createEl("span", a, { txt: info.contributions });
+        });
       } else {
         article.innerHTML = "";
-        createEl("div", article, err);
+        createEl("div", article, { txt: err.message, id: "error" });
       }
     });
   }
