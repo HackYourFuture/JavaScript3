@@ -30,7 +30,7 @@ class App {
         Util.createAndAppend('option', this.selectPanel, { value: i, html: repository.name });
       });
       this.fetchContributorsAndRender(0);
-      this.selectPanel.addEventListener("change", () => {
+      this.selectPanel.addEventListener('change', () => {
         this.fetchContributorsAndRender(this.selectPanel.value);
       });
     } catch (error) {
@@ -76,7 +76,7 @@ class App {
    */
   renderError(error) {
     const container = document.getElementById('container');
-    Util.createAndAppend("div", container, { html: error.message, class: 'alert-error' });
+    Util.createAndAppend('div', container, { html: error.message, class: 'alert-error' });
   }
 }
 
