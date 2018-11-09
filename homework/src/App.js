@@ -1,4 +1,4 @@
-'use strict';
+'use strick';
 
 class App {
   constructor(url) {

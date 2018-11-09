@@ -1,4 +1,4 @@
-'use strict';
+'use strick';
 
 class Util {
   static createEl(name, parent, options = {}) {
