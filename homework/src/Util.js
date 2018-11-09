@@ -6,7 +6,7 @@ class Util {
     parent.appendChild(elem);
     for (let key in options) {
       if (key === "txt") {
-        elem.innerHTML = options.txt;
+        elem.innerText = options.txt;
       } else {
         elem.setAttribute(key, options[key]);
       }

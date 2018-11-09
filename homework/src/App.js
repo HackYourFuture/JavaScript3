@@ -3,22 +3,22 @@
 class App {
   constructor(url) {
     this.initialize(url);
-    this.root = document.getElementById('root');
   }
 
   async initialize(url) {
     try {
+      this.root = document.getElementById('root');
+      this.header = Util.createEl("header", this.root);
+      this.article = Util.createEl("article", this.root);
+      Util.createEl("label", this.header, { txt: "HYF Repositories" });
+      this.select = Util.createEl("select", this.header);
+
       const repos = await Util.fetchJSON(url);
       repos.sort((a, b) => a.name.localeCompare(b.name));
       this.repos = repos.map(repo => new Repository(repo));
-      this.header = Util.createEl("header", this.root, {
-        txt: "<label>HYF Repositories</label>"
-      });
-      this.select = Util.createEl("select", this.header);
       this.repos.forEach((repo, i) => {
-        Util.createEl("option", this.select, { txt: repo.name() }).value = i;
+        Util.createEl("option", this.select, { txt: repo.name(), value: i });
       });
-      this.article = Util.createEl("article", this.root);
       this.fetchContributorsAndRender(this.select.value);
 
       this.select.addEventListener("change", () => {
@@ -50,7 +50,7 @@ class App {
 
   renderError(error, parent) {
     parent.innerHTML = "";
-    Util.createEl("div", parent, { txt: `Network Error: ${error}`, id: "error" });
+    Util.createEl("div", parent, { txt: error.message, id: "error" });
   }
 }
 

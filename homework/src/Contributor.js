@@ -7,9 +7,11 @@ class Contributor {
 
   render(ul) {
     let li = Util.createEl("li", ul);
-    let a = Util.createEl("a", li, { href: this.data.html_url });
-    a.setAttribute("target", "_blank");
+    let a = Util.createEl("a", li, {
+      href: this.data.html_url, target: "_blank"
+    });
     Util.createEl("img", a, { src: this.data.avatar_url });
-    a.innerHTML += "<p>" + this.data.login + "</p>" + "<span>" + this.data.contributions + "</span>";
+    Util.createEl("p", a, { txt: this.data.login });
+    Util.createEl("span", a, { txt: this.data.contributions });
   }
 }

@@ -8,90 +8,92 @@ function fetchJSON(url) {
     xhr.onload = () => {
       if (xhr.status === 200) {
         resolve(xhr.response);
-      } else { reject(`Error: ${xhr.status} - ${xhr.statusText}`); }
+      } else { reject(new Error(`Error: ${xhr.status} - ${xhr.statusText}`)); }
     };
-    xhr.onerror = () => reject("Network request failed");
+    xhr.onerror = () => reject(new Error("Network request failed"));
     xhr.send();
   });
 }
 
-function createEl(name, parent, obj) {
+function createEl(name, parent, options = {}) {
   const elem = document.createElement(name);
   parent.appendChild(elem);
-  if (obj) {
-    if (obj.txt) { elem.innerHTML = obj.txt; }
-    if (obj.id) { elem.setAttribute(obj.id, obj.val); }
+  for (let key in options) {
+    if (key === "txt") {
+      elem.innerText = options.txt;
+    } else {
+      elem.setAttribute(key, options[key]);
+    }
   }
   return elem;
 }
 
-const root = document.getElementById("root");
-const header = createEl("header", root, {
-  txt: "<label>HYF Repositories</label>"
-});
-const select = createEl("select", header);
-const article = createEl("article", root);
-
 function load(url) {
+  const root = document.getElementById("root");
+  const header = createEl("header", root);
+  const article = createEl("article", root);
+  createEl("label", header, { txt: "HYF Repositories" });
+  const select = createEl("select", header);
+
   fetchJSON(url).then(repos => {
-    repos.sort((a, b) => a.name.localeCompare(b.name));
-    repos.forEach((repo, i) => {
-      let nm = repo.name.charAt(0).toUpperCase() + repo.name.slice(1);
-      createEl("option", select, { txt: nm }).value = i;
-    });
+    repos.sort((a, b) => a.name.localeCompare(b.name))
+      .forEach((repo, i) => {
+        let nm = repo.name.charAt(0).toUpperCase() + repo.name.slice(1);
+        createEl("option", select, { txt: nm, value: i });
+      });
     renderRepo(repos);
-  }).catch(error => {
-    root.innerHTML = " ";
-    createEl("div", root, {
-      txt: `Network Error: ${error}`, id: "id", val: "error"
-    });
+  }).catch(err => {
+    root.innerHTML = "";
+    createEl("div", root, { txt: err.message, id: "error" });
   });
 
   function renderRepo(repos) {
     select.addEventListener("change", onSelect);
+
     function onSelect() {
-      const seled = select.options[select.selectedIndex].text.toUpperCase();
-      repos.forEach((repo) => {
-        const repoName = repo.name.toUpperCase();
-        if (seled === repoName) {
+      article.innerHTML = "";
+      let index = select.value;
+
+      fetchJSON(repos[index].contributors_url)
+        .then(contributors => {
+          renderRepoDetails(repos[index]);
+          renderContributors(contributors);
+        }).catch(err => {
           article.innerHTML = "";
-          repoDetails(repo);
-          fetchJSON(repo.contributors_url)
-            .then(contributors => renderContributors(contributors))
-            .catch(error => {
-              article.innerHTML = "";
-              createEl("div", article, {
-                txt: `Network Error: ${error}`, id: "id", val: "error"
-              });
-            });
-        }
-      });
+          createEl("div", article, { txt: err.message, id: "error" });
+        });
     }
     onSelect();
   }
 
-  function repoDetails(details) {
-    const table = createEl("table", article);
-    const tr = createEl("tr", table);
+  function renderRepoDetails(details) {
+    let table = createEl("table", article);
+    let tr = createEl("tr", table);
     createEl("th", tr, { txt: "Repository:" });
-    const td = createEl("td", tr);
-    const a = createEl("a", td, { txt: details.name, id: "href", val: details.html_url });
-    a.setAttribute("target", "_blank");
+    let td = createEl("td", tr);
+    createEl("a", td, {
+      txt: details.name, href: details.html_url, target: "_blank"
+    });
     if (details.description) {
-      createEl("tr", table, { txt: `<th>Description:</th><td>${details.description}</td>` });
+      createEl("tr", table).innerHTML =
+        `<th>Description:</th><td>${details.description}</td>`;
     }
-    createEl("tr", table, { txt: `<th>Forks:</th><td>${details.forks_count}</td>` });
-    createEl("tr", table, { txt: `<th>Updated:</th><td>${details.updated_at}</td>` });
+    createEl("tr", table).innerHTML =
+      `<th>Forks:</th><td>${details.forks_count}</td>`;
+    createEl("tr", table).innerHTML =
+      `<th>Updated:</th><td>${details.updated_at}</td>`;
   }
 
   function renderContributors(contributors) {
     const ul = createEl("ul", article);
     contributors.forEach(contributor => {
-      const li = createEl("li", ul);
-      const a = createEl("a", li, { id: "href", val: contributor.html_url });
-      a.setAttribute("target", "_blank");
-      createEl("img", a, { id: "src", val: contributor.avatar_url });
-      a.innerHTML += `<p>${contributor.login}</p><span>${contributor.contributions}</span>`;
+      let li = createEl("li", ul);
+      let a = createEl("a", li, {
+        href: contributor.html_url, target: "_blank"
+      });
+      createEl("img", a, { src: contributor.avatar_url });
+      createEl("p", a, { txt: contributor.login });
+      createEl("span", a, { txt: contributor.contributions });
     });
   }
 }
