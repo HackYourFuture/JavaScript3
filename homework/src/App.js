@@ -27,10 +27,10 @@ class App {
     this.container = Util.createAndAppend("div", this.root, {
       class: "container"
     });
-    this.repositoryDiv = Util.createAndAppend("div", container, {
+    this.repositoryDiv = Util.createAndAppend("div", this.container, {
       class: "left-div"
     });
-    this.contributorDiv = Util.createAndAppend("div", container, {
+    this.contributorDiv = Util.createAndAppend("div", this.container, {
       class: "right-div"
     });
 
@@ -40,7 +40,7 @@ class App {
       repos.sort((a, b) => a.name.localeCompare(b.name));
       repos.forEach((Repository, index) => {
         Util.createAndAppend("option", this.select, {
-          text: this.repository.name,
+          text: Repository.name,
           value: index
         });
       });
