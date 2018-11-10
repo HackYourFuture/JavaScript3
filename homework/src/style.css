@@ -1,9 +1,11 @@
 .alert-error {
     color: red;
 }
+
 #root {
   background-color:rgb(197, 194, 194);
 }
+
 #header{
   padding: 20px;
   background-color: black;
@@ -11,60 +13,68 @@
   display: flex;
   border-radius: 20px;
 }
+
 #header h3{
   padding: 10px;
   color: white;
 
 }
+
 #header select {
   height: 50px;
   border-radius: 10px;
   margin-top: 25px;
   width: 60%;
 }
+
 #main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
 }
-#div1{
+
+#repositoryInfo{
   /* margin: 10px; */
   background-color: red;
   padding: 10px;
   margin: 10px;
   border-radius: 20px;  
-  
 }
-#div1 ul {
+
+#repositoryInfo ul {
   padding-left: 10px;
 }
-#div1 li{
+
+#repositoryInfo li{
   display: flex;
   flex-direction: row;
-
 }
-#div1 #title{
+
+#repositoryInfo #title{
   color: white;
   font-weight:bold;
   padding: 15px 7px;
 }
 
-#div1 li a{
+#repositoryInfo li a{
   text-decoration: none;
   color: black
 }
-#div1 li a:hover{
+
+#repositoryInfo li a:hover{
   font-weight:bold;
   color: white;
 }
-#div2{
+
+#contributionsInfo{
   padding: 30px;
   background: gray;
   margin: 10px;
   border-radius: 20px;
 }
-#div2 h3{
+
+#contributionsInfo h3{
     margin: 10px;
     color: darkred;
 }
@@ -73,15 +83,16 @@
   height: 40px;
   width: 40px;
 }
-#div1 #list-container li {
+
+#repositoryInfo #list-container li {
   list-style: none;
-  
 }
- #div2 #list-container {
-  
+
+ #contributionsInfo #list-container {
   padding: 10px;
-} 
-#div2 #list-container li {
+}
+
+#contributionsInfo #list-container li {
   margin: 5px;
   list-style: none;
   display: flex;
@@ -90,37 +101,38 @@
   padding: 10px;  
   justify-content: space-between;
 }
-#div2 #list-container li a{
+
+#contributionsInfo #list-container li a{
   text-decoration: none;
   font-weight:bold;
   color: rgb(36, 34, 34);
 }
-#div2 #list-container li a:hover{
+
+#contributionsInfo #list-container li a:hover{
   color: white;
   
 }
-#div2 #list-container  {
+#contributionsInfo #list-container  {
   display: flex;
   flex-direction: column;
-  
 }
 
-
 @media only screen and (min-width:768px){
-
   #main {
   flex-direction: row;
   align-content: space-between;
 }
+
 #header select {
   margin-top: 15px;
 }
-#div1{
+
+#repositoryInfo{
   padding: 30px;
   width: 40%;
-  
 }
-#div2{
+
+#contributionsInfo{
   width: 40%;
 }
 
