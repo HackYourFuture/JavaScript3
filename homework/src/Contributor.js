@@ -13,20 +13,16 @@ class Contributor {
    * @param {HTMLElement} contributorList The parent element in which to render the contributor.
    */
   render(contributorList) {
-    const contributorDiv = Util.createAndAppend("div", contributorList, {
-      class: "right-div"
-    });
-    Util.createAndAppend("p", contributorDiv, { text: "Contributors" });
     const li = Util.createAndAppend("li", contributorList, {
       class: "contributor-item"
     });
     const contributorLink = Util.createAndAppend("a", li, {
       target: "_blank",
-      href: this.data.contributor.html_url
+      href: this.data.html_url
     });
     Util.createAndAppend("img", contributorLink, {
-      class: "contributor-avatar",
-      src: this.data.contributor.avatar_url
+      src: this.data.avatar_url,
+      class: "contributor-avatar"
     });
     const contributorInfo = Util.createAndAppend("div", contributorLink, {
       class: "contributor-info"

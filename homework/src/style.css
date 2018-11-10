@@ -27,7 +27,7 @@ p {
   height: 30px;
   min-width: 40%;
 }
-.container {
+#container {
   display: flex;
   align-items: flex-start;
 }
@@ -129,7 +129,7 @@ td {
     width: 100%;
     margin: 0;
   }
-  .container {
+  #container {
     flex-direction: column;
   }
   .left-div {

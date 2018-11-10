@@ -36,7 +36,7 @@
     const header = createAndAppend("header", root, { class: "header" });
     createAndAppend("p", header, { text: "HYF Repositories" });
     const select = createAndAppend("select", header, { class: "select" });
-    const container = createAndAppend("div", root, { class: "container" });
+    const container = createAndAppend("div", root, { id: "container" });
     const leftDiv = createAndAppend("div", container, {
       class: "left-div"
     });

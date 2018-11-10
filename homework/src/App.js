@@ -22,7 +22,7 @@ class App {
     });
     Util.createAndAppend("p", header, { text: "HYF Repositories" });
     Util.createAndAppend("div", root, {
-      class: "container"
+      id: "container"
     });
     const select = Util.createAndAppend("select", header, {
       class: "select",
@@ -33,18 +33,18 @@ class App {
       const repos = await Util.fetchJSON(url);
       this.repos = repos
         .sort((a, b) => a.name.localeCompare(b.name))
-        .map(repo => new Repository(repo));
+        .map(repos => new Repository(repos));
 
-      repos.forEach((repository, index) => {
+      this.repos.forEach((repository, index) => {
         Util.createAndAppend("option", select, {
-          text: repository.name,
+          text: repository.name(),
           value: index
         });
       });
 
       this.fetchContributorsAndRender(0);
 
-      select.addEventListener("change", event => {
+      this.select.addEventListener("change", event => {
         const index = event.target.value;
         this.fetchContributorsAndRender(index);
       });
@@ -73,6 +73,7 @@ class App {
       const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
       const container = document.getElementById("container");
+      container.innerHTML = "";
       this.clearContainer(container);
 
       const leftDiv = Util.createAndAppend("div", container, {
@@ -82,7 +83,9 @@ class App {
         class: "right-div"
       });
 
-      const contributorList = Util.createAndAppend("ul", rightDiv);
+      const contributorList = Util.createAndAppend("ul", rightDiv, {
+        class: "contributor-item"
+      });
 
       repo.render(leftDiv);
 
