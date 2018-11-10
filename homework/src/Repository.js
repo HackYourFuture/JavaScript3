@@ -13,10 +13,10 @@ class Repository {
    * @param {HTMLElement} parent The parent element in which to render the repository.
    */
   render(parent) {
-    const repositoryDiv = Util.createAndAppend("div", parent, {
+    const leftDiv = Util.createAndAppend("div", parent, {
       class: "left-div"
     });
-    const table = Util.createAndAppend("table", repositoryDiv);
+    const table = Util.createAndAppend("table", leftDiv);
     const tbody = Util.createAndAppend("tbody", table);
     const repositoriesTitle = Util.createAndAppend("tr", tbody);
     Util.createAndAppend("td", repositoriesTitle, {
