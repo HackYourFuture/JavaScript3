@@ -16,9 +16,9 @@ class App {
   async initialize(url) {
     try {
       const repos = await Util.fetchJSON(url);
+      repos.sort((a, b) => a.name.localeCompare(b.name));
       this.repos = repos.map(repo => new Repository(repo));  // turning each repo into a class repo
       repos.forEach((repository, index) => {
-        repos.sort((a, b) => a.name.localeCompare(b.name));
         Util.createAndAppend('option', this.select, {
           text: repository.name,
           value: index
