@@ -66,24 +66,23 @@
 
   }
 
-  function renderContributor(info, container) {
+  function renderContributors(info, container) {
     container.innerHTML = '';
-    const h3 = createAndAppend('h3', container, { text: 'Contributors' });
+    createAndAppend('h3', container, { text: 'Contributors' });
     const ul = createAndAppend('ul', container);
 
     info.forEach(contributor => {
-      const li1 = createAndAppend('li', ul);
-      createAndAppend('img', li1, { src: contributor.avatar_url });
-      const a = createAndAppend('a', li1, { href: contributor.html_url, target: '_blank' });
-      a.innerText = `${contributor.login}`;
-      const li2 = createAndAppend('li', ul);
-      li2.innerText = `${contributor.contributions}`;
+      const li = createAndAppend('li', ul);
+      createAndAppend('img', li, { src: contributor.avatar_url });
+      const a = createAndAppend('a', li, { href: contributor.html_url, target: '_blank' });
+      a.innerText = contributor.login;
+      createAndAppend('p', li, { text: contributor.contributions });
     });
   }
 
   function main(url) {
     fetchJSON(url)
-      .then(data => {
+      .then(repositories => {
         const root = document.getElementById('root');
         const header = createAndAppend('header', root, { text: 'HYF Repositories' });
         const select = createAndAppend('select', header);
@@ -91,26 +90,26 @@
         const leftDiv = createAndAppend('div', container, { id: 'left_div' });
         const rightDiv = createAndAppend('div', container, { id: 'right_div' });
 
-        data.forEach((repository, index) => {
+        repositories.forEach((repository, index) => {
           createAndAppend('option', select, {
             value: index, text: repository.name
           });
 
           select.addEventListener('change', () => {
-            const repository = data[select.value];
+            const repository = repositories[select.value];
             fetchJSON(repository.contributors_url)
               .then(contributors => {
                 renderRepository(repository, leftDiv);
-                renderContributor(contributors, rightDiv);
+                renderContributors(contributors, rightDiv);
               })
               .catch(err => err.message);
           });
 
 
-          fetchJSON(data[0].contributors_url)
+          fetchJSON(repositories[0].contributors_url)
             .then(contributors => {
-              renderRepository(data[0], leftDiv);
-              renderContributor(contributors, rightDiv);
+              renderRepository(repositories[0], leftDiv);
+              renderContributors(contributors, rightDiv);
             })
             .catch(err => err.message);
 
