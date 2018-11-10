@@ -16,23 +16,17 @@ class App {
     // 1. Create the fixed HTML elements of your page
     // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
 
-    this.root = document.getElementById("root");
-    this.header = Util.createAndAppend("header", this.root, {
+    const root = document.getElementById("root");
+    const header = Util.createAndAppend("header", root, {
       class: "header"
     });
-    Util.createAndAppend("p", this.header, { text: "HYF Repositories" });
-    const select = Util.createAndAppend("select", this.header, {
-      class: "select",
-      "aria-label": "HYF Repositories"
-    });
-    this.container = Util.createAndAppend("div", this.root, {
+    Util.createAndAppend("p", header, { text: "HYF Repositories" });
+    Util.createAndAppend("div", root, {
       class: "container"
     });
-    this.repositoryDiv = Util.createAndAppend("div", this.container, {
-      class: "left-div"
-    });
-    this.contributorDiv = Util.createAndAppend("div", this.container, {
-      class: "right-div"
+    const select = Util.createAndAppend("select", header, {
+      class: "select",
+      "aria-label": "HYF Repositories"
     });
 
     try {
@@ -41,9 +35,9 @@ class App {
         .sort((a, b) => a.name.localeCompare(b.name))
         .map(repo => new Repository(repo));
 
-      repos.forEach((Repository, index) => {
+      repos.forEach((repository, index) => {
         Util.createAndAppend("option", select, {
-          text: Repository.name,
+          text: repository.name,
           value: index
         });
       });
@@ -81,8 +75,12 @@ class App {
       const container = document.getElementById("container");
       this.clearContainer(container);
 
-      const leftDiv = Util.createAndAppend("div", container);
-      const rightDiv = Util.createAndAppend("div", container);
+      const leftDiv = Util.createAndAppend("div", container, {
+        class: "left-div"
+      });
+      const rightDiv = Util.createAndAppend("div", container, {
+        class: "right-div"
+      });
 
       const contributorList = Util.createAndAppend("ul", rightDiv);
 
@@ -106,7 +104,6 @@ class App {
       text: error.message,
       class: "alert-error"
     });
-    this.renderError(error);
   }
 }
 

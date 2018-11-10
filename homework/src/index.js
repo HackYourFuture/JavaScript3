@@ -37,10 +37,10 @@
     createAndAppend("p", header, { text: "HYF Repositories" });
     const select = createAndAppend("select", header, { class: "select" });
     const container = createAndAppend("div", root, { class: "container" });
-    const repositoryDiv = createAndAppend("div", container, {
+    const leftDiv = createAndAppend("div", container, {
       class: "left-div"
     });
-    const contributorDiv = createAndAppend("div", container, {
+    const rightDiv = createAndAppend("div", container, {
       class: "right-div"
     });
 
@@ -57,11 +57,11 @@
 
       select.addEventListener("change", event => {
         const index = event.target.value;
-        renderRepositoryBox(repositoryDiv, repositories[index]);
-        renderContributors(contributorDiv, repositories[index]);
+        renderRepositoryBox(leftDiv, repositories[index]);
+        renderContributors(rightDiv, repositories[index]);
       });
-      renderRepositoryBox(repositoryDiv, repositories[0]);
-      renderContributors(contributorDiv, repositories[0]);
+      renderRepositoryBox(leftDiv, repositories[0]);
+      renderContributors(rightDiv, repositories[0]);
     } catch (error) {
       createAndAppend("div", root, {
         text: error.message,
@@ -70,9 +70,9 @@
     }
   }
 
-  function renderRepositoryBox(repositoryDiv, repositories) {
-    repositoryDiv.innerHTML = "";
-    const table = createAndAppend("table", repositoryDiv);
+  function renderRepositoryBox(leftDiv, repositories) {
+    leftDiv.innerHTML = "";
+    const table = createAndAppend("table", leftDiv);
     const tbody = createAndAppend("tbody", table);
     const repositoriesTitle = createAndAppend("tr", tbody);
     createAndAppend("td", repositoriesTitle, {
@@ -102,15 +102,15 @@
       text: new Date(repositories.updated_at).toLocaleString()
     });
   }
-  async function renderContributors(contributorDiv, repositories) {
-    contributorDiv.innerHTML = "";
-    createAndAppend("p", contributorDiv, {
+  async function renderContributors(rightDiv, repositories) {
+    rightDiv.innerHTML = "";
+    createAndAppend("p", rightDiv, {
       text: "Contributions",
       class: "contributor-title"
     });
     try {
       const contributor = await fetchJSON(repositories.contributors_url);
-      const contributorsList = createAndAppend("ul", contributorDiv, {
+      const contributorsList = createAndAppend("ul", rightDiv, {
         class: "contributors-list"
       });
 
@@ -139,7 +139,7 @@
         });
       });
     } catch (error) {
-      createAndAppend("div", contributorDiv, {
+      createAndAppend("div", rightDiv, {
         text: error.message,
         class: "alert-error"
       });
