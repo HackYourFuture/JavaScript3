@@ -66,19 +66,17 @@
 
   }
 
-  function renderContributor(info, container) {
+  function renderContributors(info, container) {
     container.innerHTML = '';
-    const h3 = createAndAppend('h3', container);
-    h3.innerText = 'Contributors';
+    createAndAppend('h3', container, { text: 'Contributors' });
     const ul = createAndAppend('ul', container);
 
     info.forEach(contributor => {
-      const li1 = createAndAppend('li', ul);
-      createAndAppend('img', li1, { src: contributor.avatar_url });
-      const a = createAndAppend('a', li1, { href: contributor.html_url, target: '_blank' });
-      a.innerText = `${contributor.login}`;
-      const li2 = createAndAppend('li', ul);
-      li2.innerText = `${contributor.contributions}`;
+      const li = createAndAppend('li', ul);
+      createAndAppend('img', li, { src: contributor.avatar_url });
+      const a = createAndAppend('a', li, { href: contributor.html_url, target: '_blank' });
+      a.innerText = contributor.login;
+      createAndAppend('p', li, { text: contributor.contributions });
     });
   }
 
@@ -109,7 +107,7 @@
         try {
           renderRepository(repository, leftDiv);
           const contributors = await fetchJSON(repository.contributors_url);
-          renderContributor(contributors, rightDiv);
+          renderContributors(contributors, rightDiv);
         }
         catch (err) {
           const root = document.getElementById('root');
@@ -121,7 +119,7 @@
       try {
         renderRepository(repositories[0], leftDiv);
         const contributors = await fetchJSON(repositories[0].contributors_url);
-        renderContributor(contributors, rightDiv);
+        renderContributors(contributors, rightDiv);
       }
       catch (err) {
         const root = document.getElementById('root');
