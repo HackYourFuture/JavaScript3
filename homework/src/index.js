@@ -1,4 +1,4 @@
-"use strick";
+"use strict";
 
 function fetchJSON(url) {
   return new Promise((resolve, reject) => {
