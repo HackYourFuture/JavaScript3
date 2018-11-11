@@ -15,7 +15,16 @@ class Repository {
   render(parent) {
     //
     // Replace this comment with your code
-    //
+    const table = Util.createAndAppend('table', parent, { class: 'infoTable' });
+    const tbody = Util.createAndAppend('tbody', table);
+    const row = Util.createAndAppend('tr', tbody);
+    Util.createAndAppend('td', row, { html: 'Repository' + ':  ', class: 'label' });
+    Util.createAndAppend('a', td, { html: this.data.name, href: this.data.html_url, target: '_blank', id: 'link' });
+    if (this.data.description !== null) {
+      Util.addRow('Description', this.data.description, tbody);
+    }
+    Util.addRow('Forks', this.data.forks, tbody);
+    Util.addRow('Updated', new Date(this.data.updated_at).toLocaleString(), tbody);
   }
 
   /**

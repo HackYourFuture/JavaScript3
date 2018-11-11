@@ -6,13 +6,11 @@
       const xhr = new XMLHttpRequest();
       xhr.open('GET', url);
       xhr.responseType = 'json';
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-          if (xhr.status < 400) {
-            resolve(xhr.response);
-          } else {
-            reject(new Error(xhr.statusText));
-          }
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(xhr.statusText));
         }
       };
       xhr.send();
@@ -37,8 +35,7 @@
     fetchJSON(url)
       .then(data => {
         const root = document.getElementById('root');
-        const repositoryDiv = createAndAppend('div', root, { class: 'repositoryDiv' });
-        const header = createAndAppend('header', repositoryDiv, { class: 'topping' });
+        const header = createAndAppend('header', root, { class: 'topping' });
         createAndAppend('h1', header, { html: 'HYF Repositories ', class: 'hyfRepo' });
         const selectBox = createAndAppend('select', header, { class: 'select-box' });
         data.sort(function (a, b) { return a.name.localeCompare(b.name); });

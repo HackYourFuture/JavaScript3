@@ -15,11 +15,6 @@ body {
   font-family: sans-serif;
 }
 
-.repositoryDiv {
-  display: flex;
-  width: 100%;
-}
-
 .topping {
   display: flex;
   width: 65%;

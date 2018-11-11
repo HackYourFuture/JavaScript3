@@ -32,4 +32,10 @@ class Util {
       xhr.send();
     });
   }
+  static addRow(label, value, tbody) {
+    const row = Util.createAndAppend('tr', tbody);
+    Util.createAndAppend('td', row, { html: label });
+    Util.createAndAppend('td', row, { html: value });
+  }
 }
+
