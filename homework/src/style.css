@@ -1,3 +1,79 @@
 .alert-error {
     color: red;
 }
+
+.title{
+    color: white;
+    background-color: darkslateblue;
+    font-size: 2rem;
+    border: 2px;
+    margin: 1rem;
+    padding-top: 1rem;
+}
+#root {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: darkslateblue;
+  }
+  
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    border: 2px solid gray;
+    background-color: darkslateblue;
+  }
+
+  .contributorsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    border: 2px solid gray;
+    background-color: darkslateblue;
+  }
+  
+  .card {
+    margin: 1rem;
+    border: 2px solid gray;
+    background-color: white;
+    color: black;
+  }
+  .contributorsCard {
+    margin: 1rem;
+    border: 2px solid gray;
+    background-color: darkslateblue;
+
+  }
+
+  .subtitle {
+      color: white;   
+      margin: 1rem;
+  }
+  #mySelect{
+    margin: 2rem;
+    padding: 1rem;
+    font-size: 1rem;
+    background-color: white;
+    color: black;
+  }
+
+  #myUl{
+    list-style-type: none;
+    font-size: 1.5rem;
+    }
+    
+  #contributorsUl{
+    list-style-type: none;
+    font-size: 1rem;
+    }
+ 
+  
+  @media screen and (min-width: 600px) {
+    .card {
+      flex: 1 1 calc(50% - 2rem);
+    }
+  }
+  
+  @media screen and (min-width: 900px) {
+    .card {
+      flex: 1 1 calc(33% - 2rem);
+    }
+  }
