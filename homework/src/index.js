@@ -91,12 +91,11 @@
 
 
       let select = document.getElementById("select");
-      select.addEventListener("change", function (event) {
+      select.addEventListener("change", function (e) {
         let option = this.options[this.selectedIndex].value;
         printRepoInfo(repoContributorsLinks, option, repoName, repoDecription, repoForks, repoUpdate)
-        const i = event.target.value;
+        const i = e.target.value;
         renderContributors(right, data[i])
-
       }); // end eventlistener
     }); // end of fetch()
   } //end of main fucntion
@@ -104,6 +103,7 @@
   // get all the array`s elements, insert them as options in the Select and give them the value of the indexnumber as ID
   function selectOptions(name) {
     let select = document.getElementById("select");
+
     for (let i = 0; i < name.length; i++) {
       let option = document.createElement("option");
       option.value = i;
@@ -113,7 +113,6 @@
   }
 
   function printRepoInfo(arr, option, name, description, forks, update) {
-    
     for (let i = 0; i < arr.length; i++) {
       if (option == i) {
         repositoryName.innerHTML = name[i];
@@ -131,7 +130,6 @@
       if (err) {
         createAndAppend("div", right, { html: err.message, "class": "alert-error" });
       }
-
       contributors.map(c => {
         let ul = createAndAppend("ul", right, { "class": "ul" });
         let li = createAndAppend("li", ul, { "class": "li" });
