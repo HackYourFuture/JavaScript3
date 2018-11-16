@@ -115,7 +115,7 @@
   function printRepoInfo(arr, option, name, description, forks, update) {
     for (let i = 0; i < arr.length; i++) {
       if (option == i) {
-        repositoryName.innerHTML = name[i];
+        repositoryName.innerHTML = "<a href= '#'>" + name[i] + "</a>";
         descriptionText.innerHTML = description[i];
         forkText.innerHTML = forks[i]
         updateText.innerHTML = update[i];
