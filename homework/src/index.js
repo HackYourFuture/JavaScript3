@@ -48,7 +48,7 @@
       //  }
 
       data.sort((a, b) => a.name.localeCompare(b.name));
-
+      
       createAndAppend("h7", top, { id: "title", text: "HYF-Repository" });
       createAndAppend("select", top, { id: "select" });
 
