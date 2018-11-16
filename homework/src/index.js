@@ -95,7 +95,7 @@
         let option = this.options[this.selectedIndex].value;
         printRepoInfo(repoContributorsLinks, option, repoName, repoDecription, repoForks, repoUpdate)
         const i = e.target.value;
-        renderContributors(right, data[i])
+        getContributors(right, data[i])
       }); // end eventlistener
     }); // end of fetch()
   } //end of main fucntion
@@ -123,7 +123,7 @@
     } // end for   
   } // end function
 
-  function renderContributors(right, data) {
+  function getContributors(right, data) {
     right.innerHTML = "";
     createAndAppend("h5", right, { text: "Contributions", "class": "rightTitle" });
     fetchJSON(data.contributors_url, (err, contributors) => {
