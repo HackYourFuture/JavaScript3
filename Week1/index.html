@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta github="bless4" author="martz">
+    <title>HYF Github API</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+  <div class="container">
+    <div class="container" style="background:blue;">
+     
+      <nav class="navbar navbar-expand-lg ">
+        <a class="navbar-brand" href="#" style="color:white;">HYF Repositories:
+
+</a>
+
+        <div
+          class="navbar navbar-expand-lg "
+          id="navbarColor02">
+        
+          <ul class="navbar-nav mr-auto">
+          
+              <div class="form-group float-right">
+                <select
+                  name="gitContributors"
+                  class="custom-select "
+                  id="gitContributors"
+                  onchange="getContributors(dropdown.options
+                  [dropdown.selectedIndex].text)"
+                >
+                </select>
+              </div>
+           
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="container" style="margin-top:1%;padding-right: 4px;padding-left: 4px;">
+      <div class="form-row">
+       <div class="form-group border border-light container col-md-6" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);padding-right: .1px;padding-left: .1px;">
+       
+          <div class="card-header"  >Github Repo Information</div>
+          <div class="card-body pr-md-2">
+          <div class="form-row">
+          <div class="form-group col-md-12">
+								<div class="input-group">
+          <div class="input-group-prepend">
+										<button type="button" class="btn btn-default"
+											aria-label="Left Align" id="btnGeografica">
+											<span class="" aria-hidden="true">Repository:</span>
+										</button>
+									</div>
+          
+            <h4 class="card-title form-control" id="card-title"></h4>
+            </div></div></div>
+            <div class="form-row">
+            <div class="form-group col-md-12">
+								<div class="input-group">
+              <div class="input-group-prepend">
+										<button type="button" class="btn btn-default"
+											aria-label="Left Align" id="btnGeografica">
+											<span class="" aria-hidden="true">Description:</span>
+										</button>
+									</div>
+            <p class="card-text form-control" id="card-description"></p>
+            </div>
+            </div></div>
+            <div class="form-row">
+            <div class="form-group col-md-12">
+								<div class="input-group">
+            <div class="input-group-prepend">
+										<button type="button" class="btn btn-default"
+											aria-label="Left Align" id="btnGeografica">
+											<span class="" aria-hidden="true">Total Forks:</span>
+										</button>
+									</div>
+            <span class="card-text form-control" id="card-forks"></span></div></div></div>
+            <div class="form-row">
+            <div class="form-group col-md-12">
+								<div class="input-group">
+              <div class="input-group-prepend">
+										<button type="button" class="btn btn-default"
+											aria-label="Left Align" id="btnGeografica">
+											<span class="" aria-hidden="true">Last Updated:</span>
+										</button>
+									</div>
+           
+            <p class="card-text form-control" id="card-updated"></p></div>
+          </div></div></div>
+        </div>
+       <div class="form-group border border-light container col-md-6 " style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);padding-right: .1px;padding-left: .1px;">
+        <div class="card-header">Contributors</div>
+        <ul class="list-group pl-md-2" id="list"></ul>
+        </div>
+      </div>
+      </div>
+      
+   </div>
+     <div class="container" style="color:white;padding-right: 15px;padding-left:15px;">
+    <footer class="section footer-classic context-dark bg-image" style="background: blue;">
+        <div class="container">
+        <div class="form-row">
+            <div class="form-group col-md-12">
+      
+       <span> ©  </span><span class="copyright-year">2018</span><span> </span><span>Hack Your Future | Repo</span><span>. </span><span>All Rights Reserved.</span>
+        
+         
+        <span style="margin-left: 37%">| Designed by: HYF & Developed by Martz </span>
+      </div></div></div>
+    </footer> </div>
+  </body>
+  <script src="index.js"></script>
+</html>
