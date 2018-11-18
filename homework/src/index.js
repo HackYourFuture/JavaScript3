@@ -32,7 +32,7 @@
 
   function main(url) {
     fetchJSON(url, (err, data) => {
-      const root = document.getElementById('root');
+      //const root = document.getElementById('root');
       createAndAppend("div", root, { id: "top" });
       createAndAppend("div", root, { id: "left" });
       createAndAppend("div", root, { id: "right" });
@@ -43,12 +43,12 @@
 
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } //else {
+      }// else {
       //   createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
-      //  }
+      //   }
 
       data.sort((a, b) => a.name.localeCompare(b.name));
-      
+
       createAndAppend("h7", top, { id: "title", text: "HYF-Repository" });
       createAndAppend("select", top, { id: "select" });
 
@@ -87,14 +87,16 @@
         repoContributorsLinks.push(data[i].contributors_url)
       }
 
+
       selectOptions(repoName)
 
 
       let select = document.getElementById("select");
       select.addEventListener("change", function (e) {
-        let option = this.options[this.selectedIndex].value;
-        printRepoInfo(repoContributorsLinks, option, repoName, repoDecription, repoForks, repoUpdate)
+       // let option = this.options[this.selectedIndex].value;
         const i = e.target.value;
+        printRepoInfo(i, repoName, repoDecription, repoForks, repoUpdate)
+
         getContributors(right, data[i])
       }); // end eventlistener
     }); // end of fetch()
@@ -109,18 +111,18 @@
       option.value = i;
       option.text = name[i];
       select.appendChild(option);
+      
     }
   }
 
-  function printRepoInfo(arr, option, name, description, forks, update) {
-    for (let i = 0; i < arr.length; i++) {
-      if (option == i) {
-        repositoryName.innerHTML = "<a href= '#' target='_blank'>" + name[i] + "</a>";
-        descriptionText.innerHTML = description[i];
-        forkText.innerHTML = forks[i]
-        updateText.innerHTML = update[i];
-      } // end if   
-    } // end for   
+  function printRepoInfo(i, name, description, forks, update) {
+
+    repositoryName.innerHTML = "<a href= '#' target='_blank'>" + name[i] + "</a>";
+    descriptionText.innerHTML = description[i];
+    forkText.innerHTML = forks[i]
+    updateText.innerHTML = update[i];
+
+
   } // end function
 
   function getContributors(right, data) {
@@ -133,15 +135,15 @@
       contributors.map(c => {
         let ul = createAndAppend("ul", right, { "class": "ul" });
         let li = createAndAppend("li", ul, { "class": "li" });
-        
+
         createAndAppend("img", li, { "class": "avatar", "src": c.avatar_url });
-        
+
         let login = createAndAppend("div", li, { id: "login", "class": "liDivs" });
         const a = createAndAppend("a", login, { "target": "_blank", "href": c.html_url, "class": "link" });
-        createAndAppend("h8", a, { text: c.login});
-      
+        createAndAppend("h8", a, { text: c.login });
+
         let contributionsNumber = createAndAppend("div", li, { id: "contributionsNumber", "class": "liDivs" });
-        createAndAppend("h8", contributionsNumber, { text: c.contributions});
+        createAndAppend("h8", contributionsNumber, { text: c.contributions });
       });
     });
   }
