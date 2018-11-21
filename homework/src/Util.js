@@ -5,7 +5,7 @@ class Util {
   static createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
-    Object.keys(options).forEach((key) => {
+    Object.keys(options).forEach(key => {
       const value = options[key];
       if (key === 'text') {
         elem.innerText = value;
