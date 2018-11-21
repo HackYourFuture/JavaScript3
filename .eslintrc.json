@@ -7,7 +7,7 @@
   "rules": {
     "prettier/prettier": ["error"],
     "class-methods-use-this": "off",
-    "no-console": "off",
-    "strict": "off"
+    "strict": "off",
+    "no-plusplus": "off"
   }
 }

@@ -7,7 +7,6 @@ Topics discussed this week:
 • call, apply, bind
 ```
 
-
 ## Step 1: Fix requested changes
 
 _Deadline Monday_
@@ -25,15 +24,14 @@ _Deadline Monday_
 - [try...catch](../../../../fundamentals/blob/master/fundamentals/try_catch.md)
 - [async/await](../../../../fundamentals/blob/master/fundamentals/async_await.md)
 
-
 The homework for week 3 will build on the work you did in week 2. You will create a new branch based on the `week2` branch.
 
 1. Make sure that you committed all changes in the week 2 version of your homework.
 2. Create a new `week3` branch:
 
-    ```
-    git checkout -b week3
-    ```
+   ```
+   git checkout -b week3
+   ```
 
 ### 2.2 Assignment
 
@@ -43,7 +41,6 @@ This week you will work with all JavaScript files in the `src` folder. The assig
 2. Make your app ARIA-compliant (see below).
 3. Refactor your application to use ES6 classes.
 
-
 #### 2.2.1 async/await
 
 **Instructions:**
@@ -51,7 +48,6 @@ This week you will work with all JavaScript files in the `src` folder. The assig
 1. Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
 
 2. Make sure that your error handling code still works. See the week2 MAKEME on how to force an error response from GitHub.
-
 
 #### 2.2.2 ES6 Classes
 
@@ -61,12 +57,13 @@ This final assignment requires you to go the extra mile and master Object Orient
 
 In this assignment you need to redistribute and adapt the code from `index.js` to the files `App.js`, `Repository.js` and `Contributor.js`. You do not need to modify `Util.js`.
 
-| File             | Description |
-|------------------|-------------|
-| `App.js`         | The `App` class contains the start-up code and manages the overall orchestration of the app. |
-| `Repository.js`  | The `Repository` class holds code and data for a single repository. |
-| `Contributor.js` | The `Contributor` class holds code and data for a single contributor. |
-| `Util.js`        | The `Util` class contains static helper methods for use in the other classes. |
+| File             | Description                                                                                                                                                                                                        |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `index2.html`    | You should load this HTML file in your browser instead of `index.html` to work with the classes version of your homework. It loads the following JavaScript files through `<script>` tags in the `<body>` element: |
+| `App.js`         | The `App` class contains the start-up code and manages the overall orchestration of the app.                                                                                                                       |
+| `Repository.js`  | The `Repository` class holds code and data for a single repository.                                                                                                                                                |
+| `Contributor.js` | The `Contributor` class holds code and data for a single contributor.                                                                                                                                              |
+| `Util.js`        | The `Util` class contains static helper methods for use in the other classes.                                                                                                                                      |
 
 The `App.js`, `Repository.js` and `Contributor.js` files each contain skeleton code that you can use to migrate portions of your code from `index.js` to.
 
@@ -74,20 +71,6 @@ _Read:_
 
 - HYF fundamental: [ES6 Classes](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/oop_classes.md#es6-classes)
 - More on ES6 classes: [ES6 Classes in Depth](https://ponyfoo.com/articles/es6-classes-in-depth)
-
-_Instructions:_
-
-1. Copy `index.html` to file named `classes.html` and change the content of the `body` tag of `classes.html` as follows:
-
-    ```html
-    <body>
-      <div id="root"></div>
-      <script src="./Util.js"></script>
-      <script src="./Repository.js"></script>
-      <script src="./Contributor.js"></script>
-      <script src="./App.js"></script>
-    </body>
-    ```
 
 #### 2.2.3 ARIA-compliance (BONUS)
 
@@ -107,9 +90,9 @@ If the answer is 'yes' to all preceding questions you are ready to follow these 
 
 1. Push your `week3` branch to GitHub:
 
-    ```
-    git push -u origin week3
-    ```
+   ```
+   git push -u origin week3
+   ```
 
 2. Create a pull request for your `week3` branch.
 
@@ -124,12 +107,14 @@ Go trough the reading material in the [README.md](https://github.com/HackYourFut
 If you haven't already join our clan: "Hack Your Future" in codewars
 
 Solve the following problems:
+
 - [Problem 1](https://www.codewars.com/kata/keep-up-the-hoop)
 - [Problem 2](https://www.codewars.com/kata/find-the-first-non-consecutive-number)
 - [Problem 3](https://www.codewars.com/kata/negation-of-a-value)
 - Some more [Homework](https://www.codewars.com/collections/hyf-homework-1)
 
 _Hints_
+
 - Hint for Q1: split your code into two parts, one part for the case that one of the two strings has an extra letter at the start or the end but is otherwise identical & one part for the case that the strings are the same length but one character is different in one of the strings
 - Also for Q1 this function on strings might be useful: [JavaScript String slice() method](https://www.w3schools.com/jsref/jsref_slice_string.asp)
 - Also potentially useful: [JavaScript String charAt() Method](https://www.w3schools.com/jsref/jsref_charat.asp)

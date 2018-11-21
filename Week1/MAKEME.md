@@ -7,21 +7,15 @@ Topics discussed this week:
 • API calls
 ```
 
->[Here](/Week3/README.md) you find the readings you have to complete before the ninth lecture.
-
-## Step 1: Feedback
-
-**_Deadline Monday_**
-
-Please provide feedback on last week's homework from a fellow student as a GitHub issue.
-
-## Step 2: Single Page Application :sweat_drops:
+## Step 1: Single Page Application :sweat_drops:
 
 **_Deadline Thursday_**
 
 _This homework is more extensive and challenging than previous homework! Please read the instructions below carefully and follow them with great attention to detail. Start this homework as soon as you can and allow time for discussion and questions (slack!)._
 
-### 2.1 Introduction
+### 1.1 Introduction
+
+> In this assignment you will built upon some existing code that is already pre-written by your teachers. Your homework consist of writing the code to make the application work as requested per week.
 
 You are going to write a _Single Page Application_ (SPA) that uses the [GitHub API](https://developer.github.com/guides/getting-started/).
 
@@ -36,15 +30,13 @@ Figure 1 below shows an example of what your application could look like. Note t
 
 ![UI Example](./assets/hyf-github.png)
 
-In this assignment you will built upon some existing code that is already pre-written by your teachers. Your homework consist of writing the  code to make the application work as requested per week.
-
 <small>Figure 1. Example User Interface using [Material Design](https://material.io/guidelines/) principles.</small>
 
 A live version of this application can be found here: http://hyf-github.netlify.com/
 
-### 2.2 The GitHub API
+### 1.2 The GitHub API
 
-#### 2.2.1 Get a list of HYF repositories
+#### 1.2.1 Get a list of HYF repositories
 
 You can fetch a list of HYF repositories through this API endpoint ([What is an API Endpoint?](https://teamtreehouse.com/community/what-is-an-api-endpoint)):
 
@@ -58,25 +50,33 @@ If you open this URL in the browser (_try it!_) you will receive JSON data about
 
 The returned JSON data contains some basic information about each repository, such as `name`, `full_name`, `description` etc. There are also many properties that contain URLs that can be used to obtain detail information about certain aspects of the repository.
 
-#### 2.2.2 Get contributor information for a repository
+#### 1.2.2 Get contributor information for a repository
 
 The JSON data that is returned from the initial request to get repository information includes a property named `contributors_url`. Use the value of this property to fetch a list of contributors.
 
-#### 2.2.3 GitHub API documentation
+#### 1.2.3 GitHub API documentation
 
 You can find detailed information about the GitHub API by means of the link listed below. However, the documentation is very extensive and not easy to digest. For this homework it is not necessary to study the GitHub API documentation. We provide the link here for completeness.
 
 > GitHub API documentation: https://developer.github.com/v3/
 
-### 2.3 Preparation
+### 1.3 Coding Style
+
+In the JavaScript3 module, we will be introducing a preferred coding style and supporting tools to help you write _"clean code"_. There are a number of popular JavaScript "style guides" available of which the one developed by Airbnb will be adopted for this homework. It is documented here:
+
+- [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
+
+While you do not need to read this guide in detail, it is recommended that you review sections 1-8, 12-13, 15-21 and 23. Adherence to many of the recommendations of this guide is enforced in this homework by tools installed during the project preparation step below. You will see error and warning messages in the VSCode editor when your code deviates from the recommended style. An additional check will be done when you submit your homework as a pull request on GitHub.
+
+### 1.5 Preparation
 
 You will be working on this same application during the next three weeks. For each week you will need to create a new Git branch, as listed in the Table 1 below.
 
-| Week | Branch | Assignment |
-|:----:|--------|------------|
-| 1   | `week1` | Create a basic application using callbacks to handle network requests. |
-| 2   | `week2` | - Refactor the callbacks to promises.<br>- Make the UI responsive.|
-| 3   | `week3` | - Refactor the application to use ES6 Classes and async/await.<br>- Make the app ARIA-compliant. |
+| Week | Branch  | Assignment                                                                                       |
+| :--: | ------- | ------------------------------------------------------------------------------------------------ |
+|  1   | `week1` | Create a basic application using callbacks to handle network requests.                           |
+|  2   | `week2` | - Refactor the callbacks to promises.<br>- Make the UI responsive.                               |
+|  3   | `week3` | - Refactor the application to use ES6 Classes and async/await.<br>- Make the app ARIA-compliant. |
 
 <small>Table 1. Homework schedule</small>
 
@@ -84,64 +84,77 @@ You will be working on this same application during the next three weeks. For ea
 
 1. Fork the JavaScript3 repository (_this repository_) to your own GitHub account.
 2. Clone the fork to your laptop.
-3. Open the `homework` folder inside the cloned repository in VSCode.
-4. Create a new branch for the week 1 homework with the following command:
+3. Open the `JavaScript3` folder from the cloned repository in VSCode.
+4. Install the following extension in VSCode:
 
-    ```
-    git checkout -b week1
-    ```
+   **Prettier - Code formatter**.
 
-### 2.4 Code Overview
+5. Open a Terminal window in VSCode and type the following command to install Prettier and ESLint tools required for the homework:
 
-The files that make up the application are located in the `src` folder. It contains the following files:
+   ```
+   npm install
+   ```
 
-| Filename         | Description |
-|------------------|-------------|
-| ~~`App.js`~~         | Not used in week 1 and 2. |
-| ~~`Contributor.js`~~ | Not used in week 1 and 2. |
+6. Create a new branch for the week 1 homework with the following command:
+
+   ```
+   git checkout -b week1
+   ```
+
+### 1.5 Code Overview
+
+The files that make up the application are located in the `homework` folder. It contains the following files:
+
+| Filename             | Description                       |
+| -------------------- | --------------------------------- |
+| ~~`App.js`~~         | Not used in week 1 and 2.         |
+| ~~`Contributor.js`~~ | Not used in week 1 and 2.         |
 | `hyf.png`            | Contains the HackYourFuture logo. |
-| `index.html`         | The application's HTML file. |
-| `index.js`           | A starter JavaScript file. |
-| ~~`Repository.js`~~  | Not used in week 1 and 2. |
-| `style.css`          | A starter CSS file. |
-| ~~`Util.js`~~        | Not used in week 1 and 2. |
+| `index.html`         | The application's HTML file.      |
+| ~~`index2.html`~~    | Not used in week 1 and 2.         |
+| `index.js`           | A starter JavaScript file.        |
+| ~~`Repository.js`~~  | Not used in week 1 and 2.         |
+| `style.css`          | A starter CSS file.               |
+| ~~`Util.js`~~        | Not used in week 1 and 2.         |
 
 In week 1, you should only modify `index.js` and `style.css`.
 
 _**Do not modify any other files at this time!**_
 
-#### 2.4.1 A first examination
+> Although you should only modify files in the `homework` folder, we recommend that you always open the `JavaScript3` folder rather tham the `homework` folder in VSCode. The `JavaScript3` folder contains the actual git repository.
+
+#### 1.5.1 A first examination
 
 1. Open `index.html` and examine its contents (but don't modify anything). Notice that the HTML `body` looks like this:
 
-    ```html
-    <body>
-      <div id="root"></div>
-      <script src="./index.js"></script>
-    </body>
-    ```
+   ```html
+   <body>
+     <div id="root"></div>
+     <script src="./index.js"></script>
+   </body>
+   ```
 
-    The `body` tag contains a single `div` to which you will need to dynamically append HTML elements through your JavaScript code in `index.js`.
+   The `body` tag contains a single `div` to which you will need to dynamically append HTML elements through your JavaScript code in `index.js`.
 
 2. Open `index.js`. This file contains a starter set of code for you to expand. It contains the following three functions:
 
-    | Function | Description |
-    |----------|-------------|
-    | `fetchJSON` | Uses `XMLHttpRequest` to fetch JSON data from an API end point. This function uses an asynchronous callback.  |
-    | `createAndAppend` | A utility function for easily creating and appending HTML elements. |
-    | `main` | Contains the start-up code for the application. |
-    
-    `index.js` also contains a constant with the URL for the HYF repositories as listed in section 2.2.1:
+   | Function          | Description                                                                                                  |
+   | ----------------- | ------------------------------------------------------------------------------------------------------------ |
+   | `fetchJSON`       | Uses `XMLHttpRequest` to fetch JSON data from an API end point. This function uses an asynchronous callback. |
+   | `createAndAppend` | A utility function for easily creating and appending HTML elements.                                          |
+   | `main`            | Contains the start-up code for the application.                                                              |
 
-    ```js
-    const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-    ```
+   `index.js` also contains a constant with the URL for the HYF repositories as listed in section 2.2.1:
+
+   ```js
+   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+   ```
 
 3. Open the `index.html` file in your browser. Notice that it produces the same JSON output that you saw previously when you opened the URL directly in the browser.
 
 4. Review the `main()` function in `index.js` and examine how this code renders the JSON output in the browser by means of a `pre` HTML element (for demonstration purposes).
 
-### 2.5 Week 1 Assignment
+### 1.6 Week 1 Assignment
 
 The assignment is to produce an application similar to the one illustrated in Figure 1 above.
 
@@ -151,7 +164,7 @@ It should include the following components:
 2. A left-hand column that displays basic information about the selected repository.
 3. A right-hand column that displays a list of contributors to the repository.
 
-    >In case you run out of time, you can also do the contributors list in week 2.
+   > In case you run out of time, you can also do the contributors list in week 2.
 
 **Functional Requirements:**
 
@@ -181,23 +194,21 @@ It should include the following components:
 
 - Add one `option` element per repository to the `select` element, where each `option` element has the array index of the repository as its `value` attribute and the name of the repository as its text content:
 
-    ```html
-    <select>
-      <option value="0">alumni</option>
-      <option value="1">angular</option>
-      <!-- etc -->
-    </select>
-    ```
+  ```html
+  <select>
+    <option value="0">alumni</option>
+    <option value="1">angular</option>
+    <!-- etc -->
+  </select>
+  ```
 
+* To sort the list repositories use [`.sort()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) and [`.localeCompare()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare).
 
-- To sort the list repositories use [`.sort()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) and [`.localeCompare()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare).
+* Use CSS media queries and [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) to make the UI responsive.
 
-- Use CSS media queries and [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) to make the UI responsive. 
+* To force a `404` network error so that you can test the rendering of errors, change the URL to make an invalid GitHub request, e.g. append an `x` to `orgs`: `orgsx`.
 
-- To force a `404` network error so that you can test the rendering of errors, change the URL to make an invalid GitHub request, e.g. append an `x` to `orgs`: `orgsx`.
-
-
-### 2.5 Handing in your homework
+### 1.7 Handing in your homework
 
 - Have you removed all commented out code (should never be present in a PR)?
 - Have you used `const` and `let` and avoided `var`?
@@ -209,9 +220,9 @@ If the answer is 'yes' to all preceding questions you are ready to follow these 
 
 1. Push your `week1` branch to GitHub:
 
-    ```
-    git push -u origin week1
-    ```
+   ```
+   git push -u origin week1
+   ```
 
 2. Create a pull request for your `week1` branch.
 
@@ -221,8 +232,7 @@ _BONUS_ : Code Kata Race
 
 - [Codewars](https://www.codewars.com/collections/hyf-homework-number-2)
 
-
-## Step 3: Read before next lecture
+## Step 2: Read before next lecture
 
 _Deadline Sunday morning_
 

@@ -20,3 +20,11 @@ Here are resources that we like you to read as a preparation for the first lectu
 ### XMLHttpRequests
 
 - [Making HTTP Requests in JavaScript](https://www.kirupa.com/html5/making_http_requests_js.htm)
+
+### Clean Code
+
+- [How to write clean code? Lessons learnt from “The Clean Code” — Robert C. Martin](https://medium.com/mindorks/how-to-write-clean-code-lessons-learnt-from-the-clean-code-robert-c-martin-9ffc7aef870c).
+
+  > Note that this article includes some code examples writte in Java, but the same principles can equally be applied to JavaScript.
+
+- [Clean Code concepts adapted for JavaScript](https://github.com/ryanmcdermott/clean-code-javascript)

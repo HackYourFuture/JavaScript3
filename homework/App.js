@@ -23,7 +23,7 @@ class App {
     try {
       const repos = await Util.fetchJSON(url);
       this.repos = repos.map(repo => new Repository(repo));
-      console.log(this.repos); // TODO: replace with your own code
+      // TODO: add your own code here
     } catch (error) {
       this.renderError(error);
     }
