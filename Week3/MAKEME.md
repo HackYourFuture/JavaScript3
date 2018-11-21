@@ -80,13 +80,21 @@ For the GitHub application ARIA-compliance means that the Contributors list shou
 
 #### 2.2.4 Handing in your homework
 
-- Have you removed all commented out code (should never be present in a PR)?
-- Have you used `const` and `let` and avoided `var`?
-- Do the variable, function and argument names you created follow the [Naming Conventions](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md)?
-- Is your code well-formatted (see [Code Formatting](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md))?
-- Have you resolved all issues flagged by ESLint and the spell checker (no wavy red and green underlines in VSCode)?
+To determine if your code will be accepted when you submit your homework as a pull request you need to ensure that it does not contain linting errors. Open a terminal window in VSCode and type the following command:
 
-If the answer is 'yes' to all preceding questions you are ready to follow these instructions:
+```
+npm test
+```
+
+If any errors or warnings are reported by this command you need to fix them before submitting a pull request.
+
+In addition, check for the following:
+
+- Have you removed all commented out code (should never be present in a PR)?
+- Do the variable, function and argument names you created follow the [Naming Conventions](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md)?
+- Is your code well-formatted (see [Code Formatting](../../../../fundamentals/blob/master/fundamentals/code_formatting.md))?
+
+If the answer is 'yes' to the preceding questions you are ready to follow these instructions:
 
 1. Push your `week3` branch to GitHub:
 
