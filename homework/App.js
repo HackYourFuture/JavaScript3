@@ -16,7 +16,7 @@ class App {
     // 1. Create the fixed HTML elements of your page
     // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
 
-    const root = document.getElementById('root');
+    const root2 = document.getElementById('root');
 
     Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
 
