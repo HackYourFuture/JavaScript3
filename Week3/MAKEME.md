@@ -80,7 +80,9 @@ For the GitHub application ARIA-compliance means that the Contributors list shou
 
 #### 2.2.4 Handing in your homework
 
-To determine if your code will be accepted when you submit your homework as a pull request you need to ensure that it does not contain linting errors. Open a terminal window in VSCode and type the following command:
+If necessary, review the instructions how to [Hand in homework](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/homework_pr.md) using GitHub pull request.
+
+To test whether your code will be accepted when you submit your homework as a pull request you need to ensure that it does not contain ESLinr errors. Open a terminal window in VSCode and type the following command:
 
 ```
 npm test

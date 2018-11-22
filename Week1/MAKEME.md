@@ -62,21 +62,21 @@ You can find detailed information about the GitHub API by means of the link list
 
 ### 1.3 Coding Style
 
-In the JavaScript3 module, we will be introducing a preferred coding style and supporting tools to help you write _"clean code"_. There are a number of popular JavaScript "style guides" available of which the one developed by Airbnb will be adopted for this homework. It is documented here:
+In this homework we will be introducing a preferred coding style and supporting tools to help you write _"clean code"_. A number of popular [_JavaScript Style Guides_](https://codeburst.io/5-javascript-style-guides-including-airbnb-github-google-88cbc6b2b7aa) have recently emerged of which the one developed by [Airbnb](https://github.com/airbnb/javascript) has been chosen for this homework and is recommended for subsequent use during the HYF curriculum. It is documented here:
 
 - [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
 
-While you do not need to read this guide in detail, it is recommended that you review sections 1-8, 12-13, 15-21 and 23. Adherence to many of the recommendations of this guide is enforced in this homework by tools installed during the project preparation step below. You will see error and warning messages in the VSCode editor when your code deviates from the recommended style. An additional check will be done when you submit your homework as a pull request on GitHub.
+While you do not need to read this guide in detail, it is recommended that you review sections 1-8, 12-13, 15-21 and 23. The tools installed during the project preparation step below will help you to implement these guidelines in your code. You will see error and warning messages in the VSCode editor when your code deviates from the recommended style. An additional check will be done when you submit your homework as a pull request on GitHub.
 
 ### 1.5 Preparation
 
-You will be working on this same application during the next three weeks. For each week you will need to create a new Git branch, as listed in the Table 1 below.
+You will be working on the same application during the next three weeks. For each week you will need to create a new Git branch, as listed in the Table 1 below.
 
-| Week | Branch  | Assignment                                                                                       |
-| :--: | ------- | ------------------------------------------------------------------------------------------------ |
-|  1   | `week1` | Create a basic application using callbacks to handle network requests.                           |
-|  2   | `week2` | - Refactor the callbacks to promises.<br>- Make the UI responsive.                               |
-|  3   | `week3` | - Refactor the application to use ES6 Classes and async/await.<br>- Make the app ARIA-compliant. |
+| Week | Branch  | Assignment                                                                                                                       |
+| :--: | ------- | -------------------------------------------------------------------------------------------------------------------------------- |
+|  1   | `week1` | - Create a basic application using callbacks to handle network requests.                                                         |
+|  2   | `week2` | Based on the `week1` branch:<br>- Refactor the callbacks to promises.<br>- Make the UI responsive.                               |
+|  3   | `week3` | Based on the `week2` branch:<br>- Refactor the application to use ES6 Classes and async/await.<br>- Make the app ARIA-compliant. |
 
 <small>Table 1. Homework schedule</small>
 
@@ -84,12 +84,12 @@ You will be working on this same application during the next three weeks. For ea
 
 1. Fork the JavaScript3 repository (_this repository_) to your own GitHub account.
 2. Clone the fork to your laptop.
-3. Open the `JavaScript3` folder from the cloned repository in VSCode.
+3. Open the newly created `JavaScript3` folder from the cloned repository in VSCode.
 4. Install the following extension in VSCode:
 
    **Prettier - Code formatter**.
 
-5. Open a Terminal window in VSCode and type the following command to install Prettier and ESLint tools required for the homework:
+5. Open a Terminal window in VSCode and type the following command to install Prettier and ESLint tools as required for the homework:
 
    ```
    npm install
@@ -121,7 +121,9 @@ In week 1, you should only modify `index.js` and `style.css`.
 
 _**Do not modify any other files at this time!**_
 
-> Although you should only modify files in the `homework` folder, we recommend that you always open the `JavaScript3` folder rather tham the `homework` folder in VSCode. The `JavaScript3` folder contains the actual git repository.
+Although you should only modify files in the `homework` folder, we recommend that you always open the `JavaScript3` folder rather than directly opening the `homework` folder in VSCode. The `JavaScript3` folder contains the actual git repository and the configuration files required by the installed tools.
+
+_**Do not change or delete any files outside of the `homework` folder!**_
 
 #### 1.5.1 A first examination
 
@@ -210,7 +212,9 @@ It should include the following components:
 
 ### 1.7 Handing in your homework
 
-To determine if your code will be accepted when you submit your homework as a pull request you need to ensure that it does not contain linting errors. Open a terminal window in VSCode and type the following command:
+If necessary, review the instructions how to [Hand in homework](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/homework_pr.md) using GitHub pull request.
+
+To test whether your code will be accepted when you submit your homework as a pull request you need to ensure that it does not contain ESLinr errors. Open a terminal window in VSCode and type the following command:
 
 ```
 npm test
