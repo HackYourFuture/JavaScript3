@@ -1,3 +1,122 @@
 .alert-error {
     color: red;
 }
+
+body{
+background-color:#F5F5F5;
+}
+
+.alert-error {
+    color: red;
+}
+
+#root{
+
+width: 50%;
+margin: 1% auto;
+display: grid;
+grid-template-areas: 
+            "top top"
+          "left right";
+          grid-gap: 0.5em;
+}
+
+#top{
+  background-color: #3F51B5;
+  grid-area: top;
+  text-align: center;
+  padding: 2%;
+
+}
+
+#left {
+  background-color:white;
+  grid-area: left;
+  padding: 3%;
+}
+
+#right {
+   background-color:white;
+    grid-area: right;
+}
+
+#title{
+  padding: 1%;
+  color:white;
+}
+
+#select{
+  padding: 0.5% 0.5%;
+  margin: 0.5em 1%;
+  
+}
+
+.headings{
+  font-weight: bold;
+  padding: 0.5% 0.5%;
+  margin: 0.5em 1%;
+}
+
+.first{
+  text-align: center;
+  display: inline-block;
+}
+
+#descriptionText{
+  text-align:  justify;
+  padding: 1%;
+}
+
+#title{
+  display: inline;
+  font-weight: bold;
+}
+
+.li{
+  position: relative;
+  right: 5%;
+  list-style: none;
+  border-bottom: 2px solid lightgray;
+  padding: 2%;
+  margin: 0% 3%; 
+
+}
+
+.avatar{
+  width: 12%;
+  height: 12%;
+}
+
+.liDivs {
+  display: inline-block;
+}
+
+#login{
+  position: absolute;
+  left: 20%;
+  top: 30%;
+  padding: .25em;
+
+}
+
+#contributionsNumber{
+  position: absolute;
+  left: 80%;
+  top: 30%;
+  padding: .25em;
+  background-color: gray;  
+  color:white;
+}
+
+.link{
+  font-weight: bold;
+ padding:1em;
+ text-decoration: none;
+ color: black;
+
+}
+
+  .rightTitle{
+    text-align: center;
+    color: gray;
+  }
