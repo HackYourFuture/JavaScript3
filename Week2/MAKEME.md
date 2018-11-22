@@ -13,12 +13,11 @@ Topics discussed this week:
 
 - If you are still not completely clear on promises, here are some additional resources :ring:
 
-    - [Google's post about Promises](https://developers.google.com/web/fundamentals/getting-started/primers/promises)
-    - [A nice article from David Walsh](https://davidwalsh.name/promises)
-    - [A real life example](https://github.com/mdn/js-examples/blob/master/promises-test/index.html)
-    - [stackoverflow](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript)
-    - YouTube: [promises](https://www.youtube.com/watch?v=WBupia9oidU)
-
+  - [Google's post about Promises](https://developers.google.com/web/fundamentals/getting-started/primers/promises)
+  - [A nice article from David Walsh](https://davidwalsh.name/promises)
+  - [A real life example](https://github.com/mdn/js-examples/blob/master/promises-test/index.html)
+  - [stackoverflow](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript)
+  - YouTube: [promises](https://www.youtube.com/watch?v=WBupia9oidU)
 
 ## Step 2: Implement requested PR changes
 
@@ -35,9 +34,9 @@ The homework for week 2 will build on the work you did in week 1. You will creat
 1. Make sure that you committed all changes in the week 1 version of your homework.
 2. Create a new `week2` branch:
 
-    ```
-    git checkout -b week2
-    ```
+   ```
+   git checkout -b week2
+   ```
 
 ### 3.2 Assignment
 
@@ -50,19 +49,29 @@ You will continue to work on the files `index.js` and (possibly) `style.css`.
 
 ### 3.3 Handing in your homework
 
-- Have you removed all commented out code (should never be present in a PR)?
-- Have you used `const` and `let` and avoided `var`?
-- Do the variable, function and argument names you created follow the [Naming Conventions](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md)?
-- Is your code well-formatted (see [Code Formatting](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md))?
-- Have you resolved all issues flagged by ESLint and the spell checker (no wavy red and green underlines in VSCode)?
+If necessary, review the instructions how to [Hand in homework](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/homework_pr.md) using GitHub pull request.
 
-If the answer is 'yes' to all preceding questions you are ready to follow these instructions:
+To test whether your code will be accepted when you submit your homework as a pull request you need to ensure that it does not contain ESLinr errors. Open a terminal window in VSCode and type the following command:
+
+```
+npm test
+```
+
+If any errors or warnings are reported by this command you need to fix them before submitting a pull request.
+
+In addition, check for the following:
+
+- Have you removed all commented out code (should never be present in a PR)?
+- Do the variable, function and argument names you created follow the [Naming Conventions](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md)?
+- Is your code well-formatted (see [Code Formatting](../../../../fundamentals/blob/master/fundamentals/code_formatting.md))?
+
+If the answer is 'yes' to the preceding questions you are ready to follow these instructions:
 
 1. Push your `week2` branch to GitHub:
 
-    ```
-    git push -u origin week2
-    ```
+   ```
+   git push -u origin week2
+   ```
 
 2. Create a pull request for your `week2` branch.
 
@@ -74,4 +83,3 @@ Note:
 ## Step 4: Read before next lecture
 
 Go through the reading material in the [README.md](../Week3/README.md) to prepare for your next class.
-

@@ -17,13 +17,13 @@ class App {
     // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
 
     const root = document.getElementById('root');
-    // ...
+
+    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
 
     try {
-      // ...
       const repos = await Util.fetchJSON(url);
       this.repos = repos.map(repo => new Repository(repo));
-      // ...
+      // TODO: add your own code here
     } catch (error) {
       this.renderError(error);
     }
@@ -33,7 +33,7 @@ class App {
    * Removes all child elements from a container element
    * @param {*} container Container element to clear
    */
-  clearContainer(container) {
+  static clearContainer(container) {
     while (container.firstChild) {
       container.removeChild(container.firstChild);
     }
@@ -50,7 +50,7 @@ class App {
       const contributors = await repo.fetchContributors();
 
       const container = document.getElementById('container');
-      this.clearContainer(container);
+      App.clearContainer(container);
 
       const leftDiv = Util.createAndAppend('div', container);
       const rightDiv = Util.createAndAppend('div', container);
@@ -72,7 +72,7 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    // Replace this comment with your code
+    console.log(error); // TODO: replace with your own code
   }
 }
 
