@@ -22,7 +22,7 @@
     Object.keys(options).forEach(key => {
       const value = options[key];
       if (key === 'text') {
-        elem.innerText = value;
+        elem.innerText = value1;
       } else {
         elem.setAttribute(key, value);
       }
