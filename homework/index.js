@@ -30,13 +30,35 @@
     return elem;
   }
 
+  function renderDetails(repository, root) {
+    root.innerHTML = '';
+    createAndAppend('li', root, { text: repository.description });
+  }
+
+  function renderDropDown(repositories) {
+    const root = document.getElementById('root');
+    const header = createAndAppend('header', root);
+    const select = createAndAppend('select', header);
+    repositories.forEach(repository => {
+      createAndAppend('option', select, { text: repository.name });
+    });
+
+    const ul = createAndAppend('ul', root, { id: 'someUl' });
+    select.addEventListener('change', () => renderDetails(repositories[select.selectedIndex], ul));
+  }
+
   function main(url) {
-    fetchJSON(url, (err, data) => {
+    fetchJSON(url, (err, repositories) => {
       const root = document.getElementById('root');
       if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        createAndAppend('div', root, {
+          text: err.message,
+          class: 'alert-error',
+        });
       } else {
-        createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
+        renderDropDown(repositories);
+        const ul = document.getElementById('someUl');
+        renderDetails(repositories[0], ul);
       }
     });
   }
