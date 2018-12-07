@@ -1,3 +1,57 @@
 .alert-error {
     color: red;
 }
+body {
+  background-color: rgb(223, 215, 204); 
+}
+#root {
+  /* display: flex;
+  flex-wrap: wrap; */
+  position: absolute;
+  left: 20%;
+  right: 20%; 
+  //height: 300px;
+}
+#header {
+  color: white;
+  background-color: blue;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 1.5px;
+  font-family: serif; 
+  align-items: center;
+  padding: 10px;
+  height: 35px;
+  display: flex;
+  margin-bottom: 10px;
+}
+#repo_options {
+  margin-left: 10px;
+  width: 185px;
+  height: 28px;
+}
+#container {
+  display: flex;
+  align-items: flex-start;
+  background-color: beige;
+}
+#left_container {
+   width: 45%;
+}
+#left_container:hover {
+  border-color: rgb(80, 80, 236);
+}
+.col1_data {
+   font-size: 1.1em;
+   font-weight: bold;
+   font-family: serif;
+   padding: 2px;
+}
+.col2_data {
+   font-size: 1.1em;
+   font-family: serif;
+   padding: 2px;
+}
+#right_container {
+   width: 45%;
+}
