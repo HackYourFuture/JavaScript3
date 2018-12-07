@@ -1,3 +1,108 @@
+* {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: rgb(237, 237, 237);
+  color: rgb(92, 83, 74);
+}
+
+p {
+  font-style: italic;
+  font-size: 1vw;
+}
+
+h2 {
+  text-align: center;
+  color: rgb(0, 118, 163);
+  margin: 12.25vw 0vw 2vw 0vw;
+  font-size: 1.7vw;
+}
+
+h3 {
+  margin: 1vw;
+  font-size: 1.2vw;
+}
+h4 {
+  margin-top: 2vw;
+  color: rgb(0, 118, 163);
+  font-size: 1vw;
+}
+
+th {
+  text-align: left;
+  padding: 2% 2% 2% 2%;
+  font-size: 1.3vw;
+  background-color: white;
+  border-radius: 0.5vw 0vw 0vw 0.5vw;
+  height: 5vw;
+  background-color: rgb(245, 245, 245);
+  font-size: 1.1vw;
+}
+td {
+  text-align: left;
+  padding: 2% 5% 2% 2%;
+  font-size: 1.3vw;
+  background-color: white;
+  border-radius: 0vw 0.5vw 0.5vw 0vw;
+  width: 28vw;
+  background-color: rgb(245, 245, 245);
+  font-size: 1.1vw;
+}
+
+#root {
+  display: flex;
+  padding: 1% 10% 0% 10%;
+}
+
+#select-menu {
+  font-size: 1.2vw;
+  border-radius: 0.5vw;
+  margin: 1vw 1vw 1vw 0vw;
+}
+
+#left-container {
+  width: 50%;
+  padding: 2%;
+}
+
+#right-container {
+  width: 50%;
+  padding: 2%;
+}
+
+#hyf-logo {
+  width: 7vw;
+  border-radius: 0.5vw 0.5vw 0.5vw 0.5vw;
+  margin-bottom: 1vw;
+}
+
 .alert-error {
-    color: red;
+  color: red;
+}
+
+.contributor-container {
+  display: flex;
+  padding: 1vw;
+  margin: 0.1vw;
+  align-items: center;
+  border-radius: 0.5vw;
+  width: 35vw;
+  background-color: rgb(245, 245, 245);
+}
+
+.contributor-avatar {
+  width: 4.45vw;
+  border-radius: 0.5vw;
+}
+
+.contributor-info-container {
+  flex: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
 }
