@@ -5,6 +5,8 @@
 class App {
   constructor(url) {
     this.initialize(url);
+
+
   }
 
   /**
@@ -18,7 +20,9 @@ class App {
 
     const root = document.getElementById('root');
 
-    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
+    Util.createAndAppend('h1', root, {
+      text: 'It works!'
+    }); // TODO: replace with your own code
 
     try {
       const repos = await Util.fetchJSON(url);

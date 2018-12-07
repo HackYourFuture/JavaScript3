@@ -1,3 +1,104 @@
 .alert-error {
-    color: red;
+  color: red;
+  background-color: #f8d7da;
+}
+
+body {
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #d5ddd0;
+  font-family: 'Roboto', sans-serif;
+  color: rgba(202, 174, 174, 0.87);
+  margin-top: 0;
+}
+
+
+#container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.header {
+  color: white;
+  background-color: #3F51B5;
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#repoSelector {
+  margin-left: 16px;
+  font-size: 14px;
+  width: 250px;
+  height: 32px;
+  padding: 2px;
+}
+
+table {
+  table-layout: fixed;
+  color: rgb(0, 6, 10, 90%);
+}
+
+td {
+  vertical-align: top;
+}
+
+td:first-child {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+}
+
+td.label {
+  font-weight: bold;
+}
+
+/* ------------------MOBILE SCREEN----------------------------------------*/
+
+@media (max-width:650px) {
+
+  body {
+    width: 100%;
+  }
+
+  #container {
+    margin: 0;
+    flex-direction: column;
+    align-items: stretch;
+    background-color: #fff;
+  }
+
+
+  .leftFrameDiv {
+    background-color: beige;
+    padding: 16px;
+    margin-top: 16px;
+    flex: 1;
+  }
+}
+
+/* ------------------BIG SCREEN----------------------------------------*/
+
+@media (min-width:651px) {
+  .leftFrameDiv {
+    margin: 0;
+  }
+
+
+  .alert {
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: .25rem;
+    flex: 1;
+    -webkit-border-radius: .25rem;
+    -moz-border-radius: .25rem;
+    -ms-border-radius: .25rem;
+    -o-border-radius: .25rem;
+  }
+
+
 }
