@@ -1,57 +1,128 @@
 .alert-error {
-    color: red;
+  color: red;
 }
+
 body {
-  background-color: rgb(223, 215, 204); 
+  background-color: rgb(223, 215, 204);
 }
+
 #root {
-  /* display: flex;
-  flex-wrap: wrap; */
   position: absolute;
   left: 20%;
-  right: 20%; 
-  //height: 300px;
+  right: 20%;
 }
+
 #header {
   color: white;
   background-color: blue;
   font-weight: bold;
   font-size: 18px;
   line-height: 1.5px;
-  font-family: serif; 
+  font-family: calibri;
   align-items: center;
   padding: 10px;
   height: 35px;
   display: flex;
   margin-bottom: 10px;
 }
+
 #repo_options {
   margin-left: 10px;
   width: 185px;
   height: 28px;
 }
+
 #container {
   display: flex;
   align-items: flex-start;
   background-color: beige;
 }
+
 #left_container {
-   width: 45%;
+  width: 50%;
+  background-color: white;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border: 2px solid bisque;
+  line-height: 1.5;
 }
 #left_container:hover {
-  border-color: rgb(80, 80, 236);
+  background-color: rgb(136, 136, 236);
 }
+
 .col1_data {
-   font-size: 1.1em;
-   font-weight: bold;
-   font-family: serif;
-   padding: 2px;
+  font-size: 1.1em;
+  font-weight: bold;
+  font-family: calibri;
+  padding: 2px;
+  color: rgb(54, 54, 54);
 }
+
 .col2_data {
-   font-size: 1.1em;
-   font-family: serif;
-   padding: 2px;
+  font-size: 1.1em;
+  font-family: calibri;
+  color: rgb(58, 56, 56);
+  padding: 2px;
 }
+
 #right_container {
-   width: 45%;
+  width: 45%;
+  margin-right: 10px;
+  margin-top: 20px;
+  background: white;
+  border: 2px solid bisque;
+}
+
+.contributions {
+  font-size: 16px;
+  font-family: arial;
+  text-align: center;
+}
+
+.listOfcontributors {
+  padding: 5px;
+  list-style: none;
+}
+
+.listOfcontributors li {
+  padding: 5px;
+  border: 1px solid bisque;
+}
+
+.listOfcontributors li:hover {
+  background-color: rgb(136, 136, 236);
+}
+
+.subdiv {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  width: 3.5em;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px 1px;
+  margin: 1em;
+}
+
+.contUrl {
+  text-decoration: none;
+  font-size: 22px;
+  color: rgb(46, 40, 40);
+  font-family: calibri;
+  margin-right: 3em;
+}
+
+.noOfContributions {
+  background: rgb(94, 92, 92);
+  width: 2em;
+  font-size: 1.1em;
+  color: rgb(245, 235, 235);
+  font-family: calibri;
+  font-weight: bold;
+  text-align: center;
+  margin: 0px;
+  border-radius: 5px;
 }

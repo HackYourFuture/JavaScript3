@@ -31,30 +31,26 @@
   }
 
   function renderRepository(leftContainer, repository) {
-    const tableLeft = createAndAppend('table', leftContainer, { id: 'repo-description' });
-    const tr1 = createAndAppend('tr', tableLeft, { class: 'descriptions' });
+    const tabel = createAndAppend('tabel', leftContainer, { id: 'tabel' });
+    const tr1 = createAndAppend('tr', tabel, { class: 'descriptions' });
 
     createAndAppend('td', tr1, { class: 'col1_data', text: 'Repository:' });
     createAndAppend('td', tr1, { class: 'col2_data', text: repository.name });
 
-    const tr2 = createAndAppend('tr', tableLeft, { class: 'descriptions' });
+    const tr2 = createAndAppend('tr', tabel, { class: 'descriptions' });
 
     createAndAppend('td', tr2, { class: 'col1_data', text: 'Description:' });
     createAndAppend('td', tr2, { class: 'col2_data', text: repository.description });
 
-    const tr3 = createAndAppend('tr', tableLeft, { class: 'descriptions' });
+    const tr3 = createAndAppend('tr', tabel, { class: 'descriptions' });
 
     createAndAppend('td', tr3, { class: 'col1_data', text: 'Forks:' });
     createAndAppend('td', tr3, { class: 'col2_data', text: repository.forks });
 
-    const tr4 = createAndAppend('tr', tableLeft, { class: 'descriptions' });
+    const tr4 = createAndAppend('tr', tabel, { class: 'descriptions' });
 
     createAndAppend('td', tr4, { class: 'col1_data', text: 'Updated:' });
     createAndAppend('td', tr4, { class: 'col2_data', text: repository.updated_at });
-
-    // const tableRight = createAndAppend('th', rightContainer, { id: 'title' });
-    // const th = createAndAppend('th', tableRight, { class: 'th_rightT' });
-    // createAndAppend('p', th, { class: 'p_th', text: 'Contributions' });
   }
 
   function renderContributors(rightContainer, url) {
@@ -62,13 +58,21 @@
       if (err !== null) {
         createAndAppend('div', rightContainer, { text: err.message, class: 'alert-error' });
       } else {
-        const ul = createAndAppend('ul', rightContainer);
+        createAndAppend('p', rightContainer, { class: 'contributions', text: 'Contributions' });
+        const ul = createAndAppend('ul', rightContainer, { class: 'listOfcontributors' });
         contributors.forEach(contributor => {
           const li = createAndAppend('li', ul);
-          createAndAppend('a', li, {
+          const subdiv = createAndAppend('div', li, { class: 'subdiv' });
+          createAndAppend('img', subdiv, { src: contributor.avatar_url, class: 'image' });
+          createAndAppend('a', subdiv, {
+            class: 'contUrl',
             text: contributor.login,
             href: contributor.html_url,
             target: '_blank',
+          });
+          createAndAppend('p', subdiv, {
+            class: 'noOfContributions',
+            text: contributor.contributions,
           });
         });
       }
