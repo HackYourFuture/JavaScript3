@@ -1,3 +1,48 @@
 .alert-error {
     color: red;
 }
+body{
+  margin:0px;
+}
+header{
+     color: white;
+    background-color: #3F51B5;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+select {
+    box-sizing: border-box;
+    align-items: center;
+    white-space: pre;
+    color: black;
+    background-color: white;
+    cursor: default;
+    border-width: 1px;
+    border-style: solid;
+}
+.header p{
+   padding-right: 10px;
+}
+.left-div{
+  margin:0.6em;
+  box-shadow: 0px 0px 20px lightgray;
+  padding:0.625em;
+  
+
+}
+.label{
+   font-size:1.10em;
+   font-weight: bold;
+}
+.right-div{
+  margin:0.6em;
+   box-shadow: 0px 0px 20px lightgray;
+}
+.contributor-header{
+  color:lightgray;
+  padding-top:20px;
+  padding-left:20px;
+}
