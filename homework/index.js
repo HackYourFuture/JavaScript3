@@ -29,7 +29,7 @@
     });
     return elem;
   }
-  function CreatRepositoryInfo(repositoryObject, parent) {
+  function buildRepositoryInfo(repositoryObject, parent) {
     const repositoryTable = createAndAppend('table', parent, {
       id: 'repository-table',
     });
@@ -52,7 +52,7 @@
     createAndAppend('th', repositoryTableRow4, { text: 'Last updated:' });
     createAndAppend('td', repositoryTableRow4, { text: repositoryObject.updated_at });
   }
-  function CreatRepositoryContributors(contributorsArray, parent) {
+  function buildRepositoryContributors(contributorsArray, parent) {
     createAndAppend('h2', parent, { text: 'Contributions' });
     const contributorsList = createAndAppend('ul', parent, { id: 'contributors-list' });
     contributorsArray.forEach(element => {
@@ -92,31 +92,34 @@
       if (err) {
         createAndAppend('h2', parent, { text: err.message, class: 'alert-error' });
       } else {
-        CreatRepositoryContributors(data, parent);
+        buildRepositoryContributors(data, parent);
       }
     });
   }
-  function startUpAndBuildSelectList(arr, parentContainer) {
+  function startUpAndBuildSelectList(repositories, parentContainer) {
     const leftContainer = createAndAppend('div', parentContainer, { id: 'left-container' });
     const rightContainer = createAndAppend('div', parentContainer, { id: 'right-container' });
     createAndAppend('img', leftContainer, { src: './hyf.png', id: 'hyf-logo', alt: 'logo image' });
     createAndAppend('p', leftContainer, { text: '"Refugee code school in Amsterdam"' });
     createAndAppend('h4', leftContainer, { text: 'Select a repository to display information:' });
     const selectMenu = createAndAppend('select', leftContainer, { id: 'select-menu' });
-    arr.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
-    for (let i = 0; i < arr.length; i++) {
-      createAndAppend('option', selectMenu, { text: arr[i].name, value: i });
+    repositories.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+    for (let i = 0; i < repositories.length; i++) {
+      createAndAppend('option', selectMenu, { text: repositories[i].name, value: i });
     }
     const repositoryInfoSection = createAndAppend('div', leftContainer, {
       id: 'repository-info-section',
     });
-    CreatRepositoryInfo(arr[0], repositoryInfoSection);
-    fetchRepositoryContributors(arr[0].contributors_url, rightContainer);
-    selectMenu.addEventListener('change', () => {
+    buildRepositoryInfo(repositories[0], repositoryInfoSection);
+    fetchRepositoryContributors(repositories[0].contributors_url, rightContainer);
+    selectMenu.addEventListener('change', event => {
       repositoryInfoSection.innerHTML = '';
-      CreatRepositoryInfo(arr[Event.target.value], repositoryInfoSection);
+      buildRepositoryInfo(repositories[event.target.value], repositoryInfoSection);
       rightContainer.innerHTML = '';
-      fetchRepositoryContributors(arr[Event.target.value].contributors_url, rightContainer);
+      fetchRepositoryContributors(
+        repositories[event.target.value].contributors_url,
+        rightContainer,
+      );
     });
   }
   function main(url) {
@@ -124,9 +127,9 @@
       const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-        createAndAppend('h1', root, { text: err.message, class: 'alert-error' });
+        // createAndAppend('h1', root, { text: err.message, class: 'alert-error' });
       } else {
-        createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
+        // createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
         startUpAndBuildSelectList(data, root);
       }
     });
