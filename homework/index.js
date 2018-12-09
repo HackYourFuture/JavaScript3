@@ -76,7 +76,6 @@
       })
     });
   }
-
   // function rightContainer(url, data) {
   //   const rightDiv = document.getElementsByClassName('right-container');
   //   rightDiv.innerHTML = '';
