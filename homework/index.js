@@ -82,6 +82,7 @@
   //   rightDiv.innerHTML = '';
   //   // const paragraph = createAndAppend('p', rightDiv, { text: 'contributions' }, { class: 'contibutors-header' });
   //   // const unlist = createAndAppend(ul, paragraph, { class: 'contributors-list' });
+  //   // createAndAppend(li, unlist, { class: 'contributors-item' });
   // }
 
   function main(url) {
