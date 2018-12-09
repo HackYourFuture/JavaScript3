@@ -74,7 +74,7 @@
         createAndAppend('div', div, { text: entry.login });
         createAndAppend('div', div, { text: entry.contributions });
       })
-    });
+    }); clear
   }
 
   // function rightContainer(url, data) {
