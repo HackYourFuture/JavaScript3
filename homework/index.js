@@ -30,17 +30,22 @@
     return elem;
   }
 
-  function drawInfo(data, value) {
-    // Display the details of the selected option
+  function drawRepository(data, value, container) {
+    // Clear the details of the selected option
+    container.innerHTML = '';
+    drawRepositoryInfo(data, value, container);
+    drawRepositoryContributors(data, value, container);
+  }
 
-    const tableDiv = document.getElementById('repository');
-    tableDiv.innerHTML = '';
-    const repoTable = createAndAppend('table', tableDiv, { class: 'table-container' });
+  function drawRepositoryInfo(data, value, container) {
+    const leftDiv = createAndAppend('div', container, { class: 'left-div' });
+    const repoTable = createAndAppend('table', leftDiv);
     const repoTbody = createAndAppend('tbody', repoTable);
 
     const tr1 = createAndAppend('tr', repoTbody);
     createAndAppend('td', tr1, { text: 'Repository:' });
-    createAndAppend('td', tr1, { text: data[value].name });
+    const repositoryCell = createAndAppend('td', tr1);
+    createAndAppend('a', repositoryCell, { text: data[value].name, href: data[value].html_url });
 
     const tr2 = createAndAppend('tr', repoTbody);
     createAndAppend('td', tr2, { text: 'Description:' });
@@ -53,6 +58,23 @@
     const tr4 = createAndAppend('tr', repoTbody);
     createAndAppend('td', tr4, { text: 'Update:' });
     createAndAppend('td', tr4, { text: data[value].updated_at });
+  }
+
+  function drawRepositoryContributors(data, value, container) {
+    const contributorURL = data[value].contributors_url;
+    const rightDiv = createAndAppend('div', container, { class: 'right-div' });
+    createAndAppend('p', rightDiv, { class: 'contributor-header', text: 'Contributions' });
+    const ul = createAndAppend('ul', rightDiv, { class: 'contributor-list' });
+
+    fetchJSON(contributorURL, (err, contributorData) => {
+      contributorData.forEach((entry, index) => {
+        const li = createAndAppend('li', ul, { class: 'contributor-item', tabindex: index });
+        createAndAppend('img', li, { src: entry.avatar_url, height: '48', class: 'contributor-avatar' });
+        const div = createAndAppend('div', li, { class: 'contributor-data' });
+        createAndAppend('div', div, { text: entry.login });
+        createAndAppend('div', div, { text: entry.contributions });
+      })
+    });
   }
 
   // function rightContainer(url, data) {
@@ -82,20 +104,19 @@
           return 0;
         });
 
-        // add select element
-        const selectElem = createAndAppend('select', root);
-
+        const header = createAndAppend('header', root, { class: 'header' });
+        const selectElem = createAndAppend('select', header, { class: 'repo-selector' });
         // for each entry in the data, add option elements
         data.forEach((entry, index) => {
           createAndAppend('option', selectElem, { text: entry.name, value: index });
         });
-        createAndAppend('div', root, { id: 'repository' });
+        const container = createAndAppend('div', root, { id: 'container' });
 
         // always draw information from element 0, the first time
-        drawInfo(data, 0);
+        drawRepository(data, 0, container);
 
         // make sure the information is drawn again for the option that is selected
-        selectElem.onchange = function () { drawInfo(data, selectElem.value); };
+        selectElem.onchange = function () { drawRepository(data, selectElem.value, container); };
       }
       // createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
     });
