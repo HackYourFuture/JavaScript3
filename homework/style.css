@@ -1,3 +1,145 @@
 .alert-error {
-    color: red;
+  color: red;
+  background-color: #f8d7da;
+}
+
+body {
+  width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+  font-family: 'Roboto', sans-serif;
+  color: rgb(0, 0, 0, 87%);
+  margin-top: 0;
+}
+
+#container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  background-color: #fff;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 767px) {
+  body {
+    width: 100%;
+  }
+  #container {
+    margin: 0;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .left_container {
+    margin: 0;
+  }
+}
+
+#header {
+  font-size: 18px;
+  margin: 2px;
+  margin-top: 20px;
+  font-weight: bold;
+  color: white;
+  background-color: #333;
+  padding: 16px 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 5px;
+}
+
+#selectBox {
+  background-color: #fff;
+  border-radius: 10px;
+  margin-left: 16px;
+  font-size: 16px;
+  width: 250px;
+  height: 32px;
+  padding: 2px;
+}
+
+#leftContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  background-color: white;
+  margin-top: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  line-height: 1.5;
+  flex: 1;
+  border-bottom: solid 1px rgb(0, 0, 0, 12%);
+}
+.titlesName {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 2px;
+  color: rgb(54, 54, 54);
+  flex: 1;
+}
+
+.titlesValue {
+  font-size: 18px;
+  color: rgb(58, 56, 56);
+  padding: 15px;
+}
+
+#rightContainer {
+  width: 45%;
+  margin-right: 10px;
+  margin-top: 20px;
+  background: white;
+}
+
+.contributions {
+  font-size: 20px;
+  text-align: center;
+}
+
+.contributorsList {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.contributorsList li {
+  border-bottom: solid 1px rgb(0, 0, 0, 12%);
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.contributorsContainer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image {
+  width: 2em;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px 1px;
+  margin-right: 16px;
+}
+
+.linksName {
+  text-decoration: none;
+  font-size: 18px;
+  color: rgb(46, 40, 40);
+  margin-right: 3em;
+}
+
+.NumberOfContributions {
+  background: rgb(94, 92, 92);
+  width: 2em;
+  font-size: 17px;
+  color: rgb(245, 235, 235);
+  font-weight: bold;
+  text-align: center;
+  margin: 0px;
+  border-radius: 5px;
 }
