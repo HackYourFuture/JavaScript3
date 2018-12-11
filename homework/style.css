@@ -3,6 +3,11 @@
   background-color: #f8d7da;
 }
 
+.msg-logo {
+  margin-top: -5px;
+  font-style: italic;
+}
+
 body {
   width: 768px;
   margin-left: auto;
@@ -21,9 +26,25 @@ body {
   margin-bottom: 15px;
 }
 
+#imgAndStuff {
+  margin: 25px;
+}
+@media (min-width: 767px) {
+  #hyf-logo {
+    width: 7vw;
+    border-radius: 0.5vw;
+    margin-bottom: 1vw;
+  }
+}
+
 @media (max-width: 767px) {
   body {
     width: 100%;
+  }
+  #hyf-logo {
+    width: 20%;
+    border-radius: 0.5vw;
+    margin-bottom: 1vw;
   }
   #container {
     margin: 0;
@@ -47,7 +68,7 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 #selectBox {
@@ -55,7 +76,7 @@ body {
   border-radius: 10px;
   margin-left: 16px;
   font-size: 16px;
-  width: 250px;
+  width: 200px;
   height: 32px;
   padding: 2px;
 }
@@ -63,14 +84,17 @@ body {
 #leftContainer {
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 90%;
   background-color: white;
   margin-top: 20px;
   margin-left: 10px;
+  padding-left: 10px;
   margin-right: 10px;
   line-height: 1.5;
   flex: 1;
-  border-bottom: solid 1px rgb(0, 0, 0, 12%);
+  /* border-bottom: solid 1px rgb(0, 0, 0, 12%); */
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.5), 0 3px 4px 0 rgba(0, 0, 0, 0.35),
+    0 3px 3px -2px rgba(0, 0, 0, 0.3);
 }
 .titlesName {
   font-size: 18px;
@@ -87,10 +111,13 @@ body {
 }
 
 #rightContainer {
-  width: 45%;
+  width: 60%;
+  margin-left: 10px;
   margin-right: 10px;
   margin-top: 20px;
   background: white;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
+    0 3px 3px -2px rgba(0, 0, 0, 0.12);
 }
 
 .contributions {

@@ -86,6 +86,12 @@
 
   function renderDropDown(repositories) {
     const root = document.getElementById('root');
+    const imgContainer = createAndAppend('div', root, { id: 'imgAndStuff' });
+    createAndAppend('img', imgContainer, { src: './hyf.png', id: 'hyf-logo', alt: 'logo image' });
+    createAndAppend('p', imgContainer, {
+      class: 'msg-logo',
+      text: '"Refugee code school in Amsterdam"',
+    });
     const header = createAndAppend('header', root, { id: 'header', text: 'HYF Repositories' });
     const select = createAndAppend('select', header, { id: 'selectBox' });
     repositories.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
