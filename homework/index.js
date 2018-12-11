@@ -88,8 +88,19 @@
         const header = createAndAppend('header', root, { id: 'header', text: 'HYF Repositories' });
 
         const select = createAndAppend('select', header, { id: 'repo_options' });
-        repositories.forEach(repository => {
-          createAndAppend('option', select, { text: repository.name });
+        repositories.sort((a, b) => {
+          const nameA = a.name.toLowerCase();
+          const nameB = b.name.toLowerCase();
+          if (nameA < nameB) {
+            return -1;
+          }
+          if (nameA > nameB) {
+            return 1;
+          }
+          return 0;
+        });
+        repositories.forEach((repository, index) => {
+          createAndAppend('option', select, { value: index, text: repository.name });
         });
 
         const container = createAndAppend('div', root, { id: 'container' });

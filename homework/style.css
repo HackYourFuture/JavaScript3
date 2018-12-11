@@ -88,6 +88,9 @@ body {
 .listOfcontributors li {
   padding: 5px;
   border: 1px solid bisque;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-around;
 }
 
 .listOfcontributors li:hover {
@@ -95,9 +98,10 @@ body {
 }
 
 .subdiv {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
+  width: 350px;
 }
 
 .image {
@@ -112,11 +116,10 @@ body {
   font-size: 22px;
   color: rgb(46, 40, 40);
   font-family: calibri;
-  margin-right: 3em;
 }
 
 .noOfContributions {
-  background: rgb(94, 92, 92);
+  background: rgb(185, 180, 180);
   width: 2em;
   font-size: 1.1em;
   color: rgb(245, 235, 235);
@@ -125,4 +128,5 @@ body {
   text-align: center;
   margin: 0px;
   border-radius: 5px;
+  margin-left: auto;
 }
