@@ -5,8 +5,6 @@
 class App {
   constructor(url) {
     this.initialize(url);
-
-
   }
 
   /**
@@ -21,7 +19,7 @@ class App {
     const root = document.getElementById('root');
 
     Util.createAndAppend('h1', root, {
-      text: 'It works!'
+      text: 'It works!',
     }); // TODO: replace with your own code
 
     try {

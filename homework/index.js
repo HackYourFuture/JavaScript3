@@ -11,7 +11,6 @@
       } else {
         cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
       }
-
     };
     xhr.onerror = () => cb(new Error('Network request failed'));
     xhr.send();
@@ -32,164 +31,158 @@
     return elem;
   }
 
+  function renderRepositoryInfo(repository, leftContainer) {
+    const table = createAndAppend('table', leftContainer);
+    const tbody = createAndAppend('tbody', table);
+    const firstRow = createAndAppend('tr', tbody, {
+      tabindex: '0',
+    });
+    createAndAppend('td', firstRow, {
+      class: 'label',
+      text: 'Repository : ',
+    });
+    const td2 = createAndAppend('td', firstRow);
+    createAndAppend('a', td2, {
+      text: repository.name,
+      href: repository.html_url,
+    });
 
-  function render(repositories, root) {
+    const secondRow = createAndAppend('tr', tbody, {
+      tabindex: '0',
+    });
+    createAndAppend('td', secondRow, {
+      class: 'label',
+      text: 'Description :',
+    });
+    createAndAppend('td', secondRow, {
+      text: repository.description,
+    });
+    const thirdRow = createAndAppend('tr', tbody, {
+      tabindex: '0',
+    });
+    createAndAppend('td', thirdRow, {
+      class: 'label',
+      text: 'Forks :',
+    });
+    createAndAppend('td', thirdRow, {
+      text: repository.forks,
+    });
+    const forthRow = createAndAppend('tr', tbody, {
+      tabindex: '0',
+    });
+    createAndAppend('td', forthRow, {
+      class: 'label',
+      text: 'Updated :',
+    });
+    createAndAppend('td', forthRow, {
+      text: repository.updated_at,
+    });
+  }
 
+  function renderRepoContributors(contributors, rightContainer) {
+    createAndAppend('p', rightContainer, {
+      class: 'contributor-header',
+      text: 'Contributors',
+    });
+    contributors.forEach(contributor => {
+      const ul = createAndAppend('ul', rightContainer, {
+        class: 'contributor-list',
+      });
+      const li = createAndAppend('li', ul, {
+        class: 'contributor-container',
+        tabindex: '0',
+      });
+      createAndAppend('img', li, {
+        class: 'contributor-avatar',
+        src: contributor.avatar_url,
+      });
+      const contributorDataDiv = createAndAppend('div', li, {
+        class: 'contributor-data',
+      });
+      createAndAppend('a', contributorDataDiv, {
+        text: contributor.login,
+        href: contributor.html_url,
+        class: 'contributor-name',
+      });
+      createAndAppend('div', contributorDataDiv, {
+        text: contributor.contributions,
+        class: 'contributionCount',
+      });
+    });
+  }
+
+  function fetchContributors(url, rightContainer) {
+    fetchJSON(url, (err, data) => {
+      if (err) {
+        createAndAppend('div', rightContainer, {
+          text: err.message,
+          class: 'alert-error',
+        });
+      } else {
+        renderRepoContributors(data, rightContainer);
+      }
+    });
+  }
+
+  function renderRepoInfoAndContributorsOnstartup(repositories, root) {
+    createAndAppend('img', root, {
+      src: './hyf.png',
+      id: 'hyf-logo',
+      alt: 'logo image',
+    });
     const header = createAndAppend('header', root, {
-      class: 'header'
+      class: 'header',
     });
     createAndAppend('p', header, {
-      text: 'HYF Repositories'
+      text: 'HYF Repositories',
     });
-    const select = createAndAppend('select', header, {
-      id: 'repoSelector'
+    const selectMenu = createAndAppend('select', header, {
+      id: 'selectMenu',
     });
     const container = createAndAppend('div', root, {
-      id: 'container'
+      id: 'container',
     });
-    const leftFrameDiv = createAndAppend('div', container, {
-      class: 'leftFrameDiv'
-
-    });
-
-    createAndAppend('div', container, {
-      class: 'rightFrameDiv',
-      //text: 'Contributers( on the way to work)'
+    const leftContainer = createAndAppend('div', container, {
+      class: 'leftContainer',
     });
 
+    const rightContainer = createAndAppend('div', container, {
+      class: 'rightContainer',
+    });
 
-    // render repos in drop down list and display some details of repo in the left column.
+    repositories.sort((a, b) => a.name.localeCompare(b.name));
 
-    renderDropdownDetails();
-
-    function renderDropdownDetails() {
-      const sortedRepositories = repositories.sort((a, b) => {
-        return a.name.localeCompare(b.name); // sort repos 
+    repositories.forEach((repository, i) => {
+      createAndAppend('option', selectMenu, {
+        value: i,
+        text: repository.name,
       });
+    });
+    const firstRepository = repositories[0];
+    renderRepositoryInfo(firstRepository, leftContainer);
+    fetchContributors(firstRepository.contributors_url, rightContainer);
 
-      // render repos's name  in dropDown list
-      for (let i = 0; i < sortedRepositories.length; i++) {
-        const repository = sortedRepositories[i];
-        createAndAppend('option', select, {
-          value: i,
-          text: repository.name
-        });
-      }
-
-      //display information about the first repository at start-up :
-
-      const repoSelector = document.getElementById('repoSelector');
-      const firstRepo = sortedRepositories[0];
-      const table = createAndAppend('table', leftFrameDiv);
-      const tbody = createAndAppend('tbody', table);
-      const firstRow = createAndAppend('tr', tbody);
-      createAndAppend('td', firstRow, {
-        class: 'label',
-        text: 'Repository : '
-      });
-      const td2 = createAndAppend('td', firstRow);
-      const a = createAndAppend('a', td2, {
-        text: firstRepo.name,
-        href: firstRepo.html_url
-      });
-
-      const secondRow = createAndAppend('tr', tbody);
-      createAndAppend('td', secondRow, {
-        class: 'label',
-        text: 'Description :'
-      });
-      createAndAppend('td', secondRow, {
-        text: firstRepo.description
-      });
-      const thirdRow = createAndAppend('tr', tbody);
-      createAndAppend('td', thirdRow, {
-        class: 'label',
-        text: 'Forks :'
-      });
-      createAndAppend('td', thirdRow, {
-        text: firstRepo.forks
-      });
-      const forthRow = createAndAppend('tr', tbody);
-      createAndAppend('td', forthRow, {
-        class: 'label',
-        text: 'Updated :'
-      });
-      createAndAppend('td', forthRow, {
-        text: firstRepo.updated_at
-      });
-
-
-      // render repos's  detail information in the left column
-
-      repoSelector.addEventListener('change', getRepoDetails);
-
-      function getRepoDetails() {
-        leftFrameDiv.innerHTML = ' ';
-        const repo = sortedRepositories[this.value];
-        createTable(repo);
-
-        function createTable(repository) {
-          const table = createAndAppend('table', leftFrameDiv);
-          const tbody = createAndAppend('tbody', table);
-          const firstRow = createAndAppend('tr', tbody);
-          createAndAppend('td', firstRow, {
-            class: 'label',
-            text: 'Repository : '
-          });
-          const td2 = createAndAppend('td', firstRow);
-          createAndAppend('a', td2, {
-            text: repository.name,
-            href: repository.html_url
-          });
-
-          const secondRow = createAndAppend('tr', tbody);
-          createAndAppend('td', secondRow, {
-            class: 'label',
-            text: 'Description :'
-          });
-          createAndAppend('td', secondRow, {
-            text: repository.description
-          });
-          const thirdRow = createAndAppend('tr', tbody);
-          createAndAppend('td', thirdRow, {
-            class: 'label',
-            text: 'Forks :'
-          });
-          createAndAppend('td', thirdRow, {
-            text: repository.forks
-          });
-          const forthRow = createAndAppend('tr', tbody);
-          createAndAppend('td', forthRow, {
-            class: 'label',
-            text: 'Updated :'
-          });
-          createAndAppend('td', forthRow, {
-            text: repository.updated_at
-          });
-        }
-
-      }
-
-    }
-
+    selectMenu.addEventListener('change', () => {
+      leftContainer.innerHTML = '';
+      renderRepositoryInfo(repositories[event.target.value], leftContainer);
+      rightContainer.innerHTML = '';
+      fetchContributors(repositories[event.target.value].contributors_url, rightContainer);
+    });
   }
 
   function main(url) {
-
     fetchJSON(url, (err, data) => {
       const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, {
           text: err.message,
-          class: 'alert-error'
+          class: 'alert-error',
         });
       } else {
-        render(data, root);
+        renderRepoInfoAndContributorsOnstartup(data, root);
       }
     });
-
   }
-
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
   window.onload = () => main(HYF_REPOS_URL);
