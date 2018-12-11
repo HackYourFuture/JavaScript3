@@ -30,17 +30,16 @@
     return elem;
   }
 
-
-
   function renderRepository(leftContainer, repository) {
-
     leftContainer.innerHTML = '';
     const table = createAndAppend('table', leftContainer);
     const tBody = createAndAppend('tBody', table);
     const trRepository = createAndAppend('tr', tBody, { class: 'table-info' });
     createAndAppend('td', trRepository, { text: 'Repository: ' });
-    createAndAppend('td', trRepository);
-    const link = createAndAppend('a', trRepository, { text: repository.name, href: repository.html_url });
+    createAndAppend('a', trRepository, {
+      text: repository.name,
+      href: repository.html_url,
+    });
     const trDescription = createAndAppend('tr', tBody, { class: 'table-info' });
     createAndAppend('td', trDescription, { text: 'Description: ' });
     createAndAppend('td', trDescription, { text: repository.description });
@@ -52,12 +51,9 @@
     createAndAppend('td', trUpdated, { text: repository.updated_at.toLocaleString() });
   }
 
-
-
-  function renderContributors(rightContainer, repository) {
-
+  function renderContributors(rightContainer, repository, root) {
     rightContainer.innerHTML = '';
-    const contributorsURL = repository['contributors_url']
+    const contributorsURL = repository.contributors_url;
     createAndAppend('p', rightContainer, { text: 'Contributions', id: 'contTitle' });
 
     fetchJSON(contributorsURL, (err, contributors) => {
@@ -66,54 +62,47 @@
       }
 
       contributors.forEach(contributor => {
-        const ul = createAndAppend('ul', rightContainer, { class: 'ul' });
+        createAndAppend('ul', rightContainer, { class: 'ul' });
         const li = createAndAppend('li', rightContainer, { class: 'li' });
         createAndAppend('img', li, { src: contributor.avatar_url, class: 'contImg' });
         createAndAppend('a', li, {
-          text: contributor.login, href: contributor.html_url,
-          target: '_blank', class: 'contLink'
+          text: contributor.login,
+          href: contributor.html_url,
+          target: '_blank',
+          class: 'contLink',
         });
         createAndAppend('div', li, { text: contributor.contributions, class: 'contNumber' });
       });
-
     });
-
-    createAndAppend('pre', leftContainer, { text: JSON.stringify(repository, null, 2) });
   }
 
   function main(url) {
-
     const root = document.getElementById('root');
-    const headBox = createAndAppend('div', root, { text: 'HYF Repositories', class: 'header' });
-    const selectBox = createAndAppend('select', headBox, { class: 'selectBox' });
-    const containers = createAndAppend('div', root, { class: 'containers' })
-    const leftContainer = createAndAppend('div', containers, { class: 'leftContainer' });
-    const rightContainer = createAndAppend('div', containers, { class: 'rightContainer' });
 
     fetchJSON(url, (err, repositories) => {
-
+      if (err) {
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        return;
+      }
+      const headBox = createAndAppend('div', root, { class: 'header' });
+      createAndAppend('p', headBox, { text: 'HYF Repositories', id: 'headTitle' });
+      const selectBox = createAndAppend('select', headBox, { class: 'selectBox' });
+      const containers = createAndAppend('div', root, { class: 'containers' });
+      const leftContainer = createAndAppend('div', containers, { class: 'leftContainer' });
+      const rightContainer = createAndAppend('div', containers, { class: 'rightContainer' });
 
       repositories.forEach((repository, index) => {
         createAndAppend('option', selectBox, { text: repository.name, value: index });
       });
-      selectBox.addEventListener('change', (evn) => {
-        const index = evn.target.value
+      selectBox.addEventListener('change', evn => {
+        const index = evn.target.value;
         renderRepository(leftContainer, repositories[index]);
-        renderContributors(rightContainer, repositories[index]);
+        renderContributors(rightContainer, repositories[index], root);
       });
       renderRepository(leftContainer, repositories[0]);
-      renderContributors(rightContainer, repositories[0]);
-
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        createAndAppend('pre', root, { text: JSON.stringify(repositories, null, 2) });
-      }
+      renderContributors(rightContainer, repositories[0], root);
     });
   }
-
-
-
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
