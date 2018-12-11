@@ -16,9 +16,9 @@
     xhr.send();
   }
 
-  function createAndAppend(name, parent, options = {}) {
+  function createAndAppend(name, containerDiv, options = {}) {
     const elem = document.createElement(name);
-    parent.appendChild(elem);
+    containerDiv.appendChild(elem);
     Object.keys(options).forEach(key => {
       const value = options[key];
       if (key === 'text') {
@@ -30,8 +30,8 @@
     return elem;
   }
 
-  function buildRepositoryInfo(repositoryObject, parent) {
-    const repositoryTable = createAndAppend('table', parent, {
+  function buildRepositoryInfo(repositoryObject, containerDiv) {
+    const repositoryTable = createAndAppend('table', containerDiv, {
       id: 'repository-table',
     });
     const repositoryTableBody = createAndAppend('tbody', repositoryTable, {});
@@ -54,9 +54,9 @@
     createAndAppend('td', repositoryTableRow4, { text: repositoryObject.updated_at });
   }
 
-  function buildRepositoryContributors(contributorsArray, parent) {
-    createAndAppend('h2', parent, { text: 'Contributions' });
-    const contributorsList = createAndAppend('ul', parent, { id: 'contributors-list' });
+  function buildRepositoryContributors(contributorsArray, containerDiv) {
+    createAndAppend('h2', containerDiv, { text: 'Contributions' });
+    const contributorsList = createAndAppend('ul', containerDiv, { id: 'contributors-list' });
     contributorsArray.forEach(element => {
       const contributorListItem = createAndAppend('li', contributorsList, {
         class: 'contributor-list-item',
@@ -90,39 +90,57 @@
     });
   }
 
-  function fetchRepositoryContributors(url, parent) {
+  function fetchRepositoryContributors(url, containerDiv) {
     fetchJSON(url, (err, data) => {
       if (err) {
-        createAndAppend('h2', parent, { text: err.message, class: 'alert-error' });
+        createAndAppend('h2', containerDiv, { text: err.message, class: 'alert-error' });
       } else {
-        buildRepositoryContributors(data, parent);
+        buildRepositoryContributors(data, containerDiv);
       }
     });
   }
 
-  function startUpAndBuildSelectList(arr, parentContainer) {
-    const leftContainer = createAndAppend('div', parentContainer, { id: 'left-container' });
-    const rightContainer = createAndAppend('div', parentContainer, { id: 'right-container' });
+  function buildRepositoryInfoAndFetchContributors(
+    repositoryObject,
+    infoContainer,
+    contributorsContainer,
+  ) {
+    buildRepositoryInfo(repositoryObject, infoContainer);
+    fetchRepositoryContributors(repositoryObject.contributors_url, contributorsContainer);
+  }
+
+  function startUpAndBuildSelectList(arrayOfRepositories, divContainer) {
+    const leftContainer = createAndAppend('div', divContainer, { id: 'left-container' });
+    const rightContainer = createAndAppend('div', divContainer, { id: 'right-container' });
     createAndAppend('img', leftContainer, { src: './hyf.png', id: 'hyf-logo', alt: 'logo image' });
     createAndAppend('p', leftContainer, { text: '"Refugee code school in Amsterdam"' });
     createAndAppend('h4', leftContainer, { text: 'Select a repository to display information:' });
     const selectMenu = createAndAppend('select', leftContainer, { id: 'select-menu' });
-    arr.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
-    for (let i = 0; i < arr.length; i++) {
-      createAndAppend('option', selectMenu, { text: arr[i].name, value: i });
-    }
+    arrayOfRepositories.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+
+    arrayOfRepositories.forEach((repository, index) =>
+      createAndAppend('option', selectMenu, { text: repository.name, value: index }),
+    );
+
     const repositoryInfoSection = createAndAppend('div', leftContainer, {
       id: 'repository-info-section',
     });
 
-    buildRepositoryInfo(arr[0], repositoryInfoSection);
-    fetchRepositoryContributors(arr[0].contributors_url, rightContainer);
+    buildRepositoryInfoAndFetchContributors(
+      arrayOfRepositories[0],
+      repositoryInfoSection,
+      rightContainer,
+    );
 
-    selectMenu.addEventListener('change', () => {
+    selectMenu.addEventListener('change', event => {
       repositoryInfoSection.innerHTML = '';
-      buildRepositoryInfo(arr[event.target.value], repositoryInfoSection);
       rightContainer.innerHTML = '';
-      fetchRepositoryContributors(arr[event.target.value].contributors_url, rightContainer);
+
+      buildRepositoryInfoAndFetchContributors(
+        arrayOfRepositories[event.target.value],
+        repositoryInfoSection,
+        rightContainer,
+      );
     });
   }
 

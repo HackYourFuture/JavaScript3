@@ -15,6 +15,12 @@ p {
   font-size: 1vw;
 }
 
+h1 {
+  text-align: center;
+  margin-top: 15vw;
+  font-size: 2vw;
+}
+
 h2 {
   text-align: center;
   color: rgb(0, 118, 163);
