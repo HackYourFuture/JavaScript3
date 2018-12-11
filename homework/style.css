@@ -3,9 +3,10 @@
 }
 body{
   margin:0px;
+  font-family: 'Roboto', sans-serif;
 }
-header{
-     color: white;
+.tableInfo{
+  color: white;
     background-color: #3F51B5;
     padding: 8px 16px;
     margin-bottom: 16px;
@@ -13,36 +14,30 @@ header{
     flex-direction: row;
     align-items: center;
 }
-select {
-    box-sizing: border-box;
-    align-items: center;
-    white-space: pre;
-    color: black;
-    background-color: white;
-    cursor: default;
-    border-width: 1px;
-    border-style: solid;
+p{
+  padding:10px;
 }
-.header p{
-   padding-right: 10px;
+.repo-selector{
+  text-decoration: none;
+  padding:5px;
+  font-family: 'Roboto', sans-serif;
+  font-style: italic;
+  font-size: 1em;
+  border-radius:0.5em;
 }
-.left-div{
-  margin:0.6em;
-  box-shadow: 0px 0px 20px lightgray;
-  padding:0.625em;
+#container{
+  width:50%;
+  margin: 1.5em;
+  padding:0.6em; 
+  box-shadow: 0px 0px 10px lightcoral;
+  border-radius: 1em;
   
-
-}
-.label{
-   font-size:1.10em;
-   font-weight: bold;
 }
 .right-div{
-  margin:0.6em;
-   box-shadow: 0px 0px 20px lightgray;
-}
-.contributor-header{
-  color:lightgray;
-  padding-top:20px;
-  padding-left:20px;
+  width:50%;
+  list-style-type: none;
+  margin: 1.5em;
+  padding:0.6em; 
+  box-shadow: 0px 0px 10px lightcoral;
+  border-radius: 1em;
 }
