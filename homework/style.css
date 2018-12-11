@@ -51,9 +51,6 @@ body {
     flex-direction: column;
     align-items: stretch;
   }
-  .left_container {
-    margin: 0;
-  }
 }
 
 #header {
