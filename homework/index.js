@@ -31,8 +31,6 @@
   }
 
   function render(parent, repositories) {
-
-
     const table = createAndAppend('table', parent, {});
     const tbody = createAndAppend('tbody', table, {});
     const tr = createAndAppend('tr', tbody);
@@ -59,12 +57,9 @@
   }
 
   function listOfContributors(contributors, parent) {
-    // const contributorDiv = createAndAppend('div', parent, { class: 'right-div whiteframe' });
     createAndAppend('h3', parent, { class: ' contributor - header', text: 'contributions' });
     const ul = createAndAppend('ul', parent, { class: 'contributor-list' });
-    console.log(contributors);
     contributors.forEach(x => {
-      console.log(contributors);
       const itemOfContributor = createAndAppend('li', ul, { class: 'contributor - item' });
       const divInItem = createAndAppend('div', itemOfContributor, {
         class: 'contributor-container',
@@ -83,7 +78,6 @@
         createAndAppend('h2', parent, { text: err.message, class: 'alert-error' });
       } else {
         listOfContributors(repositories, parent);
-        console.log(repositories);
       }
     });
   }
@@ -93,17 +87,15 @@
     const infoDiv = createAndAppend('div', repoInfo, { class: 'tableInfo' });
     const mainDiv = createAndAppend('div', repoInfo, { id: 'container' });
     const contributorDiv = createAndAppend('div', parent, { class: 'right-div whiteframe' });
-    // const header = createAndAppend('header', root, { class: 'header' });
-    const para = createAndAppend('p', infoDiv, { text: 'HYF REPO' });
+    createAndAppend('p', infoDiv, { text: 'HYF REPO' });
     const select = createAndAppend('select', infoDiv, { class: 'repo-selector' });
-    // const arr = Object.keys(repositories).map(key => repositories[key]);
     repositories.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
     repositories.forEach((x, y) => {
       createAndAppend('option', select, { text: x.name, value: y });
     });
     render(mainDiv, repositories[0]);
     fetchRepositoryContributors(repositories[0].contributors_url, contributorDiv);
-    select.addEventListener('change', () => {
+    select.addEventListener('change', event => {
       mainDiv.innerHTML = '';
       contributorDiv.innerHTML = '';
       render(mainDiv, repositories[event.target.value]);
@@ -125,26 +117,6 @@
       }
     });
   }
-
-  // function renderDropDown(repositories) {
-  //   const root = document.getElementById('root');
-  //   const header = createAndAppend('header', root);
-  //   const select = createAndAppend('select', header);
-  //   repositories.protoType.forEach((repository) => {
-  //     repositories.key = value;
-  //     createAndAppend('option', 'select', { text: repository.name });
-  //   });
-  //   select.addEventListener('change', renderDetails(select.value));
-  // }
-
-  // function renderDetails(repositories, root) {
-  //   const div = createAndAppend('div', root, { class: 'right-div whiteframe' });
-  //   const para = createAndAppend('p', div, { class: 'contributor - header' })
-  //   const ul = createAndAppend('ul', div, { class: 'contributor-list' });
-  //   const listItem = createAndAppend('li', ul, { class: 'contributor-item' });
-  //   createAndAppend('img', listItem, { src: avatar_url, class: "contributor-avatar", });
-
-  // }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => main(HYF_REPOS_URL);
