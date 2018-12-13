@@ -111,8 +111,8 @@
     const header = createAndAppend('header', root, { id: 'header', text: 'HYF Repositories' });
     const select = createAndAppend('select', header, { id: 'selectBox' });
     repositories.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
-    repositories.forEach((repository, index) => {
-      createAndAppend('option', select, { class: 'repoName', text: repository.name, value: index });
+    repositories.forEach(repository => {
+      createAndAppend('option', select, { class: 'repoName', text: repository.name });
     });
     const container = createAndAppend('div', root, { id: 'container' });
     const leftContainer = createAndAppend('div', container, { id: 'leftContainer' });
