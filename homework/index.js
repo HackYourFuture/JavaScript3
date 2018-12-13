@@ -31,11 +31,16 @@
   }
 
   function renderRepositoryDescription(leftContainer, repository) {
-    const parentTable = createAndAppend('parentTable', leftContainer, { id: 'parentTable' });
-    const nameTable = createAndAppend('tr', parentTable, { class: 'descriptions' });
+    const parentTable = createAndAppend('table', leftContainer, { id: 'parentTable' });
+    const nameTr = createAndAppend('tr', parentTable, { class: 'descriptions' });
 
-    createAndAppend('td', nameTable, { class: 'titlesName', text: 'Repository:' });
-    createAndAppend('td', nameTable, { class: 'titlesValue', text: repository.name });
+    createAndAppend('td', nameTr, { class: 'titlesName', text: 'Repository:' });
+    createAndAppend('a', nameTr, {
+      class: 'titlesValueRepo',
+      text: repository.name,
+      href: repository.html_url,
+      target: '_blank',
+    });
 
     const descriptionTable = createAndAppend('tr', parentTable, { class: 'descriptions' });
 
@@ -50,7 +55,10 @@
     const updatesTable = createAndAppend('tr', parentTable, { class: 'descriptions' });
 
     createAndAppend('td', updatesTable, { class: 'titlesName', text: 'Updated:' });
-    createAndAppend('td', updatesTable, { class: 'titlesValue', text: repository.updated_at });
+    createAndAppend('td', updatesTable, {
+      class: 'titlesValue',
+      text: new Date(repository.updated_at),
+    });
   }
 
   function renderContributors(rightContainer, url) {
@@ -84,6 +92,13 @@
     });
   }
 
+  // this function will listen to the addEventListener inside the dropDown function,
+  // it was created to avoid the bug.
+  function listener(leftContainer, rightContainer, index, repositories) {
+    renderRepositoryDescription(leftContainer, repositories[index]);
+    renderContributors(rightContainer, repositories[index].contributors_url);
+  }
+
   function renderDropDown(repositories) {
     const root = document.getElementById('root');
     const imgContainer = createAndAppend('div', root, { id: 'imgAndStuff' });
@@ -92,22 +107,24 @@
       class: 'msg-logo',
       text: '"Refugee code school in Amsterdam"',
     });
+
     const header = createAndAppend('header', root, { id: 'header', text: 'HYF Repositories' });
     const select = createAndAppend('select', header, { id: 'selectBox' });
     repositories.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
-    repositories.forEach(repository => {
-      createAndAppend('option', select, { text: repository.name });
+    repositories.forEach((repository, index) => {
+      createAndAppend('option', select, { class: 'repoName', text: repository.name, value: index });
     });
     const container = createAndAppend('div', root, { id: 'container' });
     const leftContainer = createAndAppend('div', container, { id: 'leftContainer' });
     const rightContainer = createAndAppend('div', container, { id: 'rightContainer' });
 
+    listener(leftContainer, rightContainer, 0, repositories);
+
     select.addEventListener('change', () => {
       leftContainer.innerHTML = '';
       rightContainer.innerHTML = '';
-      const i = select.selectedIndex;
-      renderRepositoryDescription(leftContainer, repositories[i]);
-      renderContributors(rightContainer, repositories[i].contributors_url);
+      // const i = select.selectedIndex;
+      listener(leftContainer, rightContainer, select.selectedIndex, repositories);
     });
   }
 
@@ -118,8 +135,6 @@
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
         renderDropDown(repositories);
-        renderRepositoryDescription(repositories[0]);
-        renderContributors(repositories[0].contributors_url);
       }
     });
   }

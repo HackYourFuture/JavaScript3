@@ -27,7 +27,7 @@ body {
 }
 
 #imgAndStuff {
-  margin: 25px;
+  margin: 20px;
 }
 @media (min-width: 767px) {
   #hyf-logo {
@@ -41,8 +41,11 @@ body {
   body {
     width: 100%;
   }
+  .msg-logo {
+    display: none;
+  }
   #hyf-logo {
-    width: 20%;
+    width: 15%;
     border-radius: 0.5vw;
     margin-bottom: 1vw;
   }
@@ -101,6 +104,16 @@ body {
   flex: 1;
 }
 
+.titlesValueRepo {
+  font-size: 18px;
+  color: rgb(58, 56, 56);
+  padding: 15px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.titlesValueRepo:hover {
+  color: rgb(44, 120, 170);
+}
 .titlesValue {
   font-size: 18px;
   color: rgb(58, 56, 56);
@@ -155,6 +168,10 @@ body {
   font-size: 18px;
   color: rgb(46, 40, 40);
   margin-right: 3em;
+}
+
+.linksName:hover {
+  color: rgb(44, 120, 170);
 }
 
 .NumberOfContributions {
