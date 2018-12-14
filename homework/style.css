@@ -1,3 +1,270 @@
+* {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: rgb(237, 237, 237);
+  color: rgb(92, 83, 74);
+}
+
+p {
+  font-style: italic;
+  font-size: 1vw;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 15vw;
+  font-size: 2vw;
+}
+
+h2 {
+  text-align: center;
+  color: rgb(0, 118, 163);
+  margin: 12.25vw 0vw 2vw 0vw;
+  font-size: 1.7vw;
+}
+
+h3 {
+  margin: 1vw;
+  font-size: 1.2vw;
+}
+h4 {
+  margin-top: 2vw;
+  color: rgb(0, 118, 163);
+  font-size: 1vw;
+}
+
+th {
+  text-align: center;
+  padding: 1vw;
+  background-color: white;
+  border-radius: 0.5vw 0vw 0vw 0.5vw;
+  height: 5vw;
+  background-color: rgb(245, 245, 245);
+  font-size: 1.1vw;
+}
+td {
+  text-align: left;
+  padding: 1vw 1vw 1vw 1vw;
+  background-color: white;
+  border-radius: 0vw 0.5vw 0.5vw 0vw;
+  width: 28vw;
+  background-color: rgb(245, 245, 245);
+  font-size: 1.1vw;
+}
+
+#root {
+  display: flex;
+  padding: 0.5vw 8vw 0vw 8vw;
+}
+
+#select-menu {
+  font-size: 1.2vw;
+  border-radius: 0.5vw;
+  margin: 1vw 1vw 1vw 0vw;
+}
+
+#left-container {
+  width: 50%;
+  padding: 2%;
+}
+
+#right-container {
+  width: 50%;
+  padding: 2%;
+}
+
+#hyf-logo {
+  width: 7vw;
+  border-radius: 0.5vw;
+  margin-bottom: 1vw;
+}
+
 .alert-error {
-    color: red;
+  color: red;
+}
+
+.contributor-container {
+  display: flex;
+  padding: 1vw;
+  margin: 0.1vw;
+  align-items: center;
+  border-radius: 0.5vw;
+  width: 35vw;
+  background-color: rgb(245, 245, 245);
+}
+
+.contributor-avatar {
+  width: 4.45vw;
+  border-radius: 0.5vw;
+}
+
+.contributor-info-container {
+  flex: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+}
+
+@media screen and (min-width: 416px) and (max-width: 1024px) {
+  #root {
+    display: flex;
+    padding: 1% 2% 0% 2%;
+  }
+
+  .contributor-container {
+    width: 45vw;
+  }
+
+  p {
+    font-size: 1.2vw;
+  }
+
+  h1 {
+    margin-top: 15vw;
+    font-size: 3vw;
+  }
+
+  h2 {
+    margin: 14vw 0vw 2vw 0vw;
+    font-size: 1.9vw;
+  }
+
+  h3 {
+    margin: 1vw;
+    font-size: 1.4vw;
+  }
+  h4 {
+    margin-top: 2vw;
+    font-size: 1.2vw;
+  }
+
+  th {
+    padding: 1vw;
+    font-size: 1.3vw;
+    border-radius: 1vw 0vw 0vw 1vw;
+    height: 7vw;
+  }
+  td {
+    padding: 1vw 1vw 1vw 1vw;
+    font-size: 1.3vw;
+    border-radius: 0vw 1vw 1vw 0vw;
+    width: 32vw;
+  }
+
+  #select-menu {
+    font-size: 1.4vw;
+    border-radius: 0.7vw;
+    margin: 1vw 1vw 1vw 0vw;
+  }
+
+  #left-container {
+    padding: 2%;
+    width: 50%;
+  }
+
+  #right-container {
+    padding: 2%;
+    width: 50%;
+  }
+
+  #hyf-logo {
+    width: 8vw;
+    border-radius: 1vw;
+    margin-bottom: 1vw;
+  }
+
+  .contributor-container {
+    padding: 1.2vw;
+    margin: 0.1vw;
+    border-radius: 1vw;
+    width: 42vw;
+  }
+
+  .contributor-avatar {
+    width: 5.5vw;
+    border-radius: 1vw;
+  }
+}
+
+@media screen and (max-width: 415px) {
+  #root {
+    flex-direction: column;
+    padding: 1% 2% 0% 2%;
+  }
+  p {
+    font-size: 2.4vw;
+  }
+
+  h1 {
+    margin-top: 15vw;
+    font-size: 5vw;
+  }
+
+  h2 {
+    margin: 12.25vw 0vw 5vw 0vw;
+    font-size: 3.5vw;
+  }
+
+  h3 {
+    margin: 1vw;
+    font-size: 3vw;
+  }
+  h4 {
+    margin-top: 2vw;
+    font-size: 2.5vw;
+  }
+
+  th {
+    padding: 1vw 1vw 1vw 1vw;
+    font-size: 2.5vw;
+    background-color: white;
+    border-radius: 2vw 0vw 0vw 2vw;
+    height: 10vw;
+  }
+  td {
+    padding: 1vw 1vw 1vw 1vw;
+    font-size: 2.5vw;
+    border-radius: 0vw 2vw 2vw 0vw;
+    width: 70vw;
+  }
+
+  #select-menu {
+    font-size: 2.5vw;
+    border-radius: 1vw;
+    margin: 1vw 1vw 1vw 0vw;
+  }
+
+  #left-container {
+    padding: 2%;
+    width: 100%;
+  }
+
+  #right-container {
+    padding: 2%;
+    width: 100%;
+  }
+
+  #hyf-logo {
+    width: 17vw;
+    border-radius: 2vw;
+    margin-bottom: 1vw;
+  }
+
+  .contributor-container {
+    padding: 2vw;
+    margin: 0.7vw;
+    border-radius: 2vw;
+    width: 87vw;
+  }
+
+  .contributor-avatar {
+    width: 10vw;
+    border-radius: 2vw;
+  }
 }
