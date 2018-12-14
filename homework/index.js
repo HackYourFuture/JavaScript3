@@ -34,9 +34,7 @@
   function renderRepositoryInfo(repository, leftContainer) {
     const table = createAndAppend('table', leftContainer);
     const tbody = createAndAppend('tbody', table);
-    const firstRow = createAndAppend('tr', tbody, {
-      tabindex: '0',
-    });
+    const firstRow = createAndAppend('tr', tbody);
     createAndAppend('td', firstRow, {
       class: 'label',
       text: 'Repository : ',
@@ -45,11 +43,10 @@
     createAndAppend('a', td2, {
       text: repository.name,
       href: repository.html_url,
+      target: '_blank',
     });
 
-    const secondRow = createAndAppend('tr', tbody, {
-      tabindex: '0',
-    });
+    const secondRow = createAndAppend('tr', tbody);
     createAndAppend('td', secondRow, {
       class: 'label',
       text: 'Description :',
@@ -57,9 +54,7 @@
     createAndAppend('td', secondRow, {
       text: repository.description,
     });
-    const thirdRow = createAndAppend('tr', tbody, {
-      tabindex: '0',
-    });
+    const thirdRow = createAndAppend('tr', tbody);
     createAndAppend('td', thirdRow, {
       class: 'label',
       text: 'Forks :',
@@ -67,15 +62,13 @@
     createAndAppend('td', thirdRow, {
       text: repository.forks,
     });
-    const forthRow = createAndAppend('tr', tbody, {
-      tabindex: '0',
-    });
+    const forthRow = createAndAppend('tr', tbody);
     createAndAppend('td', forthRow, {
       class: 'label',
       text: 'Updated :',
     });
     createAndAppend('td', forthRow, {
-      text: repository.updated_at,
+      text: new Date(repository.updated_at),
     });
   }
 
@@ -84,13 +77,12 @@
       class: 'contributor-header',
       text: 'Contributors',
     });
+    const ul = createAndAppend('ul', rightContainer, {
+      class: 'contributor-list',
+    });
     contributors.forEach(contributor => {
-      const ul = createAndAppend('ul', rightContainer, {
-        class: 'contributor-list',
-      });
       const li = createAndAppend('li', ul, {
         class: 'contributor-container',
-        tabindex: '0',
       });
       createAndAppend('img', li, {
         class: 'contributor-avatar',
@@ -162,7 +154,7 @@
     renderRepositoryInfo(firstRepository, leftContainer);
     fetchContributors(firstRepository.contributors_url, rightContainer);
 
-    selectMenu.addEventListener('change', () => {
+    selectMenu.addEventListener('change', event => {
       leftContainer.innerHTML = '';
       renderRepositoryInfo(repositories[event.target.value], leftContainer);
       rightContainer.innerHTML = '';
