@@ -16,9 +16,9 @@
     xhr.send();
   }
 
-  function createAndAppend(name, containerDiv, options = {}) {
+  function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
-    containerDiv.appendChild(elem);
+    parent.appendChild(elem);
     Object.keys(options).forEach(key => {
       const value = options[key];
       if (key === 'text') {
@@ -30,72 +30,112 @@
     return elem;
   }
 
-  function buildRepositoryInfo(repositoryObject, containerDiv) {
-    const repositoryTable = createAndAppend('table', containerDiv, {
-      id: 'repository-table',
-    });
-    const repositoryTableBody = createAndAppend('tbody', repositoryTable, {});
-    const repositoryTableRow1 = createAndAppend('tr', repositoryTableBody, {});
-    createAndAppend('th', repositoryTableRow1, { text: 'Repository:' });
-    const tableName = createAndAppend('td', repositoryTableRow1, {});
-    createAndAppend('a', tableName, {
-      text: repositoryObject.name,
-      href: repositoryObject.html_url,
-      target: '_blank',
-    });
-    const repositoryTableRow2 = createAndAppend('tr', repositoryTableBody, {});
-    createAndAppend('th', repositoryTableRow2, { text: 'Description:' });
-    createAndAppend('td', repositoryTableRow2, { text: repositoryObject.description });
-    const repositoryTableRow3 = createAndAppend('tr', repositoryTableBody, {});
-    createAndAppend('th', repositoryTableRow3, { text: 'Forks:' });
-    createAndAppend('td', repositoryTableRow3, { text: repositoryObject.forks_count });
-    const repositoryTableRow4 = createAndAppend('tr', repositoryTableBody, {});
-    createAndAppend('th', repositoryTableRow4, { text: 'Last updated:' });
-    createAndAppend('td', repositoryTableRow4, { text: repositoryObject.updated_at });
+  function formatDateString(string) {
+    const date = new Date(string);
+    const options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    };
+    return date.toLocaleDateString('en-GB', options);
   }
 
-  function buildRepositoryContributors(contributorsArray, containerDiv) {
+  function addRowToTable(parent, options = []) {
+    const row = createAndAppend('tr', parent);
+    options.forEach(elem => {
+      if (elem.type === 'th') {
+        createAndAppend('th', row, { text: elem.text });
+      } else if (elem.type === 'tableDataWithLink') {
+        const tableDataElement = createAndAppend('td', row);
+        createAndAppend('a', tableDataElement, {
+          text: elem.text,
+          href: elem.href,
+          target: '_blank',
+        });
+      } else if (elem.type === 'td') {
+        createAndAppend('td', row, { text: elem.text });
+      }
+    });
+  }
+
+  function buildRepositoryInfo(repository, containerDiv) {
+    const table = createAndAppend('table', containerDiv, {
+      id: 'repository-table',
+    });
+    const tableBody = createAndAppend('tbody', table);
+    addRowToTable(tableBody, [
+      { type: 'th', text: 'Repository:' },
+      {
+        type: 'tableDataWithLink',
+        text: repository.name,
+        href: repository.html_url,
+        target: '_blank',
+      },
+    ]);
+    addRowToTable(tableBody, [
+      { type: 'th', text: 'Description:' },
+      {
+        type: 'td',
+        text: repository.description,
+      },
+    ]);
+    addRowToTable(tableBody, [
+      { type: 'th', text: 'Forks:' },
+      {
+        type: 'td',
+        text: repository.forks_count,
+      },
+    ]);
+    addRowToTable(tableBody, [
+      { type: 'th', text: 'Last updated:' },
+      {
+        type: 'td',
+        text: formatDateString(repository.updated_at),
+      },
+    ]);
+  }
+
+  function buildRepositoryContributors(contributors, containerDiv) {
     createAndAppend('h2', containerDiv, { text: 'Contributions' });
     const contributorsList = createAndAppend('ul', containerDiv, { id: 'contributors-list' });
-    contributorsArray.forEach(element => {
-      const contributorListItem = createAndAppend('li', contributorsList, {
+    contributors.forEach(contributor => {
+      const listItem = createAndAppend('li', contributorsList, {
         class: 'contributor-list-item',
       });
-      const contributorContainer = createAndAppend('div', contributorListItem, {
+      const container = createAndAppend('div', listItem, {
         class: 'contributor-container',
       });
-      createAndAppend('img', contributorContainer, {
-        src: element.avatar_url,
+      createAndAppend('img', container, {
+        src: contributor.avatar_url,
         alt: 'contributor avatar',
         class: 'contributor-avatar',
       });
-      const contributorInfoContainer = createAndAppend('div', contributorContainer, {
+      const infoContainer = createAndAppend('div', container, {
         class: 'contributor-info-container',
       });
-      const contributorNameContainer = createAndAppend('div', contributorInfoContainer, {});
-      const contributorName = createAndAppend('h3', contributorNameContainer, {});
+      const nameContainer = createAndAppend('div', infoContainer);
+      const contributorName = createAndAppend('h3', nameContainer);
       createAndAppend('a', contributorName, {
-        text: element.login,
-        href: element.html_url,
+        text: contributor.login,
+        href: contributor.html_url,
         target: '_blank',
       });
-      const contributorNumberOfContributionsContainer = createAndAppend(
-        'div',
-        contributorInfoContainer,
-        {},
-      );
-      createAndAppend('h3', contributorNumberOfContributionsContainer, {
-        text: element.contributions,
+      const numberOfContributionsContainer = createAndAppend('div', infoContainer);
+      createAndAppend('h3', numberOfContributionsContainer, {
+        text: contributor.contributions,
       });
     });
   }
 
   function fetchRepositoryContributors(url, containerDiv) {
-    fetchJSON(url, (err, data) => {
+    fetchJSON(url, (err, contributors) => {
       if (err) {
         createAndAppend('h2', containerDiv, { text: err.message, class: 'alert-error' });
       } else {
-        buildRepositoryContributors(data, containerDiv);
+        buildRepositoryContributors(contributors, containerDiv);
       }
     });
   }
@@ -109,16 +149,16 @@
     fetchRepositoryContributors(repositoryObject.contributors_url, contributorsContainer);
   }
 
-  function startUpAndBuildSelectList(arrayOfRepositories, divContainer) {
+  function startUpAndBuildSelectList(repositories, divContainer) {
     const leftContainer = createAndAppend('div', divContainer, { id: 'left-container' });
     const rightContainer = createAndAppend('div', divContainer, { id: 'right-container' });
     createAndAppend('img', leftContainer, { src: './hyf.png', id: 'hyf-logo', alt: 'logo image' });
     createAndAppend('p', leftContainer, { text: '"Refugee code school in Amsterdam"' });
     createAndAppend('h4', leftContainer, { text: 'Select a repository to display information:' });
     const selectMenu = createAndAppend('select', leftContainer, { id: 'select-menu' });
-    arrayOfRepositories.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+    repositories.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
 
-    arrayOfRepositories.forEach((repository, index) =>
+    repositories.forEach((repository, index) =>
       createAndAppend('option', selectMenu, { text: repository.name, value: index }),
     );
 
@@ -126,18 +166,14 @@
       id: 'repository-info-section',
     });
 
-    buildRepositoryInfoAndFetchContributors(
-      arrayOfRepositories[0],
-      repositoryInfoSection,
-      rightContainer,
-    );
+    buildRepositoryInfoAndFetchContributors(repositories[0], repositoryInfoSection, rightContainer);
 
     selectMenu.addEventListener('change', event => {
       repositoryInfoSection.innerHTML = '';
       rightContainer.innerHTML = '';
 
       buildRepositoryInfoAndFetchContributors(
-        arrayOfRepositories[event.target.value],
+        repositories[event.target.value],
         repositoryInfoSection,
         rightContainer,
       );
@@ -145,12 +181,12 @@
   }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
+    fetchJSON(url, (err, repositories) => {
       const root = document.getElementById('root');
       if (err) {
         createAndAppend('h1', root, { text: err.message, class: 'alert-error' });
       } else {
-        startUpAndBuildSelectList(data, root);
+        startUpAndBuildSelectList(repositories, root);
       }
     });
   }
