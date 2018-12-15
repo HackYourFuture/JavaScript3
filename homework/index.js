@@ -66,7 +66,6 @@
 
     function leftContainer(index) {
       const div = createAndAppend('div', root, { class: 'leftContainer' });
-      // index = 0;
       const pName = createAndAppend('p', div, {
         text: 'Repository name: ',
         class: 'details',
@@ -142,17 +141,6 @@
       .then(data => render(data, root))
       .catch(err => createAndAppend('div', root, { text: err.message, class: 'alert-error' }));
   }
-
-  // function main(url) {
-  //   fetchJSON(url, (err, data) => {
-  //     const root = document.getElementById('root');
-  //     if (err) {
-  //       createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-  //     } else {
-  //       render(data, root);
-  //     }
-  //   });
-  // }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
