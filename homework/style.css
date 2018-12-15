@@ -1,3 +1,47 @@
 .alert-error {
-    color: red;
+  color: red;
+}
+* {
+  background-color: rgba(228, 228, 228, 0.952);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+#select {
+  background-color: rgba(211, 208, 208, 0.808);
+  font-weight: normal;
+  font-size: 0.8rem;
+}
+.header {
+  background-color: rgb(90, 114, 196);
+  font-size: 1.1rem;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 1rem;
+  font-weight: bold;
+}
+.leftContainer {
+  background-color: white;
+  margin-left: 20px;
+  margin-top: 0;
+  padding: 20px;
+  border-radius: 1rem;
+  float: left;
+  width: 42.5%;
+}
+.rightContainer {
+  background-color: white;
+  font-size: 0.9rem;
+  margin-right: 20px;
+  margin-top: 0;
+  padding: 20px;
+  border-radius: 1rem;
+  float: right;
+  width: 42.5%;
+}
+.details {
+  font-size: 0.9rem;
+  font-weight: normal;
+  background-color: white;
+}
+#bold {
+  font-weight: bold;
 }
