@@ -123,7 +123,6 @@
     select.addEventListener('change', () => {
       leftContainer.innerHTML = '';
       rightContainer.innerHTML = '';
-      // const i = select.selectedIndex;
       listener(leftContainer, rightContainer, select.selectedIndex, repositories);
     });
   }
