@@ -30,9 +30,9 @@
     return elem;
   }
 
-  function render(parent, repositories) {
-    const table = createAndAppend('table', parent, {});
-    const tbody = createAndAppend('tbody', table, {});
+  function infoTable(parent, repositories) {
+    const table = createAndAppend('table', parent);
+    const tbody = createAndAppend('tbody', table);
     const tr = createAndAppend('tr', tbody);
     createAndAppend('td', tr, { class: 'label', text: 'Repository : ' });
     const td = createAndAppend('td', tr);
@@ -56,17 +56,17 @@
     createAndAppend('td', tr3, { text: repositories.updated_at });
   }
 
-  function listOfContributors(contributors, parent) {
+  function listContributors(contributors, parent) {
     createAndAppend('h3', parent, { class: ' contributor - header', text: 'contributions' });
     const ul = createAndAppend('ul', parent, { class: 'contributor-list' });
-    contributors.forEach(x => {
+    contributors.forEach(value => {
       const itemOfContributor = createAndAppend('li', ul, { class: 'contributor - item' });
       const divInItem = createAndAppend('div', itemOfContributor, {
         class: 'contributor-container',
       });
       createAndAppend('a', divInItem, {
-        text: x.login,
-        href: x.html_url,
+        text: value.login,
+        href: value.html_url,
         target: '_blank',
       });
     });
@@ -77,12 +77,12 @@
       if (err) {
         createAndAppend('h2', parent, { text: err.message, class: 'alert-error' });
       } else {
-        listOfContributors(repositories, parent);
+        listContributors(repositories, parent);
       }
     });
   }
 
-  function dropDownAndTheRest(repositories, parent) {
+  function theMainRender(repositories, parent) {
     const repoInfo = createAndAppend('div', parent, { class: 'left-div whiteframe' });
     const infoDiv = createAndAppend('div', repoInfo, { class: 'tableInfo' });
     const mainDiv = createAndAppend('div', repoInfo, { id: 'container' });
@@ -90,15 +90,15 @@
     createAndAppend('p', infoDiv, { text: 'HYF REPO' });
     const select = createAndAppend('select', infoDiv, { class: 'repo-selector' });
     repositories.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
-    repositories.forEach((x, y) => {
-      createAndAppend('option', select, { text: x.name, value: y });
+    repositories.forEach((repoValue, index) => {
+      createAndAppend('option', select, { text: repoValue.name, value: index });
     });
-    render(mainDiv, repositories[0]);
+    infoTable(mainDiv, repositories[0]);
     fetchRepositoryContributors(repositories[0].contributors_url, contributorDiv);
     select.addEventListener('change', event => {
       mainDiv.innerHTML = '';
       contributorDiv.innerHTML = '';
-      render(mainDiv, repositories[event.target.value]);
+      infoTable(mainDiv, repositories[event.target.value]);
       fetchRepositoryContributors(
         repositories[event.target.value].contributors_url,
         contributorDiv,
@@ -113,7 +113,7 @@
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
         createAndAppend('h1', root, { text: err.message, class: 'alert-error' });
       } else {
-        dropDownAndTheRest(data, root);
+        theMainRender(data, root);
       }
     });
   }
