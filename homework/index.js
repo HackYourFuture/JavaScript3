@@ -1,19 +1,21 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -61,35 +63,37 @@
     });
   }
 
-  function renderContributors(rightContainer, url) {
-    fetchJSON(url, (err, data) => {
-      if (err !== null) {
-        createAndAppend('div', rightContainer, { text: err.message, class: 'alert-error' });
-      } else {
-        createAndAppend('p', rightContainer, { class: 'contributions', text: 'Contributions' });
-        const ul = createAndAppend('ul', rightContainer, { class: 'contributorsList' });
-        data.forEach(contributor => {
-          const li = createAndAppend('li', ul);
-          const contributorsContainer = createAndAppend('div', li, {
-            class: 'contributorsContainer',
-          });
-          createAndAppend('img', contributorsContainer, {
-            src: contributor.avatar_url,
-            class: 'image',
-          });
-          createAndAppend('a', contributorsContainer, {
-            class: 'linksName',
-            text: contributor.login,
-            href: contributor.html_url,
-            target: '_blank',
-          });
-          createAndAppend('p', contributorsContainer, {
-            class: 'NumberOfContributions',
-            text: contributor.contributions,
-          });
-        });
-      }
+  function getContributors(rightContainer, contributors) {
+    createAndAppend('p', rightContainer, { class: 'contributions', text: 'Contributions' });
+    const ul = createAndAppend('ul', rightContainer, { class: 'contributorsList' });
+    contributors.forEach(contributor => {
+      const li = createAndAppend('li', ul);
+      const contributorsContainer = createAndAppend('div', li, {
+        class: 'contributorsContainer',
+      });
+      createAndAppend('img', contributorsContainer, {
+        src: contributor.avatar_url,
+        class: 'image',
+      });
+      createAndAppend('a', contributorsContainer, {
+        class: 'linksName',
+        text: contributor.login,
+        href: contributor.html_url,
+        target: '_blank',
+      });
+      createAndAppend('p', contributorsContainer, {
+        class: 'NumberOfContributions',
+        text: contributor.contributions,
+      });
     });
+  }
+
+  function renderContributors(rightContainer, url) {
+    fetchJSON(url)
+      .then(contributors => getContributors(rightContainer, contributors))
+      .catch(err =>
+        createAndAppend('div', rightContainer, { text: err.message, class: 'alert-error' }),
+      );
   }
 
   // this function will listen to the addEventListener inside the dropDown function,
@@ -129,15 +133,12 @@
 
   function main(url) {
     const root = document.getElementById('root');
-    fetchJSON(url, (err, repositories) => {
-      if (err !== null) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        renderDropDown(repositories);
-      }
-    });
+    fetchJSON(url)
+      .then(repositories => renderDropDown(repositories))
+      .catch(err => createAndAppend('div', root, { text: err.message, class: 'alert-error' }));
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+
   window.onload = () => main(HYF_REPOS_URL);
 }
