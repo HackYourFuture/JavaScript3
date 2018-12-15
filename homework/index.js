@@ -1,19 +1,21 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -135,15 +137,22 @@
   }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
-      const root = document.getElementById('root');
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        render(data, root);
-      }
-    });
+    const root = document.getElementById('root');
+    fetchJSON(url)
+      .then(data => render(data, root))
+      .catch(err => createAndAppend('div', root, { text: err.message, class: 'alert-error' }));
   }
+
+  // function main(url) {
+  //   fetchJSON(url, (err, data) => {
+  //     const root = document.getElementById('root');
+  //     if (err) {
+  //       createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+  //     } else {
+  //       render(data, root);
+  //     }
+  //   });
+  // }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
