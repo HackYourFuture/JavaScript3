@@ -34,21 +34,40 @@
     leftContainer.innerHTML = '';
     const table = createAndAppend('table', leftContainer);
     const tBody = createAndAppend('tBody', table);
-    const trRepository = createAndAppend('tr', tBody, { class: 'table-info' });
-    createAndAppend('td', trRepository, { text: 'Repository: ' });
-    createAndAppend('a', trRepository, {
-      text: repository.name,
-      href: repository.html_url,
+
+    const rows = [
+      {
+        tr: 'table-info',
+        td1: 'Repository: ',
+        td2: [repository.name, repository.html_url],
+      },
+      {
+        tr: 'table-info',
+        td1: 'Description: ',
+        td2: repository.description,
+      },
+      {
+        tr: 'table-info',
+        td1: 'Forks: ',
+        td2: repository.forks,
+      },
+      {
+        tr: 'table-info',
+        td1: 'Updated: ',
+        td2: new Date(repository.updated_at).toLocaleString(),
+      },
+    ];
+
+    rows.forEach(row => {
+      const tr = createAndAppend('tr', tBody, { class: row.tr });
+      createAndAppend('td', tr, { text: row.td1 });
+      if (Array.isArray(row.td2)) {
+        const tdLink = createAndAppend('td', tr);
+        createAndAppend('a', tdLink, { text: row.td2[0], href: row.td2[1] });
+      } else {
+        createAndAppend('td', tr, { text: row.td2 });
+      }
     });
-    const trDescription = createAndAppend('tr', tBody, { class: 'table-info' });
-    createAndAppend('td', trDescription, { text: 'Description: ' });
-    createAndAppend('td', trDescription, { text: repository.description });
-    const trForks = createAndAppend('tr', tBody, { class: 'table-info' });
-    createAndAppend('td', trForks, { text: 'Forks: ' });
-    createAndAppend('td', trForks, { text: repository.forks });
-    const trUpdated = createAndAppend('tr', tBody, { class: 'table-info' });
-    createAndAppend('td', trUpdated, { text: 'Updated: ' });
-    createAndAppend('td', trUpdated, { text: repository.updated_at.toLocaleString() });
   }
 
   function renderContributors(rightContainer, repository, root) {
@@ -59,19 +78,20 @@
     fetchJSON(contributorsURL, (err, contributors) => {
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        return;
       }
-
+      const ul = createAndAppend('ul', rightContainer, { class: 'ul' });
       contributors.forEach(contributor => {
-        createAndAppend('ul', rightContainer, { class: 'ul' });
-        const li = createAndAppend('li', rightContainer, { class: 'li' });
-        createAndAppend('img', li, { src: contributor.avatar_url, class: 'contImg' });
-        createAndAppend('a', li, {
+        const li = createAndAppend('li', ul, { class: 'li' });
+        const div = createAndAppend('div', li, { class: 'div' });
+        createAndAppend('img', div, { src: contributor.avatar_url, class: 'contImg' });
+        createAndAppend('a', div, {
           text: contributor.login,
           href: contributor.html_url,
           target: '_blank',
           class: 'contLink',
         });
-        createAndAppend('div', li, { text: contributor.contributions, class: 'contNumber' });
+        createAndAppend('p', div, { text: contributor.contributions, class: 'contNumber' });
       });
     });
   }
@@ -90,7 +110,7 @@
       const containers = createAndAppend('div', root, { class: 'containers' });
       const leftContainer = createAndAppend('div', containers, { class: 'leftContainer' });
       const rightContainer = createAndAppend('div', containers, { class: 'rightContainer' });
-
+      repositories.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
       repositories.forEach((repository, index) => {
         createAndAppend('option', selectBox, { text: repository.name, value: index });
       });
