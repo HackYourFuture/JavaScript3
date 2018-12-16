@@ -79,18 +79,13 @@
       });
     });
   }
-  // function rightContainer(url, data) {
-  //   const rightDiv = document.getElementsByClassName('right-container');
-  //   rightDiv.innerHTML = '';
-  //   // const paragraph = createAndAppend('p', rightDiv, { text: 'contributions' }, { class: 'contibutors-header' });
-  //   // const unlist = createAndAppend(ul, paragraph, { class: 'contributors-list' });
-  // }
 
   function main(url) {
     //fetchJSON(url, (err, repositories) => {
     const root = document.getElementById('root');
     fetchJSON(url)
       .then(repositories => drawRepository(repositories, root))
+      .catch(err => createAndAppend('div', root, { text: err.message, class: 'alert-error' }))
     // sort the data
     repositories.sort((a, b) => {
       const x = a.name.toLowerCase();
@@ -117,8 +112,8 @@
 
     // make sure the information is drawn again for the option that is selected
     selectElem.onchange = function () { drawRepository(repositories, selectElem.value, container); };
-  
-      .catch (err => createAndAppend('div', root, { text: err.message, class: 'alert-error' }))
+
+
   }
   // createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
