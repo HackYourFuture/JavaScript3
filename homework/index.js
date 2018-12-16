@@ -1,19 +1,21 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -74,54 +76,54 @@
     rightContainer.innerHTML = '';
     const contributorsURL = repository.contributors_url;
     createAndAppend('p', rightContainer, { text: 'Contributions', id: 'contTitle' });
-
-    fetchJSON(contributorsURL, (err, contributors) => {
-      if (err) {
+    const ul = createAndAppend('ul', rightContainer, { class: 'ul' });
+    fetchJSON(contributorsURL)
+      .catch(err => {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-        return;
-      }
-      const ul = createAndAppend('ul', rightContainer, { class: 'ul' });
-      contributors.forEach(contributor => {
-        const li = createAndAppend('li', ul, { class: 'li' });
-        const div = createAndAppend('div', li, { class: 'div' });
-        createAndAppend('img', div, { src: contributor.avatar_url, class: 'contImg' });
-        createAndAppend('a', div, {
-          text: contributor.login,
-          href: contributor.html_url,
-          target: '_blank',
-          class: 'contLink',
+      })
+
+      .then(contributors => {
+        contributors.forEach(contributor => {
+          const li = createAndAppend('li', ul, { class: 'li' });
+          const div = createAndAppend('div', li, { class: 'div' });
+          createAndAppend('img', div, { src: contributor.avatar_url, class: 'contImg' });
+          createAndAppend('a', div, {
+            text: contributor.login,
+            href: contributor.html_url,
+            target: '_blank',
+            class: 'contLink',
+          });
+          createAndAppend('p', div, { text: contributor.contributions, class: 'contNumber' });
         });
-        createAndAppend('p', div, { text: contributor.contributions, class: 'contNumber' });
       });
-    });
   }
 
   function main(url) {
     const root = document.getElementById('root');
+    const headBox = createAndAppend('div', root, { class: 'header' });
+    createAndAppend('p', headBox, { text: 'HYF Repositories', id: 'headTitle' });
+    const selectBox = createAndAppend('select', headBox, { class: 'selectBox' });
 
-    fetchJSON(url, (err, repositories) => {
-      if (err) {
+    fetchJSON(url)
+      .catch(err => {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-        return;
-      }
-      const headBox = createAndAppend('div', root, { class: 'header' });
-      createAndAppend('p', headBox, { text: 'HYF Repositories', id: 'headTitle' });
-      const selectBox = createAndAppend('select', headBox, { class: 'selectBox' });
-      const containers = createAndAppend('div', root, { class: 'containers' });
-      const leftContainer = createAndAppend('div', containers, { class: 'leftContainer' });
-      const rightContainer = createAndAppend('div', containers, { class: 'rightContainer' });
-      repositories.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
-      repositories.forEach((repository, index) => {
-        createAndAppend('option', selectBox, { text: repository.name, value: index });
+      })
+      .then(repositories => {
+        repositories.forEach((repository, index) => {
+          createAndAppend('option', selectBox, { text: repository.name, value: index });
+        });
+
+        const containers = createAndAppend('div', root, { class: 'containers' });
+        const leftContainer = createAndAppend('div', containers, { class: 'leftContainer' });
+        const rightContainer = createAndAppend('div', containers, { class: 'rightContainer' });
+        selectBox.addEventListener('change', evn => {
+          const index = evn.target.value;
+          renderRepository(leftContainer, repositories[index]);
+          renderContributors(rightContainer, repositories[index], root);
+        });
+        renderRepository(leftContainer, repositories[0]);
+        renderContributors(rightContainer, repositories[0], root);
       });
-      selectBox.addEventListener('change', evn => {
-        const index = evn.target.value;
-        renderRepository(leftContainer, repositories[index]);
-        renderContributors(rightContainer, repositories[index], root);
-      });
-      renderRepository(leftContainer, repositories[0]);
-      renderContributors(rightContainer, repositories[0], root);
-    });
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
