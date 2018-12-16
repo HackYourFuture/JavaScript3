@@ -1,19 +1,22 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    const promise = new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
+    return promise;
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -72,8 +75,8 @@
         createAndAppend('img', li, { src: entry.avatar_url, height: '48', class: 'contributor-avatar' });
         const div = createAndAppend('div', li, { class: 'contributor-data' });
         createAndAppend('div', div, { text: entry.login });
-        createAndAppend('div', div, { text: entry.contributions });
-      })
+        createAndAppend('div', div, { text: entry.contributions, class: 'contributor-badge' });
+      });
     });
   }
   // function rightContainer(url, data) {
@@ -84,41 +87,40 @@
   // }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
-      const root = document.getElementById('root');
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        // sort the data
-        data.sort((a, b) => {
-          const x = a.name.toLowerCase();
-          const y = b.name.toLowerCase();
-          if (x < y) {
-            return -1;
-          }
-          if (x > y) {
-            return 1;
-          }
-          return 0;
-        });
-
-        const header = createAndAppend('header', root, { class: 'header' });
-        const selectElem = createAndAppend('select', header, { class: 'repo-selector' });
-        // for each entry in the data, add option elements
-        data.forEach((entry, index) => {
-          createAndAppend('option', selectElem, { text: entry.name, value: index });
-        });
-        const container = createAndAppend('div', root, { id: 'container' });
-
-        // always draw information from element 0, the first time
-        drawRepository(data, 0, container);
-
-        // make sure the information is drawn again for the option that is selected
-        selectElem.onchange = function () { drawRepository(data, selectElem.value, container); };
+    //fetchJSON(url, (err, repositories) => {
+    const root = document.getElementById('root');
+    fetchJSON(url)
+      .then(repositories => drawRepository(repositories, root))
+    // sort the data
+    repositories.sort((a, b) => {
+      const x = a.name.toLowerCase();
+      const y = b.name.toLowerCase();
+      if (x < y) {
+        return -1;
       }
-      // createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
+      if (x > y) {
+        return 1;
+      }
+      return 0;
     });
+
+    const header = createAndAppend('header', root, { class: 'header' });
+    const selectElem = createAndAppend('select', header, { class: 'repo-selector' });
+    // for each entry in the data, add option elements
+    repositories.forEach((repository, index) => {
+      createAndAppend('option', selectElem, { text: repository.name, value: index });
+    });
+    const container = createAndAppend('div', root, { id: 'container' });
+
+    // always draw information from element 0, the first time
+    drawRepository(repositories, 0, container);
+
+    // make sure the information is drawn again for the option that is selected
+    selectElem.onchange = function () { drawRepository(repositories, selectElem.value, container); };
+  
+      .catch (err => createAndAppend('div', root, { text: err.message, class: 'alert-error' }))
   }
+  // createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
   window.onload = () => main(HYF_REPOS_URL);
