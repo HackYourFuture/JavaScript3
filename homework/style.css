@@ -1,3 +1,71 @@
 .alert-error {
     color: red;
 }
+
+body {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.header {
+    color: white;
+    background-color: blue;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+div {
+  display: block;
+}
+
+#container {
+    display: flex;
+    margin: 0;
+    flex-direction: column;
+}
+
+.left-div{
+    margin-bottom: 8px;
+    border: none;
+    border-radius: 2px;
+    background-color: white;
+    box-shadow: 0 1px 8px;
+}
+.right-div{
+    margin-bottom: 8px;
+    border: none;
+    border-radius: 2px;
+    background-color: white;
+    box-shadow: 0 1px 8px;
+}
+
+.contributor-list {
+    list-style-type: none;
+}
+
+.contributor-header {
+  padding: 8px;
+}
+.contributor-item {
+    border-bottom: solid 1px rgb(0, 0, 0, 12%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+}
+
+.contributor-avatar {
+    border-radius: 3px;
+    margin-right: 16px;
+}
+
+.contributor-badge {
+    font-size: 12px;
+    padding: 2px 6px;
+    line-height: 1rem;
+    background-color: gray;
+    color: white;
+    border-radius: 4px;
+}
