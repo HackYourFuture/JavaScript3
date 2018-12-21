@@ -1,23 +1,14 @@
 'use strict';
 
 {
-  function fetchJSON(url) {
-    const promise = new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status < 400) {
-          const parsedResponse = xhr.response;
-          resolve(parsedResponse);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
-    });
-    return promise;
+  async function fetchJSON(url) {
+    try {
+      const response = await fetch(url);
+      const parsedRes = await response.json();
+      return parsedRes;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -92,19 +83,16 @@
     });
   }
 
-  function fetchContributors(url, rightContainer) {
-    const fetchedContributors = fetchJSON(url);
-    fetchedContributors
-      .then(contributors => {
-        renderRepoContributors(contributors, rightContainer);
-        return fetchedContributors;
-      })
-      .catch(error => {
-        createAndAppend('div', rightContainer, {
-          text: error,
-          class: 'alert-error',
-        });
+  async function fetchContributors(url, rightContainer) {
+    try {
+      const fetchedContributors = await fetchJSON(url);
+      renderRepoContributors(fetchedContributors, rightContainer);
+    } catch (error) {
+      createAndAppend('div', rightContainer, {
+        text: error,
+        class: 'alert-error',
       });
+    }
   }
 
   function renderRepoInfoAndContributorsOnstartup(repositories, root) {
@@ -154,20 +142,19 @@
   }
 
   function main(url) {
-    const promise = fetchJSON(url);
     const root = document.getElementById('root');
-
-    promise
-      .then(parsedResponse => {
+    try {
+      const fetchAll = async () => {
+        const parsedResponse = await fetchJSON(url);
         renderRepoInfoAndContributorsOnstartup(parsedResponse, root);
-        return promise;
-      })
-      .catch(error => {
-        createAndAppend('div', root, {
-          text: error,
-          class: 'alert-error',
-        });
+      };
+      fetchAll();
+    } catch (error) {
+      createAndAppend('div', root, {
+        text: error,
+        class: 'alert-error',
       });
+    }
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
