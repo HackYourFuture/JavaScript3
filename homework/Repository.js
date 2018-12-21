@@ -14,7 +14,37 @@ class Repository {
    */
   render(container) {
     // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
+    const table = Util.createAndAppend('table', container, {
+      id: 'repository-table',
+    });
+    const tableBody = Util.createAndAppend('tbody', table);
+    Util.addRowToTable(tableBody, [
+      { type: 'th', text: 'Repository:' },
+      {
+        type: 'tableDataWithLink',
+        text: this.name(),
+        href: this.repository.html_url,
+        target: '_blank',
+      },
+    ]);
+    Util.addRowToTable(tableBody, [
+      { type: 'th', text: 'Description:' },
+      {
+        type: 'td',
+        text: this.repository.description,
+      },
+    ]);
+    Util.addRowToTable(tableBody, [
+      { type: 'th', text: 'Forks:' },
+      {
+        type: 'td',
+        text: this.repository.forks_count,
+      },
+    ]);
+    Util.addRowToTable(tableBody, [
+      { type: 'th', text: 'Last updated:' },
+      { type: 'td', text: new Date(this.repository.updated_at).toLocaleDateString() },
+    ]);
   }
 
   /**

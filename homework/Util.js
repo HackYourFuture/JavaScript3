@@ -32,4 +32,22 @@ class Util {
       xhr.send();
     });
   }
+
+  static addRowToTable(parent, rowElements = []) {
+    const row = Util.createAndAppend('tr', parent);
+    rowElements.forEach(elem => {
+      if (elem.type === 'th') {
+        Util.createAndAppend('th', row, { text: elem.text });
+      } else if (elem.type === 'tableDataWithLink') {
+        const tableDataElement = Util.createAndAppend('td', row);
+        Util.createAndAppend('a', tableDataElement, {
+          text: elem.text,
+          href: elem.href,
+          target: '_blank',
+        });
+      } else if (elem.type === 'td') {
+        Util.createAndAppend('td', row, { text: elem.text });
+      }
+    });
+  }
 }
