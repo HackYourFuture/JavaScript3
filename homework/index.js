@@ -97,7 +97,6 @@
     fetchedContributors
       .then(contributors => {
         renderRepoContributors(contributors, rightContainer);
-        return fetchedContributors;
       })
       .catch(error => {
         createAndAppend('div', rightContainer, {
@@ -160,7 +159,6 @@
     promise
       .then(parsedResponse => {
         renderRepoInfoAndContributorsOnstartup(parsedResponse, root);
-        return promise;
       })
       .catch(error => {
         createAndAppend('div', root, {
