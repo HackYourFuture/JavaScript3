@@ -1,16 +1,6 @@
 'use strict';
 
 {
-  async function fetchJSON(url) {
-    try {
-      const response = await fetch(url);
-      const parsedRes = await response.json();
-      return parsedRes;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
@@ -24,6 +14,23 @@
     });
 
     return elem;
+  }
+  async function fetchJSON(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Error!!! : ${response.status}-${response.statusText}`);
+      }
+      const parsedResponse = await response.json();
+      return parsedResponse;
+    } catch (error) {
+      const root = document.getElementById('root');
+      createAndAppend('div', root, {
+        text: error.message,
+        class: 'alert-error',
+      });
+      return false;
+    }
   }
 
   function addRow(parent, labelText, rowValue) {
@@ -89,7 +96,7 @@
       renderRepoContributors(fetchedContributors, rightContainer);
     } catch (error) {
       createAndAppend('div', rightContainer, {
-        text: error,
+        text: `We got an error: $ {error.message}`,
         class: 'alert-error',
       });
     }
@@ -142,19 +149,12 @@
   }
 
   function main(url) {
-    const root = document.getElementById('root');
-    try {
-      const fetchAll = async () => {
-        const parsedResponse = await fetchJSON(url);
-        renderRepoInfoAndContributorsOnstartup(parsedResponse, root);
-      };
-      fetchAll();
-    } catch (error) {
-      createAndAppend('div', root, {
-        text: error,
-        class: 'alert-error',
-      });
+    async function fetchAllData() {
+      const root = document.getElementById('root');
+      const parsedResponse = await fetchJSON(url);
+      renderRepoInfoAndContributorsOnstartup(parsedResponse, root);
     }
+    fetchAllData();
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
