@@ -2,79 +2,86 @@
     color: red;
 }
 body{
-  margin:0px;
+  width: 800px; 
+  margin: 0 auto;
   font-family: 'Roboto', sans-serif;
+}
+@media only screen and (max-width: 768px){
+  .flexContainer{
+    display:flex;
+    flex-direction: column; 
+  }
+  .repo-selector {
+    width:17em;
+  }
+  .repo-selector option{
+    width: 30px;
+  }
+
 }
 .tableInfo{
-  color: white;
-    background-color: #3F51B5;
-    padding: 8px 16px;
-    margin-bottom: 16px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+  display:flex;
+  background:#3F51B5;
+  align-items: center;
 }
-p{
-  padding:10px;
+.tableInfo p{
+ color:white;
+ margin:10px;
 }
 .repo-selector{
-  text-decoration: none;
+  margin:10px;
   padding:5px;
-  font-family: 'Roboto', sans-serif;
-  font-style: italic;
-  font-size: 1em;
-  border-radius:0.5em;
+  border-radius: 10px;
 }
-#container{
-  width:30em;
-  overflow-wrap: break-word;
-  margin: 1.5em;
-  padding:0.6em; 
-  box-shadow: 0px 0px 10px lightcoral;
-  border-radius: 1em;
-  
+.flexContainer{
+  display:flex;
+  /* flex-direction: column; */
 }
 .right-div{
-  width:50%;
-  list-style-type: none;
-  margin: 1.5em;
-  padding:0.6em; 
-  box-shadow: 0px 0px 10px lightcoral;
-  border-radius: 1em;
+ margin-left:0.8em;
+ margin-top:0.8em;
+ box-shadow:0px 0px 10px gray;
+ border-radius: 10px;
+ padding:0.5em;
 }
-
-.contributor-container{
-  text-align: center;
-  display: flex;
+.left-div{
+  margin-right:0.8em;
+  margin-top:0.8em;
 }
-.contributor-item{
-  list-style-type:none;
-  
+#container{
+  padding:0.4em;
+  box-shadow:0px 0px 10px gray;
+  border-radius: 10px;
 }
-.contributor-avatar{
-  height:4em;
-  box-shadow: 0px 0px 20px gray;
-  border-radius: 0.5em;
-  margin:5px;
-}
-
-.contributor-data{
-display: flex;
-float:right;
-}
-.contributor-container{
- display:inline;
-}
-.contributor-badge{
-  margin-left:50px;
-  border:1px solid gray;
-  background:gray;
-  color:white;
-  padding:5px;
+.contributor-list img{
+  width:3em;
+  box-shadow:0px 0px 5px gray;
   border-radius: 5px;
 }
+.contributor-list{
+  list-style-type: none;
+}
+.contributor-item{
+  display:flex;
+  margin:0.3em;
+}
+.contributor-data{
+  display:flex;
+  justify-content: center;
+}
 .contributor-data a{
-  margin-right:50px;
+margin:20px;
+text-decoration-line: none;
+color:black;
+}
+.contributor-badge{
+ margin:20px;
+ border:1px solid gray;
+ padding:5px;
+ background:gray;
+ border-radius: 5px;
+ margin-right:0px;
+ line-height: 0.9em;
 }
 
 
