@@ -96,8 +96,6 @@
       );
   }
 
-  // this function will listen to the addEventListener inside the dropDown function,
-  // it was created to avoid the bug.
   function listener(leftContainer, rightContainer, index, repositories) {
     renderRepositoryDescription(leftContainer, repositories[index]);
     renderContributors(rightContainer, repositories[index].contributors_url);

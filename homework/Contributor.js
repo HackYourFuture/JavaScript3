@@ -5,15 +5,28 @@
 // eslint-disable-next-line no-unused-vars
 class Contributor {
   constructor(contributor) {
-    this.contributor = contributor;
+    this.data = contributor;
   }
 
-  /**
-   * Render the contributor info to the DOM.
-   * @param {HTMLElement} container The container element in which to render the contributor.
-   */
   render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.contributor, null, 2));
+    const contributorItemList = Util.createAndAppend('li', container, {
+      class: 'contributorItem',
+    });
+    contributorItemList.addEventListener('click', () => {
+      window.open(this.data.html_url, '_blank');
+    });
+
+    Util.createAndAppend('img', contributorItemList, {
+      src: this.data.avatar_url,
+      class: 'contributorImg',
+    });
+    const contributorData = Util.createAndAppend('div', contributorItemList, {
+      class: 'contributorData',
+    });
+    Util.createAndAppend('div', contributorData, { html: this.data.login });
+    Util.createAndAppend('div', contributorData, {
+      html: this.data.contributions,
+      class: 'contributionsBox',
+    });
   }
 }
