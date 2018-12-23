@@ -1,5 +1,15 @@
-.alert-error {
+.error {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  flex: 1;
+}
+
+.onPage {
+  font-size: 20px;
+  font-weight: bold;
   color: red;
+  background-color: beige;
 }
 
 body {
@@ -49,14 +59,17 @@ h4 {
   padding: 2px;
 }
 
-.left-div,
-.right-div {
+.leftDiv,
+.rightDiv {
   background-color: white;
   flex: 1;
-  margin: 3px;
 }
 
-.left-div {
+.rightDiv {
+  margin-top: 10px;
+}
+
+.leftDiv {
   padding: 16px;
   margin-right: 16px;
   text-decoration: none;
@@ -161,7 +174,7 @@ td.title {
     flex-direction: column;
     align-items: stretch;
   }
-  .left-div {
+  .leftDiv {
     margin: 0;
   }
 }
