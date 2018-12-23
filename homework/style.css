@@ -53,6 +53,7 @@ h4 {
 .right-div {
   background-color: white;
   flex: 1;
+  margin: 3px;
 }
 
 .left-div {
