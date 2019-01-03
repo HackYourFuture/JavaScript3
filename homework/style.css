@@ -45,3 +45,8 @@
 #bold {
   font-weight: bold;
 }
+.contributor-item {
+  font-size: 0.9rem;
+  font-weight: normal;
+  background-color: white;
+}
