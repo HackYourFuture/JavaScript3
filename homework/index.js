@@ -33,47 +33,18 @@
   }
 
   function render(repositories, root) {
-    function selectMenu() {
-      const p = createAndAppend('p', root, {
-        text: 'Please select a HYF repository: ',
-        class: 'header',
-      });
-      repositories.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'case' }));
-      const select = createAndAppend('select', p, { text: 'menu', class: 'header', id: 'select' });
-      for (let i = 0; i < repositories.length; i++) {
-        createAndAppend('option', select, {
-          text: JSON.stringify(repositories[i].name, null, 2),
-        });
-
-        // option.addEventListener('change', event => {
-        //   const index = event.target.indexOf;
-        //   leftContainer(index);
-        //   // showContributors(right, data[index]);
-        // });
-
-        // option.addEventListener('change', event => {
-        //   leftContainer.innerHTML = '';
-        //   leftContainer(repositories[event.target.value], leftContainer);
-        //   // rightContainer.innerHTML = '';
-        //   // fetchRepositoryContributors(arr[event.target.value].contributors_url, rightContainer);
-        // });
-      }
-
-      // option.addEventListener('change', function(event) {
-      //   leftContainer(i);
-      // });
-    }
-
     function leftContainer(index) {
       const div = createAndAppend('div', root, { class: 'leftContainer' });
       const pName = createAndAppend('p', div, {
-        text: 'Repository name: ',
+        text: 'Repository name: \n',
         class: 'details',
         id: 'bold',
       });
-      createAndAppend('p', pName, {
+      createAndAppend('a', pName, {
         text: repositories[index].name,
         class: 'details',
+        href: repositories[index].html_url,
+        target: '_blank',
       });
 
       const pDescription = createAndAppend('p', div, {
@@ -117,22 +88,56 @@
       });
     }
 
-    function rightContainer() {
+    function rightContainer(url) {
       const div = createAndAppend('div', root, { class: 'rightContainer' });
       const p = createAndAppend('p', div, {
         text: 'Contributors:',
         class: 'details',
         id: 'bold',
       });
-      const table = createAndAppend('table', p, {});
-      const tbody = createAndAppend('tbody', table, {});
-      const tr = createAndAppend('tr', tbody, {});
-      createAndAppend('td', tr, {});
-      createAndAppend('td', tr, {});
+      function contributorsList(contributors) {
+        const ul = createAndAppend('ul', p, { class: 'details' });
+        contributors.forEach(x => {
+          const contributor = createAndAppend('li', ul, { class: 'details' });
+          createAndAppend('a', contributor, {
+            class: 'details',
+            text: x.login,
+            href: x.html_url,
+            target: '_blank',
+          });
+        });
+      }
+      fetchJSON(url)
+        .then(cb => contributorsList(cb, div))
+        .catch(err => createAndAppend('h2', div, { text: err.message, class: 'alert-error' }));
     }
+
+    function selectMenu() {
+      const p = createAndAppend('p', root, {
+        text: 'Please select a HYF repository: ',
+        class: 'header',
+      });
+      repositories.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'case' }));
+      const select = createAndAppend('select', p, { text: 'menu', class: 'header', id: 'select' });
+
+      leftContainer(0);
+      rightContainer(repositories[0].contributors_url);
+
+      let repoNumber = 0;
+      function makeList() {
+        createAndAppend('option', select, {
+          text: JSON.stringify(repositories[repoNumber].name, null, 2),
+        });
+        repoNumber += 1;
+      }
+      repositories.forEach(makeList);
+
+      select.addEventListener('change', () => {
+        rightContainer(repositories[event.target.value].contributors_url, root);
+      });
+    }
+
     selectMenu();
-    leftContainer(0);
-    rightContainer();
   }
 
   function main(url) {
