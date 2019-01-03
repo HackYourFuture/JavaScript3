@@ -88,7 +88,7 @@
       });
     }
 
-    function rightContainer(url) {
+    async function rightContainer(url) {
       const div = createAndAppend('div', root, { class: 'rightContainer' });
       const p = createAndAppend('p', div, {
         text: 'Contributors:',
@@ -107,9 +107,11 @@
           });
         });
       }
-      fetchJSON(url)
-        .then(cb => contributorsList(cb, div))
-        .catch(err => createAndAppend('h2', div, { text: err.message, class: 'alert-error' }));
+      try {
+        contributorsList(await fetchJSON(url), div);
+      } catch (err) {
+        createAndAppend('h2', div, { text: err.message, class: 'alert-error' });
+      }
     }
 
     function selectMenu() {
@@ -140,11 +142,13 @@
     selectMenu();
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
-    fetchJSON(url)
-      .then(data => render(data, root))
-      .catch(err => createAndAppend('div', root, { text: err.message, class: 'alert-error' }));
+    try {
+      render(await fetchJSON(url), root);
+    } catch (err) {
+      createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+    }
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
