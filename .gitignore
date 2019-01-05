@@ -60,16 +60,16 @@ typings/
 .netlify
 dist/
 #json
-./package-lock.json
-./.eslintrc.json
-./.travis.yml
+package-lock.json
+.eslintrc.json
+.travis.yml
 LICENSE
-./prettier.config.js
-./.vscode/
+prettier.config.js
+.vscode/
 node_modules/
+package.json
 
-
-./Week3/app.js
-./Week3/classes.js
-./Week3/index.html
+Week3/app.js
+Week3/classes.js
+Week3/index.html
 
