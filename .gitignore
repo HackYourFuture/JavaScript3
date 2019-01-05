@@ -60,10 +60,10 @@ typings/
 .netlify
 dist/
 #json
-package-lock.json
-.eslintrc.json
-.travis.yml
+./package-lock.json
+./.eslintrc.json
+./.travis.yml
 LICENSE
-prettier.config.js
-.vscode/
+./prettier.config.js
+./.vscode/
 node_modules/
