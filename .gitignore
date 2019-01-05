@@ -64,7 +64,6 @@ package-lock.json
 .eslintrc.json
 .travis.yml
 LICENSE
-package-lock.json
 prettier.config.js
 .vscode/
 node_modules/
