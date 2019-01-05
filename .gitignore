@@ -67,3 +67,9 @@ LICENSE
 ./prettier.config.js
 ./.vscode/
 node_modules/
+
+
+./Week3/app.js
+./Week3/classes.js
+./Week3/index.html
+
