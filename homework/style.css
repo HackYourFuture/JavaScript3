@@ -28,7 +28,7 @@ body {
   text-align: left;
 }
 .leftContainer {
-  width: 85%;
+  width: calc(55% - 10px);
   margin: auto;
   margin: 15px;
   background-color: white;
@@ -37,7 +37,7 @@ body {
   box-shadow: 1px 1px 1px 1px #888888;
 }
 .rightContainer {
-  width: 85%;
+  width: calc(45% - 10px);
   margin: auto;
   margin: 15px;
   background-color: white;
@@ -98,6 +98,5 @@ li a:link {
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-around;
-    align-items: flex-start;
   }
 }

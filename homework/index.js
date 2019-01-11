@@ -76,7 +76,7 @@
       }
     });
   }
-  function renderContributors(rightContainer, repository, root) {
+  async function renderContributors(rightContainer, repository, root) {
     rightContainer.innerHTML = '';
     const contributorsURL = repository.contributors_url;
     createAndAppend('p', rightContainer, {
@@ -86,39 +86,38 @@
     const ul = createAndAppend('ul', rightContainer, {
       class: 'ul',
     });
-    fetchJSON(contributorsURL)
-      .then(contributors => {
-        contributors.forEach(contributor => {
-          const li = createAndAppend('li', ul, {
-            class: 'li',
-          });
-          const div = createAndAppend('div', li, {
-            class: 'div',
-          });
-          createAndAppend('img', div, {
-            src: contributor.avatar_url,
-            class: 'contImg',
-          });
-          createAndAppend('a', div, {
-            text: contributor.login,
-            href: contributor.html_url,
-            target: '_blank',
-            class: 'contLink',
-          });
-          createAndAppend('p', div, {
-            text: contributor.contributions,
-            class: 'contNumber',
-          });
+    try {
+      const contributors = await fetchJSON(contributorsURL);
+      contributors.forEach(contributor => {
+        const li = createAndAppend('li', ul, {
+          class: 'li',
         });
-      })
-      .catch(err => {
-        createAndAppend('div', root, {
-          text: err.message,
-          class: 'alert-error',
+        const div = createAndAppend('div', li, {
+          class: 'div',
+        });
+        createAndAppend('img', div, {
+          src: contributor.avatar_url,
+          class: 'contImg',
+        });
+        createAndAppend('a', div, {
+          text: contributor.login,
+          href: contributor.html_url,
+          target: '_blank',
+          class: 'contLink',
+        });
+        createAndAppend('p', div, {
+          text: contributor.contributions,
+          class: 'contNumber',
         });
       });
+    } catch (err) {
+      createAndAppend('div', root, {
+        text: err.message,
+        class: 'alert-error',
+      });
+    }
   }
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
     const headBox = createAndAppend('div', root, {
       class: 'header',
@@ -130,37 +129,38 @@
     const selectBox = createAndAppend('select', headBox, {
       class: 'selectBox',
     });
-    fetchJSON(url)
-      .then(repositories => {
-        repositories.forEach((repository, index) => {
-          createAndAppend('option', selectBox, {
-            text: repository.name,
-            value: index,
-          });
-        });
-        const containers = createAndAppend('div', root, {
-          class: 'containers',
-        });
-        const leftContainer = createAndAppend('div', containers, {
-          class: 'leftContainer',
-        });
-        const rightContainer = createAndAppend('div', containers, {
-          class: 'rightContainer',
-        });
-        selectBox.addEventListener('change', evn => {
-          const index = evn.target.value;
-          renderRepository(leftContainer, repositories[index]);
-          renderContributors(rightContainer, repositories[index], root);
-        });
-        renderRepository(leftContainer, repositories[0]);
-        renderContributors(rightContainer, repositories[0], root);
-      })
-      .catch(err => {
-        createAndAppend('div', root, {
-          text: err.message,
-          class: 'alert-error',
+    try {
+      const repositories = await fetchJSON(url);
+      repositories.sort((a, b) => a.name.localeCompare(b.name));
+
+      repositories.forEach((repository, index) => {
+        createAndAppend('option', selectBox, {
+          text: repository.name,
+          value: index,
         });
       });
+      const containers = createAndAppend('div', root, {
+        class: 'containers',
+      });
+      const leftContainer = createAndAppend('div', containers, {
+        class: 'leftContainer',
+      });
+      const rightContainer = createAndAppend('div', containers, {
+        class: 'rightContainer',
+      });
+      selectBox.addEventListener('change', evn => {
+        const index = evn.target.value;
+        renderRepository(leftContainer, repositories[index]);
+        renderContributors(rightContainer, repositories[index], root);
+      });
+      renderRepository(leftContainer, repositories[0]);
+      renderContributors(rightContainer, repositories[0], root);
+    } catch (err) {
+      createAndAppend('div', root, {
+        text: err.message,
+        class: 'alert-error',
+      });
+    }
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => main(HYF_REPOS_URL);
