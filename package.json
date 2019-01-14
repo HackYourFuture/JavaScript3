@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "GitHub API application",
   "scripts": {
-    "lint": "eslint homework --fix",
+    "lint": "eslint homework",
     "test": "npm run lint"
   },
   "author": "Jim Cramer",
