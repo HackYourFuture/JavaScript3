@@ -1,3 +1,93 @@
 .alert-error {
-    color: red;
+  color: red;
+}
+
+#root {
+  max-width: 900px;
+  margin: auto;
+}
+body {
+  background-color: rgb(218, 218, 218);
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  margin: auto;
+}
+
+.header {
+  background: #4f31d4d2;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.repo-selector {
+  height: 33px;
+  color: rgb(98, 65, 247);
+  font-weight: bold;
+}
+#container {
+  display: flex;
+  align-items: flex-start;
+}
+.left-div,
+.right-div {
+  background: rgb(255, 255, 255);
+  flex: 1;
+}
+
+.left-div {
+  margin-right: 16px;
+  padding: 20px;
+}
+
+a:nth-child(n + 2) {
+  text-decoration: none;
+}
+td:first-child {
+  font-weight: bold;
+  margin-right: 13px;
+  padding: 5px;
+}
+
+p {
+  font-size: 1.2rem;
+  padding: 13px;
+}
+
+p:nth-child(2) {
+  padding: 0;
+  margin-left: 13px;
+  color: black;
+  flex: 1;
+  justify-content: space-between;
+}
+.contributor {
+  display: flex;
+  padding: 13px;
+  border-bottom: solid 1px rgb(180, 180, 180);
+  align-items: center;
+}
+
+.contributor-badge {
+  padding-left: 40px;
+  color: black;
+}
+
+img {
+  height: 48px;
+}
+
+@media (max-width: 767px) {
+  #root {
+    width: 100%;
+  }
+
+  #container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .left-div {
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
 }
