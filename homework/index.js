@@ -34,11 +34,11 @@
   const container = createAndAppend('div', root, { id: 'container' });
   function getSelectedData(value, data) {
     let selected;
-    for (const item of data) {
+    data.forEach(item => {
       if (item.name === value) {
         selected = item;
       }
-    }
+    });
     return selected;
   }
 
@@ -48,13 +48,14 @@
       id: 'repositories',
     });
     let id = 0;
-    for (const repo of repos) {
+
+    repos.forEach(repo => {
       createAndAppend('option', selectionElem, {
         id: id++,
         value: repo,
         text: repo,
       });
-    }
+    });
   }
 
   function generateInfoSection(selected, data) {
@@ -90,7 +91,7 @@
         if (err) {
           createAndAppend('div', root, { text: err.message, class: 'alert-error' });
         } else {
-          for (const item of data) {
+          data.forEach(item => {
             const contListItem = createAndAppend('li', contsLists, {
               id: `${item.login}ListItem`,
               class: 'cont-li',
@@ -116,7 +117,7 @@
               class: 'cont-badge',
               text: item.contributions,
             });
-          }
+          });
         }
       },
     );
@@ -134,7 +135,7 @@
         if (err) {
           createAndAppend('div', root, { class: 'alert-error' });
         } else {
-          for (const item of data) {
+          data.forEach(item => {
             const contListItem = createAndAppend('li', contsLists, {
               id: `${item.login}ListItem`,
               class: 'cont-li',
@@ -162,7 +163,7 @@
               class: 'cont-badge',
               text: item.contributions,
             });
-          }
+          });
         }
       },
     );
