@@ -20,6 +20,7 @@
     "prettier": "^1.16.3"
   },
   "dependencies": {
-    "index.js": "0.0.3"
+    "index.js": "0.0.3",
+    "material-components-web": "^0.43.1"
   }
 }

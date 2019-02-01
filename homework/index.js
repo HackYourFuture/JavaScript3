@@ -31,33 +31,34 @@
   }
 
   const root = document.getElementById('root');
-
+  const container = createAndAppend('div', root, { id: 'container' });
   function getSelectedData(value, data) {
+    let selected;
     for (const item of data) {
-      if (item.name !== value) {
-        return item;
+      if (item.name === value) {
+        selected = item;
       }
     }
+    return selected;
   }
 
-  function generateSelections(data) {
+  function generateSelections(repos) {
     const header = createAndAppend('header', root, {});
     const selectionElem = createAndAppend('select', header, {
       id: 'repositories',
-      name: 'repositories',
     });
     let id = 0;
-    for (const item of data) {
+    for (const repo of repos) {
       createAndAppend('option', selectionElem, {
         id: id++,
-        value: item.name,
-        text: item.name,
+        value: repo,
+        text: repo,
       });
     }
   }
 
   function generateInfoSection(selected, data) {
-    const div = createAndAppend('div', root, { id: 'infoDiv' });
+    const div = createAndAppend('div', container, { id: 'infoDiv' });
     const selectedData = getSelectedData(selected, data);
     createAndAppend('a', div, {
       id: 'repoName',
@@ -80,7 +81,9 @@
   }
 
   function generateContSection(selected) {
-    const contsDiv = createAndAppend('div', root, { id: 'contsDiv' });
+    const contsDiv = createAndAppend('div', container, { id: 'contsDiv' });
+    createAndAppend('p', contsDiv, { id: 'cont-header', text: 'Contributors' });
+    const contsLists = createAndAppend('ul', contsDiv, { id: 'conts-list' });
     fetchJSON(
       `https://api.github.com/repos/HackYourFuture/${selected}/contributors`,
       (err, data) => {
@@ -88,20 +91,29 @@
           createAndAppend('div', root, { text: err.message, class: 'alert-error' });
         } else {
           for (const item of data) {
-            const contDiv = createAndAppend('div', contsDiv, { id: `${item.login}Div` });
-            createAndAppend('img', contDiv, {
+            const contListItem = createAndAppend('li', contsLists, {
+              id: `${item.login}ListItem`,
+              class: 'cont-li',
+            });
+
+            createAndAppend('img', contListItem, {
               id: `${item.login}Img`,
+              class: 'cont-avatar',
               src: item.avatar_url,
             });
+
+            const contDiv = createAndAppend('div', contListItem, { id: `${item.login}Div` });
+
             createAndAppend('a', contDiv, {
               id: `${item.login}Name`,
+              class: 'cont-name',
               text: item.login,
               href: item.html_url,
               target: '_blank',
             });
-
-            createAndAppend('p', contDiv, {
+            createAndAppend('div', contDiv, {
               id: `${item.login}Badge`,
+              class: 'cont-badge',
               text: item.contributions,
             });
           }
@@ -113,27 +125,41 @@
   function updateContSection(selected) {
     const contsDiv = document.getElementById('contsDiv');
     contsDiv.innerHTML = '';
+    createAndAppend('p', contsDiv, { id: 'cont-header', text: 'Contributors' });
+    const contsLists = createAndAppend('ul', contsDiv, { id: 'conts-list' });
+
     fetchJSON(
       `https://api.github.com/repos/HackYourFuture/${selected}/contributors`,
       (err, data) => {
         if (err) {
-          createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+          createAndAppend('div', root, { class: 'alert-error' });
         } else {
           for (const item of data) {
-            const contDiv = createAndAppend('div', contsDiv, { id: `${item.login}Div` });
-            createAndAppend('img', contDiv, {
+            const contListItem = createAndAppend('li', contsLists, {
+              id: `${item.login}ListItem`,
+              class: 'cont-li',
+            });
+
+            createAndAppend('img', contListItem, {
               id: `${item.login}Img`,
+              class: 'cont-avatar',
               src: item.avatar_url,
             });
+
+            const contDiv = createAndAppend('div', contListItem, {
+              id: `${item.login}Div`,
+            });
+
             createAndAppend('a', contDiv, {
               id: `${item.login}Name`,
+              class: 'cont-name',
               text: item.login,
               href: item.html_url,
               target: '_blank',
             });
-
-            createAndAppend('p', contDiv, {
+            createAndAppend('div', contDiv, {
               id: `${item.login}Badge`,
+              class: 'cont-badge',
               text: item.contributions,
             });
           }
@@ -169,7 +195,10 @@
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
-        generateSelections(data);
+        const repoName = data
+          .map(repo => repo.name)
+          .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+        generateSelections(repoName);
 
         const selected = document.getElementById('repositories');
 

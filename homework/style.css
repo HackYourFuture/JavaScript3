@@ -1,3 +1,98 @@
 .alert-error {
-    color: red;
+  color: red;
+}
+
+#root {
+  margin-top: 0;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  align-content: stretch;
+
+  font-family: 'Roboto', sans-serif;
+}
+
+div {
+  border-radius: 3px;
+}
+
+header {
+  order: 0;
+  margin: 3%;
+  padding: 2%;
+  text-align: center;
+  width: 100%;
+  border-radius: 3px;
+  background-color: #fff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
+    0 3px 3px -2px rgba(0, 0, 0, 0.12);
+}
+
+#container {
+  order: 1;
+  display: flex;
+  flex-flow: row wrap;
+  margin: 3%;
+  width: 100%;
+  justify-content: space-between;
+}
+
+#infoDiv {
+  width: 45%;
+  background-color: #fff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
+    0 3px 3px -2px rgba(0, 0, 0, 0.12);
+  padding: 1%;
+}
+
+#contsDiv {
+  width: 45%;
+  display: flex;
+  flex-flow: column wrap;
+  background-color: #fff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
+    0 3px 3px -2px rgba(0, 0, 0, 0.12);
+  padding: 1%;
+}
+
+#conts-list {
+  padding-left: 1%;
+}
+
+.cont-li {
+  display: flex;
+  flex-flow: row wrap;
+  margin-bottom: 5%;
+}
+
+.cont-badge {
+  max-width: 20px;
+  height: 20px;
+  background-color: grey;
+  color: white;
+  padding: 1%;
+  margin-right: -50%;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.cont-avatar {
+  height: 48px;
+  width: auto;
+  border-radius: 3px;
+  margin-right: 3%;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+a:visited {
+  color: black;
+}
+
+a:hover {
+  color: dimgray;
 }
