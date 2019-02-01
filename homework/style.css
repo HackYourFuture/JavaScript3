@@ -1,3 +1,22 @@
 .alert-error {
     color: red;
 }
+
+body{
+  background: #00bfff;
+  padding-left: 25px;
+
+}
+
+h1{
+  color: darkgreen;
+
+}
+
+#select{
+  font-size: 10px;
+  color: darkgreen;
+  height: 30px;
+  font-size: 20px;
+  border-radius: 0.50rem;
+}
