@@ -30,67 +30,81 @@
     return elem;
   }
 
-  function setInnerText(repository, nthChild, text) {
-    document.querySelector('tbody').childNodes[nthChild].lastChild.innerText = text;
-  }
-
-  function presentRepositories(leftHandColumn, repository) {
-    const table = createAndAppend('table', leftHandColumn);
+  function presentRepositories(repositoriesContainer, repository) {
+    const table = createAndAppend('table', repositoriesContainer);
     const tBody = createAndAppend('tbody', table);
-    const headsOfDetails = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
-    for (let i = 0; i < 4; i++) {
+    const headersOfDetails = [
+      'Repository:',
+      'Description:',
+      'Forks:',
+      'Open Issues:',
+      'Created:',
+      'Updated:',
+    ];
+    headersOfDetails.forEach(header => {
       const tRow = createAndAppend('tr', tBody);
       for (let j = 0; j < 2; j++) {
         createAndAppend('td', tRow);
-        tRow.childNodes[0].innerText = headsOfDetails[i];
+        tRow.childNodes[0].innerText = header;
       }
-    }
-    const tData = document.querySelector('tr').lastChild;
-    createAndAppend('a', tData, {
+    });
+    const tData = table.querySelector('tr').lastChild;
+    const a = createAndAppend('a', tData, {
       href: repository.html_url,
       target: '_blank',
-      id: 'link-repo',
     });
-    document.getElementById('link-repo').textContent = repository.name;
+    a.textContent = repository.name;
 
-    const date = `${new Date(repository.updated_at).toLocaleDateString()}, ${new Date(
+    const upDate = `${new Date(repository.updated_at).toLocaleDateString()}, ${new Date(
       repository.updated_at,
     ).toLocaleTimeString()}`;
 
-    setInnerText(repository, 1, repository.description);
-    setInnerText(repository, 2, repository.forks);
-    setInnerText(repository, 3, date);
+    const creation = `${new Date(repository.created_at).toLocaleDateString()}, ${new Date(
+      repository.created_at,
+    ).toLocaleTimeString()}`;
+
+    function setInnerText(nthChild, text) {
+      tBody.childNodes[nthChild].lastChild.innerText = text;
+    }
+
+    setInnerText(1, repository.description);
+    setInnerText(2, repository.forks);
+    setInnerText(3, repository.open_issues);
+    setInnerText(4, creation);
+    setInnerText(5, upDate);
   }
 
-  function renderContributors(rightHandColumn, contributors) {
+  function renderContributors(contributorsContainer, contributors) {
     contributors.forEach(contributor => {
-      const ul = createAndAppend('ul', rightHandColumn);
+      const ul = createAndAppend('ul', contributorsContainer);
       const li = createAndAppend('li', ul);
-      createAndAppend('img', li, { src: contributor.avatar_url, class: 'image', height: '48' });
+      createAndAppend('img', li, {
+        src: contributor.avatar_url,
+        class: 'image',
+        height: '48',
+      });
       const contributorData = createAndAppend('div', li, { class: 'contributor-data' });
       createAndAppend('div', contributorData, {
         text: contributor.login,
-        href: contributor.html_url,
         class: 'contributor-name',
       });
       createAndAppend('div', contributorData, {
         class: 'contributor-badge',
         text: contributor.contributions,
       });
-
       li.addEventListener('click', () => {
         window.open(contributor.html_url, '_blank');
       });
     });
   }
 
-  function presentContributors(rightHandColumn, url) {
+  function presentContributors(contributorsContainer, url) {
     fetchJSON(url, (err, contributors) => {
       if (err) {
-        createAndAppend('div', rightHandColumn, { text: err.message, class: 'alert-error' });
+        createAndAppend('div', contributorsContainer, { text: err.message, class: 'alert-error' });
       } else {
-        createAndAppend('p', rightHandColumn, { text: 'Contributions' });
-        renderContributors(rightHandColumn, contributors);
+        createAndAppend('p', contributorsContainer, { text: 'Contributions' });
+        renderContributors(contributorsContainer, contributors);
       }
     });
   }
@@ -112,41 +126,36 @@
   function main(url) {
     fetchJSON(url, (err, repositories) => {
       const root = document.getElementById('root');
+      const header = createAndAppend('div', root, { id: 'header' });
+      createAndAppend('h1', header, { text: 'HYF Repositories' });
+      const select = createAndAppend('select', header, { id: 'select' });
       if (err) {
-        const header = createAndAppend('div', root, { id: 'header' });
-        createAndAppend('h1', header, { text: 'HYF Repositories' });
-        createAndAppend('select', header, { id: 'select' });
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
-        const header = createAndAppend('div', root, { id: 'header' });
-        createAndAppend('h1', header, { text: 'HYF Repositories' });
-        const select = createAndAppend('select', header, { id: 'select' });
         const mainContainer = createAndAppend('div', root, { id: 'main-container' });
-        const leftHandColumn = createAndAppend('div', mainContainer, {
-          id: 'left-hand-column',
+        const repositoriesContainer = createAndAppend('div', mainContainer, {
+          id: 'repositories-container',
         });
-        const rightHandColumn = createAndAppend('div', mainContainer, {
-          id: 'right-hand-column',
+        const contributorsContainer = createAndAppend('div', mainContainer, {
+          id: 'contributors-container',
         });
 
         sortRepositories(repositories);
         selectStructure(repositories, select);
 
-        presentRepositories(leftHandColumn, repositories[0]);
-        presentContributors(rightHandColumn, repositories[0].contributors_url);
+        presentRepositories(repositoriesContainer, repositories[0]);
+        presentContributors(contributorsContainer, repositories[0].contributors_url);
 
         select.addEventListener('change', () => {
-          leftHandColumn.innerHTML = '';
-          rightHandColumn.innerHTML = '';
+          repositoriesContainer.innerHTML = '';
+          contributorsContainer.innerHTML = '';
           const index = select.selectedIndex;
-          presentRepositories(leftHandColumn, repositories[index]);
-          presentContributors(rightHandColumn, repositories[index].contributors_url);
+          presentRepositories(repositoriesContainer, repositories[index]);
+          presentContributors(contributorsContainer, repositories[index].contributors_url);
         });
       }
     });
   }
-
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-
   window.onload = () => main(HYF_REPOS_URL);
 }
