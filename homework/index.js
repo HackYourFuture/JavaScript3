@@ -29,7 +29,53 @@
     });
     return elem;
   }
-
+  // create left div
+  function createRepositoryDescription(leftDiv, repository) {
+    const table = createAndAppend('table', leftDiv);
+    const tBody = createAndAppend('tbody', table);
+    const details = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
+    details.forEach(detail => {
+      const tr = createAndAppend('tr', tBody);
+      const firstTd = createAndAppend('td', tr, { class: 'label' });
+      createAndAppend('td', tr);
+      firstTd.innerText = detail;
+    });
+    const secondTd = document.querySelector('td:nth-child(2)');
+    const link = createAndAppend('a', secondTd, {
+      href: repository.html_url,
+      target: '_blank',
+    });
+    link.innerText = repository.name;
+    document.getElementsByTagName('td')[3].innerText = repository.description;
+    document.getElementsByTagName('td')[5].innerText = repository.forks;
+    document.getElementsByTagName('td')[7].innerText = new Date(
+      repository.updated_at,
+    ).toLocaleDateString();
+  }
+  // create right div
+  function createContributorsSide(rightDiv, contributors) {
+    contributors.forEach(contributor => {
+      const contributorInfo = createAndAppend('a', rightDiv, {
+        href: contributor.html_url,
+        target: '_blank',
+      });
+      const contributorDiv = createAndAppend('div', contributorInfo, {
+        class: 'contributor',
+      });
+      createAndAppend('img', contributorDiv, { src: contributor.avatar_url });
+      createAndAppend('p', contributorDiv, { text: contributor.login });
+      createAndAppend('div', contributorDiv, {
+        class: 'contributor-badge',
+        text: contributor.contributions,
+      });
+    });
+  }
+  function createContributors(rightDiv, url) {
+    fetchJSON(url, (err, contributors) => {
+      createAndAppend('p', rightDiv, { text: 'Contributions: ' });
+      createContributorsSide(rightDiv, contributors);
+    });
+  }
   // main function
   function main(url) {
     fetchJSON(url, (err, repositories) => {
@@ -51,62 +97,15 @@
         repositories.forEach(repository => {
           createAndAppend('option', select, { text: repository.name });
         });
-        function createRepositoryDescription(repository) {
-          const table = createAndAppend('table', leftDiv);
-          const tBody = createAndAppend('tbody', table);
-          const details = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
-          for (let detail of details) {
-            const tr = createAndAppend('tr', tBody);
-            const firstTd = createAndAppend('td', tr, { class: 'label' });
-            createAndAppend('td', tr);
-            firstTd.innerText = detail;
-          }
-          const secondTd = document.querySelector('td:nth-child(2)');
-          const link = createAndAppend('a', secondTd, {
-            href: repository.html_url,
-            target: '_blank',
-          });
-          link.innerText = repository.name;
-          document.getElementsByTagName('td')[3].innerText = repository.description;
-          document.getElementsByTagName('td')[5].innerText = repository.forks;
-          document.getElementsByTagName('td')[7].innerText = new Date(
-            repository.updated_at,
-          ).toLocaleDateString();
-        }
-        createRepositoryDescription(repositories[0]);
-        // create right div
-        function createContributorsSide(contributors) {
-          contributors.forEach(contributor => {
-            const contributorInfo = createAndAppend('a', rightDiv, {
-              href: contributor.html_url,
-              target: '_blank',
-            });
-            const contributorDiv = createAndAppend('div', contributorInfo, {
-              class: 'contributor',
-            });
-            createAndAppend('img', contributorDiv, { src: contributor.avatar_url });
-            createAndAppend('p', contributorDiv, { text: contributor.login });
-            createAndAppend('div', contributorDiv, {
-              class: 'contributor-badge',
-              text: contributor.contributions,
-            });
-          });
-        }
-        function createContributors(url) {
-          fetchJSON(url, (err, contributors) => {
-            createAndAppend('p', rightDiv, { text: 'Contributions: ' });
-            createContributorsSide(contributors);
-          });
-        }
-        createContributors(repositories[0].contributors_url);
-
+        createRepositoryDescription(leftDiv, repositories[0]);
+        createContributors(rightDiv, repositories[0].contributors_url);
         // add event listener
         select.addEventListener('change', () => {
           leftDiv.innerText = '';
           rightDiv.innerText = '';
           const index = select.selectedIndex;
-          createRepositoryDescription(repositories[index]);
-          createContributors(repositories[index].contributors_url);
+          createRepositoryDescription(leftDiv, repositories[index]);
+          createContributors(rightDiv, repositories[index].contributors_url);
         });
       }
     });
