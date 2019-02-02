@@ -12,20 +12,33 @@ header{
   text-align: center;
 
 }
+
 .logo{
   margin: 5px;
   height: 50px;
   float: left;
   border-radius: 3px;
 }
+
 h1{
   font-size: 1.3em;
   color:#C52E2E
 }
+
 nav{
   text-align: center;
   height: 40px;
 }
+
+#repositorySelect{
+
+  height:30px;
+  width:400px;
+  color:#AA3939;
+  background-color:whitesmoke;
+  border:1px solid #A47171;
+}
+
 main{
   display: flex;
   flex-wrap: wrap;
@@ -42,12 +55,14 @@ main{
   background-color: whitesmoke
 }
 
+
 ul{
   list-style: none;
   width: 100%;
   margin: 0px;
   padding: 0px;
 }
+
 li{
   width: 100%;
   height: 70px;
@@ -57,9 +72,11 @@ li{
   display:flex;
 
 }
+
 a{
 text-decoration: none;
 }
+
 a:hover{
   color: red;
   text-decoration: underline;
