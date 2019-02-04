@@ -29,33 +29,30 @@
     });
     return elem;
   }
-  // create left div
-  function createRepositoryDescription(leftDiv, repository) {
-    const table = createAndAppend('table', leftDiv);
+  function createRepositoryDescription(repoContainer, repository) {
+    const table = createAndAppend('table', repoContainer);
     const tBody = createAndAppend('tbody', table);
     const details = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
     details.forEach(detail => {
       const tr = createAndAppend('tr', tBody);
-      const firstTd = createAndAppend('td', tr, { class: 'label' });
-      createAndAppend('td', tr);
-      firstTd.innerText = detail;
+      createAndAppend('td', tr, { class: 'label', text: detail });
+      createAndAppend('td', tr, { id: detail });
     });
-    const secondTd = document.querySelector('td:nth-child(2)');
+    const secondTd = document.getElementById('Repository:');
     const link = createAndAppend('a', secondTd, {
       href: repository.html_url,
       target: '_blank',
     });
     link.innerText = repository.name;
-    document.getElementsByTagName('td')[3].innerText = repository.description;
-    document.getElementsByTagName('td')[5].innerText = repository.forks;
-    document.getElementsByTagName('td')[7].innerText = new Date(
+    document.getElementById('Description:').innerText = repository.description;
+    document.getElementById('Forks:').innerText = repository.forks;
+    document.getElementById('Updated:').innerText = new Date(
       repository.updated_at,
     ).toLocaleDateString();
   }
-  // create right div
-  function createContributorsSide(rightDiv, contributors) {
+  function createContributorsSide(contributorContinaer, contributors) {
     contributors.forEach(contributor => {
-      const contributorInfo = createAndAppend('a', rightDiv, {
+      const contributorInfo = createAndAppend('a', contributorContinaer, {
         href: contributor.html_url,
         target: '_blank',
       });
@@ -70,13 +67,16 @@
       });
     });
   }
-  function createContributors(rightDiv, url) {
+  function createContributors(contributorContinaer, url) {
     fetchJSON(url, (err, contributors) => {
-      createAndAppend('p', rightDiv, { text: 'Contributions: ' });
-      createContributorsSide(rightDiv, contributors);
+      if (err) {
+        createAndAppend('div', contributorContinaer, { text: err.message, class: 'alert-error' });
+      } else {
+        createAndAppend('p', contributorContinaer, { text: 'Contributions: ' });
+        createContributorsSide(contributorContinaer, contributors);
+      }
     });
   }
-  // main function
   function main(url) {
     fetchJSON(url, (err, repositories) => {
       const root = document.getElementById('root');
@@ -86,10 +86,10 @@
         const header = createAndAppend('div', root, { class: 'header' });
         createAndAppend('p', header, { text: 'HYF Repositories' });
         const container = createAndAppend('div', root, { id: 'container' });
-        const leftDiv = createAndAppend('div', container, {
+        const repoContainer = createAndAppend('div', container, {
           class: 'left-div',
         });
-        const rightDiv = createAndAppend('div', container, {
+        const contributorContinaer = createAndAppend('div', container, {
           class: 'right-div',
         });
         const select = createAndAppend('select', header, { class: 'repo-selector' });
@@ -97,15 +97,14 @@
         repositories.forEach(repository => {
           createAndAppend('option', select, { text: repository.name });
         });
-        createRepositoryDescription(leftDiv, repositories[0]);
-        createContributors(rightDiv, repositories[0].contributors_url);
-        // add event listener
+        createRepositoryDescription(repoContainer, repositories[0]);
+        createContributors(contributorContinaer, repositories[0].contributors_url);
         select.addEventListener('change', () => {
-          leftDiv.innerText = '';
-          rightDiv.innerText = '';
+          repoContainer.innerText = '';
+          contributorContinaer.innerText = '';
           const index = select.selectedIndex;
-          createRepositoryDescription(leftDiv, repositories[index]);
-          createContributors(rightDiv, repositories[index].contributors_url);
+          createRepositoryDescription(repoContainer, repositories[index]);
+          createContributors(contributorContinaer, repositories[index].contributors_url);
         });
       }
     });
