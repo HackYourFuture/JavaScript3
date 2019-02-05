@@ -30,53 +30,146 @@
     return elem;
   }
 
-  function createHtml(jsonData) {
-    const root = document.getElementById('root');
-    const header = createAndAppend('div', root, { id: 'header' });
+  function sortElements(repositories) {
+    return repositories.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  function getSelectedOption(sel) {
+    let opt;
+    for (let i = 0; i < sel.options.length; i++) {
+      opt = sel.options[i];
+      if (opt.selected === true) {
+        break;
+      }
+    }
+    return opt;
+  }
+
+  function getSelectedIndex(name, opt) {
+    let selectedIndex = 0;
+    for (let i = 0; i < name.length; i++) {
+      if (name[i].name === opt.text) {
+        selectedIndex = i;
+        break;
+      }
+    }
+    return selectedIndex;
+  }
+
+  function deleteRightSideInfos(firstContributorsInfo) {
+    firstContributorsInfo.remove();
+  }
+
+  function createRightSideInfos(contributorsJsonData, rightDiv) {
+    const contributors = contributorsJsonData;
+    createAndAppend('h3', rightDiv, { text: 'Contributors' });
+    contributors.forEach((_cont, index) => {
+      const contributorsInfo = createAndAppend('div', rightDiv, { class: 'cont-info' });
+      const contributorsInfoLeft = createAndAppend('div', contributorsInfo, {
+        class: 'cont-info-left',
+      });
+      const contributorsInfoRight = createAndAppend('div', contributorsInfo, {
+        class: 'cont-info-right',
+      });
+      createAndAppend('img', contributorsInfoLeft, {
+        src: `${contributors[index].avatar_url}`,
+        alt: `${contributors[index].login} avatar`,
+      });
+      createAndAppend('a', contributorsInfoLeft, {
+        text: `${contributors[index].login}`,
+        href: `${contributors[index].html_url}`,
+        target: '_blank',
+      });
+      createAndAppend('p', contributorsInfoRight, {
+        text: `${contributors[index].contributions}`,
+      });
+    });
+  }
+
+  function addRightSideInfos(addedContributorsJsonData, contentDiv) {
+    const addedContributors = addedContributorsJsonData;
+    const newRightDiv = createAndAppend('div', contentDiv, { id: 'right-side' });
+    createAndAppend('h3', newRightDiv, { text: 'Contributors' });
+    addedContributors.forEach((_addedCont, index) => {
+      const contributorsInfo = createAndAppend('div', newRightDiv, { class: 'cont-info' });
+      const contributorsInfoLeft = createAndAppend('div', contributorsInfo, {
+        class: 'cont-info-left',
+      });
+      const contributorsInfoRight = createAndAppend('div', contributorsInfo, {
+        class: 'cont-info-right',
+      });
+      createAndAppend('img', contributorsInfoLeft, {
+        src: `${addedContributors[index].avatar_url}`,
+        alt: `${addedContributors[index].login} avatar`,
+      });
+      createAndAppend('a', contributorsInfoLeft, {
+        text: `${addedContributors[index].login}`,
+        href: `${addedContributors[index].html_url}`,
+        target: '_blank',
+      });
+      createAndAppend('p', contributorsInfoRight, {
+        text: `${addedContributors[index].contributions}`,
+      });
+    });
+  }
+
+  function createHeader(rootDiv) {
+    const header = createAndAppend('div', rootDiv, { id: 'header' });
     createAndAppend('img', header, { src: './hyf.png', alt: 'HackYourFuture logo' });
     createAndAppend('h1', header, { text: 'HackYourFuture Github Repositories' });
-    const choice = createAndAppend('div', root, { id: 'choice' });
+    const choice = createAndAppend('div', rootDiv, { id: 'choice' });
     createAndAppend('h3', choice, { text: 'Please Select a Repository Below' });
     const selection = createAndAppend('div', choice, { id: 'selection' });
     createAndAppend('p', selection, { text: 'HYF Repositories: ' });
-    const selectElem = createAndAppend('select', selection, { id: 'select' });
-    const repos = jsonData;
-    const repoNames = repos
-      .map(repo => repo.name)
-      .sort((x, y) => (String(x).toUpperCase() > String(y).toUpperCase() ? 1 : -1));
+    createAndAppend('select', selection, { id: 'select' });
+  }
 
-    repoNames.forEach((repoName, index) => {
-      createAndAppend('option', selectElem, { text: repoName, value: index });
+  function createChangedInfo(allOptions, sortedRepositories, rootDiv, contentDiv) {
+    allOptions.addEventListener('change', () => {
+      const selectedOption = getSelectedOption(allOptions);
+      const selectedElementIndex = getSelectedIndex(sortedRepositories, selectedOption);
+      document.getElementById('repo-name').innerHTML = `${selectedOption.text}`;
+      document
+        .getElementById('repo-name')
+        .setAttribute('href', `${sortedRepositories[selectedElementIndex].html_url}`);
+      document.getElementById('repo-description').innerHTML = `${
+        sortedRepositories[selectedElementIndex].description
+      }`;
+      document.getElementById('repo-fork').innerHTML = `${
+        sortedRepositories[selectedElementIndex].forks
+      }`;
+      document.getElementById('repo-updated').innerHTML = `${
+        sortedRepositories[selectedElementIndex].updated_at
+      }`;
+
+      const firstContributorsInfo = document.getElementById('right-side');
+
+      const changedContributorUrl = sortedRepositories[selectedElementIndex].contributors_url;
+
+      fetchJSON(changedContributorUrl, (err, data) => {
+        if (err) {
+          createAndAppend('div', rootDiv, { text: err.message, class: 'alert-error' });
+        } else {
+          deleteRightSideInfos(firstContributorsInfo);
+          addRightSideInfos(data, contentDiv);
+        }
+      });
     });
+  }
 
-    const contentDiv = createAndAppend('div', root, { id: 'content' });
+  function createHtml(rootDiv, jsonData) {
+    createHeader(rootDiv);
+    const repositories = jsonData;
+    const sortedRepositories = sortElements(repositories);
+    const selectElem = document.getElementById('select');
+    const contentDiv = createAndAppend('div', rootDiv, { id: 'content' });
     const leftDiv = createAndAppend('div', contentDiv, { id: 'left-side' });
     const rightDiv = createAndAppend('div', contentDiv, { id: 'right-side' });
 
-    function getSelectedOption(sel) {
-      let opt;
-      for (let i = 0; i < sel.options.length; i++) {
-        opt = sel.options[i];
-        if (opt.selected === true) {
-          break;
-        }
-      }
-      return opt;
-    }
+    sortedRepositories.forEach((eachRepository, index) => {
+      createAndAppend('option', selectElem, { text: eachRepository.name, value: index });
+    });
 
-    function getSelectedIndex(name, opt) {
-      let selectedIndex = 0;
-      for (let i = 0; i < name.length; i++) {
-        if (name[i].name === opt.text) {
-          selectedIndex = i;
-        }
-      }
-      return selectedIndex;
-    }
-
-    const allOptions = document.getElementById('select');
-    const firstSelOpt = getSelectedOption(allOptions);
-    const firstSelElemIndex = getSelectedIndex(repos, firstSelOpt);
     const leftSideContent = createAndAppend('div', leftDiv, { id: 'left-side-content' });
     const table = createAndAppend('table', leftSideContent, {});
     const tr1 = createAndAppend('tr', table, {});
@@ -84,121 +177,50 @@
     const td2 = createAndAppend('td', tr1, {});
     createAndAppend('a', td2, {
       id: 'repo-name',
-      text: `${firstSelOpt.text}`,
-      href: `${repos[firstSelElemIndex].html_url}`,
+      text: `${sortedRepositories[0].name}`,
+      href: `${sortedRepositories[0].html_url}`,
       target: '_blank',
     });
     const tr2 = createAndAppend('tr', table, {});
     createAndAppend('td', tr2, { text: 'Description: ' });
     createAndAppend('td', tr2, {
       id: 'repo-description',
-      text: `${repos[firstSelElemIndex].description}`,
+      text: `${sortedRepositories[0].description}`,
     });
     const tr3 = createAndAppend('tr', table, {});
     createAndAppend('td', tr3, { text: 'Fork: ' });
-    createAndAppend('td', tr3, { id: 'repo-fork', text: `${repos[firstSelElemIndex].forks}` });
+    createAndAppend('td', tr3, { id: 'repo-fork', text: `${sortedRepositories[0].forks}` });
     const tr4 = createAndAppend('tr', table, {});
     createAndAppend('td', tr4, { text: 'Updated: ' });
     createAndAppend('td', tr4, {
       id: 'repo-updated',
-      text: `${repos[firstSelElemIndex].updated_at}`,
+      text: `${sortedRepositories[0].updated_at}`,
     });
 
-    function createRightSideInfos(contJsonData) {
-      const conts = contJsonData;
-      createAndAppend('h3', rightDiv, { text: 'Contributors' });
-      conts.forEach((_cont, index) => {
-        const contsInfo = createAndAppend('div', rightDiv, { class: 'cont-info' });
-        const contsInfoLeft = createAndAppend('div', contsInfo, { class: 'cont-info-left' });
-        const contsInfoRight = createAndAppend('div', contsInfo, { class: 'cont-info-right' });
-        createAndAppend('img', contsInfoLeft, {
-          src: `${conts[index].avatar_url}`,
-          alt: `${conts[index].login} avatar`,
-        });
-        createAndAppend('a', contsInfoLeft, {
-          text: `${conts[index].login}`,
-          href: `${conts[index].html_url}`,
-          target: '_blank',
-        });
-        createAndAppend('p', contsInfoRight, { text: `${conts[index].contributions}` });
-      });
-    }
+    const contributorsUrl = sortedRepositories[0].contributors_url;
 
-    const CONT_URL = repos[firstSelElemIndex].contributors_url;
-    fetchJSON(CONT_URL, (err, data) => {
+    fetchJSON(contributorsUrl, (err, data) => {
       if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        createAndAppend('div', rootDiv, { text: err.message, class: 'alert-error' });
       } else {
-        createRightSideInfos(data);
+        createRightSideInfos(data, rightDiv);
       }
     });
 
-    allOptions.addEventListener('change', () => {
-      const selOpt = getSelectedOption(allOptions);
-      const selElemIndex = getSelectedIndex(repos, selOpt);
-      document.getElementById('repo-name').innerHTML = `${selOpt.text}`;
-      document.getElementById('repo-name').setAttribute('href', `${repos[selElemIndex].html_url}`);
-      document.getElementById('repo-description').innerHTML = `${repos[selElemIndex].description}`;
-      document.getElementById('repo-fork').innerHTML = `${repos[selElemIndex].forks}`;
-      document.getElementById('repo-updated').innerHTML = `${repos[selElemIndex].updated_at}`;
+    const allOptions = document.getElementById('select');
 
-      function deleteRightSideInfos() {
-        const firstContsInfo = document.getElementById('right-side');
-        firstContsInfo.remove();
-      }
-
-      function addRightSideInfos(addedContJsonData) {
-        const addedConts = addedContJsonData;
-        const newRightDiv = createAndAppend('div', contentDiv, { id: 'right-side' });
-        createAndAppend('h3', newRightDiv, { text: 'Contributors' });
-        addedConts.forEach((_addedCont, index) => {
-          const contsInfo = createAndAppend('div', newRightDiv, { class: 'cont-info' });
-          const contsInfoLeft = createAndAppend('div', contsInfo, { class: 'cont-info-left' });
-          const contsInfoRight = createAndAppend('div', contsInfo, {
-            class: 'cont-info-right',
-          });
-          createAndAppend('img', contsInfoLeft, {
-            src: `${addedConts[index].avatar_url}`,
-            alt: `${addedConts[index].login} avatar`,
-          });
-          createAndAppend('a', contsInfoLeft, {
-            text: `${addedConts[index].login}`,
-            href: `${addedConts[index].html_url}`,
-            target: '_blank',
-          });
-          createAndAppend('p', contsInfoRight, { text: `${addedConts[index].contributions}` });
-        });
-      }
-
-      const CHANGED_CONT_URL = repos[selElemIndex].contributors_url;
-      fetchJSON(CHANGED_CONT_URL, (err, data) => {
-        if (err) {
-          createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-        } else {
-          deleteRightSideInfos();
-          addRightSideInfos(data);
-        }
-      });
-    });
+    createChangedInfo(allOptions, sortedRepositories, rootDiv, contentDiv);
   }
 
   function main(url) {
     fetchJSON(url, (err, data) => {
       const root = document.getElementById('root');
       if (err) {
-        const header = createAndAppend('div', root, { id: 'header' });
-        createAndAppend('img', header, { src: './hyf.png', alt: 'HackYourFuture logo' });
-        createAndAppend('h1', header, { text: 'HackYourFuture Github Repositories' });
-
-        const choice = createAndAppend('div', root, { id: 'choice' });
-        createAndAppend('h3', choice, { text: 'Please Select a Repository Below' });
-        const selection = createAndAppend('div', choice, { id: 'selection' });
-        createAndAppend('p', selection, { text: 'HYF Repositories: ' });
-        createAndAppend('select', selection, { id: 'select' });
+        createHeader(root);
         const error = createAndAppend('div', root, {});
         createAndAppend('p', error, { text: err.message, class: 'alert-error' });
       } else {
-        createHtml(data);
+        createHtml(root, data);
       }
     });
   }
