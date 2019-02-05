@@ -36,12 +36,14 @@
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
+        /*****************************              Header                ****************************** */
+
         createAndAppend('header', root, { id: 'header', class: 'header_box' });
         const header = document.getElementById('header');
         createAndAppend('p', header, { text: 'HYF Repositories' });
         const hyfRepos = createAndAppend('select', header, { id: 'hyf_repos' });
 
-        data.sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1));
+        data.sort((a, b) => a.name.localeCompare(b.name, 'en'));
         data.forEach(repo => {
           createAndAppend('option', hyfRepos, { text: repo.name, value: repo.id });
         });
@@ -61,41 +63,50 @@
       });
 
       selectData.addEventListener('change', () => {
-        fetchJSON(url, (error, repoData) => {
+        fetchJSON(url, (err, reposData) => {
           leftDiv.innerHTML = '';
-          const output = repoData.filter(el => Number(selectData.value) === el.id);
-          output.forEach(res => {
-            const repoDiv = createAndAppend('div', leftDiv, { id: 'repo_div' });
-            const descriptionDiv = createAndAppend('div', leftDiv, { id: 'description_div' });
-            const forksDiv = createAndAppend('div', leftDiv, { id: 'forks_div' });
-            const updatedDiv = createAndAppend('div', leftDiv, { id: 'updated_div' });
 
-            createAndAppend('span', repoDiv, { text: 'Repository: ', class: 'bold' });
-            createAndAppend('a', repoDiv, { text: res.name, href: res.html_url, target: '_blank' });
-            createAndAppend('span', descriptionDiv, { text: 'Description:     ', class: 'bold' });
-            createAndAppend('span', descriptionDiv, { text: res.description });
-            createAndAppend('span', forksDiv, { text: 'Forks:     ', class: 'bold' });
-            createAndAppend('span', forksDiv, { text: res.forks });
-            createAndAppend('span', updatedDiv, { text: 'Updated:     ', class: 'bold' });
-            createAndAppend('span', updatedDiv, { text: res.updated_at });
+          let repoInfo = reposData.find(el => Number(selectData.value) === el.id);
+          console.log(repoInfo);
 
-            fetchJSON(res.contributors_url, (er, contributorData) => {
-              rightDiv.innerHTML = '';
-              createAndAppend('p', rightDiv, {
-                text: 'Contributions',
-                id: 'contributors_header',
-                class: 'bold',
+          /***************************          Repository Section         *****************************/
+
+          const repoDiv = createAndAppend('div', leftDiv, { id: 'repo_div' });
+          const descriptionDiv = createAndAppend('div', leftDiv, { id: 'description_div' });
+          const forksDiv = createAndAppend('div', leftDiv, { id: 'forks_div' });
+          const updatedDiv = createAndAppend('div', leftDiv, { id: 'updated_div' });
+
+          createAndAppend('span', repoDiv, { text: 'Repository: ', class: 'bold' });
+          createAndAppend('a', repoDiv, {
+            text: repoInfo.name,
+            href: repoInfo.html_url,
+            target: '_blank',
+          });
+          createAndAppend('span', descriptionDiv, { text: 'Description:     ', class: 'bold' });
+          createAndAppend('span', descriptionDiv, { text: repoInfo.description });
+          createAndAppend('span', forksDiv, { text: 'Forks:     ', class: 'bold' });
+          createAndAppend('span', forksDiv, { text: repoInfo.forks });
+          createAndAppend('span', updatedDiv, { text: 'Updated:     ', class: 'bold' });
+          createAndAppend('span', updatedDiv, { text: repoInfo.updated_at });
+
+          /*******************************        Contributors Section             ************/
+
+          fetchJSON(repoInfo.contributors_url, (err, contributorData) => {
+            rightDiv.innerHTML = '';
+            const contributorsHeader = createAndAppend('p', rightDiv, {
+              text: 'Contributions',
+              id: 'contributors_header',
+              class: 'bold',
+            });
+            const contributorsList = createAndAppend('ul', rightDiv, {
+              class: 'contributors_list',
+            });
+            contributorData.forEach(contributor => {
+              createAndAppend('img', contributorsList, {
+                class: 'cont_imgs',
+                src: contributor.avatar_url,
               });
-              const contributorsList = createAndAppend('ul', rightDiv, {
-                class: 'contributors_list',
-              });
-              contributorData.forEach(contributor => {
-                createAndAppend('img', contributorsList, {
-                  class: 'cont_imgs',
-                  src: contributor.avatar_url,
-                });
-                createAndAppend('li', contributorsList, { text: contributor.login });
-              });
+              createAndAppend('li', contributorsList, { text: contributor.login });
             });
           });
         });
