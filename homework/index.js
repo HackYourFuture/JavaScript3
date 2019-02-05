@@ -36,8 +36,6 @@
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
-        /*****************************              Header                ****************************** */
-
         createAndAppend('header', root, { id: 'header', class: 'header_box' });
         const header = document.getElementById('header');
         createAndAppend('p', header, { text: 'HYF Repositories' });
@@ -63,14 +61,10 @@
       });
 
       selectData.addEventListener('change', () => {
-        fetchJSON(url, (err, reposData) => {
+        fetchJSON(url, (error, reposData) => {
           leftDiv.innerHTML = '';
 
-          let repoInfo = reposData.find(el => Number(selectData.value) === el.id);
-          console.log(repoInfo);
-
-          /***************************          Repository Section         *****************************/
-
+          const repoInfo = reposData.find(el => Number(selectData.value) === el.id);
           const repoDiv = createAndAppend('div', leftDiv, { id: 'repo_div' });
           const descriptionDiv = createAndAppend('div', leftDiv, { id: 'description_div' });
           const forksDiv = createAndAppend('div', leftDiv, { id: 'forks_div' });
@@ -89,11 +83,9 @@
           createAndAppend('span', updatedDiv, { text: 'Updated:     ', class: 'bold' });
           createAndAppend('span', updatedDiv, { text: repoInfo.updated_at });
 
-          /*******************************        Contributors Section             ************/
-
-          fetchJSON(repoInfo.contributors_url, (err, contributorData) => {
+          fetchJSON(repoInfo.contributors_url, (errr, contributorData) => {
             rightDiv.innerHTML = '';
-            const contributorsHeader = createAndAppend('p', rightDiv, {
+            createAndAppend('p', rightDiv, {
               text: 'Contributions',
               id: 'contributors_header',
               class: 'bold',
