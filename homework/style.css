@@ -30,7 +30,7 @@ body {
 }
 
 select {
-  width: 200px;
+  max-width: 125px;
   height: 36px;
   border-radius: 4px;
   font-size: 15px;
@@ -87,9 +87,9 @@ p {
 }
 
 .contributorHeader {
-  font-size: 22px;
+  font-size: 15px;
   color: #4d4d7d;
-  padding-left: 8px;
+  padding: 0 8px 0 8px;
 }
 
 .contributor {
@@ -112,8 +112,22 @@ p {
   border-radius: 50%;
 }
 
-.horizontalLine {
-  width: 95%;
+.contributorWrapper {
+  text-decoration: none;
+  color: #6b5e5e;
+}
+
+.contributorWrapper:after {
+  content: '';
+  height: 1.5px;
+  display: block;
+  background: #adadad;
+  border-bottom: 1px #000;
+}
+
+.contributorWrapper:last-child:after {
+  content: '';
+  border-bottom: none;
 }
 
 /* Media Queries */
@@ -124,14 +138,31 @@ p {
   }
 }
 
-@media screen and (max-width: 410px) {
+@media (min-width: 414px) and (max-width: 767px) {
+  .container {
+    width: 100%;
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .repInfo-side,
+  .ContInfo-side {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+}
+
+@media (min-width: 310px) and (max-width: 410px) {
+  body {
+    background: #cacaca;
+  }
   .nav {
     position: relative;
   }
 
   #getRepoData {
     position: absolute;
-    width: 170px;
+    width: 125px;
     top: 6px;
   }
 
