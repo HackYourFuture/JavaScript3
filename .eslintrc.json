@@ -8,7 +8,6 @@
     "prettier/prettier": ["error"],
     "class-methods-use-this": "off",
     "strict": "off",
-    "no-plusplus": "off",
-    "linebreak-style": "off"
+    "no-plusplus": "off"
   }
 }
