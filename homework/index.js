@@ -14,8 +14,7 @@
         elem.setAttribute(key, value);
       }
     });
-    // const elem = document.createElement(name);
-    // parent.appendChild(elem);
+
     return elem;
   }
 
@@ -85,31 +84,31 @@
 
   function buildRepositoryList(repositories, parent) {
     const top = createAndAppend('div', parent, { id: 'top' });
-    const body = createAndAppend('div', parent, { id: 'bodytag' });
+    const body = createAndAppend('div', parent, { id: 'bodyTag' });
     const rightSide = createAndAppend('div', body, { id: 'right' });
     createAndAppend('label', top, { text: 'Select a Repository: ' });
-    const selectRepositoryMenue = createAndAppend('select', top, { id: 'selectMenue' });
-    createAndAppend('option', selectRepositoryMenue, { hidden: 'hidden' });
+    const selectRepositoryMenu = createAndAppend('select', top, { id: 'selectMenu' });
+    createAndAppend('option', selectRepositoryMenu, { hidden: 'hidden' });
     repositories.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
     repositories.forEach(repository => {
-      createAndAppend('option', selectRepositoryMenue, {
+      createAndAppend('option', selectRepositoryMenu, {
         value: repository.id,
         text: repository.name,
       });
     });
-    const respositorysection = createAndAppend('div', body, { id: 'respositoryInfo' });
-    selectRepositoryMenue.addEventListener('change', () => {
+    const respositorysection = createAndAppend('div', body, { id: 'repositoryInfo' });
+    selectRepositoryMenu.addEventListener('change', () => {
       // eslint-disable-next-line array-callback-return
-      const selectedRespo = repositories.find(option => {
+      const selectedRepos = repositories.find(option => {
         // eslint-disable-next-line no-restricted-globals
         if (Number(option.id) === Number(event.target.value)) {
           return option;
         }
       });
       respositorysection.innerHTML = '';
-      buildRepositoryInfo(selectedRespo, respositorysection);
+      buildRepositoryInfo(selectedRepos, respositorysection);
       rightSide.innerHTML = '';
-      fitchRepositoryContributors(selectedRespo.contributors_url, rightSide);
+      fitchRepositoryContributors(selectedRepos.contributors_url, rightSide);
     });
   }
 

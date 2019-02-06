@@ -1,20 +1,19 @@
 .alert-error {
   color: red;
 }
-#root {
-  display: flex;
-  flex-flow: row wrap;
-}
 #top {
-  flex: 1;
+  display: flex;
+}
+#bodyTag {
+  display: flex;
 }
 #right {
   flex: 1;
-  width: 60%;
+  order: 2;
 }
-#respositoryInfo {
-  flex: 3;
-  width: 40%;
+#repositoryInfo {
+  flex: 1;
+  order: 1;
 }
 .contributor > img {
   width: 70px;
