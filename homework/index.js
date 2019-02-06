@@ -16,7 +16,6 @@
   }
   function createRepositoryDescription(repoContainer, repository) {
     repoContainer.innerHTML = '';
-
     const table = createAndAppend('table', repoContainer);
     const tBody = createAndAppend('tbody', table);
     const details = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
