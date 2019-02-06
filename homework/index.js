@@ -1,21 +1,6 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
-  }
-
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
@@ -30,6 +15,8 @@
     return elem;
   }
   function createRepositoryDescription(repoContainer, repository) {
+    repoContainer.innerHTML = '';
+
     const table = createAndAppend('table', repoContainer);
     const tBody = createAndAppend('tbody', table);
     const details = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
@@ -50,9 +37,12 @@
       repository.updated_at,
     ).toLocaleDateString();
   }
-  function createContributorsSide(contributorContinaer, contributors) {
+
+  function createContributorsSide(contributorContainer, contributors) {
+    contributorContainer.innerHTML = '';
+    createAndAppend('p', contributorContainer, { text: 'Contributions: ' });
     contributors.forEach(contributor => {
-      const contributorInfo = createAndAppend('a', contributorContinaer, {
+      const contributorInfo = createAndAppend('a', contributorContainer, {
         href: contributor.html_url,
         target: '_blank',
       });
@@ -67,29 +57,20 @@
       });
     });
   }
-  function createContributors(contributorContinaer, url) {
-    fetchJSON(url, (err, contributors) => {
-      if (err) {
-        createAndAppend('div', contributorContinaer, { text: err.message, class: 'alert-error' });
-      } else {
-        createAndAppend('p', contributorContinaer, { text: 'Contributions: ' });
-        createContributorsSide(contributorContinaer, contributors);
-      }
-    });
-  }
+
   function main(url) {
-    fetchJSON(url, (err, repositories) => {
-      const root = document.getElementById('root');
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        const header = createAndAppend('div', root, { class: 'header' });
-        createAndAppend('p', header, { text: 'HYF Repositories' });
+    const root = document.getElementById('root');
+    const header = createAndAppend('div', root, { class: 'header' });
+    createAndAppend('p', header, { text: 'HYF Repositories' });
+
+    fetch(url)
+      .then(Response => Response.json())
+      .then(repositories => {
         const container = createAndAppend('div', root, { id: 'container' });
         const repoContainer = createAndAppend('div', container, {
           class: 'left-div',
         });
-        const contributorContinaer = createAndAppend('div', container, {
+        const contributorContainer = createAndAppend('div', container, {
           class: 'right-div',
         });
         const select = createAndAppend('select', header, { class: 'repo-selector' });
@@ -98,16 +79,33 @@
           createAndAppend('option', select, { text: repository.name });
         });
         createRepositoryDescription(repoContainer, repositories[0]);
-        createContributors(contributorContinaer, repositories[0].contributors_url);
+        fetch(repositories[0].contributors_url)
+          .then(response => response.json())
+          .then(contributors => createContributorsSide(contributorContainer, contributors))
+          .catch(Error =>
+            createAndAppend('div', root, {
+              text: Error.message,
+              class: 'alert-error',
+            }),
+          );
+
         select.addEventListener('change', () => {
-          repoContainer.innerText = '';
-          contributorContinaer.innerText = '';
           const index = select.selectedIndex;
           createRepositoryDescription(repoContainer, repositories[index]);
-          createContributors(contributorContinaer, repositories[index].contributors_url);
+          fetch(repositories[index].contributors_url)
+            .then(contributors => contributors.json())
+            .then(contributors => {
+              createContributorsSide(contributorContainer, contributors);
+            })
+            .catch(changeError =>
+              createAndAppend('div', root, {
+                text: changeError.message,
+                class: 'alert-error',
+              }),
+            );
         });
-      }
-    });
+      })
+      .catch(error => createAndAppend('div', root, { text: error.message, class: 'alert-error' }));
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
