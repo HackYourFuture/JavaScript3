@@ -31,12 +31,31 @@ body {
   height: 28px;
 }
 
-#info_panel {
-  background-color: darkolivegreen;
+#bottom_div {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+}
+
+#child_div_left {
+  background-color: darkolivegreen;
+  display: flex;
   padding: 8px 10px;
+  flex: 1;
+}
+#child_div_right {
+  background-color: lightsalmon;
+  padding: 16px;
+  display: flex;
+  flex: 1;
+}
+
+.right_column_cont_props {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
 }
 
 td {
@@ -69,4 +88,19 @@ a:visited {
     flex-direction: column;
     align-items: stretch;
   }
+}
+
+ul {
+  color: black;
+  list-style-type: none;
+}
+
+li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+img {
+  height: 60px;
 }
