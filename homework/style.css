@@ -1,3 +1,22 @@
 .alert-error {
-    color: red;
+  color: red;
+}
+#root {
+  display: flex;
+  flex-flow: row wrap;
+}
+#top {
+  flex: 1;
+}
+#right {
+  flex: 1;
+  width: 60%;
+}
+#respositoryInfo {
+  flex: 3;
+  width: 40%;
+}
+.contributor > img {
+  width: 70px;
+  height: 70px;
 }
