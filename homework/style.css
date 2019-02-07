@@ -1,22 +1,31 @@
 .alert-error {
-    color: red;
+  color: red;
 }
 
-body{
-  background: #00bfff;
+body {
+  background: #4682b4;
   padding-left: 25px;
-
 }
 
-h1{
-  color: darkgreen;
-
+#container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-#select{
-  font-size: 10px;
-  color: darkgreen;
-  height: 30px;
-  font-size: 20px;
-  border-radius: 0.50rem;
+.contributor-details {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 15px;
+  padding-right: 70px;
+}
+
+.avatar {
+  width: 75px;
+  border-radius: 10px;
+}
+
+p {
+  color: lightcyan;
 }
