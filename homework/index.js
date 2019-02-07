@@ -1,19 +1,22 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -32,6 +35,7 @@
 
   const root = document.getElementById('root');
   const container = createAndAppend('div', root, { id: 'container' });
+
   function getSelectedData(value, data) {
     let selected;
     data.forEach(item => {
@@ -81,90 +85,89 @@
     });
   }
 
-  function generateContSection(selected) {
-    const contsDiv = createAndAppend('div', container, { id: 'contsDiv' });
-    createAndAppend('p', contsDiv, { id: 'cont-header', text: 'Contributors' });
-    const contsLists = createAndAppend('ul', contsDiv, { id: 'conts-list' });
-    fetchJSON(
-      `https://api.github.com/repos/HackYourFuture/${selected}/contributors`,
-      (err, data) => {
-        if (err) {
-          createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-        } else {
-          data.forEach(item => {
-            const contListItem = createAndAppend('li', contsLists, {
-              id: `${item.login}ListItem`,
-              class: 'cont-li',
-            });
+  function generateContributorsSection(selected) {
+    const contributorsDiv = createAndAppend('div', container, { id: 'contsDiv' });
+    createAndAppend('p', contributorsDiv, { id: 'cont-header', text: 'Contributors' });
+    const contributorsLists = createAndAppend('ul', contributorsDiv, { id: 'conts-list' });
 
-            createAndAppend('img', contListItem, {
-              id: `${item.login}Img`,
-              class: 'cont-avatar',
-              src: item.avatar_url,
-            });
-
-            const contDiv = createAndAppend('div', contListItem, { id: `${item.login}Div` });
-
-            createAndAppend('a', contDiv, {
-              id: `${item.login}Name`,
-              class: 'cont-name',
-              text: item.login,
-              href: item.html_url,
-              target: '_blank',
-            });
-            createAndAppend('div', contDiv, {
-              id: `${item.login}Badge`,
-              class: 'cont-badge',
-              text: item.contributions,
-            });
+    fetchJSON(`https://api.github.com/repos/HackYourFuture/${selected}/contributors`).then(
+      data => {
+        data.forEach(item => {
+          const contributorListItem = createAndAppend('li', contributorsLists, {
+            id: `${item.login}ListItem`,
+            class: 'cont-li',
           });
-        }
+
+          createAndAppend('img', contributorListItem, {
+            id: `${item.login}Img`,
+            class: 'cont-avatar',
+            src: item.avatar_url,
+          });
+
+          const contributorDiv = createAndAppend('div', contributorListItem, {
+            id: `${item.login}Div`,
+          });
+
+          createAndAppend('a', contributorDiv, {
+            id: `${item.login}Name`,
+            class: 'cont-name',
+            text: item.login,
+            href: item.html_url,
+            target: '_blank',
+          });
+          createAndAppend('div', contributorDiv, {
+            id: `${item.login}Badge`,
+            class: 'cont-badge',
+            text: item.contributions,
+          });
+        });
+      },
+      err => {
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       },
     );
   }
 
-  function updateContSection(selected) {
-    const contsDiv = document.getElementById('contsDiv');
-    contsDiv.innerHTML = '';
-    createAndAppend('p', contsDiv, { id: 'cont-header', text: 'Contributors' });
-    const contsLists = createAndAppend('ul', contsDiv, { id: 'conts-list' });
+  function updateContributorSection(selected) {
+    const contributorsDiv = document.getElementById('contsDiv');
+    contributorsDiv.innerHTML = '';
+    createAndAppend('p', contributorsDiv, { id: 'cont-header', text: 'Contributors' });
+    const contributorsLists = createAndAppend('ul', contributorsDiv, { id: 'conts-list' });
 
-    fetchJSON(
-      `https://api.github.com/repos/HackYourFuture/${selected}/contributors`,
-      (err, data) => {
-        if (err) {
-          createAndAppend('div', root, { class: 'alert-error' });
-        } else {
-          data.forEach(item => {
-            const contListItem = createAndAppend('li', contsLists, {
-              id: `${item.login}ListItem`,
-              class: 'cont-li',
-            });
-
-            createAndAppend('img', contListItem, {
-              id: `${item.login}Img`,
-              class: 'cont-avatar',
-              src: item.avatar_url,
-            });
-
-            const contDiv = createAndAppend('div', contListItem, {
-              id: `${item.login}Div`,
-            });
-
-            createAndAppend('a', contDiv, {
-              id: `${item.login}Name`,
-              class: 'cont-name',
-              text: item.login,
-              href: item.html_url,
-              target: '_blank',
-            });
-            createAndAppend('div', contDiv, {
-              id: `${item.login}Badge`,
-              class: 'cont-badge',
-              text: item.contributions,
-            });
+    fetchJSON(`https://api.github.com/repos/HackYourFuture/${selected}/contributors`).then(
+      data => {
+        data.forEach(item => {
+          const contributorListItem = createAndAppend('li', contributorsLists, {
+            id: `${item.login}ListItem`,
+            class: 'cont-li',
           });
-        }
+
+          createAndAppend('img', contributorListItem, {
+            id: `${item.login}Img`,
+            class: 'cont-avatar',
+            src: item.avatar_url,
+          });
+
+          const contributorDiv = createAndAppend('div', contributorListItem, {
+            id: `${item.login}Div`,
+          });
+
+          createAndAppend('a', contributorDiv, {
+            id: `${item.login}Name`,
+            class: 'cont-name',
+            text: item.login,
+            href: item.html_url,
+            target: '_blank',
+          });
+          createAndAppend('div', contributorDiv, {
+            id: `${item.login}Badge`,
+            class: 'cont-badge',
+            text: item.contributions,
+          });
+        });
+      },
+      err => {
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       },
     );
   }
@@ -192,28 +195,27 @@
   }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        const repoName = data
-          .map(repo => repo.name)
-          .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+    fetchJSON(url).then(
+      data => {
+        const repoName = data.map(repo => repo.name).sort((a, b) => a.localeCompare(b));
         generateSelections(repoName);
 
         const selected = document.getElementById('repositories');
 
         generateInfoSection(selected.value, data);
-        generateContSection(selected.value, data);
+        generateContributorsSection(selected.value, data);
 
         selected.addEventListener('change', () => {
           updateInfoSection(selected.value, data);
-          updateContSection(selected.value, data);
+          updateContributorSection(selected.value, data);
         });
 
         // createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
-      }
-    });
+      },
+      err => {
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+      },
+    );
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
