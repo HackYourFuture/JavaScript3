@@ -1,5 +1,3 @@
-/* eslint-disable consistent-return */
-
 'use strict';
 
 {
@@ -21,32 +19,25 @@
   function buildRepositoryContributors(contributors, parent) {
     createAndAppend('label', parent, { text: 'Contributors', id: 'titleContributor' });
     contributors.forEach(contributor => {
-      const link = createAndAppend('a', parent, { href: contributor.html_url, target: '_blank' });
-      const contributorData = createAndAppend('div', link, { class: 'contributor' });
+      const contributorData = createAndAppend('div', parent, { class: 'contributor' });
       createAndAppend('img', contributorData, {
         src: contributor.avatar_url,
         alt: contributor.login,
       });
-      createAndAppend('label', contributorData, { text: contributor.login, id: 'name' });
-      createAndAppend('label', contributorData, {
+      contributorData.addEventListener('click', () => {
+        window.open(contributor.html_url, '_blank');
+      });
+      contributorData.addEventListener('mouseover', () => {
+        contributorData.style.cursor = 'pointer';
+      });
+      createAndAppend('span', contributorData, { text: contributor.login, class: 'name' });
+      createAndAppend('span', contributorData, {
         text: contributor.contributions,
-        id: 'numberOfContribution',
+        class: 'numberOfContribution',
       });
     });
     return parent;
   }
-
-  function fitchRepositoryContributors(url, parent) {
-    // eslint-disable-next-line no-use-before-define
-    fetchJSON(url, (err, data) => {
-      if (err) {
-        createAndAppend('div', parent, { text: err.message, class: 'alert-error' });
-      } else {
-        buildRepositoryContributors(data, parent);
-      }
-    });
-  }
-
   function fetchJSON(url, cb) {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url);
@@ -62,24 +53,34 @@
     xhr.send();
   }
 
+  function fetchRepositoryContributors(url, parent) {
+    fetchJSON(url, (err, data) => {
+      if (err) {
+        createAndAppend('div', parent, { text: err.message, class: 'alert-error' });
+      } else {
+        buildRepositoryContributors(data, parent);
+      }
+    });
+  }
+
   function buildRepositoryInfo(RepositoryElement, parent) {
     const repository = createAndAppend('div', parent, { id: 'repository' });
     const description = createAndAppend('div', parent, { id: 'description' });
     const fork = createAndAppend('div', parent, { id: 'fork' });
     const dateRow = createAndAppend('div', parent, { id: 'date' });
 
-    createAndAppend('label', repository, { text: 'Repository Name:' });
+    createAndAppend('label', repository, { text: 'Repository Name: ' });
     createAndAppend('a', repository, {
       href: RepositoryElement.html_url,
       text: RepositoryElement.name,
       target: '_blank',
     });
     createAndAppend('label', description, { text: 'Description: ' });
-    createAndAppend('label', description, { text: RepositoryElement.description });
+    createAndAppend('span', description, { text: RepositoryElement.description });
     createAndAppend('label', fork, { text: 'Fork: ' });
-    createAndAppend('label', fork, { text: RepositoryElement.forks });
+    createAndAppend('span', fork, { text: RepositoryElement.forks });
     createAndAppend('label', dateRow, { text: 'Date: ' });
-    createAndAppend('label', dateRow, { text: RepositoryElement.updated_at });
+    createAndAppend('span', dateRow, { text: RepositoryElement.updated_at });
   }
 
   function buildRepositoryList(repositories, parent) {
@@ -87,8 +88,10 @@
     const body = createAndAppend('div', parent, { id: 'bodyTag' });
     const rightSide = createAndAppend('div', body, { id: 'right' });
     createAndAppend('label', top, { text: 'Select a Repository: ' });
-    const selectRepositoryMenu = createAndAppend('select', top, { id: 'selectMenu' });
-    createAndAppend('option', selectRepositoryMenu, { hidden: 'hidden' });
+    const selectRepositoryMenu = createAndAppend('select', top, {
+      id: 'selectMenu',
+      class: 'slate',
+    });
     repositories.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
     repositories.forEach(repository => {
       createAndAppend('option', selectRepositoryMenu, {
@@ -96,20 +99,24 @@
         text: repository.name,
       });
     });
-    const respositorysection = createAndAppend('div', body, { id: 'repositoryInfo' });
-    selectRepositoryMenu.addEventListener('change', () => {
-      // eslint-disable-next-line array-callback-return
+    const repositorySection = createAndAppend('div', body, { id: 'repositoryInfo' });
+    selectRepositoryMenu.addEventListener('change', event => {
       const selectedRepos = repositories.find(option => {
-        // eslint-disable-next-line no-restricted-globals
         if (Number(option.id) === Number(event.target.value)) {
           return option;
         }
+        return undefined;
       });
-      respositorysection.innerHTML = '';
-      buildRepositoryInfo(selectedRepos, respositorysection);
+      repositorySection.innerHTML = '';
+      buildRepositoryInfo(selectedRepos, repositorySection);
       rightSide.innerHTML = '';
-      fitchRepositoryContributors(selectedRepos.contributors_url, rightSide);
+      fetchRepositoryContributors(selectedRepos.contributors_url, rightSide);
     });
+    // for the first time call.
+    repositorySection.innerHTML = '';
+    buildRepositoryInfo(repositories[0], repositorySection);
+    rightSide.innerHTML = '';
+    fetchRepositoryContributors(repositories[0].contributors_url, rightSide);
   }
 
   function main(url) {
