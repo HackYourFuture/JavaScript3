@@ -1,20 +1,7 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
-  }
+  const root = document.getElementById('root');
 
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
@@ -29,6 +16,13 @@
     });
     return elem;
   }
+
+  const showError = err => {
+    createAndAppend('div', root, {
+      text: err.message,
+      class: 'alert-error',
+    });
+  };
 
   function presentRepositories(repositoriesContainer, repository) {
     const table = createAndAppend('table', repositoriesContainer);
@@ -99,14 +93,13 @@
   }
 
   function presentContributors(contributorsContainer, url) {
-    fetchJSON(url, (err, contributors) => {
-      if (err) {
-        createAndAppend('div', contributorsContainer, { text: err.message, class: 'alert-error' });
-      } else {
+    fetch(url)
+      .then(contributors => contributors.json())
+      .then(contributors => {
         createAndAppend('p', contributorsContainer, { text: 'Contributions' });
         renderContributors(contributorsContainer, contributors);
-      }
-    });
+      })
+      .catch(showError);
   }
 
   function sortRepositories(repositories) {
@@ -123,38 +116,44 @@
     });
   }
 
-  function main(url) {
-    fetchJSON(url, (err, repositories) => {
-      const root = document.getElementById('root');
-      const header = createAndAppend('div', root, { id: 'header' });
-      createAndAppend('h1', header, { text: 'HYF Repositories' });
-      const select = createAndAppend('select', header, { id: 'select' });
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        const mainContainer = createAndAppend('div', root, { id: 'main-container' });
-        const repositoriesContainer = createAndAppend('div', mainContainer, {
-          id: 'repositories-container',
-        });
-        const contributorsContainer = createAndAppend('div', mainContainer, {
-          id: 'contributors-container',
-        });
-
-        sortRepositories(repositories);
-        selectStructure(repositories, select);
-
-        presentRepositories(repositoriesContainer, repositories[0]);
-        presentContributors(contributorsContainer, repositories[0].contributors_url);
-
-        select.addEventListener('change', () => {
-          repositoriesContainer.innerHTML = '';
-          contributorsContainer.innerHTML = '';
-          const index = select.selectedIndex;
-          presentRepositories(repositoriesContainer, repositories[index]);
-          presentContributors(contributorsContainer, repositories[index].contributors_url);
-        });
-      }
+  function showAll(repositories) {
+    const header = createAndAppend('div', root, { id: 'header' });
+    createAndAppend('h1', header, { text: 'HYF Repositories' });
+    const select = createAndAppend('select', header, { id: 'select' });
+    const mainContainer = createAndAppend('div', root, { id: 'main-container' });
+    const repositoriesContainer = createAndAppend('div', mainContainer, {
+      id: 'repositories-container',
     });
+    const contributorsContainer = createAndAppend('div', mainContainer, {
+      id: 'contributors-container',
+    });
+
+    sortRepositories(repositories);
+    selectStructure(repositories, select);
+
+    presentRepositories(repositoriesContainer, repositories[0]);
+    presentContributors(contributorsContainer, repositories[0].contributors_url);
+
+    select.addEventListener('change', () => {
+      repositoriesContainer.innerHTML = '';
+      contributorsContainer.innerHTML = '';
+      const index = select.selectedIndex;
+      presentRepositories(repositoriesContainer, repositories[index]);
+      presentContributors(contributorsContainer, repositories[index].contributors_url);
+    });
+  }
+
+  function main(url) {
+    fetch(url)
+      .then(response => {
+        if (response.ok) {
+          return response;
+        }
+        throw new Error('Network response was not ok.');
+      })
+      .then(response => response.json())
+      .then(showAll)
+      .catch(showError);
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => main(HYF_REPOS_URL);
