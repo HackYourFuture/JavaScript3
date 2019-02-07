@@ -13,7 +13,7 @@ body {
   justify-content: space-between;
 }
 
-.contributor-details {
+.contributor-detail {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;

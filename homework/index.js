@@ -33,7 +33,7 @@
   function renderContributors(contributors, contributorContainer) {
     contributors.forEach(contributor => {
       const contributorDetail = createAndAppend('div', contributorContainer, {
-        class: 'contributor-details',
+        class: 'contributor-detail',
       });
       createAndAppend('img', contributorDetail, {
         src: contributor.avatar_url,
