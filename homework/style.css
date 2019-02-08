@@ -233,3 +233,49 @@ body {
 .contributor > span {
   padding-bottom: 7vw;
 }
+
+@media (min-width: 481px) and (max-width: 1024px) {
+  #selectMenu {
+    width: 40vw;
+  }
+  #right {
+    margin-top: 3vw;
+    width: 40vw;
+  }
+  #repositoryInfo {
+    margin-top: 3vw;
+    margin-left: 10vw;
+    width: 40vw;
+    margin-right: 1px;
+  }
+  #top {
+    margin-left: 18vw;
+  }
+}
+@media (max-width: 480px) {
+  #bodyTag {
+    flex-direction: column;
+  }
+  #selectMenu {
+    width: 33vw;
+  }
+  #top > label {
+    font-size: 16px;
+  }
+  #selectMenu > option {
+    font-size: 16px;
+  }
+  #right {
+    margin-top: 3vw;
+    margin-left: 12vw;
+    width: 70vw;
+  }
+  #repositoryInfo {
+    margin-bottom: 3vw;
+    margin-top: 3vw;
+    margin-left: 12vw;
+  }
+  #top {
+    margin-left: 22vw;
+  }
+}

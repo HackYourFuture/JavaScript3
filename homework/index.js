@@ -38,29 +38,35 @@
     });
     return parent;
   }
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
-  }
+  const fetchJSON = url => {
+    const promise = new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          // eslint-disable-next-line prefer-destructuring
+          const response = xhr.response;
+          resolve(response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+      xhr.send();
+    });
+    return promise;
+  };
 
   function fetchRepositoryContributors(url, parent) {
-    fetchJSON(url, (err, data) => {
-      if (err) {
-        createAndAppend('div', parent, { text: err.message, class: 'alert-error' });
-      } else {
-        buildRepositoryContributors(data, parent);
-      }
-    });
+    const promise = fetchJSON(url);
+    promise
+      .then(response => {
+        buildRepositoryContributors(response, parent);
+      })
+      .catch(error => {
+        createAndAppend('div', parent, { text: error.message, class: 'alert-error' });
+      });
   }
 
   function buildRepositoryInfo(RepositoryElement, parent) {
@@ -120,14 +126,16 @@
   }
 
   function main(url) {
-    fetchJSON(url, (err, repositories) => {
-      const root = document.getElementById('root');
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        buildRepositoryList(repositories, root);
-      }
-    });
+    const promise = fetchJSON(url);
+    promise
+      .then(response => {
+        const root = document.getElementById('root');
+        buildRepositoryList(response, root);
+      })
+      .catch(error => {
+        const root = document.getElementById('root');
+        createAndAppend('div', root, { text: error.message, class: 'alert-error' });
+      });
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
