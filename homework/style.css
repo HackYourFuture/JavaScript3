@@ -1,96 +1,141 @@
-body{
+/*basic css reset*/
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
   box-sizing: border-box;
+}
+/*main css*/
+body {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-size:1em;
-  background-color: #D9D3D3
+  font-size: 1em;
+  background-color: #d9d3d3;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-header{
-  margin: 0px;
-  height: 50px;
-  width: 100%;
-  text-align: center;
-
-}
-
-.logo{
-  margin: 5px;
-  height: 50px;
-  float: left;
-  border-radius: 3px;
-}
-
-h1{
-  font-size: 1.3em;
-  color:#C52E2E
-}
-
-nav{
-  text-align: center;
-  height: 40px;
-}
-
-#repositorySelect{
-
-  height:30px;
-  width:400px;
-  color:#AA3939;
-  background-color:whitesmoke;
-  border:1px solid #A47171;
-}
-
-main{
+nav {
+  position: relative;
+  justify-content: center;
+  align-items: center;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
-  flex: 1 1 auto;
 }
 
-#repository, #contributors {
+@media (min-width: 820px) {
+  nav {
+    width: 820px;
+    justify-content: space-between;
+  }
+}
+.alignCenter {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.logo {
+  height: 50px;
+  border-radius: 3px;
+  margin: 5px;
+}
+label {
+  font-size: 1.3em;
+}
+#repositorySelect {
+  height: 30px;
+  width: 400px;
+  margin: 5px;
+  color: #aa3939;
+  background-color: whitesmoke;
+  border-radius: 5px;
+  border: 1px solid #a47171;
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.boxes {
   position: relative;
-  padding: 5px;
+  margin: 5px;
   width: 400px;
   border-radius: 5px;
-  border:1px solid #A47171;
-  background-color: whitesmoke
+  border: 1px solid #a47171;
+  background-color: whitesmoke;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
+.boxes:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
 
-ul{
+h2 {
+  padding: 5px;
+  font-size: 1.2em;
+  width: 100%;
+  height: 40px;
+  text-align: center;
+  background-color: bisque;
+  border-bottom: 1px solid #a47171;
+}
+
+ul {
   list-style: none;
   width: 100%;
-  margin: 0px;
-  padding: 0px;
 }
 
-li{
-  width: 100%;
+#contributors li {
   height: 70px;
-  margin: 0px;
-  padding: 0px;
-  border-bottom: 1px solid  #A47171;
-  display:flex;
-
+  display: flex;
 }
 
-a{
-text-decoration: none;
+a {
+  text-decoration: none;
 }
 
-a:hover{
+a:hover {
   color: red;
   text-decoration: underline;
 }
 
-@keyframes blink-error{
-  0%  {opacity:0  }
-  100%{opacity:1  }
+#repositoryInfo {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px;
+}
+#repositoryInfo li {
+  padding: 5px;
+  flex: 1 1 50%;
+}
+#repositoryInfo li:nth-child(n + 3) {
+  border-top: 1px dotted grey;
+}
+#repositoryInfo li:nth-child(2n-1) {
+  font-weight: bold;
+  text-align: right;
+  border-right: 1px dotted grey;
+}
+
+@keyframes blink-error {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .alert-error {
-    color: red;
-    font-size: 2em;
-    animation: blink-error 2s linear infinite;
+  color: red;
+  font-size: 2em;
+  animation: blink-error 2s linear infinite;
 }
 
 .avatar {
@@ -99,24 +144,24 @@ a:hover{
   margin: 5px;
 }
 
-.contributor{
+.contributor {
   font-weight: bold;
-
+  flex: 1;
 }
 
-.contribution-count{
-
+.contribution-count {
   height: 20px;
   width: 30px;
+  margin: 5px;
   text-align: center;
   border-radius: 3px;
-  border-color:1px solid dodgerblue;
+  border-color: 1px solid dodgerblue;
   background-color: royalblue;
-  color:white;
+  color: white;
 }
 
-.no-contributor{
-  color:red;
+.no-contributor {
+  color: red;
   font-weight: bold;
   font-size: 1em;
 }

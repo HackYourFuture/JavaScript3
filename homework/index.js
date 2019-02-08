@@ -1,21 +1,5 @@
 'use strict';
-
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
-  }
-
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
@@ -37,14 +21,17 @@
   }
 
   function displayError(error, nodeToDisplay) {
+    removeChildElements(nodeToDisplay);
     createAndAppend('p', nodeToDisplay, { text: error.message, class: 'alert-error' });
   }
+
   function showContributors(contributors) {
     const contributorsContainer = document.getElementById('contributors');
+    removeChildElements(contributorsContainer);
     if (contributors) {
       const ul = createAndAppend('ul', contributorsContainer);
       for (const contributor of contributors) {
-        const li = createAndAppend('li', ul);
+        const li = createAndAppend('li', ul, { class: 'boxes' });
         createAndAppend('img', li, { src: contributor.avatar_url, class: 'avatar' });
         createAndAppend('a', li, {
           text: contributor.login,
@@ -70,35 +57,45 @@
     removeChildElements(repositoryContainer);
     const selected = document.getElementById('repositorySelect').selectedIndex;
     const repository = data[selected];
-    createAndAppend('img', repositoryContainer, {
-      src: 'hyf.png',
-      alt: 'Hack Your Future Logo',
-      class: 'logo',
-    });
     const h2 = createAndAppend('h2', repositoryContainer, { id: 'repositoryName' });
     createAndAppend('a', h2, {
       text: repository.name,
       href: repository.html_url,
       target: '_blank',
     });
-    createAndAppend('p', repositoryContainer, { text: repository.description });
+    const ul = createAndAppend('ul', repositoryContainer, { id: 'repositoryInfo' });
+    [
+      'Description',
+      repository.description,
+      'Forks',
+      repository.forks_count,
+      'Stargazers',
+      repository.stargazers_count,
+      'Watchers',
+      repository.watchers_count,
+      'Updated',
+      repository.updated_at,
+    ].forEach(value => createAndAppend('li', ul, { text: value }));
 
     const contributorsContainer = document.getElementById('contributors');
-
-    fetchJSON(repository.contributors_url, (error, contributors) => {
-      removeChildElements(contributorsContainer);
-      if (error) {
-        displayError(error, contributorsContainer);
-      } else {
-        showContributors(contributors);
-      }
-    });
+    fetch(repository.contributors_url)
+      .then(response => response.json())
+      .then(result => showContributors(result))
+      .catch(error => displayError(error, contributorsContainer));
   }
 
   function createHeader(data) {
-    const header = createAndAppend('header', root, { id: 'header' });
-    createAndAppend('h1', header, { text: 'Hack Your Future Repositories' });
-    const nav = createAndAppend('nav', root, { id: 'navigation' });
+    const nav = createAndAppend('nav', root, { id: 'navigation', class: 'alignCenter' });
+    createAndAppend('img', nav, {
+      src: 'hyf.png',
+      alt: 'Hack Your Future Logo',
+      class: 'logo',
+    });
+    createAndAppend('label', nav, {
+      text: 'Hack Your Future Repositories:',
+      for: 'repositorySelect',
+    });
+
     const select = createAndAppend('select', nav, { id: 'repositorySelect' });
     data.sort((repo1, repo2) => repo1.name.localeCompare(repo2.name, 'en', { sensivity: 'base' }));
     data.forEach((repository, index) => {
@@ -110,7 +107,7 @@
     });
 
     const main = createAndAppend('main', root, { id: 'main' });
-    createAndAppend('div', main, { id: 'repository' });
+    createAndAppend('div', main, { id: 'repository', class: 'boxes' });
     createAndAppend('div', main, { id: 'contributors' });
     showRepositoryDetails(data);
     select.addEventListener('change', () => showRepositoryDetails(data));
@@ -119,13 +116,17 @@
   function main(url) {
     const root = document.getElementById('root');
 
-    fetchJSON(url, (err, data) => {
-      if (err) {
-        displayError(err, root);
-      } else {
-        createHeader(data);
-      }
-    });
+    fetch(url)
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(`Network Error: ${response.url} (${response.statusText})`);
+      })
+      .then(result => {
+        createHeader(result);
+      })
+      .catch(error => displayError(error, root));
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
