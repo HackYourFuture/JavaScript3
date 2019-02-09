@@ -40,7 +40,11 @@
         alt: contributor.login,
         class: 'avatar',
       });
-      createAndAppend('p', contributorDetail, { text: contributor.login });
+      createAndAppend('a', contributorDetail, {
+        text: contributor.login,
+        href: contributor.html_url,
+        target: '_blank',
+      });
       createAndAppend('p', contributorDetail, { text: contributor.contributions });
     });
   }
