@@ -1,20 +1,39 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      //resolve(new Error('Hanging out'));
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.status);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
+  fetchJSON('https://api.github.com/orgs/HackYourFuture/repos?per_page=100')
+    .then(resolve => {
+      console.log(resolve);
+    })
+    .catch(reject => {
+      console.log(reject);
+    });
+
+  // fetchJSON()
+  //   .then(resolveValue => {
+  //     console.log(resolveValue);
+  //   })
+  //   .catch(resolveValue => {
+  //     console.log(resolveValue);
+  //   });
 
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
