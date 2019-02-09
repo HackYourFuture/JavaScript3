@@ -3,14 +3,12 @@
 {
   function fetchJSON(url) {
     return new Promise((resolve, reject) => {
-      //resolve(new Error('Hanging out'));
-
       const xhr = new XMLHttpRequest();
       xhr.open('GET', url);
       xhr.responseType = 'json';
       xhr.onload = () => {
         if (xhr.status < 400) {
-          resolve(xhr.status);
+          resolve(xhr.response);
         } else {
           reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
         }
@@ -19,21 +17,6 @@
       xhr.send();
     });
   }
-  fetchJSON('https://api.github.com/orgs/HackYourFuture/repos?per_page=100')
-    .then(resolve => {
-      console.log(resolve);
-    })
-    .catch(reject => {
-      console.log(reject);
-    });
-
-  // fetchJSON()
-  //   .then(resolveValue => {
-  //     console.log(resolveValue);
-  //   })
-  //   .catch(resolveValue => {
-  //     console.log(resolveValue);
-  //   });
 
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
@@ -52,7 +35,7 @@
   function renderContributors(contributors, contributorContainer) {
     contributors.forEach(contributor => {
       const contributorDetail = createAndAppend('div', contributorContainer, {
-        class: 'contributor-details',
+        class: 'contributor-detail',
       });
       createAndAppend('img', contributorDetail, {
         src: contributor.avatar_url,
@@ -64,26 +47,7 @@
     });
   }
 
-  function fetchAndRender(selectedRepo, repoContainer, contributorContainer, root) {
-    console.log('name', selectedRepo);
-    repoContainer.innerHTML = '';
-    contributorContainer.innerHTML = '';
-
-    const updatedAt = new Date(selectedRepo.updated_at);
-
-    createAndAppend('p', repoContainer, { text: `Repository: ${selectedRepo.name}` });
-    createAndAppend('p', repoContainer, { text: `Description: ${selectedRepo.description}` });
-    createAndAppend('p', repoContainer, { text: `Forks: ${selectedRepo.forks}` });
-    createAndAppend('p', repoContainer, { text: `Update: ${updatedAt.toLocaleString()}` });
-
-    fetchJSON(selectedRepo.contributors_url, (err, contributors) => {
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-message' });
-      } else {
-        renderContributors(contributors, contributorContainer);
-      }
-    });
-  }
+  function fetchAndRender() {}
 
   function dropDown(root, repos) {
     const header = createAndAppend('header', root, { class: 'header' });
@@ -104,21 +68,35 @@
     select.addEventListener('change', () => {
       const selectedRepo = repos[select.value];
       console.log('name', selectedRepo);
-      fetchAndRender(selectedRepo, repoContainer, contributorContainer, root);
-    });
+      repoContainer.innerHTML = '';
+      contributorContainer.innerHTML = '';
 
-    fetchAndRender(repos[0], repoContainer, contributorContainer, root);
+      const updatedAt = new Date(selectedRepo.updated_at);
+
+      createAndAppend('p', repoContainer, { text: `Repository: ${selectedRepo.name}` });
+      createAndAppend('p', repoContainer, { text: `Description: ${selectedRepo.description}` });
+      createAndAppend('p', repoContainer, { text: `Forks: ${selectedRepo.forks}` });
+      createAndAppend('p', repoContainer, { text: `Update: ${updatedAt.toLocaleString()}` });
+
+      fetchJSON(selectedRepo.contributors_url)
+        .then(contributors => {
+          renderContributors(contributors, contributorContainer);
+        })
+        .catch(err => {
+          createAndAppend('div', root, { text: err.message, class: 'alert-message' });
+        });
+    });
   }
 
   function main(url) {
     const root = document.getElementById('root');
-    fetchJSON(url, (err, repositories) => {
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-message' });
-      } else {
+    fetchJSON(url)
+      .then(repositories => {
         dropDown(root, repositories);
-      }
-    });
+      })
+      .catch(err => {
+        createAndAppend('div', root, { text: err.message, class: 'alert-message' });
+      });
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
