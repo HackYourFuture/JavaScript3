@@ -19,37 +19,15 @@
     return repositories.sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  function getSelectedOption(sel) {
-    let opt;
-    for (let i = 0; i < sel.options.length; i++) {
-      opt = sel.options[i];
-      if (opt.selected === true) {
-        break;
-      }
-    }
-    return opt;
-  }
-
-  function getSelectedIndex(name, opt) {
-    let selectedIndex = 0;
-    for (let i = 0; i < name.length; i++) {
-      if (name[i].name === opt.text) {
-        selectedIndex = i;
-        break;
-      }
-    }
-    return selectedIndex;
-  }
-
-  function deleteRightSideInfos(firstContributorsInfo) {
+  function deleteContributorsSideInfos(firstContributorsInfo) {
     firstContributorsInfo.remove();
   }
 
-  function createRightSideInfos(contributorsJsonData, rightDiv) {
+  function createContributorsSideInfos(contributorsJsonData, contributorsDiv) {
     const contributors = contributorsJsonData;
-    createAndAppend('h3', rightDiv, { text: 'Contributors' });
+    createAndAppend('h3', contributorsDiv, { text: 'Contributors' });
     contributors.forEach((_cont, index) => {
-      const contributorsInfo = createAndAppend('div', rightDiv, { class: 'cont-info' });
+      const contributorsInfo = createAndAppend('div', contributorsDiv, { class: 'cont-info' });
       const contributorsInfoLeft = createAndAppend('div', contributorsInfo, {
         class: 'cont-info-left',
       });
@@ -71,12 +49,12 @@
     });
   }
 
-  function addRightSideInfos(addedContributorsJsonData, contentDiv) {
+  function addContributorsSideInfos(addedContributorsJsonData, contentDiv) {
     const addedContributors = addedContributorsJsonData;
-    const newRightDiv = createAndAppend('div', contentDiv, { id: 'right-side' });
-    createAndAppend('h3', newRightDiv, { text: 'Contributors' });
+    const newContributorsDiv = createAndAppend('div', contentDiv, { id: 'right-side' });
+    createAndAppend('h3', newContributorsDiv, { text: 'Contributors' });
     addedContributors.forEach((_addedCont, index) => {
-      const contributorsInfo = createAndAppend('div', newRightDiv, { class: 'cont-info' });
+      const contributorsInfo = createAndAppend('div', newContributorsDiv, { class: 'cont-info' });
       const contributorsInfoLeft = createAndAppend('div', contributorsInfo, {
         class: 'cont-info-left',
       });
@@ -111,9 +89,11 @@
 
   function createChangedInfo(allOptions, sortedRepositories, rootDiv, contentDiv) {
     allOptions.addEventListener('change', () => {
-      const selectedOption = getSelectedOption(allOptions);
-      const selectedElementIndex = getSelectedIndex(sortedRepositories, selectedOption);
-      document.getElementById('repo-name').innerHTML = `${selectedOption.text}`;
+      const selectedOption = Array.from(allOptions).filter(opt => opt.selected === true);
+      const selectedElementIndex = sortedRepositories.findIndex(
+        repository => repository.name === selectedOption[0].text,
+      );
+      document.getElementById('repo-name').innerHTML = `${selectedOption[0].text}`;
       document
         .getElementById('repo-name')
         .setAttribute('href', `${sortedRepositories[selectedElementIndex].html_url}`);
@@ -134,8 +114,8 @@
       fetch(changedContributorUrl)
         .then(data => data.json())
         .then(data => {
-          deleteRightSideInfos(firstContributorsInfo);
-          addRightSideInfos(data, contentDiv);
+          deleteContributorsSideInfos(firstContributorsInfo);
+          addContributorsSideInfos(data, contentDiv);
         })
         .catch(err => {
           createAndAppend('div', rootDiv, { text: err.message, class: 'alert-error' });
@@ -149,15 +129,17 @@
     const sortedRepositories = sortElements(repositories);
     const selectElem = document.getElementById('select');
     const contentDiv = createAndAppend('div', rootDiv, { id: 'content' });
-    const leftDiv = createAndAppend('div', contentDiv, { id: 'left-side' });
-    const rightDiv = createAndAppend('div', contentDiv, { id: 'right-side' });
+    const repositoriesSide = createAndAppend('div', contentDiv, { id: 'left-side' });
+    const contributorsSide = createAndAppend('div', contentDiv, { id: 'right-side' });
 
     sortedRepositories.forEach((eachRepository, index) => {
       createAndAppend('option', selectElem, { text: eachRepository.name, value: index });
     });
 
-    const leftSideContent = createAndAppend('div', leftDiv, { id: 'left-side-content' });
-    const table = createAndAppend('table', leftSideContent, {});
+    const repositoriesSideContent = createAndAppend('div', repositoriesSide, {
+      id: 'left-side-content',
+    });
+    const table = createAndAppend('table', repositoriesSideContent, {});
     const tr1 = createAndAppend('tr', table, {});
     createAndAppend('td', tr1, { text: 'Repository: ' });
     const td2 = createAndAppend('td', tr1, {});
@@ -188,7 +170,7 @@
     fetch(contributorsUrl)
       .then(data => data.json())
       .then(data => {
-        createRightSideInfos(data, rightDiv);
+        createContributorsSideInfos(data, contributorsSide);
       })
       .catch(err => {
         createAndAppend('div', rootDiv, { text: err.message, class: 'alert-error' });
