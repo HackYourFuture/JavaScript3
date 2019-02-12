@@ -2,7 +2,7 @@
 
 {
   function fetchJSON(url) {
-    return new Promise((resolve, error) => {
+    return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open('GET', url);
       xhr.responseType = 'json';
@@ -10,10 +10,10 @@
         if (xhr.status < 400) {
           resolve(xhr.response);
         } else {
-          error(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
         }
       };
-      xhr.onerror = () => error(new Error('Network request failed'));
+      xhr.onerror = () => reject(new Error('Network request failed'));
       xhr.send();
     });
   }
@@ -132,7 +132,6 @@
         });
       });
       renderRepositories(repositories[0], leftHand);
-
       fetchJSON(repositories[0].contributors_url).then(contributors => {
         renderContributors(contributors, rightHand);
       });
@@ -140,9 +139,10 @@
   }
 
   function main(url) {
-    fetchJSON(url).then(data => mainPromise(null, data));
+    fetchJSON(url)
+      .then(data => mainPromise(null, data))
+      .catch(err => mainPromise(err));
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-
   window.onload = () => main(HYF_REPOS_URL);
 }
