@@ -1,6 +1,7 @@
 'use strict';
 
-function createAndAppend(name, parent, options = {}) {
+{
+  function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
     Object.keys(options).forEach(key => {
@@ -48,61 +49,9 @@ function createAndAppend(name, parent, options = {}) {
     });
     createAndAppend('td', tr4, {
       text: repository.updated_at,
- });
-    createAndAppend('div', a, {
-      text: contributor.contributions,
     });
-  });
-}
+  }
 
-function handleError(container, error) {
-  createAndAppend('div', container, {
-    text: error.message,
-    class: 'alert-error',
-  });
-}
-
-function mainPromise(root, repositories) {
-  const header = createAndAppend('div', root, {
-    id: 'header',
-  });
-
-  createAndAppend('label', header, {
-    text: 'HYF Repositories',
-  });
-  const select = createAndAppend('select', header);
-  repositories.sort((x, y) => x.name.localeCompare(y.name));
-  const leftHand = createAndAppend('div', root, {
-    id: 'left-hand',
-  });
-  const rightHand = createAndAppend('div', root, {
-    id: 'right-hand',
-  });
-
-  repositories.forEach((repository, index) => {
-    createAndAppend('option', select, {
-      text: repository.name,
-      value: index,
-    });
-  });
-  select.addEventListener('change', () => {
-    const index = select.value;
-    const repository = repositories[index];
-    renderRepositories(repository, leftHand);
-    fetch(repository.contributors_url)
-      .then(Response => Response.json())
-      .then(contributors => {
-        renderContributors(contributors, rightHand);
-      })
-      .catch(error => handleError(root, error));
-  });
-  renderRepositories(repositories[0], leftHand);
-  fetch(repositories[0].contributors_url)
-    .then(Response => Response.json())
-    .then(contributors => {
-      renderContributors(contributors, rightHand);
-    })
-    .catch(error => handleError(root, error));
   function renderContributors(contributors, container) {
     container.innerHTML = '';
     createAndAppend('p', container, {
@@ -127,8 +76,14 @@ function mainPromise(root, repositories) {
     });
   }
 
-  function mainPromise(err, repositories) {
-    const root = document.getElementById('root');
+  function handleError(container, error) {
+    createAndAppend('div', container, {
+      text: error.message,
+      class: 'alert-error',
+    });
+  }
+
+  function mainPromise(root, repositories) {
     const header = createAndAppend('div', root, {
       id: 'header',
     });
@@ -136,60 +91,47 @@ function mainPromise(root, repositories) {
       text: 'HYF Repositories',
     });
     const select = createAndAppend('select', header);
+    repositories.sort((x, y) => x.name.localeCompare(y.name));
+    const leftHand = createAndAppend('div', root, {
+      id: 'left-hand',
+    });
+    const rightHand = createAndAppend('div', root, {
+      id: 'right-hand',
+    });
 
-    if (err) {
-      createAndAppend('div', root, {
-        text: err.message,
-        class: 'alert-error',
+    repositories.forEach((repository, index) => {
+      createAndAppend('option', select, {
+        text: repository.name,
+        value: index,
       });
-    } else {
-      repositories.sort((x, y) => x.name.localeCompare(y.name));
-      const leftHand = createAndAppend('div', root, {
-        id: 'left-hand',
-      });
-      const rightHand = createAndAppend('div', root, {
-        id: 'right-hand',
-      });
-
-      repositories.forEach((repository, index) => {
-        createAndAppend('option', select, {
-          text: repository.name,
-          value: index,
-        });
-      });
-      select.addEventListener('change', () => {
-        const index = select.value;
-        const repository = repositories[index];
-        renderRepositories(repository, leftHand);
-        fetchJSON(repository.contributors_url).then(contributors => {
+    });
+    select.addEventListener('change', () => {
+      const index = select.value;
+      const repository = repositories[index];
+      renderRepositories(repository, leftHand);
+      fetch(repository.contributors_url)
+        .then(Repository => Repository.json())
+        .then(contributors => {
           renderContributors(contributors, rightHand);
-        });
-      });
-      renderRepositories(repositories[0], leftHand);
-      fetchJSON(repositories[0].contributors_url).then(contributors => {
+        })
+        .catch(error => handleError(root, error));
+    });
+    renderRepositories(repositories[0], leftHand);
+    fetch(repositories[0].contributors_url)
+      .then(Repository => Repository.json())
+      .then(contributors => {
         renderContributors(contributors, rightHand);
-      });
-    }
+      })
+      .catch(error => handleError(root, error));
   }
 
   function main(url) {
-    fetchJSON(url)
-      .then(data => mainPromise(null, data))
-      .catch(err => mainPromise(err));
+    const root = document.getElementById('root');
+    fetch(url)
+      .then(Repository => Repository.json())
+      .then(data => mainPromise(root, data))
+      .catch(err => mainPromise(root, err));
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => main(HYF_REPOS_URL);
->>>>>>> b83a336dbf0d2d058266edf2bb5f1a29a101d3f9
 }
-
-function main(url) {
-  const root = document.getElementById('root');
-  fetch(url)
-    .then(Response => Response.json())
-    .then(data => mainPromise(root, data))
-    .catch(err => mainPromise(root, err));
-}
-const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-
-window.onload = () => main(HYF_REPOS_URL);
-
