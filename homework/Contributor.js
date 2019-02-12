@@ -13,7 +13,24 @@ class Contributor {
    * @param {HTMLElement} container The container element in which to render the contributor.
    */
   render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.contributor, null, 2));
+    const contributorsInfo = Util.createAndAppend('div', container, { class: 'cont-info' });
+    const contributorsInfoLeft = Util.createAndAppend('div', contributorsInfo, {
+      class: 'cont-info-left',
+    });
+    const contributorsInfoRight = Util.createAndAppend('div', contributorsInfo, {
+      class: 'cont-info-right',
+    });
+    Util.createAndAppend('img', contributorsInfoLeft, {
+      src: `${this.contributor.avatar_url}`,
+      alt: `${this.contributor.login} avatar`,
+    });
+    Util.createAndAppend('a', contributorsInfoLeft, {
+      text: `${this.contributor.login}`,
+      href: `${this.contributor.html_url}`,
+      target: '_blank',
+    });
+    Util.createAndAppend('p', contributorsInfoRight, {
+      text: `${this.contributor.contributions}`,
+    });
   }
 }

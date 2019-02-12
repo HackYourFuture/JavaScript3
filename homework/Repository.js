@@ -13,8 +13,35 @@ class Repository {
    * @param {HTMLElement} container The container element in which to render the repository.
    */
   render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
+    const repositoriesSide = Util.createAndAppend('div', container, { id: 'left-side' });
+    const repositoriesSideContent = Util.createAndAppend('div', repositoriesSide, {
+      id: 'left-side-content',
+    });
+    const table = Util.createAndAppend('table', repositoriesSideContent, {});
+    const tr1 = Util.createAndAppend('tr', table, {});
+    Util.createAndAppend('td', tr1, { text: 'Repository: ' });
+    const td2 = Util.createAndAppend('td', tr1, {});
+    Util.createAndAppend('a', td2, {
+      id: 'repo-name',
+      text: `${this.repository.name}`,
+      href: `${this.repository.html_url}`,
+      target: '_blank',
+    });
+    const tr2 = Util.createAndAppend('tr', table, {});
+    Util.createAndAppend('td', tr2, { text: 'Description: ' });
+    Util.createAndAppend('td', tr2, {
+      id: 'repo-description',
+      text: `${this.repository.description}`,
+    });
+    const tr3 = Util.createAndAppend('tr', table, {});
+    Util.createAndAppend('td', tr3, { text: 'Fork: ' });
+    Util.createAndAppend('td', tr3, { id: 'repo-fork', text: `${this.repository.forks}` });
+    const tr4 = Util.createAndAppend('tr', table, {});
+    Util.createAndAppend('td', tr4, { text: 'Updated: ' });
+    Util.createAndAppend('td', tr4, {
+      id: 'repo-updated',
+      text: `${new Date(this.repository.updated_at).toLocaleString()}`,
+    });
   }
 
   /**

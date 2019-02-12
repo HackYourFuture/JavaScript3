@@ -87,8 +87,14 @@
     createAndAppend('select', selection, { id: 'select' });
   }
 
+  function renderError(err, root) {
+    createHeader(root);
+    const error = createAndAppend('div', root, {});
+    createAndAppend('p', error, { text: `${`${err.name}: ${err.message}`}`, class: 'alert-error' });
+  }
+
   function createChangedInfo(allOptions, sortedRepositories, rootDiv, contentDiv) {
-    allOptions.addEventListener('change', () => {
+    allOptions.addEventListener('change', async () => {
       const selectedOption = Array.from(allOptions).filter(opt => opt.selected === true);
       const selectedElementIndex = sortedRepositories.findIndex(
         repository => repository.name === selectedOption[0].text,
@@ -111,19 +117,24 @@
 
       const changedContributorUrl = sortedRepositories[selectedElementIndex].contributors_url;
 
-      fetch(changedContributorUrl)
-        .then(data => data.json())
-        .then(data => {
+      try {
+        const changedContributorResponse = await fetch(changedContributorUrl);
+        if (changedContributorResponse.ok) {
+          const changedContributorData = await changedContributorResponse.json();
           deleteContributorsSideInfos(firstContributorsInfo);
-          addContributorsSideInfos(data, contentDiv);
-        })
-        .catch(err => {
-          createAndAppend('div', rootDiv, { text: err.message, class: 'alert-error' });
-        });
+          addContributorsSideInfos(changedContributorData, contentDiv);
+        } else {
+          throw new Error(
+            `${changedContributorResponse.status} ${changedContributorResponse.text}`,
+          );
+        }
+      } catch (err) {
+        renderError(err, rootDiv);
+      }
     });
   }
 
-  function createHtml(rootDiv, jsonData) {
+  async function createHtml(rootDiv, jsonData) {
     createHeader(rootDiv);
     const repositories = jsonData;
     const sortedRepositories = sortElements(repositories);
@@ -167,32 +178,36 @@
 
     const contributorsUrl = sortedRepositories[0].contributors_url;
 
-    fetch(contributorsUrl)
-      .then(data => data.json())
-      .then(data => {
-        createContributorsSideInfos(data, contributorsSide);
-      })
-      .catch(err => {
-        createAndAppend('div', rootDiv, { text: err.message, class: 'alert-error' });
-      });
+    try {
+      const contributorsResponse = await fetch(contributorsUrl);
+      if (contributorsResponse.ok) {
+        const contributorsData = await contributorsResponse.json();
+        createContributorsSideInfos(contributorsData, contributorsSide);
+      } else {
+        throw new Error(`${contributorsResponse.status} ${contributorsResponse.text}`);
+      }
+    } catch (err) {
+      renderError(err, rootDiv);
+    }
 
     const allOptions = document.getElementById('select');
 
     createChangedInfo(allOptions, sortedRepositories, rootDiv, contentDiv);
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
-    fetch(url)
-      .then(data => data.json())
-      .then(data => {
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        const data = await response.json();
         createHtml(root, data);
-      })
-      .catch(err => {
-        createHeader(root);
-        const error = createAndAppend('div', root, {});
-        createAndAppend('p', error, { text: err.message, class: 'alert-error' });
-      });
+      } else {
+        throw new Error(`${`${response.status} ${response.statusText}`}`);
+      }
+    } catch (err) {
+      renderError(err, root);
+    }
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
