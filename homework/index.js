@@ -56,14 +56,24 @@
       });
     });
   }
-
+  function fetchContributorsData(repositories, contributorContainer, root) {
+    fetch(repositories)
+      .then(response => response.json())
+      .then(contributors => createContributorsSide(contributorContainer, contributors))
+      .catch(Error =>
+        createAndAppend('div', root, {
+          text: Error.message,
+          class: 'alert-error',
+        }),
+      );
+  }
   function main(url) {
     const root = document.getElementById('root');
     const header = createAndAppend('div', root, { class: 'header' });
     createAndAppend('p', header, { text: 'HYF Repositories' });
 
     fetch(url)
-      .then(Response => Response.json())
+      .then(response => response.json())
       .then(repositories => {
         const container = createAndAppend('div', root, { id: 'container' });
         const repoContainer = createAndAppend('div', container, {
@@ -78,30 +88,12 @@
           createAndAppend('option', select, { text: repository.name });
         });
         createRepositoryDescription(repoContainer, repositories[0]);
-        fetch(repositories[0].contributors_url)
-          .then(response => response.json())
-          .then(contributors => createContributorsSide(contributorContainer, contributors))
-          .catch(Error =>
-            createAndAppend('div', root, {
-              text: Error.message,
-              class: 'alert-error',
-            }),
-          );
+        fetchContributorsData(repositories[0].contributors_url, contributorContainer, root);
 
         select.addEventListener('change', () => {
           const index = select.selectedIndex;
           createRepositoryDescription(repoContainer, repositories[index]);
-          fetch(repositories[index].contributors_url)
-            .then(contributors => contributors.json())
-            .then(contributors => {
-              createContributorsSide(contributorContainer, contributors);
-            })
-            .catch(changeError =>
-              createAndAppend('div', root, {
-                text: changeError.message,
-                class: 'alert-error',
-              }),
-            );
+          fetchContributorsData(repositories[index].contributors_url, contributorContainer, root);
         });
       })
       .catch(error => createAndAppend('div', root, { text: error.message, class: 'alert-error' }));
