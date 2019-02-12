@@ -121,19 +121,17 @@
   }
 
   function updateInfoSection(selected, data) {
-    const selectedData = getSelectedData(selected, data);
-    const infoDiv = document.getElementById("infoDiv")
-    infoDiv.parentNode.removeChild(infoDiv)
-    generateInfoSection(selected, data)
+    const infoDiv = document.getElementById('infoDiv');
+    infoDiv.parentNode.removeChild(infoDiv);
+    generateInfoSection(selected, data);
   }
 
   function main(url) {
     fetchJSON(url).then(
       data => {
-        const repoName =
-          data
-            .map(repo => ({ name: repo.name, id: repo.id }))
-            .sort((a, b) => a.name.localeCompare(b.name));
+        const repoName = data
+          .map(repo => ({ name: repo.name, id: repo.id }))
+          .sort((a, b) => a.name.localeCompare(b.name));
         generateSelections(repoName);
 
         const selected = document.getElementById('repositories');
