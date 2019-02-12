@@ -2,21 +2,7 @@
 
 {
   function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-
-      xhr.onload = () => {
-        if (xhr.status < 400) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
-    });
+    return fetch(url).then(response => response.json());
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -51,15 +37,15 @@
     const selectionElem = createAndAppend('select', header, {
       id: 'repositories',
     });
-    let id = 0;
 
     repos.forEach(repo => {
       createAndAppend('option', selectionElem, {
-        id: id++,
-        value: repo,
-        text: repo,
+        id: repo.id++,
+        value: repo.name,
+        text: repo.name,
       });
     });
+    return selectionElem;
   }
 
   function generateInfoSection(selected, data) {
@@ -94,7 +80,7 @@
       data => {
         data.forEach(item => {
           const contributorListItem = createAndAppend('li', contributorsLists, {
-            id: `${item.login}ListItem`,
+            id: `${item.login}-list-item`,
             class: 'cont-li',
           });
 
@@ -130,74 +116,24 @@
 
   function updateContributorSection(selected) {
     const contributorsDiv = document.getElementById('contsDiv');
-    contributorsDiv.innerHTML = '';
-    createAndAppend('p', contributorsDiv, { id: 'cont-header', text: 'Contributors' });
-    const contributorsLists = createAndAppend('ul', contributorsDiv, { id: 'conts-list' });
-
-    fetchJSON(`https://api.github.com/repos/HackYourFuture/${selected}/contributors`).then(
-      data => {
-        data.forEach(item => {
-          const contributorListItem = createAndAppend('li', contributorsLists, {
-            id: `${item.login}ListItem`,
-            class: 'cont-li',
-          });
-
-          createAndAppend('img', contributorListItem, {
-            id: `${item.login}Img`,
-            class: 'cont-avatar',
-            src: item.avatar_url,
-          });
-
-          const contributorDiv = createAndAppend('div', contributorListItem, {
-            id: `${item.login}Div`,
-          });
-
-          createAndAppend('a', contributorDiv, {
-            id: `${item.login}Name`,
-            class: 'cont-name',
-            text: item.login,
-            href: item.html_url,
-            target: '_blank',
-          });
-          createAndAppend('div', contributorDiv, {
-            id: `${item.login}Badge`,
-            class: 'cont-badge',
-            text: item.contributions,
-          });
-        });
-      },
-      err => {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      },
-    );
+    contributorsDiv.parentNode.removeChild(contributorsDiv);
+    generateContributorsSection(selected);
   }
 
   function updateInfoSection(selected, data) {
     const selectedData = getSelectedData(selected, data);
-
-    const repoName = document.getElementById('repoName');
-    repoName.innerText = '';
-    repoName.innerText = `Repository: ${selectedData.name}`;
-    repoName.href = selectedData.html_url;
-    repoName.target = '_blank';
-
-    const desc = document.getElementById('desc');
-    desc.innerText = '';
-    desc.innerText = `Description: ${selectedData.description}`;
-
-    const forks = document.getElementById('forks');
-    forks.innerText = '';
-    forks.innerText = `Forks: ${selectedData.forks}`;
-
-    const updatedAt = document.getElementById('updated_at');
-    updatedAt.innerText = '';
-    updatedAt.innerText = `Updated: ${selectedData.updated_at}`;
+    const infoDiv = document.getElementById("infoDiv")
+    infoDiv.parentNode.removeChild(infoDiv)
+    generateInfoSection(selected, data)
   }
 
   function main(url) {
     fetchJSON(url).then(
       data => {
-        const repoName = data.map(repo => repo.name).sort((a, b) => a.localeCompare(b));
+        const repoName =
+          data
+            .map(repo => ({ name: repo.name, id: repo.id }))
+            .sort((a, b) => a.name.localeCompare(b.name));
         generateSelections(repoName);
 
         const selected = document.getElementById('repositories');
