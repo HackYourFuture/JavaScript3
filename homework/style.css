@@ -44,7 +44,7 @@ h1 {
   color: #1c1c1c;
 }
 
-#main-container {
+#container {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -159,7 +159,7 @@ img {
     font-size: 0.9rem;
   }
 
-  #main-container {
+  #container {
     flex-direction: column;
     align-items: stretch;
   }

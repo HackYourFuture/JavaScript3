@@ -15,15 +15,38 @@ class App {
     // Add code here to initialize your app
     // 1. Create the fixed HTML elements of your page
     // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
-
     const root = document.getElementById('root');
-
-    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
-
+    // TODO: replace with your own code
+    const header = Util.createAndAppend('div', root, { id: 'header' });
+    Util.createAndAppend('h1', header, { text: 'HYF Repositories' });
+    const select = Util.createAndAppend('select', header, {
+      id: 'select',
+      'aria-label': 'HYF Repositories',
+    });
+    select.addEventListener('change', () => this.fetchContributorsAndRender(select.value));
+    Util.createAndAppend('div', root, {
+      id: 'container',
+    });
     try {
-      const repos = await Util.fetchJSON(url);
-      this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
+      const response = await fetch(url);
+      const testedResponse = await (function testError() {
+        if (response.ok) {
+          return response;
+        }
+        throw new Error('Network response was not ok!');
+      })();
+      const repositories = await testedResponse.json();
+      this.repos = repositories
+        .sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }))
+        .map(repo => new Repository(repo));
+      this.repos.forEach((repo, index) => {
+        Util.createAndAppend('option', select, {
+          value: index,
+          id: repo.name,
+          text: repo.name,
+        });
+      });
+      this.fetchContributorsAndRender(select.value);
     } catch (error) {
       this.renderError(error);
     }
@@ -52,12 +75,16 @@ class App {
       const container = document.getElementById('container');
       App.clearContainer(container);
 
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
+      const repositoriesContainer = Util.createAndAppend('div', container, {
+        id: 'repositories-container',
+      });
+      const contributorsContainer = Util.createAndAppend('div', container, {
+        id: 'contributors-container',
+      });
 
-      const contributorList = Util.createAndAppend('ul', rightDiv);
+      const contributorList = Util.createAndAppend('ul', contributorsContainer);
 
-      repo.render(leftDiv);
+      repo.render(repositoriesContainer);
 
       contributors
         .map(contributor => new Contributor(contributor))
@@ -72,7 +99,11 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    console.log(error); // TODO: replace with your own code
+    const root = document.getElementById('root');
+    Util.createAndAppend('div', root, {
+      text: `An error occurred: ${error.message}`,
+      class: 'alert-error',
+    });
   }
 }
 
