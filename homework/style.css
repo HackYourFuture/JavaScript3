@@ -32,7 +32,7 @@ nav {
     justify-content: space-between;
   }
 }
-.alignCenter {
+.align-center {
   margin-left: auto;
   margin-right: auto;
 }
@@ -45,7 +45,7 @@ nav {
 label {
   font-size: 1.3em;
 }
-#repositorySelect {
+#repository-select {
   height: 30px;
   width: 400px;
   margin: 5px;
@@ -105,19 +105,19 @@ a:hover {
   text-decoration: underline;
 }
 
-#repositoryInfo {
+#repository-info {
   display: flex;
   flex-wrap: wrap;
   padding: 5px;
 }
-#repositoryInfo li {
+#repository-info li {
   padding: 5px;
   flex: 1 1 50%;
 }
-#repositoryInfo li:nth-child(n + 3) {
+#repository-info li:nth-child(n + 3) {
   border-top: 1px dotted grey;
 }
-#repositoryInfo li:nth-child(2n-1) {
+#repository-info li:nth-child(2n-1) {
   font-weight: bold;
   text-align: right;
   border-right: 1px dotted grey;

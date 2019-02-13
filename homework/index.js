@@ -52,18 +52,25 @@
     }
   }
 
+  function checkResponseOk(response) {
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error(`Network Error: ${response.url} (${response.statusText})`);
+  }
+
   function showRepositoryDetails(data) {
     const repositoryContainer = document.getElementById('repository');
     removeChildElements(repositoryContainer);
-    const selected = document.getElementById('repositorySelect').selectedIndex;
+    const selected = document.getElementById('repository-select').selectedIndex;
     const repository = data[selected];
-    const h2 = createAndAppend('h2', repositoryContainer, { id: 'repositoryName' });
+    const h2 = createAndAppend('h2', repositoryContainer, { id: 'repository-name' });
     createAndAppend('a', h2, {
       text: repository.name,
       href: repository.html_url,
       target: '_blank',
     });
-    const ul = createAndAppend('ul', repositoryContainer, { id: 'repositoryInfo' });
+    const ul = createAndAppend('ul', repositoryContainer, { id: 'repository-info' });
     [
       'Description',
       repository.description,
@@ -74,18 +81,18 @@
       'Watchers',
       repository.watchers_count,
       'Updated',
-      repository.updated_at,
+      Date(repository.updated_at),
     ].forEach(value => createAndAppend('li', ul, { text: value }));
 
     const contributorsContainer = document.getElementById('contributors');
     fetch(repository.contributors_url)
-      .then(response => response.json())
+      .then(response => checkResponseOk(response))
       .then(result => showContributors(result))
       .catch(error => displayError(error, contributorsContainer));
   }
 
   function createHeader(data) {
-    const nav = createAndAppend('nav', root, { id: 'navigation', class: 'alignCenter' });
+    const nav = createAndAppend('nav', root, { id: 'navigation', class: 'align-center' });
     createAndAppend('img', nav, {
       src: 'hyf.png',
       alt: 'Hack Your Future Logo',
@@ -93,10 +100,10 @@
     });
     createAndAppend('label', nav, {
       text: 'Hack Your Future Repositories:',
-      for: 'repositorySelect',
+      for: 'repository-select',
     });
 
-    const select = createAndAppend('select', nav, { id: 'repositorySelect' });
+    const select = createAndAppend('select', nav, { id: 'repository-select' });
     data.sort((repo1, repo2) => repo1.name.localeCompare(repo2.name, 'en', { sensivity: 'base' }));
     data.forEach((repository, index) => {
       createAndAppend('option', select, {
@@ -117,15 +124,8 @@
     const root = document.getElementById('root');
 
     fetch(url)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(`Network Error: ${response.url} (${response.statusText})`);
-      })
-      .then(result => {
-        createHeader(result);
-      })
+      .then(response => checkResponseOk(response))
+      .then(result => createHeader(result))
       .catch(error => displayError(error, root));
   }
 
