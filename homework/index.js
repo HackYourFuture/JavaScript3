@@ -100,7 +100,7 @@
         });
         const selectRepo = document.getElementById('getRepoData');
         const container = createAndAppend('div', root, { class: 'container' });
-        fetchSingleRepoData(fetchedData, selectRepo, container);
+        fetchSingleRepoData(fetchedData[0], selectRepo, container);
         function getData() {
           fetchSingleRepoData(fetchedData, selectRepo, container);
         }
