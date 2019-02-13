@@ -43,134 +43,113 @@
   const rightPanel = createAndAppend('div', divGeneral, { id: 'right_panel' });
   createAndAppend('p', rightPanel, { text: 'Contributions', id: 'right_column_title' });
 
-  function main(url) {
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        data.sort((a, b) => a.name.localeCompare(b.name));
-        const contributorsURL = data.map(item => item.contributors_url);
-        const fetchedDataContributorsDefault = fetch(contributorsURL[0]).then(response =>
-          response.json(),
-        );
-        data.forEach(repository => {
-          createAndAppend('option', select, { text: repository.name });
-        });
+  function createRightPanelContent(data2, liappend) {
+    data2.forEach(contributor => {
+      const rightColumnListElems = createAndAppend('li', liappend, {
+        class: 'right_column_list_elems',
+      });
+      const link = createAndAppend('a', rightColumnListElems, {
+        href: contributor.html_url,
+        target: '_blank',
+      });
+      const rightColumnContProps = createAndAppend('div', link, {
+        class: 'right_column_cont_props',
+      });
+      createAndAppend('img', rightColumnContProps, {
+        class: 'right_column_img',
+        src: contributor.avatar_url,
+      });
+      createAndAppend('p', rightColumnContProps, {
+        class: 'contName',
+        text: contributor.login,
+      });
+      createAndAppend('p', rightColumnContProps, {
+        class: 'badge',
+        text: contributor.contributions,
+      });
+    });
+  }
 
-        const lowerCaseProperties = repositoryProperties
-          .map(prop => prop.toLowerCase())
-          .map(prop => prop.substring(0, prop.length - 2));
-        for (let j = 1; j < repositoryProperties.length; j++) {
-          const leftPanelContainerTableTr = createAndAppend('tr', leftPanelContainerTable);
-          createAndAppend('td', leftPanelContainerTableTr, {
-            text: repositoryProperties[j],
-          });
-          createAndAppend('td', leftPanelContainerTableTr, {
-            id: `property_${lowerCaseProperties[j]}`,
-          });
-        }
+  async function showData(data) {
+    data.sort((a, b) => a.name.localeCompare(b.name));
+    const contributorsURL = data.map(item => item.contributors_url);
+    const fetchedDataContributorsDefaultRaw = await fetch(contributorsURL[0]);
+    const fetchedDataContributorsDefault = await fetchedDataContributorsDefaultRaw.json();
+    data.forEach(repository => {
+      createAndAppend('option', select, { text: repository.name });
+    });
 
-        function assignLeftPanelValues(dataIndex) {
-          setLink('property_repository', dataIndex);
-          document.getElementById('property_description').innerText = dataIndex.description;
-          document.getElementById('property_forks').innerText = dataIndex.forks;
-          document.getElementById('property_updated').innerText = new Date(dataIndex.updated_at);
-        }
+    const lowerCaseProperties = repositoryProperties
+      .map(prop => prop.toLowerCase())
+      .map(prop => prop.substring(0, prop.length - 2));
+    for (let j = 1; j < repositoryProperties.length; j++) {
+      const leftPanelContainerTableTr = createAndAppend('tr', leftPanelContainerTable);
+      createAndAppend('td', leftPanelContainerTableTr, {
+        text: repositoryProperties[j],
+      });
+      createAndAppend('td', leftPanelContainerTableTr, {
+        id: `property_${lowerCaseProperties[j]}`,
+      });
+    }
 
-        assignLeftPanelValues(data[0]);
+    function assignLeftPanelValues(dataIndex) {
+      setLink('property_repository', dataIndex);
+      document.getElementById('property_description').innerText = dataIndex.description;
+      document.getElementById('property_forks').innerText = dataIndex.forks;
+      document.getElementById('property_updated').innerText = new Date(dataIndex.updated_at);
+    }
 
-        function createRightPanel() {
-          const rigthColumnListDefault = createAndAppend('ul', rightPanel, {
-            id: 'right_column_list',
-          });
-          fetchedDataContributorsDefault.then(data2 => {
-            data2.forEach(contributor => {
-              const rightColumnListElems = createAndAppend('li', rigthColumnListDefault, {
-                class: 'right_column_list_elems',
-              });
+    assignLeftPanelValues(data[0]);
 
-              const link = createAndAppend('a', rightColumnListElems, {
-                href: contributor.html_url,
-                target: '_blank',
-              });
-              const rightColumnContProps = createAndAppend('div', link, {
-                class: 'right_column_cont_props',
-              });
-              createAndAppend('img', rightColumnContProps, {
-                class: 'right_column_img',
-                src: contributor.avatar_url,
-              });
+    function createRightPanel() {
+      const rigthColumnListDefault = createAndAppend('ul', rightPanel, {
+        id: 'right_column_list',
+      });
 
-              createAndAppend('p', rightColumnContProps, {
-                class: 'contName',
-                text: contributor.login,
-              });
+      createRightPanelContent(fetchedDataContributorsDefault, rigthColumnListDefault);
+    }
 
-              createAndAppend('p', rightColumnContProps, {
-                class: 'badge',
-                text: contributor.contributions,
-              });
-            });
-          });
-        }
+    createRightPanel();
 
-        createRightPanel();
+    select.addEventListener('change', () => {
+      remove();
+    });
 
-        select.addEventListener('change', () => {
-          remove();
-        });
-
-        select.addEventListener('change', () => {
-          const selected = select.selectedIndex;
-          const fetchedDataContributors = fetch(contributorsURL[selected]).then(response =>
-            response.json(),
-          );
+    select.addEventListener('change', async () => {
+      const selected = select.selectedIndex;
+      try {
+        const fetchedDataContributorsRaw = await fetch(contributorsURL[selected]);
+        const fetchedDataContributors = await fetchedDataContributorsRaw.json();
+        if (!fetchedDataContributorsRaw.ok) {
+          throw new Error();
+        } else {
           const rigthColumnList = createAndAppend('ul', rightPanel, {
             id: 'right_column_list',
           });
-
-          fetchedDataContributors
-            .then(data2 => {
-              data2.forEach(contributor => {
-                const rightColumnListElems = createAndAppend('li', rigthColumnList, {
-                  class: 'right_column_list_elems',
-                });
-
-                const link = createAndAppend('a', rightColumnListElems, {
-                  href: contributor.html_url,
-                  target: '_blank',
-                });
-                const rightColumnContProps = createAndAppend('div', link, {
-                  class: 'right_column_cont_props',
-                });
-                createAndAppend('img', rightColumnContProps, {
-                  class: 'right_column_img',
-                  src: contributor.avatar_url,
-                });
-
-                createAndAppend('p', rightColumnContProps, {
-                  class: 'contName',
-                  text: contributor.login,
-                });
-
-                createAndAppend('p', rightColumnContProps, {
-                  class: 'badge',
-                  text: contributor.contributions,
-                });
-              });
-            })
-            .catch(() => {
-              createAndAppend('div', root, {
-                text: "Data couldn't be loaded !",
-                class: 'alert-error',
-              });
-            });
-
-          assignLeftPanelValues(data[selected]);
+          createRightPanelContent(fetchedDataContributors, rigthColumnList);
+        }
+      } catch (error) {
+        createAndAppend('div', root, {
+          text: "Data couldn't be loaded !",
+          class: 'alert-error',
         });
-      })
-      .catch(() => {
-        createAndAppend('div', root, { text: "Data couldn't be loaded !", class: 'alert-error' });
-      });
+      }
+      assignLeftPanelValues(data[selected]);
+    });
+  }
+
+  async function main(url) {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error();
+      } else {
+        showData(data);
+      }
+    } catch (error) {
+      createAndAppend('div', root, { text: "Data couldn't be loaded !", class: 'alert-error' });
+    }
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
