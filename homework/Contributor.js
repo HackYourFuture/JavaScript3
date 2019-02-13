@@ -13,14 +13,15 @@ class Contributor {
    * @param {HTMLElement} container The container element in which to render the contributor.
    */
   render(container) {
-    const contributorsInfo = Util.createAndAppend('div', container, { class: 'cont-info' });
-    const contributorsInfoLeft = Util.createAndAppend('div', contributorsInfo, {
+    const contributorsInfo = Util.createAndAppend('section', container, { class: 'cont-info' });
+    const contributorsInfoLeft = Util.createAndAppend('article', contributorsInfo, {
       class: 'cont-info-left',
     });
-    const contributorsInfoRight = Util.createAndAppend('div', contributorsInfo, {
+    const contributorsInfoRight = Util.createAndAppend('article', contributorsInfo, {
       class: 'cont-info-right',
     });
-    Util.createAndAppend('img', contributorsInfoLeft, {
+    const contributorImage = Util.createAndAppend('figure', contributorsInfoLeft, {});
+    Util.createAndAppend('img', contributorImage, {
       src: `${this.contributor.avatar_url}`,
       alt: `${this.contributor.login} avatar`,
     });

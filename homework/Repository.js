@@ -13,8 +13,7 @@ class Repository {
    * @param {HTMLElement} container The container element in which to render the repository.
    */
   render(container) {
-    const repositoriesSide = Util.createAndAppend('div', container, { id: 'left-side' });
-    const repositoriesSideContent = Util.createAndAppend('div', repositoriesSide, {
+    const repositoriesSideContent = Util.createAndAppend('article', container, {
       id: 'left-side-content',
     });
     const table = Util.createAndAppend('table', repositoriesSideContent, {});

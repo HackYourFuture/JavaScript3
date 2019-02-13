@@ -13,15 +13,19 @@ class App {
    */
   async initialize(url) {
     const root = document.getElementById('root');
-    const header = Util.createAndAppend('div', root, { id: 'header' });
-    Util.createAndAppend('img', header, { src: './hyf.png', alt: 'HackYourFuture logo' });
+    const header = Util.createAndAppend('header', root, { id: 'header' });
+    const figure = Util.createAndAppend('figure', header, {
+      src: './hyf.png',
+      alt: 'HackYourFuture logo',
+    });
+    Util.createAndAppend('img', figure, { src: './hyf.png', alt: 'HackYourFuture logo' });
     Util.createAndAppend('h1', header, { text: 'HackYourFuture Github Repositories' });
-    const choice = Util.createAndAppend('div', root, { id: 'choice' });
+    const choice = Util.createAndAppend('section', root, { id: 'choice' });
     Util.createAndAppend('h3', choice, { text: 'Please Select a Repository Below' });
-    const selection = Util.createAndAppend('div', choice, { id: 'selection' });
+    const selection = Util.createAndAppend('section', choice, { id: 'selection' });
     Util.createAndAppend('p', selection, { text: 'HYF Repositories: ' });
     const opt = Util.createAndAppend('select', selection, { id: 'select' });
-    Util.createAndAppend('div', root, { id: 'content' });
+    Util.createAndAppend('section', root, { id: 'content' });
     try {
       const repositories = await Util.fetchJSON(url);
       this.repository = repositories.map(repository => new Repository(repository));
@@ -60,10 +64,10 @@ class App {
       const contributors = await repositories.fetchContributors();
       const container = document.getElementById('content');
       App.clearContainer(container);
-      const leftDiv = Util.createAndAppend('div', container, { id: 'left-side' });
-      const rightDiv = Util.createAndAppend('div', container, { id: 'right-side' });
+      const leftDiv = Util.createAndAppend('article', container, { id: 'left-side' });
+      const rightDiv = Util.createAndAppend('article', container, { id: 'right-side' });
       Util.createAndAppend('h3', rightDiv, { text: 'Contributors' });
-      const contributorList = Util.createAndAppend('div', rightDiv);
+      const contributorList = Util.createAndAppend('article', rightDiv);
       repositories.render(leftDiv);
       contributors
         .map(contributor => new Contributor(contributor))
@@ -79,10 +83,7 @@ class App {
    */
   renderError(error) {
     const root = document.getElementById('root');
-    Util.createAndAppend('div', root, {
-      text: error.message,
-      class: 'alert-error',
-    });
+    Util.createAndAppend('section', root, { text: error.message, class: 'alert-error' });
   }
 }
 
