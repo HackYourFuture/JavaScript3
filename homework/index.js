@@ -76,6 +76,15 @@
     });
   }
 
+  function fetchJSON(url) {
+    return fetch(url).then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(`Network error: ${response.status} - ${response.statusText}`);
+    });
+  }
+
   function handleError(container, error) {
     createAndAppend('div', container, {
       text: error.message,
@@ -109,26 +118,14 @@
       const index = select.value;
       const repository = repositories[index];
       renderRepositories(repository, leftHand);
-      fetch(repository.contributors_url)
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error('this is error');
-        })
+      fetchJSON(repository.contributors_url)
         .then(contributors => {
           renderContributors(contributors, rightHand);
         })
         .catch(error => handleError(root, error));
     });
     renderRepositories(repositories[0], leftHand);
-    fetch(repositories[0].contributors_url)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error('this is error');
-      })
+    fetchJSON(repositories[0].contributors_url)
       .then(contributors => {
         renderContributors(contributors, rightHand);
       })
@@ -137,13 +134,7 @@
 
   function main(url) {
     const root = document.getElementById('root');
-    fetch(url)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error('this is error');
-      })
+    fetchJSON(url)
       .then(data => mainPromise(root, data))
       .catch(err => handleError(root, err));
   }
