@@ -18,7 +18,6 @@
   const root = document.getElementById('root');
 
   function fetchContributorsData(data, wrapper) {
-    fetch(data.contributors_url);
     const contributorSection = createAndAppend('div', wrapper, { class: 'ContInfo-side' });
     createAndAppend('h4', contributorSection, {
       text: 'Contributions',
@@ -55,8 +54,9 @@
       });
   }
 
-  function fetchSingleRepoData(repData, selectEl, wrapper) {
-    const filteredData = repData.filter(el => el.id === Number(selectEl.value));
+  function fetchSingleRepoData(data, index, wrapper) {
+    const filteredData = data.filter(el => el.id === Number(index));
+
     wrapper.innerHTML = '';
     const repositoriesSection = createAndAppend('div', wrapper, { class: 'repInfo-side' });
     const repositoryName = createAndAppend('div', repositoriesSection, { class: 'repName' });
@@ -84,7 +84,6 @@
       fetchContributorsData(allData, wrapper);
     });
   }
-
   function fetchAllRepoData(url) {
     return fetch(url)
       .then(res => res.json())
@@ -100,11 +99,14 @@
         });
         const selectRepo = document.getElementById('getRepoData');
         const container = createAndAppend('div', root, { class: 'container' });
-        fetchSingleRepoData(fetchedData[0], selectRepo, container);
-        function getData() {
-          fetchSingleRepoData(fetchedData, selectRepo, container);
-        }
-        selectRepo.addEventListener('change', getData);
+
+        const fetchData = () => {
+          fetchSingleRepoData(fetchedData, selectEl.value, container);
+        };
+
+        fetchSingleRepoData(fetchedData, Number('82560415'), container);
+
+        selectRepo.addEventListener('change', fetchData);
       })
       .catch(err => {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
@@ -114,8 +116,6 @@
   function main(url) {
     fetchAllRepoData(url);
   }
-
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-
   window.onload = () => main(HYF_REPOS_URL);
 }
