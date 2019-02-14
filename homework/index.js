@@ -110,7 +110,12 @@
       const repository = repositories[index];
       renderRepositories(repository, leftHand);
       fetch(repository.contributors_url)
-        .then(Repository => Repository.json())
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error('this is error');
+        })
         .then(contributors => {
           renderContributors(contributors, rightHand);
         })
@@ -118,7 +123,12 @@
     });
     renderRepositories(repositories[0], leftHand);
     fetch(repositories[0].contributors_url)
-      .then(Repository => Repository.json())
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('this is error');
+      })
       .then(contributors => {
         renderContributors(contributors, rightHand);
       })
@@ -128,9 +138,14 @@
   function main(url) {
     const root = document.getElementById('root');
     fetch(url)
-      .then(Repository => Repository.json())
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error('this is error');
+      })
       .then(data => mainPromise(root, data))
-      .catch(err => mainPromise(root, err));
+      .catch(err => handleError(root, err));
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => main(HYF_REPOS_URL);
