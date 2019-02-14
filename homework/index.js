@@ -56,47 +56,50 @@
       });
     });
   }
-  function fetchContributorsData(repositories, contributorContainer, root) {
-    fetch(repositories)
-      .then(response => response.json())
-      .then(contributors => createContributorsSide(contributorContainer, contributors))
-      .catch(Error =>
-        createAndAppend('div', root, {
-          text: Error.message,
-          class: 'alert-error',
-        }),
-      );
+
+  async function fetchContributorsData(repositories, contributorContainer, root) {
+    try {
+      const response = await fetch(repositories);
+      const contributors = await response.json();
+      createContributorsSide(contributorContainer, contributors);
+    } catch (error) {
+      createAndAppend('div', root, {
+        text: error.message,
+        class: 'alert-error',
+      });
+    }
   }
-  function main(url) {
-    const root = document.getElementById('root');
-    const header = createAndAppend('div', root, { class: 'header' });
-    createAndAppend('p', header, { text: 'HYF Repositories' });
 
-    fetch(url)
-      .then(response => response.json())
-      .then(repositories => {
-        const container = createAndAppend('div', root, { id: 'container' });
-        const repoContainer = createAndAppend('div', container, {
-          class: 'left-div',
-        });
-        const contributorContainer = createAndAppend('div', container, {
-          class: 'right-div',
-        });
-        const select = createAndAppend('select', header, { class: 'repo-selector' });
-        repositories.sort((a, b) => a.name.localeCompare(b.name));
-        repositories.forEach(repository => {
-          createAndAppend('option', select, { text: repository.name });
-        });
-        createRepositoryDescription(repoContainer, repositories[0]);
-        fetchContributorsData(repositories[0].contributors_url, contributorContainer, root);
-
-        select.addEventListener('change', () => {
-          const index = select.selectedIndex;
-          createRepositoryDescription(repoContainer, repositories[index]);
-          fetchContributorsData(repositories[index].contributors_url, contributorContainer, root);
-        });
-      })
-      .catch(error => createAndAppend('div', root, { text: error.message, class: 'alert-error' }));
+  async function main(url) {
+    try {
+      const root = document.getElementById('root');
+      const header = createAndAppend('div', root, { class: 'header' });
+      createAndAppend('p', header, { text: 'HYF Repositories' });
+      const container = createAndAppend('div', root, { id: 'container' });
+      const repoContainer = createAndAppend('div', container, {
+        class: 'left-div',
+      });
+      const contributorContainer = createAndAppend('div', container, {
+        class: 'right-div',
+      });
+      const select = createAndAppend('select', header, { class: 'repo-selector' });
+      const response = await fetch(url);
+      const repositories = await response.json();
+      repositories.sort((a, b) => a.name.localeCompare(b.name));
+      repositories.forEach(repository => {
+        createAndAppend('option', select, { text: repository.name });
+      });
+      createRepositoryDescription(repoContainer, repositories[0]);
+      fetchContributorsData(repositories[0].contributors_url, contributorContainer, root);
+      select.addEventListener('change', () => {
+        const index = select.selectedIndex;
+        createRepositoryDescription(repoContainer, repositories[index]);
+        fetchContributorsData(repositories[index].contributors_url, contributorContainer, root);
+      });
+    } catch (error) {
+      const root = document.getElementById('root');
+      createAndAppend('div', root, { text: error.message, class: 'alert-error' });
+    }
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
