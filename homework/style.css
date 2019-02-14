@@ -1,3 +1,225 @@
-.alert-error {
-    color: red;
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0px;
+  font-family: 'segoe ui';
+}
+
+.nav {
+  height: 50px;
+  max-width: 1070px;
+  background-color: #3f51b5;
+  position: relative;
+  margin: 0 auto;
+}
+
+.nav > .nav-header {
+  display: inline;
+}
+
+.nav > .nav-header > .nav-title {
+  display: inline-block;
+  font-size: 22px;
+  color: #fff;
+  padding: 10px 10px 10px 10px;
+}
+
+ul {
+  padding: 0;
+}
+
+select {
+  max-width: 125px;
+  height: 36px;
+  border-radius: 4px;
+  font-size: 15px;
+}
+
+#container {
+  margin: 15px auto;
+  max-width: 1070px;
+  display: flex;
+  justify-content: space-between;
+}
+
+#container > div:first-child {
+  background-color: #efefef;
+  padding: 10px;
+  width: 55%;
+  box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.59);
+  max-height: 170px;
+}
+
+#container > div:nth-child(2) {
+  width: 43%;
+  background: #eee;
+  box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.59);
+}
+
+.repName,
+.repDescription,
+.repForks,
+.repDate {
+  display: flex;
+  justify-content: space-between;
+}
+
+p {
+  margin-top: 0;
+}
+
+.repName span,
+.repDescription span,
+.repForks span,
+.repDate span {
+  color: #403b3b;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.repName p,
+.repDescription p,
+.repForks p,
+.repDate p {
+  color: #524e4e;
+  font-size: 16px;
+}
+
+.contributorHeader {
+  font-size: 15px;
+  color: #4d4d7d;
+  padding: 0 10px;
+}
+
+.repInfo-side,
+.ContInfo-side {
+  list-style: none;
+}
+
+.contributor {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center;
+}
+
+.contImage {
+  width: 55px;
+  height: 55px;
+  border-radius: 10px;
+}
+
+.contNumber {
+  background: #ccc;
+  color: #000;
+  padding: 7px;
+  border-radius: 50%;
+}
+
+.contributorWrapper {
+  text-decoration: none;
+  color: #6b5e5e;
+}
+
+.ContInfo-side {
+  border-bottom: 1px solid #ccc;
+}
+
+.ContInfo-side:last-child {
+  border-bottom: none;
+}
+
+/* Media Queries */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  #container {
+    max-width: 100%;
+    padding: 10px;
+  }
+}
+
+@media (min-width: 414px) and (max-width: 767px) {
+  #container {
+    margin: 15px auto;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  #container > div:first-child {
+    background-color: #efefef;
+    padding: 10px;
+    width: 100%;
+    box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.59);
+    height: auto;
+  }
+
+  #container > div:nth-child(2) {
+    width: 100%;
+    margin-top: 15px;
+    background: #eee;
+    box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.59);
+  }
+
+  .repInfo-side,
+  .ContInfo-side {
+    width: 100%;
+    margin-bottom: 15px;
+    list-style: none;
+  }
+}
+
+@media (min-width: 310px) and (max-width: 410px) {
+  body {
+    background: #cacaca;
+  }
+  .nav {
+    position: relative;
+  }
+
+  #container {
+    margin: 15px auto;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  #container > div:first-child {
+    background-color: #efefef;
+    padding: 10px;
+    width: 100%;
+    box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.59);
+    height: auto;
+  }
+
+  #container > div:nth-child(2) {
+    width: 100%;
+    margin-top: 15px;
+    background: #eee;
+    box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.59);
+  }
+
+  #getRepoData {
+    position: absolute;
+    width: 125px;
+    top: 6px;
+  }
+
+  .container {
+    flex-wrap: wrap;
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  .repInfo-side {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .ContInfo-side {
+    width: 100%;
+  }
 }

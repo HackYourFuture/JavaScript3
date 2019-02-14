@@ -13,8 +13,32 @@ class Repository {
    * @param {HTMLElement} container The container element in which to render the repository.
    */
   render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
+    const data = this.repository;
+
+    const repositoryName = Util.createAndAppend('div', container, {
+      class: 'repName',
+    });
+    const repositoryDescription = Util.createAndAppend('div', container, {
+      class: 'repDescription',
+    });
+    const repositoryForks = Util.createAndAppend('div', container, {
+      class: 'repForks',
+    });
+    const repositoryDate = Util.createAndAppend('div', container, {
+      class: 'repDate',
+    });
+    Util.createAndAppend('span', repositoryName, { text: 'Repository Name:' });
+    Util.createAndAppend('a', repositoryName, {
+      text: data.name,
+      href: data.html_url,
+      target: '_blank',
+    });
+    Util.createAndAppend('span', repositoryDescription, { text: 'Description:' });
+    Util.createAndAppend('p', repositoryDescription, { text: data.description });
+    Util.createAndAppend('span', repositoryForks, { text: 'Forks:' });
+    Util.createAndAppend('p', repositoryForks, { text: data.forks });
+    Util.createAndAppend('span', repositoryDate, { text: 'Date:' });
+    Util.createAndAppend('p', repositoryDate, { text: data.updated_at });
   }
 
   /**
