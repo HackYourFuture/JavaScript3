@@ -1,8 +1,15 @@
 'use strict';
 
 {
-  function fetchJSON(url) {
-    return fetch(url).then(response => response.json());
+  async function fetchJSON(url) {
+    let data = [];
+    try {
+      const response = await fetch(url);
+      data = await response.json();
+    } catch (error) {
+      console.log('An error occured in fetchJSON: ', error);
+    }
+    return data;
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -71,47 +78,47 @@
     });
   }
 
-  function generateContributorsSection(selected) {
+  async function generateContributorsSection(selected) {
     const contributorsDiv = createAndAppend('div', container, { id: 'contsDiv' });
     createAndAppend('p', contributorsDiv, { id: 'cont-header', text: 'Contributors' });
     const contributorsLists = createAndAppend('ul', contributorsDiv, { id: 'conts-list' });
 
-    fetchJSON(`https://api.github.com/repos/HackYourFuture/${selected}/contributors`).then(
-      data => {
-        data.forEach(item => {
-          const contributorListItem = createAndAppend('li', contributorsLists, {
-            id: `${item.login}-list-item`,
-            class: 'cont-li',
-          });
-
-          createAndAppend('img', contributorListItem, {
-            id: `${item.login}Img`,
-            class: 'cont-avatar',
-            src: item.avatar_url,
-          });
-
-          const contributorDiv = createAndAppend('div', contributorListItem, {
-            id: `${item.login}Div`,
-          });
-
-          createAndAppend('a', contributorDiv, {
-            id: `${item.login}Name`,
-            class: 'cont-name',
-            text: item.login,
-            href: item.html_url,
-            target: '_blank',
-          });
-          createAndAppend('div', contributorDiv, {
-            id: `${item.login}Badge`,
-            class: 'cont-badge',
-            text: item.contributions,
-          });
+    try {
+      const json = await fetchJSON(
+        `https://api.github.com/repos/HackYourFuture/${selected}/contributors`,
+      );
+      json.forEach(item => {
+        const contributorListItem = createAndAppend('li', contributorsLists, {
+          id: `${item.login}-list-item`,
+          class: 'cont-li',
         });
-      },
-      err => {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      },
-    );
+
+        createAndAppend('img', contributorListItem, {
+          id: `${item.login}Img`,
+          class: 'cont-avatar',
+          src: item.avatar_url,
+        });
+
+        const contributorDiv = createAndAppend('div', contributorListItem, {
+          id: `${item.login}Div`,
+        });
+
+        createAndAppend('a', contributorDiv, {
+          id: `${item.login}Name`,
+          class: 'cont-name',
+          text: item.login,
+          href: item.html_url,
+          target: '_blank',
+        });
+        createAndAppend('div', contributorDiv, {
+          id: `${item.login}Badge`,
+          class: 'cont-badge',
+          text: item.contributions,
+        });
+      });
+    } catch (error) {
+      createAndAppend('div', root, { text: error.message, class: 'alert-error' });
+    }
   }
 
   function updateContributorSection(selected) {
@@ -127,12 +134,13 @@
   }
 
   function main(url) {
-    fetchJSON(url).then(
-      data => {
-        const repoName = data
+    try {
+      const json = fetchJSON(url);
+      json.then(data => {
+        const repoNames = data
           .map(repo => ({ name: repo.name, id: repo.id }))
           .sort((a, b) => a.name.localeCompare(b.name));
-        generateSelections(repoName);
+        generateSelections(repoNames);
 
         const selected = document.getElementById('repositories');
 
@@ -145,11 +153,10 @@
         });
 
         // createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
-      },
-      err => {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      },
-    );
+      });
+    } catch (err) {
+      createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+    }
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
