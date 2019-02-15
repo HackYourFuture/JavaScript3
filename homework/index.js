@@ -59,7 +59,7 @@
     throw new Error(`Network Error: ${response.url} (${response.statusText})`);
   }
 
-  function showRepositoryDetails(data) {
+  async function showRepositoryDetails(data) {
     const repositoryContainer = document.getElementById('repository');
     removeChildElements(repositoryContainer);
     const selected = document.getElementById('repository-select').selectedIndex;
@@ -85,10 +85,14 @@
     ].forEach(value => createAndAppend('li', ul, { text: value }));
 
     const contributorsContainer = document.getElementById('contributors');
-    fetch(repository.contributors_url)
-      .then(response => checkResponseOk(response))
-      .then(result => showContributors(result))
-      .catch(error => displayError(error, contributorsContainer));
+
+    try {
+      const response = await fetch(repository.contributors_url);
+      const result = await checkResponseOk(response);
+      showContributors(result);
+    } catch (error) {
+      displayError(error, contributorsContainer);
+    }
   }
 
   function createHeader(data) {
@@ -117,19 +121,22 @@
     createAndAppend('div', main, { id: 'repository', class: 'boxes' });
     createAndAppend('div', main, { id: 'contributors' });
     showRepositoryDetails(data);
-    select.addEventListener('change', () => showRepositoryDetails(data));
+    select.addEventListener('change', () => {
+      showRepositoryDetails(data);
+    });
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
-
-    fetch(url)
-      .then(response => checkResponseOk(response))
-      .then(result => createHeader(result))
-      .catch(error => displayError(error, root));
+    try {
+      const response = await fetch(url);
+      const result = await checkResponseOk(response);
+      createHeader(result);
+    } catch (error) {
+      displayError(error, root);
+    }
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-
   window.onload = () => main(HYF_REPOS_URL);
 }
