@@ -8,8 +8,10 @@ body {
   color: aliceblue;
   text-justify: auto;
 }
+
 .alert-error {
-  color: rgb(164, 53, 53);
+  text-shadow: 1px 1px rgb(218, 7, 7);
+  background-color: rgb(149, 112, 43);
   font-size: 200%;
   padding: 10%;
 }
@@ -18,13 +20,14 @@ h1 {
   font-size: 500%;
   color: rgb(145, 204, 27);
   text-align: center;
-  margin: auto auto 10%;
-  text-shadow: 1px 2px rgb(33, 113, 184);
-  padding: 5%;
+  margin: auto auto 1%;
+  text-shadow: 1px 2px rgb(125, 6, 119);
+  padding: 3%;
 }
 
 h2 {
   background-color: rgb(132, 167, 60);
+  text-shadow: 1px 1px rgb(59, 56, 56);
   color: rgb(6, 6, 149);
   border: 1px outset rgb(214, 192, 192);
   font-size: 200%;
@@ -59,31 +62,59 @@ h2 {
   border: 1px outset rgb(228, 219, 219);
   background: rgb(150, 146, 146);
   padding: 1%;
+  width: 40%;
+  display: grid;
+  margin: 2%;
 }
 
 .spacing {
-  margin: 5%;
+  margin: 3%;
   display: grid;
   align-content: center;
 }
+
 option {
   color: rgb(225, 212, 212);
   background-color: rgb(115, 156, 233);
+  text-align: center;
 }
 
-aside {
+/* aside {
   width: 31%;
-}
+} */
 
 select {
-  width: 31%;
-  height: 20%;
+  width: 40%;
+  margin: auto auto 3%;
   padding: 1%;
-  border: 0.5px solid rgb(146, 193, 53);
+  border: 2px outset rgb(65, 69, 55);
   background-color: rgb(190, 240, 90);
   color: rgb(6, 6, 149);
-  font-size: 200%;
+  font-size: 150%;
   text-shadow: 1px 2px rgb(212, 219, 225);
+  text-align: center;
+}
+
+@media only screen and (max-width: 768px) {
+  h1 {
+    text-shadow: 0.3px 0.2px rgb(212, 218, 223);
+    font-size: 300%;
+  }
+
+  h2 {
+    font-size: 200%;
+    text-shadow: 0.5px 0.5px rgb(240, 9, 197);
+  }
+
+  .box {
+    width: 75%;
+    margin: 3%;
+  }
+
+  select {
+    width: 80%;
+    margin: 5%;
+  }
 }
 
 @media only screen and (max-width: 425px) {
@@ -93,15 +124,19 @@ select {
   }
 
   h2 {
-    font-size: 200%;
+    font-size: 150%;
+    background-color: transparent;
+    /* text-shadow: 1px 1px rgb(190, 240, 90); */
+    border: none;
   }
 
   .heading {
-    font-size: 150%;
+    font-size: 100%;
   }
 
   .value {
-    font-size: 120%;
+    font-size: 100%;
+    text-shadow: 0.1px 0.1px rgb(9, 9, 110);
   }
 
   aside {
@@ -112,24 +147,8 @@ select {
     width: 80%;
     font-size: 100%;
   }
-}
 
-@media only screen and (max-width: 768px) {
-  h1 {
-    text-shadow: 0.3px 0.2px rgb(212, 218, 223);
-    font-size: 200%;
-  }
-
-  h2 {
-    font-size: 200%;
-  }
-
-  aside {
-    width: 80%;
-  }
-
-  select {
-    width: 80%;
-    margin: 5%;
+  img {
+    width: 70%;
   }
 }
