@@ -13,8 +13,25 @@ class Repository {
    * @param {HTMLElement} container The container element in which to render the repository.
    */
   render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
+    const table = Util.createAndAppend('table', container);
+    const tBody = Util.createAndAppend('tbody', table);
+    const details = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
+    details.forEach(detail => {
+      const tr = Util.createAndAppend('tr', tBody);
+      Util.createAndAppend('td', tr, { class: 'label', text: detail });
+      Util.createAndAppend('td', tr, { id: detail });
+    });
+    const secondTd = document.getElementById('Repository:');
+    const link = Util.createAndAppend('a', secondTd, {
+      href: this.repository.html_url,
+      target: '_blank',
+    });
+    link.innerText = this.repository.name;
+    document.getElementById('Description:').innerText = this.repository.description;
+    document.getElementById('Forks:').innerText = this.repository.forks;
+    document.getElementById('Updated:').innerText = new Date(
+      this.repository.updated_at,
+    ).toLocaleDateString();
   }
 
   /**
