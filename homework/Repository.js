@@ -12,9 +12,19 @@ class Repository {
    * Render the repository info to the DOM.
    * @param {HTMLElement} container The container element in which to render the repository.
    */
-  render(container) {
+
+  static assignLeftPanelValues(dataIndex) {
     // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
+    function setLink(linkID, srcArray) {
+      document.getElementById(linkID).innerText = srcArray.name;
+      document.getElementById(linkID).setAttribute('href', srcArray.html_url);
+      document.getElementById(linkID).setAttribute('target', '_blank');
+    }
+
+    setLink('property_repository', dataIndex);
+    document.getElementById('property_description').innerText = dataIndex.description;
+    document.getElementById('property_forks').innerText = dataIndex.forks;
+    document.getElementById('property_updated').innerText = new Date(dataIndex.updated_at);
   }
 
   /**
