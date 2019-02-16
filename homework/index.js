@@ -92,13 +92,19 @@
 
   function main(url) {
     const root = document.getElementById('root');
-    fetchJSON(url)
-      .then(repositories => {
+
+    async function refactoring(url1) {
+      try {
+        const repositories = await fetchJSON(url1);
         dropDown(root, repositories);
-      })
-      .catch(err => {
-        createAndAppend('div', root, { text: err.message, class: 'alert-message' });
-      });
+        repositories.forEach(repo => {
+          console.log(repo);
+        });
+      } catch (error) {
+        createAndAppend('div', root, { text: error.message, class: 'alert-message' });
+      }
+    }
+    refactoring(url);
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
