@@ -14,6 +14,20 @@ class Contributor {
    */
   render(container) {
     // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.contributor, null, 2));
+    const contributorsDiv = Util.createAndAppend('div', container, {
+      class: 'body_div',
+      id: 'contributor_div',
+    });
+    Util.createAndAppend('p', contributorsDiv, { text: 'Contributions' });
+    const ul = Util.createAndAppend('ul', contributorsDiv);
+    const li = Util.createAndAppend('li', ul);
+    Util.createAndAppend('img', li, { src: this.contributor.avatar_url });
+    const contributorInfo = Util.createAndAppend('div', li, { id: 'contributor_info' });
+    Util.createAndAppend('a', contributorInfo, {
+      text: this.contributor.login,
+      href: this.contributor.html_url,
+      target: '_blank',
+    });
+    Util.createAndAppend('span', contributorInfo, { text: this.contributor.contributions });
   }
 }

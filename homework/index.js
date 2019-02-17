@@ -14,6 +14,18 @@
     });
     return elem;
   }
+  async function fetchData(Url) {
+    const response = await fetch(Url);
+    const json = await response.json();
+    return json;
+  }
+
+  function handleError(container, error) {
+    createAndAppend('div', container, {
+      text: error.message,
+      class: 'alert-error',
+    });
+  }
 
   function renderRepository(repository, parent) {
     parent.innerHTML = '';
@@ -47,6 +59,7 @@
     createAndAppend('p', parent, { text: 'Contributions' });
 
     const ul = createAndAppend('ul', parent);
+
     contributors.forEach(contributor => {
       const li = createAndAppend('li', ul);
       createAndAppend('img', li, { src: contributor.avatar_url });
@@ -61,7 +74,7 @@
     });
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
     const header = createAndAppend('div', root, { id: 'header' });
     createAndAppend('p', header, { text: 'HYF Repositories' });
@@ -75,29 +88,29 @@
       class: 'body_div',
       id: 'contributor_div',
     });
-    fetch(url)
-      .then(response => response.json())
-      .then(repositories => {
-        repositories.sort((a, b) => a.name.localeCompare(b.name, 'en'));
-        repositories.forEach((repo, index) => {
-          createAndAppend('option', select, { text: repo.name, value: index });
-        });
-        renderRepository(repositories[0], repositoryDiv);
-        fetch(repositories[0].contributors_url)
-          .then(response => response.json())
-          .then(contributors => renderContributors(contributors, contributorsDiv));
-        select.addEventListener('change', () => {
-          const index = select.value;
-          const repo = repositories[index];
-          renderRepository(repo, repositoryDiv);
-          fetch(repo.contributors_url)
-            .then(response => response.json())
-            .then(contributors => {
-              renderContributors(contributors, contributorsDiv);
-            });
-        });
+    try {
+      const response = await fetch(url);
+      const repositories = await response.json();
+      repositories.sort((a, b) => a.name.localeCompare(b.name, 'en'));
+      repositories.forEach((repo, index) => {
+        createAndAppend('option', select, { text: repo.name, value: index });
       });
+      renderRepository(repositories[0], repositoryDiv);
+      const contributors = await fetchData(repositories[0].contributors_url);
+      renderContributors(contributors, contributorsDiv);
+      select.addEventListener('change', async () => {
+        const index = select.value;
+        const repo = repositories[index];
+        renderRepository(repo, repositoryDiv);
+        const selectedContributors = await fetchData(repo.contributors_url);
+
+        renderContributors(selectedContributors, contributorsDiv);
+      });
+    } catch (err) {
+      handleError(root, err);
+    }
   }
+
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => main(HYF_REPOS_URL);
 }
