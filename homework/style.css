@@ -1,3 +1,158 @@
 .alert-error {
-    color: red;
+  color: red;
+}
+
+img {
+  width: 100px;
+  height: 100px;
+}
+
+p {
+  margin-left: 15px;
+  font-size: 1.2em;
+}
+
+ul {
+  display: block;
+  list-style-type: disc;
+}
+
+option {
+  background-color: rgb(255, 255, 255);
+  margin: 15px 15px;
+  padding: 5px;
+  font-size: 14px;
+}
+li a {
+  text-decoration: none;
+  margin-left: 150px;
+  width: 30px;
+  color: black;
+  text-align: left;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+li a div {
+  margin-top: 0;
+  margin-left: 250px;
+  float: left;
+  width: 30px;
+  background-color: gray;
+}
+
+#header {
+  background-color: #3f51b5;
+  padding: 10px 10px;
+  margin: 15px 15px;
+}
+
+label {
+  font-size: 25px;
+  color: white;
+}
+
+table {
+  background-color: rgba(154, 155, 148, 0.13);
+  border-radius: 3%;
+  padding: 7px;
+  margin: 15px 16px;
+  border: 1px solid rgba(48, 46, 46, 0.027);
+}
+
+select {
+  background-color: rgb(255, 255, 255);
+  margin: 15px 15px;
+  padding: 5px;
+  font-size: 14px;
+}
+//
+
+#root {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+header {
+  width: 100%;
+  color: white;
+  background-color: #3f51b5;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 5px;
+}
+
+li {
+  border-bottom: solid 1px gray;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  margin: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.body_div:hover,
+#header:hover {
+  opacity: 1;
+}
+
+ul {
+  list-style: none;
+  box-sizing: border-box;
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px;
+  background-color: grey;
+}
+
+span {
+  font-size: 15px;
+  padding: 2px 8px;
+  line-height: 1rem;
+  background-color: gray;
+  color: white;
+  border-radius: 4px;
+}
+tbody {
+}
+
+#contributors_text {
+  width: 100%;
+
+  margin-left: 10px;
+}
+@media (max-width: 768px) {
+  body {
+    width: 100%;
+  }
+  .body_container {
+    margin: 0;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .body_div {
+    width: 98%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+@media (max-width: 321px) {
+  select {
+    margin: 10px;
+    font-size: 12px;
+    width: 150px;
+    height: 25px;
+  }
+  .body_div {
+    width: 94%;
+  }
 }

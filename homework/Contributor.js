@@ -13,7 +13,21 @@ class Contributor {
    * @param {HTMLElement} container The container element in which to render the contributor.
    */
   render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.contributor, null, 2));
+    const li = Util.createAndAppend('li', container);
+    const a = Util.createAndAppend('a', li, {
+      href: this.contributor.html_url,
+      target: '_blank',
+    });
+    Util.createAndAppend('img', a, {
+      src: this.contributor.avatar_url,
+    });
+    const contributorData = Util.createAndAppend('span', a, { id: 'contributorData' });
+    Util.createAndAppend('span', contributorData, {
+      text: this.contributor.login,
+      id: 'contributorName',
+    });
+    Util.createAndAppend('span', contributorData, {
+      text: this.contributor.contributions,
+    });
   }
 }
