@@ -78,7 +78,7 @@ header {
   width: 100%;
   color: white;
   background-color: #3f51b5;
-  padding: 10px 15px;
+  padding: 10px 15px 20px;
   margin-bottom: 20px;
   display: flex;
   flex-direction: row;
@@ -99,30 +99,33 @@ li {
   padding-right: 0;
 }
 
-.body_div:hover,
-#header:hover {
-  opacity: 1;
-}
-
 ul {
   list-style: none;
   box-sizing: border-box;
   float: left;
-  width: 50%;
+  width: 40%;
+
   padding: 10px;
   height: 300px;
-  background-color: grey;
+  background-color: rgb(235, 231, 231);
 }
 
 span {
   font-size: 15px;
   padding: 2px 8px;
-  line-height: 1rem;
-  background-color: gray;
+  margin-left: 30px;
+  background-color: rgb(131, 122, 122);
   color: white;
-  border-radius: 4px;
 }
 tbody {
+  background-color: rgba(184, 173, 173, 0.527);
+  box-sizing: border-box;
+  float: left;
+  width: 40%;
+  padding-left: 30px;
+  padding-top: 30px;
+  margin-top: 17px;
+  height: 300px;
 }
 
 #contributors_text {

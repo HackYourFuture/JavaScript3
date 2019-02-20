@@ -42,8 +42,9 @@ class Repository {
     Util.createAndAppend('td', tr4, {
       text: 'Updated:',
     });
+    const updatedAt = new Date(this.repository.updated_at).toLocaleString();
     Util.createAndAppend('td', tr4, {
-      text: this.repository.updated_at,
+      text: updatedAt,
     });
   }
 
