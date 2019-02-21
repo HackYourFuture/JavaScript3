@@ -16,7 +16,7 @@
   }
 
   function sortElements(repositories) {
-    return repositories.sort((a, b) => a.name.localeCompare(b.name));
+    return [...repositories].sort((a, b) => a.name.localeCompare(b.name));
   }
 
   function deleteContributorsSideInfos(firstContributorsInfo) {

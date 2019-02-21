@@ -14,10 +14,7 @@ class App {
   async initialize(url) {
     const root = document.getElementById('root');
     const header = Util.createAndAppend('header', root, { id: 'header' });
-    const figure = Util.createAndAppend('figure', header, {
-      src: './hyf.png',
-      alt: 'HackYourFuture logo',
-    });
+    const figure = Util.createAndAppend('figure', header, {});
     Util.createAndAppend('img', figure, { src: './hyf.png', alt: 'HackYourFuture logo' });
     Util.createAndAppend('h1', header, { text: 'HackYourFuture Github Repositories' });
     const choice = Util.createAndAppend('section', root, { id: 'choice' });
