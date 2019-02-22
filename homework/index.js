@@ -16,7 +16,7 @@
   }
 
   function sortElements(repositories) {
-    return [...repositories].sort((a, b) => a.name.localeCompare(b.name));
+    repositories.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   function deleteContributorsSideInfos(firstContributorsInfo) {
@@ -137,13 +137,13 @@
   async function createHtml(rootDiv, jsonData) {
     createHeader(rootDiv);
     const repositories = jsonData;
-    const sortedRepositories = sortElements(repositories);
+    sortElements(repositories);
     const selectElem = document.getElementById('select');
     const contentDiv = createAndAppend('div', rootDiv, { id: 'content' });
     const repositoriesSide = createAndAppend('div', contentDiv, { id: 'left-side' });
     const contributorsSide = createAndAppend('div', contentDiv, { id: 'right-side' });
 
-    sortedRepositories.forEach((eachRepository, index) => {
+    repositories.forEach((eachRepository, index) => {
       createAndAppend('option', selectElem, { text: eachRepository.name, value: index });
     });
 
@@ -156,27 +156,27 @@
     const td2 = createAndAppend('td', tr1, {});
     createAndAppend('a', td2, {
       id: 'repo-name',
-      text: `${sortedRepositories[0].name}`,
-      href: `${sortedRepositories[0].html_url}`,
+      text: `${repositories[0].name}`,
+      href: `${repositories[0].html_url}`,
       target: '_blank',
     });
     const tr2 = createAndAppend('tr', table, {});
     createAndAppend('td', tr2, { text: 'Description: ' });
     createAndAppend('td', tr2, {
       id: 'repo-description',
-      text: `${sortedRepositories[0].description}`,
+      text: `${repositories[0].description}`,
     });
     const tr3 = createAndAppend('tr', table, {});
     createAndAppend('td', tr3, { text: 'Fork: ' });
-    createAndAppend('td', tr3, { id: 'repo-fork', text: `${sortedRepositories[0].forks}` });
+    createAndAppend('td', tr3, { id: 'repo-fork', text: `${repositories[0].forks}` });
     const tr4 = createAndAppend('tr', table, {});
     createAndAppend('td', tr4, { text: 'Updated: ' });
     createAndAppend('td', tr4, {
       id: 'repo-updated',
-      text: `${sortedRepositories[0].updated_at}`,
+      text: `${repositories[0].updated_at}`,
     });
 
-    const contributorsUrl = sortedRepositories[0].contributors_url;
+    const contributorsUrl = repositories[0].contributors_url;
 
     try {
       const contributorsResponse = await fetch(contributorsUrl);
@@ -192,7 +192,7 @@
 
     const allOptions = document.getElementById('select');
 
-    createChangedInfo(allOptions, sortedRepositories, rootDiv, contentDiv);
+    createChangedInfo(allOptions, repositories, rootDiv, contentDiv);
   }
 
   async function main(url) {
