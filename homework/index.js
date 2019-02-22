@@ -44,8 +44,11 @@
   createAndAppend('p', rightPanel, { text: 'Contributions', id: 'right_column_title' });
 
   function createRightPanelContent(data2, liappend) {
+    const rigthColumnListDefault = createAndAppend('ul', liappend, {
+      id: 'right_column_list',
+    });
     data2.forEach(contributor => {
-      const rightColumnListElems = createAndAppend('li', liappend, {
+      const rightColumnListElems = createAndAppend('li', rigthColumnListDefault, {
         class: 'right_column_list_elems',
       });
       const link = createAndAppend('a', rightColumnListElems, {
@@ -73,8 +76,20 @@
   async function showData(data) {
     data.sort((a, b) => a.name.localeCompare(b.name));
     const contributorsURL = data.map(item => item.contributors_url);
-    const fetchedDataContributorsDefaultRaw = await fetch(contributorsURL[0]);
-    const fetchedDataContributorsDefault = await fetchedDataContributorsDefaultRaw.json();
+    try {
+      const fetchedDataContributorsDefaultRaw = await fetch(contributorsURL[0]);
+      const fetchedDataContributorsDefault = await fetchedDataContributorsDefaultRaw.json();
+      if (!fetchedDataContributorsDefaultRaw.ok) {
+        throw new Error();
+      } else {
+        createRightPanelContent(fetchedDataContributorsDefault, rightPanel);
+      }
+    } catch (error) {
+      createAndAppend('div', root, {
+        text: "Data couldn't be loaded !",
+        class: 'alert-error',
+      });
+    }
     data.forEach(repository => {
       createAndAppend('option', select, { text: repository.name });
     });
@@ -101,16 +116,6 @@
 
     assignLeftPanelValues(data[0]);
 
-    function createRightPanel() {
-      const rigthColumnListDefault = createAndAppend('ul', rightPanel, {
-        id: 'right_column_list',
-      });
-
-      createRightPanelContent(fetchedDataContributorsDefault, rigthColumnListDefault);
-    }
-
-    createRightPanel();
-
     select.addEventListener('change', () => {
       remove();
     });
@@ -123,10 +128,7 @@
         if (!fetchedDataContributorsRaw.ok) {
           throw new Error();
         } else {
-          const rigthColumnList = createAndAppend('ul', rightPanel, {
-            id: 'right_column_list',
-          });
-          createRightPanelContent(fetchedDataContributors, rigthColumnList);
+          createRightPanelContent(fetchedDataContributors, rightPanel);
         }
       } catch (error) {
         createAndAppend('div', root, {

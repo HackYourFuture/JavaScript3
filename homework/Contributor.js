@@ -8,12 +8,7 @@ class Contributor {
     this.contributor = contributor;
   }
 
-  /**
-   * Render the contributor info to the DOM.
-   * @param {HTMLElement} container The container element in which to render the contributor.
-   */
-  static render(data, container) {
-    // TODO: replace the next line with your code.
+  render(data, container) {
     data.forEach(contributors => {
       const rightColumnListElems = Util.createAndAppend('li', container, {
         class: 'right_column_list_elems',

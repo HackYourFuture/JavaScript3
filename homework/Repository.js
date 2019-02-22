@@ -8,13 +8,7 @@ class Repository {
     this.repository = repository;
   }
 
-  /**
-   * Render the repository info to the DOM.
-   * @param {HTMLElement} container The container element in which to render the repository.
-   */
-
-  static assignLeftPanelValues(dataIndex) {
-    // TODO: replace the next line with your code.
+  assignLeftPanelValues(dataIndex) {
     function setLink(linkID, srcArray) {
       document.getElementById(linkID).innerText = srcArray.name;
       document.getElementById(linkID).setAttribute('href', srcArray.html_url);
@@ -27,16 +21,10 @@ class Repository {
     document.getElementById('property_updated').innerText = new Date(dataIndex.updated_at);
   }
 
-  /**
-   * Returns an array of contributors as a promise
-   */
   fetchContributors() {
     return Util.fetchJSON(this.repository.contributors_url);
   }
 
-  /**
-   * Returns the name of the repository
-   */
   name() {
     return this.repository.name;
   }

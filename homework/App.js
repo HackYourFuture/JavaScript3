@@ -7,14 +7,7 @@ class App {
     this.initialize(url);
   }
 
-  /**
-   * Initialization
-   * @param {string} url The GitHub URL for obtaining the organization's repositories.
-   */
   async initialize(url) {
-    // Add code here to initialize your app
-    // 1. Create the fixed HTML elements of your page
-    // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
     const root = document.getElementById('root');
     const header = Util.createAndAppend('header', root, { id: 'header' });
     Util.createAndAppend('p', header, { text: 'HYF Repositories' });
@@ -41,8 +34,7 @@ class App {
       this.data = data.map(repo => new Repository(repo));
       this.data = data.sort((a, b) => a.name.localeCompare(b.name));
       const contributorsURL = this.data.map(item => item.contributors_url);
-      const fetchedDataContributorsDefaultRaw = await fetch(contributorsURL[0]);
-      this.fetchedDataContributorsDefault = await fetchedDataContributorsDefaultRaw.json();
+      this.fetchedDataContributorsDefault = await Util.fetchJSON(contributorsURL[0]);
       data.forEach(repository => {
         Util.createAndAppend('option', select, { text: repository.name });
       });
@@ -59,8 +51,8 @@ class App {
         });
       }
 
-      Repository.assignLeftPanelValues(data[0]);
-      Contributor.render(this.fetchedDataContributorsDefault, rigthColumnListDefault);
+      Repository.prototype.assignLeftPanelValues(data[0]);
+      Contributor.prototype.render(this.fetchedDataContributorsDefault, rigthColumnListDefault);
 
       select.addEventListener('change', async () => {
         const selected = select.selectedIndex;
@@ -71,47 +63,24 @@ class App {
           if (!fetchedDataContributors) {
             throw new Error();
           } else {
-            this.fetchContributorsAndRender(fetchedDataContributors, rigthColumnListDefault);
+            Contributor.prototype.render(fetchedDataContributors, rigthColumnListDefault);
           }
         } catch (error) {
           this.renderError(error);
         }
-        Repository.assignLeftPanelValues(data[selected]);
+        Repository.prototype.assignLeftPanelValues(data[selected]);
       });
-
-      // TODO: add your own code here
     } catch (error) {
       this.renderError(error);
     }
   }
 
-  /**
-   * Removes all child elements from a container element
-   * @param {*} container Container element to clear
-   */
   static clearContainer(container) {
     while (container.firstChild) {
       container.removeChild(container.firstChild);
     }
   }
 
-  /**
-   * Fetch contributor information for the selected repository and render the
-   * repo and its contributors as HTML elements in the DOM.
-   * @param {number} index The array index of the repository.
-   */
-  async fetchContributorsAndRender(data, container) {
-    try {
-      Contributor.render(data, container);
-    } catch (error) {
-      this.renderError(error);
-    }
-  }
-
-  /**
-   * Render an error to the DOM.
-   * @param {Error} error An Error object describing the error.
-   */
   renderError(error) {
     const root = document.getElementById('root');
     Util.createAndAppend('div', root, {
