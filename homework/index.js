@@ -17,12 +17,15 @@
     return elem;
   }
 
-  const showError = err => {
+  function renderError(error) {
+    const header = createAndAppend('div', root, { id: 'header' });
+    createAndAppend('h1', header, { text: 'HYF Repositories' });
+    createAndAppend('select', header, { id: 'select' });
     createAndAppend('div', root, {
-      text: err.message,
+      text: `An error occurred: ${error.message}`,
       class: 'alert-error',
     });
-  };
+  }
 
   function presentRepositories(repositoriesContainer, repository) {
     const table = createAndAppend('table', repositoriesContainer);
@@ -93,10 +96,14 @@
   }
 
   async function presentContributors(contributorsContainer, url) {
-    const response = await fetch(url);
-    const contributors = await response.json();
-    createAndAppend('p', contributorsContainer, { text: 'Contributions' });
-    renderContributors(contributorsContainer, contributors);
+    try {
+      const response = await fetch(url);
+      const contributors = await response.json();
+      createAndAppend('p', contributorsContainer, { text: 'Contributions' });
+      renderContributors(contributorsContainer, contributors);
+    } catch (error) {
+      renderError(error);
+    }
   }
 
   function sortRepositories(repositories) {
@@ -141,12 +148,18 @@
   }
 
   async function main(url) {
-    const response = await fetch(url);
-    const data = await response.json();
     try {
+      const response = await fetch(url);
+      const testedResponse = await (function testError() {
+        if (response.ok) {
+          return response;
+        }
+        throw new Error('Network response was not ok!');
+      })();
+      const data = await testedResponse.json();
       showAll(data);
     } catch (error) {
-      showError(data);
+      renderError(error);
     }
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';

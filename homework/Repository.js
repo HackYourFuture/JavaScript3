@@ -13,8 +13,6 @@ class Repository {
    * @param {HTMLElement} container The container element in which to render the repository.
    */
   render(container) {
-    // TODO: replace the next line with your code.
-
     const table = Util.createAndAppend('table', container);
     const tBody = Util.createAndAppend('tbody', table);
     const headersOfDetails = [

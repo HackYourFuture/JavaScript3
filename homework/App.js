@@ -12,11 +12,7 @@ class App {
    * @param {string} url The GitHub URL for obtaining the organization's repositories.
    */
   async initialize(url) {
-    // Add code here to initialize your app
-    // 1. Create the fixed HTML elements of your page
-    // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
     const root = document.getElementById('root');
-    // TODO: replace with your own code
     const header = Util.createAndAppend('div', root, { id: 'header' });
     Util.createAndAppend('h1', header, { text: 'HYF Repositories' });
     const select = Util.createAndAppend('select', header, {
@@ -25,7 +21,7 @@ class App {
     });
     select.addEventListener('change', () => this.fetchContributorsAndRender(select.value));
     Util.createAndAppend('div', root, {
-      id: 'container',
+      id: 'main-container',
     });
     try {
       const response = await fetch(url);
@@ -72,7 +68,7 @@ class App {
       const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
 
-      const container = document.getElementById('container');
+      const container = document.getElementById('main-container');
       App.clearContainer(container);
 
       const repositoriesContainer = Util.createAndAppend('div', container, {

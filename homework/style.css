@@ -44,7 +44,7 @@ h1 {
   color: #1c1c1c;
 }
 
-#container {
+#main-container {
   display: flex;
   flex-direction: row;
   align-items: flex-start;

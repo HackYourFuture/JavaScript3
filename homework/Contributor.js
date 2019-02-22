@@ -13,7 +13,6 @@ class Contributor {
    * @param {HTMLElement} container The container element in which to render the contributor.
    */
   render(container) {
-    // TODO: replace the next line with your code.
     const li = Util.createAndAppend('li', container, {
       'aria-label': this.contributor.login,
       tabindex: 0,
