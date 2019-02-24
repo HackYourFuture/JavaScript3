@@ -8,17 +8,14 @@ class Repository {
     this.repository = repository;
   }
 
-  assignLeftPanelValues(dataIndex) {
-    function setLink(linkID, srcArray) {
-      document.getElementById(linkID).innerText = srcArray.name;
-      document.getElementById(linkID).setAttribute('href', srcArray.html_url);
-      document.getElementById(linkID).setAttribute('target', '_blank');
-    }
-
-    setLink('property_repository', dataIndex);
-    document.getElementById('property_description').innerText = dataIndex.description;
-    document.getElementById('property_forks').innerText = dataIndex.forks;
-    document.getElementById('property_updated').innerText = new Date(dataIndex.updated_at);
+  assignLeftPanelValues() {
+    const getFirstID = document.getElementById('property_repository');
+    getFirstID.innerText = this.repository.name;
+    getFirstID.setAttribute('href', this.repository.html_url);
+    getFirstID.setAttribute('target', '_blank');
+    document.getElementById('property_description').innerText = this.repository.description;
+    document.getElementById('property_forks').innerText = this.repository.forks;
+    document.getElementById('property_updated').innerText = new Date(this.repository.updated_at);
   }
 
   fetchContributors() {

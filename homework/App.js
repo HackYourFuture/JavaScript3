@@ -32,11 +32,11 @@ class App {
     try {
       const data = await Util.fetchJSON(url);
       this.data = data.map(repo => new Repository(repo));
-      this.data = data.sort((a, b) => a.name.localeCompare(b.name));
-      const contributorsURL = this.data.map(item => item.contributors_url);
+      this.data = this.data.sort((a, b) => a.repository.name.localeCompare(b.repository.name));
+      const contributorsURL = this.data.map(item => item.repository.contributors_url);
       this.fetchedDataContributorsDefault = await Util.fetchJSON(contributorsURL[0]);
-      data.forEach(repository => {
-        Util.createAndAppend('option', select, { text: repository.name });
+      this.data.forEach(repository => {
+        Util.createAndAppend('option', select, { text: repository.repository.name });
       });
       const lowerCaseProperties = repositoryProperties
         .map(prop => prop.toLowerCase())
@@ -51,7 +51,7 @@ class App {
         });
       }
 
-      Repository.prototype.assignLeftPanelValues(data[0]);
+      this.data[0].assignLeftPanelValues();
       Contributor.prototype.render(this.fetchedDataContributorsDefault, rigthColumnListDefault);
 
       select.addEventListener('change', async () => {
@@ -68,7 +68,7 @@ class App {
         } catch (error) {
           this.renderError(error);
         }
-        Repository.prototype.assignLeftPanelValues(data[selected]);
+        this.data[selected].assignLeftPanelValues();
       });
     } catch (error) {
       this.renderError(error);
