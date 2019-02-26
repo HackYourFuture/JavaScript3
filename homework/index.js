@@ -30,13 +30,7 @@
   const container = createAndAppend('div', root, { id: 'container' });
 
   function getSelectedData(value, data) {
-    let selected;
-    data.forEach(item => {
-      if (item.name === value) {
-        selected = item;
-      }
-    });
-    return selected;
+    return data.filter(repo => repo.name === value)[0];
   }
 
   function generateSelections(repos) {
@@ -47,7 +41,6 @@
 
     repos.forEach(repo => {
       createAndAppend('option', selectionElem, {
-        id: repo.id++,
         value: repo.name,
         text: repo.name,
       });
@@ -140,9 +133,8 @@
         const repoNames = data
           .map(repo => ({ name: repo.name, id: repo.id }))
           .sort((a, b) => a.name.localeCompare(b.name));
-        generateSelections(repoNames);
 
-        const selected = document.getElementById('repositories');
+        const selected = generateSelections(repoNames);
 
         generateInfoSection(selected.value, data);
         generateContributorsSection(selected.value, data);
