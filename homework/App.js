@@ -17,16 +17,38 @@ class App {
     // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
 
     const root = document.getElementById('root');
+    Util.createAndAppend('div', root, { id: 'container' });
 
     Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
 
     try {
       const repos = await Util.fetchJSON(url);
       this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
+
+      const select = this.generateSelections(repos, root);
+      this.fetchContributorsAndRender(repos.indexOf(this.repos[0].repository));
+
+      select.addEventListener('change', () => {
+        const repo = this.repos.filter(data => data.repository.name === select.value)[0];
+        this.fetchContributorsAndRender(repos.indexOf(repo.repository));
+      });
     } catch (error) {
       this.renderError(error);
     }
+  }
+
+  generateSelections(_repos, parent) {
+    const header = Util.createAndAppend('header', parent, {});
+    const selectionElem = Util.createAndAppend('select', header, {
+      id: 'repositories',
+    });
+    _repos.forEach(repo => {
+      Util.createAndAppend('option', selectionElem, {
+        value: repo.name,
+        text: repo.name,
+      });
+    });
+    return selectionElem;
   }
 
   /**
@@ -52,16 +74,14 @@ class App {
       const container = document.getElementById('container');
       App.clearContainer(container);
 
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
+      repo.render(container);
+      const rightDiv = Util.createAndAppend('div', container, { id: 'contsDiv' });
 
-      const contributorList = Util.createAndAppend('ul', rightDiv);
-
-      repo.render(leftDiv);
+      Util.createAndAppend('p', rightDiv, { id: 'cont-header', text: 'Contributors' });
 
       contributors
         .map(contributor => new Contributor(contributor))
-        .forEach(contributor => contributor.render(contributorList));
+        .forEach(contributor => contributor.render(rightDiv));
     } catch (error) {
       this.renderError(error);
     }

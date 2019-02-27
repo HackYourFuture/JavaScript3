@@ -14,7 +14,27 @@ class Repository {
    */
   render(container) {
     // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
+    // Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
+
+    const div = Util.createAndAppend('div', container, { id: 'infoDiv' });
+    Util.createAndAppend('a', div, {
+      id: 'repoName',
+      text: `Repository: ${this.repository.name}`,
+      href: this.repository.html_url,
+      target: '_blank',
+    });
+    Util.createAndAppend('p', div, {
+      id: 'desc',
+      text: `Description: ${this.repository.description}`,
+    });
+    Util.createAndAppend('p', div, {
+      id: 'forks',
+      text: `Forks: ${this.repository.forks}`,
+    });
+    Util.createAndAppend('p', div, {
+      id: 'updated_at',
+      text: `Updated: ${this.repository.updated_at}`,
+    });
   }
 
   /**
