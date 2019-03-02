@@ -13,9 +13,6 @@ class Repository {
    * @param {HTMLElement} container The container element in which to render the repository.
    */
   render(container) {
-    // TODO: replace the next line with your code.
-    // Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
-
     const div = Util.createAndAppend('div', container, { id: 'infoDiv' });
     Util.createAndAppend('a', div, {
       id: 'repoName',

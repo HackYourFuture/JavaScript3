@@ -72,7 +72,7 @@ header {
   background-color: grey;
   color: white;
   padding: 1%;
-  margin-right: -50%;
+  margin-left: 10%;
   border-radius: 5px;
   text-align: center;
 }
@@ -95,4 +95,10 @@ a:visited {
 
 a:hover {
   color: dimgray;
+}
+
+.error {
+  text-align: center;
+  background-color: rgb(232, 41, 41);
+  padding: 5%;
 }

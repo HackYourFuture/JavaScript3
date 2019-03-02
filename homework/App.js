@@ -19,33 +19,32 @@ class App {
     const root = document.getElementById('root');
     Util.createAndAppend('div', root, { id: 'container' });
 
-    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
-
     try {
       const repos = await Util.fetchJSON(url);
-      this.repos = repos.map(repo => new Repository(repo));
+      this.repos = repos
+        .map(repo => new Repository(repo))
+        .sort((a, b) => a.repository.name.localeCompare(b.repository.name));
 
-      const select = this.generateSelections(repos, root);
-      this.fetchContributorsAndRender(repos.indexOf(this.repos[0].repository));
+      const select = this.generateSelections(this.repos, root);
+      this.fetchContributorsAndRender(0);
 
       select.addEventListener('change', () => {
-        const repo = this.repos.filter(data => data.repository.name === select.value)[0];
-        this.fetchContributorsAndRender(repos.indexOf(repo.repository));
+        this.fetchContributorsAndRender(select.value);
       });
     } catch (error) {
       this.renderError(error);
     }
   }
 
-  generateSelections(_repos, parent) {
+  generateSelections(data, parent) {
     const header = Util.createAndAppend('header', parent, {});
     const selectionElem = Util.createAndAppend('select', header, {
       id: 'repositories',
     });
-    _repos.forEach(repo => {
+    data.forEach(repo => {
       Util.createAndAppend('option', selectionElem, {
-        value: repo.name,
-        text: repo.name,
+        value: data.indexOf(repo),
+        text: repo.repository.name,
       });
     });
     return selectionElem;
@@ -72,16 +71,19 @@ class App {
       const contributors = await repo.fetchContributors();
 
       const container = document.getElementById('container');
+
       App.clearContainer(container);
 
       repo.render(container);
-      const rightDiv = Util.createAndAppend('div', container, { id: 'contsDiv' });
 
+      const rightDiv = Util.createAndAppend('div', container, { id: 'contsDiv' });
       Util.createAndAppend('p', rightDiv, { id: 'cont-header', text: 'Contributors' });
+      const contributorsDiv = Util.createAndAppend('div', rightDiv);
+      const contributorsLists = Util.createAndAppend('ul', contributorsDiv, { id: 'conts-list' });
 
       contributors
         .map(contributor => new Contributor(contributor))
-        .forEach(contributor => contributor.render(rightDiv));
+        .forEach(contributor => contributor.render(contributorsLists));
     } catch (error) {
       this.renderError(error);
     }
@@ -92,7 +94,9 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    console.log(error); // TODO: replace with your own code
+    const container = document.getElementById('container');
+    App.clearContainer(container);
+    Util.createAndAppend('div', container, { class: 'error', text: error });
   }
 }
 
