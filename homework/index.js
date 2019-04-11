@@ -29,7 +29,7 @@
     });
     return elem;
   }
-
+  /* cSpell:disable */
   // Creating the repository-details part
   function createHyfRepoDetails(leftDiv, hyfRepo) {
     const table = createAndAppend('table', leftDiv, { class: 'table' });
@@ -168,4 +168,5 @@
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
   window.onload = () => main(HYF_REPOS_URL);
+  /* cSpell:enable */
 }

@@ -1,3 +1,4 @@
+/* cSpell:disable */
 .alert-error {
   color: black;
   background-color: rgb(247, 111, 111);
@@ -176,3 +177,4 @@ body {
     flex: 1;
   }
 }
+/* cSpell:enable */
