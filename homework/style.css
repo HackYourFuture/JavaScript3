@@ -1,3 +1,117 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  background-image: url(https://teknikol.com/img/bg/blur-background09.jpg);
+  background-attachment: fixed;
+  background-size: cover;
+}
 .alert-error {
-    color: red;
+  color: #721c23;
+  width: 90%;
+  border-radius: 5px;
+  text-align: center;
+  margin: 0 auto;
+  background-color: rgba(5, 5, 5, 0.5);
+  height: 40px;
+  border: 2px solid #721c23;
+  font-size: 1.2em;
+  line-height: 33px;
+  background-color: #f8d7da;
+}
+.logoName {
+  color: white;
+  padding: 2%;
+  text-align: center;
+  font-size: 1.8em;
+  padding-top: 3.7vh;
+}
+/*generally*/
+img {
+  width: 50%;
+  border-radius: 5px;
+}
+li {
+  list-style: none;
+  padding: 1vw;
+}
+a {
+  padding: 1vw;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+a:hover {
+  color: red;
+}
+span {
+  padding: 1vw;
+}
+/********/
+.pre {
+  background-color: blueviolet;
+  height: 25vh;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  background: rgba(15, 15, 15, 0.8);
+  margin-bottom: 2vw;
+}
+.select {
+  margin-top: 17px;
+  height: 7vh;
+  font-size: 1.6em;
+  font-weight: bold;
+  font-family: unset;
+  border: navajowhite;
+  border-radius: 5px;
+}
+.bodyInformation {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.cont {
+  display: flex;
+  flex-wrap: wrap;
+}
+.info,
+.cont {
+  background: green;
+  width: 85%;
+  padding: 2.2vw;
+  font-size: 1.2em;
+  background: rgba(0, 0, 0, 0.5);
+  margin-bottom: 2vw;
+  border-radius: 7px;
+}
+.result {
+  color: white;
+  font-weight: bold;
+}
+.avatar_div {
+  width: 50%;
+}
+.data {
+  padding: 6%;
+}
+.label {
+  display: inline-block;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+}
+@media (min-width: 992px) {
+  .cont,
+  .info {
+    width: 43%;
+  }
+}
+@media (min-width: 643px) {
+  .pre {
+    height: 12vh;
+  }
 }
