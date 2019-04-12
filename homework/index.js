@@ -59,8 +59,8 @@
   function fetchContributorsUrl(contributorsUrl) {
     fetchJSON(contributorsUrl, (err, contributor) => {
       if (err) {
-        const parentElement = document.getElementById('root');
-        createAndAppend('div', parentElement, { text: err.message, class: 'alert-error' });
+        const root = document.getElementById('root');
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
         for (let j = 0; j < contributor.length; j++) {
           const nameOfContributor = contributor[j].login;
@@ -75,6 +75,7 @@
           createAndAppend('img', avatarContainer1, { src: avatarUrl });
           createAndAppend('a', avatarContainer2, {
             text: nameOfContributor.toUpperCase(),
+            target: '_blank',
             href: `https://github.com/${nameOfContributor}`,
           });
           createAndAppend('br', avatarContainer2, {});
