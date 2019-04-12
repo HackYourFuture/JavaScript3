@@ -1,3 +1,89 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  padding: 30px;
+  font-family: monospace;
+}
 .alert-error {
-    color: red;
+  color: red;
+}
+
+#selectdiv {
+  text-align: center;
+  padding: 30px;
+  font-size: 25px;
+}
+#selectdiv label {
+  padding-right: 20px;
+}
+#selectbox {
+  width: 150px;
+}
+
+img {
+  max-width: 100%;
+}
+
+ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+ul p {
+  text-transform: capitalize;
+  padding: 5px;
+}
+
+#rightdiv a {
+  list-style: none;
+  padding: 10px;
+  width: calc(100% / 7);
+  cursor: pointer;
+}
+
+#rightp {
+  text-align: center;
+  font-size: 25px;
+  margin-top: 20px;
+}
+table th {
+  text-align: left;
+  padding: 5px 15px 0;
+  vertical-align: top;
+}
+
+table td {
+  padding: 5px;
+}
+
+.contributor_div {
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  background-color: black;
+}
+
+@media (max-width: 1000px) {
+  #rightdiv a {
+    width: calc(100% / 5);
+  }
+}
+
+@media (max-width: 800px) {
+  #rightdiv a {
+    width: calc(100% / 3);
+  }
+}
+@media (max-width: 450px) {
+  #rightdiv a {
+    width: calc(100% / 2);
+  }
+}
+
+@media (max-width: 300px) {
+  #rightdiv a {
+    width: calc(100%);
+  }
 }
