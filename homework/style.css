@@ -1,3 +1,59 @@
+*,
+*:before,
+*:after {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
 .alert-error {
     color: red;
+}
+
+.heading{
+  background-color:#3F51B5;
+  height: 100px;
+}
+
+h1 {
+  color: white;
+  margin: 0 20px 0 20px;
+}
+
+.select-tag {
+  height: 20px;
+}
+
+.avatar {
+  height: 48px;
+}
+
+li {
+  list-style: none;
+}
+
+.contributor-data{
+  margin: 0 20px 0 20px;
+}
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.positioned {
+  justify-content: space-between;
+}
+
+.half-width {
+  width: 50%;
+}
+
+
+.login-text {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;   
 }
