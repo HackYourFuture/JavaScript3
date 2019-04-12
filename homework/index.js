@@ -79,6 +79,8 @@
 
       if (jsonFile[repositories.value].description === null) {
         description.style.display = 'none';
+      } else {
+        description.style.display = 'block';
       }
 
       const contributors = jsonFile[repositories.value].contributors_url;
@@ -90,7 +92,7 @@
           createAndAppend('div', root, { text: err.message, class: 'alert-error' });
         } else {
           contributions.innerHTML = 'Contributors';
-          if (contributorsParse !== null) {
+          if (contributorsParse !== null && contributorsParse.length > 0) {
             for (let contribution = 0; contribution < contributorsParse.length; contribution++) {
               const logi = contributorsParse[contribution].login;
               const img = contributorsParse[contribution].avatar_url;
