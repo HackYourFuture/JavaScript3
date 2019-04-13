@@ -1,3 +1,135 @@
 .alert-error {
-    color: red;
+  font-size: 1.5rem;
+  padding: 5%;
+  background-color: pink;
+  color: black;
+}
+
+body {
+  width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #f8f8f8;
+  font-family: 'Roboto', sans-serif;
+  color: rgb(0, 0, 0, 87%);
+  margin-top: 0;
+}
+
+#container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+img {
+  width: 50px;
+}
+
+@media (max-width: 767px) {
+  body {
+    width: 100%;
+  }
+  #container {
+    margin: 0;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.header {
+  color: white;
+  background-color: #3f51b5;
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.repo_selector {
+  margin-left: 16px;
+  font-size: 14px;
+  width: 250px;
+  height: 32px;
+  padding: 2px;
+}
+
+.left_div,
+.right_div {
+  background-color: white;
+  flex: 1;
+}
+
+.left_div {
+  padding: 16px;
+  margin-right: 16px;
+}
+
+@media (max-width: 767px) {
+  .left_div {
+    margin: 0;
+  }
+}
+
+.contributor-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contributor_header {
+  font-size: 0.8rem;
+  color: rgb(0, 0, 0, 54%);
+  padding: 8px 16px 4px 16px;
+}
+
+.contributor_item {
+  border-bottom: solid 1px rgb(0, 0, 0, 12%);
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+
+.contributor_avatar {
+  max-width: 100px;
+  border-radius: 3px;
+  margin-right: 16px;
+}
+
+.contributor_data {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: center;
+}
+
+.contributor_badge {
+  font-size: 12px;
+  padding: 2px 8px;
+  line-height: 1rem;
+  background-color: gray;
+  color: white;
+  border-radius: 4px;
+}
+
+table {
+  table-layout: fixed;
+  color: rgb(0, 0, 0, 81%);
+}
+
+td {
+  vertical-align: top;
+}
+
+td:first-child {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+}
+
+td.label {
+  font-weight: bold;
 }
