@@ -1,3 +1,20 @@
 .alert-error {
-    color: red;
+  color: red;
+}
+
+#root {
+  display: flex;
+}
+
+body {
+  background: yellow;
+}
+
+div {
+  margin: 10px;
+}
+
+li {
+  margin-bottom: 5px;
+  border-bottom: 2px solid black;
 }
