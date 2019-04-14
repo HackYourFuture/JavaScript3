@@ -71,9 +71,9 @@ class App {
    * Render an error to the DOM.
    * @param {Error} error An Error object describing the error.
    */
-  renderError(error) {
-    console.log(error); // TODO: replace with your own code
-  }
+  // renderError(error) {
+  // console.log(error); // TODO: replace with your own code
+  // }
 }
 
 const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
