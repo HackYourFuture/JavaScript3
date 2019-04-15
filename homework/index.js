@@ -3,13 +3,7 @@
 {
   function fetchJSON(url, cb) {
     const xhr = new XMLHttpRequest();
-    // "Authorization: token f55126d198f3c6e9e7ef74e04919e059b82a231b"
     xhr.open('GET', url);
-<<<<<<< HEAD
-    xhr.setRequestHeader('authorization', 'token f55126d198f3c6e9e7ef74e04919e059b82a231b');
-=======
-    xhr.setRequestHeader('authorization', 'token f55126d198f3c6e9e7ef74e04919e059b82a231b')
->>>>>>> 09c5be811ad3051274a5ead25b8bd6d53ec9cbde
     xhr.responseType = 'json';
     xhr.onload = () => {
       if (xhr.status < 400) {
@@ -47,12 +41,12 @@
     }
   };
 
-  const div = createAndAppend('div', root, { id: 'container' });
-  const leftContainer = createAndAppend('div', div, { class: 'left-block frame' });
+  const mainContainer = createAndAppend('div', root, { id: 'container' });
+  const leftContainer = createAndAppend('div', mainContainer, { class: 'left-block frame' });
   const table = createAndAppend('table', leftContainer);
   const listContributor = createAndAppend('tbody', table);
 
-  const rightContainer = createAndAppend('div', div, { class: 'right-block frame' });
+  const rightContainer = createAndAppend('div', mainContainer, { class: 'right-block frame' });
   createAndAppend('p', rightContainer, {
     text: 'Contributions',
     class: 'contributor',
@@ -104,19 +98,16 @@
 
   function main(url) {
     fetchJSON(url, (err, data) => {
-      const root1 = document.getElementById('root');
       if (err) {
-        createAndAppend('div', root1, { text: err.message, class: 'alert-error' });
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
-        createAndAppend('pre', root1, { text: JSON.stringify(data, null, 2) });
-        let optionArr = JSON.parse(JSON.stringify(data, null, 2));
+        let optionArr = data;
         optionArr = optionArr.sort((a, b) => a.name.localeCompare(b.name));
 
         option(optionArr);
 
-        const e = document.getElementById('selector');
-
-        e.addEventListener('change', event => {
+        const selectedValue = document.getElementById('selector');
+        selectedValue.addEventListener('change', event => {
           const selectedRepo = event.target.value;
           renderRepo(listContributor, optionArr[selectedRepo]);
         });
