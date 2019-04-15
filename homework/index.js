@@ -5,11 +5,7 @@
     const xhr = new XMLHttpRequest();
     // "Authorization: token f55126d198f3c6e9e7ef74e04919e059b82a231b"
     xhr.open('GET', url);
-<<<<<<< HEAD
     xhr.setRequestHeader('authorization', 'token f55126d198f3c6e9e7ef74e04919e059b82a231b');
-=======
-    xhr.setRequestHeader('authorization', 'token f55126d198f3c6e9e7ef74e04919e059b82a231b')
->>>>>>> 09c5be811ad3051274a5ead25b8bd6d53ec9cbde
     xhr.responseType = 'json';
     xhr.onload = () => {
       if (xhr.status < 400) {
@@ -108,8 +104,7 @@
       if (err) {
         createAndAppend('div', root1, { text: err.message, class: 'alert-error' });
       } else {
-        createAndAppend('pre', root1, { text: JSON.stringify(data, null, 2) });
-        let optionArr = JSON.parse(JSON.stringify(data, null, 2));
+        let optionArr = data;
         optionArr = optionArr.sort((a, b) => a.name.localeCompare(b.name));
 
         option(optionArr);
