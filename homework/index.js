@@ -138,8 +138,7 @@
   }
 
   function reloadAllRepositories(parentElement, data) {
-    const pre = createAndAppend('pre', parentElement, { class: 'pre' });
-    createAndAppend('span', pre, { text: 'HYF Repositories', class: 'logoName' });
+    const pre = document.getElementById('pre');
     const parent = createAndAppend('div', parentElement, { class: 'bodyInformation' });
     createAndAppend('div', parent, { id: 'info', class: 'info' });
     createAndAppend('div', parent, { id: 'cont', class: 'cont' });
@@ -166,9 +165,13 @@
     fetchJSON(url, (err, data) => {
       const root = document.getElementById('root');
       root.className = 'root';
+      const pre = createAndAppend('pre', root, { class: 'pre', id: 'pre' });
+      createAndAppend('span', pre, { text: 'HYF Repositories', class: 'logoName' });
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
+        // we can use below code to sort list of repository instead of sort function above
+        // data.sort((x, y) => x.name.localeCompare(y.name));
         reloadAllRepositories(root, data);
       }
     });
