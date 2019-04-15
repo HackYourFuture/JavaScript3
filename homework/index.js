@@ -5,7 +5,11 @@
     const xhr = new XMLHttpRequest();
     // "Authorization: token f55126d198f3c6e9e7ef74e04919e059b82a231b"
     xhr.open('GET', url);
+<<<<<<< HEAD
     xhr.setRequestHeader('authorization', 'token f55126d198f3c6e9e7ef74e04919e059b82a231b');
+=======
+    xhr.setRequestHeader('authorization', 'token f55126d198f3c6e9e7ef74e04919e059b82a231b')
+>>>>>>> 09c5be811ad3051274a5ead25b8bd6d53ec9cbde
     xhr.responseType = 'json';
     xhr.onload = () => {
       if (xhr.status < 400) {
@@ -121,7 +125,6 @@
       }
     });
   }
-
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
   window.onload = () => main(HYF_REPOS_URL);
