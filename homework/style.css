@@ -21,6 +21,18 @@ body {
   line-height: 33px;
   background-color: #f8d7da;
 }
+.error {
+  color: #ffffff;
+  width: 90%;
+  border-radius: 5px;
+  text-align: center;
+  margin: 0 auto;
+  background-color: rgba(5, 5, 5, 0.5);
+  height: 40px;
+  border: 2px solid #721c23;
+  font-size: 1.2em;
+  line-height: 33px;
+}
 .logoName {
   color: white;
   padding: 2%;
@@ -52,7 +64,7 @@ span {
 /********/
 .pre {
   background-color: blueviolet;
-  height: 25vh;
+  padding-bottom: 15px;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -97,6 +109,7 @@ span {
 }
 .data {
   padding: 6%;
+  padding-left: 1%;
 }
 .label {
   display: inline-block;

@@ -1,19 +1,22 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status < 400) {
+            resolve(xhr.response);
+          } else {
+            reject(new Error(xhr.statusText));
+          }
+        }
+      };
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -31,42 +34,16 @@
     return elem;
   }
 
-  function sortList() {
-    let i;
-    let switching;
-    let b;
-    let shouldSwitch;
-    const list = document.getElementById('select');
-    switching = true;
-    while (switching) {
-      switching = false;
-      b = list.getElementsByTagName('option');
-      for (i = 0; i < b.length - 1; i++) {
-        shouldSwitch = false;
-        if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
-          shouldSwitch = true;
-          break;
-        }
-      }
-      if (shouldSwitch) {
-        b[i].parentNode.insertBefore(b[i + 1], b[i]);
-        switching = true;
-      }
-    }
-  }
-
   // fetch url contributor
-  function fetchContributorsUrl(contributorsUrl) {
-    fetchJSON(contributorsUrl, (err, contributor) => {
-      if (err) {
-        const root = document.getElementById('root');
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        for (let j = 0; j < contributor.length; j++) {
-          const nameOfContributor = contributor[j].login;
-          const numberOfContributor = contributor[j].contributions;
-          const avatarUrl = contributor[j].avatar_url;
-          const cont = document.getElementById('cont');
+  function fetchContributorsUrl(contributor) {
+    const cont = document.getElementById('cont');
+    cont.innerHTML = '';
+    fetchJSON(contributor)
+      .then(myContributor => {
+        for (let j = 0; j < myContributor.length; j++) {
+          const nameOfContributor = myContributor[j].login;
+          const numberOfContributor = myContributor[j].contributions;
+          const avatarUrl = myContributor[j].avatar_url;
           const avatarContainer1 = createAndAppend('div', cont, {
             class: 'avatar_div',
           });
@@ -75,7 +52,6 @@
           createAndAppend('img', avatarContainer1, { src: avatarUrl });
           createAndAppend('a', avatarContainer2, {
             text: nameOfContributor.toUpperCase(),
-            target: '_blank',
             href: `https://github.com/${nameOfContributor}`,
           });
           createAndAppend('br', avatarContainer2, {});
@@ -89,47 +65,48 @@
           });
           createAndAppend('br', avatarContainer2, {});
         }
-      }
-    });
+      })
+      .catch(() => {
+        createAndAppend('div', cont, {
+          text: 'there is no contributors available',
+          class: 'error',
+        });
+      });
   }
 
   function reloadSelectedRepository(valueOfSelectedRepository, selectedData) {
-    const resetInfoDiv = document.getElementById('info');
-    const resetContDiv = document.getElementById('cont');
-    resetInfoDiv.innerHTML = '';
-    resetContDiv.innerHTML = '';
+    const info = document.getElementById('info');
+    info.innerHTML = '';
     const getDescription = selectedData[valueOfSelectedRepository].description;
     const getForks = selectedData[valueOfSelectedRepository].forks;
     const getUpdatedAt = selectedData[valueOfSelectedRepository].updated_at;
     const dataName = selectedData[valueOfSelectedRepository].name;
-
-    // next line is an another url and need fetch to get contributors
     const getContributorsUrl = selectedData[valueOfSelectedRepository].contributors_url;
 
     if (getDescription == null) {
-      const noDescription = createAndAppend('li', resetInfoDiv, {});
+      const noDescription = createAndAppend('li', info, {});
       createAndAppend('span', noDescription, {
         text: 'Description: there is no description',
         class: '',
       });
     } else {
-      const liDescription = createAndAppend('li', resetInfoDiv, {});
+      const liDescription = createAndAppend('li', info, {});
       createAndAppend('span', liDescription, { text: 'Description: ' });
       createAndAppend('span', liDescription, { text: getDescription, class: 'result' });
     }
 
-    const link = createAndAppend('li', resetInfoDiv, {});
+    const link = createAndAppend('li', info, {});
     createAndAppend('span', link, { text: 'link: ' });
     createAndAppend('a', link, {
       text: dataName,
       target: '_blank',
-      href: `https://github.com/HackYourFuture/${dataName}`,
+      href: `https://github.com/HackYourFuture/${info}`,
       class: 'result',
     });
-    const liOfForks = createAndAppend('li', resetInfoDiv, {});
+    const liOfForks = createAndAppend('li', info, {});
     createAndAppend('span', liOfForks, { text: 'Forks: ' });
     createAndAppend('span', liOfForks, { text: getForks, class: 'result' });
-    const liUpdateAt = createAndAppend('li', resetInfoDiv, {});
+    const liUpdateAt = createAndAppend('li', info, {});
     createAndAppend('span', liUpdateAt, { text: 'updated_at: ' });
     createAndAppend('span', liUpdateAt, { text: getUpdatedAt, class: 'result' });
 
@@ -137,20 +114,16 @@
     fetchContributorsUrl(getContributorsUrl); // comment this line to stop getting contributors
   }
 
-  function reloadAllRepositories(parentElement, data) {
+  function reloadAllRepositories(parenElement, data) {
     const pre = document.getElementById('pre');
-    const parent = createAndAppend('div', parentElement, { class: 'bodyInformation' });
+    const parent = createAndAppend('div', parenElement, { class: 'bodyInformation' });
     createAndAppend('div', parent, { id: 'info', class: 'info' });
     createAndAppend('div', parent, { id: 'cont', class: 'cont' });
 
     const selectRepository = createAndAppend('select', pre, { id: 'select', class: 'select' });
-
     for (let i = 0; i < data.length; i++) {
       createAndAppend('option', selectRepository, { text: data[i].name, value: i });
     }
-    // sort list of repository's
-    sortList();
-
     // reload default repository
     reloadSelectedRepository(0, data);
 
@@ -162,23 +135,26 @@
   }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
-      const root = document.getElementById('root');
-      root.className = 'root';
-      const pre = createAndAppend('pre', root, { class: 'pre', id: 'pre' });
-      createAndAppend('span', pre, { text: 'HYF Repositories', class: 'logoName' });
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        // we can use below code to sort list of repository instead of sort function above
-        // data.sort((x, y) => x.name.localeCompare(y.name));
+    const root = document.getElementById('root');
+    const pre = createAndAppend('pre', root, { class: 'pre', id: 'pre' });
+    createAndAppend('span', pre, { text: 'HYF Repositories', class: 'logoName' });
+    fetchJSON(url)
+      .then(data => {
+        // sort list of repository
+        data.sort((a, b) => a.name.localeCompare(b.name));
         reloadAllRepositories(root, data);
-      }
-    });
+      })
+      .catch(() => {
+        // error if the page couldn't load repository's
+        createAndAppend('div', root, {
+          text: "there is no repository's available",
+          class: 'alert-error',
+        });
+      });
   }
 
   // we can add perPage variable as a parameter in function later
-  const perPage = 46;
+  const perPage = 47;
   const HYF_REPOS_URL = `https://api.github.com/orgs/HackYourFuture/repos?per_page=${perPage}`;
 
   window.onload = () => main(HYF_REPOS_URL);
