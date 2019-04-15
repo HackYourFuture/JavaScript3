@@ -127,11 +127,17 @@
     // reload default repository
     reloadSelectedRepository(0, data);
 
-    // reload selected repository
-    selectRepository.onchange = function reloadOnceSelect() {
+    // reload selected repository way (1)
+    // selectRepository.onchange = function reloadOnceSelect() {
+    // const indexOfSelectedRepo = this.value;
+    // reloadSelectedRepository(indexOfSelectedRepo, data); // comment this line to stop getting information once change select list
+    // };
+    // reload selected repository way (2)
+    function reloadOnceSelect() {
       const indexOfSelectedRepo = this.value;
       reloadSelectedRepository(indexOfSelectedRepo, data); // comment this line to stop getting information once change select list
-    };
+    }
+    selectRepository.addEventListener('change', reloadOnceSelect);
   }
 
   function main(url) {
