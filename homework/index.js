@@ -14,33 +14,33 @@
     });
     return elem;
   }
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        const root = document.getElementById('root');
+  const fetchJSON = url =>
+    fetch(url)
+      .then(res => {
+        if (res.ok) {
+          return res;
+        }
+        throw new Error('Network request failed');
+      })
+      .then(res => res.json());
 
-        createAndAppend('div', root, {
-          text: 'HYF Repositories',
-          class: 'HYF_Repositories',
-          id: 'HYF_Repositories',
-        });
-        createAndAppend('div', root, {
-          text: `Network error: ${xhr.status} - ${xhr.statusText}`,
-          class: 'alert-error',
-        });
-        // cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
-  }
+  const showError = err => {
+    const root = document.getElementById('root');
+
+    createAndAppend('div', root, {
+      text: 'HYF Repositories',
+      class: 'HYF_Repositories',
+      id: 'HYF_Repositories',
+    });
+    createAndAppend('div', root, {
+      text: `${err.message}`,
+      class: 'alert-error',
+    });
+  };
+
   /* cSpell:disable */
   function makeApp(jsonFile) {
+    jsonFile.sort((a, b) => a.name.localeCompare(b.name));
     const root = document.getElementById('root');
     const hyfRepositories = createAndAppend('div', root, {
       class: 'HYF_Repositories',
@@ -60,6 +60,23 @@
       id: 'contributions',
       class: 'right_ul',
     });
+    const renderContributors = contributor => {
+      contributions.innerHTML = 'Contributors';
+      if (contributor && contributor.length > 0) {
+        for (let contribution = 0; contribution < contributor.length; contribution++) {
+          const logi = contributor[contribution].login;
+          const img = contributor[contribution].avatar_url;
+          const link = contributor[contribution].html_url;
+          const contribute = contributor[contribution].contributions;
+          const contributorsList = `<li class='right_li'><a target=_blank href=${link}><img src=${img}><br>${logi}<br>Contributions: ${contribute}</a></li>`;
+
+          contributions.innerHTML += contributorsList;
+        }
+      } else {
+        contributions.innerHTML += '<li>No information available</li>';
+      }
+    };
+
     const RepositoryName = createAndAppend('li', repositoryInformation, { text: '' });
     const description = createAndAppend('li', repositoryInformation, { text: '' });
     const forks = createAndAppend('li', repositoryInformation, { text: '' });
@@ -73,6 +90,7 @@
       RepositoryName.innerHTML = `Repository:<a target=_blank href='${
         jsonFile[repositories.value].html_url
       }'> ${repositories.options[repositories.selectedIndex].text}</a>`;
+
       description.innerHTML = `Description: ${jsonFile[repositories.value].description}`;
       forks.innerHTML = `Forks: ${jsonFile[repositories.value].forks}`;
       updat.innerHTML = `Updated: ${jsonFile[repositories.value].updated_at}`;
@@ -84,50 +102,21 @@
       }
 
       const contributors = jsonFile[repositories.value].contributors_url;
-      fetchJSON(contributors, (err, data) => {
-        const contributorsString = JSON.stringify(data, null, 2);
-        const contributorsParse = JSON.parse(contributorsString);
-
-        if (err) {
-          createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-        } else {
-          contributions.innerHTML = 'Contributors';
-          if (contributorsParse !== null && contributorsParse.length > 0) {
-            for (let contribution = 0; contribution < contributorsParse.length; contribution++) {
-              const logi = contributorsParse[contribution].login;
-              const img = contributorsParse[contribution].avatar_url;
-              const link = contributorsParse[contribution].html_url;
-              const contribute = contributorsParse[contribution].contributions;
-              const contributorsList = `<li class='right_li'><a target=_blank href=${link}><img src=${img}><br>${logi}<br>Contributions: ${contribute}</a></li>`;
-
-              contributions.innerHTML += contributorsList;
-            }
-          } else {
-            contributions.innerHTML += '<li>No information available</li>';
-          }
-        }
-      });
+      fetchJSON(contributors)
+        .then(renderContributors)
+        .catch(err => {
+          contributions.innerHTML = `<li>${new Error(err.message)}</li>`;
+        });
     }
     repositories.onchange = displayInformation;
-    const descriptionValue = repositories.options[repositories.selectedIndex].value;
-    if (descriptionValue === '0') {
-      displayInformation();
-    }
+
+    displayInformation();
   }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
-      const root = document.getElementById('root');
-      let repositoriesInformation = JSON.stringify(data, null, 2);
-      repositoriesInformation = JSON.parse(repositoriesInformation);
-      repositoriesInformation.sort((a, b) => a.name.localeCompare(b.name));
-
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        makeApp(repositoriesInformation);
-      }
-    });
+    fetchJSON(url)
+      .then(makeApp)
+      .catch(showError);
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
