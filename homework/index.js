@@ -1,19 +1,20 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(xhr.statusText));
+        }
+      };
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -31,11 +32,8 @@
   }
   // ==========start===========
   /* cSpell: disable */
-  const repoInfo = (index, repoName) => {
-    const container = createAndAppend('div', document.getElementById('root'), {
-      class: 'container',
-      id: 'container',
-    });
+  const repoInfo = selectedRepository => {
+    const container = document.getElementById('container');
 
     // left div
     const leftDiv = createAndAppend('div', container, {
@@ -63,8 +61,8 @@
     });
     const dataLink = createAndAppend('td', repository);
     createAndAppend('a', dataLink, {
-      href: repoName[index].html_url,
-      text: repoName[index].name,
+      href: selectedRepository.html_url,
+      text: selectedRepository.name,
       target: '_blank',
     });
     // 2
@@ -73,7 +71,7 @@
       class: 'label',
     });
     createAndAppend('td', description, {
-      text: repoName[index].description,
+      text: selectedRepository.description,
     });
     // 3
     createAndAppend('td', forks, {
@@ -81,7 +79,7 @@
       class: 'label',
     });
     createAndAppend('td', forks, {
-      text: repoName[index].forks,
+      text: selectedRepository.forks,
     });
     // 4
     createAndAppend('td', updated, {
@@ -89,7 +87,7 @@
       class: 'label',
     });
     createAndAppend('td', updated, {
-      text: repoName[index].updated_at,
+      text: selectedRepository.updated_at,
     });
 
     // right div
@@ -118,51 +116,62 @@
     };
 
     // fetchJSON(calling) to check & show the list of the right div
-    fetchJSON(repoName[index].contributors_url, (err, data) => {
-      if (err) {
-        createAndAppend('div', document.getElementById('root'), {
-          text: err.message,
-          class: 'alert-error',
-        });
-      } else {
-        contributors(data, contributorsHeader);
-      }
-    });
+    fetchJSON(selectedRepository.contributors_url).then(data =>
+      contributors(data, contributorsHeader),
+    );
   };
 
+  // clear all container content
+  function removeChildren(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
+  function renderError(error) {
+    const container = document.getElementById('container');
+    removeChildren(container);
+    // Render the error message in container
+    createAndAppend('div', container, { text: error.message, class: 'alert-error' });
+  }
+
   function main(url) {
-    fetchJSON(url, (err, data) => {
-      const root = document.getElementById('root');
-      const header = createAndAppend('div', root, { class: 'header' });
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
+    fetchJSON(url)
+      .then(data => {
+        // Get root
+        const root = document.getElementById('root');
+
+        // Create header
+        const header = createAndAppend('div', root, { class: 'header' });
+
+        // Create container
+        createAndAppend('div', root, {
+          class: 'container',
+          id: 'container',
+        });
         createAndAppend('p', header, {
           text: 'HYF Repositories',
         });
-        // sort options alphabetically & ignore upper and lowercase & add options
         const list = () => {
           const select = createAndAppend('select', header, { class: 'repo-selector' });
-          const selectedRepo = data.sort((a, b) => a.name.localeCompare(b.name));
-          selectedRepo.forEach((repo, index) => {
+          const sortedRepos = data.sort((a, b) => a.name.localeCompare(b.name));
+          sortedRepos.forEach((repo, index) => {
             createAndAppend('option', select, { text: repo.name, value: index });
           });
 
           // Listener For Repository
           select.addEventListener('change', () => {
-            const detail = document.getElementById('container');
-            if (detail.hasChildNodes) {
-              detail.remove();
-            }
-            repoInfo(select.selectedIndex, selectedRepo);
+            const container = document.getElementById('container');
+            removeChildren(container);
+            const selectedRepository = sortedRepos[select.selectedIndex];
+            repoInfo(selectedRepository);
           });
 
-          return selectedRepo;
+          return sortedRepos;
         };
-        const repoName = list(data, header);
-        repoInfo(0, repoName);
-      }
-    });
+        const sortedRepos = list(data, header);
+        repoInfo(sortedRepos[0]);
+      })
+      .catch(err => renderError(err));
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
