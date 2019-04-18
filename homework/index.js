@@ -73,7 +73,8 @@
           text: err.message,
           class: 'alert-error',
         });
-      } else if (contributors === null) {
+        // eslint-disable-next-line eqeqeq
+      } else if (contributors === null || contributors == 0) {
         createAndAppend('div', rightDiv, {
           text: 'No contributions found.',
           class: 'alert-error',
