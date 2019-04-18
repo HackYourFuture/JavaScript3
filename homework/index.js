@@ -1,4 +1,5 @@
 'use strict';
+
 {
   function fetchJSON(url, cb) {
     const xhr = new XMLHttpRequest();
@@ -29,155 +30,137 @@
     return elem;
   }
 
+  function singlePageApplication(arr) {
+
+    //header
+    const div = createAndAppend("div", root, {
+      "id": "header-div",
+    });
+    const h1 = createAndAppend("h1", div, {
+      "text": "HYF Repositories",
+      "id": "header",
+    });
+  
+    const selectMenu = createAndAppend("select", div, {
+      "id": "select-menu",
+    });
+
+    for (let i = 0; i < arr.length; i++) {
+      const option = createAndAppend("option", selectMenu, {
+        "text": arr[i]["name"],
+        "value": i,
+      });
+    }
+
+    //right and left part
+    const containerDiv = createAndAppend("div", root, {
+      "id": "container",
+      "class": "container",
+    });
+    //right part
+    const rightDiv = createAndAppend("div", containerDiv, {
+      "id": "right-div",
+      "class": "contained",
+    });
+    const tHeads = ["Repository", "Description", "Forks", "Update"];
+    const table = createAndAppend("table", rightDiv, {
+      "id": "tableOfInformation",
+    });
+    
+    for (let i = 0; i < tHeads.length; i++) {
+      var firstTime = ["name", "description", "forks", "updated_at"];
+      const tr = createAndAppend("tr", table, {});
+      const tableHead = createAndAppend("th", tr, {
+        "text": tHeads[i],
+      });
+      if (i === 0) {
+        const tableData = createAndAppend("td", tr, {
+          "id": `tableData.${i}`,
+        });
+        const link = createAndAppend("a", tableData, {
+          "href": arr[i]["html_url"],
+          "text": arr[i]["name"],
+        });
+      } else {
+        const tableData = createAndAppend("td", tr, {
+          "text": arr[0][firstTime[i]],
+          "id": `tableData.${i}`,
+        })
+      }
+    }
+    
+    selectMenu.addEventListener("change", (event) => {
+      for (let i = 0; i < 4; i++) {
+        const changed = document.getElementById(`tableData.${i}`);
+        if (i === 0) {
+          changed.innerText = arr[event.target.value]["name"];
+          changed.href = arr[event.target.value]["html_url"];
+        } else {
+          changed.innerText = arr[event.target.value][firstTime[i]];
+        }
+      }
+    })
+
+    //right part works
+    //left part
+    const leftDiv = createAndAppend("div", containerDiv, {
+      "id": "left-div",
+      "class": "contained",
+    });
+    const h2 = createAndAppend("h2", leftDiv, {
+      "text": "Contributors",
+    });
+    const ul = createAndAppend("ul", leftDiv, {
+      "id": "contributorList",
+    });
+    function contributors() {
+      fetchJSON(arr[selectMenu.value]["contributors_url"], (err, data) => {
+        if (err) {
+          createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        } else {
+          while (ul.firstChild) {
+            ul.removeChild(ul.firstChild);
+          }
+          for (let i = 0; i < data.length; i++) {
+            const li = createAndAppend("li", ul, {
+              "class": "container",
+            });
+            const div = createAndAppend("div", li, {
+              "id": "contributor-left",
+              "class": "contained",
+            });
+            const img = createAndAppend("img", div, {
+              "src": data[i]["avatar_url"],
+              "class": "avatar",
+            });
+            const p = createAndAppend("p", div, {
+              "text": data[i]["login"],
+            });
+            const div1 = createAndAppend("div", li, {
+              "text": data[i]["contributions"],
+              "class": "contained",
+            })
+          }
+        }
+      })
+    }
+    contributors();
+    selectMenu.onchange = contributors;
+    //right part is working
+    // random background color
+  }
+
   function main(url) {
     fetchJSON(url, (err, data) => {
       const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        //createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
-        let arr = JSON.parse(JSON.stringify(data, null, 2));
-        arr = arr.sort((a, b) => a.name.localeCompare(b.name));
-        repositoryNames(arr);
-      }
-    });
-  }
-
-  const div1 = createAndAppend("div", root, {
-    "class": "flex-row heading",
-  })
-  const hyfHeader = createAndAppend("h1", div1, {
-    text: "HYF Repositories",
-  })
-
-  function repositoryNames(arr) {
-    const repoNames = [];
-    const descriptionInfos = [];
-    const forkInfos = [];
-    const updateInfos = [];
-    const contributorsURLInfo = [];
-    const repositoryURL = [];
-    for (let i = 0; i < arr.length; i++) {
-      function dataArrayCreator(arr, elem1, elem2) {
-        if (arr[i][elem1]) {
-          elem2.push(arr[i][elem1])
-        } else {
-          elem2.push(0);
-        }
-      }
-      dataArrayCreator(arr, "name", repoNames);
-      dataArrayCreator(arr, "description", descriptionInfos);
-      dataArrayCreator(arr, "forks_count", forkInfos);
-      dataArrayCreator(arr, "updated_at", updateInfos);
-      dataArrayCreator(arr, "contributors_url", contributorsURLInfo);
-      dataArrayCreator(arr, "html_url", repositoryURL)
-    }
-    selectNames(repoNames, descriptionInfos, forkInfos, updateInfos, contributorsURLInfo, repositoryURL);
-  }
-
-
-  function selectNames(arr1, arr2, arr3, arr4, arr5, arr6) {
-    const selectTag = createAndAppend("select", div1, {
-      "class": "select-tag",
-    });
-    for (let i = 0; i < arr1.length; i++) {
-      const repoNameText = arr1[i];
-      const descriptionInfoText = arr2[i];
-      const forkInfoText = arr3[i];
-      const updateInfoText = arr4[i];
-      const contributorsURLInfoText = arr5[i];
-      const repositoryURLText = arr6[i];
-      const dropDownListElem = createAndAppend("option", selectTag, {
-        text: arr1[i],
-      })
-      infoGatherer(dropDownListElem, repoNameText, descriptionInfoText, forkInfoText, updateInfoText, contributorsURLInfoText, repositoryURLText);
-    }
-
-    return selectTag;
-  }
-
-  function infoGatherer(option, repositoryText, descriptionText, forkText, updateText, contributorsURLText, repositoryURL) {
-    option.addEventListener('click', info, false);
-    function info() {
-      const div = createAndAppend("div", root, {
-        "class": "flex-row positioned",
-        "id": "container",
-      })
-      dataDiv(repositoryText, descriptionText, forkText, updateText, div, repositoryURL);
-      collaboratorDiv(contributorsURLText, div);
-    }
-  }
-
-  function dataDiv(aa, bb, cc, dd, ee, ff) {
-    const div = createAndAppend("div", ee, {
-      "class": "half-width",
-    });
-    const table = createAndAppend("table", div, {});
-    const tr = createAndAppend("tr", table, {});
-    const th = createAndAppend("th", tr, {
-      "text": "Repository: ",
+       }// else {
+      //   createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
+      // }
+      data.sort((a, b) => a.name.localeCompare(b.name));
+      singlePageApplication(data);
     })
-    const th2 = createAndAppend("th", tr, {});
-    th2.innerHTML = `<a target=_blank href= ${ff}>${aa}</a>`
-    function tableDataCreator(left, right) {
-      const tr = createAndAppend("tr", table, {});
-      const tdLeft = createAndAppend("td", tr, {
-        "text": left,
-      })
-      const tdRight = createAndAppend("td", tr, {
-        "text": right,
-      })
-    }
-    tableDataCreator("Description: ", bb);
-    tableDataCreator("Forks: ", cc);
-    tableDataCreator("Updated: ", dd);
-  }
-
-  function collaboratorDiv(URL, ee) {
-    const div = createAndAppend("div", ee, {
-      "class": "half-width",
-    });
-    const h2 = createAndAppend("h2", div, {
-      "text": "Contributions",
-    })
-    getInfoFromURL(URL, div);
-  }
-
-
-  function getInfoFromURL(url, tag) {
-    fetchJSON(url, (err, data) => {
-      if (err) {
-        createAndAppend("div", root, { text: err.message, class: 'alert-error' });
-      } else {
-        let arr = JSON.parse(JSON.stringify(data, null, 2));
-        contributorsPart(arr);
-      }
-    })
-    function contributorsPart(arr) {
-      const ul = createAndAppend("ul", tag, {});
-      arr.forEach(elem => {
-        const li = createAndAppend("li", ul, {
-          "class": "flex-row positioned",
-        });
-        const div = createAndAppend("div", li, {
-          "class": "flex-row login-text",
-        });
-        const img = createAndAppend("img", div, {
-          "src": elem["avatar_url"],
-          "class": "avatar",
-        })
-        const div1 = createAndAppend("div", div, {
-          "text": elem["login"],
-          "class": "contributor-data",
-        })
-        const div2 = createAndAppend("div", li, {
-          "class": "flex-row contributor-data",
-        });
-        const div3 = createAndAppend("div", div2, {
-          "text": elem["contributions"],
-        });
-      })
-    }
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';

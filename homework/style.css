@@ -4,15 +4,19 @@
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
+    list-style: none;
 }
 
 .alert-error {
     color: red;
 }
 
-.heading{
+#header-div{
   background-color:#3F51B5;
   height: 100px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
 }
 
 h1 {
@@ -20,40 +24,26 @@ h1 {
   margin: 0 20px 0 20px;
 }
 
-.select-tag {
-  height: 20px;
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+}
+
+.contained {
+  width: 50%;
+}
+
+.contained li div, .contained li p {
+  align-self: center;
+  align-content: center;
+}
+
+.contained li div {
+  display: flex;
 }
 
 .avatar {
   height: 48px;
-}
-
-li {
-  list-style: none;
-}
-
-.contributor-data{
-  margin: 0 20px 0 20px;
-}
-.flex-row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.positioned {
-  justify-content: space-between;
-}
-
-.half-width {
-  width: 50%;
-}
-
-
-.login-text {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: center;   
+  margin: 10px 20px 10px 0;
 }
