@@ -5,6 +5,7 @@
   font-weight: bold;
   padding: 20px;
   border-radius: 5px;
+  text-align: center;
 }
 
 body {
@@ -158,9 +159,13 @@ body {
 
 @media (min-width: 768px) {
   body {
-    max-width: 1024px;
+    max-width: 90%;
     margin: auto;
     padding: 10px;
+  }
+
+  #repo-selector {
+    font-size: 2vw;
   }
 
   .container {
@@ -175,6 +180,28 @@ body {
 
   .right-div {
     flex: 1;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    max-width: 80%;
+    font-size: 1.5vw;
+  }
+
+  #repo-selector {
+    font-size: 1.3vw;
+  }
+}
+
+@media (min-width: 1440px) {
+  body {
+    max-width: 70%;
+    font-size: 1.5vw;
+  }
+
+  #repo-selector {
+    font-size: 1.1vw;
   }
 }
 /* cSpell:enable */
