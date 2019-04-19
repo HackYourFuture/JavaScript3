@@ -80,6 +80,7 @@
         const link = createAndAppend("a", tableData, {
           "href": arr[i]["html_url"],
           "text": arr[i]["name"],
+          "target": "_blank",
         });
       } else {
         const tableData = createAndAppend("td", tr, {
@@ -93,14 +94,12 @@
       for (let i = 0; i < 4; i++) {
         const changed = document.getElementById(`tableData.${i}`);
         if (i === 0) {
-          changed.innerText = arr[event.target.value]["name"];
-          changed.href = arr[event.target.value]["html_url"];
+          changed.innerHTML = `<a target = "_blank" href = ${arr[event.target.value]["html_url"]}> ${arr[event.target.value]["name"]}</a>`;
         } else {
           changed.innerText = arr[event.target.value][firstTime[i]];
         }
       }
-    })
-
+    });
     //right part works
     //left part
     const leftDiv = createAndAppend("div", containerDiv, {
@@ -133,9 +132,8 @@
               "src": data[i]["avatar_url"],
               "class": "avatar",
             });
-            const p = createAndAppend("p", div, {
-              "text": data[i]["login"],
-            });
+            const p = createAndAppend("p", div, {});
+            p.innerHTML = `<a target="_blank" href=${data[i]["html_url"]}>${data[i]["login"]}</a>`;
             const div1 = createAndAppend("div", li, {
               "text": data[i]["contributions"],
               "class": "contained",
