@@ -1,6 +1,7 @@
 'use strict';
 
 /* global Util, Repository, Contributor */
+/* cSpell:disable */
 
 class App {
   constructor(url) {

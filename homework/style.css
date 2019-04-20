@@ -1,3 +1,5 @@
+/* cSpell:disable */
+
 .alert-error {
   color: red;
 }
@@ -12,10 +14,13 @@ img {
   border-radius: 3px;
 }
 
-.header {
+.container {
   max-width: 700px;
-  background-color: #3f51b5;
   margin: auto;
+}
+
+.header {
+  background-color: #3f51b5;
   padding: 20px;
   display: flex;
   align-items: center;
@@ -34,31 +39,32 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
-.list1 {
+.repo-contributor,
+.repo-info {
   background-color: white;
   border: 1px;
   box-shadow: 0 0 10px rgb(212, 210, 210);
 }
-.list2 {
-  background-color: white;
-  border: 1px;
-  box-shadow: 0 0 10px rgb(212, 210, 210);
-}
+
 ul {
   list-style: none;
-  width: 40%;
-  margin: 20px;
+  width: 47.5%;
 }
 li {
   padding: 10px;
 }
-.list-div {
+.container-repo {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
 }
 select {
   font-size: 20px;
   border: 1px;
   margin-left: 20px;
+}
+@media screen and (max-width: 600px) {
+  body {
+    background-color: rgb(233, 227, 227);
+  }
 }
