@@ -82,6 +82,11 @@ body {
   cursor: pointer;
 }
 
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .contributor-avatar {
   height: 50px;
   border-radius: 3px;
