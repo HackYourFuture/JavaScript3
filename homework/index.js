@@ -109,7 +109,12 @@
     // list items & data
     const contributors = data => {
       data.forEach(user => {
-        const li = createAndAppend('li', ul, { class: 'contributor-item' });
+        const link = createAndAppend('a', ul, {
+          href: selectedRepository.html_url,
+          target: '_blank',
+          class: 'link',
+        });
+        const li = createAndAppend('li', link, { class: 'contributor-item' });
         createAndAppend('img', li, { src: user.avatar_url, class: 'contributor-avatar' });
         const liDiv = createAndAppend('div', li, { class: 'contributor-data' });
         createAndAppend('div', liDiv, { text: user.login });
