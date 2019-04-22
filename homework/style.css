@@ -1,5 +1,5 @@
 .alert-error {
-    color: red;
+  color: red;
 }
 
 body {
@@ -80,11 +80,6 @@ body {
   flex-direction: row;
   align-items: center;
   cursor: pointer;
-}
-
-.link {
-  text-decoration: none;
-  color: inherit;
 }
 
 .contributor-avatar {
