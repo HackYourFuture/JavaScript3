@@ -110,7 +110,7 @@
     const contributors = data => {
       data.forEach(user => {
         const link = createAndAppend('a', ul, {
-          href: selectedRepository.html_url,
+          href: user.html_url,
           target: '_blank',
           class: 'link',
         });
