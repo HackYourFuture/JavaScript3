@@ -107,19 +107,19 @@
     // list items & data
     const contributors = data => {
       data.forEach(user => {
-        const link = createAndAppend('a', ul, {
-          href: selectedRepository.html_url,
-          target: '_blank',
-          class: 'link',
+        const li = createAndAppend('li', ul, {
+          class: 'contributor-item',
         });
-        const li = createAndAppend('li', link, { class: 'contributor-item' });
+        li.addEventListener('click', () => {
+          window.open(user.html_url, '_blank');
+        });
+
         createAndAppend('img', li, { src: user.avatar_url, class: 'contributor-avatar' });
         const liDiv = createAndAppend('div', li, { class: 'contributor-data' });
         createAndAppend('div', liDiv, { text: user.login });
         createAndAppend('div', liDiv, { text: user.contributions, class: 'contributor-badge' });
       });
     };
-
     // fetchJSON(calling) to check & show the list of the right div
     fetchJSON(selectedRepository.contributors_url).then(data =>
       contributors(data, contributorsHeader),
