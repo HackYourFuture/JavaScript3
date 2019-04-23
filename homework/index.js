@@ -1,19 +1,21 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -29,8 +31,10 @@
     });
     return elem;
   }
+
   function singlePageApplication(arr) {
-    //header
+    arr.sort((a, b) => a.name.localeCompare(b.name));
+    // header
     const div = createAndAppend('div', root, {
       id: 'header-div',
     });
@@ -47,12 +51,12 @@
         value: i,
       });
     }
-    //right and left part
+    // right and left part
     const containerDiv = createAndAppend('div', root, {
       id: 'container',
       class: 'container',
     });
-    //right part
+    // right part
     const rightDiv = createAndAppend('div', containerDiv, {
       id: 'right-div',
       class: 'contained',
@@ -94,7 +98,7 @@
           changed.innerText = arr[event.target.value][firstTime[i]];
         }
       }
-    }); //right part works  //left part
+    }); // right part works  //left part
     const leftDiv = createAndAppend('div', containerDiv, {
       id: 'left-div',
       class: 'contained',
@@ -106,50 +110,46 @@
       id: 'contributorList',
     });
     function contributors() {
-      fetchJSON(arr[selectMenu.value].contributors_url, (err, data) => {
-        if (err) {
+      fetchJSON(arr[selectMenu.value].contributors_url)
+        .then(data => contributions(data))
+        .catch(err => {
           createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-        } else {
-          while (ul.firstChild) {
-            ul.removeChild(ul.firstChild);
-          }
-          for (let i = 0; i < data.length; i++) {
-            const li = createAndAppend('li', ul, {
-              class: 'container',
-            });
-            const div = createAndAppend('div', li, {
-              id: 'contributor-left',
-              class: 'contained',
-            });
-            const img = createAndAppend('img', div, {
-              src: data[i].avatar_url,
-              class: 'avatar',
-            });
-            const p = createAndAppend('p', div, {});
-            p.innerHTML = `<a target="_blank" href=${data[i].html_url}>${data[i].login}</a>`;
-            const div1 = createAndAppend('div', li, {
-              text: data[i].contributions,
-              class: 'contained',
-            });
-          }
-        }
-      });
+        });
+    }
+
+    function contributions(data) {
+      while (ul.firstChild) {
+        ul.removeChild(ul.firstChild);
+      }
+      for (let i = 0; i < data.length; i++) {
+        const li = createAndAppend('li', ul, {
+          class: 'container',
+        });
+        const div = createAndAppend('div', li, {
+          id: 'contributor-left',
+          class: 'contained',
+        });
+        const img = createAndAppend('img', div, {
+          src: data[i].avatar_url,
+          class: 'avatar',
+        });
+        const p = createAndAppend('p', div, {});
+        p.innerHTML = `<a target="_blank" href=${data[i].html_url}>${data[i].login}</a>`;
+        const div1 = createAndAppend('div', li, {
+          text: data[i].contributions,
+          class: 'contained',
+        });
+      }
     }
     contributors();
     selectMenu.onchange = contributors;
   }
-  function main(url) {
-    fetchJSON(url, (err, data) => {
-      const root = document.getElementById('root');
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } // else {
-      //   createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
-      // }
-      data.sort((a, b) => a.name.localeCompare(b.name));
-      singlePageApplication(data);
-    });
-  }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-  window.onload = () => main(HYF_REPOS_URL);
+  window.onload = () =>
+    fetchJSON(HYF_REPOS_URL)
+      .then(data => singlePageApplication(data))
+      .catch(err => {
+        const root = document.getElementById('root');
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+      });
 }
