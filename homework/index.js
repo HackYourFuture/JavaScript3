@@ -106,7 +106,7 @@
       class: 'contributor-list',
     });
 
-     // list items & data
+    // list items & data
     const contributors = data => {
       data.forEach(user => {
         const li = createAndAppend('li', ul, {
