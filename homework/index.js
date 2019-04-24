@@ -29,6 +29,16 @@
     });
     return elem;
   }
+  function removeChildren(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
+  function renderError(error) {
+    const container = document.getElementById('root');
+    removeChildren(container);
+    createAndAppend('div', container, { text: error.message, class: 'alert-error' });
+  }
 
   function singlePageApp(data) {
     data.sort((a, b) => a.name.localeCompare(b.name));
@@ -40,6 +50,7 @@
       createAndAppend('option', select, { value: data.indexOf(elem), text: elem.name });
     });
     // Left Column
+    // const container = createAndAppend('div', root, { id: 'container' });
     const leftdiv = createAndAppend('div', root, { id: 'leftdiv' });
     const table = createAndAppend('table', leftdiv);
     for (let i = 0; i < 4; i++) {
@@ -80,9 +91,7 @@
         if (err) {
           createAndAppend('div', root, { text: err.message, class: 'alert-error' });
         } else {
-          while (ul.firstChild) {
-            ul.removeChild(ul.firstChild);
-          }
+          removeChildren(ul);
           for (let i = 0; i < dt.length; i++) {
             const href = createAndAppend('a', ul, { href: dt[i].html_url, target: '_blank' });
             const li = createAndAppend('li', href, { id: `li${i}` });
@@ -102,7 +111,7 @@
     fetchJSON(url, (err, data) => {
       const root = document.getElementById('root');
       if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        renderError(err);
       } else {
         singlePageApp(data);
       }
