@@ -1,19 +1,21 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -86,38 +88,28 @@
     const rightdiv = createAndAppend('div', root, { id: 'rightdiv' });
     createAndAppend('p', rightdiv, { id: 'rightp', text: 'Contributors' });
     const ul = createAndAppend('ul', rightdiv);
-    function contributors() {
-      fetchJSON(data[select.value].contributors_url, (err, dt) => {
-        if (err) {
-          createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-        } else {
-          removeChildren(ul);
-          for (let i = 0; i < dt.length; i++) {
-            const href = createAndAppend('a', ul, { href: dt[i].html_url, target: '_blank' });
-            const li = createAndAppend('li', href, { id: `li${i}` });
-            createAndAppend('img', li, { src: dt[i].avatar_url });
-            const lidiv = createAndAppend('div', li, { class: 'contributor_div' });
-            createAndAppend('p', lidiv, { text: dt[i].login });
-            createAndAppend('p', lidiv, { text: dt[i].contributions });
-          }
-        }
-      });
-    }
-    contributors();
-    select.onchange = contributors;
-  }
-
-  function main(url) {
-    fetchJSON(url, (err, data) => {
-      const root = document.getElementById('root');
-      if (err) {
-        renderError(err);
-      } else {
-        singlePageApp(data);
+    function contributors(dt) {
+      for (let i = 0; i < dt.length; i++) {
+        const href = createAndAppend('a', ul, { href: dt[i].html_url, target: '_blank' });
+        const li = createAndAppend('li', href, { id: `li${i}` });
+        createAndAppend('img', li, { src: dt[i].avatar_url });
+        const lidiv = createAndAppend('div', li, { class: 'contributor_div' });
+        createAndAppend('p', lidiv, { text: dt[i].login });
+        createAndAppend('p', lidiv, { text: dt[i].contributions });
       }
+    }
+    const urlZero = data[0].contributors_url;
+    fetchJSON(urlZero).then(dt => contributors(dt));
+
+    select.addEventListener('change', event => {
+      removeChildren(ul);
+      const urlCont = data[event.target.value].contributors_url;
+      fetchJSON(urlCont).then(dt => contributors(dt));
     });
   }
-
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-  window.onload = () => main(HYF_REPOS_URL);
+
+  fetchJSON(HYF_REPOS_URL)
+    .then(data => singlePageApp(data))
+    .catch(error => renderError(error));
 }
