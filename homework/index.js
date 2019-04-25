@@ -15,6 +15,7 @@
           }
         }
       };
+      // xhr.onerror = () => reject(new Error('Network request failed'));
       xhr.send();
     });
   }
@@ -34,45 +35,17 @@
     return elem;
   }
 
-  // fetch url contributor
-  function fetchContributorsUrl(contributor) {
-    const cont = document.getElementById('cont');
-    cont.innerHTML = '';
-    fetchJSON(contributor)
-      .then(myContributor => {
-        for (let j = 0; j < myContributor.length; j++) {
-          const nameOfContributor = myContributor[j].login;
-          const numberOfContributor = myContributor[j].contributions;
-          const avatarUrl = myContributor[j].avatar_url;
-          const avatarContainer1 = createAndAppend('div', cont, {
-            class: 'avatar_div',
-          });
-          const avatarContainer2 = createAndAppend('div', cont, { class: 'avatar_div data' });
-
-          createAndAppend('img', avatarContainer1, { src: avatarUrl });
-          createAndAppend('a', avatarContainer2, {
-            text: nameOfContributor.toUpperCase(),
-            href: `https://github.com/${nameOfContributor}`,
-          });
-          createAndAppend('br', avatarContainer2, {});
-
-          createAndAppend('span', avatarContainer2, {
-            text: 'Forks: ',
-          });
-          createAndAppend('span', avatarContainer2, {
-            text: numberOfContributor,
-            class: 'result label',
-          });
-          createAndAppend('br', avatarContainer2, {});
-        }
-      })
-      .catch(() => {
-        createAndAppend('div', cont, {
-          text: 'there is no contributors available',
-          class: 'error',
-        });
-      });
+  // fetch contributor
+  async function fetchContributors(contributorUrl) {
+    try {
+      const contributors = await fetchJSON(contributorUrl);
+      return contributors;
+    } catch (error) {
+      // console.log('fetchContributors'); this is error of fetch and awaiting
+    }
   }
+
+  //  /////////////////////////////////reload Repository after async //////////////////////////////////////////////
 
   function reloadSelectedRepository(valueOfSelectedRepository, selectedData) {
     const info = document.getElementById('info');
@@ -111,8 +84,41 @@
     createAndAppend('span', liUpdateAt, { text: getUpdatedAt, class: 'result' });
 
     // call all contributors for this selected repository
-    fetchContributorsUrl(getContributorsUrl); // comment this line to stop getting contributors
+    fetchContributors(getContributorsUrl)
+      .then(myContributor => {
+        const cont = document.getElementById('cont');
+        cont.innerHTML = '';
+        for (let j = 0; j < myContributor.length; j++) {
+          const nameOfContributor = myContributor[j].login;
+          const numberOfContributor = myContributor[j].contributions;
+          const avatarUrl = myContributor[j].avatar_url;
+
+          const avatarContainer1 = createAndAppend('div', cont, {
+            class: 'avatar_div',
+          });
+          const avatarContainer2 = createAndAppend('div', cont, { class: 'avatar_div data' });
+
+          createAndAppend('img', avatarContainer1, { src: avatarUrl });
+          createAndAppend('a', avatarContainer2, {
+            text: nameOfContributor.toUpperCase(),
+            href: `https://github.com/${nameOfContributor}`,
+          });
+          createAndAppend('br', avatarContainer2, {});
+
+          createAndAppend('span', avatarContainer2, {
+            text: 'Forks: ',
+          });
+          createAndAppend('span', avatarContainer2, {
+            text: numberOfContributor,
+            class: 'result label',
+          });
+          createAndAppend('br', avatarContainer2, {});
+        }
+      })
+      .catch(); // comment this line to stop getting contributors. This is error of fetch and awaiting
   }
+
+  // /////////////////////////////////////////////////////////////////////////////////////////////
 
   function reloadAllRepositories(parenElement, data) {
     const pre = document.getElementById('pre');
@@ -127,11 +133,6 @@
     // reload default repository
     reloadSelectedRepository(0, data);
 
-    // reload selected repository way (1)
-    // selectRepository.onchange = function reloadOnceSelect() {
-    // const indexOfSelectedRepo = this.value;
-    // reloadSelectedRepository(indexOfSelectedRepo, data); // comment this line to stop getting information once change select list
-    // };
     // reload selected repository way (2)
     function reloadOnceSelect() {
       const indexOfSelectedRepo = this.value;
@@ -140,28 +141,28 @@
     selectRepository.addEventListener('change', reloadOnceSelect);
   }
 
-  function main(url) {
-    const root = document.getElementById('root');
-    const pre = createAndAppend('pre', root, { class: 'pre', id: 'pre' });
-    createAndAppend('span', pre, { text: 'HYF Repositories', class: 'logoName' });
-    fetchJSON(url)
-      .then(data => {
-        // sort list of repository
-        data.sort((a, b) => a.name.localeCompare(b.name));
-        reloadAllRepositories(root, data);
-      })
-      .catch(() => {
-        // error if the page couldn't load repository's
-        createAndAppend('div', root, {
-          text: "there is no repository's available",
-          class: 'alert-error',
-        });
-      });
+  // async Repository's
+  async function getRepositoryResult(url) {
+    try {
+      const data = await fetchJSON(url);
+      const root = document.getElementById('root');
+      reloadAllRepositories(root, data);
+    } catch (error) {
+      // alert(`there is an error ${error}`);
+    }
   }
 
   // we can add perPage variable as a parameter in function later
   const perPage = 47;
   const HYF_REPOS_URL = `https://api.github.com/orgs/HackYourFuture/repos?per_page=${perPage}`;
 
+  function main(url) {
+    const root = document.getElementById('root');
+    const pre = createAndAppend('pre', root, { class: 'pre', id: 'pre' });
+    createAndAppend('span', pre, { text: 'HYF Repositories', class: 'logoName' });
+    // get all repository after resolve and check repository's
+    getRepositoryResult(url);
+    // .then(data => { console.log(data);});
+  }
   window.onload = () => main(HYF_REPOS_URL);
 }
