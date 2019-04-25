@@ -93,10 +93,10 @@
         } else {
           removeChildren(ul);
           for (let i = 0; i < dt.length; i++) {
-            const href = createAndAppend('a', ul, { href: dt[i].html_url, target: '_blank' });
-            const li = createAndAppend('li', href, { id: `li${i}` });
-            createAndAppend('img', li, { src: dt[i].avatar_url });
-            const lidiv = createAndAppend('div', li, { class: 'contributor_div' });
+            const li = createAndAppend('li', ul, { id: `li${i}` });
+            const href = createAndAppend('a', li, { href: dt[i].html_url, target: '_blank' });
+            createAndAppend('img', href, { src: dt[i].avatar_url });
+            const lidiv = createAndAppend('div', href, { class: 'contributor_div' });
             createAndAppend('p', lidiv, { text: dt[i].login });
             createAndAppend('p', lidiv, { text: dt[i].contributions });
           }
@@ -109,7 +109,6 @@
 
   function main(url) {
     fetchJSON(url, (err, data) => {
-      const root = document.getElementById('root');
       if (err) {
         renderError(err);
       } else {
