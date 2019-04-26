@@ -14,8 +14,8 @@ class Repository {
    */
   render(container) {
     // TODO: replace the next line with your code.
-    const pre = Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
-    Util.createAndAppend('p', pre, { text: this.name() });
+    let pre = Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
+    const root = document.getElementById('root');
   }
 
   /**

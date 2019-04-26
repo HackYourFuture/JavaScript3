@@ -12,11 +12,14 @@ class App {
    * @param {string} url The GitHub URL for obtaining the organization's repositories.
    */
   async initialize(url) {
+    const root = document.getElementById('root');
+    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
+    // we have to use call to borrow repository methods
     try {
       const repos = await Util.fetchJSON(url);
       this.repos = repos.map(repo => new Repository(repo));
       // TODO: add your own code here
-      return repos;
+      console.log(repos);
     } catch (error) {
       this.renderError(error);
     }
