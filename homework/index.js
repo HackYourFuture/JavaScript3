@@ -6,7 +6,7 @@
       const xhr = new XMLHttpRequest();
       xhr.open('GET', url);
       xhr.responseType = 'json';
-      xhr.onreadystatechange = () => {
+      xhr.onload = () => {
         if (xhr.readyState === 4) {
           if (xhr.status < 400) {
             resolve(xhr.response);
@@ -35,24 +35,26 @@
   }
 
   // fetch url contributor
-  function fetchContributorsUrl(contributor) {
+  function fetchContributorsAndRender(contributorsUrl) {
     const cont = document.getElementById('cont');
     cont.innerHTML = '';
-    fetchJSON(contributor)
-      .then(myContributor => {
-        for (let j = 0; j < myContributor.length; j++) {
-          const nameOfContributor = myContributor[j].login;
-          const numberOfContributor = myContributor[j].contributions;
-          const avatarUrl = myContributor[j].avatar_url;
-          const avatarContainer1 = createAndAppend('div', cont, {
-            class: 'avatar_div',
-          });
-          const avatarContainer2 = createAndAppend('div', cont, { class: 'avatar_div data' });
+    fetchJSON(contributorsUrl)
+      .then(contributors => {
+        contributors.forEach(contributor => {
+          const name = contributor.login;
+          const number = contributor.contributions;
+          const avatar = contributor.avatar_url;
 
-          createAndAppend('img', avatarContainer1, { src: avatarUrl });
+          const avatarContainer1 = createAndAppend('div', cont, {
+            class: 'avatar-div',
+          });
+          const avatarContainer2 = createAndAppend('div', cont, { class: 'avatar-div data' });
+
+          createAndAppend('img', avatarContainer1, { src: avatar });
           createAndAppend('a', avatarContainer2, {
-            text: nameOfContributor.toUpperCase(),
-            href: `https://github.com/${nameOfContributor}`,
+            text: name.toUpperCase(),
+            href: `https://github.com/${name}`,
+            target: '_blank',
           });
           createAndAppend('br', avatarContainer2, {});
 
@@ -60,11 +62,11 @@
             text: 'Forks: ',
           });
           createAndAppend('span', avatarContainer2, {
-            text: numberOfContributor,
+            text: number,
             class: 'result label',
           });
           createAndAppend('br', avatarContainer2, {});
-        }
+        });
       })
       .catch(() => {
         createAndAppend('div', cont, {
@@ -77,13 +79,13 @@
   function reloadSelectedRepository(valueOfSelectedRepository, selectedData) {
     const info = document.getElementById('info');
     info.innerHTML = '';
-    const getDescription = selectedData[valueOfSelectedRepository].description;
-    const getForks = selectedData[valueOfSelectedRepository].forks;
-    const getUpdatedAt = selectedData[valueOfSelectedRepository].updated_at;
+    const repositoryDescription = selectedData[valueOfSelectedRepository].description;
+    const fork = selectedData[valueOfSelectedRepository].forks;
+    const updated = selectedData[valueOfSelectedRepository].updated_at;
     const dataName = selectedData[valueOfSelectedRepository].name;
-    const getContributorsUrl = selectedData[valueOfSelectedRepository].contributors_url;
+    const contributorsUrl = selectedData[valueOfSelectedRepository].contributors_url;
 
-    if (getDescription == null) {
+    if (repositoryDescription == null) {
       const noDescription = createAndAppend('li', info, {});
       createAndAppend('span', noDescription, {
         text: 'Description: there is no description',
@@ -92,7 +94,7 @@
     } else {
       const liDescription = createAndAppend('li', info, {});
       createAndAppend('span', liDescription, { text: 'Description: ' });
-      createAndAppend('span', liDescription, { text: getDescription, class: 'result' });
+      createAndAppend('span', liDescription, { text: repositoryDescription, class: 'result' });
     }
 
     const link = createAndAppend('li', info, {});
@@ -100,42 +102,37 @@
     createAndAppend('a', link, {
       text: dataName,
       target: '_blank',
-      href: `https://github.com/HackYourFuture/${info}`,
+      href: `https://github.com/HackYourFuture/${dataName}`,
       class: 'result',
     });
     const liOfForks = createAndAppend('li', info, {});
     createAndAppend('span', liOfForks, { text: 'Forks: ' });
-    createAndAppend('span', liOfForks, { text: getForks, class: 'result' });
+    createAndAppend('span', liOfForks, { text: fork, class: 'result' });
     const liUpdateAt = createAndAppend('li', info, {});
     createAndAppend('span', liUpdateAt, { text: 'updated_at: ' });
-    createAndAppend('span', liUpdateAt, { text: getUpdatedAt, class: 'result' });
+    createAndAppend('span', liUpdateAt, { text: updated, class: 'result' });
 
     // call all contributors for this selected repository
-    fetchContributorsUrl(getContributorsUrl); // comment this line to stop getting contributors
+    fetchContributorsAndRender(contributorsUrl); // comment this line to stop getting contributors
   }
 
-  function reloadAllRepositories(parenElement, data) {
+  function reloadAllRepositories(parenElement, allData) {
     const pre = document.getElementById('pre');
     const parent = createAndAppend('div', parenElement, { class: 'bodyInformation' });
     createAndAppend('div', parent, { id: 'info', class: 'info' });
     createAndAppend('div', parent, { id: 'cont', class: 'cont' });
 
     const selectRepository = createAndAppend('select', pre, { id: 'select', class: 'select' });
-    for (let i = 0; i < data.length; i++) {
-      createAndAppend('option', selectRepository, { text: data[i].name, value: i });
-    }
+    allData.forEach((data, index) => {
+      createAndAppend('option', selectRepository, { text: data.name, value: index });
+    });
     // reload default repository
-    reloadSelectedRepository(0, data);
+    reloadSelectedRepository(0, allData);
 
-    // reload selected repository way (1)
-    // selectRepository.onchange = function reloadOnceSelect() {
-    // const indexOfSelectedRepo = this.value;
-    // reloadSelectedRepository(indexOfSelectedRepo, data); // comment this line to stop getting information once change select list
-    // };
-    // reload selected repository way (2)
+    // reload selected repository
     function reloadOnceSelect() {
-      const indexOfSelectedRepo = this.value;
-      reloadSelectedRepository(indexOfSelectedRepo, data); // comment this line to stop getting information once change select list
+      const indexOfSelectedRepository = this.value;
+      reloadSelectedRepository(indexOfSelectedRepository, allData); // comment this line to stop getting information once change select list
     }
     selectRepository.addEventListener('change', reloadOnceSelect);
   }
@@ -159,9 +156,7 @@
       });
   }
 
-  // we can add perPage variable as a parameter in function later
-  const perPage = 47;
-  const HYF_REPOS_URL = `https://api.github.com/orgs/HackYourFuture/repos?per_page=${perPage}`;
+  const HYF_REPOS_URL = `https://api.github.com/orgs/HackYourFuture/repos?per_page=100`;
 
   window.onload = () => main(HYF_REPOS_URL);
 }
