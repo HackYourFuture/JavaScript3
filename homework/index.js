@@ -56,39 +56,46 @@
   }
 
   // fetch url contributor
-  function fetchContributorsUrl(contributorsUrl) {
-    fetchJSON(contributorsUrl, (err, contributor) => {
+  function fetchAndRenderContributors(contributorsUrl) {
+    fetchJSON(contributorsUrl, (err, contributors) => {
       if (err) {
         const root = document.getElementById('root');
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+      } else if (!contributors) {
+        const cont = document.getElementById('cont');
+        const noDescription = createAndAppend('li', cont, {});
+        createAndAppend('span', noDescription, {
+          text: 'Description: There is no contributors',
+          class: '',
+        });
       } else {
-        for (let j = 0; j < contributor.length; j++) {
-          const nameOfContributor = contributor[j].login;
-          const numberOfContributor = contributor[j].contributions;
-          const avatarUrl = contributor[j].avatar_url;
+        contributors.forEach(contributor => {
+          const nameOfContributor = contributor.login;
+          const numberOfContributor = contributor.contributions;
+          const avatarUrl = contributor.avatar_url;
           const cont = document.getElementById('cont');
-          const avatarContainer1 = createAndAppend('div', cont, {
-            class: 'avatar_div',
+          const photoContainer = createAndAppend('div', cont, {
+            class: 'avatar-div',
           });
-          const avatarContainer2 = createAndAppend('div', cont, { class: 'avatar_div data' });
+          const detailsContainer = createAndAppend('div', cont, { class: 'avatar-div data' });
 
-          createAndAppend('img', avatarContainer1, { src: avatarUrl });
-          createAndAppend('a', avatarContainer2, {
+          createAndAppend('img', photoContainer, { src: avatarUrl });
+          createAndAppend('a', detailsContainer, {
             text: nameOfContributor.toUpperCase(),
             target: '_blank',
             href: `https://github.com/${nameOfContributor}`,
           });
-          createAndAppend('br', avatarContainer2, {});
+          createAndAppend('br', detailsContainer, {});
 
-          createAndAppend('span', avatarContainer2, {
+          createAndAppend('span', detailsContainer, {
             text: 'Forks: ',
           });
-          createAndAppend('span', avatarContainer2, {
+          createAndAppend('span', detailsContainer, {
             text: numberOfContributor,
             class: 'result label',
           });
-          createAndAppend('br', avatarContainer2, {});
-        }
+          createAndAppend('br', detailsContainer, {});
+        });
       }
     });
   }
@@ -109,7 +116,7 @@
     if (getDescription == null) {
       const noDescription = createAndAppend('li', resetInfoDiv, {});
       createAndAppend('span', noDescription, {
-        text: 'Description: there is no description',
+        text: 'Description: There is no description',
         class: '',
       });
     } else {
@@ -134,7 +141,7 @@
     createAndAppend('span', liUpdateAt, { text: getUpdatedAt, class: 'result' });
 
     // call all contributors for this selected repository
-    fetchContributorsUrl(getContributorsUrl); // comment this line to stop getting contributors
+    fetchAndRenderContributors(getContributorsUrl); // comment this line to stop getting contributors
   }
 
   function reloadAllRepositories(parentElement, data) {
@@ -148,9 +155,6 @@
     for (let i = 0; i < data.length; i++) {
       createAndAppend('option', selectRepository, { text: data[i].name, value: i });
     }
-    // sort list of repository's
-    sortList();
-
     // reload default repository
     reloadSelectedRepository(0, data);
 
@@ -170,9 +174,11 @@
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
-        // we can use below code to sort list of repository instead of sort function above
+        // we can use below code to sort list of repository instead of sortList function.
         // data.sort((x, y) => x.name.localeCompare(y.name));
         reloadAllRepositories(root, data);
+        // sort list of repository's. This function is after reload repository's because it has selected class which has been already created by reloadAllRepositories function)
+        sortList();
       }
     });
   }
