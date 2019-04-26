@@ -7,8 +7,8 @@
 
 body {
   max-width: 768px;
-  width:90%;
-  margin:0 auto;
+  width: 90%;
+  margin: 0 auto;
   background-color: #f8f8f8;
   font-family: 'Roboto', sans-serif;
   color: rgb(0, 0, 0, 87%);
@@ -48,7 +48,7 @@ img {
   align-items: center;
 }
 
-.repo_selector {
+.repository_selector {
   margin-left: 16px;
   font-size: 14px;
   width: 250px;
@@ -66,12 +66,6 @@ img {
   padding: 16px;
   margin-right: 16px;
 }
-
-/* @media (max-width: 767px) {
-  .left_div {
-    margin: 0;
-  }
-} */
 
 .contributor-list {
   list-style-type: none;

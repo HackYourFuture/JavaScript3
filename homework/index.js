@@ -35,6 +35,11 @@
     return elem;
   }
 
+  function renderError(err) {
+    const root = document.getElementById('root');
+    createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+  }
+
   // deletes the previous repository table if selected repository changes
   function removeChildElements(parent) {
     while (parent.firstChild) {
@@ -96,9 +101,7 @@
           });
         });
       })
-      .catch(err => {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      });
+      .catch(err => renderError(err));
   }
 
   function main(url) {
@@ -107,7 +110,7 @@
       .then(data => {
         const header = createAndAppend('header', root, { class: 'header' });
         createAndAppend('p', header, { text: 'HYF Repositories', class: 'hyf' });
-        const selectMenu = createAndAppend('select', header, { class: 'repo_selector' });
+        const selectMenu = createAndAppend('select', header, { class: 'repository_selector' });
         const repoArray = data;
         repoArray.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensivity: 'base' }));
         repoArray.forEach((repo, i) => {
@@ -117,14 +120,12 @@
         const repoDiv = createAndAppend('div', containerDiv, { class: 'left-div' });
         const contributorsDiv = createAndAppend('div', containerDiv, { class: 'right_div' });
         showRepoInfo(0, repoDiv, repoArray, containerDiv, contributorsDiv);
-        selectMenu.addEventListener('change', () => {
+        selectMenu.addEventListener('change', event => {
           const index = event.target.value;
           showRepoInfo(index, repoDiv, repoArray, containerDiv, contributorsDiv);
         });
       })
-      .catch(err => {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      });
+      .catch(err => renderError(err));
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
