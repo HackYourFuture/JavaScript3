@@ -39,8 +39,9 @@
       parent.removeChild(parent.firstChild);
     }
   }
+
   // to show the information of selected repository in a table
-  function showRepoInfo(index, repoDiv, repoArray, containerDiv) {
+  function showRepoInfo(index, repoDiv, repoArray, containerDiv, contributorsDiv) {
     removeChildElements(repoDiv);
     const selectedRepo = repoArray[index];
     const headerArray = ['Repository', 'Description', 'Forks', 'Updated'];
@@ -57,7 +58,7 @@
       if (i === 0) {
         const repoLink = createAndAppend('td', tr);
         createAndAppend('a', repoLink, {
-          href: `${selectedRepo.svn_url}`,
+          href: selectedRepo.svn_url,
           target: '_blank',
           text: repoInfo[i],
         });
@@ -70,15 +71,13 @@
       if (err) {
         createAndAppend('div', containerDiv, { text: err.message, class: 'alert-error' });
       } else {
-        const contributorsDiv = createAndAppend('div', containerDiv, { class: 'right_div' });
-
+        removeChildElements(contributorsDiv);
         createAndAppend('p', contributorsDiv, {
           text: 'Contributors',
           class: 'contributor_header',
         });
 
-        const str = JSON.stringify(data, null, 2);
-        const contributorsArray = JSON.parse(str);
+        const contributorsArray = data;
         const ul = createAndAppend('ul', contributorsDiv, { class: 'contributor_list' });
 
         contributorsArray.forEach(contributor => {
@@ -86,13 +85,13 @@
             class: 'contributor_item',
           });
           createAndAppend('img', li, {
-            src: `${contributor.avatar_url}`,
+            src: contributor.avatar_url,
             class: 'contributor_avatar',
           });
           const contDataDiv = createAndAppend('div', li, { class: 'contributor_data' });
-          createAndAppend('div', contDataDiv, { text: `${contributor.login}` });
+          createAndAppend('div', contDataDiv, { text: contributor.login });
           createAndAppend('div', contDataDiv, {
-            text: `${contributor.contributions}`,
+            text: contributor.contributions,
             class: 'contribution_badge',
           });
         });
@@ -108,19 +107,20 @@
       } else {
         const header = createAndAppend('header', root, { class: 'header' });
         createAndAppend('p', header, { text: 'HYF Repositories', class: 'hyf' });
-        const str = JSON.stringify(data, null, 2);
-        const repoArray = JSON.parse(str);
         const selectMenu = createAndAppend('select', header, { class: 'repo_selector' });
+        const repoArray = data;
         repoArray.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensivity: 'base' }));
         repoArray.forEach((repo, i) => {
           createAndAppend('option', selectMenu, { text: repo.name, value: i });
         });
         const containerDiv = createAndAppend('div', root, { id: 'container' });
         const repoDiv = createAndAppend('div', containerDiv, { class: 'left-div' });
-        showRepoInfo(0, repoDiv, repoArray, containerDiv);
-        selectMenu.addEventListener('change', () =>
-          showRepoInfo(selectMenu.selectedIndex, repoDiv, repoArray, containerDiv),
-        );
+        const contributorsDiv = createAndAppend('div', containerDiv, { class: 'right_div' });
+        showRepoInfo(0, repoDiv, repoArray, containerDiv, contributorsDiv);
+        selectMenu.addEventListener('change', () => {
+          const index = event.target.value;
+          showRepoInfo(index, repoDiv, repoArray, containerDiv, contributorsDiv);
+        });
       }
     });
   }
