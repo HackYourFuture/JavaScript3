@@ -100,18 +100,18 @@
     });
   }
 
-  function reloadSelectedRepository(valueOfSelectedRepository, selectedData) {
+  function reloadSelectedRepository(repository) {
     const resetInfoDiv = document.getElementById('info');
     const resetContDiv = document.getElementById('cont');
     resetInfoDiv.innerHTML = '';
     resetContDiv.innerHTML = '';
-    const getDescription = selectedData[valueOfSelectedRepository].description;
-    const getForks = selectedData[valueOfSelectedRepository].forks;
-    const getUpdatedAt = selectedData[valueOfSelectedRepository].updated_at;
-    const dataName = selectedData[valueOfSelectedRepository].name;
+    const getDescription = repository.description;
+    const getForks = repository.forks;
+    const getUpdatedAt = repository.updated_at;
+    const dataName = repository.name;
 
     // next line is an another url and need fetch to get contributors
-    const getContributorsUrl = selectedData[valueOfSelectedRepository].contributors_url;
+    const getContributorsUrl = repository.contributors_url;
 
     if (getDescription == null) {
       const noDescription = createAndAppend('li', resetInfoDiv, {});
@@ -156,12 +156,12 @@
       createAndAppend('option', selectRepository, { text: data[i].name, value: i });
     }
     // reload default repository
-    reloadSelectedRepository(0, data);
+    reloadSelectedRepository(data[0]);
 
     // reload selected repository
     selectRepository.onchange = function reloadOnceSelect() {
-      const indexOfSelectedRepo = this.value;
-      reloadSelectedRepository(indexOfSelectedRepo, data); // comment this line to stop getting information once change select list
+      const selectedRepository = data[this.value];
+      reloadSelectedRepository(selectedRepository); // comment this line to stop getting information once change select list
     };
   }
 
