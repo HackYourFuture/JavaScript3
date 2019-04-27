@@ -53,15 +53,15 @@
     });
     // Left Column
     // const container = createAndAppend('div', root, { id: 'container' });
-    const leftdiv = createAndAppend('div', root, { id: 'leftdiv' });
-    const table = createAndAppend('table', leftdiv);
-    for (let i = 0; i < 4; i++) {
+    const leftDiv = createAndAppend('div', root, { id: 'leftDiv' });
+    const table = createAndAppend('table', leftDiv);
+    const theads = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
+    for (let i = 0; i < theads.length; i++) {
       const tr = createAndAppend('tr', table);
-      const theads = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
       createAndAppend('th', tr, { id: `th${i}`, text: theads[i] });
       const tds = ['name', 'description', 'forks', 'updated_at'];
       if (tds[i] === 'name') {
-        const linked = createAndAppend('td', tr, { id: `td${i}` });
+        const linked = createAndAppend('td', tr, { id: `repoinfo${i}` });
         createAndAppend('a', linked, {
           id: 'linked',
           text: data[0][tds[i]],
@@ -69,42 +69,43 @@
           target: '_blank',
         });
       } else {
-        createAndAppend('td', tr, { id: `td${i}`, text: data[0][tds[i]] });
+        createAndAppend('td', tr, { id: `repoinfo${i}`, text: data[0][tds[i]] });
       }
     }
 
-    select.addEventListener('change', event => {
-      const ahref = document.getElementById('linked');
-      ahref.textContent = data[event.target.value].name;
-      ahref.href = data[event.target.value].html_url;
-      const td1 = document.getElementById('td1');
-      td1.textContent = data[event.target.value].description;
-      const td2 = document.getElementById('td2');
-      td2.textContent = data[event.target.value].forks;
-      const td3 = document.getElementById('td3');
-      td3.textContent = data[event.target.value].updated_at;
-    });
     // right column
     const rightdiv = createAndAppend('div', root, { id: 'rightdiv' });
     createAndAppend('p', rightdiv, { id: 'rightp', text: 'Contributors' });
     const ul = createAndAppend('ul', rightdiv);
-    function contributors(dt) {
-      for (let i = 0; i < dt.length; i++) {
+    function contributors(repodata) {
+      for (let i = 0; i < repodata.length; i++) {
         const li = createAndAppend('li', ul, { id: `li${i}` });
-        const href = createAndAppend('a', li, { href: dt[i].html_url, target: '_blank' });
-        createAndAppend('img', href, { src: dt[i].avatar_url });
-        const lidiv = createAndAppend('div', href, { class: 'contributor_div' });
-        createAndAppend('p', lidiv, { text: dt[i].login });
-        createAndAppend('p', lidiv, { text: dt[i].contributions });
+        const href = createAndAppend('a', li, { href: repodata[i].html_url, target: '_blank' });
+        createAndAppend('img', href, { src: repodata[i].avatar_url });
+        const liDiv = createAndAppend('div', href, { class: 'contributor_div' });
+        createAndAppend('p', liDiv, { text: repodata[i].login });
+        createAndAppend('p', liDiv, { text: repodata[i].contributions });
       }
     }
     const urlZero = data[0].contributors_url;
-    fetchJSON(urlZero).then(dt => contributors(dt));
+    fetchJSON(urlZero).then(repodata => contributors(repodata));
 
     select.addEventListener('change', event => {
+      // for left column
+      const repo = data[event.target.value];
+      const ahref = document.getElementById('linked');
+      ahref.textContent = repo.name;
+      ahref.href = repo.html_url;
+      const tdRepoInfo1 = document.getElementById('repoinfo1');
+      tdRepoInfo1.textContent = repo.description;
+      const tdRepoInfo2 = document.getElementById('repoinfo2');
+      tdRepoInfo2.textContent = repo.forks;
+      const tdRepoInfo3 = document.getElementById('repoinfo3');
+      tdRepoInfo3.textContent = repo.updated_at;
+      // for repositories
       removeChildren(ul);
-      const urlCont = data[event.target.value].contributors_url;
-      fetchJSON(urlCont).then(dt => contributors(dt));
+      const urlCont = repo.contributors_url;
+      fetchJSON(urlCont).then(repodata => contributors(repodata));
     });
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
