@@ -1,3 +1,99 @@
 .alert-error {
     color: red;
 }
+
+body {
+  width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #f8f8f8;
+  font-family: 'Roboto', sans-serif;
+  color: rgb(0, 0, 0, 87%);
+  margin-top: 0;
+  overflow-y: auto;
+}
+
+.headerDiv {
+  color: white;
+  background-color: #3F51B5;
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.headerDiv select {
+  margin-left: 16px;
+  font-size: 14px;
+  width: 250px;
+  height: 32px;
+  padding: 2px;
+}
+
+.repoInfoDiv {
+  margin-bottom: 8px;
+  border: none;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .2), 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .12);
+  padding: 16px;
+  margin-right: 16px;
+  width: 392px;
+  height: 20vw;
+}
+
+.contributorDiv {
+  margin-bottom: 8px;
+  border: none;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .2), 0 3px 4px 0 rgba(0, 0, 0, .14), 0 3px 3px -2px rgba(0, 0, 0, .12);
+  padding: 16px;
+  margin-right: 16px;
+  width: 360px;
+  margin-inline-end: 0px;
+}
+.contributorDiv p:first-child {
+  font-size: 0.8rem;
+  color: rgb(0, 0, 0, 54%);
+  padding: 8px 16px 4px 16px;
+}
+
+ul {
+  list-style-type: none;
+  padding-inline-start: 0px;
+}
+.contributorUl li a{
+  padding: 16px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+
+.contributorUl li a p:first-child {
+  width: 224px;
+  height: 24px;
+
+}
+
+.contributorUl li{
+  border-bottom: solid 1px rgb(0, 0, 0, 12%);
+}
+
+.contributorUl li:last-child{
+  border-bottom: solid 0px black;
+}
+
+img {
+  height: 48px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row nowrap;
+  justify-content: space-between;
+}
