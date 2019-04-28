@@ -32,6 +32,10 @@
     });
     return elem;
   }
+  function showErr(err) {
+    const root = document.getElementById('root');
+    root.innerHTML = `<div>${Error(err.message)}</div>`;
+  }
   function app(repositories) {
     repositories.sort((a, b) => a.name.localeCompare(b.name));
     const root = document.getElementById('root');
@@ -39,6 +43,7 @@
     for (let i = 0; i < repositories.length; i++) {
       createAndAppend('option', select, { text: repositories[i].name, value: i });
     }
+
     const div1 = createAndAppend('div', root, { class: 'tired' });
     const list = createAndAppend('ul', div1, { id: 'ul' });
     const rep = createAndAppend('li', list);
@@ -87,10 +92,9 @@
   function main(url) {
     fetchJSON(url)
       .then(app)
-      .catch(err => (root.innerHTML = `<div>${Error(err.message)}</div>`));
+      .catch(showErr);
   }
 
-  const HYF_REPOS_URL = 'https://api.github.com/orgsx/HackYourFuture/repos?per_page=100';
-
+  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => main(HYF_REPOS_URL);
 }
