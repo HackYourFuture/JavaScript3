@@ -4,10 +4,13 @@
 
 #root {
   display: flex;
+  justify-content: space-between;
 }
 
 body {
-  background: yellow;
+  background: rgb(247, 121, 3);
+  margin-left: 20%;
+  margin-right: 20%;
 }
 
 div {
@@ -17,4 +20,22 @@ div {
 li {
   margin-bottom: 5px;
   border-bottom: 2px solid black;
+}
+
+.contributorAvatars {
+  width: 100px;
+}
+
+@media only screen and (max-width: 768px) {
+  #root {
+    width: calc(50% - 20px);
+    flex-wrap: wrap;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  #root {
+    width: calc(100% - 20px);
+    flex-wrap: wrap;
+  }
 }

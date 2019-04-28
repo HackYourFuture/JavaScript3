@@ -32,7 +32,21 @@ const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page
     return elem;
   }
 
+  function removeChildren(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
+
   function main() {
+    const repoDiv = document.getElementById('root');
+    const div = createAndAppend('div', repoDiv, {
+      id: 'repoDescriptionDiv',
+    });
+    const clear = createAndAppend('div', repoDiv, {
+      id: 'repoContributors',
+    });
+
     fetchJSON(HYF_REPOS_URL, (err, data) => {
       const root = document.getElementById('root');
       if (err) {
@@ -42,9 +56,7 @@ const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page
         });
       } else {
         const jsonString = JSON.stringify(data, null, 2);
-        const div = createAndAppend('div', root, {
-          id: 'repoDescriptionDiv',
-        });
+
         createAndAppend('h2', div, { text: 'HYF Repositories' });
         const select = createAndAppend('select', div, {
           id: 'selectionTree',
@@ -52,34 +64,27 @@ const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page
         createAndAppend('p', div, {
           id: 'repoDescriptionP',
         });
-        let valueNumber = 0;
 
         const repositories = JSON.parse(jsonString, null);
 
         let contributorsURL = '';
 
-        repositories.forEach(repo => {
-          const options = createAndAppend('option', select, {
-            value: valueNumber,
+        repositories.forEach((repo, index) => {
+          createAndAppend('option', select, {
+            value: index,
+            text: repo.name,
           });
-          options.textContent = repo.name;
-          valueNumber += 1;
         });
 
         const selectElement = document.getElementById('selectionTree');
         selectElement.addEventListener('change', event => {
+          removeChildren(clear);
           const result = document.getElementById('repoDescriptionP');
           result.innerHTML = `Description: ${repositories[event.target.value].description}`;
 
           contributorsURL = repositories[event.target.value].contributors_url; // update repo name through select //
 
           fetchJSON(contributorsURL, (err1, data1) => {
-            const repoDiv = document.getElementById('root');
-
-            createAndAppend('div', repoDiv, {
-              id: 'repoContributors',
-            });
-
             if (err1) {
               createAndAppend('div', repoDiv, {
                 text: err1.message,
@@ -95,8 +100,8 @@ const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page
               });
               repoDetail.forEach(repo => {
                 createAndAppend('img', repoDetails, {
-                  src: `${repo.avatar_url}`,
-                  style: 'width:100px;',
+                  src: repo.avatar_url,
+                  class: 'contributorAvatars',
                 });
                 createAndAppend('li', repoDetails, {
                   id: 'repoContribNames',
