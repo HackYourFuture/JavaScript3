@@ -11,7 +11,7 @@
           if (xhr.status < 400) {
             resolve(xhr.response);
           } else {
-            reject(new Error(xhr.statusText));
+            reject(new Error(xhr.status + xhr.statusText));
           }
         }
       };
@@ -32,12 +32,12 @@
     });
     return elem;
   }
-  function app(x) {
-    x.sort((a, b) => a.name.localeCompare(b.name));
+  function app(repositories) {
+    repositories.sort((a, b) => a.name.localeCompare(b.name));
     const root = document.getElementById('root');
     const select = createAndAppend('select', root, { id: 'select' });
-    for (let i = 0; i < x.length; i++) {
-      createAndAppend('option', select, { text: x[i].name, value: i });
+    for (let i = 0; i < repositories.length; i++) {
+      createAndAppend('option', select, { text: repositories[i].name, value: i });
     }
     const div1 = createAndAppend('div', root, { class: 'tired' });
     const list = createAndAppend('ul', div1, { id: 'ul' });
@@ -63,17 +63,17 @@
       }
     }
     function innerText() {
-      des.innerText = `Description: ${x[select.value].description}`;
-      if (x[select.value].description === null) {
+      des.innerText = `Description: ${repositories[select.value].description}`;
+      if (repositories[select.value].description === null) {
         des.style.display = 'none';
       }
-      fork.innerText = `Fork : ${x[select.value].forks}`;
-      rep.innerHTML = `Repository: <a target=_blank href= ${x[select.value].html_url}> ${
-        x[select.value].name
+      fork.innerText = `Fork : ${repositories[select.value].forks}`;
+      rep.innerHTML = `Repository: <a target=_blank href= ${repositories[select.value].html_url}> ${
+        repositories[select.value].name
       } </a>`;
-      up.innerText = `Update : ${x[select.value].updated_at}`;
+      up.innerText = `Update : ${repositories[select.value].updated_at}`;
       list2.innerText = 'Contributions';
-      fetchJSON(x[select.value].contributors_url)
+      fetchJSON(repositories[select.value].contributors_url)
         .then(renderContributer)
         .catch(err => new Error(err.message));
     }
@@ -87,10 +87,10 @@
   function main(url) {
     fetchJSON(url)
       .then(app)
-      .catch(err => new Error(err.message));
+      .catch(err => (root.innerHTML = `<div>${Error(err.message)}</div>`));
   }
 
-  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+  const HYF_REPOS_URL = 'https://api.github.com/orgsx/HackYourFuture/repos?per_page=100';
 
   window.onload = () => main(HYF_REPOS_URL);
 }
