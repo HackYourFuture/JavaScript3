@@ -31,22 +31,19 @@
     });
     return elem;
   }
-
+  const root = document.getElementById('root');
   function singlePageApplication(arr) {
     arr.sort((a, b) => a.name.localeCompare(b.name));
     // header
     const div = createAndAppend('div', root, {
       id: 'header-div',
     });
-    const h1 = createAndAppend('h1', div, {
-      text: 'HYF Repositories',
-      id: 'header',
-    });
+    createAndAppend('h1', div, { text: 'HYF Repositories', id: 'header' });
     const selectMenu = createAndAppend('select', div, {
       id: 'select-menu',
     });
     for (let i = 0; i < arr.length; i++) {
-      const option = createAndAppend('option', selectMenu, {
+      createAndAppend('option', selectMenu, {
         text: arr[i].name,
         value: i,
       });
@@ -57,6 +54,7 @@
       class: 'container',
     });
     // right part
+    const firstTime = ['name', 'description', 'forks', 'updated_at'];
     const rightDiv = createAndAppend('div', containerDiv, {
       id: 'right-div',
       class: 'contained',
@@ -66,22 +64,21 @@
       id: 'tableOfInformation',
     });
     for (let i = 0; i < tHeads.length; i++) {
-      var firstTime = ['name', 'description', 'forks', 'updated_at'];
       const tr = createAndAppend('tr', table, {});
-      const tableHead = createAndAppend('th', tr, {
+      createAndAppend('th', tr, {
         text: tHeads[i],
       });
       if (i === 0) {
         const tableData = createAndAppend('td', tr, {
           id: `tableData.${i}`,
         });
-        const link = createAndAppend('a', tableData, {
+        createAndAppend('a', tableData, {
           href: arr[i].html_url,
           text: arr[i].name,
           target: '_blank',
         });
       } else {
-        const tableData = createAndAppend('td', tr, {
+        createAndAppend('td', tr, {
           text: arr[0][firstTime[i]],
           id: `tableData.${i}`,
         });
@@ -103,20 +100,12 @@
       id: 'left-div',
       class: 'contained',
     });
-    const h2 = createAndAppend('h2', leftDiv, {
+    createAndAppend('h2', leftDiv, {
       text: 'Contributors',
     });
     const ul = createAndAppend('ul', leftDiv, {
       id: 'contributorList',
     });
-    function contributors() {
-      fetchJSON(arr[selectMenu.value].contributors_url)
-        .then(data => contributions(data))
-        .catch(err => {
-          createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-        });
-    }
-
     function contributions(data) {
       while (ul.firstChild) {
         ul.removeChild(ul.firstChild);
@@ -125,21 +114,28 @@
         const li = createAndAppend('li', ul, {
           class: 'container',
         });
-        const div = createAndAppend('div', li, {
+        const listDiv = createAndAppend('div', li, {
           id: 'contributor-left',
           class: 'contained',
         });
-        const img = createAndAppend('img', div, {
+        createAndAppend('img', listDiv, {
           src: data[i].avatar_url,
           class: 'avatar',
         });
-        const p = createAndAppend('p', div, {});
+        const p = createAndAppend('p', listDiv, {});
         p.innerHTML = `<a target="_blank" href=${data[i].html_url}>${data[i].login}</a>`;
-        const div1 = createAndAppend('div', li, {
+        createAndAppend('div', li, {
           text: data[i].contributions,
           class: 'contained',
         });
       }
+    }
+    function contributors() {
+      fetchJSON(arr[selectMenu.value].contributors_url)
+        .then(data => contributions(data))
+        .catch(err => {
+          createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        });
     }
     contributors();
     selectMenu.onchange = contributors;
@@ -149,7 +145,6 @@
     fetchJSON(HYF_REPOS_URL)
       .then(data => singlePageApplication(data))
       .catch(err => {
-        const root = document.getElementById('root');
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       });
 }
