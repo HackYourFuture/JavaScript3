@@ -19,7 +19,7 @@ class App {
       const repos = await Util.fetchJSON(url);
       this.repos = repos.map(repo => new Repository(repo));
       // TODO: add your own code here
-      console.log(repos);
+      console.log(repos); // checking
     } catch (error) {
       this.renderError(error);
     }
