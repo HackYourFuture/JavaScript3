@@ -13,6 +13,7 @@
           reject(new Error(xhr.statusText));
         }
       };
+      xhr.onerror = () => reject(new Error('Network request failed'));
       xhr.send();
     });
   }
@@ -31,6 +32,20 @@
     return elem;
   }
   // ==========start===========
+
+  // clear all container content
+  function removeChildren(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
+
+  function renderError(error) {
+    const container = document.getElementById('container');
+    removeChildren(container);
+    // Render the error message in container
+    createAndAppend('div', container, { text: error.message, class: 'alert-error' });
+  }
   /* cSpell: disable */
   const repoInfo = selectedRepository => {
     const container = document.getElementById('container');
@@ -107,7 +122,13 @@
     // list items & data
     const contributors = data => {
       data.forEach(user => {
-        const li = createAndAppend('li', ul, { class: 'contributor-item' });
+        const li = createAndAppend('li', ul, {
+          class: 'contributor-item',
+        });
+        li.addEventListener('click', () => {
+          window.open(user.html_url, '_blank');
+        });
+
         createAndAppend('img', li, { src: user.avatar_url, class: 'contributor-avatar' });
         const liDiv = createAndAppend('div', li, { class: 'contributor-data' });
         createAndAppend('div', liDiv, { text: user.login });
@@ -116,23 +137,10 @@
     };
 
     // fetchJSON(calling) to check & show the list of the right div
-    fetchJSON(selectedRepository.contributors_url).then(data =>
-      contributors(data, contributorsHeader),
-    );
+    fetchJSON(selectedRepository.contributors_url)
+      .then(data => contributors(data, contributorsHeader))
+      .catch(err => renderError(err));
   };
-
-  // clear all container content
-  function removeChildren(element) {
-    while (element.firstChild) {
-      element.removeChild(element.firstChild);
-    }
-  }
-  function renderError(error) {
-    const container = document.getElementById('container');
-    removeChildren(container);
-    // Render the error message in container
-    createAndAppend('div', container, { text: error.message, class: 'alert-error' });
-  }
 
   function main(url) {
     fetchJSON(url)

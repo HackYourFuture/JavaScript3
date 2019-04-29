@@ -1,3 +1,7 @@
+.alert-error {
+  color: red;
+}
+
 body {
   width: 768px;
   margin-left: auto;
