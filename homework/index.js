@@ -73,10 +73,12 @@
       } </a>`;
       up.innerText = `Update : ${repositories[select.value].updated_at}`;
       list2.innerText = 'Contributions';
-      try{ const data = await fetchJSON(repositories[select.value].contributors_url);
+      try {
+        const data = await fetchJSON(repositories[select.value].contributors_url);
         renderContributer(data);
+      } catch (err) {
+        Error(err.message);
       }
-        catch{err => new Error(err.message)};
     }
 
     if (Number(select.value) === 0) {
@@ -86,12 +88,13 @@
   }
 
   async function main(url) {
+    const root = document.getElementById('root');
     try {
       const data = await fetchJSON(url);
       app(data);
+    } catch (err) {
+      root.innerHTML = `<div>${Error(err.message)}</div>`;
     }
-      catch (err) {(root.innerHTML = `<div>${Error(err.message)}</div>`);
-  }
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
