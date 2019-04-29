@@ -13,6 +13,7 @@
           reject(new Error(xhr.statusText));
         }
       };
+      xhr.onerror = () => reject(new Error('Network request failed'));
       xhr.send();
     });
   }
@@ -31,6 +32,20 @@
     return elem;
   }
   // ==========start===========
+
+  // clear all container content
+  function removeChildren(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
+
+  function renderError(error) {
+    const container = document.getElementById('container');
+    removeChildren(container);
+    // Render the error message in container
+    createAndAppend('div', container, { text: error.message, class: 'alert-error' });
+  }
   /* cSpell: disable */
   const repoInfo = selectedRepository => {
     const container = document.getElementById('container');
@@ -120,24 +135,12 @@
         createAndAppend('div', liDiv, { text: user.contributions, class: 'contributor-badge' });
       });
     };
-    // fetchJSON(calling) to check & show the list of the right div
-    fetchJSON(selectedRepository.contributors_url).then(data =>
-      contributors(data, contributorsHeader),
-    );
-  };
 
-  // clear all container content
-  function removeChildren(element) {
-    while (element.firstChild) {
-      element.removeChild(element.firstChild);
-    }
-  }
-  function renderError(error) {
-    const container = document.getElementById('container');
-    removeChildren(container);
-    // Render the error message in container
-    createAndAppend('div', container, { text: error.message, class: 'alert-error' });
-  }
+    // fetchJSON(calling) to check & show the list of the right div
+    fetchJSON(selectedRepository.contributors_url)
+      .then(data => contributors(data, contributorsHeader))
+      .catch(err => renderError(err));
+  };
 
   function main(url) {
     fetchJSON(url)
