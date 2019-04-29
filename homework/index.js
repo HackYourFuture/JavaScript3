@@ -15,7 +15,7 @@
     xhr.onerror = () => cb(new Error('Network request failed'));
     xhr.send();
   }
-
+  const root = document.getElementById('root');
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
@@ -30,81 +30,51 @@
     return elem;
   }
   function singlePageApplication(arr) {
-    //header
+    //  header
     const div = createAndAppend('div', root, {
       id: 'header-div',
     });
-    const h1 = createAndAppend('h1', div, {
-      text: 'HYF Repositories',
-      id: 'header',
-    });
-    const selectMenu = createAndAppend('select', div, {
-      id: 'select-menu',
-    });
+    createAndAppend('h1', div, { text: 'HYF Repositories', id: 'header' });
+    const selectMenu = createAndAppend('select', div, { id: 'select-menu' });
     for (let i = 0; i < arr.length; i++) {
-      const option = createAndAppend('option', selectMenu, {
-        text: arr[i].name,
-        value: i,
-      });
+      createAndAppend('option', selectMenu, { text: arr[i].name, value: i });
     }
-    //right and left part
-    const containerDiv = createAndAppend('div', root, {
-      id: 'container',
-      class: 'container',
-    });
-    //right part
-    const rightDiv = createAndAppend('div', containerDiv, {
-      id: 'right-div',
-      class: 'contained',
-    });
+    //  right and left part
+    const containerDiv = createAndAppend('div', root, { id: 'container', class: 'container' });
+    //  right part
+    const rightDiv = createAndAppend('div', containerDiv, { id: 'right-div', class: 'contained' });
     const tHeads = ['Repository: ', 'Description: ', 'Forks: ', 'Update: '];
-    const table = createAndAppend('table', rightDiv, {
-      id: 'tableOfInformation',
-    });
+    const infoRetrieving = ['name', 'description', 'forks', 'updated_at'];
+    const table = createAndAppend('table', rightDiv, { id: 'tableOfInformation' });
     for (let i = 0; i < tHeads.length; i++) {
-      var firstTime = ['name', 'description', 'forks', 'updated_at'];
       const tr = createAndAppend('tr', table, {});
-      const tableHead = createAndAppend('th', tr, {
-        text: tHeads[i],
-      });
+      createAndAppend('th', tr, { text: tHeads[i] });
       if (i === 0) {
-        const tableData = createAndAppend('td', tr, {
-          id: `tableData.${i}`,
-        });
-        const link = createAndAppend('a', tableData, {
+        const tableData = createAndAppend('td', tr, { id: `tableData.${i}` });
+        createAndAppend('a', tableData, {
+          target: '_blank',
           href: arr[i].html_url,
           text: arr[i].name,
-          target: '_blank',
         });
       } else {
-        const tableData = createAndAppend('td', tr, {
-          text: arr[0][firstTime[i]],
-          id: `tableData.${i}`,
-        });
+        createAndAppend('td', tr, { text: arr[0][infoRetrieving[i]], id: `tableData.${i}` });
       }
     }
     selectMenu.addEventListener('change', event => {
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < infoRetrieving.length; i++) {
         const changed = document.getElementById(`tableData.${i}`);
-        if (i === 0) {
+        if (tHeads[i] === 'Repository ') {
           changed.innerHTML = `<a target = "_blank" href = ${arr[event.target.value].html_url}> ${
             arr[event.target.value].name
           }</a>`;
         } else {
-          changed.innerText = arr[event.target.value][firstTime[i]];
+          changed.innerText = arr[event.target.value][infoRetrieving[i]];
         }
       }
-    }); //right part works  //left part
-    const leftDiv = createAndAppend('div', containerDiv, {
-      id: 'left-div',
-      class: 'contained',
-    });
-    const h2 = createAndAppend('h2', leftDiv, {
-      text: 'Contributors',
-    });
-    const ul = createAndAppend('ul', leftDiv, {
-      id: 'contributorList',
-    });
+    }); //  right part works  //left part
+    const leftDiv = createAndAppend('div', containerDiv, { id: 'left-div', class: 'contained' });
+    createAndAppend('h2', leftDiv, { text: 'Contributors' });
+    const ul = createAndAppend('ul', leftDiv, { id: 'contributorList' });
     function contributors() {
       fetchJSON(arr[selectMenu.value].contributors_url, (err, data) => {
         if (err) {
@@ -114,23 +84,15 @@
             ul.removeChild(ul.firstChild);
           }
           for (let i = 0; i < data.length; i++) {
-            const li = createAndAppend('li', ul, {
-              class: 'container',
-            });
-            const div = createAndAppend('div', li, {
+            const li = createAndAppend('li', ul, { class: 'container' });
+            const listDiv = createAndAppend('div', li, {
               id: 'contributor-left',
               class: 'contained',
             });
-            const img = createAndAppend('img', div, {
-              src: data[i].avatar_url,
-              class: 'avatar',
-            });
-            const p = createAndAppend('p', div, {});
+            createAndAppend('img', listDiv, { src: data[i].avatar_url, class: 'avatar' });
+            const p = createAndAppend('p', listDiv, {});
             p.innerHTML = `<a target="_blank" href=${data[i].html_url}>${data[i].login}</a>`;
-            const div1 = createAndAppend('div', li, {
-              text: data[i].contributions,
-              class: 'contained',
-            });
+            createAndAppend('div', li, { text: data[i].contributions, class: 'contained' });
           }
         }
       });
@@ -140,7 +102,6 @@
   }
   function main(url) {
     fetchJSON(url, (err, data) => {
-      const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } // else {
