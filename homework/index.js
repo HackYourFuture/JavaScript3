@@ -70,7 +70,7 @@
     }
   }
 
-  function renderRepo(listContributors, repo) {
+  function renderRep(listContributors, repo) {
     const content = [
       { title: 'Repository', attribute: 'name' },
       { title: 'Description', attribute: 'description' },
@@ -109,14 +109,14 @@
         const selectedValue = document.getElementById('selector');
         selectedValue.addEventListener('change', event => {
           const selectedRepo = event.target.value;
-          renderRepo(listContributor, optionArr[selectedRepo]);
+          renderRep(listContributor, optionArr[selectedRepo]);
         });
 
-        renderRepo(listContributor, optionArr[0]);
+        renderRep(listContributor, optionArr[0]);
       }
     });
   }
-  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+  const HYF_REPS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
-  window.onload = () => main(HYF_REPOS_URL);
+  window.onload = () => main(HYF_REPS_URL);
 }
