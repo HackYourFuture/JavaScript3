@@ -28,12 +28,14 @@ img {
   body {
     width: 100%;
   }
+
   #container {
     margin: 0;
     flex-direction: column;
     align-items: stretch;
   }
-  .left_div {
+
+  .left-div {
     margin: 0;
   }
 }
@@ -48,7 +50,7 @@ img {
   align-items: center;
 }
 
-.repository_selector {
+.repository-selector {
   margin-left: 16px;
   font-size: 14px;
   width: 250px;
@@ -56,13 +58,13 @@ img {
   padding: 2px;
 }
 
-.left_div,
-.right_div {
+.left-div,
+.right-div {
   background-color: white;
   flex: 1;
 }
 
-.left_div {
+.left-div {
   padding: 16px;
   margin-right: 16px;
 }
@@ -73,28 +75,27 @@ img {
   margin: 0;
 }
 
-.contributor_header {
+.contributor-header {
   font-size: 0.8rem;
   color: rgb(0, 0, 0, 54%);
   padding: 8px 16px 4px 16px;
 }
 
-.contributor_item {
+.contributor-item {
   border-bottom: solid 1px rgb(0, 0, 0, 12%);
   padding: 16px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  cursor: pointer;
 }
 
-.contributor_avatar {
+.contributor-avatar {
   max-width: 100px;
   border-radius: 3px;
   margin-right: 16px;
 }
 
-.contributor_data {
+.contributor-data {
   flex: 1;
   display: flex;
   flex-direction: row;
@@ -102,7 +103,7 @@ img {
   align-content: center;
 }
 
-.contributor_badge {
+.contributor-badge {
   font-size: 12px;
   padding: 2px 8px;
   line-height: 1rem;

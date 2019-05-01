@@ -51,53 +51,57 @@
   function showRepoInfo(index, repoDiv, repoArray, containerDiv, contributorsDiv) {
     removeChildElements(repoDiv);
     const selectedRepo = repoArray[index];
-    const headerArray = ['Repository', 'Description', 'Forks', 'Updated'];
     const repoInfo = [
-      selectedRepo.name,
-      selectedRepo.description,
-      selectedRepo.forks,
-      selectedRepo.updated_at,
+      { header: 'Repository', value: selectedRepo.name },
+      { header: 'Description', value: selectedRepo.description },
+      { header: 'Forks', value: selectedRepo.forks },
+      { header: 'Updated', value: selectedRepo.updated_at },
     ];
     const table = createAndAppend('table', repoDiv);
-    for (let i = 0; i < headerArray.length; i++) {
+    for (let i = 0; i < repoInfo.length; i++) {
       const tr = createAndAppend('tr', table);
-      createAndAppend('td', tr, { text: headerArray[i], class: 'label' });
+      createAndAppend('td', tr, { text: repoInfo[i].header, class: 'label' });
       if (i === 0) {
         const repoLink = createAndAppend('td', tr);
         createAndAppend('a', repoLink, {
-          href: selectedRepo.svn_url,
+          href: selectedRepo.html_url,
           target: '_blank',
-          text: repoInfo[i],
+          text: repoInfo[i].value,
         });
       } else {
-        createAndAppend('td', tr, { text: repoInfo[i] });
+        createAndAppend('td', tr, { text: repoInfo[i].value });
       }
     }
+
     // to fetch and display information about contributors
     fetchJSON(selectedRepo.contributors_url)
       .then(data => {
         removeChildElements(contributorsDiv);
         createAndAppend('p', contributorsDiv, {
           text: 'Contributors',
-          class: 'contributor_header',
+          class: 'contributor-header',
         });
 
-        const contributorsArray = data;
-        const ul = createAndAppend('ul', contributorsDiv, { class: 'contributor_list' });
-
+        const contributorsArray = [...data];
+        const ul = createAndAppend('ul', contributorsDiv, { class: 'contributor-list' });
+        console.log(contributorsArray);
         contributorsArray.forEach(contributor => {
           const li = createAndAppend('li', ul, {
-            class: 'contributor_item',
+            class: 'contributor-item',
           });
           createAndAppend('img', li, {
             src: contributor.avatar_url,
-            class: 'contributor_avatar',
+            class: 'contributor-avatar',
           });
-          const contDataDiv = createAndAppend('div', li, { class: 'contributor_data' });
-          createAndAppend('div', contDataDiv, { text: contributor.login });
+          const contDataDiv = createAndAppend('div', li, { class: 'contributor-data' });
+          createAndAppend('a', contDataDiv, {
+            href: contributor.html_url,
+            target: '_blank',
+            text: contributor.login,
+          });
           createAndAppend('div', contDataDiv, {
             text: contributor.contributions,
-            class: 'contribution_badge',
+            class: 'contribution-badge',
           });
         });
       })
@@ -110,15 +114,15 @@
       .then(data => {
         const header = createAndAppend('header', root, { class: 'header' });
         createAndAppend('p', header, { text: 'HYF Repositories', class: 'hyf' });
-        const selectMenu = createAndAppend('select', header, { class: 'repository_selector' });
-        const repoArray = data;
+        const selectMenu = createAndAppend('select', header, { class: 'repository-selector' });
+        const repoArray = [...data];
         repoArray.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensivity: 'base' }));
         repoArray.forEach((repo, i) => {
           createAndAppend('option', selectMenu, { text: repo.name, value: i });
         });
         const containerDiv = createAndAppend('div', root, { id: 'container' });
         const repoDiv = createAndAppend('div', containerDiv, { class: 'left-div' });
-        const contributorsDiv = createAndAppend('div', containerDiv, { class: 'right_div' });
+        const contributorsDiv = createAndAppend('div', containerDiv, { class: 'right-div' });
         showRepoInfo(0, repoDiv, repoArray, containerDiv, contributorsDiv);
         selectMenu.addEventListener('change', event => {
           const index = event.target.value;
