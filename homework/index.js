@@ -6,7 +6,7 @@
       const xhr = new XMLHttpRequest();
       xhr.open('GET', url);
       xhr.responseType = 'json';
-      xhr.onreadystatechange = () => {
+      xhr.onload = () => {
         if (xhr.readyState === 4) {
           if (xhr.status < 400) {
             resolve(xhr.response);
@@ -36,27 +36,30 @@
   }
 
   // fetch contributor
-  async function fetchContributors(contributorUrl) {
+  async function fetchContributorsAndRender(contributorUrl) {
     try {
       const contributors = await fetchJSON(contributorUrl);
       return contributors;
     } catch (error) {
-      // console.log('fetchContributors'); this is error of fetch and awaiting
+      const rightDiv = document.getElementById('cont');
+      createAndAppend('div', rightDiv, {
+        text: "there is no contributor's available",
+        class: 'alert-error',
+      });
     }
   }
 
-  //  /////////////////////////////////reload Repository after async //////////////////////////////////////////////
-
-  function reloadSelectedRepository(valueOfSelectedRepository, selectedData) {
+  // reload and render all data after async
+  function reloadAndRenderAllData(repository) {
     const info = document.getElementById('info');
     info.innerHTML = '';
-    const getDescription = selectedData[valueOfSelectedRepository].description;
-    const getForks = selectedData[valueOfSelectedRepository].forks;
-    const getUpdatedAt = selectedData[valueOfSelectedRepository].updated_at;
-    const dataName = selectedData[valueOfSelectedRepository].name;
-    const getContributorsUrl = selectedData[valueOfSelectedRepository].contributors_url;
+    const repositoryDescription = repository.description;
+    const fork = repository.forks;
+    const updated = repository.updated_at;
+    const dataName = repository.name;
+    const contributorsUrl = repository.contributors_url;
 
-    if (getDescription == null) {
+    if (repositoryDescription == null) {
       const noDescription = createAndAppend('li', info, {});
       createAndAppend('span', noDescription, {
         text: 'Description: there is no description',
@@ -65,7 +68,7 @@
     } else {
       const liDescription = createAndAppend('li', info, {});
       createAndAppend('span', liDescription, { text: 'Description: ' });
-      createAndAppend('span', liDescription, { text: getDescription, class: 'result' });
+      createAndAppend('span', liDescription, { text: repositoryDescription, class: 'result' });
     }
 
     const link = createAndAppend('li', info, {});
@@ -78,77 +81,85 @@
     });
     const liOfForks = createAndAppend('li', info, {});
     createAndAppend('span', liOfForks, { text: 'Forks: ' });
-    createAndAppend('span', liOfForks, { text: getForks, class: 'result' });
+    createAndAppend('span', liOfForks, { text: fork, class: 'result' });
     const liUpdateAt = createAndAppend('li', info, {});
     createAndAppend('span', liUpdateAt, { text: 'updated_at: ' });
-    createAndAppend('span', liUpdateAt, { text: getUpdatedAt, class: 'result' });
+    createAndAppend('span', liUpdateAt, { text: updated, class: 'result' });
 
     // call all contributors for this selected repository
-    fetchContributors(getContributorsUrl)
+    fetchContributorsAndRender(contributorsUrl)
       .then(myContributor => {
-        const cont = document.getElementById('cont');
-        cont.innerHTML = '';
-        for (let j = 0; j < myContributor.length; j++) {
-          const nameOfContributor = myContributor[j].login;
-          const numberOfContributor = myContributor[j].contributions;
-          const avatarUrl = myContributor[j].avatar_url;
+        const rightDiv = document.getElementById('cont');
+        rightDiv.innerHTML = '';
+        myContributor.forEach(contributor => {
+          const nameOfContributor = contributor.login;
+          const numberOfContributor = contributor.contributions;
+          const avatarUrl = contributor.avatar_url;
 
-          const avatarContainer1 = createAndAppend('div', cont, {
-            class: 'avatar_div',
+          const photoContributor = createAndAppend('div', rightDiv, {
+            class: 'avatar-div',
           });
-          const avatarContainer2 = createAndAppend('div', cont, { class: 'avatar_div data' });
+          const infoContributor = createAndAppend('div', rightDiv, { class: 'avatar-div data' });
 
-          createAndAppend('img', avatarContainer1, { src: avatarUrl });
-          createAndAppend('a', avatarContainer2, {
+          createAndAppend('img', photoContributor, { src: avatarUrl });
+          createAndAppend('a', infoContributor, {
             text: nameOfContributor.toUpperCase(),
             href: `https://github.com/${nameOfContributor}`,
+            target: '_blank',
           });
-          createAndAppend('br', avatarContainer2, {});
+          createAndAppend('br', infoContributor, {});
 
-          createAndAppend('span', avatarContainer2, {
+          createAndAppend('span', infoContributor, {
             text: 'Forks: ',
           });
-          createAndAppend('span', avatarContainer2, {
+          createAndAppend('span', infoContributor, {
             text: numberOfContributor,
             class: 'result label',
           });
-          createAndAppend('br', avatarContainer2, {});
-        }
+          createAndAppend('br', infoContributor, {});
+        });
       })
-      .catch(); // comment this line to stop getting contributors. This is error of fetch and awaiting
+      .catch(() => {
+        const rightDiv = document.getElementById('cont');
+        createAndAppend('div', rightDiv, {
+          text: "there is no contributor's available",
+          class: 'alert-error',
+        });
+      });
   }
 
-  // /////////////////////////////////////////////////////////////////////////////////////////////
-
-  function reloadAllRepositories(parenElement, data) {
+  function reloadAllRepositories(parenElement, allData) {
     const pre = document.getElementById('pre');
     const parent = createAndAppend('div', parenElement, { class: 'bodyInformation' });
     createAndAppend('div', parent, { id: 'info', class: 'info' });
     createAndAppend('div', parent, { id: 'cont', class: 'cont' });
 
-    const selectRepository = createAndAppend('select', pre, { id: 'select', class: 'select' });
-    for (let i = 0; i < data.length; i++) {
-      createAndAppend('option', selectRepository, { text: data[i].name, value: i });
-    }
-    // reload default repository
-    reloadSelectedRepository(0, data);
+    const selector = createAndAppend('select', pre, { id: 'select', class: 'select' });
+    allData.forEach((data, index) => {
+      createAndAppend('option', selector, { text: data.name, value: index });
+    });
+    // reload default repository while reloading page.
+    reloadAndRenderAllData(allData[0]);
 
-    // reload selected repository way (2)
-    function reloadOnceSelect() {
-      const indexOfSelectedRepo = this.value;
-      reloadSelectedRepository(indexOfSelectedRepo, data); // comment this line to stop getting information once change select list
-    }
-    selectRepository.addEventListener('change', reloadOnceSelect);
+    // reload repository once selected a repository.
+    selector.addEventListener('change', function changeMe() {
+      reloadAndRenderAllData(allData[this.value]);
+    });
   }
 
   // async Repository's
-  async function getRepositoryResult(url) {
+  async function fetchAllRepository(url) {
     try {
       const data = await fetchJSON(url);
       const root = document.getElementById('root');
+      data.sort((x, y) => x.name.localeCompare(y.name));
       reloadAllRepositories(root, data);
     } catch (error) {
-      // alert(`there is an error ${error}`);
+      const root = document.getElementById('root');
+      createAndAppend('div', root, {
+        text: "there is no repository's available",
+        class: 'alert-error',
+      });
     }
   }
 
@@ -160,9 +171,7 @@
     const root = document.getElementById('root');
     const pre = createAndAppend('pre', root, { class: 'pre', id: 'pre' });
     createAndAppend('span', pre, { text: 'HYF Repositories', class: 'logoName' });
-    // get all repository after resolve and check repository's
-    getRepositoryResult(url);
-    // .then(data => { console.log(data);});
+    fetchAllRepository(url);
   }
   window.onload = () => main(HYF_REPOS_URL);
 }
