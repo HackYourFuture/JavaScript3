@@ -51,11 +51,11 @@
     const container = document.getElementById('container');
 
     // left div
-    const leftDiv = createAndAppend('div', container, {
+    const repoContainer = createAndAppend('div', container, {
       class: 'left-div whiteframe',
     });
     // create a table
-    const table = createAndAppend('table', leftDiv);
+    const table = createAndAppend('table', repoContainer);
     const tbody = createAndAppend('tbody', table);
 
     // table rows
