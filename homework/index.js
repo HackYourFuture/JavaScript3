@@ -84,7 +84,6 @@
 
         const contributorsArray = [...data];
         const ul = createAndAppend('ul', contributorsDiv, { class: 'contributor-list' });
-        console.log(contributorsArray);
         contributorsArray.forEach(contributor => {
           const li = createAndAppend('li', ul, {
             class: 'contributor-item',
