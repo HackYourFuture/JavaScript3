@@ -73,43 +73,43 @@
           text: err.message,
           class: 'alert-error',
         });
-        // eslint-disable-next-line eqeqeq
       } else if (!(contributors && contributors.length)) {
-        return createAndAppend('div', rightDiv, {
+        createAndAppend('div', rightDiv, {
           text: 'No contributions found.',
           class: 'alert-error',
         });
+      } else {
+        const ul = createAndAppend('ul', rightDiv, {
+          class: 'contributor-list',
+        });
+        contributors.forEach(contributor => {
+          const contributorItem = createAndAppend('li', ul, {
+            class: 'contributor-item',
+          });
+          const contributorLink = createAndAppend('a', contributorItem, {
+            href: contributor.html_url,
+            target: '_blank',
+          });
+          const contributorDiv = createAndAppend('div', contributorLink, {
+            class: 'contributor',
+          });
+          createAndAppend('img', contributorDiv, {
+            src: contributor.avatar_url,
+            class: 'contributor-avatar',
+          });
+          const contributorData = createAndAppend('div', contributorDiv, {
+            class: 'contributor-data',
+          });
+          createAndAppend('div', contributorData, {
+            text: contributor.login,
+            class: 'contributor-login',
+          });
+          createAndAppend('div', contributorData, {
+            text: contributor.contributions,
+            class: 'contributor-badge',
+          });
+        });
       }
-      const ul = createAndAppend('ul', rightDiv, {
-        class: 'contributor-list',
-      });
-      contributors.forEach(contributor => {
-        const contributorItem = createAndAppend('li', ul, {
-          class: 'contributor-item',
-        });
-        const contributorLink = createAndAppend('a', contributorItem, {
-          href: contributor.html_url,
-          target: '_blank',
-        });
-        const contributorDiv = createAndAppend('div', contributorLink, {
-          class: 'contributor',
-        });
-        createAndAppend('img', contributorDiv, {
-          src: contributor.avatar_url,
-          class: 'contributor-avatar',
-        });
-        const contributorData = createAndAppend('div', contributorDiv, {
-          class: 'contributor-data',
-        });
-        createAndAppend('div', contributorData, {
-          text: contributor.login,
-          class: 'contributor-login',
-        });
-        createAndAppend('div', contributorData, {
-          text: contributor.contributions,
-          class: 'contributor-badge',
-        });
-      });
     });
   }
 
