@@ -34,29 +34,29 @@
   function createHyfRepoDetails(leftDiv, hyfRepo) {
     const table = createAndAppend('table', leftDiv, { class: 'table' });
     const tBody = createAndAppend('tbody', table);
-    const details = ['Repository: ', 'Description: ', 'Forks: ', 'Updated: '];
+    const details = ['Repository', 'Description', 'Forks', 'Updated'];
     details.forEach(detail => {
-      const tr = createAndAppend('tr', tBody);
+      const tr = createAndAppend('tr', tBody, { class: `${detail.toLowerCase()}-row` });
       createAndAppend('td', tr, {
-        text: detail,
-        class: 'label',
+        text: `${detail}: `,
+        class: `label ${detail.toLowerCase()}-head`,
       });
-      createAndAppend('td', tr);
+      createAndAppend('td', tr, { class: `${detail.toLowerCase()}-data` });
     });
-    const secondTd = document.getElementsByTagName('td')[1];
-    createAndAppend('a', secondTd, {
+    const repoName = document.querySelector('.repository-data');
+    createAndAppend('a', repoName, {
       href: hyfRepo.html_url,
       target: '_blank',
       text: hyfRepo.name,
       class: 'repo-name',
     });
     if (hyfRepo.description === null) {
-      document.getElementsByTagName('tr')[1].setAttribute('class', 'hide-description');
+      document.querySelector('.description-row').setAttribute('class', 'hide-description-row');
     } else {
-      document.getElementsByTagName('td')[3].innerText = hyfRepo.description;
+      document.querySelector('.description-data').innerText = hyfRepo.description;
     }
-    document.getElementsByTagName('td')[5].innerText = hyfRepo.forks;
-    document.getElementsByTagName('td')[7].innerText = new Date(
+    document.querySelector('.forks-data').innerText = hyfRepo.forks;
+    document.querySelector('.updated-data').innerText = new Date(
       hyfRepo.updated_at,
     ).toLocaleString();
   }
@@ -74,43 +74,42 @@
           class: 'alert-error',
         });
         // eslint-disable-next-line eqeqeq
-      } else if (contributors === null || contributors == 0) {
-        createAndAppend('div', rightDiv, {
+      } else if (!(contributors && contributors.length)) {
+        return createAndAppend('div', rightDiv, {
           text: 'No contributions found.',
           class: 'alert-error',
         });
-      } else {
-        const ul = createAndAppend('ul', rightDiv, {
-          class: 'contributor-list',
-        });
-        contributors.forEach(contributor => {
-          const contributorItem = createAndAppend('li', ul, {
-            class: 'contributor-item',
-          });
-          const contributorLink = createAndAppend('a', contributorItem, {
-            href: contributor.html_url,
-            target: '_blank',
-          });
-          const contributorDiv = createAndAppend('div', contributorLink, {
-            class: 'contributor',
-          });
-          createAndAppend('img', contributorDiv, {
-            src: contributor.avatar_url,
-            class: 'contributor-avatar',
-          });
-          const contributorData = createAndAppend('div', contributorDiv, {
-            class: 'contributor-data',
-          });
-          createAndAppend('div', contributorData, {
-            text: contributor.login,
-            class: 'contributor-login',
-          });
-          createAndAppend('div', contributorData, {
-            text: contributor.contributions,
-            class: 'contributor-badge',
-          });
-        });
       }
+      const ul = createAndAppend('ul', rightDiv, {
+        class: 'contributor-list',
+      });
+      contributors.forEach(contributor => {
+        const contributorItem = createAndAppend('li', ul, {
+          class: 'contributor-item',
+        });
+        const contributorLink = createAndAppend('a', contributorItem, {
+          href: contributor.html_url,
+          target: '_blank',
+        });
+        const contributorDiv = createAndAppend('div', contributorLink, {
+          class: 'contributor',
+        });
+        createAndAppend('img', contributorDiv, {
+          src: contributor.avatar_url,
+          class: 'contributor-avatar',
+        });
+        const contributorData = createAndAppend('div', contributorDiv, {
+          class: 'contributor-data',
+        });
+        createAndAppend('div', contributorData, {
+          text: contributor.login,
+          class: 'contributor-login',
+        });
+        createAndAppend('div', contributorData, {
+          text: contributor.contributions,
+          class: 'contributor-badge',
+        });
+      });
     });
   }
 
