@@ -69,7 +69,7 @@
     function displayRepoInfo() {
       removeChildren(listInfo);
       const repoName = createAndAppend('li', listInfo);
-      repoName.innerHTML = `Repository: <a target=_blank href= ${repos[select.value].html_url}>${
+      repoName.innerHTML = `Repository: <a target="_blank" href= ${repos[select.value].html_url}>${
         repos[select.value].name
       }</a>`;
       createAndAppend('li', listInfo, {
@@ -79,23 +79,25 @@
       createAndAppend('li', listInfo, {
         text: `Updated: ${repos[select.value].updated_at}`,
       });
+
       const contributorsUrl = repos[select.value].contributors_url;
       fetchJSONWithPromise(contributorsUrl)
         .then(contributorsInfo => {
           removeChildren(listContributor);
           contributorsInfo.forEach(contributor => {
             const contributorName = createAndAppend('li', listContributor);
-            contributorName.innerHTML += `<li><a target =_blank href= ${
+            contributorName.innerHTML += `<a target ="_blank" href= ${
               contributor.html_url
             }> <img src=${contributor.avatar_url}> ${contributor.login} ${
               contributor.contributions
-            }</li></a>`;
+            }</a>`;
           });
         })
         .catch(err => renderError(err));
     }
     displayRepoInfo();
     select.onchange = displayRepoInfo;
+    // select.addEventListener('change', displayRepoInfo);
   }
 
   function main(url) {
@@ -110,5 +112,5 @@
 
   window.onload = () => main(HYF_REPOS_URL);
 
-  /* cSpell:enable */
+  /* cSpell:disable */
 }
