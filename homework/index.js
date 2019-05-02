@@ -2,21 +2,19 @@
 
 /* cSpell:disable */
 {
-  function fetchJSONWithPromise(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status < 400) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
-    });
+  function fetchJSON(url, cb) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.responseType = 'json';
+    xhr.onload = () => {
+      if (xhr.status < 400) {
+        cb(null, xhr.response);
+      } else {
+        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+      }
+    };
+    xhr.onerror = () => cb(new Error('Network request failed'));
+    xhr.send();
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -32,18 +30,6 @@
     });
     return elem;
   }
-
-  function removeChildren(element) {
-    while (element.firstChild) {
-      element.removeChild(element.firstChild);
-    }
-  }
-
-  function renderError(error) {
-    const root = document.getElementById('root');
-    createAndAppend('div', root, { text: error.message, class: 'alert-error' });
-  }
-
   function app(repos) {
     const root = document.getElementById('root');
     const container = createAndAppend('div', root, {
@@ -58,59 +44,65 @@
     const select = createAndAppend('select', header, {
       id: 'list',
     });
+    const div = createAndAppend('div', root, { class: 'list-div' });
+    const list = createAndAppend('ul', div, { class: 'list1' });
+    const listContributor = createAndAppend('ul', div, { class: 'list2' });
+    const newList = createAndAppend('li', list, { text: ' ' });
+    const newList1 = createAndAppend('li', list, { text: ' ' });
+    const newList2 = createAndAppend('li', list, { text: ' ' });
+    const newList3 = createAndAppend('li', list, { text: ' ' });
+
     for (let i = 0; i < repos.length; i++) {
       createAndAppend('option', select, { text: repos[i].name, value: i });
     }
-    const repoContainer = createAndAppend('div', container, { class: 'container-repo' });
-    const listInfo = createAndAppend('ul', repoContainer, { class: 'repo-info' });
-    const listContributor = createAndAppend('ul', repoContainer, { class: 'repo-contributor' });
 
-    // creating li elements to display repo info when repo name change (onchange event handler)
-    function displayRepoInfo() {
-      removeChildren(listInfo);
-      const repoName = createAndAppend('li', listInfo);
-      repoName.innerHTML = `Repository: <a target="_blank" href= ${repos[select.value].html_url}>${
+    function leftHand() {
+      newList.innerHTML = `Repository: <a target=_blank href= ${repos[select.value].html_url}>${
         repos[select.value].name
       }</a>`;
-      createAndAppend('li', listInfo, {
-        text: `Description: ${repos[select.value].description}`,
+      newList1.innerText = `Description: ${repos[select.value].description}`;
+      newList2.innerText = `Forks: ${repos[select.value].forks}`;
+      newList3.innerText = `Updated: ${repos[select.value].updated_at}`;
+      const links = repos[select.value].contributors_url;
+      fetchJSON(links, (err, data) => {
+        if (err) {
+          createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        } else {
+          let linksContributor = JSON.stringify(data, null, 2);
+          linksContributor = JSON.parse(linksContributor);
+          listContributor.innerText = ' ';
+          for (let i = 0; i < linksContributor.length; i++) {
+            listContributor.innerHTML += `<li><a target =_blank href= ${
+              linksContributor[i].html_url
+            }> <img src=${linksContributor[i].avatar_url}> ${linksContributor[i].login} ${
+              linksContributor[i].contributions
+            }</li></a>`;
+          }
+        }
       });
-      createAndAppend('li', listInfo, { text: `Forks: ${repos[select.value].forks}` });
-      createAndAppend('li', listInfo, {
-        text: `Updated: ${repos[select.value].updated_at}`,
-      });
-
-      const contributorsUrl = repos[select.value].contributors_url;
-      fetchJSONWithPromise(contributorsUrl)
-        .then(contributorsInfo => {
-          removeChildren(listContributor);
-          contributorsInfo.forEach(contributor => {
-            const contributorName = createAndAppend('li', listContributor);
-            contributorName.innerHTML += `<a target ="_blank" href= ${
-              contributor.html_url
-            }> <img src=${contributor.avatar_url}> ${contributor.login} ${
-              contributor.contributions
-            }</a>`;
-          });
-        })
-        .catch(err => renderError(err));
     }
-    displayRepoInfo();
-    select.onchange = displayRepoInfo;
-    // select.addEventListener('change', displayRepoInfo);
+    select.onchange = leftHand;
+    if (select.value === '0') {
+      leftHand();
+    }
   }
-
   function main(url) {
-    fetchJSONWithPromise(url)
-      .then(data => {
-        data.sort((a, b) => a.name.localeCompare(b.name));
-        app(data);
-      })
-      .catch(err => renderError(err));
+    fetchJSON(url, (err, data) => {
+      const root = document.getElementById('root');
+      if (err) {
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+      } else {
+        // createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
+        let convert = JSON.stringify(data, null, 2);
+        convert = JSON.parse(convert);
+        convert.sort((a, b) => a.name.localeCompare(b.name));
+        app(convert);
+      }
+    });
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
   window.onload = () => main(HYF_REPOS_URL);
 
-  /* cSpell:disable */
+  /* cSpell:enable */
 }
