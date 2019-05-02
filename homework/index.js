@@ -154,9 +154,7 @@
     }
   }
 
-  // we can add perPage variable as a parameter in function later
-  const perPage = 47;
-  const HYF_REPOS_URL = `https://api.github.com/orgs/HackYourFuture/repos?per_page=${perPage}`;
+  const HYF_REPOS_URL = `https://api.github.com/orgs/HackYourFuture/repos?per_page=100`;
 
   function main(url) {
     const root = document.getElementById('root');

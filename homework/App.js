@@ -16,7 +16,6 @@ class App {
     const root = document.getElementById('root');
     const pre = Util.createAndAppend('pre', root, { id: 'pre', class: 'pre' });
     Util.createAndAppend('span', pre, { text: 'HYF Repositories', class: 'logoName' });
-    const select = Util.createAndAppend('select', pre, { id: 'select', class: 'select' });
     Util.createAndAppend('div', root, { id: 'container', class: 'bodyInformation' });
     try {
       // Fetch all repository's
@@ -30,6 +29,7 @@ class App {
       let value = 0;
 
       // Create and render the Selector
+      const select = Util.createAndAppend('select', pre, { id: 'select', class: 'select' });
       this.repos.forEach(repo =>
         Util.createAndAppend('option', select, { text: repo.name(), value: value++ }),
       );
@@ -41,9 +41,10 @@ class App {
         this.fetchContributorsAndRender(selectedValue);
       });
     } catch (error) {
-      this.renderError(error);
-      Util.createAndAppend('div', root, {
-        text: 'there error',
+      const err = this.renderError(error);
+      const container = document.getElementById('container');
+      Util.createAndAppend('div', container, {
+        text: err,
         class: 'alert-error',
       });
     }
@@ -76,15 +77,18 @@ class App {
       const leftDiv = Util.createAndAppend('div', container, { id: 'info', class: 'info' });
       const rightDiv = Util.createAndAppend('div', container, { id: 'cont', class: 'cont' });
 
-      // const contributorList = Util.createAndAppend('div', rightDiv);
-
       repo.render(leftDiv);
 
       contributors
         .map(contributor => new Contributor(contributor))
         .forEach(contributor => contributor.render(rightDiv));
     } catch (error) {
-      this.renderError(error);
+      // this.renderError(error);
+      const cont = document.getElementById('cont');
+      Util.createAndAppend('div', cont, {
+        text: `There is no contributor's`,
+        class: 'alert-error',
+      });
     }
   }
 
@@ -92,12 +96,8 @@ class App {
    * Render an error to the DOM.
    * @param {Error} error An Error object describing the error.
    */
-  renderError() {
-    const rightDiv = document.getElementById('cont');
-    Util.createAndAppend('div', rightDiv, {
-      text: 'there is no contributors available',
-      class: 'alert-error',
-    });
+  renderError(error) {
+    return error;
   }
 }
 
