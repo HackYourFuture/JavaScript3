@@ -11,17 +11,40 @@ class App {
    * Initialization
    * @param {string} url The GitHub URL for obtaining the organization's repositories.
    */
+
   async initialize(url) {
     const root = document.getElementById('root');
-    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
-    // we have to use call to borrow repository methods
+    const pre = Util.createAndAppend('pre', root, { id: 'pre', class: 'pre' });
+    Util.createAndAppend('span', pre, { text: 'HYF Repositories', class: 'logoName' });
+    const select = Util.createAndAppend('select', pre, { id: 'select', class: 'select' });
+    Util.createAndAppend('div', root, { id: 'container', class: 'bodyInformation' });
     try {
+      // Fetch all repository's
       const repos = await Util.fetchJSON(url);
-      this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
-      console.log(repos); // checking
+
+      // Create instance's for each repository
+      this.repos = repos.map(repo => new Repository(repo)); // to render Repository
+
+      // Start value for each repository inside HTML selector
+      let value = 0;
+
+      // Create and render the Selector
+      this.repos.forEach(repo =>
+        Util.createAndAppend('option', select, { text: repo.name(), value: value++ }),
+      );
+      // Default value while loading the page
+      this.fetchContributorsAndRender(0);
+      // Reload detail's of selected repository.
+      select.addEventListener('change', () => {
+        const selectedValue = select.options[select.selectedIndex].value;
+        this.fetchContributorsAndRender(selectedValue);
+      });
     } catch (error) {
       this.renderError(error);
+      Util.createAndAppend('div', root, {
+        text: 'there error',
+        class: 'alert-error',
+      });
     }
   }
 
@@ -49,16 +72,16 @@ class App {
       const container = document.getElementById('container');
       App.clearContainer(container);
 
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
+      const leftDiv = Util.createAndAppend('div', container, { id: 'info', class: 'info' });
+      const rightDiv = Util.createAndAppend('div', container, { id: 'cont', class: 'cont' });
 
-      const contributorList = Util.createAndAppend('ul', rightDiv);
+      // const contributorList = Util.createAndAppend('div', rightDiv);
 
       repo.render(leftDiv);
 
       contributors
         .map(contributor => new Contributor(contributor))
-        .forEach(contributor => contributor.render(contributorList));
+        .forEach(contributor => contributor.render(rightDiv));
     } catch (error) {
       this.renderError(error);
     }
@@ -68,8 +91,12 @@ class App {
    * Render an error to the DOM.
    * @param {Error} error An Error object describing the error.
    */
-  renderError(error) {
-    console.log(error); // TODO: replace with your own code
+  renderError() {
+    const rightDiv = document.getElementById('cont');
+    Util.createAndAppend('div', rightDiv, {
+      text: 'there is no contributors available',
+      class: 'alert-error',
+    });
   }
 }
 

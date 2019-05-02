@@ -39,7 +39,36 @@
   async function fetchContributorsAndRender(contributorUrl) {
     try {
       const contributors = await fetchJSON(contributorUrl);
-      return contributors;
+
+      const rightDiv = document.getElementById('cont');
+      rightDiv.innerHTML = '';
+      contributors.forEach(contributor => {
+        const nameOfContributor = contributor.login;
+        const numberOfContributor = contributor.contributions;
+        const avatarUrl = contributor.avatar_url;
+
+        const photoContributor = createAndAppend('div', rightDiv, {
+          class: 'avatar-div',
+        });
+        const infoContributor = createAndAppend('div', rightDiv, { class: 'avatar-div data' });
+
+        createAndAppend('img', photoContributor, { src: avatarUrl });
+        createAndAppend('a', infoContributor, {
+          text: nameOfContributor.toUpperCase(),
+          href: `https://github.com/${nameOfContributor}`,
+          target: '_blank',
+        });
+        createAndAppend('br', infoContributor, {});
+
+        createAndAppend('span', infoContributor, {
+          text: 'Forks: ',
+        });
+        createAndAppend('span', infoContributor, {
+          text: numberOfContributor,
+          class: 'result label',
+        });
+        createAndAppend('br', infoContributor, {});
+      });
     } catch (error) {
       const rightDiv = document.getElementById('cont');
       createAndAppend('div', rightDiv, {
@@ -76,7 +105,7 @@
     createAndAppend('a', link, {
       text: dataName,
       target: '_blank',
-      href: `https://github.com/HackYourFuture/${info}`,
+      href: `https://github.com/HackYourFuture/${dataName}`,
       class: 'result',
     });
     const liOfForks = createAndAppend('li', info, {});
@@ -87,45 +116,7 @@
     createAndAppend('span', liUpdateAt, { text: updated, class: 'result' });
 
     // call all contributors for this selected repository
-    fetchContributorsAndRender(contributorsUrl)
-      .then(myContributor => {
-        const rightDiv = document.getElementById('cont');
-        rightDiv.innerHTML = '';
-        myContributor.forEach(contributor => {
-          const nameOfContributor = contributor.login;
-          const numberOfContributor = contributor.contributions;
-          const avatarUrl = contributor.avatar_url;
-
-          const photoContributor = createAndAppend('div', rightDiv, {
-            class: 'avatar-div',
-          });
-          const infoContributor = createAndAppend('div', rightDiv, { class: 'avatar-div data' });
-
-          createAndAppend('img', photoContributor, { src: avatarUrl });
-          createAndAppend('a', infoContributor, {
-            text: nameOfContributor.toUpperCase(),
-            href: `https://github.com/${nameOfContributor}`,
-            target: '_blank',
-          });
-          createAndAppend('br', infoContributor, {});
-
-          createAndAppend('span', infoContributor, {
-            text: 'Forks: ',
-          });
-          createAndAppend('span', infoContributor, {
-            text: numberOfContributor,
-            class: 'result label',
-          });
-          createAndAppend('br', infoContributor, {});
-        });
-      })
-      .catch(() => {
-        const rightDiv = document.getElementById('cont');
-        createAndAppend('div', rightDiv, {
-          text: "there is no contributor's available",
-          class: 'alert-error',
-        });
-      });
+    fetchContributorsAndRender(contributorsUrl);
   }
 
   function reloadAllRepositories(parenElement, allData) {

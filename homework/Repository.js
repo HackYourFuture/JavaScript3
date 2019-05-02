@@ -6,6 +6,7 @@
 class Repository {
   constructor(repository) {
     this.repository = repository;
+    //  this.index = index;
   }
 
   /**
@@ -13,9 +14,32 @@ class Repository {
    * @param {HTMLElement} container The container element in which to render the repository.
    */
   render(container) {
-    // TODO: replace the next line with your code.
-    let pre = Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
-    const root = document.getElementById('root');
+    const description = Util.createAndAppend('li', container);
+    Util.createAndAppend('span', description, { text: 'Description' });
+    Util.createAndAppend('span', description, {
+      text: this.repository.description,
+      class: 'result',
+    });
+
+    const name = Util.createAndAppend('li', container);
+    Util.createAndAppend('span', name, { text: 'Link' });
+    Util.createAndAppend('a', name, {
+      text: this.repository.name.toUpperCase(),
+      class: 'result',
+      target: '_blank',
+      href: `https://github.com/HackYourFuture/${this.repository.name}`,
+    });
+
+    const forks = Util.createAndAppend('li', container);
+    Util.createAndAppend('span', forks, { text: 'Forks' });
+    Util.createAndAppend('span', forks, { text: this.repository.forks, class: 'result' });
+
+    const updated = Util.createAndAppend('li', container);
+    Util.createAndAppend('span', updated, { text: 'Updated' });
+    Util.createAndAppend('span', updated, {
+      text: this.repository.updated_at,
+      class: 'result',
+    });
   }
 
   /**
