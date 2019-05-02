@@ -1,3 +1,111 @@
 .alert-error {
-    color: red;
+  color: red;
+  text-align: center;
+  font-size: 4vw;
+  box-shadow: 0 0 10px rgb(217, 255, 0);
+  border-radius: 30px;
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  margin-top: 20px;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  /* max-width: 1000px; */
+  min-width: 319px;
+  margin: 50px auto;
+  background-color: rgb(0, 0, 0);
+  animation: appear-main 5s;
+}
+@keyframes appear-main {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.HYF-Repositories {
+  text-align: center;
+  color: rgb(217, 255, 0);
+  text-shadow: 0 0 10px rgb(217, 255, 0);
+  box-shadow: 0 0 20px rgb(255, 0, 0);
+  padding: 20px;
+  border-radius: 20px;
+  margin: auto;
+  width: 80%;
+}
+select {
+  border-radius: 10px;
+  font-size: 20px;
+  font-family: 'Times New Roman', Times, serif;
+  margin-top: 10px;
+  box-shadow: 0 0 20px rgb(255, 0, 0);
+}
+.information-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 50px;
+}
+ul {
+  width: 50%;
+  list-style: none;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 20px;
+  color: rgb(217, 255, 0);
+  text-shadow: 0 0 3px rgb(217, 255, 0);
+  box-shadow: 0 0 20px rgb(255, 0, 0);
+  margin-left: 20px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 30px;
+}
+.right-ul {
+  width: 25%;
+}
+img {
+  height: 70px;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgb(217, 255, 0);
+}
+li {
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgb(217, 255, 0);
+  margin: 10px 20px 0 20px;
+}
+.right-li {
+  padding: 5px;
+}
+a:link,
+a:active,
+a:visited {
+  color: rgb(217, 255, 0);
+  text-decoration: none;
+  text-shadow: 0 0 10px rgb(217, 255, 0);
+}
+li:hover {
+  transition-duration: 350ms;
+  box-shadow: 0 0 50px rgb(255, 0, 0);
+  transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 5, 0, 1);
+}
+@media screen and (max-width: 850px) {
+  .alert-error {
+    font-size: 6vw;
+  }
+  .HYF-Repositories {
+    width: 90%;
+  }
+  ul {
+    width: 100%;
+    margin: 0 20px;
+  }
+  .right-ul {
+    width: 100%;
+    margin-top: 20px;
+  }
 }
