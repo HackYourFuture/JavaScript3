@@ -21,6 +21,7 @@ class App {
     try {
       // Fetch all repository's
       const repos = await Util.fetchJSON(url);
+      repos.sort((x, y) => x.name.localeCompare(y.name));
 
       // Create instance's for each repository
       this.repos = repos.map(repo => new Repository(repo)); // to render Repository
