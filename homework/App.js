@@ -72,7 +72,7 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    console.log(error); // TODO: replace with your own code
+    return error; // TODO: replace with your own code
   }
 }
 
