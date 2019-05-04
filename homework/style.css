@@ -75,23 +75,13 @@ li {
   padding: 25px;
   border-radius: 20px;
   box-shadow: 0 0 10px rgb(217, 255, 0);
-  margin-top: 10px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin: 10px 20px 0 20px;
 }
 .right-li {
   padding: 15px;
 }
-a:link {
-  color: rgb(217, 255, 0);
-  text-decoration: none;
-  text-shadow: 0 0 10px rgb(217, 255, 0);
-}
-a:active {
-  color: rgb(217, 255, 0);
-  text-decoration: none;
-  text-shadow: 0 0 10px rgb(217, 255, 0);
-}
+a:link,
+a:active,
 a:visited {
   color: rgb(217, 255, 0);
   text-decoration: none;
