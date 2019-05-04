@@ -14,7 +14,17 @@ class Repository {
    */
   render(container) {
     // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
+    const repoName = Util.createAndAppend('li', container);
+    repoName.innerHTML = `Repository: <a target="_blank" href= ${this.repository.html_url}>${
+      this.repository.name
+    }</a>`;
+    Util.createAndAppend('li', container, {
+      text: `Description: ${this.repository.description}`,
+    });
+    Util.createAndAppend('li', container, { text: `Forks: ${this.repository.forks}` });
+    Util.createAndAppend('li', container, {
+      text: `Updated: ${this.repository.updated_at}`,
+    });
   }
 
   /**

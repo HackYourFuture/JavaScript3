@@ -18,17 +18,42 @@ class App {
 
     const root = document.getElementById('root');
 
-    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
+    const container = Util.createAndAppend('div', root, {
+      class: 'container',
+    });
+
+    const header = Util.createAndAppend('header', container, {
+      class: 'header',
+    });
+
+    Util.createAndAppend('p', header, {
+      text: 'HYF Repositories',
+    });
+    const select = Util.createAndAppend('select', header, {
+      id: 'list',
+    });
+    select.addEventListener('change', () => {
+      this.fetchContributorsAndRender(select.value);
+    });
+
+    Util.createAndAppend('div', container, { id: 'container-repo' });
 
     try {
       const repos = await Util.fetchJSON(url);
-      this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
+      this.repos = repos
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map(repo => new Repository(repo));
+
+      repos.forEach((repo, i) => {
+        Util.createAndAppend('option', select, { text: repo.name, value: i });
+      });
+      this.fetchContributorsAndRender(0);
     } catch (error) {
       this.renderError(error);
     }
   }
 
+  //
   /**
    * Removes all child elements from a container element
    * @param {*} container Container element to clear
@@ -49,19 +74,16 @@ class App {
       const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
 
-      const container = document.getElementById('container');
+      const container = document.getElementById('container-repo');
       App.clearContainer(container);
 
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
-
-      const contributorList = Util.createAndAppend('ul', rightDiv);
+      const leftDiv = Util.createAndAppend('ul', container, { class: 'repo-info' });
+      const rightDiv = Util.createAndAppend('ul', container, { class: 'repo-contributor' });
 
       repo.render(leftDiv);
-
       contributors
         .map(contributor => new Contributor(contributor))
-        .forEach(contributor => contributor.render(contributorList));
+        .forEach(contributor => contributor.render(rightDiv));
     } catch (error) {
       this.renderError(error);
     }

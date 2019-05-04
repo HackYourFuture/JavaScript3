@@ -14,6 +14,11 @@ class Contributor {
    */
   render(container) {
     // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.contributor, null, 2));
+    const contributorName = Util.createAndAppend('li', container);
+    contributorName.innerHTML += `<a target ="_blank" href= ${
+      this.contributor.html_url
+    }> <img src=${this.contributor.avatar_url}> ${this.contributor.login} ${
+      this.contributor.contributions
+    }</a>`;
   }
 }
