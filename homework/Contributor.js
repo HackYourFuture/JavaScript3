@@ -14,6 +14,22 @@ class Contributor {
    */
   render(container) {
     // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.contributor, null, 2));
+    const list2 = Util.createAndAppend('li', container);
+    Util.createAndAppend('a', list2, {
+      target: ' _blank',
+      href: `${this.contributor.html_url}`,
+    });
+    const list3 = Util.createAndAppend('p', list2, {
+      text: `${this.contributor.login}  ${this.contributor.contributions} `,
+    });
+    Util.createAndAppend('br', list2);
+    const img = this.contributor.avatar_url;
+    Util.createAndAppend('img', list3, { src: img });
+    list2.addEventListener('keyup', contributor => {
+      if (
+        contributor.key === 'Enter' &&
+        (contributor.preventDefault(), window.open(this.contributor.html_url, '_blank'))
+      );
+    });
   }
 }

@@ -13,8 +13,20 @@ class Repository {
    * @param {HTMLElement} container The container element in which to render the repository.
    */
   render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
+    const list = Util.createAndAppend('ul', container);
+    const rep = Util.createAndAppend('li', list);
+    const des = Util.createAndAppend('li', list);
+    const fork = Util.createAndAppend('li', list);
+    const up = Util.createAndAppend('li', list);
+    des.innerText = `Description: ${this.repository.description}`;
+    if (this.repository.description === null) {
+      des.style.display = 'none';
+    }
+    fork.innerText = `Fork : ${this.repository.forks}`;
+    rep.innerHTML = `Repository: <a target=_blank href= ${this.repository.html_url}> ${
+      this.repository.name
+    } </a>`;
+    up.innerText = `Update : ${this.repository.updated_at}`;
   }
 
   /**
