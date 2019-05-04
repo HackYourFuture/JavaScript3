@@ -14,6 +14,5 @@ class Contributor {
    */
   render(container) {
     // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.contributor, null, 2));
   }
 }
