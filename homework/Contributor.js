@@ -14,25 +14,24 @@ class Contributor {
    */
   render(container) {
     // img //
-    const li = Util.createAndAppend('li', container, { class: 'Xavatar-div' });
+    const li = Util.createAndAppend('li', container, { class: 'contributor' });
 
-    const photoDiv = Util.createAndAppend('div', li, { class: 'Xavatar-div' });
-    Util.createAndAppend('img', photoDiv, {
+    const img_part = Util.createAndAppend('div', li, { class: 'information' });
+
+    Util.createAndAppend('img', img_part, {
       src: this.contributor.avatar_url,
-      class: 'Xavatar-div',
+      class: '',
     });
     // information //
-    const infoDiv = Util.createAndAppend('div', li, { class: 'Xavatar-div data' });
-    Util.createAndAppend('a', infoDiv, {
+    const text_part = Util.createAndAppend('div', li, { class: 'information' });
+    Util.createAndAppend('a', text_part, {
       text: this.contributor.login.toUpperCase(),
-      class: 'result',
+      class: 'result link',
       target: '_blank',
       href: this.contributor.html_url,
     });
 
-    const forks = Util.createAndAppend('div', infoDiv);
-    Util.createAndAppend('span', forks, { text: 'Forks' });
-    Util.createAndAppend('span', forks, {
+    Util.createAndAppend('span', text_part, {
       text: this.contributor.contributions,
       class: 'result',
     });

@@ -37,14 +37,12 @@ class App {
       this.fetchContributorsAndRender(0);
       // Reload detail's of selected repository.
       select.addEventListener('change', () => {
-        const selectedValue = select.options[select.selectedIndex].value;
-        this.fetchContributorsAndRender(selectedValue);
+        this.fetchContributorsAndRender(select.value);
       });
     } catch (error) {
-      const err = this.renderError(error);
       const container = document.getElementById('container');
       Util.createAndAppend('div', container, {
-        text: err,
+        text: this.renderError(error),
         class: 'alert-error',
       });
     }
@@ -81,16 +79,18 @@ class App {
 
       repo.render(leftDiv);
 
-      contributors
-        .map(contributor => new Contributor(contributor))
-        .forEach(contributor => contributor.render(contributorList));
+      if (contributors === null) {
+        Util.createAndAppend('div', rightDiv, {
+          text: `There is no contributor's`,
+          class: 'alert-error',
+        });
+      } else {
+        contributors
+          .map(contributor => new Contributor(contributor))
+          .forEach(contributor => contributor.render(contributorList));
+      }
     } catch (error) {
-      // this.renderError(error);
-      const cont = document.getElementById('cont');
-      Util.createAndAppend('div', cont, {
-        text: `There is no contributor's`,
-        class: 'alert-error',
-      });
+      this.renderError(error);
     }
   }
 
