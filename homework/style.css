@@ -14,7 +14,6 @@
   padding: 0;
 }
 body {
-  /* max-width: 1000px; */
   min-width: 319px;
   margin: 50px auto;
   background-color: rgb(0, 0, 0);
@@ -45,14 +44,14 @@ select {
   margin-top: 10px;
   box-shadow: 0 0 20px rgb(255, 0, 0);
 }
-.information-box {
+#container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 50px;
 }
 ul {
-  width: 50%;
+  width: 40vw;
   list-style: none;
   font-family: 'Times New Roman', Times, serif;
   font-size: 20px;
@@ -64,8 +63,8 @@ ul {
   text-align: center;
   border-radius: 30px;
 }
-.right-ul {
-  width: 25%;
+.rightDiv {
+  width: 30vw;
 }
 img {
   height: 70px;
@@ -76,13 +75,23 @@ li {
   padding: 25px;
   border-radius: 20px;
   box-shadow: 0 0 10px rgb(217, 255, 0);
-  margin: 10px 20px 0 20px;
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 .right-li {
-  padding: 5px;
+  padding: 15px;
 }
-a:link,
-a:active,
+a:link {
+  color: rgb(217, 255, 0);
+  text-decoration: none;
+  text-shadow: 0 0 10px rgb(217, 255, 0);
+}
+a:active {
+  color: rgb(217, 255, 0);
+  text-decoration: none;
+  text-shadow: 0 0 10px rgb(217, 255, 0);
+}
 a:visited {
   color: rgb(217, 255, 0);
   text-decoration: none;
@@ -101,11 +110,18 @@ li:hover {
     width: 90%;
   }
   ul {
-    width: 100%;
-    margin: 0 20px;
+    width: 80vw;
+    margin: 20px;
+    margin-left: 80px;
+    min-width: 300px;
   }
-  .right-ul {
-    width: 100%;
-    margin-top: 20px;
+  #container {
+    width: 90vw;
+  }
+  .rightDiv {
+    width: 80vw;
+    margin: 20px;
+    margin-left: 80px;
+    min-width: 300px;
   }
 }

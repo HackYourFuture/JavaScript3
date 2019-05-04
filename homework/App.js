@@ -12,18 +12,34 @@ class App {
    * @param {string} url The GitHub URL for obtaining the organization's repositories.
    */
   async initialize(url) {
-    // Add code here to initialize your app
-    // 1. Create the fixed HTML elements of your page
-    // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
-
     const root = document.getElementById('root');
 
-    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
+    const hyfRepositories = Util.createAndAppend('div', root, {
+      class: 'HYF-Repositories',
+      id: 'HYF-Repositories',
+    });
 
+    Util.createAndAppend('h1', hyfRepositories, { text: 'HYF Repositories' });
+
+    const repositories = Util.createAndAppend('select', hyfRepositories, { id: 'repositories' });
+    repositories.addEventListener('change', () =>
+      this.fetchContributorsAndRender(repositories.value),
+    );
+
+    Util.createAndAppend('div', root, {
+      id: 'container',
+    });
     try {
       const repos = await Util.fetchJSON(url);
       this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
+      this.repos.sort((a, b) => a.repository.name.localeCompare(b.repository.name));
+      for (let i = 0; i < this.repos.length; i++) {
+        Util.createAndAppend('option', repositories, {
+          text: this.repos[i].repository.name,
+          value: i,
+        });
+      }
+      this.fetchContributorsAndRender(repositories.value);
     } catch (error) {
       this.renderError(error);
     }
@@ -55,7 +71,10 @@ class App {
       const leftDiv = Util.createAndAppend('div', container);
       const rightDiv = Util.createAndAppend('div', container);
 
-      const contributorList = Util.createAndAppend('ul', rightDiv);
+      const contributorList = Util.createAndAppend('ul', rightDiv, {
+        text: 'Contributors',
+        class: 'rightDiv',
+      });
 
       repo.render(leftDiv);
 
@@ -72,7 +91,18 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    console.log(error); // TODO: replace with your own code
+    const root = document.getElementById('root');
+
+    Util.createAndAppend('div', root, {
+      text: 'HYF Repositories',
+      class: 'HYF-Repositories',
+      id: 'HYF-Repositories',
+    });
+    Util.createAndAppend('div', root, {
+      text: `${error.message}`,
+      class: 'alert-error',
+    });
+    return error;
   }
 }
 

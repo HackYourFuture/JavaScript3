@@ -13,7 +13,21 @@ class Contributor {
    * @param {HTMLElement} container The container element in which to render the contributor.
    */
   render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.contributor, null, 2));
+    const logi = this.contributor.login;
+    const img = this.contributor.avatar_url;
+    const link = this.contributor.html_url;
+    const contribute = this.contributor.contributions;
+    const li = Util.createAndAppend('li', container, { class: 'right-li' });
+
+    const contributorsList = `<a target=_blank href=${link}><img src=${img}><br>${logi}<br>Contributions: ${contribute}</a>`;
+
+    li.innerHTML += contributorsList;
+
+    li.addEventListener('keyup', contributor => {
+      if (
+        contributor.key === 'Enter' &&
+        (contributor.preventDefault(), window.open(this.contributor.html_url, '_blank'))
+      );
+    });
   }
 }
