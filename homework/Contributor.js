@@ -13,25 +13,28 @@ class Contributor {
    * @param {HTMLElement} container The container element in which to render the contributor.
    */
   render(container) {
-    const photoDiv = Util.createAndAppend('div', container, { class: 'avatar-div' });
-    const infoDiv = Util.createAndAppend('div', container, { class: 'avatar-div data' });
+    // img //
+    const li = Util.createAndAppend('li', container, { class: 'Xavatar-div' });
+
+    const photoDiv = Util.createAndAppend('div', li, { class: 'Xavatar-div' });
+    Util.createAndAppend('img', photoDiv, {
+      src: this.contributor.avatar_url,
+      class: 'Xavatar-div',
+    });
+    // information //
+    const infoDiv = Util.createAndAppend('div', li, { class: 'Xavatar-div data' });
     Util.createAndAppend('a', infoDiv, {
       text: this.contributor.login.toUpperCase(),
       class: 'result',
       target: '_blank',
-      href: `https://github.com/${this.contributor.login}`,
+      href: this.contributor.html_url,
     });
 
-    const forks = Util.createAndAppend('li', infoDiv);
+    const forks = Util.createAndAppend('div', infoDiv);
     Util.createAndAppend('span', forks, { text: 'Forks' });
     Util.createAndAppend('span', forks, {
       text: this.contributor.contributions,
       class: 'result',
-    });
-
-    Util.createAndAppend('img', photoDiv, {
-      src: this.contributor.avatar_url,
-      class: 'avatar-div',
     });
   }
 }

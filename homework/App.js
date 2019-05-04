@@ -77,11 +77,13 @@ class App {
       const leftDiv = Util.createAndAppend('div', container, { id: 'info', class: 'info' });
       const rightDiv = Util.createAndAppend('div', container, { id: 'cont', class: 'cont' });
 
+      const contributorList = Util.createAndAppend('ul', rightDiv);
+
       repo.render(leftDiv);
 
       contributors
         .map(contributor => new Contributor(contributor))
-        .forEach(contributor => contributor.render(rightDiv));
+        .forEach(contributor => contributor.render(contributorList));
     } catch (error) {
       // this.renderError(error);
       const cont = document.getElementById('cont');
