@@ -12,10 +12,6 @@ class App {
    * @param {string} url The GitHub URL for obtaining the organization's repositories.
    */
   async initialize(url) {
-    // Add code here to initialize your app
-    // 1. Create the fixed HTML elements of your page
-    // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
-
     const root = document.getElementById('root');
 
     // Create header
@@ -24,11 +20,15 @@ class App {
     Util.createAndAppend('p', header, {
       text: 'HYF Repositories',
     });
-
+    /* cSpell: disable */
     // select
     const select = Util.createAndAppend('select', header, {
       class: 'repo-selector',
       'aria-label': 'HYF Repositories',
+    });
+
+    select.addEventListener('change', () => {
+      this.fetchContributorsAndRender(select.value);
     });
 
     // Create container
@@ -45,10 +45,7 @@ class App {
       repos.forEach((repo, index) => {
         Util.createAndAppend('option', select, { text: repo.name, value: index });
       });
-      select.addEventListener('change', () => {
-        const index = this.target.value;
-        this.fetchContributorsAndRender(index);
-      });
+      this.fetchContributorsAndRender(select.value);
     } catch (error) {
       this.renderError(error);
     }
@@ -70,17 +67,34 @@ class App {
    * @param {number} index The array index of the repository.
    */
   async fetchContributorsAndRender(index) {
+    const repo = this.repos[index];
+    const container = document.getElementById('container');
+
     try {
-      const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
 
-      const container = document.getElementById('container');
       App.clearContainer(container);
 
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
+      // left div
+      const leftDiv = Util.createAndAppend('div', container, {
+        class: 'left-div whiteframe',
+      });
 
-      const contributorList = Util.createAndAppend('ul', rightDiv);
+      //  right div
+      const rightDiv = Util.createAndAppend('div', container, {
+        class: 'right-div whiteframe',
+      });
+
+      Util.createAndAppend('p', rightDiv, {
+        text: 'contributions',
+        class: 'contributor-header',
+      });
+      /* cSpell: enable */
+
+      //  list
+      const contributorList = Util.createAndAppend('ul', rightDiv, {
+        class: 'contributor-list',
+      });
 
       repo.render(leftDiv);
 

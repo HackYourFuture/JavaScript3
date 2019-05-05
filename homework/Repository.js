@@ -8,18 +8,11 @@ class Repository {
     this.repository = repository;
   }
 
-  // console.log ('hi');
   /**
    * Render the repository info to the DOM.
    * @param {HTMLElement} container The container element in which to render the repository.
    */
-
-  render() {
-    // left div
-    const container = document.getElementById('container');
-    const leftDiv = Util.createAndAppend('div', container, {
-      class: 'left-div whiteframe',
-    });
+  render(leftDiv) {
     // create a table
     const table = Util.createAndAppend('table', leftDiv);
     const tbody = Util.createAndAppend('tbody', table);
