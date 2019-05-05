@@ -42,7 +42,7 @@ body {
   box-shadow: 0 0 5px rgb(87, 0, 0);
 }
 
-.container {
+#container {
   display: flex;
   flex-direction: column;
 }
@@ -163,7 +163,7 @@ body {
     font-size: 2vw;
   }
 
-  .container {
+  #container {
     flex-direction: row;
     align-items: flex-start;
   }
