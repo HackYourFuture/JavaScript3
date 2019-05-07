@@ -92,9 +92,16 @@ class App {
 
       repo.render(leftDiv);
 
-      contributors
-        .map(contributor => new Contributor(contributor))
-        .forEach(contributor => contributor.render(contributorList));
+      if (contributors === null || contributors.length === 0) {
+        Util.createAndAppend('div', rightDiv, {
+          text: 'No contributions found.',
+          class: 'alert-error',
+        });
+      } else {
+        contributors
+          .map(contributor => new Contributor(contributor))
+          .forEach(contributor => contributor.render(contributorList));
+      }
     } catch (error) {
       this.renderError(error);
     }
