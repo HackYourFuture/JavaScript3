@@ -42,7 +42,7 @@
     createAndAppend('div', container, { text: error.message, class: 'alert-error' });
   }
 
-  function singlePageApp(data) {
+  async function singlePageApp(data) {
     data.sort((a, b) => a.name.localeCompare(b.name));
     const root = document.getElementById('root');
     const selectdiv = createAndAppend('div', root, { id: 'selectdiv' });
@@ -87,8 +87,9 @@
         createAndAppend('p', liDiv, { text: repodata[i].contributions });
       }
     }
-    const urlZero = data[0].contributors_url;
-    fetchJSON(urlZero).then(repodata => contributors(repodata));
+
+    const urlZero = await fetchJSON(data[0].contributors_url);
+    contributors(urlZero);
 
     select.addEventListener('change', event => {
       // for left column
@@ -105,12 +106,23 @@
       // for repositories
       removeChildren(ul);
       const urlCont = repo.contributors_url;
-      fetchJSON(urlCont).then(repodata => contributors(repodata));
+      async function asyncFetchJson() {
+        const urlContData = await fetchJSON(urlCont);
+        contributors(urlContData);
+      }
+      asyncFetchJson();
     });
+  }
+
+  async function main(url) {
+    const data = await fetchJSON(url);
+    try {
+      singlePageApp(data);
+    } catch (error) {
+      renderError(error);
+    }
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
-  fetchJSON(HYF_REPOS_URL)
-    .then(data => singlePageApp(data))
-    .catch(error => renderError(error));
+  main(HYF_REPOS_URL);
 }

@@ -8,25 +8,34 @@ class Repository {
     this.repository = repository;
   }
 
-  /**
-   * Render the repository info to the DOM.
-   * @param {HTMLElement} container The container element in which to render the repository.
-   */
-  render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
+  render(container, index) {
+    const theads = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
+    for (let i = 0; i < theads.length; i++) {
+      const tr = Util.createAndAppend('tr', container);
+      Util.createAndAppend('th', tr, { text: theads[i] });
+      const tds = ['name', 'description', 'forks', 'updated_at'];
+      if (tds[i] === 'name') {
+        const linked = Util.createAndAppend('td', tr);
+        Util.createAndAppend('a', linked, {
+          id: 'linked',
+          text: this.repository[index][tds[i]],
+          href: this.repository[index].html_url,
+          target: '_blank',
+          role: `Repository name is ${this.repository[index].name}`,
+        });
+      } else {
+        Util.createAndAppend('td', tr, {
+          id: `repoinfo${i}`,
+          text: this.repository[index][tds[i]],
+        });
+      }
+    }
   }
 
-  /**
-   * Returns an array of contributors as a promise
-   */
   fetchContributors() {
     return Util.fetchJSON(this.repository.contributors_url);
   }
 
-  /**
-   * Returns the name of the repository
-   */
   name() {
     return this.repository.name;
   }

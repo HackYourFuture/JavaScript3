@@ -8,12 +8,17 @@ class Contributor {
     this.contributor = contributor;
   }
 
-  /**
-   * Render the contributor info to the DOM.
-   * @param {HTMLElement} container The container element in which to render the contributor.
-   */
   render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.contributor, null, 2));
+    const li = Util.createAndAppend('li', container);
+    const href = Util.createAndAppend('a', li, {
+      href: this.contributor.html_url,
+      target: '_blank',
+      role: `Contributor name is ${this.contributor.login}`,
+    });
+    console.log(this.contributor);
+    Util.createAndAppend('img', href, { src: this.contributor.avatar_url });
+    const liDiv = Util.createAndAppend('div', href, { class: 'contributor_div' });
+    Util.createAndAppend('p', liDiv, { text: this.contributor.login });
+    Util.createAndAppend('p', liDiv, { text: this.contributor.contributions });
   }
 }

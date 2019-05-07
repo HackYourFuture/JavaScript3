@@ -7,58 +7,54 @@ class App {
     this.initialize(url);
   }
 
-  /**
-   * Initialization
-   * @param {string} url The GitHub URL for obtaining the organization's repositories.
-   */
   async initialize(url) {
-    // Add code here to initialize your app
-    // 1. Create the fixed HTML elements of your page
-    // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
-
     const root = document.getElementById('root');
-
-    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
+    const selectdiv = Util.createAndAppend('div', root, { id: 'selectdiv' });
+    Util.createAndAppend('label', selectdiv, { for: 'selectbox', text: 'HYF Repositories' });
+    //
+    const select = Util.createAndAppend('select', selectdiv, { id: 'selectbox' });
+    const leftDiv = Util.createAndAppend('div', root, { id: 'leftDiv' });
+    const table = Util.createAndAppend('table', leftDiv, { id: 'table' });
+    //
+    const rightdiv = Util.createAndAppend('div', root, { id: 'rightdiv' });
+    Util.createAndAppend('p', rightdiv, { id: 'rightp', text: 'Contributors' });
+    const contributorList = Util.createAndAppend('ul', rightdiv, { id: 'contributorlist' });
 
     try {
       const repos = await Util.fetchJSON(url);
+      repos.sort((a, b) => a.name.localeCompare(b.name));
       this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
+      repos.forEach(elem => {
+        Util.createAndAppend('option', select, { value: repos.indexOf(elem), text: elem.name });
+      });
+      // Repository div (left)
+      const newRepo = new Repository(repos);
+      newRepo.render(table, 0);
+      // Contributor div (Right)
+      this.fetchContributorsAndRender(0);
+      select.addEventListener('change', event => {
+        const index = event.target.value;
+        App.clearContainer(contributorList);
+        this.fetchContributorsAndRender(index);
+        App.clearContainer(table);
+        newRepo.render(table, index);
+      });
     } catch (error) {
       this.renderError(error);
     }
   }
 
-  /**
-   * Removes all child elements from a container element
-   * @param {*} container Container element to clear
-   */
   static clearContainer(container) {
     while (container.firstChild) {
       container.removeChild(container.firstChild);
     }
   }
 
-  /**
-   * Fetch contributor information for the selected repository and render the
-   * repo and its contributors as HTML elements in the DOM.
-   * @param {number} index The array index of the repository.
-   */
   async fetchContributorsAndRender(index) {
     try {
       const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
-
-      const container = document.getElementById('container');
-      App.clearContainer(container);
-
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
-
-      const contributorList = Util.createAndAppend('ul', rightDiv);
-
-      repo.render(leftDiv);
-
+      const contributorList = document.getElementById('contributorlist');
       contributors
         .map(contributor => new Contributor(contributor))
         .forEach(contributor => contributor.render(contributorList));
@@ -67,12 +63,10 @@ class App {
     }
   }
 
-  /**
-   * Render an error to the DOM.
-   * @param {Error} error An Error object describing the error.
-   */
   renderError(error) {
-    console.log(error); // TODO: replace with your own code
+    const container = document.getElementById('root');
+    App.clearContainer(container);
+    Util.createAndAppend('div', container, { text: error.message, class: 'alert-error' });
   }
 }
 
