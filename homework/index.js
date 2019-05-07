@@ -31,7 +31,18 @@
     });
     return elem;
   }
+  function childRemove(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
   const root = document.getElementById('root');
+  function renderError(err) {
+    const error = document.getElementById('error');
+    childRemove(error);
+    const errorDiv = createAndAppend('div', root, { id: 'error' });
+    createAndAppend('p', errorDiv, { text: err.message, class: 'alert-error' });
+  }
   function singlePageApplication(arr) {
     arr.sort((a, b) => a.name.localeCompare(b.name));
     // header
@@ -95,7 +106,8 @@
           changed.innerText = arr[event.target.value][firstTime[i]];
         }
       }
-    }); // right part works  //left part
+    }); // left part works  //right part
+
     const leftDiv = createAndAppend('div', containerDiv, {
       id: 'left-div',
       class: 'contained',
@@ -107,9 +119,7 @@
       id: 'contributorList',
     });
     function contributions(data) {
-      while (ul.firstChild) {
-        ul.removeChild(ul.firstChild);
-      }
+      childRemove(ul);
       for (let i = 0; i < data.length; i++) {
         const li = createAndAppend('li', ul, {
           class: 'container',
@@ -130,21 +140,26 @@
         });
       }
     }
-    function contributors() {
-      fetchJSON(arr[selectMenu.value].contributors_url)
-        .then(data => contributions(data))
-        .catch(err => {
-          createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-        });
+    async function contributors() {
+      try {
+        const data = await fetchJSON(arr[selectMenu.value].contributors_url);
+        contributions(data);
+      } catch (err) {
+        renderError(err);
+      }
     }
     contributors();
     selectMenu.onchange = contributors;
   }
+
+  async function fetchAndRender(url) {
+    try {
+      const data = await fetchJSON(url);
+      singlePageApplication(data);
+    } catch (err) {
+      renderError(err);
+    }
+  }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-  window.onload = () =>
-    fetchJSON(HYF_REPOS_URL)
-      .then(data => singlePageApplication(data))
-      .catch(err => {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      });
+  window.onload = fetchAndRender(HYF_REPOS_URL);
 }
