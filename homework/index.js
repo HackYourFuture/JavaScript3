@@ -47,7 +47,6 @@
   function pageConstructor(data) {
     data.sort((a, b) => a.name.localeCompare(b.name));
     const root = document.getElementById('root');
-    //HEADER
     const headerDiv = createAndAppend('div', root, { class: 'headerDiv' });
     createAndAppend('p', headerDiv, { text: 'HYF Repositories' });
     const headerSelect = createAndAppend('select', headerDiv, { class: 'headerSelect' });
