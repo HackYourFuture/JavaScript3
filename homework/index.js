@@ -76,7 +76,7 @@
       });
     }
     contributor();
-    headerSelect.addEventListener('change', () => {
+    headerSelect.addEventListener('change', event => {
       const change = data[event.target.value];
       const newA = document.getElementById('repository');
       newA.textContent = change.name;
