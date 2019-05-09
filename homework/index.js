@@ -33,7 +33,6 @@
   function pageConstructor(data) {
     data.sort((a, b) => a.name.localeCompare(b.name));
     const root = document.getElementById('root');
-    //HEADER
     const headerDiv = createAndAppend('div', root, { class: 'headerDiv' });
     createAndAppend('p', headerDiv, { text: 'HYF Repositories' });
     const headerSelect = createAndAppend('select', headerDiv, { class: 'headerSelect' });
@@ -58,7 +57,6 @@
     const contributorUl = createAndAppend('ul', contributorDiv, { class: 'contributorUl' });
     function contributor() {
       fetchJSON(data[headerSelect.value].contributors_url, (err, dt) => {
-        const root = document.getElementById('root');
         if (err) {
           createAndAppend('div', root, { text: err.message, class: 'alert-error' });
         } else {
