@@ -40,9 +40,7 @@
     data.map((elem, index) =>
       createAndAppend('option', headerSelect, { text: elem.name, value: index }),
     );
-    //CONTAINER
     const container = createAndAppend('div', root, { class: 'container' });
-    //REPOSİTORY INFO
     const repoInfoDiv = createAndAppend('div', container, { class: 'repoInfoDiv' });
     const ul = createAndAppend('ul', repoInfoDiv);
     const repository = createAndAppend('li', ul, { text: `Repository :` });
@@ -55,14 +53,12 @@
     createAndAppend('li', ul, { text: `Description :${data[0].description}`, id: 'description' });
     createAndAppend('li', ul, { text: `Forks :${data[0].forks}`, id: 'forks' });
     createAndAppend('li', ul, { text: `Update :${data[0].updated_at}`, id: 'update' });
-    //CONTRIBUTOR
     const contributorDiv = createAndAppend('div', container, { class: 'contributorDiv' });
     createAndAppend('p', contributorDiv, { text: 'Contributions' });
     const contributorUl = createAndAppend('ul', contributorDiv, { class: 'contributorUl' });
     function contributor() {
       fetchJSON(data[headerSelect.value].contributors_url, (err, dt) => {
         const root = document.getElementById('root');
-        //REMOVE CHILD
         if (err) {
           createAndAppend('div', root, { text: err.message, class: 'alert-error' });
         } else {
@@ -70,28 +66,27 @@
             contributorUl.removeChild(contributorUl.firstChild);
           }
         }
-        //ADD CONTRIBUTORS
-        for (const elem in dt) {
+        for (let i = 0; i < dt.length; i++) {
           const li = createAndAppend('li', contributorUl);
-          const aForLi = createAndAppend('a', li, { href: dt[elem].html_url, target: '_blank' });
-          createAndAppend('img', aForLi, { src: dt[elem].avatar_url });
-          createAndAppend('p', aForLi, { text: dt[elem].login });
-          createAndAppend('p', aForLi, { text: dt[elem].contributions, class: 'contNumber' });
+          const aForLi = createAndAppend('a', li, { href: dt[i].html_url, target: '_blank' });
+          createAndAppend('img', aForLi, { src: dt[i].avatar_url });
+          createAndAppend('p', aForLi, { text: dt[i].login });
+          createAndAppend('p', aForLi, { text: dt[i].contributions, class: 'contNumber' });
         }
       });
     }
     contributor();
-    //EVENTLISTENER
     headerSelect.addEventListener('change', () => {
+      const change = data[event.target.value];
       const newA = document.getElementById('repository');
-      newA.textContent = data[event.target.value].name;
-      newA.href = data[event.target.value].html_url;
+      newA.textContent = change.name;
+      newA.href = change.html_url;
       const newDescription = document.getElementById('description');
-      newDescription.textContent = `Description :${data[event.target.value].description}`;
+      newDescription.textContent = `Description :${change.description}`;
       const newForks = document.getElementById('forks');
-      newForks.textContent = `Forks :${data[event.target.value].forks}`;
+      newForks.textContent = `Forks :${change.forks}`;
       const newUpdate = document.getElementById('update');
-      newUpdate.textContent = `Update :${data[event.target.value].updated_at}`;
+      newUpdate.textContent = `Update :${change.updated_at}`;
       contributor();
     });
   }
