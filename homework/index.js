@@ -66,12 +66,12 @@
     });
     // right part
     const firstTime = ['name', 'description', 'forks', 'updated_at'];
-    const rightDiv = createAndAppend('div', containerDiv, {
-      id: 'right-div',
+    const leftDiv = createAndAppend('div', containerDiv, {
+      id: 'left-div',
       class: 'contained',
     });
     const tHeads = ['Repository: ', 'Description: ', 'Forks: ', 'Update: '];
-    const table = createAndAppend('table', rightDiv, {
+    const table = createAndAppend('table', leftDiv, {
       id: 'tableOfInformation',
     });
     for (let i = 0; i < tHeads.length; i++) {
@@ -108,14 +108,14 @@
       }
     }); // left part works  //right part
 
-    const leftDiv = createAndAppend('div', containerDiv, {
-      id: 'left-div',
+    const rightDiv = createAndAppend('div', containerDiv, {
+      id: 'right-div',
       class: 'contained',
     });
-    createAndAppend('h2', leftDiv, {
+    createAndAppend('h2', rightDiv, {
       text: 'Contributors',
     });
-    const ul = createAndAppend('ul', leftDiv, {
+    const ul = createAndAppend('ul', rightDiv, {
       id: 'contributorList',
     });
     function contributions(data) {

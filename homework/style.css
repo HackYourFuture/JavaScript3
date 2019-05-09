@@ -1,19 +1,19 @@
 *,
 *:before,
 *:after {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
-    list-style: none;
-    text-decoration: none;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
 }
 
 .alert-error {
-    color: red;
+  color: red;
 }
 
-#header-div{
-  background-color:#3F51B5;
+#header-div {
+  background-color: #3f51b5;
   height: 100px;
   display: flex;
   flex-wrap: wrap;
@@ -35,7 +35,8 @@ h1 {
   width: 50%;
 }
 
-.contained li div, .contained li p {
+.contained li div,
+.contained li p {
   align-self: center;
   align-content: center;
 }
