@@ -27,7 +27,7 @@ body {
     opacity: 1;
   }
 }
-.HYF-Repositories {
+.hyf-repositories {
   text-align: center;
   color: rgb(217, 255, 0);
   text-shadow: 0 0 10px rgb(217, 255, 0);
@@ -63,7 +63,7 @@ ul {
   text-align: center;
   border-radius: 30px;
 }
-.rightDiv {
+.right-div {
   width: 30vw;
 }
 img {
@@ -96,7 +96,7 @@ li:hover {
   .alert-error {
     font-size: 6vw;
   }
-  .HYF-Repositories {
+  .hyf-repositories {
     width: 90%;
   }
   ul {
@@ -108,7 +108,7 @@ li:hover {
   #container {
     width: 90vw;
   }
-  .rightDiv {
+  .right-div {
     width: 80vw;
     margin: 20px;
     margin-left: 80px;

@@ -21,6 +21,9 @@ class Repository {
     const description = Util.createAndAppend('li', repositoryInformation, { text: '' });
     const forks = Util.createAndAppend('li', repositoryInformation, { text: '' });
     const update = Util.createAndAppend('li', repositoryInformation, { text: '' });
+    const updateAt = `${new Date(this.repository.updated_at).toLocaleDateString()}, ${new Date(
+      this.repository.updated_at,
+    ).toLocaleTimeString()}`;
 
     RepositoryName.innerHTML = `Repository:<a target=_blank href='${this.repository.html_url}'> ${
       this.repository.name
@@ -28,7 +31,7 @@ class Repository {
 
     description.innerHTML = `Description: ${this.repository.description}`;
     forks.innerHTML = `Forks: ${this.repository.forks}`;
-    update.innerHTML = `Updated: ${this.repository.updated_at}`;
+    update.innerHTML = `Updated: ${updateAt}`;
 
     if (this.repository.description === null) {
       description.style.display = 'none';
@@ -41,8 +44,8 @@ class Repository {
    * Returns an array of contributors as a promise
    */
   async fetchContributors() {
-    const reso = await Util.fetchJSON(this.repository.contributors_url);
-    return reso;
+    const contributorsList = await Util.fetchJSON(this.repository.contributors_url);
+    return contributorsList;
   }
 
   /**

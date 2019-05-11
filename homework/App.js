@@ -15,8 +15,8 @@ class App {
     const root = document.getElementById('root');
 
     const hyfRepositories = Util.createAndAppend('div', root, {
-      class: 'HYF-Repositories',
-      id: 'HYF-Repositories',
+      class: 'hyf-repositories',
+      id: 'hyf-repositories',
     });
 
     Util.createAndAppend('h1', hyfRepositories, { text: 'HYF Repositories' });
@@ -73,7 +73,7 @@ class App {
 
       const contributorList = Util.createAndAppend('ul', rightDiv, {
         text: 'Contributors',
-        class: 'rightDiv',
+        class: 'right-div',
       });
 
       repo.render(leftDiv);
@@ -95,8 +95,8 @@ class App {
 
     Util.createAndAppend('div', root, {
       text: 'HYF Repositories',
-      class: 'HYF-Repositories',
-      id: 'HYF-Repositories',
+      class: 'hyf-repositories',
+      id: 'hyf-repositories',
     });
     Util.createAndAppend('div', root, {
       text: `${error.message}`,
