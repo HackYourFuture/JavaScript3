@@ -65,7 +65,7 @@
 
   // Creating the contributions part
   async function createContributors(rightDiv, url) {
-    createAndAppend('h3', rightDiv, {
+    createAndAppend('h2', rightDiv, {
       text: 'Contributions: ',
       class: 'contributor-header',
     });
@@ -88,21 +88,21 @@
             href: contributor.html_url,
             target: '_blank',
           });
-          const contributorDiv = createAndAppend('div', contributorLink, {
+          const contributorSpan = createAndAppend('span', contributorLink, {
             class: 'contributor',
           });
-          createAndAppend('img', contributorDiv, {
+          createAndAppend('img', contributorSpan, {
             src: contributor.avatar_url,
             class: 'contributor-avatar',
           });
-          const contributorData = createAndAppend('div', contributorDiv, {
+          const contributorData = createAndAppend('span', contributorSpan, {
             class: 'contributor-data',
           });
-          createAndAppend('div', contributorData, {
+          createAndAppend('span', contributorData, {
             text: contributor.login,
             class: 'contributor-login',
           });
-          createAndAppend('div', contributorData, {
+          createAndAppend('span', contributorData, {
             text: contributor.contributions,
             class: 'contributor-badge',
           });
@@ -123,7 +123,7 @@
     const header = createAndAppend('header', root, {
       class: 'header',
     });
-    createAndAppend('h2', header, {
+    createAndAppend('h1', header, {
       text: 'HYF Repositories ',
       class: 'nav-title',
     });
@@ -144,7 +144,7 @@
       });
 
       // Creating the container of main information.
-      const container = createAndAppend('main', root, { class: 'container' });
+      const container = createAndAppend('main', root, { id: 'container' });
       const leftDiv = createAndAppend('div', container, { class: 'left-div' });
       const rightDiv = createAndAppend('div', container, { class: 'right-div' });
       createHyfRepoDetails(leftDiv, hyfRepos[0]);
