@@ -28,8 +28,7 @@ class App {
         Util.createAndAppend('option', select, { value: repos.indexOf(elem), text: elem.name });
       });
       // Repository div (left)
-      const newRepo = new Repository(repos);
-      newRepo.render(table, 0);
+      this.repos[0].render(table);
       // Contributor div (Right)
       this.fetchContributorsAndRender(0);
       select.addEventListener('change', event => {
@@ -37,7 +36,7 @@ class App {
         App.clearContainer(contributorList);
         this.fetchContributorsAndRender(index);
         App.clearContainer(table);
-        newRepo.render(table, index);
+        this.repos[index].render(table);
       });
     } catch (error) {
       this.renderError(error);

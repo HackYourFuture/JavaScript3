@@ -8,7 +8,7 @@ class Repository {
     this.repository = repository;
   }
 
-  render(container, index) {
+  render(container) {
     const theads = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
     for (let i = 0; i < theads.length; i++) {
       const tr = Util.createAndAppend('tr', container);
@@ -18,15 +18,15 @@ class Repository {
         const linked = Util.createAndAppend('td', tr);
         Util.createAndAppend('a', linked, {
           id: 'linked',
-          text: this.repository[index][tds[i]],
-          href: this.repository[index].html_url,
+          text: this.repository[tds[i]],
+          href: this.repository.html_url,
           target: '_blank',
-          role: `Repository name is ${this.repository[index].name}`,
+          role: `Repository name is ${this.repository.name}`,
         });
       } else {
         Util.createAndAppend('td', tr, {
           id: `repoinfo${i}`,
-          text: this.repository[index][tds[i]],
+          text: this.repository[tds[i]],
         });
       }
     }
