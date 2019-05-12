@@ -19,9 +19,9 @@
     });
   }
 
-  function createAndAppend(name, parent, options = {}) {
+  function createAndcreateAppLayoutend(name, parent, options = {}) {
     const elem = document.createElement(name);
-    parent.appendChild(elem);
+    parent.createAppLayoutendChild(elem);
     Object.keys(options).forEach(key => {
       const value = options[key];
       if (key === 'text') {
@@ -32,34 +32,34 @@
     });
     return elem;
   }
-  function app(repositories) {
+  function createAppLayout(repositories) {
     repositories.sort((a, b) => a.name.localeCompare(b.name));
     const root = document.getElementById('root');
-    const select = createAndAppend('select', root, { id: 'select' });
+    const select = createAndcreateAppLayoutend('select', root, { id: 'select' });
     for (let i = 0; i < repositories.length; i++) {
-      createAndAppend('option', select, { text: repositories[i].name, value: i });
+      createAndcreateAppLayoutend('option', select, { text: repositories[i].name, value: i });
     }
-    const div1 = createAndAppend('div', root, { class: 'tired' });
-    const list = createAndAppend('ul', div1, { id: 'ul' });
-    const rep = createAndAppend('li', list);
-    const des = createAndAppend('li', list);
-    const fork = createAndAppend('li', list);
-    const up = createAndAppend('li', list);
+    const div1 = createAndcreateAppLayoutend('div', root, { class: 'tired' });
+    const list = createAndcreateAppLayoutend('ul', div1, { id: 'ul' });
+    const rep = createAndcreateAppLayoutend('li', list);
+    const des = createAndcreateAppLayoutend('li', list);
+    const fork = createAndcreateAppLayoutend('li', list);
+    const up = createAndcreateAppLayoutend('li', list);
 
-    const list2 = createAndAppend('ul', div1, { text: '' });
+    const contributorsList = createAndcreateAppLayoutend('ul', div1, { text: '' });
     function renderContributer(cont1) {
       for (let i = 0; i < cont1.length; i++) {
-        const link = createAndAppend('a', list2, {
+        const link = createAndcreateAppLayoutend('a', contributorsList, {
           target: ' _blank',
           href: `${cont1[i].html_url}`,
         });
-        const list3 = createAndAppend('li', link, {
+        const list3 = createAndcreateAppLayoutend('li', link, {
           text: `${cont1[i].login}  ${cont1[i].contributions} `,
-          // createAndAppend('img' , list, href: "avatar_url")
+          // createAndcreateAppLayoutend('img' , list, href: "avatar_url")
         });
-        createAndAppend('br', list3);
+        createAndcreateAppLayoutend('br', list3);
         const img = cont1[i].avatar_url;
-        createAndAppend('img', list3, { src: img });
+        createAndcreateAppLayoutend('img', list3, { src: img });
       }
     }
     async function innerText() {
@@ -72,10 +72,11 @@
         repositories[select.value].name
       } </a>`;
       up.innerText = `Update : ${repositories[select.value].updated_at}`;
-      list2.innerText = 'Contributions';
+
+      contributorsList.innerText = 'Contributions';
       try {
-        const data = await fetchJSON(repositories[select.value].contributors_url);
-        renderContributer(data);
+        const repositoriesData = await fetchJSON(repositories[select.value].contributors_url);
+        renderContributer(repositoriesData);
       } catch (err) {
         Error(err.message);
       }
@@ -90,8 +91,8 @@
   async function main(url) {
     const root = document.getElementById('root');
     try {
-      const data = await fetchJSON(url);
-      app(data);
+      const repositoriesData = await fetchJSON(url);
+      createAppLayout(repositoriesData);
     } catch (err) {
       root.innerHTML = `<div>${Error(err.message)}</div>`;
     }

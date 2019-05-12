@@ -26,7 +26,10 @@ class Repository {
     rep.innerHTML = `Repository: <a target=_blank href= ${this.repository.html_url}> ${
       this.repository.name
     } </a>`;
-    up.innerText = `Update : ${this.repository.updated_at}`;
+    const updateAt = ` ${new Date(this.repository.updated_at).toLocaleDateString()}, ${new Date(
+      this.repository.updated_at,
+    ).toLocaleTimeString()}`;
+    up.innerText = `Update : ${updateAt}`;
   }
 
   /**
