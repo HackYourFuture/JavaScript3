@@ -47,16 +47,13 @@
   function pageConstructor(data) {
     data.sort((a, b) => a.name.localeCompare(b.name));
     const root = document.getElementById('root');
-    //HEADER
     const headerDiv = createAndAppend('div', root, { class: 'headerDiv' });
     createAndAppend('p', headerDiv, { text: 'HYF Repositories' });
     const headerSelect = createAndAppend('select', headerDiv, { class: 'headerSelect' });
     data.map((elem, index) =>
       createAndAppend('option', headerSelect, { text: elem.name, value: index }),
     );
-    //CONTAINER
     const container = createAndAppend('div', root, { class: 'container' });
-    //REPOSITORY INFO
     const repoInfoDiv = createAndAppend('div', container, { class: 'repoInfoDiv' });
     const ul = createAndAppend('ul', repoInfoDiv);
     const repository = createAndAppend('li', ul, { text: `Repository :` });
@@ -69,12 +66,10 @@
     createAndAppend('li', ul, { text: `Description :${data[0].description}`, id: 'description' });
     createAndAppend('li', ul, { text: `Forks :${data[0].forks}`, id: 'forks' });
     createAndAppend('li', ul, { text: `Update :${data[0].updated_at}`, id: 'update' });
-    //CONTRIBUTOR
     const contributorDiv = createAndAppend('div', container, { class: 'contributorDiv' });
     createAndAppend('p', contributorDiv, { text: 'Contributions' });
     const contributorUl = createAndAppend('ul', contributorDiv, { class: 'contributorUl' });
     function contributor(contributorData) {
-      //ADD CONTRIBUTORS
       for (let i = 0; i < contributorData.length; i++) {
         const li = createAndAppend('li', contributorUl);
         const aForLi = createAndAppend('a', li, {
@@ -92,8 +87,7 @@
     const contributorUrl = data[0].contributors_url;
     fetchJSON(contributorUrl).then(contributorData => contributor(contributorData));
 
-    //EVENTLISTENER
-    headerSelect.addEventListener('change', () => {
+    headerSelect.addEventListener('change', event => {
       const change = data[event.target.value];
       const newA = document.getElementById('repository');
       newA.textContent = change.name;

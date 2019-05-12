@@ -14,6 +14,16 @@ class Contributor {
    */
   render(container) {
     // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.contributor, null, 2));
+    const li = Util.createAndAppend('li', container);
+    const aForLi = Util.createAndAppend('a', li, {
+      href: this.contributor.html_url,
+      target: '_blank',
+    });
+    Util.createAndAppend('img', aForLi, { src: this.contributor.avatar_url });
+    Util.createAndAppend('p', aForLi, { text: this.contributor.login });
+    Util.createAndAppend('p', aForLi, {
+      text: this.contributor.contributions,
+      class: 'contNumber',
+    });
   }
 }
