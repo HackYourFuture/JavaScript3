@@ -19,9 +19,9 @@
     });
   }
 
-  function createAndcreateAppLayoutend(name, parent, options = {}) {
+  function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
-    parent.createAppLayoutendChild(elem);
+    parent.appendChild(elem);
     Object.keys(options).forEach(key => {
       const value = options[key];
       if (key === 'text') {
@@ -35,31 +35,31 @@
   function createAppLayout(repositories) {
     repositories.sort((a, b) => a.name.localeCompare(b.name));
     const root = document.getElementById('root');
-    const select = createAndcreateAppLayoutend('select', root, { id: 'select' });
+    const select = createAndAppend('select', root, { id: 'select' });
     for (let i = 0; i < repositories.length; i++) {
-      createAndcreateAppLayoutend('option', select, { text: repositories[i].name, value: i });
+      createAndAppend('option', select, { text: repositories[i].name, value: i });
     }
-    const div1 = createAndcreateAppLayoutend('div', root, { class: 'tired' });
-    const list = createAndcreateAppLayoutend('ul', div1, { id: 'ul' });
-    const rep = createAndcreateAppLayoutend('li', list);
-    const des = createAndcreateAppLayoutend('li', list);
-    const fork = createAndcreateAppLayoutend('li', list);
-    const up = createAndcreateAppLayoutend('li', list);
+    const div1 = createAndAppend('div', root, { class: 'tired' });
+    const list = createAndAppend('ul', div1, { id: 'ul' });
+    const rep = createAndAppend('li', list);
+    const des = createAndAppend('li', list);
+    const fork = createAndAppend('li', list);
+    const up = createAndAppend('li', list);
 
-    const contributorsList = createAndcreateAppLayoutend('ul', div1, { text: '' });
+    const contributorsList = createAndAppend('ul', div1, { text: '' });
     function renderContributer(cont1) {
       for (let i = 0; i < cont1.length; i++) {
-        const link = createAndcreateAppLayoutend('a', contributorsList, {
+        const link = createAndAppend('a', contributorsList, {
           target: ' _blank',
           href: `${cont1[i].html_url}`,
         });
-        const list3 = createAndcreateAppLayoutend('li', link, {
+        const list3 = createAndAppend('li', link, {
           text: `${cont1[i].login}  ${cont1[i].contributions} `,
-          // createAndcreateAppLayoutend('img' , list, href: "avatar_url")
+          // createAndAppend('img' , list, href: "avatar_url")
         });
-        createAndcreateAppLayoutend('br', list3);
+        createAndAppend('br', list3);
         const img = cont1[i].avatar_url;
-        createAndcreateAppLayoutend('img', list3, { src: img });
+        createAndAppend('img', list3, { src: img });
       }
     }
     async function innerText() {
