@@ -13,7 +13,6 @@ class Contributor {
    * @param {HTMLElement} container The container element in which to render the contributor.
    */
   render(container) {
-    // TODO: replace the next line with your code.
     const contributorName = Util.createAndAppend('li', container);
     contributorName.innerHTML += `<a target ="_blank" href= ${
       this.contributor.html_url

@@ -12,10 +12,6 @@ class App {
    * @param {string} url The GitHub URL for obtaining the organization's repositories.
    */
   async initialize(url) {
-    // Add code here to initialize your app
-    // 1. Create the fixed HTML elements of your page
-    // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
-
     const root = document.getElementById('root');
 
     const container = Util.createAndAppend('div', root, {
@@ -73,7 +69,6 @@ class App {
     try {
       const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
-
       const container = document.getElementById('container-repo');
       App.clearContainer(container);
 
@@ -94,7 +89,7 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    return error; // TODO: replace with your own code
+    return error;
   }
 }
 

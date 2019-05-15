@@ -32,19 +32,54 @@
     });
     return elem;
   }
-
+  // remove all children from the element
   function removeChildren(element) {
     while (element.firstChild) {
       element.removeChild(element.firstChild);
     }
   }
-
+  // render the Error
   function renderError(error) {
     const root = document.getElementById('root');
     createAndAppend('div', root, { text: error.message, class: 'alert-error', role: 'alert' });
   }
-
-  function app(repos) {
+  // render contributor Info
+  async function displayContributorInfo(contributorsUrl, listContributor) {
+    try {
+      const contributorsInfo = await fetchJSONWithPromise(contributorsUrl);
+      removeChildren(listContributor);
+      contributorsInfo.forEach(contributor => {
+        const contributorName = createAndAppend('li', listContributor);
+        contributorName.innerHTML += `<a target ="_blank" href= ${contributor.html_url}> <img src=${
+          contributor.avatar_url
+        }> ${contributor.login} ${contributor.contributions}</a>`;
+      });
+    } catch (error) {
+      renderError(error);
+    }
+  }
+  // render repository Info
+  function displayRepoInfo(repo, container) {
+    removeChildren(container);
+    const repoName = createAndAppend('li', container);
+    repoName.innerHTML = `Repository: <a target="_blank" href= ${repo.html_url}>${repo.name}</a>`;
+    createAndAppend('li', container, {
+      text: `Description: ${repo.description}`,
+    });
+    createAndAppend('li', container, { text: `Forks: ${repo.forks}` });
+    createAndAppend('li', container, {
+      text: `Updated: ${new Date(repo.updated_at).toLocaleDateString('EN-GB', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      })}`,
+    });
+  }
+  // render header including repositories drop down list
+  function renderHeader(repos) {
     const root = document.getElementById('root');
     const container = createAndAppend('div', root, {
       class: 'container',
@@ -55,57 +90,42 @@
     createAndAppend('p', header, {
       text: 'HYF Repositories',
     });
+
+    // creating DropDown
     const select = createAndAppend('select', header, {
       id: 'list',
     });
     for (let i = 0; i < repos.length; i++) {
       createAndAppend('option', select, { text: repos[i].name, value: i });
     }
-    const repoContainer = createAndAppend('div', container, { class: 'container-repo' });
-    const listInfo = createAndAppend('ul', repoContainer, { class: 'repo-info' });
-    const listContributor = createAndAppend('ul', repoContainer, { class: 'repo-contributor' });
 
-    // creating li elements to display repo info when repo name change (onchange event handler)
-    async function displayRepoInfo() {
-      removeChildren(listInfo);
-      const repoName = createAndAppend('li', listInfo);
-      repoName.innerHTML = `Repository: <a target="_blank" href= ${repos[select.value].html_url}>${
-        repos[select.value].name
-      }</a>`;
-      createAndAppend('li', listInfo, {
-        text: `Description: ${repos[select.value].description}`,
-      });
-      createAndAppend('li', listInfo, { text: `Forks: ${repos[select.value].forks}` });
-      createAndAppend('li', listInfo, {
-        text: `Updated: ${repos[select.value].updated_at}`,
-      });
-
-      const contributorsUrl = repos[select.value].contributors_url;
-      try {
-        const contributorsInfo = await fetchJSONWithPromise(contributorsUrl);
-        removeChildren(listContributor);
-        contributorsInfo.forEach(contributor => {
-          const contributorName = createAndAppend('li', listContributor);
-          contributorName.innerHTML += `<a target ="_blank" href= ${
-            contributor.html_url
-          }> <img src=${contributor.avatar_url}> ${contributor.login} ${
-            contributor.contributions
-          }</a>`;
-        });
-      } catch (error) {
-        renderError(error);
-      }
-    }
-    displayRepoInfo();
-    select.onchange = displayRepoInfo;
-    // select.addEventListener('change', displayRepoInfo);
+    select.onchange = function changeHandler() {
+      const selectedRepo = repos[select.value];
+      const contributorsUrl = selectedRepo.contributors_url;
+      const repoWrapper = document.getElementsByClassName('repo-info')[0];
+      const listContributor = document.getElementsByClassName('repo-contributor')[0];
+      displayRepoInfo(selectedRepo, repoWrapper);
+      displayContributorInfo(contributorsUrl, listContributor);
+    };
   }
 
   async function main(url) {
     try {
-      const data = await fetchJSONWithPromise(url);
-      data.sort((a, b) => a.name.localeCompare(b.name));
-      app(data);
+      const repos = await fetchJSONWithPromise(url);
+      repos.sort((a, b) => a.name.localeCompare(b.name));
+      renderHeader(repos);
+      const container = document.getElementsByClassName('container')[0];
+      const repoContainer = createAndAppend('div', container, { class: 'container-repo' });
+      const repoWrapper = createAndAppend('ul', repoContainer, { class: 'repo-info' });
+      const listContributor = createAndAppend('ul', repoContainer, { class: 'repo-contributor' });
+      const select = document.getElementById('list');
+      const selectedRepo = repos[select.value];
+      const contributorsUrl = selectedRepo.contributors_url;
+
+      // creating li elements to display repo info when repo name change (onchange event handler)
+
+      displayRepoInfo(selectedRepo, repoWrapper);
+      displayContributorInfo(contributorsUrl, listContributor);
     } catch (err) {
       renderError(err);
     }
