@@ -50,7 +50,7 @@
   const repoInfo = async selectedRepository => {
     const container = document.getElementById('container');
 
-    // left div
+    // left div : repository basic information
     const repoContainer = createAndAppend('div', container, {
       class: 'left-div whiteframe',
     });
@@ -59,17 +59,18 @@
     const tbody = createAndAppend('tbody', table);
 
     // table rows
-    // 1
+
+    // repository: keyword
     const repository = createAndAppend('tr', tbody);
-    // 2
+    // description: keyword
     const description = createAndAppend('tr', tbody);
-    // 3
+    // forks: keyword
     const forks = createAndAppend('tr', tbody);
-    // 4
+    // the last update: keyword
     const updated = createAndAppend('tr', tbody);
 
     // table data
-    // 1
+    // repository name: value
     createAndAppend('td', repository, {
       text: 'Repository :',
       class: 'label',
@@ -80,7 +81,7 @@
       text: selectedRepository.name,
       target: '_blank',
     });
-    // 2
+    // description of the repository's main content: value
     createAndAppend('td', description, {
       text: 'Description :',
       class: 'label',
@@ -88,7 +89,7 @@
     createAndAppend('td', description, {
       text: selectedRepository.description,
     });
-    // 3
+    // forks: value
     createAndAppend('td', forks, {
       text: 'Forks :',
       class: 'label',
@@ -96,7 +97,7 @@
     createAndAppend('td', forks, {
       text: selectedRepository.forks,
     });
-    // 4
+    // the last update of the repository: value
     createAndAppend('td', updated, {
       text: 'Updated :',
       class: 'label',
@@ -105,7 +106,7 @@
       text: selectedRepository.updated_at,
     });
 
-    // right div
+    // right div: a table of the contributors of the selected repository
     const contributorsHeader = createAndAppend('div', container, {
       class: 'right-div whiteframe',
     });
@@ -114,7 +115,7 @@
       class: 'contributor-header',
     });
 
-    // list
+    // list of contributorS
     const ul = createAndAppend('ul', contributorsHeader, {
       class: 'contributor-list',
     });
@@ -136,9 +137,9 @@
       });
     };
 
-    // fetchJSON(calling) to check & show the list of the right div
-    const data = await fetchJSON(selectedRepository.contributors_url);
     try {
+      // fetchJSON(calling) to check & show the list of the right div
+      const data = await fetchJSON(selectedRepository.contributors_url);
       contributors(data, contributorsHeader);
     } catch (err) {
       renderError(err);
@@ -152,7 +153,7 @@
       const root = document.getElementById('root');
 
       // Create header
-      const header = createAndAppend('div', root, { class: 'header' });
+      const header = createAndAppend('header', root, { class: 'header' });
 
       // Create container
       createAndAppend('div', root, {
@@ -162,7 +163,7 @@
       createAndAppend('p', header, {
         text: 'HYF Repositories',
       });
-      const list = () => {
+      const createList = () => {
         const select = createAndAppend('select', header, { class: 'repo-selector' });
         const sortedRepos = data.sort((a, b) => a.name.localeCompare(b.name));
         sortedRepos.forEach((repo, index) => {
@@ -179,7 +180,7 @@
 
         return sortedRepos;
       };
-      const sortedRepos = list(data, header);
+      const sortedRepos = createList(data, header);
       repoInfo(sortedRepos[0]);
     } catch (err) {
       renderError(err);
