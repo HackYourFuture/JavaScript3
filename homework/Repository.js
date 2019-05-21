@@ -10,10 +10,10 @@ class Repository {
 
   render(container) {
     const theads = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
+    const tds = ['name', 'description', 'forks', 'updated_at'];
     for (let i = 0; i < theads.length; i++) {
       const tr = Util.createAndAppend('tr', container);
       Util.createAndAppend('th', tr, { text: theads[i] });
-      const tds = ['name', 'description', 'forks', 'updated_at'];
       if (tds[i] === 'name') {
         const linked = Util.createAndAppend('td', tr);
         Util.createAndAppend('a', linked, {
@@ -21,7 +21,7 @@ class Repository {
           text: this.repository[tds[i]],
           href: this.repository.html_url,
           target: '_blank',
-          role: `Repository name is ${this.repository.name}`,
+          role: 'row',
         });
       } else {
         Util.createAndAppend('td', tr, {

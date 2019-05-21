@@ -13,7 +13,7 @@ class Contributor {
     const href = Util.createAndAppend('a', li, {
       href: this.contributor.html_url,
       target: '_blank',
-      role: `Contributor name is ${this.contributor.login}`,
+      role: 'listitem',
     });
     console.log(this.contributor);
     Util.createAndAppend('img', href, { src: this.contributor.avatar_url });

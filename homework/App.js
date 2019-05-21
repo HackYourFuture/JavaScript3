@@ -14,11 +14,14 @@ class App {
     //
     const select = Util.createAndAppend('select', selectdiv, { id: 'selectbox' });
     const leftDiv = Util.createAndAppend('div', root, { id: 'leftDiv' });
-    const table = Util.createAndAppend('table', leftDiv, { id: 'table' });
+    const table = Util.createAndAppend('table', leftDiv, { id: 'table', role: 'table' });
     //
     const rightdiv = Util.createAndAppend('div', root, { id: 'rightdiv' });
     Util.createAndAppend('p', rightdiv, { id: 'rightp', text: 'Contributors' });
-    const contributorList = Util.createAndAppend('ul', rightdiv, { id: 'contributorlist' });
+    const contributorList = Util.createAndAppend('ul', rightdiv, {
+      id: 'contributorlist',
+      role: 'list',
+    });
 
     try {
       const repos = await Util.fetchJSON(url);
