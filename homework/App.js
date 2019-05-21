@@ -40,13 +40,12 @@ class App {
         Util.createAndAppend('option', selectMenu, { text: repo.name, value: i });
       });
       // creating a unique repo from repositories
-      const newRepo = new Repository(repos);
-      // to start the page with the information of the first repo (left part)
-      newRepo.render(table, 0);
+      // to start the page with the information of the first repo (left part
+      this.repos[0].render(table);
       this.fetchContributorsAndRender(0);
       selectMenu.addEventListener('change', event => {
         App.clearContainer(table);
-        newRepo.render(table, event.target.value);
+        this.repos[event.target.value].render(table);
         this.fetchContributorsAndRender(event.target.value);
       });
     } catch (error) {

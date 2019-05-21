@@ -12,7 +12,7 @@ class Repository {
    * Render the repository info to the DOM.
    * @param {HTMLElement} container The container element in which to render the repository.
    */
-  render(container, index) {
+  render(container) {
     // TODO: replace the next line with your code.
     const tHeads = ['Repository: ', 'Description: ', 'Forks: ', 'Update: '];
     const tDatas = ['name', 'description', 'forks', 'updated_at'];
@@ -22,12 +22,13 @@ class Repository {
       if (tHead === 'Repository: ') {
         const td = Util.createAndAppend('td', tr);
         Util.createAndAppend('a', td, {
-          href: this.repository[index].html_url,
-          text: this.repository[index].name,
+          href: this.repository.html_url,
+          text: this.repository.name,
           target: '_blank',
         });
+        // console.log(this.repository[index]);
       } else {
-        Util.createAndAppend('td', tr, { text: this.repository[index][tDatas[i]] });
+        Util.createAndAppend('td', tr, { text: this.repository[tDatas[i]] });
       }
     });
   }
