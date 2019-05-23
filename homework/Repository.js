@@ -13,10 +13,15 @@ class Repository {
    * @param {HTMLElement} container The container element in which to render the repository.
    */
   render(container) {
-    const repoName = Util.createAndAppend('li', container);
-    repoName.innerHTML = `Repository: <a target="_blank" href= ${this.repository.html_url}>${
-      this.repository.name
-    }</a>`;
+    const repoName = Util.createAndAppend('li', container, { text: 'Repository: ' });
+    Util.createAndAppend('a', repoName, {
+      target: '_blank',
+      href: this.repository.html_url,
+      text: this.repository.name,
+    });
+    // repoName.innerHTML = `Repository: <a target="_blank" href= ${this.repository.html_url}>${
+    //   this.repository.name
+    // }</a>`;
     Util.createAndAppend('li', container, {
       text: `Description: ${this.repository.description}`,
     });

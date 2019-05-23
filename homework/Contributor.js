@@ -14,10 +14,18 @@ class Contributor {
    */
   render(container) {
     const contributorName = Util.createAndAppend('li', container);
-    contributorName.innerHTML += `<a target ="_blank" href= ${
-      this.contributor.html_url
-    }> <img src=${this.contributor.avatar_url}> ${this.contributor.login} ${
-      this.contributor.contributions
-    }</a>`;
+    const link = Util.createAndAppend('a', contributorName, {
+      target: '_blank',
+      href: this.contributor.html_url,
+    });
+
+    Util.createAndAppend('img', link, { src: this.contributor.avatar_url });
+    link.innerHTML += `${this.contributor.login} ${this.contributor.contributions}`;
+
+    // contributorName.innerHTML += `<a target ="_blank" href= ${
+    //   this.contributor.html_url
+    // }> <img src=${this.contributor.avatar_url}> ${this.contributor.login} ${
+    //   this.contributor.contributions
+    // }</a>`;
   }
 }
