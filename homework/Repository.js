@@ -12,12 +12,12 @@ class Repository {
    * Render the repository info to the DOM.
    * @param {HTMLElement} container The container element in which to render the repository.
    */
-  render(container, index) {
+  render(container) {
     const repoInfo = [
-      { header: 'Repository', value: this.repository[index].name },
-      { header: 'Description', value: this.repository[index].description },
-      { header: 'Forks', value: this.repository[index].forks },
-      { header: 'Updated', value: this.repository[index].updated_at },
+      { header: 'Repository', value: this.repository.name },
+      { header: 'Description', value: this.repository.description },
+      { header: 'Forks', value: this.repository.forks },
+      { header: 'Updated', value: this.repository.updated_at },
     ];
     for (let i = 0; i < repoInfo.length; i++) {
       const tr = Util.createAndAppend('tr', container);
@@ -25,7 +25,7 @@ class Repository {
       if (i === 0) {
         const repoLink = Util.createAndAppend('td', tr);
         Util.createAndAppend('a', repoLink, {
-          href: this.repository[index].html_url,
+          href: this.repository.html_url,
           target: '_blank',
           text: repoInfo[i].value,
         });

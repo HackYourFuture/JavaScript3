@@ -43,13 +43,13 @@ class App {
       repos.forEach((repo, i) => {
         Util.createAndAppend('option', selectMenu, { text: repo.name, value: i });
       });
-      const newRepo = new Repository(repos);
-      newRepo.render(table, 0);
+
+      this.repos[0].render(table);
       this.fetchContributorsAndRender(0);
       selectMenu.addEventListener('change', event => {
         App.clearContainer(table);
         const index = event.target.value;
-        newRepo.render(table, index);
+        this.repos[index].render(table);
         App.clearContainer(contributorList);
         this.fetchContributorsAndRender(index);
       });
