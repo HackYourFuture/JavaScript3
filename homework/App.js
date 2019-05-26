@@ -36,14 +36,13 @@ class App {
         Util.createAndAppend('option', headerSelect, { text: elem.name, value: index }),
       );
       // repo info
-      const newRepo = new Repository(repos);
-      newRepo.render(ul, 0);
+      this.repos[0].render(ul);
       // contributor
       this.fetchContributorsAndRender(0);
       headerSelect.addEventListener('change', event => {
         const change = event.target.value;
         App.clearContainer(ul);
-        newRepo.render(ul, change);
+        this.repos[change].render(ul);
         App.clearContainer(contributorUl);
         this.fetchContributorsAndRender(change);
       });
