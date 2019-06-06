@@ -29,6 +29,22 @@
     });
     return elem;
   }
+  function createLI(root, sel, options = []) {
+    const select = document.createElement(sel);
+
+    root.appendChild(select);
+    select.innerHTML = options
+      .sort()
+      .map(repo => `<option value="${repo.id}">${repo.name}</option>`)
+      .join('\n');
+    select.addEventListener('change', function() {
+      const chosenRepoId = +this.value;
+      const selectedRepo = options.find(repo => repo.id === chosenRepoId);
+      document.getElementById('repoInfo').innerHTML = 'repository: ' + selectedRepo.name + '<br />' + 'Description: ' + selectedRepo.description + "<br />>" + 'forks: ' + selectedRepo.forks + '<br />' + 'updated: ' + selectedRepo.updated_at;
+      document.getElementById('repoContributers').innerHTML 
+
+    });
+  }
 
   function main(url) {
     fetchJSON(url, (err, data) => {
@@ -36,7 +52,8 @@
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
-        createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
+        // createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
+        createLI(root, 'select', data);
       }
     });
   }

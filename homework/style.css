@@ -1,3 +1,72 @@
+
+
 .alert-error {
     color: red;
 }
+
+body{
+  height: 1000px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+}
+
+#root{
+  background: blue;
+  position: relative;
+  width: 99%;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-self: flex-start;
+  position: absolute;
+  justify-content: flex-start;
+  
+}
+
+h2{
+  font-size: 1rem;
+  position: absolute;
+
+}
+
+select {
+  height: 5%;
+  margin-top: 1%;
+  width: 20%;
+  position: absolute;
+
+  margin-left: 20%;
+  height: 50%;
+}
+ #roota{
+margin-top: 10%;
+height: 50%;
+width: 100%;
+justify-self: flex-end;
+display: flex;
+justify-content: space-around;
+}
+
+#repoInfo {
+  border: 0.1rem solid black;
+  padding: 0.5rem;
+  width: 45%;
+  height: 40%;
+  line-height: 200%;
+  order: 2;
+}
+#repoContributers{
+  
+  padding: 0.1rem;
+  padding-left: 0.3rem;
+  border: 0.1rem solid black;
+  width: 45%;
+  height: 40%;
+  order: 2;
+
+}
+
+
