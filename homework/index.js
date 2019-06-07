@@ -1,64 +1,30 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
-  }
-
-  function createAndAppend(name, parent, options = {}) {
-    const elem = document.createElement(name);
-    parent.appendChild(elem);
-    Object.keys(options).forEach(key => {
-      const value = options[key];
-      if (key === 'text') {
-        elem.textContent = value;
-      } else {
-        elem.setAttribute(key, value);
-      }
+  const root = document.getElementById('root');
+  const select = document.createElement('select');
+  root.appendChild(select);
+  const url = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+  fetch(url)
+    .then(resp => resp.json())
+    .then(data => {
+      select.innerHTML = data.sort()
+        .map(repo => `<option value="${repo.id}">${repo.name}</option>`).join("\n");
+      select.addEventListener('change', function () {
+        const chosenRepoId = +this.value;
+        const currentRepo = data.find(repo => repo.id === chosenRepoId);
+        document.getElementById('repoInfo').innerHTML = "Repositroy Name: " + currentRepo.name + "<br />" + "Description: " + currentRepo.description + "<br />" + "Forks: " + currentRepo.forks + "<br />" + "Update date: " + currentRepo.updated_at;
+      });
+    })
+    .then(date => {
+      const contributorsrUrl = currentRepo.contributors_url;
+      const list = document.createElement('ul').className('contributors_list');
+      const roota = document.getElementById('roota');
+      roota.appendChild(list);
+      fetch(contributorsrUrl)
+        .then(resp => resp.json)
+        .then(data => {
+          list.innerHTML = data.sort().map(butor => '<li class ="contributers_item" ><img src="${butor.avatar_url}" /> </li>');
+        });
     });
-    return elem;
-  }
-  function createLI(root, sel, options = []) {
-    const select = document.createElement(sel);
-
-    root.appendChild(select);
-    select.innerHTML = options
-      .sort()
-      .map(repo => `<option value="${repo.id}">${repo.name}</option>`)
-      .join('\n');
-    select.addEventListener('change', function() {
-      const chosenRepoId = +this.value;
-      const selectedRepo = options.find(repo => repo.id === chosenRepoId);
-      document.getElementById('repoInfo').innerHTML = 'repository: ' + selectedRepo.name + '<br />' + 'Description: ' + selectedRepo.description + "<br />>" + 'forks: ' + selectedRepo.forks + '<br />' + 'updated: ' + selectedRepo.updated_at;
-      document.getElementById('repoContributers').innerHTML 
-
-    });
-  }
-
-  function main(url) {
-    fetchJSON(url, (err, data) => {
-      const root = document.getElementById('root');
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        // createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
-        createLI(root, 'select', data);
-      }
-    });
-  }
-
-  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-
-  window.onload = () => main(HYF_REPOS_URL);
 }
