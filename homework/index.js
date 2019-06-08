@@ -14,17 +14,18 @@
         const chosenRepoId = +this.value;
         const currentRepo = data.find(repo => repo.id === chosenRepoId);
         document.getElementById('repoInfo').innerHTML = "Repositroy Name: " + currentRepo.name + "<br />" + "Description: " + currentRepo.description + "<br />" + "Forks: " + currentRepo.forks + "<br />" + "Update date: " + currentRepo.updated_at;
+        // contributors section code
+        const cntbutorsUrl = currentRepo.contributors_url;
+        fetch(cntbutorsUrl)
+          .then(resp => resp.json())
+          .then(resp => document.getElementById('repoContributers').innerHTML = resp.map(butor => `<ul class="contributor_list"><li class="contributor_item"><img src="${butor.avatar_url}" class="contributor-avatar"/><div class="contributor-data"><div>${butor.login}</div><div class="contributor-badge">${butor.contributions}</div></div></li></ul>`));
       });
-    })
-    .then(date => {
-      const contributorsrUrl = currentRepo.contributors_url;
-      const list = document.createElement('ul').className('contributors_list');
-      const roota = document.getElementById('roota');
-      roota.appendChild(list);
-      fetch(contributorsrUrl)
-        .then(resp => resp.json)
-        .then(data => {
-          list.innerHTML = data.sort().map(butor => '<li class ="contributers_item" ><img src="${butor.avatar_url}" /> </li>');
-        });
     });
+
+  // .then()
+  // .then(respo => repo.json)
+  // .then(data => {
+  //   document.getElementById('repoContributers').innerHTML = data.map(repo => repo.login);
+  // });
+  // trying to render contributors_url and get its ifno to fill the contribuers square.
 }
