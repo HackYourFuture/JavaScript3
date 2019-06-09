@@ -85,6 +85,7 @@
             src: cont.avatar_url,
             height: 48,
             class: 'contributor-avatar',
+            alt: cont.login,
           });
 
           const contData = createAndAppend('div', li, { class: 'contributor-data' });
