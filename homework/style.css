@@ -1,3 +1,204 @@
+/* cSpell:disable */
 .alert-error {
-    color: red;
+  color: black;
+  background-color: rgb(5, 5, 5);
+  font-weight: bold;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
 }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+  animation: appearance 3s;
+  margin-top: 10px;
+}
+
+.header {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  background-color: #1fcde4;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgb(0, 0, 0);
+}
+
+.nav-title {
+  text-shadow: 0 0 10px rgb(10, 5, 5);
+}
+
+#repo-selector {
+  padding: 7px;
+  margin-left: 10px;
+  margin: 10px;
+  border-radius: inherit;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial,
+    sans-serif;
+  font-size: 4vw;
+  box-shadow: 0 0 5px #1fcde4;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.left-div,
+.right-div {
+  background-color: #b4e6f3;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.label {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.repo-name {
+  border-radius: 5px;
+  padding: 4px 8px;
+  color: #eaebf1;
+  background-color: rgb(13, 12, 15);
+  cursor: pointer;
+}
+
+.repo-name:link,
+.repo-name:active,
+.repo-name:visited {
+  text-decoration: none;
+}
+
+.hide-description-row {
+  display: none;
+}
+
+.contributor-header {
+  margin: 0;
+}
+
+.contributor-list {
+  padding-left: 0;
+}
+
+.contributor-list * {
+  list-style-type: none;
+}
+
+.contributor-item {
+  border-radius: 5px;
+  padding: 8px 14px;
+  background-color: rgb(10, 149, 230);
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.contributor-item:hover,
+.repo-name:hover {
+  background-color: rgb(10, 207, 233);
+  box-shadow: 5px 5px 5px rgb(30, 7, 231);
+  opacity: 0.9;
+}
+
+.contributor-item a {
+  text-decoration: none;
+}
+
+.contributor-avatar {
+  height: 48px;
+  border-radius: 5px;
+  margin-right: 16px;
+}
+
+.contributor {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contributor-data {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.contributor-login {
+  padding: 10px;
+  color: black;
+}
+
+.contributor-badge {
+  background-color: rgb(10, 10, 10);
+  padding: 3px;
+  border-radius: 5px;
+  color: white;
+}
+
+@keyframes appearance {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 768px) {
+  body {
+    max-width: 90%;
+    margin: auto;
+    padding: 10px;
+  }
+
+  #repo-selector {
+    font-size: 2vw;
+  }
+
+  .container {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .left-div {
+    margin-right: 10px;
+    flex: 2;
+  }
+
+  .right-div {
+    flex: 1;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    max-width: 80%;
+    font-size: 1.5vw;
+  }
+
+  #repo-selector {
+    font-size: 1.3vw;
+  }
+}
+
+@media (min-width: 1440px) {
+  body {
+    max-width: 70%;
+    font-size: 1.5vw;
+  }
+
+  #repo-selector {
+    font-size: 1.1vw;
+  }
+}
+/* cSpell:enable */
