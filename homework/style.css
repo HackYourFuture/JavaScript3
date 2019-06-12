@@ -1,3 +1,61 @@
 .alert-error {
-    color: red;
+  color: red;
+}
+.divClass {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  padding: 3% 3% 3% 3%;
+}
+.root {
+  display: flex;
+}
+#repoDetailsDiv {
+  display: grid;
+  width: 30%;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
+    0 3px 3px -2px rgba(0, 0, 0, 0.12);
+  margin-left: 20%;
+  min-width: 250px;
+}
+span {
+  width: 15%;
+  margin-right: 10%;
+}
+a {
+  margin-left: 10%;
+}
+p {
+  margin-left: 10%;
+}
+#descP {
+  width: 60%;
+}
+#headerSpan {
+  margin-right: 5%;
+  margin-left: 5%;
+  color: white;
+  width: 30%;
+  font-size: 120%;
+}
+#headerDiv {
+  display: flex;
+  width: 60%;
+  height: 80px;
+  margin-bottom: 3%;
+  background: rgb(238, 104, 126);
+  align-items: center;
+  margin-left: 20%;
+  min-width: 250px;
+}
+@media (max-width: 768px) {
+  #repoDetailsDiv {
+    width: 100%;
+    margin-left: 0%;
+  }
+  #headerDiv {
+    width: 100%;
+    margin-left: 0%;
 }
