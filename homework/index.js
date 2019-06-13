@@ -1,5 +1,7 @@
 'use strict';
 
+// https://suh3yb.github.io/JavaScript3/homework/index.html
+
 {
   function fetchJSON(url, cb) {
     const xhr = new XMLHttpRequest();
