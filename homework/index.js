@@ -33,76 +33,72 @@
   }
 
   function showRepoDetailsInTable(obj, parentTable) {
-    if (parentTable.innerHTML === '') {
-      Object.keys(obj).forEach(key => {
-        const value = obj[key];
-        if (value !== null) {
-          if (key === 'name') {
-            const tableRow = createAndAppend('tr', parentTable, { class: 'tr' });
-            createAndAppend('td', tableRow, {
-              text: 'repository :',
-              class: 'title',
-            });
-            const tdName = createAndAppend('td', tableRow);
-            createAndAppend('a', tdName, { text: value, href: obj.repoUrl, target: '_blank' });
-          }
-          if (key === 'description' || key === 'forks') {
-            const tableRow = createAndAppend('tr', parentTable, { class: 'tr' });
-            createAndAppend('td', tableRow, {
-              text: `${key} :`,
-              class: 'title',
-            });
-            createAndAppend('td', tableRow, { text: value });
-          }
-          if (key === 'updated') {
-            const tableRow = createAndAppend('tr', parentTable, { class: 'tr' });
-            createAndAppend('td', tableRow, {
-              text: 'updated :',
-              class: 'title',
-            });
-            createAndAppend('td', tableRow, {
-              text: `${value.slice(0, 10)}, ${value.slice(11, 19)}`,
-            });
-          }
+    parentTable.innerHTML = '';
+    Object.keys(obj).forEach(key => {
+      const value = obj[key];
+      if (value !== null) {
+        if (key === 'name') {
+          const tableRow = createAndAppend('tr', parentTable, { class: 'tr' });
+          createAndAppend('td', tableRow, {
+            text: 'repository :',
+            class: 'title',
+          });
+          const tdName = createAndAppend('td', tableRow);
+          createAndAppend('a', tdName, { text: value, href: obj.repoUrl, target: '_blank' });
         }
-      });
-    } else {
-      parentTable.innerHTML = '';
-      showRepoDetailsInTable(obj, parentTable);
-    }
-  }
-
-  function showContributorsAsList(obj, parent) {
-    fetchJSON(obj.contributorsUrl, (error, data) => {
-      if (error) {
-        createAndAppend('div', parent, { text: error.message, class: 'alert-error' });
-      } else {
-        parent.innerHTML = '';
-        if (data === null) {
-          createAndAppend('div', parent, { text: 'No Contribution Data.', class: 'alert-error' });
-        } else {
-          createAndAppend('p', parent, { text: 'Contributions', class: 'contributors-header' });
-          const ul = createAndAppend('ul', parent, { class: 'contributors-list' });
-
-          data.forEach(contributor => {
-            const li = createAndAppend('li', ul, { class: 'contributor-item' });
-            createAndAppend('img', li, {
-              src: contributor.avatar_url,
-              alt: contributor.login,
-              class: 'contributor-avatar',
-            });
-            const contributorData = createAndAppend('div', li, { class: 'contributor-data' });
-            createAndAppend('div', contributorData, { text: contributor.login });
-            createAndAppend('div', contributorData, {
-              text: contributor.contributions,
-              class: 'contribution-count',
-            });
-            li.addEventListener('click', () => {
-              window.open(contributor.html_url);
-            });
+        if (key === 'description' || key === 'forks') {
+          const tableRow = createAndAppend('tr', parentTable, { class: 'tr' });
+          createAndAppend('td', tableRow, {
+            text: `${key} :`,
+            class: 'title',
+          });
+          createAndAppend('td', tableRow, { text: value });
+        }
+        if (key === 'updated') {
+          const tableRow = createAndAppend('tr', parentTable, { class: 'tr' });
+          createAndAppend('td', tableRow, {
+            text: 'updated :',
+            class: 'title',
+          });
+          createAndAppend('td', tableRow, {
+            text: `${value.slice(0, 10)}, ${value.slice(11, 19)}`,
           });
         }
       }
+    });
+  }
+
+  function showContributorsAsList(obj, parent) {
+    fetchJSON(obj.contributorsUrl, (error, contributors) => {
+      if (error) {
+        createAndAppend('div', parent, { text: error.message, class: 'alert-error' });
+        return;
+      }
+      parent.innerHTML = '';
+      if (contributors === null) {
+        createAndAppend('div', parent, { text: 'No Contribution Data.', class: 'alert-error' });
+        return;
+      }
+      createAndAppend('p', parent, { text: 'Contributions', class: 'contributors-header' });
+      const ul = createAndAppend('ul', parent, { class: 'contributors-list' });
+
+      contributors.forEach(contributor => {
+        const li = createAndAppend('li', ul, { class: 'contributor-item' });
+        createAndAppend('img', li, {
+          src: contributor.avatar_url,
+          alt: contributor.login,
+          class: 'contributor-avatar',
+        });
+        const contributorData = createAndAppend('div', li, { class: 'contributor-data' });
+        createAndAppend('div', contributorData, { text: contributor.login });
+        createAndAppend('div', contributorData, {
+          text: contributor.contributions,
+          class: 'contribution-count',
+        });
+        li.addEventListener('click', () => {
+          window.open(contributor.html_url);
+        });
+      });
     });
   }
 
@@ -111,19 +107,18 @@
       const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        const header = createAndAppend('header', root, { class: 'header' });
-        createAndAppend('label', header, { for: 'select-menu', text: 'HYF Repositories' });
-        const selectMenu = createAndAppend('select', header, {
-          class: 'select-menu',
-          id: 'select-menu',
-        });
+        return;
+      }
+      const header = createAndAppend('header', root, { class: 'header' });
+      createAndAppend('label', header, { for: 'select-menu', text: 'HYF Repositories' });
+      const selectMenu = createAndAppend('select', header, {
+        class: 'select-menu',
+        id: 'select-menu',
+      });
 
-        const sortedData = data.sort((a, b) =>
-          a.name.toLowerCase().localeCompare(b.name.toLowerCase()),
-        );
-
-        const elementsToUseInPage = sortedData.map(element => ({
+      const repos = data
+        .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+        .map(element => ({
           name: element.name,
           description: element.description,
           forks: element.forks,
@@ -132,27 +127,26 @@
           contributorsUrl: element.contributors_url,
         }));
 
-        const container = createAndAppend('div', root, { class: 'container' });
-        const leftColumn = createAndAppend('div', container, { class: 'left column' });
-        const table = createAndAppend('table', leftColumn);
+      const container = createAndAppend('div', root, { class: 'container' });
+      const leftColumn = createAndAppend('div', container, { class: 'left column' });
+      const table = createAndAppend('table', leftColumn);
 
-        elementsToUseInPage.forEach((repo, index) => {
-          createAndAppend('option', selectMenu, {
-            text: repo.name,
-            value: index,
-          });
+      repos.forEach((repo, index) => {
+        createAndAppend('option', selectMenu, {
+          text: repo.name,
+          value: index,
         });
+      });
 
-        const rightColumn = createAndAppend('div', container, { class: 'right column' });
+      const rightColumn = createAndAppend('div', container, { class: 'right column' });
 
-        showRepoDetailsInTable(elementsToUseInPage[selectMenu.selectedIndex], table);
-        showContributorsAsList(elementsToUseInPage[selectMenu.selectedIndex], rightColumn);
+      showRepoDetailsInTable(repos[selectMenu.selectedIndex], table);
+      showContributorsAsList(repos[selectMenu.selectedIndex], rightColumn);
 
-        selectMenu.addEventListener('change', () => {
-          showRepoDetailsInTable(elementsToUseInPage[selectMenu.selectedIndex], table);
-          showContributorsAsList(elementsToUseInPage[selectMenu.selectedIndex], rightColumn);
-        });
-      }
+      selectMenu.addEventListener('change', () => {
+        showRepoDetailsInTable(repos[selectMenu.selectedIndex], table);
+        showContributorsAsList(repos[selectMenu.selectedIndex], rightColumn);
+      });
     });
   }
 
