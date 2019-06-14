@@ -1,3 +1,7 @@
+/**
+ * view the page here: spa-7alip.netlify.com/homework
+ */
+
 'use strict';
 
 {
@@ -49,8 +53,9 @@
         case 'updated':
           createAndAppend('td', row, { text: 'updated :', class: 'title' });
           createAndAppend('td', row, {
-            text: `${value.slice(0, 10)}, ${value.slice(11, 19)}`,
+            text: `📅 ${value.slice(0, 10)} 🕐 ${value.slice(11, 16)}`,
           });
+          console.log(value);
           break;
         default:
           break;
