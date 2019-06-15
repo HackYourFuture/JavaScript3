@@ -70,6 +70,7 @@
       const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        return;
       }
       const contributorsData = createAndAppend('div', container, {
         class: 'right-div white-frame',
@@ -132,6 +133,7 @@
       const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        return;
       }
       const header = createAndAppend('header', root, { class: 'header' });
       createAndAppend('p', header, { text: 'HYF Repositories' });
