@@ -29,44 +29,17 @@
     });
     return elem;
   }
-  function tableMaker(data, index) {
-    const leftDiv = document.querySelector('.leftDiv');
-    const table = createAndAppend('table', leftDiv, {});
-    const tBody = createAndAppend('tbody', table, {});
-    const trRepo = createAndAppend('tr', tBody, {});
-    createAndAppend('td', trRepo, { text: 'Repository:' });
-    const tdRepoLink = createAndAppend('td', trRepo, {});
-    createAndAppend('a', tdRepoLink, {
-      text: data[index].name,
-      href: data[index].html_url,
-      target: '_blank',
-    });
-    if (data[index].description !== null) {
-      const trDescription = createAndAppend('tr', tBody, {});
-      createAndAppend('td', trDescription, { text: 'Description:' });
-      createAndAppend('td', trDescription, { text: data[index].description });
-    }
-    const trForks = createAndAppend('tr', tBody, {});
-    createAndAppend('td', trForks, { text: 'Forks:' });
-    createAndAppend('td', trForks, { text: data[index].forks_count });
-    const trUpdate = createAndAppend('tr', tBody, {});
-    createAndAppend('td', trUpdate, { text: 'Updated:' });
-    createAndAppend('td', trUpdate, {
-      text: new Date(data[index].updated_at).toLocaleString(),
-    });
-  }
 
-  function headerMaker(data) {
+  function makeHeader(repos) {
     const root = document.getElementById('root');
     const header = createAndAppend('header', root, { class: 'header' });
     header.style = 'display: flex;';
     createAndAppend('h3', header, { text: 'HYF Repositories' });
     const selectMenu = createAndAppend('select', header, { class: 'repo-selector' });
-    const optionArr = data.map(repository => repository.name);
     const optionsArr = [];
-    for (let i = 0; i < optionArr.length; i++) {
+    for (let i = 0; i < repos.length; i++) {
       const option = {
-        name: optionArr[i],
+        name: repos[i].name,
         index: i,
       };
       optionsArr.push(option);
@@ -83,11 +56,38 @@
     return header;
   }
 
-  function ulMaker(data) {
+  function makeTable(repo) {
+    const leftDiv = document.querySelector('.leftDiv');
+    const table = createAndAppend('table', leftDiv);
+    const tBody = createAndAppend('tbody', table);
+    const trRepo = createAndAppend('tr', tBody);
+    createAndAppend('td', trRepo, { text: 'repo:' });
+    const tdRepoLink = createAndAppend('td', trRepo);
+    createAndAppend('a', tdRepoLink, {
+      text: repo.name,
+      href: repo.html_url,
+      target: '_blank',
+    });
+    if (repo.description !== null) {
+      const trDescription = createAndAppend('tr', tBody, {});
+      createAndAppend('td', trDescription, { text: 'Description:' });
+      createAndAppend('td', trDescription, { text: repo.description });
+    }
+    const trForks = createAndAppend('tr', tBody);
+    createAndAppend('td', trForks, { text: 'Forks:' });
+    createAndAppend('td', trForks, { text: repo.forks_count });
+    const trUpdate = createAndAppend('tr', tBody);
+    createAndAppend('td', trUpdate, { text: 'Updated:' });
+    createAndAppend('td', trUpdate, {
+      text: new Date(repo.updated_at).toLocaleString(),
+    });
+  }
+
+  function makeUl(repos) {
     const rightDiv = document.querySelector('.rightDiv');
     createAndAppend('p', rightDiv, { class: 'contributor-header', text: 'Contributions' });
     const ul = createAndAppend('ul', rightDiv, { class: 'contributor-list' });
-    data.forEach(contributor => {
+    repos.forEach(contributor => {
       const li = createAndAppend('li', ul, {
         class: 'contributor-item',
         tabindex: '0',
@@ -96,7 +96,8 @@
       createAndAppend('img', li, {
         src: contributor.avatar_url,
         class: 'contributor-avatar',
-        height: '48px',
+        height: '48',
+        alt: 'profile photo of contributor',
       });
       const contributorData = createAndAppend('div', li, { class: 'contributor-data' });
       createAndAppend('div', contributorData, { text: contributor.login });
@@ -110,49 +111,41 @@
     });
   }
 
-  function constructForFirst(data, index) {
+  function makeHtmlOfContents(repos, index) {
     document.querySelector('.leftDiv').innerHTML = '';
-    tableMaker(data, index);
-    fetchJSON(data[index].contributors_url, (err, fetchedData) => {
+    document.querySelector('.rightDiv').innerHTML = '';
+    makeTable(repos[index]);
+    fetchJSON(repos[index].contributors_url, (err, fetchedData) => {
       const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
-        ulMaker(fetchedData);
+        makeUl(fetchedData);
       }
     });
   }
 
-  function htmlConstructor(data) {
-    headerMaker(data);
+  function mainHtmlConstructor(repos) {
+    makeHeader(repos);
     const root = document.getElementById('root');
     const container = createAndAppend('div', root, { id: 'container' });
     createAndAppend('div', container, { class: 'leftDiv whiteframe' });
     createAndAppend('div', container, { class: 'rightDiv whiteframe' });
     const selectMenu = document.querySelector('select');
-    constructForFirst(data, selectMenu.options[selectMenu.selectedIndex].value);
+    makeHtmlOfContents(repos, selectMenu.options[selectMenu.selectedIndex].value);
     selectMenu.onchange = () => {
-      document.querySelector('.leftDiv').innerHTML = '';
-      document.querySelector('.rightDiv').innerHTML = '';
       const index = selectMenu.options[selectMenu.selectedIndex].value;
-      tableMaker(data, index);
-      fetchJSON(data[index].contributors_url, (err, fetchedData) => {
-        if (err) {
-          createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-        } else {
-          ulMaker(fetchedData);
-        }
-      });
+      makeHtmlOfContents(repos, index);
     };
   }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
+    fetchJSON(url, (err, repos) => {
       const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
-        htmlConstructor(data);
+        mainHtmlConstructor(repos);
       }
     });
   }
