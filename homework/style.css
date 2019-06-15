@@ -1,3 +1,143 @@
 .alert-error {
-    color: red;
+  margin: 16px;
+  padding: 16px;
+  color: red;
+  border: 1px solid red;
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+.alert-warning {
+  margin: 16px;
+  padding: 16px;
+  color: rgb(255, 187, 0);
+  border: 1px solid rgb(255, 187, 0);
+  background-color: rgba(255, 187, 0, 0.2);
+}
+
+body {
+  max-width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #e8e8e8;
+  font-family: 'Roboto', sans-serif;
+  color: rgb(0, 0, 0, 87%);
+  margin-top: 0;
+}
+
+.header {
+  color: white;
+  background-color: #3f51b5;
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.header__select {
+  margin-left: 16px;
+  font-size: 14px;
+  width: 250px;
+  height: 32px;
+  padding: 2px;
+}
+
+.header__select option {
+  font-weight: normal;
+  display: block;
+  white-space: pre;
+  min-height: 1.2em;
+  padding: 0px 2px 1px;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 16px;
+}
+
+.details,
+.contributors {
+  flex: 1;
+  border: none;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.details {
+  padding: 16px;
+  text-transform: capitalize;
+  align-self: flex-start;
+}
+
+table .label {
+  position: relative;
+  font-weight: bold;
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+}
+
+table .label::after {
+  content: ' :';
+  position: absolute;
+  right: 0;
+  margin-right: 5px;
+}
+
+table td {
+  vertical-align: top;
+}
+
+table tr {
+  margin: 10px 0;
+}
+
+.contributors__title {
+  text-transform: capitalize;
+  font-size: 0.8rem;
+  color: rgb(0, 0, 0, 54%);
+  padding: 8px 16px 4px 16px;
+}
+
+.contributors__list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contributors__item {
+  border-bottom: solid 1px rgb(0, 0, 0, 12%);
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  cursor: pointer;
+}
+
+.contributors__avatar {
+  border-radius: 3px;
+  margin-right: 16px;
+  height: 48px;
+}
+
+.contributors__info {
+  flex: 1;
+}
+
+.contributors__name {
+  flex: 1;
+}
+
+.contributors__badge {
+  font-size: 12px;
+  padding: 2px 8px;
+  line-height: 1rem;
+  background-color: gray;
+  color: white;
+  border-radius: 4px;
 }
