@@ -41,7 +41,7 @@
         alt: contributor.login,
         class: 'image',
       });
-      createAndAppend('p', contributorsDetailsDiv, {
+      createAndAppend('a', contributorsDetailsDiv, {
         text: contributor.login,
         href: contributor.html_url,
         target: '_blank',
@@ -89,6 +89,8 @@
     const header = createAndAppend('div', root, { id: 'header' });
     createAndAppend('p', header, { text: 'HYF Repositories', class: 'header' });
     const select = createAndAppend('select', header, { id: 'select' });
+
+    repos.sort((a, b) => a.name.localeCompare(b.name));
 
     repos.forEach((repo, index) => {
       createAndAppend('option', select, {
