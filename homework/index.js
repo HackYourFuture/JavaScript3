@@ -108,28 +108,29 @@
   }
 
   // create the select options and the event listener for changing repositories
-  function selectAndChange(data, container, header) {
-    const select = createAndAppend('select', header, { class: 'repository-selector' });
+  function selectAndChange(repositories, container, header) {
     // localeCompare enables a case-insensitive sort of an array.
-    const repositories = data.sort((a, b) => a.name.localeCompare(b.name));
+    repositories.sort((a, b) => a.name.localeCompare(b.name));
+
+    const select = createAndAppend('select', header, { class: 'repository-selector' });
     repositories.forEach((repository, index) => {
       createAndAppend('option', select, { text: repository.name, value: index });
     });
-    createDetailsTable(data[0], container);
-    listContributors(data[0], container);
+    createDetailsTable(repositories[0], container);
+    listContributors(repositories[0], container);
 
     select.addEventListener('change', () => {
       while (container.firstChild) {
         container.removeChild(container.firstChild);
       }
       const index = select.value;
-      createDetailsTable(data[index], container);
-      listContributors(data[index], container);
+      createDetailsTable(repositories[index], container);
+      listContributors(repositories[index], container);
     });
   }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
+    fetchJSON(url, (err, repositories) => {
       const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
@@ -141,11 +142,11 @@
         class: 'container',
         id: 'container',
       });
-      selectAndChange(data, container, header);
+      selectAndChange(repositories, container, header);
     });
   }
 
-  const HYF_REPOSITORIES_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
-  window.onload = () => main(HYF_REPOSITORIES_URL);
+  window.onload = () => main(HYF_REPOS_URL);
 }
