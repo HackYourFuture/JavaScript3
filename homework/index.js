@@ -103,7 +103,12 @@
           });
         });
       })
-      .catch(err => createAndAppend('div', root, { text: err.message, class: 'alert-error' }));
+      .catch(err =>
+        createAndAppend('div', document.getElementById('root'), {
+          text: err.message,
+          class: 'alert-error',
+        }),
+      );
   }
 
   // create the select options and the event listener for changing repositories
