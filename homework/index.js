@@ -30,167 +30,157 @@
     return elem;
   }
 
-  function defaultSelectedRepository(data, selectedText) {
+  function getSelectedRepository(repositories, selectedText) {
     let elem;
-    data.filter(element => {
+    repositories.forEach(element => {
       if (element.name === selectedText) {
         elem = element;
       }
-      return elem;
     });
     return elem;
   }
 
-  function buildHtml(data, root) {
-    const header = createAndAppend('header', root, { class: 'header' });
-    createAndAppend('p', header, { text: 'HYF Repositories' });
-    const select = createAndAppend('select', header, {
-      class: 'repo-selector',
-      arialabel: 'HYF Repositories',
+  function createContainer(selectedRepository) {
+    const container = document.getElementById('container');
+    const leftDiv = createAndAppend('div', container, {
+      id: 'leftDiv',
+      class: 'left-div white_Frame',
     });
-
-    data
-      .map(repository => repository.name)
-      .sort((a, b) => a.localeCompare(b, { caseFirst: 'lower' }))
-      .map((element, index) => createAndAppend('option', select, { value: index, text: element }));
-
-    const container = createAndAppend('div', root, { id: 'container' });
-    const leftDiv = createAndAppend('div', container, { class: 'left-div whiteframe' });
     const table = createAndAppend('table', leftDiv);
     const tbody = createAndAppend('tbody', table, { id: 'tbody' });
 
-    const defaultRepo = defaultSelectedRepository(data, select[select.selectedIndex].text);
-
-    function showSelectedConts(dataCont) {
-      const rightDiv = createAndAppend('div', container, {
-        id: 'rightDiv',
-        class: 'right-div whiteframe',
-      });
-      createAndAppend('p', rightDiv, {
-        class: 'contributor-header',
-        text: 'Contributions :',
-      });
-      const ul = createAndAppend('ul', rightDiv, { id: 'ulList', class: 'contributor-list' });
-      dataCont.forEach(element => {
-        const li = createAndAppend('li', ul, {
-          class: 'contributor-item',
-          arialabel: element.login,
-          tabindex: 0,
-        });
-        createAndAppend('img', li, {
-          src: element.avatar_url,
-          height: 48,
-          class: 'contributor-avatar',
-        });
-        const contInfoDiv = createAndAppend('div', li, { class: 'contributor-data' });
-        createAndAppend('div', contInfoDiv, { text: element.login });
-        createAndAppend('div', contInfoDiv, {
-          class: 'contributor-badge',
-          text: element.contributions,
-        });
-        li.addEventListener('click', () => {
-          window.open(element.html_url, '_blank');
-        });
+    if (selectedRepository.name !== null) {
+      const tr1 = createAndAppend('tr', tbody);
+      createAndAppend('td', tr1, { class: 'label', text: 'Repository :' });
+      const td2 = createAndAppend('td', tr1);
+      createAndAppend('a', td2, {
+        href: selectedRepository.html_url,
+        target: '_blank',
+        text: selectedRepository.name,
       });
     }
-    fetchJSON(defaultRepo.contributors_url, (err, contributors) => {
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        showSelectedConts(contributors);
-      }
+    if (selectedRepository.description !== null) {
+      const tr2 = createAndAppend('tr', tbody);
+      createAndAppend('td', tr2, { class: 'label', text: 'Description :' });
+      const repositoryDescription = createAndAppend('td', tr2, { text: '' });
+      repositoryDescription.textContent = selectedRepository.description;
+    }
+    if (selectedRepository.forks !== null) {
+      const tr3 = createAndAppend('tr', tbody);
+      createAndAppend('td', tr3, { class: 'label', text: 'Forks :' });
+      const fork = createAndAppend('td', tr3, { text: '' });
+      fork.textContent = selectedRepository.forks;
+    }
+    if (selectedRepository.updated_at !== null) {
+      const tr4 = createAndAppend('tr', tbody);
+      createAndAppend('td', tr4, { class: 'label', text: 'Updated :' });
+      const updated = createAndAppend('td', tr4, { text: '' });
+      updated.textContent = new Date(selectedRepository.updated_at).toLocaleString();
+    }
+  }
+
+  function clearContainer(container) {
+    while (container.hasChildNodes()) {
+      container.removeChild(container.firstChild);
+    }
+  }
+
+  function createContributions(contributors) {
+    const container = document.getElementById('container');
+    const rightDiv = createAndAppend('div', container, {
+      id: 'rightDiv',
+      class: 'right-div white_Frame',
     });
-
-    function showSelectedRepo(selectedRepo) {
-      if (selectedRepo.name !== null) {
-        const tr1 = createAndAppend('tr', tbody);
-        createAndAppend('td', tr1, { class: 'label', text: 'Repository :' });
-        const td2 = createAndAppend('td', tr1);
-        const repoLink = createAndAppend('a', td2, { href: '', target: '_blank', text: '' });
-        repoLink.textContent = selectedRepo.name;
-        repoLink.href = selectedRepo.html_url;
-      }
-      if (selectedRepo.description !== null) {
-        const tr2 = createAndAppend('tr', tbody);
-        createAndAppend('td', tr2, { class: 'label', text: 'Description :' });
-        const repoDescription = createAndAppend('td', tr2, { text: '' });
-        repoDescription.textContent = selectedRepo.description;
-      }
-      if (selectedRepo.forks !== null) {
-        const tr3 = createAndAppend('tr', tbody);
-        createAndAppend('td', tr3, { class: 'label', text: 'Forks :' });
-        const fork = createAndAppend('td', tr3, { text: '' });
-        fork.textContent = selectedRepo.forks;
-      }
-      if (selectedRepo.updated_at !== null) {
-        const tr4 = createAndAppend('tr', tbody);
-        createAndAppend('td', tr4, { class: 'label', text: 'Updated :' });
-        const updated = createAndAppend('td', tr4, { text: '' });
-        updated.textContent = new Date(selectedRepo.updated_at).toLocaleString();
-      }
-    }
-    showSelectedRepo(defaultRepo);
-
-    select.addEventListener('change', () => {
-      const selectedText = select[select.selectedIndex].text;
-      let elem;
-      data.filter(element => {
-        if (element.name === selectedText) {
-          elem = element;
-        }
-        return elem;
+    createAndAppend('p', rightDiv, {
+      class: 'contributor-header',
+      text: 'Contributions :',
+    });
+    const ul = createAndAppend('ul', rightDiv, { id: 'ulList', class: 'contributor-list' });
+    contributors.forEach(element => {
+      const li = createAndAppend('li', ul, {
+        class: 'contributor-item',
+        tabindex: 0,
       });
+      createAndAppend('img', li, {
+        src: element.avatar_url,
+        height: 48,
+        class: 'contributor-avatar',
+        alt: 'contributor',
+      });
+      const contInfoDiv = createAndAppend('div', li, { class: 'contributor-data' });
+      createAndAppend('div', contInfoDiv, { text: element.login });
+      createAndAppend('div', contInfoDiv, {
+        class: 'contributor-badge',
+        text: element.contributions,
+      });
+      li.addEventListener('click', () => {
+        window.open(element.html_url, '_blank');
+      });
+    });
+  }
 
-      const tBody = document.getElementById('tbody');
-
-      tBody.firstChild.lastChild.removeChild(tBody.firstChild.lastChild.firstChild);
-      tBody.firstChild.removeChild(tBody.firstChild.lastChild);
-      tBody.firstChild.removeChild(tBody.firstChild.firstChild);
-      tBody.removeChild(tBody.firstChild);
-
-      while (tBody.hasChildNodes()) {
-        tBody.firstChild.removeChild(tBody.firstChild.firstChild);
-        tBody.firstChild.removeChild(tBody.firstChild.lastChild);
-        tBody.removeChild(tBody.firstChild);
-      }
-
-      const ulList = document.getElementById('ulList');
-      while (ulList.hasChildNodes()) {
-        ulList.firstChild.removeChild(ulList.firstChild.firstChild);
-        ulList.firstChild.lastChild.removeChild(ulList.firstChild.lastChild.firstChild);
-        ulList.firstChild.lastChild.removeChild(ulList.firstChild.lastChild.lastChild);
-        ulList.firstChild.removeChild(ulList.firstChild.lastChild);
-        ulList.removeChild(ulList.firstChild);
-      }
-      const containerDiv = document.getElementById('container');
-      containerDiv.lastChild.removeChild(containerDiv.lastChild.firstChild);
-      containerDiv.lastChild.removeChild(containerDiv.lastChild.lastChild);
-      containerDiv.removeChild(container.lastChild);
-
-      showSelectedRepo(elem);
-
-      fetchJSON(elem.contributors_url, (err, contributors) => {
+  function listenSelectElement(repositories, root) {
+    const container = document.getElementById('container');
+    const select = document.getElementById('select');
+    select.addEventListener('change', () => {
+      clearContainer(container);
+      const newSelectedRepository = getSelectedRepository(
+        repositories,
+        select[select.selectedIndex].text,
+      );
+      createContainer(newSelectedRepository);
+      fetchJSON(newSelectedRepository.contributors_url, (err, contributors) => {
         if (err) {
           createAndAppend('div', root, { text: err.message, class: 'alert-error' });
         } else {
-          showSelectedConts(contributors);
+          createContributions(contributors);
         }
       });
     });
   }
 
+  function createHeader(repositories, root) {
+    const header = createAndAppend('header', root, { class: 'header' });
+    createAndAppend('p', header, { text: 'HYF Repositories' });
+    const select = createAndAppend('select', header, {
+      id: 'select',
+      class: 'repository-selector',
+    });
+    repositories
+      .map(repository => repository.name)
+      .sort((a, b) => a.localeCompare(b, { caseFirst: 'lower' }))
+      .map((element, index) => createAndAppend('option', select, { value: index, text: element }));
+    const defaultRepository = getSelectedRepository(
+      repositories,
+      select[select.selectedIndex].text,
+    );
+    createAndAppend('div', root, { id: 'container' });
+
+    createContainer(defaultRepository);
+
+    fetchJSON(defaultRepository.contributors_url, (err, contributors) => {
+      if (err) {
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+      } else {
+        createContributions(contributors);
+      }
+    });
+
+    listenSelectElement(repositories, root);
+  }
+
   function main(url) {
-    fetchJSON(url, (err, data) => {
+    fetchJSON(url, (err, repositories) => {
       const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
-        buildHtml(data, root);
+        createHeader(repositories, root);
       }
     });
   }
 
-  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+  const HYF_REPOSITORY_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
-  window.onload = () => main(HYF_REPOS_URL);
+  window.onload = () => main(HYF_REPOSITORY_URL);
 }
