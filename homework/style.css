@@ -1,3 +1,128 @@
 .alert-error {
-    color: red;
+  color: red;
+}
+
+body {
+  width: 768px;
+  margin: auto;
+  background-color: #f8f8f8;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+}
+
+#root {
+  width: 100%;
+}
+
+.header {
+  background-color: #3f51b5;
+  color: white;
+  display: flex;
+  flex-direction: row;
+
+  justify-content: start;
+  align-items: center;
+  padding: 8px 15px;
+  margin-bottom: 15px;
+}
+
+.repo-selector {
+  margin-left: 15px;
+  font-size: 14px;
+  width: 250px;
+  height: 30px;
+  padding: 2px;
+}
+
+#container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  align-content: space-between;
+}
+
+.leftDiv {
+  width: calc(50% - 10px);
+  margin-right: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  padding: 20px 15px;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
+    0 3px 3px -2px rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+  border: none;
+  border-radius: 2px;
+}
+
+.label {
+  font-weight: bold;
+  width: 100px;
+  margin-right: 10px;
+}
+
+.rightDiv {
+  width: 50%;
+  font-size: 16px;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
+    0 3px 3px -2px rgba(0, 0, 0, 0.12);
+  background-color: #ffffff;
+  border: none;
+  border-radius: 2px;
+}
+
+.contributor-header {
+  color: gray;
+  font-size: 12px;
+  padding: 15px 15px 10px 15px;
+}
+
+.contributor-list {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+.contributor-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  border-bottom: solid 1px lightgray;
+  padding: 15px;
+}
+
+.contributor-avatar {
+  border-radius: 4px;
+  margin-right: 15px;
+}
+
+.contributor-data {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.contributor-badge {
+  background-color: #808080;
+  color: white;
+  font-size: 12px;
+  padding: 3px 5px;
+  border-radius: 4px;
+}
+
+@media (max-width: 767px) {
+  body {
+    width: 100%;
+  }
+  #container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .leftDiv {
+    width: 100%;
+  }
+  .rightDiv {
+    width: 100%;
+  }
 }

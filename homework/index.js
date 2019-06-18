@@ -65,11 +65,50 @@
     });
   }
 
+  function reposContributor(url) {
+    const root = document.getElementById('root');
+    const rightDiv = document.querySelector('.rightDiv');
+    createAndAppend('p', rightDiv, {
+      class: 'contributor-header',
+      text: 'Contributions',
+    });
+    const ul = createAndAppend('ul', rightDiv, { class: 'contributor-list' });
+    fetchJSON(url, (err, contributors) => {
+      if (err) {
+        createAndAppend('p', root, { text: err.message, class: 'alert' });
+      } else {
+        contributors.forEach(contributor => {
+          const li = createAndAppend('li', ul, {
+            class: 'contributor-item',
+            tabindex: '0',
+            'aria-label': contributor.login,
+          });
+
+          createAndAppend('img', li, {
+            src: contributor.avatar_url,
+            height: 48,
+            class: 'contributor-avatar',
+          });
+          const contributorData = createAndAppend('div', li, { class: 'contributor-data' });
+          createAndAppend('div', contributorData, { text: contributor.login });
+          createAndAppend('div', contributorData, {
+            class: 'contributor-badge',
+            text: contributor.contributions,
+          });
+
+          li.addEventListener('click', () => {
+            window.open(contributor.html_url);
+          });
+        });
+      }
+    });
+  }
+
   function main(url) {
     const root = document.getElementById('root');
     fetchJSON(url, (err, data) => {
       const header = createAndAppend('header', root, { class: 'header' });
-      const h1 = createAndAppend('p', header, { text: 'HYF Repositories' });
+      createAndAppend('p', header, { text: 'HYF Repositories' });
       const selector = createAndAppend('select', header, { class: 'repo-selector' });
       if (err) {
         createAndAppend('p', root, { text: err.message, class: 'alert' });
@@ -78,14 +117,19 @@
         for (let i = 0; i < data.length; i++) {
           createAndAppend('option', selector, { text: data[i].name, value: i });
         }
-        selector.addEventListener('change', () => {
-          document.querySelector('.leftDiv').innerHTML = '';
-          reposAbstract(selector.value, data);
-        });
+
         const container = createAndAppend('div', root, { id: 'container' });
         createAndAppend('div', container, { class: 'leftDiv' });
         createAndAppend('div', container, { class: 'rightDiv' });
         reposAbstract(selector.value, data);
+        reposContributor(data[selector.value].contributors_url);
+
+        selector.addEventListener('change', () => {
+          document.querySelector('.leftDiv').innerHTML = '';
+          document.querySelector('.rightDiv').innerHTML = '';
+          reposAbstract(selector.value, data);
+          reposContributor(data[selector.value].contributors_url);
+        });
       }
     });
   }
