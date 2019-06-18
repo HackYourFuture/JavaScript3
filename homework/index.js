@@ -68,19 +68,18 @@
           id: 'contributors',
         });
 
-        let valueNumber = 0;
+        let index = 0;
         const repositories = JSON.parse(jsonString, null);
         let contributorsURL = '';
-
+        repositories.sort((a, b) => a.name.localeCompare(b.name));
         repositories.forEach(repo => {
           const options = createAndAppend('option', select, {
-            value: valueNumber,
+            value: index,
           });
           options.textContent = repo.name;
-          valueNumber += 1;
+          index += 1;
         });
-        const selectElement = document.getElementById('selection');
-        selectElement.addEventListener('change', event => {
+        select.addEventListener('change', event => {
           removeChildren(renewalSpace);
           const description = document.getElementById('repoDescriptionP');
           const forks = document.getElementById('forks');
