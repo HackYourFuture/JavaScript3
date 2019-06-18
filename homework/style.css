@@ -3,6 +3,8 @@
 }
 
 body {
+  margin-left: auto;
+  margin-right: auto;
   margin: 0px;
   background: white;
 }
@@ -48,11 +50,10 @@ body {
 #contributors {
   font-size: 1rem;
   color: rgb(0, 0, 0, 54%);
-  padding: 8px 16px 4px 16px;
 }
 
 #contributor-container {
-  margin-left: 627px;
+  margin-left: 500px;
 }
 
 .contributor-details {
@@ -74,8 +75,30 @@ body {
   cursor: pointer;
 }
 
-.contributor-badge,
 .contributor-data {
-  padding: 16px;
   margin-bottom: 30px;
+  margin-right: 100px;
+}
+
+.contributor-badge {
+  margin-bottom: 42px;
+  padding: 3px;
+  border-radius: 3px;
+}
+
+@media (max-width: 767px) {
+  body {
+    width: 100%;
+  }
+
+  #main {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #contributor-container {
+    flex-direction: column;
+    align-items: left;
+    margin-left: 20px;
+  }
 }

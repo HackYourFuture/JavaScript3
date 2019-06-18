@@ -1,19 +1,21 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -41,7 +43,7 @@
         alt: contributor.login,
         class: 'image',
       });
-      createAndAppend('p', contributorsDetailsDiv, {
+      createAndAppend('a', contributorsDetailsDiv, {
         text: contributor.login,
         href: contributor.html_url,
         target: '_blank',
@@ -76,19 +78,21 @@
       class: 'repo-child',
     });
 
-    fetchJSON(selectedRepo.contributors_url, (err, contributors) => {
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
+    fetchJSON(selectedRepo.contributors_url)
+      .then(contributors => {
         renderContributors(contributors, contributorsContainer);
-      }
-    });
+      })
+      .catch(err => {
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+      });
   }
 
   function dropDown(root, repos) {
     const header = createAndAppend('div', root, { id: 'header' });
     createAndAppend('p', header, { text: 'HYF Repositories', class: 'header' });
     const select = createAndAppend('select', header, { id: 'select' });
+
+    repos.sort((a, b) => a.name.localeCompare(b.name));
 
     repos.forEach((repo, index) => {
       createAndAppend('option', select, {
@@ -112,13 +116,13 @@
 
   function main(url) {
     const root = document.getElementById('root');
-    fetchJSON(url, (err, repositories) => {
-      if (err) {
+    fetchJSON(url)
+      .then(repos => {
+        dropDown(root, repos);
+      })
+      .catch(err => {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        dropDown(root, repositories);
-      }
-    });
+      });
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
