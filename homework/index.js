@@ -30,16 +30,6 @@
     return elem;
   }
 
-  function getSelectedRepository(repositories, selectedText) {
-    let elem;
-    repositories.forEach(element => {
-      if (element.name === selectedText) {
-        elem = element;
-      }
-    });
-    return elem;
-  }
-
   function createContainer(selectedRepository) {
     const container = document.getElementById('container');
     const leftDiv = createAndAppend('div', container, {
@@ -124,10 +114,7 @@
     const select = document.getElementById('select');
     select.addEventListener('change', () => {
       clearContainer(container);
-      const newSelectedRepository = getSelectedRepository(
-        repositories,
-        select[select.selectedIndex].text,
-      );
+      const newSelectedRepository = repositories[select.value];
       createContainer(newSelectedRepository);
       fetchJSON(newSelectedRepository.contributors_url, (err, contributors) => {
         if (err) {
@@ -146,16 +133,12 @@
       id: 'select',
       class: 'repository-selector',
     });
-    repositories
-      .map(repository => repository.name)
-      .sort((a, b) => a.localeCompare(b, { caseFirst: 'lower' }))
-      .map((element, index) => createAndAppend('option', select, { value: index, text: element }));
-    const defaultRepository = getSelectedRepository(
-      repositories,
-      select[select.selectedIndex].text,
+    repositories.sort((a, b) => a.name.localeCompare(b.name));
+    repositories.forEach((repository, index) =>
+      createAndAppend('option', select, { value: index, text: repository.name }),
     );
+    const defaultRepository = repositories[0];
     createAndAppend('div', root, { id: 'container' });
-
     createContainer(defaultRepository);
 
     fetchJSON(defaultRepository.contributors_url, (err, contributors) => {
