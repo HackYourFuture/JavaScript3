@@ -1,19 +1,21 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = new Error('Network request failed');
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -116,13 +118,10 @@
       clearContainer(container);
       const newSelectedRepository = repositories[select.value];
       createContainer(newSelectedRepository);
-      fetchJSON(newSelectedRepository.contributors_url, (err, contributors) => {
-        if (err) {
-          createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-        } else {
-          createContributions(contributors);
-        }
-      });
+
+      fetchJSON(newSelectedRepository.contributors_url)
+        .then(contributors => createContributions(contributors))
+        .catch(error => createAndAppend('div', root, { text: error, class: 'alert-error' }));
     });
   }
 
@@ -141,26 +140,18 @@
     createAndAppend('div', root, { id: 'container' });
     createContainer(defaultRepository);
 
-    fetchJSON(defaultRepository.contributors_url, (err, contributors) => {
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        createContributions(contributors);
-      }
-    });
+    fetchJSON(defaultRepository.contributors_url)
+      .then(contributors => createContributions(contributors))
+      .catch(error => createAndAppend('div', root, { text: error, class: 'alert-error' }));
 
     listenSelectElement(repositories, root);
   }
 
   function main(url) {
-    fetchJSON(url, (err, repositories) => {
-      const root = document.getElementById('root');
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        createHeader(repositories, root);
-      }
-    });
+    const root = document.getElementById('root');
+    fetchJSON(url)
+      .then(repositories => createHeader(repositories, root))
+      .catch(error => createAndAppend('div', root, { text: error, class: 'alert-error' }));
   }
 
   const HYF_REPOSITORY_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
