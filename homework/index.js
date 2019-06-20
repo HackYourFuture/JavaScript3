@@ -1,19 +1,21 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(Error('Network Error'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -33,7 +35,6 @@
   function makeHeader(repos) {
     const root = document.getElementById('root');
     const header = createAndAppend('header', root, { class: 'header' });
-    header.style = 'display: flex;';
     createAndAppend('h3', header, { text: 'HYF Repositories' });
     const selectMenu = createAndAppend('select', header, { class: 'repo-selector' });
     const optionsArr = [];
@@ -44,15 +45,13 @@
       };
       optionsArr.push(option);
     }
-    optionsArr
-      .sort((a, b) => a.name.localeCompare(b.name, { caseFirst: 'lower' }))
-      .map(element =>
-        createAndAppend('option', selectMenu, {
-          value: element.index,
-          text: element.name,
-          id: element.name,
-        }),
-      );
+    optionsArr.map(element =>
+      createAndAppend('option', selectMenu, {
+        value: element.index,
+        text: element.name,
+        id: element.name,
+      }),
+    );
     return header;
   }
 
@@ -83,7 +82,7 @@
     });
   }
 
-  function makeUl(repos) {
+  function makeContributorsList(repos) {
     const rightDiv = document.querySelector('.rightDiv');
     createAndAppend('p', rightDiv, { class: 'contributor-header', text: 'Contributions' });
     const ul = createAndAppend('ul', rightDiv, { class: 'contributor-list' });
@@ -115,14 +114,7 @@
     document.querySelector('.leftDiv').innerHTML = '';
     document.querySelector('.rightDiv').innerHTML = '';
     makeTable(repos[index]);
-    fetchJSON(repos[index].contributors_url, (err, fetchedData) => {
-      const root = document.getElementById('root');
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        makeUl(fetchedData);
-      }
-    });
+    fetchJSON(repos[index].contributors_url).then(data => makeContributorsList(data));
   }
 
   function mainHtmlConstructor(repos) {
@@ -132,22 +124,24 @@
     createAndAppend('div', container, { class: 'leftDiv whiteframe' });
     createAndAppend('div', container, { class: 'rightDiv whiteframe' });
     const selectMenu = document.querySelector('select');
-    makeHtmlOfContents(repos, selectMenu.options[selectMenu.selectedIndex].value);
+    makeHtmlOfContents(repos, selectMenu.selectedIndex);
     selectMenu.onchange = () => {
-      const index = selectMenu.options[selectMenu.selectedIndex].value;
+      const index = selectMenu.selectedIndex;
       makeHtmlOfContents(repos, index);
     };
   }
 
   function main(url) {
-    fetchJSON(url, (err, repos) => {
-      const root = document.getElementById('root');
-      if (err) {
+    fetchJSON(url)
+      .then(data =>
+        mainHtmlConstructor(
+          data.sort((one, two) => one.name.toLowerCase().localeCompare(two.name.toLowerCase())),
+        ),
+      )
+      .catch(err => {
+        const root = document.getElementById('root');
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        mainHtmlConstructor(repos);
-      }
-    });
+      });
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
