@@ -1,19 +1,23 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSONPromise(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = function func() {
+        reject(new Error('Network request failed'));
+      };
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -29,30 +33,66 @@
     });
     return elem;
   }
-  function addOptions(select, repoNames) {
-    repoNames.forEach(repoName => createAndAppend('option', select, { text: repoName.name }));
+  function addOptions(select, repositories) {
+    repositories.forEach(repo => createAndAppend('option', select, { text: repo.name }));
+  }
+
+  function addContributorsDiv(url, container) {
+    fetchJSONPromise(url)
+      .then(data => {
+        const rightDiv = createAndAppend('div', container, { class: 'rightDiv', id: 'rightDiv' });
+        createAndAppend('p', rightDiv, {
+          text: 'Contributors',
+          class: 'rightDivHeader',
+        });
+        const ul = createAndAppend('ul', rightDiv, { class: 'contUl' });
+        data.forEach(cont => {
+          const li = createAndAppend('li', ul, { class: 'contLi' });
+          const contDiv = createAndAppend('div', li, { class: 'contDiv' });
+          createAndAppend('img', contDiv, {
+            src: cont.avatar_url,
+            class: 'contImg',
+          });
+          createAndAppend('div', contDiv, {
+            src: cont.html_url,
+            text: cont.login,
+            class: 'aDiv',
+          });
+          createAndAppend('div', contDiv, {
+            text: cont.contributions,
+            class: 'badgeDiv',
+          });
+          li.addEventListener('click', () => {
+            window.open(cont.html_url);
+          });
+        });
+      })
+      .catch(err => {
+        createAndAppend('div', container, {
+          text: `${err.message} - Contributions content could not be loaded`,
+          class: 'alert-error',
+        });
+      });
   }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
-      const root = document.getElementById('root');
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        const repoNames = data.sort((a, b) =>
+    fetchJSONPromise(url)
+      .then(data => {
+        const repositories = data.sort((a, b) =>
           a.name.toLowerCase().localeCompare(b.name.toLowerCase()),
         );
-
-        const header = createAndAppend('header', root, { id: 'header' });
-        const headerDiv = createAndAppend('div', header, { id: 'headerDiv' });
+        const root = document.getElementById('root');
+        const header = createAndAppend('header', root, { class: 'header' });
+        const container = createAndAppend('div', root, { class: 'container' });
+        const headerDiv = createAndAppend('div', header, { class: 'headerDiv' });
         createAndAppend('span', headerDiv, {
           text: 'HYF Repositories',
           id: 'headerSpan',
         });
-        const select = createAndAppend('select', headerDiv, { id: 'selectId' });
-        addOptions(select, repoNames);
-        let selectedOption = repoNames[select.selectedIndex];
-        const repoDetailsDiv = createAndAppend('div', root, { id: 'repoDetailsDiv' });
+        const select = createAndAppend('select', headerDiv);
+        addOptions(select, repositories);
+        let selectedRepo = repositories[select.selectedIndex];
+        const repoDetailsDiv = createAndAppend('div', container, { class: 'repoDetailsDiv' });
         const repoDiv = createAndAppend('div', repoDetailsDiv, { class: 'divClass' });
         const descriptionDiv = createAndAppend('div', repoDetailsDiv, {
           class: 'divClass',
@@ -62,55 +102,57 @@
         const updatedDiv = createAndAppend('div', repoDetailsDiv, { class: 'divClass' });
 
         createAndAppend('span', descriptionDiv, {
-          id: 'descSpan',
           text: 'Description:',
           class: 'spanClass',
         });
         createAndAppend('span', forkDiv, {
-          id: 'forkSpan',
           text: 'Forks:',
           class: 'spanClass',
         });
         createAndAppend('span', updatedDiv, {
-          id: 'updateSpan',
           text: 'Updated:',
           class: 'spanClass',
         });
         createAndAppend('span', repoDiv, { id: 'repoSpan', text: 'Repository:' });
         const descP = createAndAppend('p', descriptionDiv, {
           id: 'descP',
-          text: selectedOption.description,
+          text: selectedRepo.description,
           class: 'pClass',
         });
         const forkP = createAndAppend('p', forkDiv, {
-          id: 'forkP',
-          text: selectedOption.forks,
+          text: selectedRepo.forks,
           class: 'pClass',
         });
         const updateP = createAndAppend('p', updatedDiv, {
-          id: 'updateP',
-          text: selectedOption.updated_at,
+          text: selectedRepo.updated_at,
           class: 'pClass',
         });
         const repoA = createAndAppend('a', repoDiv, {
-          text: selectedOption.name,
-          id: 'repoA',
-          href: selectedOption.html_url,
+          text: selectedRepo.name,
+          href: selectedRepo.html_url,
           target: '_blank',
         });
+
+        addContributorsDiv(selectedRepo.contributors_url, container);
         select.onchange = function func() {
-          selectedOption = repoNames[select.selectedIndex];
-          repoA.href = selectedOption.html_url;
-          repoA.innerText = selectedOption.name;
-          descP.innerText = selectedOption.description;
-          forkP.innerText = selectedOption.forks;
-          updateP.innerText = selectedOption.updated_at;
+          selectedRepo = repositories[select.selectedIndex];
+          repoA.href = selectedRepo.html_url;
+          repoA.innerText = selectedRepo.name;
+          descP.innerText = selectedRepo.description;
+          forkP.innerText = selectedRepo.forks;
+          updateP.innerText = selectedRepo.updated_at;
+          container.removeChild(document.getElementById('rightDiv'));
           if (!descP.innerText) {
             document.getElementById('descDiv').style.display = 'none';
           } else document.getElementById('descDiv').style.display = 'flex';
+
+          addContributorsDiv(selectedRepo.contributors_url, container);
         };
-      }
-    });
+      })
+      .catch(err => {
+        const root = document.getElementById('root');
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+      });
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';

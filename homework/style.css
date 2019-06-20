@@ -7,10 +7,12 @@
   justify-content: flex-start;
   padding: 3% 3% 3% 3%;
 }
-.root {
+.container {
   display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
-#repoDetailsDiv {
+.repoDetailsDiv {
   display: grid;
   width: 30%;
   border-radius: 2px;
@@ -40,7 +42,7 @@ p {
   width: 30%;
   font-size: 120%;
 }
-#headerDiv {
+.headerDiv {
   display: flex;
   width: 60%;
   height: 80px;
@@ -50,12 +52,72 @@ p {
   margin-left: 20%;
   min-width: 250px;
 }
+.rightDiv {
+  width: 30%;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
+    0 3px 3px -2px rgba(0, 0, 0, 0.12);
+}
+
+.contImg {
+  width: 48px;
+  border-radius: 3px;
+  margin-right: 16px;
+}
+
+.contUl {
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+.badgeDiv {
+  background-color: gray;
+  color: white;
+  border-radius: 4px;
+  height: 20px;
+}
+
+.contDiv {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0%;
+  justify-content: space-between;
+}
+.aDiv {
+  justify-self: flex-start;
+}
+.contLi {
+  border-bottom: solid 1px rgb(0, 0, 0, 12%);
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+}
+.rightDivHeader {
+  padding: 8px 16px 4px 16px;
+}
+.rightDiv {
+  margin-left: 1%;
+  width: 29%;
+}
 @media (max-width: 768px) {
-  #repoDetailsDiv {
+  .repoDetailsDiv {
     width: 100%;
     margin-left: 0%;
   }
-  #headerDiv {
+  .headerDiv {
     width: 100%;
     margin-left: 0%;
+  }
+  .container {
+    flex-direction: column;
+  }
+  .rightDiv {
+    margin-top: 1%;
+    width: 100%;
+    margin-left: 0;
+  }
 }
