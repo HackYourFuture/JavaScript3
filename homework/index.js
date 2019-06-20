@@ -1,21 +1,22 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
-
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
@@ -73,10 +74,9 @@
       text: 'Contributions',
     });
     const ul = createAndAppend('ul', rightDiv, { class: 'contributor-list' });
-    fetchJSON(url, (err, contributors) => {
-      if (err) {
-        createAndAppend('p', root, { text: err.message, class: 'alert' });
-      } else {
+
+    fetchJSON(url)
+      .then(contributors => {
         contributors.forEach(contributor => {
           const li = createAndAppend('li', ul, {
             class: 'contributor-item',
@@ -88,6 +88,7 @@
             src: contributor.avatar_url,
             height: 48,
             class: 'contributor-avatar',
+            alt: 'contributor-avatar',
           });
           const contributorData = createAndAppend('div', li, { class: 'contributor-data' });
           createAndAppend('div', contributorData, { text: contributor.login });
@@ -100,38 +101,41 @@
             window.open(contributor.html_url);
           });
         });
-      }
-    });
+      })
+      .catch(err => {
+        createAndAppend('p', root, { text: err.message, class: 'alert' });
+      });
   }
 
   function main(url) {
     const root = document.getElementById('root');
-    fetchJSON(url, (err, data) => {
-      const header = createAndAppend('header', root, { class: 'header' });
-      createAndAppend('p', header, { text: 'HYF Repositories' });
-      const selector = createAndAppend('select', header, { class: 'repo-selector' });
-      if (err) {
-        createAndAppend('p', root, { text: err.message, class: 'alert' });
-      } else {
-        data.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
-        for (let i = 0; i < data.length; i++) {
-          createAndAppend('option', selector, { text: data[i].name, value: i });
+    const header = createAndAppend('header', root, { class: 'header' });
+    createAndAppend('p', header, { text: 'HYF Repositories' });
+    const selector = createAndAppend('select', header, { class: 'repo-selector' });
+
+    fetchJSON(url)
+      .then(repositories => {
+        repositories.sort((a, b) => a.name.localeCompare(b.name));
+        for (let i = 0; i < repositories.length; i++) {
+          createAndAppend('option', selector, { text: repositories[i].name, value: i });
         }
 
         const container = createAndAppend('div', root, { id: 'container' });
         createAndAppend('div', container, { class: 'leftDiv' });
         createAndAppend('div', container, { class: 'rightDiv' });
-        reposAbstract(selector.value, data);
-        reposContributor(data[selector.value].contributors_url);
+        reposAbstract(selector.value, repositories);
+        reposContributor(repositories[selector.value].contributors_url);
 
         selector.addEventListener('change', () => {
           document.querySelector('.leftDiv').innerHTML = '';
           document.querySelector('.rightDiv').innerHTML = '';
-          reposAbstract(selector.value, data);
-          reposContributor(data[selector.value].contributors_url);
+          reposAbstract(selector.value, repositories);
+          reposContributor(repositories[selector.value].contributors_url);
         });
-      }
-    });
+      })
+      .catch(err => {
+        createAndAppend('p', root, { text: err.message, class: 'alert' });
+      });
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
