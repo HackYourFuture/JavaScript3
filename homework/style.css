@@ -3,12 +3,71 @@
   background-color: #f8d7da;
 }
 .header {
+  width: 55%;
   color: white;
+  background-color: #3f51b5;
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.h1 {
+  font-size: 16px;
+  padding-right: 2%;
+  font-weight: 500;
 }
 .selectDiv {
   background-color: #3f51b5;
 }
+#root {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.image {
+  width: 60px;
+  height: 60px;
+}
 
-.repoInfoDiv {
-  border: 2px solid black;
+.repo-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.left-div {
+  margin-bottom: 8px;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 4px 3px 19px -5px rgba(0, 0, 0, 0.75);
+  margin-right: 5px;
+  padding: 2%;
+  width: 40%;
+}
+.right-div {
+  box-shadow: 4px 3px 19px -5px rgba(0, 0, 0, 0.6);
+  margin-bottom: 8px;
+  border-radius: 2px;
+  background-color: #fff;
+  margin-left: 5px;
+  padding: 2%;
+  width: 40%;
+}
+select {
+  font-size: 14px;
+  width: 250px;
+  height: 32px;
+  padding: 1px;
+}
+body {
+  margin-left: auto;
+  margin-right: auto;
+  margin: 8px;
+  margin-top: 0px;
+}
+.list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  list-style: none;
 }

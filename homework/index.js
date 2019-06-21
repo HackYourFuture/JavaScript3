@@ -1,8 +1,6 @@
 'use strict';
 
 {
-  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-
   function fetchJSON(url, cb) {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url);
@@ -32,70 +30,100 @@
     return elem;
   }
 
-  function creatSelectTag(root, repos) {
-    createAndAppend('div', root, { id: 'selectDiv', class: 'selectDiv' });
-    const selectDiv = document.getElementById('selectDiv');
-    createAndAppend('div', root, { id: 'repoInfoDiv', class: 'repoInfoDiv' });
-    createAndAppend('h1', selectDiv, { class: 'header', id: 'repoHeader' });
-    repoHeader.innerHTML = 'HYF Repositories';
-    createAndAppend('select', selectDiv, { id: 'selectRepo' });
-    repos.forEach(repo => {
-      const selectRepo = document.getElementById('selectRepo');
-      createAndAppend('option', selectRepo, {
-        text: repo.name,
-        id: repo.id,
-        'data-description': repo.description,
-        'data-forks': repo.forks,
-        'data-update': repo.updated_at,
-        'data-url': repo.html_url,
+  function createInfoDiv(repoDiv, selectRepo) {
+    const tableDiv = createAndAppend('div', repoDiv, { class: 'left-div' });
+    const infoTable = createAndAppend('table', tableDiv, { class: 'contributor-table' });
+    const tableBody = createAndAppend('tbody', infoTable);
+    const rowName = createAndAppend('tr', tableBody);
+    const repoName = createAndAppend('td', rowName, { text: 'Repository:', class: 'repo-name' });
+    createAndAppend('a', repoName, {
+      target: '_blank',
+      href: selectRepo.html_url,
+      text: selectRepo.name,
+    });
+    const rowDesc = createAndAppend('tr', tableBody);
+    createAndAppend('td', rowDesc, {
+      text: `Description: ${selectRepo.description}`,
+      class: 'repo-desc',
+    });
+    const rowFork = createAndAppend('tr', tableBody);
+    createAndAppend('td', rowFork, {
+      text: `Forks: ${selectRepo.forks}`,
+      class: 'repo-Fork',
+    });
+    const rowUpDate = createAndAppend('tr', tableBody);
+    createAndAppend('td', rowUpDate, {
+      text: `updated: ${selectRepo.updated_at}`,
+      class: 'repo-update',
+    });
+  }
+  function createContributorDiv(root, selectedRepo, repoDiv) {
+    const contributorsUrl = selectedRepo.contributors_url;
+    fetchJSON(contributorsUrl, (err, contributors) => {
+      if (err) {
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        return;
+      }
+      const contributorsDiv = createAndAppend('div', repoDiv, { class: 'right-div' });
+      createAndAppend('p', contributorsDiv, { text: 'Contributors', class: 'contributors-header' });
+      contributors.forEach(contributor => {
+        const contributorsList = createAndAppend('ul', contributorsDiv, { class: 'list' });
+        const imageList = createAndAppend('li', contributorsList);
+        createAndAppend('img', imageList, {
+          class: 'image',
+          src: contributor.avatar_url,
+          alt: 'contributor-photo',
+        });
+        const contributorName = createAndAppend('li', contributorsList);
+        createAndAppend('a', contributorName, {
+          target: '_blank',
+          href: contributor.html_url,
+          text: contributor.login,
+        });
+        createAndAppend('li', contributorsList, {
+          class: 'contributor-num',
+          text: contributor.contributions,
+        });
       });
     });
-    const data = getSelectValue('selectRepo');
-    const repoInfo = document.getElementById('repoInfoDiv');
-    repoInfo.innerHTML = `<div>repository:<a href=${data.url}> ${data.text}</a></div>
-      <div>description: ${data.description}</div>
-      <div>forks: ${data.fork}</div>
-      <div>updated: ${data.update}</div>`;
   }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
+    fetchJSON(url, (err, repositories) => {
       const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        creatSelectTag(root, data);
+        return;
       }
+      repositories.sort((a, b) => a.name.localeCompare(b.name));
+      const header = createAndAppend('header', root, { class: 'header' });
+      createAndAppend('h1', header, {
+        class: 'h1',
+        id: 'repoHeader',
+        text: 'HYF Repositories',
+      });
+      const select = createAndAppend('select', header, { id: 'selectRepo' });
+      repositories.forEach((repo, index) => {
+        createAndAppend('option', select, {
+          text: repo.name,
+          value: index,
+        });
+      });
+      select.addEventListener('change', event => {
+        const repoDiv = document.getElementsByClassName('repo-div')[0];
+        while (repoDiv.firstChild) {
+          repoDiv.removeChild(repoDiv.firstChild);
+        }
+        const selectedRepo = repositories[event.target.value];
+        createInfoDiv(repoDiv, selectedRepo, repositories);
+        createContributorDiv(root, selectedRepo, repoDiv);
+      });
+      const repoDiv = createAndAppend('div', root, { id: 'repo-div', class: 'repo-div' });
+      const selectedRepo = repositories[select.value];
+      createInfoDiv(repoDiv, selectedRepo, repositories);
+      createContributorDiv(root, selectedRepo, repoDiv);
     });
   }
-  function getSelectValue(id) {
-    const selectedOpti = document.getElementById(id);
-    const text = selectedOpti.options[selectedOpti.selectedIndex].text;
-    const description = selectedOpti.options[selectedOpti.selectedIndex].getAttribute(
-      'data-description',
-    );
-    const fork = selectedOpti.options[selectedOpti.selectedIndex].getAttribute('data-forks');
-    const update = selectedOpti.options[selectedOpti.selectedIndex].getAttribute('data-update');
-    const url = selectedOpti.options[selectedOpti.selectedIndex].getAttribute('data-url');
-    return {
-      text,
-      description,
-      fork,
-      update,
-      url,
-    };
-  }
+  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => main(HYF_REPOS_URL);
-  document.addEventListener('click', e => {
-    if (e.target.id === 'selectRepo') {
-      const data = getSelectValue('selectRepo');
-      const repoInfo = document.getElementById('repoInfoDiv');
-      repoInfo.innerHTML = `<div>repository:<a href=${data.url} target="_blank"> ${
-        data.text
-      }</a></div>
-      <div>description: ${data.description}</div>
-      <div>forks: ${data.fork}</div>
-      <div>updated at: ${data.update}</div>`;
-    }
-  });
 }
