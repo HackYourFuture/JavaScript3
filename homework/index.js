@@ -81,22 +81,19 @@
           class: 'contributor-list',
         });
         contributors.forEach(contributor => {
-          const li = createAndAppend('li', ul, {
+          const li = createAndAppend('li', ul);
+          const anchor = createAndAppend('a', li, {
+            href: contributor.html_url,
+            target: '_blank',
             class: 'contributor-item',
           });
-          // The open() method creates a new secondary browser window,
-          // a new blank, empty window (URL about:blank) is created with the default toolbars of the main window.
-          li.addEventListener('click', () => {
-            window.open(contributor.html_url);
-          });
-
-          createAndAppend('img', li, {
+          createAndAppend('img', anchor, {
             src: contributor.avatar_url,
             alt: "contributor's profile",
             class: 'contributor-avatar',
           });
-          const liDiv = createAndAppend('div', li, { class: 'contributor-data' });
-          createAndAppend('div', liDiv, { text: contributor.login });
+          const liDiv = createAndAppend('div', anchor, { class: 'contributor-data' });
+          createAndAppend('div', liDiv, { text: contributor.login, class: 'contributor-name' });
           createAndAppend('div', liDiv, {
             text: contributor.contributions,
             class: 'contributor-badge',
