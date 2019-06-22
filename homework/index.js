@@ -61,9 +61,12 @@
     contributorsContainer.innerHTML = '';
 
     const updatedAt = new Date(selectedRepo.updated_at);
-    createAndAppend('p', repoContainer, {
-      text: `Repository: ${selectedRepo.name}`,
-      class: 'repo-child',
+    createAndAppend('span', repoContainer, { text: 'Repository: ', class: 'repo-child' });
+    createAndAppend('a', repoContainer, {
+      text: `${selectedRepo.name}`,
+      href: selectedRepo.html_url,
+      target: '_blank',
+      class: 'repo-child right-cell',
     });
     createAndAppend('p', repoContainer, {
       text: `Description: ${selectedRepo.description}`,

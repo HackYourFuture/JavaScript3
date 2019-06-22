@@ -1,5 +1,8 @@
 .alert-error {
   color: red;
+  text-align: center;
+  height: 2rem;
+  padding-top: 1rem;
 }
 
 body {
