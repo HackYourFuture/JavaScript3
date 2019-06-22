@@ -37,19 +37,11 @@
     const header = createAndAppend('header', root, { class: 'header' });
     createAndAppend('h3', header, { text: 'HYF Repositories' });
     const selectMenu = createAndAppend('select', header, { class: 'repo-selector' });
-    const optionsArr = [];
-    for (let i = 0; i < repos.length; i++) {
-      const option = {
-        name: repos[i].name,
-        index: i,
-      };
-      optionsArr.push(option);
-    }
-    optionsArr.map(element =>
+
+    repos.map((repo, index) =>
       createAndAppend('option', selectMenu, {
-        value: element.index,
-        text: element.name,
-        id: element.name,
+        value: index,
+        text: repo.name,
       }),
     );
     return header;
@@ -110,11 +102,16 @@
     });
   }
 
-  function makeHtmlOfContents(repos, index) {
+  function makeHtmlOfContents(selectedRepo) {
     document.querySelector('.leftDiv').innerHTML = '';
     document.querySelector('.rightDiv').innerHTML = '';
-    makeTable(repos[index]);
-    fetchJSON(repos[index].contributors_url).then(data => makeContributorsList(data));
+    makeTable(selectedRepo);
+    fetchJSON(selectedRepo.contributors_url)
+      .then(data => makeContributorsList(data))
+      .catch(err => {
+        const root = document.getElementById('root');
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+      });
   }
 
   function mainHtmlConstructor(repos) {
@@ -124,10 +121,9 @@
     createAndAppend('div', container, { class: 'leftDiv whiteframe' });
     createAndAppend('div', container, { class: 'rightDiv whiteframe' });
     const selectMenu = document.querySelector('select');
-    makeHtmlOfContents(repos, selectMenu.selectedIndex);
+    makeHtmlOfContents(repos[selectMenu.selectedIndex]);
     selectMenu.onchange = () => {
-      const index = selectMenu.selectedIndex;
-      makeHtmlOfContents(repos, index);
+      makeHtmlOfContents(repos[selectMenu.selectedIndex]);
     };
   }
 
