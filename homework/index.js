@@ -167,33 +167,38 @@
 
   function fillContributorsList(selectedRepository) {
     const list = document.querySelector('.contributors__list');
-    fetchJSON(selectedRepository.contributors_url).then(contributors => {
-      if (!contributors.length) {
-        createAndAppend('li', list, {
-          class: 'alert-warning',
-          text: 'There is no contributor for this repository!',
-        });
-        return;
-      }
+    fetchJSON(selectedRepository.contributors_url)
+      .then(contributors => {
+        if (!contributors.length) {
+          createAndAppend('li', list, {
+            class: 'alert-warning',
+            text: 'There is no contributor for this repository!',
+          });
+          return;
+        }
 
-      contributors.forEach(contributor => {
-        const listItem = createAndAppend('li', list, {
-          class: 'contributors__item',
-        });
-        createAndAppend('img', listItem, {
-          class: 'contributors__avatar',
-          src: contributor.avatar_url,
-          alt: contributor.login,
-        });
-        createAndAppend('span', listItem, { class: 'contributors__name', text: contributor.login });
-        createAndAppend('span', listItem, {
-          class: 'contributors__badge',
-          text: contributor.contributions,
-        });
+        contributors.forEach(contributor => {
+          const listItem = createAndAppend('li', list, {
+            class: 'contributors__item',
+          });
+          createAndAppend('img', listItem, {
+            class: 'contributors__avatar',
+            src: contributor.avatar_url,
+            alt: contributor.login,
+          });
+          createAndAppend('span', listItem, {
+            class: 'contributors__name',
+            text: contributor.login,
+          });
+          createAndAppend('span', listItem, {
+            class: 'contributors__badge',
+            text: contributor.contributions,
+          });
 
-        listItem.addEventListener('click', () => window.open(contributor.html_url));
-      });
-    });
+          listItem.addEventListener('click', () => window.open(contributor.html_url));
+        });
+      })
+      .catch(error => createAndAppend('li', list, { text: error.message, class: 'alert-error' }));
   }
 
   // Starts all actions
@@ -206,29 +211,19 @@
 
     const select = document.querySelector('.header__select');
 
-    (function listAllRepositoriesIntoSelect() {
-      repositories.forEach((repository, index) => {
-        createAndAppend('option', select, { text: repository.name, value: index });
-      });
+    repositories.forEach((repository, index) => {
+      createAndAppend('option', select, { text: repository.name, value: index });
+    });
 
-      const selectedRepository = repositories[select.selectedIndex];
+    select.addEventListener('change', () => {
+      document.querySelector('tbody').innerHTML = '';
+      document.querySelector('.contributors__list').innerHTML = '';
+      fillRepositoryDetailsTable(repositories[select.selectedIndex]);
+      fillContributorsList(repositories[select.selectedIndex]);
+    });
 
-      select.addEventListener('change', () => {
-        document.querySelector('tbody').innerHTML = '';
-        document.querySelector('.contributors__list').innerHTML = '';
-        fillRepositoryDetailsTable(selectedRepository);
-        fillContributorsList(selectedRepository);
-      });
-    })();
-
-    // Shows content randomly when the page is initialized
-    (function initializePage() {
-      const initialRepositoryIndex = Math.floor(Math.random() * repositories.length);
-
-      select.selectedIndex = initialRepositoryIndex;
-      fillRepositoryDetailsTable(repositories[initialRepositoryIndex]);
-      fillContributorsList(repositories[initialRepositoryIndex]);
-    })();
+    fillRepositoryDetailsTable(repositories[select.selectedIndex]);
+    fillContributorsList(repositories[select.selectedIndex]);
   }
 
   function main(url) {
