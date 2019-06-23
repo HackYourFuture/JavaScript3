@@ -64,15 +64,15 @@
   }
 
   // create (right box) as a table to render contributor Info
-  function createContributor(selectedRepo, repoContainer, root) {
+  function createContributors(selectedRepo, repoContainer, root) {
     const contributorUrl = selectedRepo.contributors_url;
-    fetchJSON(contributorUrl).then(contributors => {
-      const table = createAndAppend('table', repoContainer, { class: 'table' });
+    fetchJSON(contributorUrl)
+      .then(contributors => {
+        const table = createAndAppend('table', repoContainer, { class: 'table' });
 
-      const tBody = createAndAppend('tbody', table);
+        const tBody = createAndAppend('tbody', table);
 
-      contributors
-        .forEach(contributor => {
+        contributors.forEach(contributor => {
           const row = createAndAppend('tr', tBody);
 
           const imageCell = createAndAppend('td', row);
@@ -93,18 +93,18 @@
             text: contributor.contributions,
             class: 'contributor-number',
           });
-        })
-        .catch(err => {
-          createAndAppend('div', root, { text: err.message, class: 'alert-error' });
         });
-    });
+      })
+      .catch(err => {
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+      });
   }
 
   function main(url) {
     const root = document.getElementById('root');
     fetchJSON(url)
-      .then(data => {
-        data.sort((a, b) => a.name.localeCompare(b.name));
+      .then(repositories => {
+        repositories.sort((a, b) => a.name.localeCompare(b.name));
 
         const header = createAndAppend('header', root, { class: 'header' });
 
@@ -112,30 +112,27 @@
 
         const select = createAndAppend('select', header, { id: 'select' });
 
-        data.forEach((repository, index) => {
+        repositories.forEach((repository, index) => {
           createAndAppend('option', select, { text: repository.name, value: index });
-        });
-
-        // add event change so we can remove the displayed repo info when we change the name of the repo
-        select.addEventListener('change', event => {
-          // get repo container (parent) and empty its content
-          const repoContainer = document.getElementsByClassName('repo-container')[0];
-          removeChildren(repoContainer);
-
-          // getting the selected repo using the value of event.target which is select element
-          const selectedRepo = data[event.target.value];
-
-          // rendering info of repository which we chose
-          createRepoInfo(selectedRepo, repoContainer);
-          createContributor(selectedRepo, repoContainer, root);
         });
 
         const repoContainer = createAndAppend('div', root, { class: 'repo-container' });
 
         // render info of the selected repo by default(first option) when page load
-        const selectedRepo = data[select.value];
+        const selectedRepo = repositories[select.value];
         createRepoInfo(selectedRepo, repoContainer);
-        createContributor(selectedRepo, repoContainer, root);
+        createContributors(selectedRepo, repoContainer, root);
+        // add event change so we can remove the displayed repo info when we change the name of the repo
+        select.addEventListener('change', event => {
+          removeChildren(repoContainer);
+
+          // getting the selected repo using the value of event.target which is select element
+          const selectedRepo = repositories[event.target.value];
+
+          // rendering info of repository which we chose
+          createRepoInfo(selectedRepo, repoContainer);
+          createContributors(selectedRepo, repoContainer, root);
+        });
       })
       .catch(err => {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
