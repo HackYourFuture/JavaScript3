@@ -45,26 +45,32 @@
 
     Object.keys(obj).forEach(key => {
       const value = obj[key];
-      if (value !== null) {
-        if (key === 'name') {
-          const tableRow = createAndAppend('tr', table, { class: 'tr' });
+      if (value === null) {
+        return;
+      }
+      let tableRow;
+      switch (key) {
+        case 'name': {
+          tableRow = createAndAppend('tr', table, { class: 'tr' });
           createAndAppend('td', tableRow, {
             text: 'repository :',
             class: 'title',
           });
           const tdName = createAndAppend('td', tableRow);
           createAndAppend('a', tdName, { text: value, href: obj.repoUrl, target: '_blank' });
+          break;
         }
-        if (key === 'description' || key === 'forks') {
-          const tableRow = createAndAppend('tr', table, { class: 'tr' });
+        case 'description':
+        case 'forks':
+          tableRow = createAndAppend('tr', table, { class: 'tr' });
           createAndAppend('td', tableRow, {
             text: `${key} :`,
             class: 'title',
           });
           createAndAppend('td', tableRow, { text: value });
-        }
-        if (key === 'updated') {
-          const tableRow = createAndAppend('tr', table, { class: 'tr' });
+          break;
+        case 'updated':
+          tableRow = createAndAppend('tr', table, { class: 'tr' });
           createAndAppend('td', tableRow, {
             text: 'updated :',
             class: 'title',
@@ -72,7 +78,8 @@
           createAndAppend('td', tableRow, {
             text: `${value.slice(0, 10)}, ${value.slice(11, 19)}`,
           });
-        }
+          break;
+        default:
       }
     });
 
@@ -115,7 +122,7 @@
           class: 'alert-error',
         });
       })
-      .then(() => {
+      .finally(() => {
         loadingImg.style.display = 'none';
       });
   }
@@ -172,7 +179,7 @@
       .catch(error => {
         createAndAppend('div', root, { text: error.message, class: 'alert-error' });
       })
-      .then(() => {
+      .finally(() => {
         loadingImg.style.display = 'none';
       });
   }
