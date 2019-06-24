@@ -32,6 +32,13 @@
     return elem;
   }
 
+  function detectRepositoryAndValue(repository, value) {
+    if (typeof repository !== 'undefined' && value !== null) {
+      return true;
+    }
+    return false;
+  }
+
   function createContainer(selectedRepository) {
     const container = document.getElementById('container');
     const leftDiv = createAndAppend('div', container, {
@@ -41,7 +48,7 @@
     const table = createAndAppend('table', leftDiv);
     const tbody = createAndAppend('tbody', table, { id: 'tbody' });
 
-    if (selectedRepository.name !== null) {
+    if (detectRepositoryAndValue(selectedRepository, selectedRepository.name)) {
       const tr1 = createAndAppend('tr', tbody);
       createAndAppend('td', tr1, { class: 'label', text: 'Repository :' });
       const td2 = createAndAppend('td', tr1);
@@ -51,23 +58,24 @@
         text: selectedRepository.name,
       });
     }
-    if (selectedRepository.description !== null) {
+    if (detectRepositoryAndValue(selectedRepository, selectedRepository.description)) {
       const tr2 = createAndAppend('tr', tbody);
       createAndAppend('td', tr2, { class: 'label', text: 'Description :' });
       const repositoryDescription = createAndAppend('td', tr2, { text: '' });
       repositoryDescription.textContent = selectedRepository.description;
     }
-    if (selectedRepository.forks !== null) {
+    if (detectRepositoryAndValue(selectedRepository, selectedRepository.forks)) {
       const tr3 = createAndAppend('tr', tbody);
       createAndAppend('td', tr3, { class: 'label', text: 'Forks :' });
       const fork = createAndAppend('td', tr3, { text: '' });
       fork.textContent = selectedRepository.forks;
     }
-    if (selectedRepository.updated_at !== null) {
+    if (detectRepositoryAndValue(selectedRepository, selectedRepository.updated_at)) {
       const tr4 = createAndAppend('tr', tbody);
       createAndAppend('td', tr4, { class: 'label', text: 'Updated :' });
-      const updated = createAndAppend('td', tr4, { text: '' });
-      updated.textContent = new Date(selectedRepository.updated_at).toLocaleString();
+      createAndAppend('td', tr4, {
+        text: new Date(selectedRepository.updated_at).toLocaleString(),
+      });
     }
   }
 
@@ -89,39 +97,43 @@
     });
     const ul = createAndAppend('ul', rightDiv, { id: 'ulList', class: 'contributor-list' });
     contributors.forEach(element => {
-      const li = createAndAppend('li', ul, {
+      const li = createAndAppend('li', ul);
+      const link = createAndAppend('a', li, {
+        href: element.html_url,
+        target: '_blank',
         class: 'contributor-item',
-        tabindex: 0,
       });
-      createAndAppend('img', li, {
+      createAndAppend('img', link, {
         src: element.avatar_url,
         height: 48,
         class: 'contributor-avatar',
         alt: 'contributor',
       });
-      const contInfoDiv = createAndAppend('div', li, { class: 'contributor-data' });
+      const contInfoDiv = createAndAppend('div', link, { class: 'contributor-data' });
       createAndAppend('div', contInfoDiv, { text: element.login });
       createAndAppend('div', contInfoDiv, {
         class: 'contributor-badge',
         text: element.contributions,
       });
-      li.addEventListener('click', () => {
-        window.open(element.html_url, '_blank');
-      });
     });
   }
 
-  function listenSelectElement(repositories, root) {
+  function setContent(selectedRepository) {
+    const root = document.getElementById('root');
+    createContainer(selectedRepository);
+
+    fetchJSON(selectedRepository.contributors_url)
+      .then(contributors => createContributions(contributors))
+      .catch(error => createAndAppend('div', root, { text: error, class: 'alert-error' }));
+  }
+
+  function listenSelectElement(repositories) {
     const container = document.getElementById('container');
     const select = document.getElementById('select');
     select.addEventListener('change', () => {
       clearContainer(container);
       const newSelectedRepository = repositories[select.value];
-      createContainer(newSelectedRepository);
-
-      fetchJSON(newSelectedRepository.contributors_url)
-        .then(contributors => createContributions(contributors))
-        .catch(error => createAndAppend('div', root, { text: error, class: 'alert-error' }));
+      setContent(newSelectedRepository);
     });
   }
 
@@ -136,15 +148,10 @@
     repositories.forEach((repository, index) =>
       createAndAppend('option', select, { value: index, text: repository.name }),
     );
-    const defaultRepository = repositories[0];
     createAndAppend('div', root, { id: 'container' });
-    createContainer(defaultRepository);
-
-    fetchJSON(defaultRepository.contributors_url)
-      .then(contributors => createContributions(contributors))
-      .catch(error => createAndAppend('div', root, { text: error, class: 'alert-error' }));
-
-    listenSelectElement(repositories, root);
+    const defaultRepository = repositories[0];
+    setContent(defaultRepository);
+    listenSelectElement(repositories);
   }
 
   function main(url) {
