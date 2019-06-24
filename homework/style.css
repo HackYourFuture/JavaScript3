@@ -1,5 +1,10 @@
 .alert-error {
   color: red;
+  background-color: rgb(5, 5, 5);
+  font-weight: bold;
+  padding: 5%;
+  border-radius: 5%;
+  text-align: center;
 }
 .divClass {
   display: flex;
@@ -69,6 +74,7 @@ p {
 .contUl {
   margin: 0 0 0 0;
   padding: 0;
+  text-decoration: none;
 }
 
 .badgeDiv {
@@ -88,13 +94,18 @@ p {
 .aDiv {
   justify-self: flex-start;
 }
-.contLi {
+.anchor {
   border-bottom: solid 1px rgb(0, 0, 0, 12%);
   padding: 16px;
   display: flex;
   flex-direction: row;
   align-items: center;
   cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+.contLi {
+  list-style: none;
 }
 .rightDivHeader {
   padding: 8px 16px 4px 16px;
@@ -102,6 +113,9 @@ p {
 .rightDiv {
   margin-left: 1%;
   width: 29%;
+}
+.select {
+  width: 40%;
 }
 @media (max-width: 768px) {
   .repoDetailsDiv {

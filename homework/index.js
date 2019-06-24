@@ -41,6 +41,7 @@
     fetchJSONPromise(url)
       .then(data => {
         const rightDiv = createAndAppend('div', container, { class: 'rightDiv', id: 'rightDiv' });
+
         createAndAppend('p', rightDiv, {
           text: 'Contributors',
           class: 'rightDivHeader',
@@ -48,22 +49,24 @@
         const ul = createAndAppend('ul', rightDiv, { class: 'contUl' });
         data.forEach(cont => {
           const li = createAndAppend('li', ul, { class: 'contLi' });
-          const contDiv = createAndAppend('div', li, { class: 'contDiv' });
+          const anchor = createAndAppend('a', li, {
+            href: 'cont.html_url',
+            target: '_blank',
+            class: 'anchor',
+          });
+          const contDiv = createAndAppend('div', anchor, { class: 'contDiv' });
           createAndAppend('img', contDiv, {
             src: cont.avatar_url,
             class: 'contImg',
+            alt: `${cont.login} image`,
           });
           createAndAppend('div', contDiv, {
-            src: cont.html_url,
             text: cont.login,
             class: 'aDiv',
           });
           createAndAppend('div', contDiv, {
             text: cont.contributions,
             class: 'badgeDiv',
-          });
-          li.addEventListener('click', () => {
-            window.open(cont.html_url);
           });
         });
       })
@@ -89,7 +92,7 @@
           text: 'HYF Repositories',
           id: 'headerSpan',
         });
-        const select = createAndAppend('select', headerDiv);
+        const select = createAndAppend('select', headerDiv, { class: 'select' });
         addOptions(select, repositories);
         let selectedRepo = repositories[select.selectedIndex];
         const repoDetailsDiv = createAndAppend('div', container, { class: 'repoDetailsDiv' });
@@ -124,7 +127,7 @@
           class: 'pClass',
         });
         const updateP = createAndAppend('p', updatedDiv, {
-          text: selectedRepo.updated_at,
+          text: new Date(selectedRepo.updated_at).toLocaleString(),
           class: 'pClass',
         });
         const repoA = createAndAppend('a', repoDiv, {
@@ -140,7 +143,7 @@
           repoA.innerText = selectedRepo.name;
           descP.innerText = selectedRepo.description;
           forkP.innerText = selectedRepo.forks;
-          updateP.innerText = selectedRepo.updated_at;
+          updateP.innerText = new Date(selectedRepo.updated_at).toLocaleString();
           container.removeChild(document.getElementById('rightDiv'));
           if (!descP.innerText) {
             document.getElementById('descDiv').style.display = 'none';
