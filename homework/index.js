@@ -3,35 +3,25 @@
 'use strict';
 
 {
-  function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status < 400) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
-    });
-  }
+  class Helper {
+    static async fetchJSON(url) {
+      const data = await fetch(url);
+      return data.json();
+    }
 
-  function createAndAppend(name, parent, options = {}) {
-    const elem = document.createElement(name);
-    parent.appendChild(elem);
-    Object.keys(options).forEach(key => {
-      const value = options[key];
-      if (key === 'text') {
-        elem.textContent = value;
-      } else {
-        elem.setAttribute(key, value);
-      }
-    });
-    return elem;
+    static createAndAppend(name, parent, options = {}) {
+      const elem = document.createElement(name);
+      parent.appendChild(elem);
+      Object.keys(options).forEach(key => {
+        const value = options[key];
+        if (key === 'text') {
+          elem.textContent = value;
+        } else {
+          elem.setAttribute(key, value);
+        }
+      });
+      return elem;
+    }
   }
 
   // You can easily modify static html elements with this model
@@ -125,7 +115,7 @@
   // Creates html elements from an object
   function createStaticComponentsFromModel(model, root) {
     model.forEach(parent => {
-      const parentComponent = createAndAppend(parent.tag, root, parent.attributes);
+      const parentComponent = Helper.createAndAppend(parent.tag, root, parent.attributes);
 
       if (parent.children) {
         createStaticComponentsFromModel(parent.children, parentComponent);
@@ -136,106 +126,113 @@
   function fillRepositoryDetailsTable(selectedRepository) {
     const tableBody = document.querySelector('#table-body');
 
-    const tableContent = [
-      ['Repository', 'name'],
-      ['Description', 'description'],
-      ['Forks', 'forks'],
-      ['Updated', 'updated_at'],
-    ];
+    const repository = {
+      repository: selectedRepository.name,
+      description: selectedRepository.description,
+      forks: selectedRepository.forks,
+      updated: new Date(selectedRepository.updated_at).toLocaleString(),
+    };
 
-    tableContent.forEach((item, index) => {
-      const tableRow = createAndAppend('tr', tableBody);
+    Object.keys(repository).forEach((key, index) => {
+      const tr = Helper.createAndAppend('tr', tableBody);
 
       if (index === 0) {
-        createAndAppend('td', tableRow, { class: 'label', text: item[0] });
-        const td = createAndAppend('td', tableRow);
-        createAndAppend('a', td, {
-          text: selectedRepository[item[1]],
+        Helper.createAndAppend('td', tr, { class: 'label', text: key });
+        const td = Helper.createAndAppend('td', tr);
+        Helper.createAndAppend('a', td, {
           href: selectedRepository.html_url,
           target: '_blank',
+          text: repository[key],
         });
       } else {
-        createAndAppend('td', tableRow, { class: 'label', text: item[0] });
-        createAndAppend('td', tableRow, {
-          text: selectedRepository[item[1]]
-            ? selectedRepository[item[1]]
-            : `No ${item[0].toLowerCase()}`,
-        });
+        Helper.createAndAppend('td', tr, { class: 'label', text: key });
+        Helper.createAndAppend('td', tr, { text: repository[key] });
       }
     });
   }
 
-  function fillContributorsList(selectedRepository) {
+  async function fillContributorsList(selectedRepository) {
     const list = document.querySelector('.contributors__list');
-    fetchJSON(selectedRepository.contributors_url)
-      .then(contributors => {
-        if (!contributors.length) {
-          createAndAppend('li', list, {
-            class: 'alert-warning',
-            text: 'There is no contributor for this repository!',
-          });
-          return;
-        }
-
-        contributors.forEach(contributor => {
-          const listItem = createAndAppend('li', list, {
-            class: 'contributors__item',
-          });
-          createAndAppend('img', listItem, {
-            class: 'contributors__avatar',
-            src: contributor.avatar_url,
-            alt: contributor.login,
-          });
-          createAndAppend('span', listItem, {
-            class: 'contributors__name',
-            text: contributor.login,
-          });
-          createAndAppend('span', listItem, {
-            class: 'contributors__badge',
-            text: contributor.contributions,
-          });
-
-          listItem.addEventListener('click', () => window.open(contributor.html_url));
+    try {
+      const contributors = await Helper.fetchJSON(selectedRepository.contributors_url);
+      if (!contributors.length) {
+        Helper.createAndAppend('li', list, {
+          class: 'alert-warning',
+          text: 'There is no contributor for this repository!',
         });
-      })
-      .catch(error => createAndAppend('li', list, { text: error.message, class: 'alert-error' }));
+        return;
+      }
+
+      contributors.forEach(contributor => {
+        const listItem = Helper.createAndAppend('li', list, {
+          class: 'contributors__item',
+        });
+        const listLink = Helper.createAndAppend('a', listItem, {
+          href: contributor.html_url,
+          target: '_blank',
+          class: 'contributors__link',
+        });
+        Helper.createAndAppend('img', listLink, {
+          class: 'contributors__avatar',
+          src: contributor.avatar_url,
+          alt: contributor.login,
+        });
+        Helper.createAndAppend('span', listLink, {
+          class: 'contributors__name',
+          text: contributor.login,
+        });
+        Helper.createAndAppend('span', listLink, {
+          class: 'contributors__badge',
+          text: contributor.contributions,
+        });
+      });
+    } catch (error) {
+      Helper.createAndAppend('li', list, { text: error.message, class: 'alert-error' });
+    }
   }
 
-  // Starts all actions
-  function init(data, root) {
-    createStaticComponentsFromModel(componentModel, root);
+  class App {
+    constructor(select) {
+      this.select = select;
+    }
 
-    const repositories = data.sort((a, b) =>
-      a.name.toLowerCase().localeCompare(b.name.toLowerCase()),
-    );
+    static init(data, root) {
+      createStaticComponentsFromModel(componentModel, root);
 
-    const select = document.querySelector('.header__select');
+      const repositories = data.sort((a, b) =>
+        a.name.toLowerCase().localeCompare(b.name.toLowerCase()),
+      );
 
-    repositories.forEach((repository, index) => {
-      createAndAppend('option', select, { text: repository.name, value: index });
-    });
+      this.select = document.querySelector('.header__select');
 
-    select.addEventListener('change', () => {
-      document.querySelector('tbody').innerHTML = '';
-      document.querySelector('.contributors__list').innerHTML = '';
-      fillRepositoryDetailsTable(repositories[select.selectedIndex]);
-      fillContributorsList(repositories[select.selectedIndex]);
-    });
+      repositories.forEach(repository => {
+        Helper.createAndAppend('option', this.select, { text: repository.name });
+      });
 
-    fillRepositoryDetailsTable(repositories[select.selectedIndex]);
-    fillContributorsList(repositories[select.selectedIndex]);
-  }
+      this.select.addEventListener('change', () => {
+        document.querySelector('tbody').innerHTML = '';
+        document.querySelector('.contributors__list').innerHTML = '';
+        fillRepositoryDetailsTable(repositories[this.select.selectedIndex]);
+        fillContributorsList(repositories[this.select.selectedIndex]);
+      });
 
-  function main(url) {
-    const root = document.getElementById('root');
-    fetchJSON(url)
-      .then(data => {
-        init(data, root);
-      })
-      .catch(err => createAndAppend('div', root, { text: err.message }));
+      fillRepositoryDetailsTable(repositories[this.select.selectedIndex]);
+      fillContributorsList(repositories[this.select.selectedIndex]);
+    }
+
+    static async main(url) {
+      const root = document.getElementById('root');
+
+      try {
+        const repositories = await Helper.fetchJSON(url);
+        this.init(repositories, root);
+      } catch (err) {
+        Helper.createAndAppend('div', root, { class: 'alert-error', text: err.message });
+      }
+    }
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
-  window.onload = () => main(HYF_REPOS_URL);
+  window.onload = () => App.main(HYF_REPOS_URL);
 }

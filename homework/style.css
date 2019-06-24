@@ -107,7 +107,9 @@ table tr {
   margin: 0;
 }
 
-.contributors__item {
+.contributors__link {
+  text-decoration: none;
+  color: inherit;
   border-bottom: solid 1px rgb(0, 0, 0, 12%);
   padding: 16px;
   display: flex;
