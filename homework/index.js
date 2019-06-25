@@ -1,23 +1,6 @@
 'use strict';
 
 {
-  function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status < 400) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = new Error('Network request failed');
-      xhr.send();
-    });
-  }
-
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
@@ -121,10 +104,15 @@
   function setContent(selectedRepository) {
     const root = document.getElementById('root');
     createContainer(selectedRepository);
-
-    fetchJSON(selectedRepository.contributors_url)
-      .then(contributors => createContributions(contributors))
-      .catch(error => createAndAppend('div', root, { text: error, class: 'alert-error' }));
+    try {
+      (async () => {
+        const response = await fetch(selectedRepository.contributors_url);
+        const contributors = await response.json();
+        createContributions(contributors);
+      })();
+    } catch (error) {
+      createAndAppend('div', root, { text: error, class: 'alert-error' });
+    }
   }
 
   function listenSelectElement(repositories) {
@@ -156,9 +144,15 @@
 
   function main(url) {
     const root = document.getElementById('root');
-    fetchJSON(url)
-      .then(repositories => createHeader(repositories, root))
-      .catch(error => createAndAppend('div', root, { text: error, class: 'alert-error' }));
+    try {
+      (async () => {
+        const response = await fetch(url);
+        const repositories = await response.json();
+        createHeader(repositories, root);
+      })();
+    } catch (error) {
+      createAndAppend('div', root, { text: error, class: 'alert-error' });
+    }
   }
 
   const HYF_REPOSITORY_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
