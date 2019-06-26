@@ -1,23 +1,6 @@
 'use strict';
 
 {
-  function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status < 400) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(Error('Network Error'));
-      xhr.send();
-    });
-  }
-
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
@@ -102,16 +85,18 @@
     });
   }
 
-  function makeHtmlOfContents(selectedRepo) {
+  async function makeHtmlOfContents(selectedRepo) {
     document.querySelector('.leftDiv').innerHTML = '';
     document.querySelector('.rightDiv').innerHTML = '';
     makeTable(selectedRepo);
-    fetchJSON(selectedRepo.contributors_url)
-      .then(data => makeContributorsList(data))
-      .catch(err => {
-        const root = document.getElementById('root');
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      });
+    try {
+      const contributorsResponse = await fetch(selectedRepo.contributors_url);
+      const contributorsData = await contributorsResponse.json();
+      makeContributorsList(contributorsData);
+    } catch (err) {
+      const root = document.getElementById('root');
+      createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+    }
   }
 
   function mainHtmlConstructor(repos) {
@@ -127,17 +112,19 @@
     };
   }
 
-  function main(url) {
-    fetchJSON(url)
-      .then(data =>
-        mainHtmlConstructor(
-          data.sort((one, two) => one.name.toLowerCase().localeCompare(two.name.toLowerCase())),
+  async function main(url) {
+    try {
+      const responseOfHyfRepos = await fetch(url);
+      const repositories = await responseOfHyfRepos.json();
+      mainHtmlConstructor(
+        repositories.sort((one, two) =>
+          one.name.toLowerCase().localeCompare(two.name.toLowerCase()),
         ),
-      )
-      .catch(err => {
-        const root = document.getElementById('root');
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      });
+      );
+    } catch (err) {
+      const root = document.getElementById('root');
+      createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+    }
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
