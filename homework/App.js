@@ -12,18 +12,30 @@ class App {
    * @param {string} url The GitHub URL for obtaining the organization's repositories.
    */
   async initialize(url) {
-    // Add code here to initialize your app
-    // 1. Create the fixed HTML elements of your page
-    // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
-
     const root = document.getElementById('root');
-
-    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
-
+    const header = Util.createAndAppend('header', root, { class: 'header' });
+    Util.createAndAppend('p', header, { text: 'HYF Repositories' });
+    const select = Util.createAndAppend('select', header, {
+      class: 'repository-selector',
+      'aria-label': 'HYF Repositories',
+    });
+    select.addEventListener('change', () => {
+      this.fetchContributorsAndRender(select.value);
+    });
+    Util.createAndAppend('div', root, {
+      class: 'container',
+      id: 'container',
+    });
     try {
       const repos = await Util.fetchJSON(url);
-      this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
+      this.repos = repos
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map(repo => new Repository(repo));
+      repos.forEach((repository, index) => {
+        Util.createAndAppend('option', select, { text: repository.name, value: index });
+      });
+      const repoIndex = select.value;
+      this.fetchContributorsAndRender(repoIndex);
     } catch (error) {
       this.renderError(error);
     }
@@ -51,17 +63,26 @@ class App {
 
       const container = document.getElementById('container');
       App.clearContainer(container);
-
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
-
-      const contributorList = Util.createAndAppend('ul', rightDiv);
-
-      repo.render(leftDiv);
+      // Repository table
+      const repositoryData = Util.createAndAppend('div', container, {
+        class: 'left-div white-frame',
+      });
+      // Contributors list
+      const contributorsData = Util.createAndAppend('div', container, {
+        class: 'right-div white-frame',
+      });
+      Util.createAndAppend('p', contributorsData, {
+        text: 'contributions',
+        class: 'contributor-header',
+      });
+      const ul = Util.createAndAppend('ul', contributorsData, {
+        class: 'contributor-list',
+      });
+      repo.render(repositoryData);
 
       contributors
         .map(contributor => new Contributor(contributor))
-        .forEach(contributor => contributor.render(contributorList));
+        .forEach(contributor => contributor.render(ul));
     } catch (error) {
       this.renderError(error);
     }
@@ -72,7 +93,10 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    console.log(error); // TODO: replace with your own code
+    Util.createAndAppend('div', document.getElementById('root'), {
+      text: error.message,
+      class: 'alert-error',
+    });
   }
 }
 

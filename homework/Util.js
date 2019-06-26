@@ -16,6 +16,18 @@ class Util {
     return elem;
   }
 
+  // a function to create td without link
+  static createTd(textKey, textContent, tbody) {
+    const parent = this.createAndAppend('tr', tbody);
+    this.createAndAppend('td', parent, {
+      text: `${textKey}: `,
+      class: 'label',
+    });
+    this.createAndAppend('td', parent, {
+      text: textContent,
+    });
+  }
+
   static fetchJSON(url) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
