@@ -12,18 +12,31 @@ class App {
    * @param {string} url The GitHub URL for obtaining the organization's repositories.
    */
   async initialize(url) {
-    // Add code here to initialize your app
-    // 1. Create the fixed HTML elements of your page
-    // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
-
-    const root = document.getElementById('root');
-
-    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
-
     try {
+      const root = document.getElementById('root');
+      const header = Util.createAndAppend('header', root, { class: 'header' });
+      Util.createAndAppend('div', root, {
+        class: 'container',
+        id: 'container',
+      });
+      const headerDiv = Util.createAndAppend('div', header, { class: 'headerDiv' });
+      Util.createAndAppend('span', headerDiv, { text: 'HYF Repositories', id: 'headerSpan' });
+      const select = Util.createAndAppend('select', headerDiv, { class: 'select' });
+
       const repos = await Util.fetchJSON(url);
+      repos.sort((a, b) => a.name.localeCompare(b.name));
       this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
+      this.repos.forEach(repo => Util.createAndAppend('option', select, { text: repo.name() }));
+      let index = select.selectedIndex;
+      this.fetchContributorsAndRender(index);
+      select.addEventListener('change', async () => {
+        index = select.selectedIndex;
+        await this.fetchContributorsAndRender(index);
+        const descP = document.getElementById('descP');
+        if (!descP.innerText) {
+          document.getElementById('descDiv').style.display = 'none';
+        } else document.getElementById('descDiv').style.display = 'flex';
+      });
     } catch (error) {
       this.renderError(error);
     }
@@ -52,10 +65,11 @@ class App {
       const container = document.getElementById('container');
       App.clearContainer(container);
 
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
+      const leftDiv = Util.createAndAppend('div', container, { class: 'leftDiv' });
+      const rightDiv = Util.createAndAppend('div', container, { class: 'rightDiv' });
+      Util.createAndAppend('p', rightDiv, { text: 'Contributors', class: 'rightDivHeader' });
 
-      const contributorList = Util.createAndAppend('ul', rightDiv);
+      const contributorList = Util.createAndAppend('ul', rightDiv, { class: 'contUl' });
 
       repo.render(leftDiv);
 
@@ -72,7 +86,8 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    console.log(error); // TODO: replace with your own code
+    const root = document.getElementById('root');
+    Util.createAndAppend('div', root, { text: error, class: 'alert-error' });
   }
 }
 
