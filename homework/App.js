@@ -12,18 +12,43 @@ class App {
    * @param {string} url The GitHub URL for obtaining the organization's repositories.
    */
   async initialize(url) {
-    // Add code here to initialize your app
-    // 1. Create the fixed HTML elements of your page
-    // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
-
     const root = document.getElementById('root');
-
-    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
+    const header = Util.createAndAppend('header', root, { class: 'header' });
+    Util.createAndAppend('label', header, { for: 'select-menu', text: 'HYF Repositories' });
+    const selectMenu = Util.createAndAppend('select', header, {
+      class: 'select-menu',
+      id: 'select-menu',
+    });
+    Util.createAndAppend('main', root, { id: 'container' });
 
     try {
-      const repos = await Util.fetchJSON(url);
+      const reposResponse = await fetch(url);
+      const repos = await reposResponse.json();
+      if (reposResponse.status !== 200) {
+        throw new Error(`Oops, error: ${reposResponse.status}, ${reposResponse.statusText}`);
+      }
       this.repos = repos.map(repo => new Repository(repo));
       // TODO: add your own code here
+
+      this.repos
+        .sort((a, b) =>
+          a
+            .name()
+            .toLowerCase()
+            .localeCompare(b.name().toLowerCase()),
+        )
+        .forEach((repo, index) => {
+          Util.createAndAppend('option', selectMenu, {
+            value: index,
+            text: repo.name(),
+          });
+        });
+
+      this.fetchContributorsAndRender(selectMenu.value);
+
+      selectMenu.addEventListener('change', () => {
+        this.fetchContributorsAndRender(selectMenu.value);
+      });
     } catch (error) {
       this.renderError(error);
     }
@@ -47,23 +72,41 @@ class App {
   async fetchContributorsAndRender(index) {
     try {
       const repo = this.repos[index];
-      const contributors = await repo.fetchContributors();
 
       const container = document.getElementById('container');
       App.clearContainer(container);
 
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
+      const leftDiv = Util.createAndAppend('section', container, {
+        class: 'left column',
+        'aria-label': 'repository-details',
+      });
+      const rightDiv = Util.createAndAppend('section', container, {
+        class: 'right column',
+        'aria-label': 'contributors-list',
+      });
 
-      const contributorList = Util.createAndAppend('ul', rightDiv);
+      Util.createAndAppend('p', rightDiv, {
+        text: 'Contributions',
+        class: 'contributors-header',
+      });
+      Util.createAndAppend('img', rightDiv, {
+        src: './images/loading-image.gif',
+        alt: 'loading',
+        id: 'loading',
+      });
+
+      const contributorList = Util.createAndAppend('ul', rightDiv, { class: 'contributors-list' });
 
       repo.render(leftDiv);
+      const contributors = await repo.fetchContributors();
 
       contributors
         .map(contributor => new Contributor(contributor))
         .forEach(contributor => contributor.render(contributorList));
     } catch (error) {
       this.renderError(error);
+    } finally {
+      document.getElementById('loading').style.display = 'none';
     }
   }
 
@@ -72,7 +115,13 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    console.log(error); // TODO: replace with your own code
+    const container = document.getElementById('container');
+    if (container.firstChild) {
+      const rightDiv = document.getElementsByClassName('right')[0];
+      Util.createAndAppend('div', rightDiv, { text: error.message, class: 'alert-error' });
+    } else {
+      Util.createAndAppend('div', container, { text: error.message, class: 'alert-error' });
+    }
   }
 }
 

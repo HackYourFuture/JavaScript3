@@ -1,5 +1,9 @@
 .alert-error {
   color: red;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 2rem;
 }
 
 * {
@@ -62,7 +66,11 @@ body {
   padding: 1rem 0 1rem 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   padding: 1rem;
-  cursor: pointer;
+}
+
+.contributor-anchor {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 81%);
 }
 
 .contributors-header {
@@ -95,7 +103,7 @@ body {
 }
 
 @media (min-width: 768px) {
-  .container {
+  #container {
     display: flex;
     flex-direction: row;
     align-content: space-between;
