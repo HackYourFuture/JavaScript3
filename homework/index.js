@@ -44,26 +44,16 @@
       target: '_blank',
       text: repo.name,
     });
-    const descriptionRow = createAndAppend('tr', tBody, { class: 'row' });
-    if (repo.description !== null) {
-      createAndAppend('td', descriptionRow, {
-        text: 'Description :',
-        class: 'label',
-      });
-      createAndAppend('td', descriptionRow, { text: repo.description });
+    function appendRow(parent, text1, text2) {
+      const tr = createAndAppend('tr', parent, { class: 'row' });
+      createAndAppend('td', tr, { text: text1, class: 'label' });
+      createAndAppend('td', tr, { text: text2 });
     }
-
-    const forksRow = createAndAppend('tr', tBody, { class: 'row' });
-    createAndAppend('td', forksRow, { text: 'Forks :', class: 'label' });
-    createAndAppend('td', forksRow, { text: repo.forks });
-    const dateRow = createAndAppend('tr', tBody, { class: 'row' });
-    createAndAppend('td', dateRow, {
-      text: 'Updated :',
-      class: 'label',
-    });
-    createAndAppend('td', dateRow, {
-      text: new Date(repo.updated_at).toLocaleString(),
-    });
+    if (repo.description !== null) {
+      appendRow(tBody, 'Description :', repo.description);
+    }
+    appendRow(tBody, 'Forks :', repo.forks);
+    appendRow(tBody, 'Updated :', new Date(repo.updated_at).toLocaleString());
   }
 
   function reposContributor(url) {
