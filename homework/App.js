@@ -1,5 +1,7 @@
 'use strict';
 
+// https://suh3yb.github.io/JavaScript3/homework/index.html
+
 /* global Util, Repository, Contributor */
 
 class App {
@@ -28,8 +30,6 @@ class App {
         throw new Error(`Oops, error: ${reposResponse.status}, ${reposResponse.statusText}`);
       }
       this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
-
       this.repos
         .sort((a, b) =>
           a
