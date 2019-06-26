@@ -1,10 +1,12 @@
 .alert-error {
-  color: red;
-  background-color: rgb(5, 5, 5);
+  color: black;
+  background: rgb(238, 104, 126);
   font-weight: bold;
   padding: 5%;
   border-radius: 5%;
   text-align: center;
+  width: 20%;
+  margin-left: 40%;
 }
 .divClass {
   display: flex;
@@ -16,25 +18,25 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  width: 60%;
+  margin-left: 20%;
 }
-.repoDetailsDiv {
+.leftDiv {
   display: grid;
-  width: 30%;
+  width: 55%;
   border-radius: 2px;
   background-color: #fff;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
     0 3px 3px -2px rgba(0, 0, 0, 0.12);
-  margin-left: 20%;
-  min-width: 250px;
 }
 span {
   width: 15%;
   margin-right: 10%;
 }
-a {
+.leftDiv a {
   margin-left: 10%;
 }
-p {
+.leftDiv p {
   margin-left: 10%;
 }
 #descP {
@@ -58,11 +60,12 @@ p {
   min-width: 250px;
 }
 .rightDiv {
-  width: 30%;
+  width: 43%;
   border-radius: 2px;
   background-color: #fff;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
     0 3px 3px -2px rgba(0, 0, 0, 0.12);
+  margin-left: 2%;
 }
 
 .contImg {
@@ -110,15 +113,12 @@ p {
 .rightDivHeader {
   padding: 8px 16px 4px 16px;
 }
-.rightDiv {
-  margin-left: 1%;
-  width: 29%;
-}
+
 .select {
   width: 40%;
 }
 @media (max-width: 768px) {
-  .repoDetailsDiv {
+  .leftDiv {
     width: 100%;
     margin-left: 0%;
   }
@@ -128,6 +128,8 @@ p {
   }
   .container {
     flex-direction: column;
+    width: 100%;
+    margin-left: 0;
   }
   .rightDiv {
     margin-top: 1%;
