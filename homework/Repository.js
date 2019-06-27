@@ -50,16 +50,6 @@ class Repository {
         class: 'repo-child right-cell',
       });
     });
-
-    // fetchJSON(selectedRepo.contributors_url)
-    //   .then(contributors => {
-    //     renderContributors(contributors, contributorsContainer);
-    //   })
-    //   .catch(err => {
-    //     createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-    //   });
-
-    // Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
   }
 
   /**

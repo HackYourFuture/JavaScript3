@@ -79,12 +79,12 @@ class App {
       const container = document.getElementById('container');
       App.clearContainer(container);
 
-      const leftDiv = Util.createAndAppend('div', container);
-      const contributorsContainer = Util.createAndAppend('div', container);
+      const repoContainer = Util.createAndAppend('div', this.mainContainer);
+      const contributorsContainer = Util.createAndAppend('div', this.mainContainer);
 
       const contributorList = Util.createAndAppend('ul', contributorsContainer);
 
-      repo.render(leftDiv);
+      repo.render(repoContainer);
 
       contributors
         .map(contributor => new Contributor(contributor))
@@ -99,7 +99,7 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    console.log(error); // TODO: replace with your own code
+    this.renderError(error);
   }
 }
 

@@ -146,13 +146,12 @@
 
   async function main(url) {
     const root = document.getElementById('root');
-    fetchJSON(url)
-      .then(repos => {
-        dropDown(root, repos);
-      })
-      .catch(err => {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      });
+    try {
+      const repositories = await fetchJSON(url);
+      dropDown(root, repositories);
+    } catch (error) {
+      createAndAppend('div', root, { text: error.message, class: 'alert-error' });
+    }
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
