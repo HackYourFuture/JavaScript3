@@ -1,3 +1,5 @@
+// Visit page here: https://spa-7alip.netlify.com/homework/
+
 'use strict';
 
 /* global Util, Repository, Contributor */
@@ -18,15 +20,24 @@ class App {
 
     const root = document.getElementById('root');
 
-    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
-
+    const header = Util.createAndAppend('header', root, { class: 'header' });
+    Util.createAndAppend('h3', header, { text: 'HYF Repositories' });
+    const select = Util.createAndAppend('select', header, {
+      class: 'header__select',
+      'aria-label': 'Repositories',
+    });
+    Util.createAndAppend('main', root, { id: 'container', class: 'container' });
     try {
       const repos = await Util.fetchJSON(url);
-      this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
+      this.repos = repos
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map(repo => new Repository(repo));
+      this.repos.forEach(repo => Util.createAndAppend('option', select, { text: repo.name() }));
+      this.fetchContributorsAndRender(select.selectedIndex);
     } catch (error) {
       this.renderError(error);
     }
+    select.addEventListener('change', () => this.fetchContributorsAndRender(select.selectedIndex));
   }
 
   /**
@@ -52,12 +63,19 @@ class App {
       const container = document.getElementById('container');
       App.clearContainer(container);
 
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
+      const leftDiv = Util.createAndAppend('div', container, { class: 'details' });
+      const rightDiv = Util.createAndAppend('div', container, { class: 'contributors' });
 
-      const contributorList = Util.createAndAppend('ul', rightDiv);
+      const contributorList = Util.createAndAppend('ul', rightDiv, { class: 'contributors__list' });
 
       repo.render(leftDiv);
+
+      if (contributors.length === 0) {
+        Util.createAndAppend('div', rightDiv, {
+          class: 'alert-warning',
+          text: 'There is no contributor for this repository!',
+        });
+      }
 
       contributors
         .map(contributor => new Contributor(contributor))
@@ -72,7 +90,11 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    console.log(error); // TODO: replace with your own code
+    // If any error occures when the page rendered, I want show it for the end-user.
+    const root = document.getElementById('root');
+    App.clearContainer(root);
+    Util.createAndAppend('div', root, { class: 'alert-error', text: error.message });
+    throw new Error(error);
   }
 }
 
