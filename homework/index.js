@@ -33,23 +33,34 @@
   }
 
   function renderContributors(contributors, contributorsContainer) {
-    createAndAppend('p', contributorsContainer, { text: 'Contributors', id: 'contributors' });
+    createAndAppend('p', contributorsContainer, {
+      text: 'Contributors',
+      class: 'contributor-header',
+    });
     contributors.forEach(contributor => {
-      const contributorsDetailsDiv = createAndAppend('div', contributorsContainer, {
-        class: 'contributor-details',
+      const contributorList = createAndAppend('ul', contributorsContainer, {
+        class: 'contributor-list',
       });
-      createAndAppend('img', contributorsDetailsDiv, {
+
+      const contributorListItem = createAndAppend('li', contributorList);
+
+      const anchorLink = createAndAppend('a', contributorListItem, {
+        href: contributor.html_url,
+        target: '_blank',
+        class: 'contributor-item',
+      });
+
+      createAndAppend('img', anchorLink, {
         src: contributor.avatar_url,
         alt: contributor.login,
         class: 'image',
       });
-      createAndAppend('a', contributorsDetailsDiv, {
-        text: contributor.login,
-        href: contributor.html_url,
-        target: '_blank',
+
+      const contributorDetails = createAndAppend('div', anchorLink, {
         class: 'contributor-data',
       });
-      createAndAppend('p', contributorsDetailsDiv, {
+      createAndAppend('div', contributorDetails, { text: contributor.login });
+      createAndAppend('div', contributorDetails, {
         text: contributor.contributions,
         class: 'contributor-badge',
       });
@@ -61,21 +72,38 @@
     contributorsContainer.innerHTML = '';
 
     const updatedAt = new Date(selectedRepo.updated_at);
-    createAndAppend('p', repoContainer, {
-      text: `Repository: ${selectedRepo.name}`,
-      class: 'repo-child',
+
+    const repoTitles = { description: 'Description: ', forks: 'Forks: ', updated_at: 'Updated: ' };
+
+    const table = createAndAppend('table', repoContainer, { class: 'table' });
+    const tbody = createAndAppend('tBody', table);
+
+    const firstRow = createAndAppend('tr', tbody);
+    const leftCell = createAndAppend('td', firstRow);
+    const rightCell = createAndAppend('td', firstRow);
+
+    createAndAppend('span', leftCell, { text: 'Repository: ', class: 'repo-child left-cell' });
+    createAndAppend('a', rightCell, {
+      text: `${selectedRepo.name}`,
+      href: selectedRepo.html_url,
+      target: '_blank',
+      class: 'repo-child right-cell',
     });
-    createAndAppend('p', repoContainer, {
-      text: `Description: ${selectedRepo.description}`,
-      class: 'repo-child',
-    });
-    createAndAppend('p', repoContainer, {
-      text: `Fork: ${selectedRepo.forks}`,
-      class: 'repo-child',
-    });
-    createAndAppend('p', repoContainer, {
-      text: `Updated: ${updatedAt.toLocaleString()}`,
-      class: 'repo-child',
+
+    Object.keys(repoTitles).forEach(key => {
+      const tr = createAndAppend('tr', tbody);
+      const leftCell = createAndAppend('td', tr);
+      const rightCell = createAndAppend('td', tr);
+
+      createAndAppend('span', leftCell, {
+        text: `${repoTitles[key]}`,
+        class: 'repo-child left-cell',
+      });
+
+      createAndAppend('span', rightCell, {
+        text: `${selectedRepo[key]}`,
+        class: 'repo-child right-cell',
+      });
     });
 
     fetchJSON(selectedRepo.contributors_url)
@@ -88,9 +116,9 @@
   }
 
   function dropDown(root, repos) {
-    const header = createAndAppend('div', root, { id: 'header' });
+    const header = createAndAppend('header', root, { id: 'header' });
     createAndAppend('p', header, { text: 'HYF Repositories', class: 'header' });
-    const select = createAndAppend('select', header, { id: 'select' });
+    const select = createAndAppend('select', header, { id: 'repo-select' });
 
     repos.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -102,9 +130,11 @@
     });
 
     const mainContainer = createAndAppend('div', root, { id: 'main' });
-    const repoContainer = createAndAppend('div', mainContainer, { id: 'repo-container' });
+    const repoContainer = createAndAppend('div', mainContainer, {
+      class: 'repo-container whiteframe',
+    });
     const contributorsContainer = createAndAppend('div', mainContainer, {
-      id: 'contributor-container',
+      class: 'contributor-container whiteframe',
     });
 
     select.addEventListener('change', () => {
@@ -114,7 +144,7 @@
     fetchAndRenderData(repos[0], repoContainer, contributorsContainer, root);
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
     fetchJSON(url)
       .then(repos => {

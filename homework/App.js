@@ -18,15 +18,42 @@ class App {
 
     const root = document.getElementById('root');
 
-    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
+    Util.createAndAppend('h1', root, { text: 'It works!' });
 
     try {
       const repos = await Util.fetchJSON(url);
+      repos.sort((a, b) => a.name.localeCompare(b.name));
       this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
+      this.dropDown(root);
     } catch (error) {
       this.renderError(error);
     }
+  }
+
+  dropDown(root) {
+    const header = Util.createAndAppend('header', root, { id: 'header' });
+    Util.createAndAppend('p', header, { text: 'HYF Repositories', class: 'header' });
+    const select = Util.createAndAppend('select', header, { id: 'repo-select' });
+
+    this.repos.forEach((repo, index) => {
+      Util.createAndAppend('option', select, {
+        text: repo.repository.name,
+        value: index,
+      });
+    });
+
+    const mainContainer = Util.createAndAppend('div', root, { id: 'main' });
+    const repoContainer = Util.createAndAppend('div', mainContainer, {
+      class: 'repo-container whiteframe',
+    });
+    const contributorsContainer = Util.createAndAppend('div', mainContainer, {
+      class: 'contributor-container whiteframe',
+    });
+
+    select.addEventListener('change', () => {
+      this.repos[select.value].render(repoContainer);
+    });
+    this.repos[0].render(repoContainer);
   }
 
   /**
@@ -53,9 +80,9 @@ class App {
       App.clearContainer(container);
 
       const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
+      const contributorsContainer = Util.createAndAppend('div', container);
 
-      const contributorList = Util.createAndAppend('ul', rightDiv);
+      const contributorList = Util.createAndAppend('ul', contributorsContainer);
 
       repo.render(leftDiv);
 
