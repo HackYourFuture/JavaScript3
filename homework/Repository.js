@@ -12,9 +12,29 @@ class Repository {
    * Render the repository info to the DOM.
    * @param {HTMLElement} container The container element in which to render the repository.
    */
+  // container = ul
   render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
+    const li = Util.createAndAppend('li', container, {
+      text: `Repository: `,
+      class: 'li',
+    });
+
+    Util.createAndAppend('a', li, {
+      target: '_blank',
+      href: this.repository.html_url,
+      text: this.repository.name,
+    });
+
+    Util.createAndAppend('li', container, {
+      text: `Description: ${this.repository.description || `Not available`}`,
+      class: 'li',
+    });
+
+    Util.createAndAppend('li', container, { text: `Forks: ${this.repository.forks}`, class: 'li' });
+    Util.createAndAppend('li', container, {
+      class: 'li',
+      text: `Updated: ${new Date(this.repository.updated_at).toLocaleString()}`,
+    });
   }
 
   /**

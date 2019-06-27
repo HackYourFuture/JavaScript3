@@ -12,8 +12,27 @@ class Contributor {
    * Render the contributor info to the DOM.
    * @param {HTMLElement} container The container element in which to render the contributor.
    */
+  // container = tbody => "contributorList"
   render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.contributor, null, 2));
+    const row = Util.createAndAppend('tr', container);
+
+    const imageCell = Util.createAndAppend('td', row);
+    Util.createAndAppend('img', imageCell, {
+      src: this.contributor.avatar_url,
+      class: 'img',
+      alt: 'contributor personal photo',
+    });
+    const nameCell = Util.createAndAppend('td', row);
+    Util.createAndAppend('a', nameCell, {
+      target: '_blank',
+      href: this.contributor.html_url,
+      text: this.contributor.login,
+      class: 'contributor-name',
+    });
+    const contributionsNum = Util.createAndAppend('td', row);
+    Util.createAndAppend('span', contributionsNum, {
+      text: this.contributor.contributions,
+      class: 'contributor-number',
+    });
   }
 }
