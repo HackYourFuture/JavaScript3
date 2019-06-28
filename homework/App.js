@@ -72,7 +72,7 @@ class App {
       const leftDiv = Util.createAndAppend('div', container, { class: 'leftDiv whiteframe' });
       const rightDiv = Util.createAndAppend('div', container, { class: 'rightDiv whiteframe' });
 
-      const contributorList = Util.createAndAppend('ul', rightDiv, { class: 'rightDiv' });
+      const contributorList = Util.createAndAppend('ul', rightDiv);
 
       repo.render(leftDiv);
 
