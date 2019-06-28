@@ -71,6 +71,9 @@ table {
   border-radius: 3px;
   margin-right: 16px;
 }
+ul {
+  list-style-type: none;
+}
 .contributor-data {
   flex: 1;
   display: flex;

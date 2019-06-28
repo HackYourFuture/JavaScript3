@@ -13,8 +13,29 @@ class Repository {
    * @param {HTMLElement} container The container element in which to render the repository.
    */
   render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
+    const table = Util.createAndAppend('table', container);
+    const tBody = Util.createAndAppend('tbody', table);
+    const trRepo = Util.createAndAppend('tr', tBody);
+    Util.createAndAppend('td', trRepo, { text: 'repo:' });
+    const tdRepoLink = Util.createAndAppend('td', trRepo);
+    Util.createAndAppend('a', tdRepoLink, {
+      text: this.repository.name,
+      href: this.repository.html_url,
+      target: '_blank',
+    });
+    if (this.repository.description !== null) {
+      const trDescription = Util.createAndAppend('tr', tBody, {});
+      Util.createAndAppend('td', trDescription, { text: 'Description:' });
+      Util.createAndAppend('td', trDescription, { text: this.repository.description });
+    }
+    const trForks = Util.createAndAppend('tr', tBody);
+    Util.createAndAppend('td', trForks, { text: 'Forks:' });
+    Util.createAndAppend('td', trForks, { text: this.repository.forks_count });
+    const trUpdate = Util.createAndAppend('tr', tBody);
+    Util.createAndAppend('td', trUpdate, { text: 'Updated:' });
+    Util.createAndAppend('td', trUpdate, {
+      text: new Date(this.repository.updated_at).toLocaleString(),
+    });
   }
 
   /**
