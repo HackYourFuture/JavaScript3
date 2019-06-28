@@ -26,7 +26,7 @@ class Repository {
     });
 
     Util.createAndAppend('li', container, {
-      text: `Description: ${this.repository.description || `Not available`}`,
+      text: `Description: ${this.repository.description}`,
       class: 'li',
     });
 
