@@ -17,6 +17,7 @@ class App {
     Util.createAndAppend('p', header, { text: 'HYF Repositories' });
     const select = Util.createAndAppend('select', header, {
       class: 'repository-selector',
+      autofocus: true,
       'aria-label': 'HYF Repositories',
     });
     select.addEventListener('change', () => {

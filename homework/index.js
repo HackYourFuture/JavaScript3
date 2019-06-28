@@ -15,6 +15,14 @@
     return elem;
   }
 
+  async function fetchAndHandleError(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    return response.json();
+  }
+
   // a function to create td without link
   function createTd(textKey, textContent, tbody) {
     const parent = createAndAppend('tr', tbody);
@@ -51,9 +59,8 @@
   // contributors list
   async function listContributors(repository, container) {
     const contributorUrl = repository.contributors_url;
-    const response = await fetch(contributorUrl);
-    const contributors = await response.json();
     try {
+      const contributors = await fetchAndHandleError(contributorUrl);
       const contributorsData = createAndAppend('div', container, {
         class: 'right-div white-frame',
       });
@@ -95,8 +102,10 @@
   function selectAndChange(repositories, container, header) {
     // localeCompare enables a case-insensitive sort of an array.
     repositories.sort((a, b) => a.name.localeCompare(b.name));
-
-    const select = createAndAppend('select', header, { class: 'repository-selector' });
+    const select = createAndAppend('select', header, {
+      class: 'repository-selector',
+      autofocus: true,
+    });
     repositories.forEach((repository, index) => {
       createAndAppend('option', select, { text: repository.name, value: index });
     });
@@ -115,11 +124,8 @@
 
   async function main(url) {
     const root = document.getElementById('root');
-    // const response = await fetch(contributorUrl);
-    // const contributors = await response.json();
-    const response = await fetch(url);
-    const repositories = await response.json();
     try {
+      const repositories = await fetchAndHandleError(url);
       const header = createAndAppend('header', root, { class: 'header' });
       createAndAppend('p', header, { text: 'HYF Repositories' });
       const container = createAndAppend('div', root, {
