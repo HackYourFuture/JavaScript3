@@ -41,7 +41,7 @@ body {
   align-content: space-between;
 }
 
-.leftDiv {
+.left-div {
   width: calc(50% - 10px);
   margin-right: 10px;
   margin-bottom: 10px;
@@ -60,7 +60,7 @@ body {
   margin-right: 10px;
 }
 
-.rightDiv {
+.right-div {
   width: 50%;
   font-size: 16px;
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
@@ -89,6 +89,8 @@ body {
   align-items: center;
   border-bottom: solid 1px lightgray;
   padding: 15px;
+  text-decoration: none;
+  color: black;
 }
 
 .contributor-avatar {
@@ -119,10 +121,10 @@ body {
     flex-direction: column;
     align-items: stretch;
   }
-  .leftDiv {
+  .left-div {
     width: 100%;
   }
-  .rightDiv {
+  .right-div {
     width: 100%;
   }
 }
