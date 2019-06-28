@@ -31,12 +31,7 @@ class App {
       }
       this.repos = repos.map(repo => new Repository(repo));
       this.repos
-        .sort((a, b) =>
-          a
-            .name()
-            .toLowerCase()
-            .localeCompare(b.name().toLowerCase()),
-        )
+        .sort((a, b) => a.name().localeCompare(b.name()))
         .forEach((repo, index) => {
           Util.createAndAppend('option', selectMenu, {
             value: index,
