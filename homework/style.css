@@ -36,12 +36,12 @@ body {
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
     0 3px 3px -2px rgba(0, 0, 0, 0.12);
 }
-.leftDiv,
-.rightDiv {
+.left-div,
+.right-div {
   background-color: white;
   flex: 1;
 }
-.leftDiv {
+.left-div {
   padding: 16px;
   margin-right: 16px;
 }
@@ -65,7 +65,7 @@ table {
   display: flex;
   flex-direction: row;
   align-items: center;
-  cursor: pointer;
+  text-decoration: none;
 }
 .contributor-avatar {
   border-radius: 3px;
@@ -106,7 +106,7 @@ ul {
     flex-direction: column;
     align-items: stretch;
   }
-  .leftDiv {
+  .left-div {
     margin-right: 0;
   }
 }

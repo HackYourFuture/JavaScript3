@@ -31,7 +31,7 @@
   }
 
   function makeTable(repo) {
-    const leftDiv = document.querySelector('.leftDiv');
+    const leftDiv = document.querySelector('.left-div');
     const table = createAndAppend('table', leftDiv);
     const tBody = createAndAppend('tbody', table);
     const trRepo = createAndAppend('tr', tBody);
@@ -57,11 +57,11 @@
     });
   }
 
-  function makeContributorsList(repos) {
-    const rightDiv = document.querySelector('.rightDiv');
+  function makeContributorsList(contributors) {
+    const rightDiv = document.querySelector('.right-div');
     createAndAppend('p', rightDiv, { class: 'contributor-header', text: 'Contributions' });
     const ul = createAndAppend('ul', rightDiv, { class: 'contributor-list' });
-    repos.forEach(contributor => {
+    contributors.forEach(contributor => {
       const li = createAndAppend('li', ul, {
         class: 'contributor-item',
         tabindex: '0',
@@ -86,8 +86,8 @@
   }
 
   async function makeHtmlOfContents(selectedRepo) {
-    document.querySelector('.leftDiv').innerHTML = '';
-    document.querySelector('.rightDiv').innerHTML = '';
+    document.querySelector('.left-div').innerHTML = '';
+    document.querySelector('.right-div').innerHTML = '';
     makeTable(selectedRepo);
     try {
       const contributorsResponse = await fetch(selectedRepo.contributors_url);
@@ -103,8 +103,8 @@
     makeHeader(repos);
     const root = document.getElementById('root');
     const container = createAndAppend('div', root, { id: 'container' });
-    createAndAppend('div', container, { class: 'leftDiv whiteframe' });
-    createAndAppend('div', container, { class: 'rightDiv whiteframe' });
+    createAndAppend('div', container, { class: 'left-div whiteframe' });
+    createAndAppend('div', container, { class: 'right-div whiteframe' });
     const selectMenu = document.querySelector('select');
     makeHtmlOfContents(repos[selectMenu.selectedIndex]);
     selectMenu.onchange = () => {
@@ -116,11 +116,10 @@
     try {
       const responseOfHyfRepos = await fetch(url);
       const repositories = await responseOfHyfRepos.json();
-      mainHtmlConstructor(
-        repositories.sort((one, two) =>
-          one.name.toLowerCase().localeCompare(two.name.toLowerCase()),
-        ),
-      );
+      if (!responseOfHyfRepos.ok) {
+        throw Error(responseOfHyfRepos.statusText);
+      }
+      mainHtmlConstructor(repositories.sort((one, two) => one.name.localeCompare(two.name)));
     } catch (err) {
       const root = document.getElementById('root');
       createAndAppend('div', root, { text: err.message, class: 'alert-error' });

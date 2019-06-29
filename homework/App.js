@@ -17,7 +17,7 @@ class App {
     Util.createAndAppend('h3', header, { text: 'HYF Repositories' });
     const selectMenu = Util.createAndAppend('select', header, {
       class: 'repo-selector',
-      tabindex: 1,
+      autofocus: true,
     });
     Util.createAndAppend('div', root, { id: 'container' });
 
@@ -25,12 +25,7 @@ class App {
       const repos = await Util.fetchJSON(url);
       this.repos = repos.map(repo => new Repository(repo));
       this.repos
-        .sort((one, two) =>
-          one
-            .name()
-            .toLowerCase()
-            .localeCompare(two.name().toLowerCase()),
-        )
+        .sort((one, two) => one.name().localeCompare(two.name().toLowerCase()))
         .map((repo, index) =>
           Util.createAndAppend('option', selectMenu, {
             value: index,
@@ -69,10 +64,14 @@ class App {
       const container = document.getElementById('container');
       App.clearContainer(container);
 
-      const leftDiv = Util.createAndAppend('div', container, { class: 'leftDiv whiteframe' });
-      const rightDiv = Util.createAndAppend('div', container, { class: 'rightDiv whiteframe' });
+      const leftDiv = Util.createAndAppend('div', container, { class: 'left-div whiteframe' });
+      const rightDiv = Util.createAndAppend('div', container, { class: 'right-div whiteframe' });
+      Util.createAndAppend('p', rightDiv, {
+        class: 'contributor-header',
+        text: 'Contributions',
+      });
 
-      const contributorList = Util.createAndAppend('ul', rightDiv);
+      const contributorList = Util.createAndAppend('ul', rightDiv, { class: 'contributor-list' });
 
       repo.render(leftDiv);
 
