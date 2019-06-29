@@ -8,8 +8,8 @@ class Repository {
     this.repository = repository;
   }
 
-  detectRepositoryAndValue(repository, value) {
-    if (typeof repository !== 'undefined' && value !== null) {
+  detectValueOfRepository(value) {
+    if (value != null) {
       return true;
     }
     return false;
@@ -27,7 +27,7 @@ class Repository {
     const table = Util.createAndAppend('table', leftDiv);
     const tbody = Util.createAndAppend('tbody', table, { id: 'tbody' });
 
-    if (this.detectRepositoryAndValue(this.repository, this.repository.name)) {
+    if (this.detectValueOfRepository(this.repository.name)) {
       const tr1 = Util.createAndAppend('tr', tbody);
       Util.createAndAppend('td', tr1, { class: 'label', text: 'Repository :' });
       const td2 = Util.createAndAppend('td', tr1);
@@ -37,19 +37,19 @@ class Repository {
         text: this.repository.name,
       });
     }
-    if (this.detectRepositoryAndValue(this.repository, this.repository.description)) {
+    if (this.detectValueOfRepository(this.repository.description)) {
       const tr2 = Util.createAndAppend('tr', tbody);
       Util.createAndAppend('td', tr2, { class: 'label', text: 'Description :' });
       const repositoryDescription = Util.createAndAppend('td', tr2, { text: '' });
       repositoryDescription.textContent = this.repository.description;
     }
-    if (this.detectRepositoryAndValue(this.repository, this.repository.forks)) {
+    if (this.detectValueOfRepository(this.repository.forks)) {
       const tr3 = Util.createAndAppend('tr', tbody);
       Util.createAndAppend('td', tr3, { class: 'label', text: 'Forks :' });
       const fork = Util.createAndAppend('td', tr3, { text: '' });
       fork.textContent = this.repository.forks;
     }
-    if (this.detectRepositoryAndValue(this.repository, this.repository.updated_at)) {
+    if (this.detectValueOfRepository(this.repository.updated_at)) {
       const tr4 = Util.createAndAppend('tr', tbody);
       Util.createAndAppend('td', tr4, { class: 'label', text: 'Updated :' });
       Util.createAndAppend('td', tr4, {

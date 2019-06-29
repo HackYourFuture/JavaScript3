@@ -15,8 +15,8 @@
     return elem;
   }
 
-  function detectRepositoryAndValue(repository, value) {
-    if (typeof repository !== 'undefined' && value !== null) {
+  function detectValueOfRepository(value) {
+    if (value != null) {
       return true;
     }
     return false;
@@ -31,7 +31,7 @@
     const table = createAndAppend('table', leftDiv);
     const tbody = createAndAppend('tbody', table, { id: 'tbody' });
 
-    if (detectRepositoryAndValue(selectedRepository, selectedRepository.name)) {
+    if (detectValueOfRepository(selectedRepository.name)) {
       const tr1 = createAndAppend('tr', tbody);
       createAndAppend('td', tr1, { class: 'label', text: 'Repository :' });
       const td2 = createAndAppend('td', tr1);
@@ -41,19 +41,19 @@
         text: selectedRepository.name,
       });
     }
-    if (detectRepositoryAndValue(selectedRepository, selectedRepository.description)) {
+    if (detectValueOfRepository(selectedRepository.description)) {
       const tr2 = createAndAppend('tr', tbody);
       createAndAppend('td', tr2, { class: 'label', text: 'Description :' });
       const repositoryDescription = createAndAppend('td', tr2, { text: '' });
       repositoryDescription.textContent = selectedRepository.description;
     }
-    if (detectRepositoryAndValue(selectedRepository, selectedRepository.forks)) {
+    if (detectValueOfRepository(selectedRepository.forks)) {
       const tr3 = createAndAppend('tr', tbody);
       createAndAppend('td', tr3, { class: 'label', text: 'Forks :' });
       const fork = createAndAppend('td', tr3, { text: '' });
       fork.textContent = selectedRepository.forks;
     }
-    if (detectRepositoryAndValue(selectedRepository, selectedRepository.updated_at)) {
+    if (detectValueOfRepository(selectedRepository.updated_at)) {
       const tr4 = createAndAppend('tr', tbody);
       createAndAppend('td', tr4, { class: 'label', text: 'Updated :' });
       createAndAppend('td', tr4, {
@@ -101,15 +101,16 @@
     });
   }
 
-  function setContent(selectedRepository) {
+  async function setContent(selectedRepository) {
     const root = document.getElementById('root');
     createContainer(selectedRepository);
     try {
-      (async () => {
-        const response = await fetch(selectedRepository.contributors_url);
-        const contributors = await response.json();
-        createContributions(contributors);
-      })();
+      const response = await fetch(selectedRepository.contributors_url);
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      const contributors = await response.json();
+      createContributions(contributors);
     } catch (error) {
       createAndAppend('div', root, { text: error, class: 'alert-error' });
     }
@@ -142,14 +143,15 @@
     listenSelectElement(repositories);
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
     try {
-      (async () => {
-        const response = await fetch(url);
-        const repositories = await response.json();
-        createHeader(repositories, root);
-      })();
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      const repositories = await response.json();
+      createHeader(repositories, root);
     } catch (error) {
       createAndAppend('div', root, { text: error, class: 'alert-error' });
     }
