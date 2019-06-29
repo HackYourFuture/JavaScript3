@@ -18,18 +18,17 @@ class Util {
 
   static fetchJSON(url) {
     return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status < 400) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
+      fetch(url)
+        .then(response => {
+          if (!response.ok) {
+            reject(new Error(`Network request failed`));
+          }
+          return response.json();
+        })
+        .then(response => resolve(response))
+        .catch(error => {
+          reject(new Error(`Network error: ${error.message}`));
+        });
     });
   }
 }
