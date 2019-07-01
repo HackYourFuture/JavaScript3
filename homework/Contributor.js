@@ -13,9 +13,7 @@ class Contributor {
    * @param {HTMLElement} container The container element in which to render the contributor.
    */
   render(container) {
-    const contributorListItem = Util.createAndAppend('li', this.contributorList);
-
-    const link = Util.createAndAppend('a', contributorListItem, {
+    const link = Util.createAndAppend('a', container, {
       href: this.contributor.html_url,
       target: '_blank',
       class: 'contributor-item',
@@ -35,6 +33,5 @@ class Contributor {
       text: this.contributor.contributions,
       class: 'contributor-badge',
     });
-    Util.createAndAppend('pre', container, JSON.stringify(this.contributor, null, 2));
   }
 }

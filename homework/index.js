@@ -67,52 +67,52 @@
     });
   }
 
-  function fetchAndRenderData(selectedRepo, repoContainer, contributorsContainer, root) {
+  async function fetchAndRenderData(selectedRepo, repoContainer, contributorsContainer, root) {
     repoContainer.innerHTML = '';
     contributorsContainer.innerHTML = '';
 
-    const updatedAt = new Date(selectedRepo.updated_at);
-
+    const repo = Object.assign({}, selectedRepo, {
+      updated_at: new Date(selectedRepo.updated_at).toLocaleString(),
+    });
     const repoTitles = { description: 'Description: ', forks: 'Forks: ', updated_at: 'Updated: ' };
 
     const table = createAndAppend('table', repoContainer, { class: 'table' });
     const tbody = createAndAppend('tBody', table);
 
     const firstRow = createAndAppend('tr', tbody);
-    const leftCell = createAndAppend('td', firstRow);
-    const rightCell = createAndAppend('td', firstRow);
+    let leftCell = createAndAppend('td', firstRow);
+    let rightCell = createAndAppend('td', firstRow);
 
     createAndAppend('span', leftCell, { text: 'Repository: ', class: 'repo-child left-cell' });
     createAndAppend('a', rightCell, {
-      text: `${selectedRepo.name}`,
-      href: selectedRepo.html_url,
+      text: repo.name,
+      href: repo.html_url,
       target: '_blank',
       class: 'repo-child right-cell',
     });
 
     Object.keys(repoTitles).forEach(key => {
       const tr = createAndAppend('tr', tbody);
-      const leftCell = createAndAppend('td', tr);
-      const rightCell = createAndAppend('td', tr);
+      leftCell = createAndAppend('td', tr);
+      rightCell = createAndAppend('td', tr);
 
       createAndAppend('span', leftCell, {
-        text: `${repoTitles[key]}`,
+        text: repoTitles[key],
         class: 'repo-child left-cell',
       });
 
       createAndAppend('span', rightCell, {
-        text: `${selectedRepo[key]}`,
+        text: repo[key],
         class: 'repo-child right-cell',
       });
     });
 
-    fetchJSON(selectedRepo.contributors_url)
-      .then(contributors => {
-        renderContributors(contributors, contributorsContainer);
-      })
-      .catch(err => {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      });
+    try {
+      const contributors = await fetchJSON(selectedRepo.contributors_url);
+      renderContributors(contributors, contributorsContainer);
+    } catch (error) {
+      createAndAppend('div', root, { text: error.message, class: 'alert-error' });
+    }
   }
 
   function dropDown(root, repos) {
@@ -131,10 +131,10 @@
 
     const mainContainer = createAndAppend('div', root, { id: 'main' });
     const repoContainer = createAndAppend('div', mainContainer, {
-      class: 'repo-container whiteframe',
+      class: 'repo-container white-frame',
     });
     const contributorsContainer = createAndAppend('div', mainContainer, {
-      class: 'contributor-container whiteframe',
+      class: 'contributor-container white-frame',
     });
 
     select.addEventListener('change', () => {

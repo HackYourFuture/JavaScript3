@@ -2,7 +2,7 @@
   color: red;
   text-align: center;
   font-weight: bold;
-  font-size: 25px;
+  font-size: 30px;
   height: 2rem;
   padding-top: 1rem;
   margin-top: 50px;
@@ -55,6 +55,10 @@ table {
   color: rgb(0, 0, 0, 81%);
 }
 
+table td {
+  vertical-align: top;
+}
+
 .repo-container,
 .contributor-container {
   background: white;
@@ -69,10 +73,7 @@ table {
 
 .left-cell {
   font-weight: bold;
-}
-
-.right-cell {
-  margin-left: 8px;
+  margin-right: 15px;
 }
 
 .repo-child {
@@ -134,7 +135,7 @@ table {
   border-radius: 4px;
 }
 
-.whiteframe {
+.white-frame {
   margin-bottom: 8px;
   border-radius: 3px;
   background: #fff;
