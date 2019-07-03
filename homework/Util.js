@@ -17,18 +17,11 @@ class Util {
   }
 
   static fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      fetch(url)
-        .then(response => {
-          if (!response.ok) {
-            reject(new Error(`Network request failed`));
-          }
-          return response.json();
-        })
-        .then(response => resolve(response))
-        .catch(error => {
-          reject(new Error(`Network error: ${error.message}`));
-        });
+    return fetch(url).then(response => {
+      if (!response.ok) {
+        throw new Error(`Network request failed`);
+      }
+      return response.json();
     });
   }
 }
