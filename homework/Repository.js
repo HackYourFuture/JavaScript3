@@ -8,13 +8,6 @@ class Repository {
     this.repository = repository;
   }
 
-  detectValueOfRepository(value) {
-    if (value != null) {
-      return true;
-    }
-    return false;
-  }
-
   /**
    * Render the repository info to the DOM.
    * @param {HTMLElement} container The container element in which to render the repository.
@@ -27,7 +20,7 @@ class Repository {
     const table = Util.createAndAppend('table', leftDiv);
     const tbody = Util.createAndAppend('tbody', table, { id: 'tbody' });
 
-    if (this.detectValueOfRepository(this.repository.name)) {
+    if (this.repository.name != null) {
       const tr1 = Util.createAndAppend('tr', tbody);
       Util.createAndAppend('td', tr1, { class: 'label', text: 'Repository :' });
       const td2 = Util.createAndAppend('td', tr1);
@@ -37,19 +30,19 @@ class Repository {
         text: this.repository.name,
       });
     }
-    if (this.detectValueOfRepository(this.repository.description)) {
+    if (this.repository.description != null) {
       const tr2 = Util.createAndAppend('tr', tbody);
       Util.createAndAppend('td', tr2, { class: 'label', text: 'Description :' });
       const repositoryDescription = Util.createAndAppend('td', tr2, { text: '' });
       repositoryDescription.textContent = this.repository.description;
     }
-    if (this.detectValueOfRepository(this.repository.forks)) {
+    if (this.repository.forks != null) {
       const tr3 = Util.createAndAppend('tr', tbody);
       Util.createAndAppend('td', tr3, { class: 'label', text: 'Forks :' });
       const fork = Util.createAndAppend('td', tr3, { text: '' });
       fork.textContent = this.repository.forks;
     }
-    if (this.detectValueOfRepository(this.repository.updated_at)) {
+    if (this.repository.updated_at != null) {
       const tr4 = Util.createAndAppend('tr', tbody);
       Util.createAndAppend('td', tr4, { class: 'label', text: 'Updated :' });
       Util.createAndAppend('td', tr4, {

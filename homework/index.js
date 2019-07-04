@@ -15,13 +15,6 @@
     return elem;
   }
 
-  function detectValueOfRepository(value) {
-    if (value != null) {
-      return true;
-    }
-    return false;
-  }
-
   function createContainer(selectedRepository) {
     const container = document.getElementById('container');
     const leftDiv = createAndAppend('div', container, {
@@ -31,7 +24,7 @@
     const table = createAndAppend('table', leftDiv);
     const tbody = createAndAppend('tbody', table, { id: 'tbody' });
 
-    if (detectValueOfRepository(selectedRepository.name)) {
+    if (selectedRepository.name != null) {
       const tr1 = createAndAppend('tr', tbody);
       createAndAppend('td', tr1, { class: 'label', text: 'Repository :' });
       const td2 = createAndAppend('td', tr1);
@@ -41,19 +34,19 @@
         text: selectedRepository.name,
       });
     }
-    if (detectValueOfRepository(selectedRepository.description)) {
+    if (selectedRepository.description != null) {
       const tr2 = createAndAppend('tr', tbody);
       createAndAppend('td', tr2, { class: 'label', text: 'Description :' });
       const repositoryDescription = createAndAppend('td', tr2, { text: '' });
       repositoryDescription.textContent = selectedRepository.description;
     }
-    if (detectValueOfRepository(selectedRepository.forks)) {
+    if (selectedRepository.forks != null) {
       const tr3 = createAndAppend('tr', tbody);
       createAndAppend('td', tr3, { class: 'label', text: 'Forks :' });
       const fork = createAndAppend('td', tr3, { text: '' });
       fork.textContent = selectedRepository.forks;
     }
-    if (detectValueOfRepository(selectedRepository.updated_at)) {
+    if (selectedRepository.updated_at != null) {
       const tr4 = createAndAppend('tr', tbody);
       createAndAppend('td', tr4, { class: 'label', text: 'Updated :' });
       createAndAppend('td', tr4, {
