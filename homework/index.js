@@ -16,7 +16,7 @@
     xhr.send();
   }
 
-  function createAndAppend(name, parent, options = {}) {
+  function createAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
     Object.keys(options).forEach(key => {
@@ -34,10 +34,10 @@
     fetchJSON(url, (err, repositories) => {
       const root = document.getElementById('root');
       if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        createAppend('div', root, { text: err.message, class: 'alert-error' });
         return;
       }
-      createAndAppend('pre', root, { text: JSON.stringify(repositories, null, 2) });
+      createAppend('pre', root, { text: JSON.stringify(repositories, null, 2) });
     });
   }
 

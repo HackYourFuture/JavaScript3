@@ -2,7 +2,7 @@
 
 // eslint-disable-next-line no-unused-vars
 class Util {
-  static createAndAppend(name, parent, options = {}) {
+  static createAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
     Object.keys(options).forEach(key => {
