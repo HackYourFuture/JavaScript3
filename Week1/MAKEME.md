@@ -164,7 +164,7 @@ It should include the following components:
 3. When the user changes the selection, the information in the web page should be refreshed for the newly selected repository.
 4. You should be able to click on the repository name of the selected repository to open a new browser tab with the GitHub page for that repository.
 5. You should be able to click on a contributor to open a new browser tab with the GitHub page for that contributor.
-6. You should render network errors to the DOM (see Figure 2 below for an example). Do not use `console.log` as regular users will not see the console output.
+6. You should render network errors to the DOM (see Figure 2 below for an example). Do not use `console.log` as regular users will not see the console output. Use the predefined `alert-error` class from `style.css` to style your error.
 7. Your UI should be responsive. Try it with Chrome Developer Tools in the browser, using a mobile phone format and a tablet format, portrait and landscape. If necessary, you can also do this work in week 2.
 
 ![Error rendering](./assets/hyf-github-error.png)

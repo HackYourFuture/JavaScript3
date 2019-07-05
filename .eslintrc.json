@@ -2,7 +2,14 @@
   "extends": ["airbnb", "prettier"],
   "plugins": ["prettier"],
   "env": {
-    "browser": true
+    "browser": true,
+    "jest": true
+  },
+  "globals": {
+    "page": true,
+    "browser": true,
+    "context": true,
+    "jestPuppeteer": true
   },
   "rules": {
     "prettier/prettier": ["error"],
