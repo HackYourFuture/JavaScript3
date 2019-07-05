@@ -32,8 +32,6 @@ Figure 1 below shows an example of what your application could look like. Note t
 
 <small>Figure 1. Example User Interface using [Material Design](https://material.io/guidelines/) principles.</small>
 
-A live version of this application can be found here: http://hyf-github.netlify.com/
-
 ### 1.2 The GitHub API
 
 #### 1.2.1 Get a list of HYF repositories
@@ -105,21 +103,12 @@ You will be working on the same application during the next three weeks. For eac
 
 The files that make up the application are located in the `homework` folder. It contains the following files:
 
-| Filename             | Description                       |
-| -------------------- | --------------------------------- |
-| ~~`App.js`~~         | Not used in week 1 and 2.         |
-| ~~`Contributor.js`~~ | Not used in week 1 and 2.         |
-| `hyf.png`            | Contains the HackYourFuture logo. |
-| `index.html`         | The application's HTML file.      |
-| ~~`index2.html`~~    | Not used in week 1 and 2.         |
-| `index.js`           | A starter JavaScript file.        |
-| ~~`Repository.js`~~  | Not used in week 1 and 2.         |
-| `style.css`          | A starter CSS file.               |
-| ~~`Util.js`~~        | Not used in week 1 and 2.         |
-
-In week 1, you should only modify `index.js` and `style.css`.
-
-_**Do not modify any other files at this time!**_
+| Filename     | Description                       |
+| ------------ | --------------------------------- |
+| `hyf.png`    | Contains the HackYourFuture logo. |
+| `index.html` | The application's HTML file.      |
+| `index.js`   | A starter JavaScript file.        |
+| `style.css`  | A starter CSS file.               |
 
 Although you should only modify files in the `homework` folder, we recommend that you always open the `JavaScript3` folder rather than directly opening the `homework` folder in VSCode. The `JavaScript3` folder contains the actual git repository and the configuration files required by the installed tools.
 

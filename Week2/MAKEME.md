@@ -43,7 +43,7 @@ The homework for week 2 will build on the work you did in week 1. You will creat
 You will continue to work on the files `index.js` and (possibly) `style.css`.
 
 - Complete your GitHub app code from the previous week, if needed, to meet the requirements from that week's assignment.
-- Replace all asynchronous callbacks (e.g. as used with XMLHttpRequest) by ES6 promises.
+- Replace all asynchronous callbacks (e.g. as used with `XMLHttpRequest`) by ES6 promises.
 - Beautify your app's styling.
 - If not yet completed in week 1, make your app responsive (use CSS media queries and [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)).
 

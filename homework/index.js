@@ -31,13 +31,13 @@
   }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
+    fetchJSON(url, (err, repositories) => {
       const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
+        return;
       }
+      createAndAppend('pre', root, { text: JSON.stringify(repositories, null, 2) });
     });
   }
 
