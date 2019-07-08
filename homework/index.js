@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+
 'use strict';
 
 {
@@ -47,12 +49,11 @@
       }
       createDescription(selectedRepository, root);
       createContributors(selectedRepository, root);
-      console.log(selectedRepository);
     });
   }
   const mainContainerForRepo = document.querySelector('.container');
 
-  function createDescription(selectedRepository, root) {
+  function createDescription(selectedRepository) {
     const descriptionContainer = createAndAppend('div', mainContainerForRepo, {
       class: 'left-div',
     });
@@ -87,7 +88,6 @@
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       } else {
-        console.log(ShowContributors);
         ShowContributors.forEach(contributor => {
           const li = createAndAppend('li', ul, {
             class: 'contributor-item',
