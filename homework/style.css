@@ -9,6 +9,7 @@ body {
   box-sizing: border-box;
   margin-top: 12px;
 }
+
 .container {
   display: flex;
   flex-direction: row;
@@ -27,7 +28,7 @@ body {
   justify-content: center;
 }
 
-#repo-selector {
+#repository-selector {
   border-radius: 3px solid var(--third);
   font-size: 2vw;
   margin-left: 10px;
