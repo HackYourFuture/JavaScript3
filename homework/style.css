@@ -1,82 +1,45 @@
-.alert-error {
-  color: white;
-  background-color: rgb(226, 13, 13);
-  font-weight: bold;
-  padding: 20px;
-  border-radius: 5px;
-  text-align: center;
+:root {
+  --first: rgb(255, 255, 255);
+  --second: coral;
+  --third: black;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   box-sizing: border-box;
-  animation: appearance 3s;
-  margin-top: 10px;
-  background: linear-gradient(
-    -45deg,
-    #e9e7ee,
-    rgb(136, 136, 224),
-    rgba(21, 187, 35, 0.533),
-    rgb(221, 120, 120),
-    rgb(223, 223, 125),
-    coral
-  );
-  animation: gradient 10s ease infinite;
-  background-size: 400% 400%;
+  margin-top: 12px;
 }
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
 .header {
-  color: white;
+  background-color: var(--second);
+  margin: 15px;
+  padding: 7px 15px;
+  color: var(--third);
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  padding: 7px 15px;
-  margin: 15px;
-  background-color: #068ea0;
-  border-radius: 5px;
-  box-shadow: 5px 5px 5px rgb(0, 0, 0);
-}
-
-.nav-title {
-  text-shadow: 0 0 10px rgb(10, 5, 5);
 }
 
 #repo-selector {
-  padding: 7px;
+  border-radius: 3px solid var(--third);
+  font-size: 2vw;
   margin-left: 10px;
-  margin: 10px;
-  border-radius: inherit;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial,
-    sans-serif;
-  font-size: 4vw;
-  box-shadow: 0 0 5px #1fcde4;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
 }
 
 .left-div,
 .right-div {
-  background-color: #24b7db;
-  border-radius: 5px;
-  margin: 5px 15px;
-  padding: 10px;
   margin-bottom: 10px;
+  padding: 10px;
+  background-color: var(--second);
+  border-radius: 5px;
+  margin: 5px 5px;
 }
 
 .label {
@@ -84,59 +47,22 @@ body {
   font-size: 1.1em;
 }
 
-.repo-name {
-  border-radius: 5px;
-  padding: 4px 8px;
-  color: #eaebf1;
-  background-color: rgb(13, 12, 15);
-  cursor: pointer;
-}
-
-.repo-name:link,
-.repo-name:active,
-.repo-name:visited {
-  text-decoration: none;
-}
-
-.contributor-header {
-  margin: 0;
-}
-
-.contributor-list {
-  padding-left: 0;
-}
-
 .contributor-list * {
   list-style-type: none;
 }
 
 .contributor-item {
-  border-radius: 5px;
-  padding: 8px 14px;
-  background-color: #095d68;
-  cursor: pointer;
-  margin-bottom: 5px;
-}
-
-.contributor-item:hover,
-.repo-name:hover {
-  background-color: #eb7836;
-  box-shadow: 5px 5px 5px rgb(199, 12, 12);
-  opacity: 0.9;
+  background-color: var(--third);
+  margin: 5px;
 }
 
 .contributor-item a {
   text-decoration: none;
 }
 
-.contributor-avatar {
-  height: 48px;
-  border-radius: 10px;
-  margin-right: 16px;
-}
-
 .contributor {
   display: flex;
+
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
@@ -144,6 +70,7 @@ body {
 
 .contributor-data {
   display: flex;
+
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
@@ -151,40 +78,20 @@ body {
 }
 
 .contributor-login {
-  padding: 5px;
-  color: white;
+  /* padding: 5px; */
+  color: var(--first);
 }
 
 .contributor-badge {
-  background-color: rgb(10, 10, 10);
   padding: 3px;
-  border-radius: 5px;
   color: white;
-}
-
-@keyframes appearance {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 @media (min-width: 768px) {
   body {
     max-width: 90%;
-    margin: auto;
+    margin: 0 auto;
     padding: 10px;
-  }
-
-  #repo-selector {
-    font-size: 2vw;
-  }
-
-  .container {
-    flex-direction: row;
-    align-items: flex-start;
   }
 
   .left-div {
@@ -197,24 +104,7 @@ body {
   }
 }
 
-@media (min-width: 1024px) {
-  body {
-    max-width: 80%;
-    font-size: 1.5vw;
-  }
-
-  #repo-selector {
-    font-size: 1.3vw;
-  }
-}
-
-@media (min-width: 1440px) {
-  body {
-    max-width: 70%;
-    font-size: 1.5vw;
-  }
-
-  #repo-selector {
-    font-size: 1.1vw;
-  }
+.alert-error {
+  background-color: rgb(226, 13, 13);
+  color: #333;
 }
