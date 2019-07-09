@@ -59,6 +59,7 @@
   }
 
   function createContributors(selectedRepository, mainContainerForRepository) {
+    const root = document.getElementById('root');
     const contributorsContainer = createAndAppend('div', mainContainerForRepository, {
       class: 'right-div',
     });
