@@ -1,19 +1,22 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        resolve(xhr.response);
+      };
+      xhr.onerror = () => {
+        reject(new Error('Network request failed'));
+      };
+      xhr.onabort = () => {
+        reject(new Error('Network request aborted'));
+      };
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -32,39 +35,59 @@
 
   const root = document.getElementById('root');
   const header = createAndAppend('header', root, { class: 'header' });
-  createAndAppend('p', header, { text: 'HYF Repositories' });
 
-  const select = createAndAppend('select', header, { id: 'selector' });
-  const option = x => {
-    for (let i = 0; i < x.length; i++) {
-      createAndAppend('option', select, { text: x[i].name, value: i });
+  function createHeader() {
+    createAndAppend('p', header, { text: 'HYF Repositories' });
+  }
+  createHeader();
+
+  function createOptions(repositoryList) {
+    const select = createAndAppend('select', header, { id: 'selector' });
+    for (let i = 0; i < repositoryList.length; i++) {
+      const repository = repositoryList[i];
+      createAndAppend('option', select, { text: repository.name, value: i });
     }
-  };
+  }
 
   const mainContainer = createAndAppend('div', root, { id: 'container' });
-  const leftContainer = createAndAppend('div', mainContainer, { class: 'left-block frame' });
-  const table = createAndAppend('table', leftContainer);
-  const listContributor = createAndAppend('tbody', table);
+  function createListContributor() {
+    const leftContainer = createAndAppend('div', mainContainer, { class: 'left-block frame' });
+    const table = createAndAppend('table', leftContainer);
+    const listContributor = createAndAppend('tbody', table);
 
-  const rightContainer = createAndAppend('div', mainContainer, { class: 'right-block frame' });
-  createAndAppend('p', rightContainer, {
-    text: 'Contributions',
-    class: 'contributor',
-  });
+    return listContributor;
+  }
+  const listContributor = createListContributor();
 
-  const list = createAndAppend('ul', rightContainer, { class: 'list1' });
+  function createMainContainer() {
+    const rightContainer = createAndAppend('div', mainContainer, { class: 'right-block frame' });
+    createAndAppend('p', rightContainer, {
+      text: 'Contributions',
+      class: 'contributor',
+    });
 
-  function renderContributors(selRep) {
+    return createAndAppend('ul', rightContainer, { class: 'list1' });
+  }
+  const list = createMainContainer();
+
+  function renderContributors(contributors) {
     list.innerHTML = '';
 
-    for (let i = 0; i < selRep.length; i++) {
+    for (let i = 0; i < contributors.length; i++) {
       const li = createAndAppend('li', list, { class: 'contributor-item' });
-      const linkFor = createAndAppend('a', li, { target: '_blank', href: selRep[i].html_url });
-      createAndAppend('img', linkFor, { src: selRep[i].avatar_url, class: 'avatar', height: 48 });
+      const linkFor = createAndAppend('a', li, {
+        target: '_blank',
+        href: contributors[i].html_url,
+      });
+      createAndAppend('img', linkFor, {
+        src: contributors[i].avatar_url,
+        class: 'avatar',
+        height: 48,
+      });
       const divCont = createAndAppend('div', linkFor, { class: 'contributor-data' });
-      createAndAppend('div', divCont, { text: selRep[i].login });
+      createAndAppend('div', divCont, { text: contributors[i].login });
       createAndAppend('div', divCont, {
-        text: selRep[i].contributions,
+        text: contributors[i].contributions,
         class: 'badge',
       });
     }
@@ -93,18 +116,21 @@
         cellContent.textContent = repo[content[i].attribute];
       }
     }
-    fetchJSON(repo.contributors_url, (error, contributors) => renderContributors(contributors));
+
+    fetchJSON(repo.contributors_url)
+      .then(contributors => renderContributors(contributors))
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
+    fetchJSON(url)
+      .then(data => {
         let optionArr = data;
         optionArr = optionArr.sort((a, b) => a.name.localeCompare(b.name));
 
-        option(optionArr);
+        createOptions(optionArr);
 
         const selectedValue = document.getElementById('selector');
         selectedValue.addEventListener('change', event => {
@@ -113,9 +139,12 @@
         });
 
         renderRep(listContributor, optionArr[0]);
-      }
-    });
+      })
+      .catch(error => {
+        createAndAppend({ div: root }, { text: err.message, class: 'alert-error' });
+      });
   }
+
   const HYF_REPS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
   window.onload = () => main(HYF_REPS_URL);
