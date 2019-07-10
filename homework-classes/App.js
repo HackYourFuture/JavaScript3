@@ -18,8 +18,8 @@ class App {
     // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
 
     const root = document.getElementById('root');
-    const header = Util.createAppend('header', root, { class: 'header' });
-    this.mainContainer = Util.createAppend('div', root, { id: 'container' });
+    const header = Util.createAndAppend('header', root, { class: 'header' });
+    this.mainContainer = Util.createAndAppend('div', root, { id: 'container' });
 
     try {
       const repos = await Util.fetchJSON(url);
@@ -50,10 +50,10 @@ class App {
       this.clearContainer();
       const contributors = await repo.fetchContributors();
 
-      const repoContainer = Util.createAppend('div', this.mainContainer);
-      const contributorContainer = Util.createAppend('div', this.mainContainer);
+      const repoContainer = Util.createAndAppend('div', this.mainContainer);
+      const contributorContainer = Util.createAndAppend('div', this.mainContainer);
 
-      const contributorList = Util.createAppend('ul', contributorContainer);
+      const contributorList = Util.createAndAppend('ul', contributorContainer);
 
       repo.render(repoContainer);
 

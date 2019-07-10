@@ -14,7 +14,7 @@ class Repository {
    */
   render(container) {
     // TODO: replace the next line with your code.
-    Util.createAppend('pre', container, { text: JSON.stringify(this.repository, null, 2) });
+    Util.createAndAppend('pre', container, { text: JSON.stringify(this.repository, null, 2) });
   }
 
   /**
