@@ -33,9 +33,6 @@
     return elem;
   }
 
-  const root = document.getElementById('root');
-  const header = createAndAppend('header', root, { class: 'header' });
-
   function createHeader() {
     createAndAppend('p', header, { text: 'HYF Repositories' });
   }
@@ -59,7 +56,7 @@
   }
   const listContributor = createListContributor();
 
-  function createMainContainer() {
+  function createContributorContainer() {
     const rightContainer = createAndAppend('div', mainContainer, { class: 'right-block frame' });
     createAndAppend('p', rightContainer, {
       text: 'Contributions',
@@ -68,13 +65,13 @@
 
     return createAndAppend('ul', rightContainer, { class: 'list1' });
   }
-  const list = createMainContainer();
+  const contributorList = createContributorContainer();
 
   function renderContributors(contributors) {
-    list.innerHTML = '';
+    contributorList.innerHTML = '';
 
     for (let i = 0; i < contributors.length; i++) {
-      const li = createAndAppend('li', list, { class: 'contributor-item' });
+      const li = createAndAppend('li', contributorList, { class: 'contributor-item' });
       const linkFor = createAndAppend('a', li, {
         target: '_blank',
         href: contributors[i].html_url,
@@ -120,28 +117,27 @@
     fetchJSON(repo.contributors_url)
       .then(contributors => renderContributors(contributors))
       .catch(error => {
-        console.error(error);
+        renderError(contributors, error);
       });
   }
 
   function main(url) {
     fetchJSON(url)
-      .then(data => {
-        let optionArr = data;
-        optionArr = optionArr.sort((a, b) => a.name.localeCompare(b.name));
+      .then(repositories => {
+        repositories = repositories.sort((a, b) => a.name.localeCompare(b.name));
 
-        createOptions(optionArr);
+        createOptions(repositories);
 
         const selectedValue = document.getElementById('selector');
         selectedValue.addEventListener('change', event => {
           const selectedRepo = event.target.value;
-          renderRep(listContributor, optionArr[selectedRepo]);
+          renderRep(listContributor, repositories[selectedRepo]);
         });
 
-        renderRep(listContributor, optionArr[0]);
+        renderRep(listContributor, repositories[0]);
       })
       .catch(error => {
-        createAndAppend({ div: root }, { text: err.message, class: 'alert-error' });
+        createAndAppend({ div: root }, { text: err.message, class: `alert- ${error}` });
       });
   }
 
