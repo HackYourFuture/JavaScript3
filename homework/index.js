@@ -33,6 +33,9 @@
     return elem;
   }
 
+  const root = document.getElementById('root');
+  const header = createAndAppend('header', root, { class: 'header' });
+
   function createHeader() {
     createAndAppend('p', header, { text: 'HYF Repositories' });
   }
