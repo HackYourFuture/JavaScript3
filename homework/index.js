@@ -30,37 +30,37 @@
     return elem;
   }
 
-  function createDescription(selectedRepository, mainContainerForRepository) {
-    const descriptionContainer = createAndAppend('div', mainContainerForRepository, {
+  function createDescription(selectedRepository, container) {
+    const descriptionContainer = createAndAppend('div', container, {
       class: 'left-div',
     });
     const table = createAndAppend('table', descriptionContainer, { class: 'table' });
     const tbody = createAndAppend('tbody', table);
-    const details = [
-      { title: 'Repository', valueOfName: selectedRepository.name },
+    const detailsHeader = [{ title: 'Repository', value: selectedRepository.name }];
+    const detailsBody = [
       { title: 'Description', value: selectedRepository.description },
       { title: 'Forks', value: selectedRepository.forks },
       { title: 'Updated', value: new Date(selectedRepository.updated_at).toLocaleString() },
     ];
-    details.forEach(detail => {
+    detailsHeader.forEach(detail => {
       const tr = createAndAppend('tr', tbody);
-      createAndAppend('td', tr, { text: detail.title, class: `label ` });
-      const linkToRepository = createAndAppend('a', tr, {
+      createAndAppend('td', tr, { text: detail.title, class: 'label' });
+      createAndAppend('a', tr, {
+        text: detail.value,
         href: selectedRepository.html_url,
         target: '_blank',
       });
-
-      createAndAppend('td', linkToRepository, {
-        text: detail.valueOfName,
-        class: 'repository-data',
-      });
+    });
+    detailsBody.forEach(detail => {
+      const tr = createAndAppend('tr', tbody);
+      createAndAppend('td', tr, { text: detail.title, class: 'label' });
       createAndAppend('td', tr, { text: detail.value, class: 'repository-data' });
     });
   }
 
-  function createContributors(selectedRepository, mainContainerForRepository) {
+  function createContributors(selectedRepository, container) {
     const root = document.getElementById('root');
-    const contributorsContainer = createAndAppend('div', mainContainerForRepository, {
+    const contributorsContainer = createAndAppend('div', container, {
       class: 'right-div',
     });
     createAndAppend('h3', contributorsContainer, {
@@ -95,6 +95,23 @@
       });
     });
   }
+  function createHeader(repositories, header, container) {
+    createAndAppend('h2', header, { text: 'HYF repositories', class: 'nav-title' });
+    const select = createAndAppend('select', header, { id: 'repository-selector' });
+    repositories.sort((a, b) => a.name.localeCompare(b.name));
+    repositories.forEach((repository, index) => {
+      createAndAppend('option', select, { value: index, text: repository.name });
+    });
+    select.addEventListener('change', event => {
+      const selectedIndex = event.target.value;
+      const selectedRepository = repositories[selectedIndex];
+      while (container.firstChild) {
+        container.removeChild(container.firstChild);
+      }
+      createDescription(selectedRepository, container);
+      createContributors(selectedRepository, container);
+    });
+  }
 
   function main(url) {
     fetchJSON(url, (err, data) => {
@@ -104,28 +121,11 @@
         return;
       }
       const header = createAndAppend('header', root, { class: 'header' });
-      const mainContainerForRepository = createAndAppend('div', root, { class: 'container' });
+      const container = createAndAppend('div', root, { class: 'container' });
 
-      function createHeader(repositories) {
-        createAndAppend('h2', header, { text: 'HYF repositories', class: 'nav-title' });
-        const select = createAndAppend('select', header, { id: 'repository-selector' });
-        repositories.sort((a, b) => a.name.localeCompare(b.name));
-        repositories.forEach((repository, index) => {
-          createAndAppend('option', select, { value: index, text: repository.name });
-        });
-        select.addEventListener('change', event => {
-          const selectedIndex = event.target.value;
-          const selectedRepository = repositories[selectedIndex];
-          while (mainContainerForRepository.firstChild) {
-            mainContainerForRepository.removeChild(mainContainerForRepository.firstChild);
-          }
-          createDescription(selectedRepository, mainContainerForRepository);
-          createContributors(selectedRepository, mainContainerForRepository);
-        });
-      }
-      createHeader(data);
-      createDescription(data[0], mainContainerForRepository);
-      createContributors(data[0], mainContainerForRepository);
+      createHeader(data, header, container);
+      createDescription(data[0], container);
+      createContributors(data[0], container);
     });
   }
   const HYF_REPOSITORY_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';

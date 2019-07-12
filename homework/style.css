@@ -27,6 +27,11 @@ body {
   align-items: center;
   justify-content: center;
 }
+.repository-data {
+  color: var(--first);
+  padding-left: 10px;
+  background-color: var(--third);
+}
 
 #repository-selector {
   border-radius: 3px solid var(--third);
@@ -42,8 +47,21 @@ body {
   border-radius: 5px;
   margin: 5px 5px;
 }
+tr a {
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bolder;
+  color: rgb(13, 84, 238);
+}
+tr a:hover {
+  background-color: var(--third);
+  color: var(--first);
+  text-decoration: none;
+}
 
 .label {
+  margin-left: 0;
   font-weight: bold;
   font-size: 1.1em;
 }
