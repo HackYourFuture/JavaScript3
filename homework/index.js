@@ -34,24 +34,43 @@
   }
 
   const root = document.getElementById('root');
-  const header = createAndAppend('header', root, { class: 'header' });
 
   function createHeader() {
-    createAndAppend('p', header, { text: 'HYF Repositories' });
+    const header = createAndAppend('header', root, {
+      class: 'header',
+    });
+    createAndAppend('p', header, {
+      text: 'HYF Repositories',
+    });
+    return header;
   }
-  createHeader();
+  const header = createHeader();
 
   function createOptions(repositoryList) {
-    const select = createAndAppend('select', header, { id: 'selector' });
+    const select = createAndAppend('select', header, {
+      id: 'selector',
+    });
     for (let i = 0; i < repositoryList.length; i++) {
       const repository = repositoryList[i];
-      createAndAppend('option', select, { text: repository.name, value: i });
+      createAndAppend('option', select, {
+        text: repository.name,
+        value: i,
+      });
     }
   }
 
-  const mainContainer = createAndAppend('div', root, { id: 'container' });
+  function createMainContainer() {
+    const mainContainer = createAndAppend('div', root, {
+      id: 'container',
+    });
+    return mainContainer;
+  }
+  const mainContainer = createMainContainer();
+
   function createListContributor() {
-    const leftContainer = createAndAppend('div', mainContainer, { class: 'left-block frame' });
+    const leftContainer = createAndAppend('div', mainContainer, {
+      class: 'left-block frame',
+    });
     const table = createAndAppend('table', leftContainer);
     const listContributor = createAndAppend('tbody', table);
 
@@ -60,13 +79,17 @@
   const listContributor = createListContributor();
 
   function createContributorContainer() {
-    const rightContainer = createAndAppend('div', mainContainer, { class: 'right-block frame' });
+    const rightContainer = createAndAppend('div', mainContainer, {
+      class: 'right-block frame',
+    });
     createAndAppend('p', rightContainer, {
       text: 'Contributions',
       class: 'contributor',
     });
 
-    return createAndAppend('ul', rightContainer, { class: 'list1' });
+    return createAndAppend('ul', rightContainer, {
+      class: 'list1',
+    });
   }
   const contributorList = createContributorContainer();
 
@@ -74,7 +97,9 @@
     contributorList.innerHTML = '';
 
     for (let i = 0; i < contributors.length; i++) {
-      const li = createAndAppend('li', contributorList, { class: 'contributor-item' });
+      const li = createAndAppend('li', contributorList, {
+        class: 'contributor-item',
+      });
       const linkFor = createAndAppend('a', li, {
         target: '_blank',
         href: contributors[i].html_url,
@@ -84,8 +109,12 @@
         class: 'avatar',
         height: 48,
       });
-      const divCont = createAndAppend('div', linkFor, { class: 'contributor-data' });
-      createAndAppend('div', divCont, { text: contributors[i].login });
+      const divCont = createAndAppend('div', linkFor, {
+        class: 'contributor-data',
+      });
+      createAndAppend('div', divCont, {
+        text: contributors[i].login,
+      });
       createAndAppend('div', divCont, {
         text: contributors[i].contributions,
         class: 'badge',
@@ -95,16 +124,31 @@
 
   function renderRep(listContributors, repo) {
     const content = [
-      { title: 'Repository', attribute: 'name' },
-      { title: 'Description', attribute: 'description' },
-      { title: 'Forks', attribute: 'forks' },
-      { title: 'Updated', attribute: 'updated_at' },
+      {
+        title: 'Repository',
+        attribute: 'name',
+      },
+      {
+        title: 'Description',
+        attribute: 'description',
+      },
+      {
+        title: 'Forks',
+        attribute: 'forks',
+      },
+      {
+        title: 'Updated',
+        attribute: 'updated_at',
+      },
     ];
     listContributors.innerHTML = '';
 
     for (let i = 0; i < content.length; i++) {
       const headTitle = createAndAppend('tr', listContributors);
-      createAndAppend('td', headTitle, { text: `${content[i].title} :`, class: 'label' });
+      createAndAppend('td', headTitle, {
+        text: `${content[i].title} :`,
+        class: 'label',
+      });
       const cellContent = createAndAppend('td', headTitle);
       if (content[i].attribute === 'name') {
         createAndAppend('a', cellContent, {
@@ -119,14 +163,18 @@
 
     fetchJSON(repo.contributors_url)
       .then(contributors => renderContributors(contributors))
-      .catch(error => {
-        renderError(contributors, error);
+      .catch(err => {
+        createAndAppend('div', root, {
+          text: err.message,
+          class: 'alert-error',
+        });
       });
   }
 
   function main(url) {
     fetchJSON(url)
-      .then(repositories => {
+      .then(data => {
+        let repositories = data;
         repositories = repositories.sort((a, b) => a.name.localeCompare(b.name));
 
         createOptions(repositories);
@@ -139,8 +187,11 @@
 
         renderRep(listContributor, repositories[0]);
       })
-      .catch(error => {
-        createAndAppend({ div: root }, { text: err.message, class: `alert- ${error}` });
+      .catch(err => {
+        createAndAppend('div', root, {
+          text: err.message,
+          class: 'alert-error',
+        });
       });
   }
 
