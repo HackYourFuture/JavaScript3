@@ -33,9 +33,7 @@
     return elem;
   }
 
-  const root = document.getElementById('root');
-
-  function createHeader() {
+  function createHeader(root) {
     const header = createAndAppend('header', root, {
       class: 'header',
     });
@@ -44,9 +42,8 @@
     });
     return header;
   }
-  const header = createHeader();
 
-  function createOptions(repositoryList) {
+  function createOptions(repositoryList, header) {
     const select = createAndAppend('select', header, {
       id: 'selector',
     });
@@ -59,26 +56,23 @@
     }
   }
 
-  function createMainContainer() {
+  function createMainContainer(root) {
     const mainContainer = createAndAppend('div', root, {
       id: 'container',
     });
     return mainContainer;
   }
-  const mainContainer = createMainContainer();
 
-  function createListContributor() {
+  function containerListContributor(mainContainer) {
     const leftContainer = createAndAppend('div', mainContainer, {
       class: 'left-block frame',
     });
     const table = createAndAppend('table', leftContainer);
     const listContributor = createAndAppend('tbody', table);
-
     return listContributor;
   }
-  const listContributor = createListContributor();
 
-  function createContributorContainer() {
+  function createContributorContainer(mainContainer) {
     const rightContainer = createAndAppend('div', mainContainer, {
       class: 'right-block frame',
     });
@@ -91,9 +85,8 @@
       class: 'list1',
     });
   }
-  const contributorList = createContributorContainer();
 
-  function renderContributors(contributors) {
+  function renderContributors(contributorList, contributors) {
     contributorList.innerHTML = '';
 
     for (let i = 0; i < contributors.length; i++) {
@@ -122,7 +115,7 @@
     }
   }
 
-  function renderRep(listContributors, repo) {
+  function renderRep(listContributors, repo, root, contributorList) {
     const content = [
       {
         title: 'Repository',
@@ -162,7 +155,7 @@
     }
 
     fetchJSON(repo.contributors_url)
-      .then(contributors => renderContributors(contributors))
+      .then(contributors => renderContributors(contributorList, contributors))
       .catch(err => {
         createAndAppend('div', root, {
           text: err.message,
@@ -172,20 +165,26 @@
   }
 
   function main(url) {
+    const root = document.getElementById('root');
+    const header = createHeader(root);
+    const mainContainer = createMainContainer(root);
+    const listContributor = containerListContributor(mainContainer);
+    const contributorList = createContributorContainer(mainContainer);
+
     fetchJSON(url)
       .then(data => {
         let repositories = data;
         repositories = repositories.sort((a, b) => a.name.localeCompare(b.name));
 
-        createOptions(repositories);
+        createOptions(repositories, header);
 
         const selectedValue = document.getElementById('selector');
         selectedValue.addEventListener('change', event => {
           const selectedRepo = event.target.value;
-          renderRep(listContributor, repositories[selectedRepo]);
+          renderRep(listContributor, repositories[selectedRepo], root, contributorList);
         });
 
-        renderRep(listContributor, repositories[0]);
+        renderRep(listContributor, repositories[0], root, contributorList);
       })
       .catch(err => {
         createAndAppend('div', root, {
