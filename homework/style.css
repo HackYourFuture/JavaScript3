@@ -1,3 +1,144 @@
+:root {
+  --first: rgb(255, 255, 255);
+  --second: coral;
+  --third: black;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+  margin-top: 12px;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.header {
+  background-color: var(--second);
+  margin: 15px;
+  padding: 7px 15px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 10px black;
+  color: var(--third);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.repository-data {
+  color: var(--first);
+  width: 100%;
+  padding-left: 10px;
+  background-color: var(--third);
+}
+
+.repository-selector {
+  border-radius: 3px solid var(--third);
+  font-size: 2vw;
+  margin-left: 10px;
+}
+.left-div {
+  flex: 1;
+}
+.right-div {
+  flex: 1;
+}
+
+.left-div,
+.right-div {
+  box-shadow: 5px 5px 10px black;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: var(--second);
+  border-radius: 5px;
+  margin: 5px 5px;
+}
+tr a {
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bolder;
+  color: rgb(13, 84, 238);
+}
+tr a:hover {
+  background-color: var(--third);
+  color: var(--first);
+  text-decoration: none;
+}
+
+.label {
+  margin-left: 0;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.contributor-list * {
+  list-style-type: none;
+}
+
+.contributor-item {
+  background-color: var(--third);
+  margin: 5px;
+}
+
+.contributor-item a {
+  text-decoration: none;
+}
+
+.contributor {
+  display: flex;
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contributor-data {
+  display: flex;
+
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.contributor-login {
+  color: var(--first);
+}
+
+.contributor-badge {
+  padding: 3px;
+  color: white;
+}
 .alert-error {
-    color: red;
+  background-color: rgb(226, 13, 13);
+  color: #333;
+}
+
+@media (min-width: 600px) {
+  body {
+    max-width: 100%;
+    margin: auto;
+    padding: 10px;
+  }
+
+  .container {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .left-div {
+    margin-right: 10px;
+  }
+
+  .right-div {
+    width: 100%;
+  }
 }
