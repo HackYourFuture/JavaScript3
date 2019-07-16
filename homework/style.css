@@ -1,3 +1,152 @@
+:root {
+  --first: rgb(255, 255, 255);
+  --second: rgb(141, 197, 219);
+  --third: rgb(29, 119, 126);
+  --fourth: rgb(195, 224, 28);
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+  margin-top: 12px;
+}
+
+.container {
+  max-width: 960px;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 0;
+  justify-content: center;
+}
+
+.header {
+  max-width: 960px;
+  background-color: var(--second);
+  margin: 7px auto;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px black;
+  color: var(--third);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.header-title {
+  text-shadow: 2px 2px 3px var(--third);
+  color: var(--fourth);
+}
+.repository-data {
+  color: var(--first);
+  padding: 5px;
+  margin-left: 0;
+  background-color: var(--third);
+}
+
+.repository-selector {
+  color: var(--first);
+  background-color: var(--third);
+  padding: 5px;
+  font-family: inherit;
+  border-radius: 3px solid var(--third);
+  font-size: 2vw;
+  margin: 10px;
+}
+
+.left-div,
+.right-div {
+  flex: 1;
+  box-shadow: 0 0 5px black;
+  padding: 10px;
+  background-color: var(--second);
+  border-radius: 5px;
+  margin: 5px 5px;
+}
+tr a {
+  text-shadow: 2px 2px 3px var(--third);
+  text-transform: uppercase;
+  margin: 10px auto;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bolder;
+  color: var(--fourth);
+}
+tr a:hover {
+  background-color: var(--third);
+  color: var(--first);
+  text-decoration: none;
+}
+
+.label {
+  margin-left: 0;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.contributor-list * {
+  list-style-type: none;
+}
+
+.contributor-item {
+  background-color: var(--third);
+  margin: 5px;
+}
+.contributor-photo {
+  margin: 5px;
+}
+
+.contributor-item a {
+  text-decoration: none;
+}
+
+.contributor {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contributor-data {
+  display: flex;
+  margin: 0;
+  flex-direction: row;
+  padding: 10px;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.contributor-login {
+  color: var(--first);
+}
+
+.contributor-badge {
+  color: white;
+}
 .alert-error {
-    color: red;
+  background-color: rgb(226, 13, 13);
+  color: #333;
+}
+
+@media (min-width: 960px) {
+  body {
+    max-width: 100%;
+    margin: auto;
+    padding: 10px;
+  }
+
+  .container {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .left-div {
+    margin-right: 10px;
+  }
+
+  .right-div {
+    width: 100%;
+  }
 }
