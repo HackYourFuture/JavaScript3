@@ -12,9 +12,45 @@ class Repository {
    * Render the repository info to the DOM.
    * @param {HTMLElement} container The container element in which to render the repository.
    */
-  render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, JSON.stringify(this.repository, null, 2));
+  render(listContributors) {
+    
+    const content = [
+      {
+        title: 'Repository',
+        attribute: 'name',
+      },
+      {
+        title: 'Description',
+        attribute: 'description',
+      },
+      {
+        title: 'Forks',
+        attribute: 'forks',
+      },
+      {
+        title: 'Updated',
+        attribute: 'updated_at',
+      },
+    ];
+    listContributors.innerHTML = '';
+
+    for (let i = 0; i < content.length; i++) {
+      const headTitle = Util.createAndAppend('tr', listContributors);
+      Util.createAndAppend('td', headTitle, {
+        text: `${content[i].title} :`,
+        class: 'label',
+      });
+      const cellContent = Util.createAndAppend('td', headTitle);
+      if (content[i].attribute === 'name') {
+        Util.createAndAppend('a', cellContent, {
+          href: this.repository.html_url,
+          text: this.repository.name,
+          target: '_blank',
+        });
+      } else {
+        cellContent.textContent = this.repository[content[i].attribute];
+      }
+    }
   }
 
   /**
@@ -27,7 +63,7 @@ class Repository {
   /**
    * Returns the name of the repository
    */
-  name() {
+  get name() {
     return this.repository.name;
   }
 }
