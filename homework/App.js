@@ -27,6 +27,7 @@ class App {
 
     try {
       const repos = await Util.fetchJSON(url);
+      // if (!results.ok) throw new Error(results.statusText);
       this.repos = repos.map(repo => new Repository(repo));
 
       /**

@@ -52,9 +52,12 @@
       text: 'Contributors',
     });
     const ul = createAndAppend('ul', contributorsContainer, { class: 'contributor-list' });
+
     try {
       const results = await fetch(selectedRepository.contributors_url);
+      if (!results.ok) throw new Error(results.statusText);
       const contributors = await results.json();
+
       contributors.forEach(contributor => {
         const li = createAndAppend('li', ul, { class: 'contributor-item' });
         const alink = createAndAppend('a', li, {
@@ -92,12 +95,14 @@
     repositories.forEach((repository, index) => {
       createAndAppend('option', select, { value: index, text: repository.name });
     });
+
     select.addEventListener('change', event => {
       const selectedIndex = event.target.value;
       const selectedRepository = repositories[selectedIndex];
       while (container.firstChild) {
         container.removeChild(container.firstChild);
       }
+
       createDescription(selectedRepository, container);
       createContributors(selectedRepository, container);
     });
@@ -105,8 +110,10 @@
 
   async function main(url) {
     const root = document.getElementById('root');
+
     try {
       const results = await fetch(url);
+      if (!results.ok) throw new Error(results.statusText);
       const data = await results.json();
 
       const header = createAndAppend('header', root, { class: 'header' });

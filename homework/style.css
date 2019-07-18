@@ -126,8 +126,11 @@ tr a:hover {
   color: white;
 }
 .alert-error {
-  background-color: rgb(226, 13, 13);
-  color: #333;
+  background-color: rgb(226, 176, 13);
+  color: var(--first);
+  text-transform: capitalize;
+  font-size: 3rem;
+  text-align: center;
 }
 
 @media (min-width: 960px) {
