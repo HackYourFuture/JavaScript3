@@ -12,7 +12,6 @@ class Repository {
    * Render the repository info to the DOM.
    * @param {HTMLElement} container The container element in which to render the repository.
    */
-
   render(listContributors) {
     const content = [
       {
@@ -51,10 +50,6 @@ class Repository {
         cellContent.textContent = this.repository[content[i].attribute];
       }
     }
-
-  render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, { text: JSON.stringify(this.repository, null, 2) });
   }
 
   /**

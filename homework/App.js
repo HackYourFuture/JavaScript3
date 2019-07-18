@@ -13,12 +13,20 @@ class App {
    */
   async initialize(url) {
     const root = document.getElementById('root');
-    const header = Util.createAndAppend('header', root, { class: 'header' });
-    Util.createAndAppend('p', header, { text: 'HYF Repositories' });
-    const select = Util.createAndAppend('select', header, { id: 'select' });
+    const header = Util.createAndAppend('header', root, {
+      class: 'header',
+    });
+    Util.createAndAppend('p', header, {
+      text: 'HYF Repositories',
+    });
+    const select = Util.createAndAppend('select', header, {
+      id: 'select',
+    });
 
     select.addEventListener('change', () => this.fetchContributorsAndRender(select.value));
-    Util.createAndAppend('div', root, { id: 'mainContainer' });
+    Util.createAndAppend('div', root, {
+      id: 'mainContainer',
+    });
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -65,9 +73,19 @@ class App {
       const container = document.getElementById('mainContainer');
       App.clearContainer(container);
 
-      const leftContainer = Util.createAndAppend('div', container, { class: 'left-block frame' });
-      const rightContainer = Util.createAndAppend('div', container, { class: 'right-block frame' });
-      Util.createAndAppend('ul', rightContainer, { class: 'list1' });
+      const leftContainer = Util.createAndAppend('div', container, {
+        class: 'left-block frame',
+      });
+      const rightContainer = Util.createAndAppend('div', container, {
+        class: 'right-block frame',
+      });
+      Util.createAndAppend('p', rightContainer, {
+        text: 'Contributions',
+        class: 'contributor',
+      });
+      Util.createAndAppend('ul', rightContainer, {
+        class: 'list1',
+      });
       const contributorList = Util.createAndAppend('ul', rightContainer);
       repo.render(leftContainer);
       contributors
