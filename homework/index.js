@@ -1,23 +1,6 @@
 'use strict';
 
 {
-  function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status < 400) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network Error'));
-      xhr.send();
-    });
-  }
-
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
@@ -60,7 +43,7 @@
     });
   }
 
-  function createContributors(selectedRepository, container) {
+  async function createContributors(selectedRepository, container) {
     const root = document.getElementById('root');
     const contributorsContainer = createAndAppend('div', container, {
       class: 'right-div',
@@ -69,38 +52,39 @@
       text: 'Contributors',
     });
     const ul = createAndAppend('ul', contributorsContainer, { class: 'contributor-list' });
-    fetchJSON(selectedRepository.contributors_url)
-      .then(contributors => {
-        contributors.forEach(contributor => {
-          const li = createAndAppend('li', ul, { class: 'contributor-item' });
-          const alink = createAndAppend('a', li, {
-            href: contributor.html_url,
-            target: '_blank',
-          });
-          const dataDiv = createAndAppend('div', alink, { class: 'contributor' });
-
-          createAndAppend('img', dataDiv, {
-            class: 'contributor-photo',
-            src: contributor.avatar_url,
-            height: 52,
-          });
-          const contributorData = createAndAppend('div', dataDiv, {
-            class: 'contributor-data',
-          });
-          createAndAppend('div', contributorData, {
-            class: 'contributor-login',
-            text: contributor.login,
-          });
-          createAndAppend('div', contributorData, {
-            class: 'contributor-badge',
-            text: contributor.contributions,
-          });
+    try {
+      const results = await fetch(selectedRepository.contributors_url);
+      const contributors = await results.json();
+      contributors.forEach(contributor => {
+        const li = createAndAppend('li', ul, { class: 'contributor-item' });
+        const alink = createAndAppend('a', li, {
+          href: contributor.html_url,
+          target: '_blank',
         });
-      })
-      .catch(err => {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        const dataDiv = createAndAppend('div', alink, { class: 'contributor' });
+
+        createAndAppend('img', dataDiv, {
+          class: 'contributor-photo',
+          src: contributor.avatar_url,
+          height: 52,
+        });
+        const contributorData = createAndAppend('div', dataDiv, {
+          class: 'contributor-data',
+        });
+        createAndAppend('div', contributorData, {
+          class: 'contributor-login',
+          text: contributor.login,
+        });
+        createAndAppend('div', contributorData, {
+          class: 'contributor-badge',
+          text: contributor.contributions,
+        });
       });
+    } catch (err) {
+      createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+    }
   }
+
   function createHeader(repositories, header, container) {
     createAndAppend('h2', header, { text: 'HYF repositories', class: 'header-title' });
     const select = createAndAppend('select', header, { class: 'repository-selector' });
@@ -119,19 +103,20 @@
     });
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
-    fetchJSON(url)
-      .then(data => {
-        const header = createAndAppend('header', root, { class: 'header' });
-        const container = createAndAppend('div', root, { class: 'container' });
-        createHeader(data, header, container);
-        createDescription(data[0], container);
-        createContributors(data[0], container);
-      })
-      .catch(err => {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      });
+    try {
+      const results = await fetch(url);
+      const data = await results.json();
+
+      const header = createAndAppend('header', root, { class: 'header' });
+      const container = createAndAppend('div', root, { id: 'container' });
+      createHeader(data, header, container);
+      createDescription(data[0], container);
+      createContributors(data[0], container);
+    } catch (err) {
+      createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+    }
   }
   const HYF_REPOSITORY_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => main(HYF_REPOSITORY_URL);
