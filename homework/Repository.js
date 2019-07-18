@@ -13,7 +13,6 @@ class Repository {
    * @param {HTMLElement} container The container element in which to render the repository.
    */
   render(listContributors) {
-    
     const content = [
       {
         title: 'Repository',

@@ -13,16 +13,16 @@ class App {
    */
   async initialize(url) {
     const root = document.getElementById('root');
-    const header = Util.createAndAppend('header', root, {class:'header'});
-    Util.createAndAppend('p', header, {text:'HYF Repositories'});
-    const select = Util.createAndAppend('select', header, {id : 'select'});
-    
+    const header = Util.createAndAppend('header', root, { class: 'header' });
+    Util.createAndAppend('p', header, { text: 'HYF Repositories' });
+    const select = Util.createAndAppend('select', header, { id: 'select' });
+
     select.addEventListener('change', () => this.fetchContributorsAndRender(select.value));
-    Util.createAndAppend('div', root, { id: 'mainContainer', });
+    Util.createAndAppend('div', root, { id: 'mainContainer' });
     try {
       const response = await fetch(url);
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status} - ${response.statusText}`)
+        throw new Error(`HTTP ${response.status} - ${response.statusText}`);
       }
       const repositories = await response.json();
       this.repos = repositories
@@ -36,17 +36,17 @@ class App {
         });
       });
 
-      this.fetchContributorsAndRender(select.value)
-     
-       } catch (err) {
-         this.renderError(err);
-        }
-      }
+      this.fetchContributorsAndRender(select.value);
+    } catch (err) {
+      this.renderError(err);
+    }
+  }
+
   /**
    * Removes all child elements from a container element
    * @param {*} container Container element to clear
    */
- static clearContainer(container) {
+  static clearContainer(container) {
     while (container.firstChild) {
       container.removeChild(container.firstChild);
     }
@@ -61,14 +61,14 @@ class App {
     try {
       const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
-      
+
       const container = document.getElementById('mainContainer');
       App.clearContainer(container);
 
-      const leftContainer = Util.createAndAppend('div', container, {class: 'left-block frame', });
-      const rightContainer = Util.createAndAppend('div', container, {class: 'right-block frame', });
-     Util.createAndAppend('ul', rightContainer, {class: 'list1',});
-     const contributorList = Util.createAndAppend('ul', rightContainer);
+      const leftContainer = Util.createAndAppend('div', container, { class: 'left-block frame' });
+      const rightContainer = Util.createAndAppend('div', container, { class: 'right-block frame' });
+      Util.createAndAppend('ul', rightContainer, { class: 'list1' });
+      const contributorList = Util.createAndAppend('ul', rightContainer);
       repo.render(leftContainer);
       contributors
         .map(contributor => new Contributor(contributor))

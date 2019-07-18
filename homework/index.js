@@ -138,9 +138,9 @@
 
     try {
       const response = await fetch(repo.contributors_url);
-      
+
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status} - ${response.statusText}`)
+        throw new Error(`HTTP ${response.status} - ${response.statusText}`);
       }
       const contributors = await response.json();
       renderContributors(contributorList, contributors);
@@ -161,29 +161,29 @@
 
     try {
       const response = await fetch(url);
-      
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status} - ${response.statusText}`)
-        }
-      
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+      }
+
       const repositories = await response.json();
       repositories.sort((a, b) => a.name.localeCompare(b.name));
 
-        createOptions(repositories, header);
+      createOptions(repositories, header);
 
-        const selectedValue = document.getElementById('selector');
-        selectedValue.addEventListener('change', event => {
-          const selectedRepo = event.target.value;
-          renderRep(listContributor, repositories[selectedRepo], root, contributorList);
-        });
+      const selectedValue = document.getElementById('selector');
+      selectedValue.addEventListener('change', event => {
+        const selectedRepo = event.target.value;
+        renderRep(listContributor, repositories[selectedRepo], root, contributorList);
+      });
 
-        renderRep(listContributor, repositories[0], root, contributorList);
+      renderRep(listContributor, repositories[0], root, contributorList);
     } catch (error) {
       createAndAppend('div', root, {
-          text: error.message,
-          class: 'alert-error',
-        });
-      };
+        text: error.message,
+        class: 'alert-error',
+      });
+    }
   }
 
   const HYF_REPS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';

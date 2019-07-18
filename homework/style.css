@@ -8,7 +8,7 @@ body {
   margin-top: 0;
 }
 
-#mainContainer {
+#container {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -18,7 +18,8 @@ body {
   body {
     width: 100%;
   }
-  #mainContainer {
+
+  #container {
     margin: 0;
     flex-direction: column;
     align-items: stretch;
@@ -67,7 +68,7 @@ h4 {
   }
 }
 
-ul {
+#list1 {
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -122,6 +123,7 @@ a {
   color: white;
   border-radius: 4px;
 }
+
 table {
   table-layout: fixed;
   color: rgb(0, 0, 0, 81%);
