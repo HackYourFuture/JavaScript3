@@ -13,7 +13,6 @@ class App {
    */
   async initialize(url) {
     const root = document.getElementById('root');
-
     // Create the header and the select menu
     const header = Util.createAndAppend('header', root, {
       class: 'header',
@@ -24,6 +23,7 @@ class App {
       'ARIA-label': 'HYF Repositories',
     });
     const select = Util.createAndAppend('select', header, { class: 'repository-selector' });
+    Util.createAndAppend('div', root, { id: 'container' });
 
     try {
       const repos = await Util.fetchJSON(url);
@@ -73,12 +73,13 @@ class App {
     try {
       const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
-      const root = document.getElementById('root');
-      const container = Util.createAndAppend('container', root, { class: 'container' });
+
+      const container = document.getElementById('container');
       App.clearContainer(container);
 
       const createDescription = Util.createAndAppend('div', container, { class: 'left-div' });
       const createContributors = Util.createAndAppend('div', container, { class: 'right-div' });
+
       Util.createAndAppend('h3', createContributors, {
         text: 'Contributions: ',
       });
