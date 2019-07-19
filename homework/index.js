@@ -6,7 +6,7 @@
     xhr.open('GET', url);
     xhr.responseType = 'json';
     xhr.onload = () => {
-      if (xhr.status < 400) {
+      if (xhr.status >= 200 && xhr.status <= 299) {
         cb(null, xhr.response);
       } else {
         cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
@@ -31,17 +31,16 @@
   }
 
   function main(url) {
-    fetchJSON(url, (err, data) => {
+    fetchJSON(url, (err, repositories) => {
       const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
+        return;
       }
+      createAndAppend('pre', root, { text: JSON.stringify(repositories, null, 2) });
     });
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-
   window.onload = () => main(HYF_REPOS_URL);
 }

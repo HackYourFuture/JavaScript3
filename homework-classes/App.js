@@ -4,6 +4,7 @@
 
 class App {
   constructor(url) {
+    this.mainContainer = null;
     this.initialize(url);
   }
 
@@ -17,8 +18,8 @@ class App {
     // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
 
     const root = document.getElementById('root');
-
-    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
+    const header = Util.createAndAppend('header', root, { class: 'header' });
+    this.mainContainer = Util.createAndAppend('div', root, { id: 'container' });
 
     try {
       const repos = await Util.fetchJSON(url);
@@ -33,31 +34,28 @@ class App {
    * Removes all child elements from a container element
    * @param {*} container Container element to clear
    */
-  static clearContainer(container) {
-    while (container.firstChild) {
-      container.removeChild(container.firstChild);
+  clearContainer() {
+    while (this.mainContainer.firstChild) {
+      this.mainContainer.removeChild(this.mainContainer.firstChild);
     }
   }
 
   /**
    * Fetch contributor information for the selected repository and render the
    * repo and its contributors as HTML elements in the DOM.
-   * @param {number} index The array index of the repository.
+   * @param {object} repo The selected repository object
    */
-  async fetchContributorsAndRender(index) {
+  async selectRepository(repo) {
     try {
-      const repo = this.repos[index];
+      this.clearContainer();
       const contributors = await repo.fetchContributors();
 
-      const container = document.getElementById('container');
-      App.clearContainer(container);
+      const repoContainer = Util.createAndAppend('div', this.mainContainer);
+      const contributorContainer = Util.createAndAppend('div', this.mainContainer);
 
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
+      const contributorList = Util.createAndAppend('ul', contributorContainer);
 
-      const contributorList = Util.createAndAppend('ul', rightDiv);
-
-      repo.render(leftDiv);
+      repo.render(repoContainer);
 
       contributors
         .map(contributor => new Contributor(contributor))
@@ -68,14 +66,13 @@ class App {
   }
 
   /**
-   * Render an error to the DOM.
+   * Render an error to the page.
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    console.log(error); // TODO: replace with your own code
+    console.error(error); // TODO: replace with your own code
   }
 }
 
 const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-
 window.onload = () => new App(HYF_REPOS_URL);
