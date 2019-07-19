@@ -20,12 +20,19 @@
   background-color: #3f51b5;
 }
 #root {
-  max-width: 600px;
+  max-width: 650px;
   margin: 0 auto;
 }
+/* td:first-of-type {
+  font-weight: bold;
+}
+p:first-of-type {
+  background-color: dodgerblue;
+} */
 .image {
   width: 60px;
   height: 60px;
+  order: -1;
 }
 
 .repo-div {
@@ -60,16 +67,21 @@ body {
   margin: 8px;
   margin-top: 0px;
 }
+.contributors-header {
+  font-size: 0.8em;
+}
 .list {
   list-style: none;
 }
-.list-item {
+.contributor-link {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   flex-basis: auto;
   padding-bottom: 4px;
   border-bottom: 1px gray;
+  text-decoration: none;
+  color: black;
 }
 
 @media screen and (min-width: 480px) {

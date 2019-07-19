@@ -17,15 +17,29 @@ class App {
     // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
 
     const root = document.getElementById('root');
-
-    Util.createAndAppend('h1', root, { text: 'It works!' }); // TODO: replace with your own code
+    const header = Util.createAndAppend('header', root, { class: 'header' });
+    Util.createAndAppend('h1', header, {
+      class: 'h1',
+      text: 'HYF Repositories',
+    });
+    const select = Util.createAndAppend('select', header);
+    const container = Util.createAndAppend('div', root, { class: 'repo-div', id: 'containers' });
+    select.addEventListener('change', event => {
+      this.fetchContributorsAndRender(event.target.value);
+    });
 
     try {
       const repos = await Util.fetchJSON(url);
-      this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
+      this.repos = repos.map(repo => new Repository(repo));   
+      repos.forEach((repo, index) => {
+        Util.createAndAppend('option', select, {
+          text: repo.name,
+          value: index,
+        });
+      });
     } catch (error) {
       this.renderError(error);
+      console.log(error);
     }
   }
 
@@ -46,19 +60,18 @@ class App {
    */
   async fetchContributorsAndRender(index) {
     try {
+      const container = document.querySelector('#containers');
       const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
-
-      const container = document.getElementById('container');
       App.clearContainer(container);
-
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
-
-      const contributorList = Util.createAndAppend('ul', rightDiv);
-
+      const leftDiv = Util.createAndAppend('div', container, { class: 'left-div', id: 'left' });
+      const rightDiv = Util.createAndAppend('div', container, { class: 'right-div', id: 'right' });
+      Util.createAndAppend('h2', rightDiv, {
+        text: 'Contributors',
+        class: 'contributors-header',
+      });
+      const contributorList = Util.createAndAppend('ul', rightDiv, { class: 'list' });
       repo.render(leftDiv);
-
       contributors
         .map(contributor => new Contributor(contributor))
         .forEach(contributor => contributor.render(contributorList));
@@ -72,10 +85,11 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    console.log(error); // TODO: replace with your own code
+    const root = document.getElementById('root');
+    Util.createAndAppend('div', root, { text: error.message, class: 'alert-error' });
   }
 }
 
 const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
-window.onload = () => new App(HYF_REPOS_URL);
+this.onload = () => new App(HYF_REPOS_URL);

@@ -37,7 +37,8 @@
     const infoTable = createAndAppend('table', tableDiv, { class: 'contributor-table' });
     const tableBody = createAndAppend('tbody', infoTable);
     const rowName = createAndAppend('tr', tableBody);
-    const repoName = createAndAppend('td', rowName, { text: 'Repository:', class: 'repo-name' });
+    createAndAppend('td', rowName, { text: 'Repository:', class: 'repo-name' });
+    const repoName = createAndAppend('td', rowName);
     createAndAppend('a', repoName, {
       target: '_blank',
       href: selectRepo.html_url,
@@ -45,87 +46,90 @@
     });
     const rowDesc = createAndAppend('tr', tableBody);
     createAndAppend('td', rowDesc, {
-      text: `Description: ${selectRepo.description}`,
+      text: 'Description:',
       class: 'repo-desc',
     });
+    createAndAppend('td', rowDesc, { text: `${selectRepo.description}` });
     const rowFork = createAndAppend('tr', tableBody);
     createAndAppend('td', rowFork, {
-      text: `Forks: ${selectRepo.forks}`,
+      text: 'Forks:',
       class: 'repo-Fork',
     });
+    createAndAppend('td', rowFork, { text: `${selectRepo.forks}` });
     const rowUpDate = createAndAppend('tr', tableBody);
     createAndAppend('td', rowUpDate, {
-      text: `updated: ${selectRepo.updated_at}`,
+      text: 'Updated:',
       class: 'repo-update',
     });
+    createAndAppend('td', rowUpDate, { text: `${new Date(selectRepo.updated_at).toDateString()}` });
   }
 
-  function createContributorDiv(root, selectedRepo, repoDiv) {
-    const contributorsUrl = selectedRepo.contributors_url;
-    fetchJSON(contributorsUrl)
-      .then(contributors => {
-        const contributorsDiv = createAndAppend('div', repoDiv, { class: 'right-div' });
-        createAndAppend('p', contributorsDiv, {
-          text: 'Contributors',
-          class: 'contributors-header',
-        });
-        const contributorsList = createAndAppend('ul', contributorsDiv, { class: 'list' });
-        contributors.forEach(contributor => {
-          const listItem = createAndAppend('li', contributorsList, { class: 'list-item' });
-          createAndAppend('img', listItem, {
-            class: 'image',
-            src: contributor.avatar_url,
-            alt: 'contributor-photo',
-          });
-          createAndAppend('a', listItem, {
-            target: '_blank',
-            href: contributor.html_url,
-            text: contributor.login,
-          });
-          createAndAppend('p', listItem, {
-            class: 'contributor-num',
-            text: contributor.contributions,
-          });
-        });
-      })
-      .catch(err => {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+  async function createContributorDiv(root, selectedRepo, repoDiv) {
+    try {
+      const contributorsUrl = selectedRepo.contributors_url;
+      const contributors = await fetchJSON(contributorsUrl);
+      const contributorsDiv = createAndAppend('div', repoDiv, { class: 'right-div' });
+      createAndAppend('h2', contributorsDiv, {
+        text: 'Contributors',
+        class: 'contributors-header',
       });
+      const contributorsList = createAndAppend('ul', contributorsDiv, { class: 'list' });
+      contributors.forEach(contributor => {
+        const listItem = createAndAppend('li', contributorsList, { class: 'list-item' });
+        const link = createAndAppend('a', listItem, {
+          target: '_blank',
+          href: contributor.html_url,
+          text: contributor.login,
+          class: 'contributor-link',
+        });
+        createAndAppend('img', link, {
+          class: 'image',
+          src: contributor.avatar_url,
+          alt: 'contributor-photo',
+        });
+        createAndAppend('p', link, {
+          class: 'contributor-num',
+          text: contributor.contributions,
+        });
+      });
+    } catch (err) {
+      createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+    }
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
-    fetchJSON(url)
-      .then(repositories => {
-        repositories.sort((a, b) => a.name.localeCompare(b.name));
-        const header = createAndAppend('header', root, { class: 'header' });
-        createAndAppend('h1', header, {
-          class: 'h1',
-          text: 'HYF Repositories',
+    try {
+      // fetchJSON(url);
+      const repositories = await fetchJSON(url);
+      repositories.sort((a, b) => a.name.localeCompare(b.name));
+      const header = createAndAppend('header', root, { class: 'header' });
+      createAndAppend('h1', header, {
+        class: 'h1',
+        text: 'HYF Repositories',
+      });
+      const select = createAndAppend('select', header);
+      repositories.forEach((repo, index) => {
+        createAndAppend('option', select, {
+          text: repo.name,
+          value: index,
         });
-        const select = createAndAppend('select', header);
-        repositories.forEach((repo, index) => {
-          createAndAppend('option', select, {
-            text: repo.name,
-            value: index,
-          });
-        });
+      });
 
-        select.addEventListener('change', event => {
-          const repoDiv = document.getElementById('repo-div');
-          repoDiv.innerHTML = '';
-          const selectedRepo = repositories[event.target.value];
-          createInfoDiv(repoDiv, selectedRepo, repositories);
-          createContributorDiv(root, selectedRepo, repoDiv);
-        });
-        const repoDiv = createAndAppend('div', root, { id: 'repo-div', class: 'repo-div' });
-        const selectedRepo = repositories[select.value];
+      select.addEventListener('change', event => {
+        const repoDiv = document.getElementById('repo-div');
+        repoDiv.innerHTML = '';
+        const selectedRepo = repositories[event.target.value];
         createInfoDiv(repoDiv, selectedRepo, repositories);
         createContributorDiv(root, selectedRepo, repoDiv);
-      })
-      .catch(err => {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       });
+      const repoDiv = createAndAppend('div', root, { id: 'repo-div', class: 'repo-div' });
+      const selectedRepo = repositories[select.value];
+      createInfoDiv(repoDiv, selectedRepo, repositories);
+      createContributorDiv(root, selectedRepo, repoDiv);
+    } catch (err) {
+      createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+    }
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
