@@ -1,5 +1,4 @@
 @import url('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
-
 * {
   box-sizing: border-box;
 }
@@ -23,6 +22,7 @@ header {
   margin: 0 auto !important;
   justify-content: center !important;
 }
+
 .card {
   max-width: 18rem !important;
   min-width: 15rem !important;
@@ -34,21 +34,6 @@ header {
   font-size: 1.5rem;
 }
 
-.card-text {
-  border-color: #000;
-  max-width: 13rem;
-  padding-bottom: 0;
-  padding-top: 0;
-}
-.card-text.badge {
-  display: flex;
-  justify-content: center !important;
-  align-items: center !important;
-}
-.btn-danger {
-  background-color: #dc3582;
-}
-
 .card-title {
   background: #614ad3;
   font-size: 1.75rem;
@@ -56,6 +41,23 @@ header {
   text-transform: capitalize;
   max-width: fit-content;
   text-align: center !important;
+}
+
+.card-text {
+  border-color: #000;
+  max-width: 13rem;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.card-text.badge {
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.btn-danger {
+  background-color: #dc3582;
 }
 
 .container {
@@ -82,6 +84,7 @@ header {
   text-transform: capitalize;
   text-decoration: none;
 }
+
 a.widget-value:hover {
   color: #dc3582;
   text-decoration: none;
@@ -95,6 +98,7 @@ a.widget-value:hover {
 .widget-icon {
   color: #614ad3;
 }
+
 .alert-primary {
   background: #f9f3ec80;
   border-color: #dc3582;
@@ -118,12 +122,10 @@ a.widget-value:hover {
     padding-bottom: 2rem;
     font-size: 1.75rem;
   }
-
   .card {
     max-width: none !important;
     min-width: none !important;
   }
-
   .header-group {
     display: flex;
     flex-direction: column;

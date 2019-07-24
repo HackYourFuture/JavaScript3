@@ -174,9 +174,7 @@
           value: index,
         });
       });
-
     // create an eventlistener for select list options
-
     selectList.addEventListener('change', () => {
       selectList.parentElement.nextElementSibling.innerHTML = '';
       cb(repositoriesData[selectList.value], repositoriesData[selectList.value].contributors_url);
