@@ -4,7 +4,6 @@
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   const root = document.getElementById('root');
 
-  // create a html request and get response as a callback
   function fetchJSON(url, cb) {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url);
@@ -19,7 +18,7 @@
     xhr.onerror = () => cb(new Error('Network request failed'));
     xhr.send();
   }
-  // create dom elements and append them to parent
+
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
@@ -33,33 +32,25 @@
     });
     return elem;
   }
-  // create contributions layout as cards
-  const createContributionsLayout = contributionsData => {
-    const mainParent = document.getElementById('main');
-    const contributionCardsContainer = createAndAppend('div', mainParent, {
-      id: 'repo-contributor',
-    });
-    const cardsGroup = createAndAppend('div', contributionCardsContainer, {
-      class: 'card-group d-flex container-fluid',
-    });
-    contributionsData.forEach(contribution => {
+
+  function createContributorCard(contributorsData, cardsGroup) {
+    contributorsData.forEach(contributor => {
       const card = createAndAppend('a', cardsGroup, {
         class: 'card border border-danger shadow-lg mb-3 mx-2',
-        href: contribution.html_url,
+        href: contributor.html_url,
         target: '_blank',
       });
       createAndAppend('img', card, {
         class: 'card-img-top',
-        src: contribution.avatar_url,
-        alt: `${contribution.login}'s avatar`,
+        src: contributor.avatar_url,
+        alt: `${contributor.login}'s avatar`,
       });
       const cardBody = createAndAppend('div', card, {
         class: 'card-body text-center',
       });
-
       createAndAppend('h5', cardBody, {
         class: 'card-title btn-primary',
-        text: contribution.login,
+        text: contributor.login,
       });
       const contributionInfo = createAndAppend('p', cardBody, {
         class: 'card-text btn btn-danger d-flex justify-content-between rounded-0',
@@ -67,104 +58,86 @@
       });
       createAndAppend('span', contributionInfo, {
         class: 'card-text badge badge-light d-flex justify-content-between ',
-        text: contribution.contributions,
+        text: contributor.contributions,
       });
     });
-  };
-  // create repository layout which is under the header
-  const createRepositoryLayout = repositoriesData => {
+  }
+
+  function createContributorsLayout(contributorsData) {
+    const mainParent = document.getElementById('main');
+    const contributionCardsContainer = createAndAppend('div', mainParent, {
+      id: 'repo-contributor',
+    });
+    const cardsGroup = createAndAppend('div', contributionCardsContainer, {
+      class: 'card-group d-flex container-fluid',
+    });
+    createContributorCard(contributorsData, cardsGroup);
+  }
+
+  function createRepositoryWidget(container, options = {}) {
+    const widgetContainer = createAndAppend('div', container, {
+      class:
+        'd-flex flex-column  alert alert-primary justify-content-start align-items-center flex-sm-column flex-lg-row',
+    });
+    createAndAppend('i', widgetContainer, {
+      class: `widget-icon ${options.faClasses} fa-3x px-3 py-1`,
+    });
+    createAndAppend('h4', widgetContainer, {
+      text: `${options.title}:`,
+      class: 'py-2 px-2 widget-title',
+    });
+    createAndAppend(options.valueTag || 'h4', widgetContainer, {
+      text: options.value,
+      class: 'widget-value lead',
+    });
+  }
+
+  function createRepositoryLayout(repositoriesData) {
     const mainParent = document.getElementById('main');
     const leftColumn = createAndAppend('div', mainParent, {
       class: 'd-flex flex-column repo-detail',
       id: 'repo-detail',
     });
-    //
-    const divWidgetRepoName = createAndAppend('div', leftColumn, {
-      class:
-        'd-flex flex-column alert alert-primary justify-content-start align-items-center flex-sm-column flex-lg-row',
+
+    createRepositoryWidget(leftColumn, {
+      faClasses: 'fab fa-github',
+      title: 'Repository Name:',
+      value: repositoriesData.name,
+      valueTag: 'a',
     });
-    createAndAppend('i', divWidgetRepoName, {
-      class: 'widget-icon fab fa-github fa-3x px-3 py-1',
+
+    const anchorTag = leftColumn.firstChild.lastChild;
+    anchorTag.setAttribute('href', repositoriesData.html_url);
+    anchorTag.setAttribute('target', '_blank');
+
+    createRepositoryWidget(leftColumn, {
+      faClasses: 'fas fa-pen-alt',
+      title: 'Description',
+      value: repositoriesData.description,
     });
-    createAndAppend('h4', divWidgetRepoName, {
-      text: 'Repository Name:',
-      class: 'py-2 px-2 widget-title',
+
+    const createdDate = new Date(repositoriesData.created_at).toDateString();
+    createRepositoryWidget(leftColumn, {
+      faClasses: 'fas fa-calendar-plus',
+      title: 'Created',
+      value: createdDate,
     });
-    createAndAppend('a', divWidgetRepoName, {
-      text: repositoriesData.name,
-      href: repositoriesData.html_url,
-      target: '_blank',
-      class: 'widget-value',
+
+    const updatedDate = new Date(repositoriesData.updated_at).toDateString();
+    createRepositoryWidget(leftColumn, {
+      faClasses: 'fas fa-clock',
+      title: 'Updated',
+      value: updatedDate,
     });
-    //
-    const divWidgetRepoDescription = createAndAppend('div', leftColumn, {
-      class:
-        'd-flex flex-column  alert alert-primary justify-content-start align-items-center flex-sm-column flex-lg-row',
+
+    createRepositoryWidget(leftColumn, {
+      faClasses: 'fas fa-code-branch',
+      title: 'Forks',
+      value: repositoriesData.forks,
     });
-    createAndAppend('i', divWidgetRepoDescription, {
-      class: 'widget-icon fas fa-pen-alt fa-3x px-3 py-1',
-    });
-    createAndAppend('h4', divWidgetRepoDescription, {
-      text: 'Description:',
-      class: 'py-2 px-2 widget-title',
-    });
-    createAndAppend('h4', divWidgetRepoDescription, {
-      text: repositoriesData.description,
-      class: 'widget-value lead',
-    });
-    //
-    const divWidgetRepoCreatedDate = createAndAppend('div', leftColumn, {
-      class:
-        'd-flex flex-column  alert alert-primary justify-content-start align-items-center flex-sm-column flex-lg-row',
-    });
-    createAndAppend('i', divWidgetRepoCreatedDate, {
-      class: 'widget-icon fas fa-calendar-plus fa-3x px-3 py-1',
-    });
-    createAndAppend('h4', divWidgetRepoCreatedDate, {
-      text: 'Created:',
-      class: 'py-2 px-2 widget-title',
-    });
-    const createdDate = new Date(repositoriesData.created_at);
-    createAndAppend('h4', divWidgetRepoCreatedDate, {
-      text: createdDate.toDateString(),
-      class: 'widget-value lead',
-    });
-    //
-    const divWidgetRepoUpdatedData = createAndAppend('div', leftColumn, {
-      class:
-        'd-flex flex-column  alert alert-primary justify-content-start align-items-center flex-sm-column flex-lg-row',
-    });
-    createAndAppend('i', divWidgetRepoUpdatedData, {
-      class: 'widget-icon fas fa-clock fa-3x px-3 py-1',
-    });
-    createAndAppend('h4', divWidgetRepoUpdatedData, {
-      text: 'Updated:',
-      class: 'py-2 px-2 widget-title',
-    });
-    const updatedDate = new Date(repositoriesData.updated_at);
-    createAndAppend('h4', divWidgetRepoUpdatedData, {
-      text: updatedDate.toDateString(),
-      class: 'widget-value lead',
-    });
-    //
-    const divWidgetForkedNumbers = createAndAppend('div', leftColumn, {
-      class:
-        'd-flex flex-column  alert alert-primary justify-content-start align-items-center flex-sm-column flex-lg-row',
-    });
-    createAndAppend('i', divWidgetForkedNumbers, {
-      class: 'widget-icon fas fa-code-branch fa-3x px-3 py-1',
-    });
-    createAndAppend('h4', divWidgetForkedNumbers, {
-      text: 'Forks:',
-      class: 'py-2 px-2 widget-title',
-    });
-    createAndAppend('h4', divWidgetForkedNumbers, {
-      text: repositoriesData.forks,
-      class: 'widget-value lead',
-    });
-  };
-  // append fetched repositories information to select list/box
-  const appendRepositoriesToSelect = (repositoriesData, cb) => {
+  }
+
+  function appendRepositoriesToSelect(repositoriesData, cb) {
     const selectList = document.getElementById('repo-select');
     repositoriesData
       .sort((a, b) => a.name.localeCompare(b.name))
@@ -179,9 +152,9 @@
       selectList.parentElement.nextElementSibling.innerHTML = '';
       cb(repositoriesData[selectList.value], repositoriesData[selectList.value].contributors_url);
     });
-  };
-  // fetch repositories and contributions data as a callback hell so that once repositories data is fetched first, then the contribution data will be fetched.
-  const fetchRepositoriesAndContributions = url => {
+  }
+
+  function fetchRepositoriesAndContributors(url) {
     fetchJSON(url, (errRepository, repositoriesData) => {
       if (errRepository) {
         createAndAppend('div', root, {
@@ -200,13 +173,13 @@
             });
             return;
           }
-          createContributionsLayout(contributionsObj);
+          createContributorsLayout(contributionsObj);
         });
       });
     });
-  };
-  // create page layout under the root div
-  const buildWebPage = url => {
+  }
+
+  function createHeader() {
     const header = createAndAppend('header', root, {
       class: 'container jumbotron mt-3 mb-3 px-5',
     });
@@ -240,11 +213,11 @@
       text: 'Select a repository',
       class: 'text-muted options',
     });
-    fetchRepositoriesAndContributions(url);
-  };
-  // main() ==> buildWebPage() ==> fetchRepositoriesAndContributions() ==> appendRepositoriesToSelect() ==>  createRepositoryLayout() && createContributionsLayout()
+  }
+
   function main(url) {
-    buildWebPage(url);
+    createHeader();
+    fetchRepositoriesAndContributors(url);
   }
   window.onload = () => main(HYF_REPOS_URL);
 }
