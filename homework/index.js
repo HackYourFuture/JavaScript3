@@ -37,7 +37,14 @@
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
         return;
       }
-      createAndAppend('pre', root, { text: JSON.stringify(repositories, null, 2) });
+      createAndAppend('SELECT', root, { class: 'select_list', id: 'repositories_list' });
+      // createAndAppend('pre', root, { text: JSON.stringify(repositories[0].name, null, 2) });
+      const selectEl = document.getElementById('repositories_list');
+      createAndAppend('OPTION', selectEl, { text: 'Select one', disabled: 'disabled' });
+      const repoNames = repositories.map(element => element.name).sort();
+      repoNames.forEach(element => {
+        createAndAppend('OPTION', selectEl, { text: element });
+      });
     });
   }
 
