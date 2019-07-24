@@ -23,8 +23,6 @@
       const value = options[key];
       if (key === 'text') {
         elem.textContent = value;
-      } else if (key === 'html') {
-        elem.innerHTML = value;
       } else {
         elem.setAttribute(key, value);
       }
@@ -32,36 +30,38 @@
     return elem;
   }
 
-  const renderError = error => {
+  function renderError(error) {
     const wrapper = document.getElementById('wrapper');
     wrapper.innerHTML = '';
     createAndAppend('div', wrapper, {
       text: error.message,
       class: 'alert',
     });
-  };
+  }
 
-  const addRepoInfoRow = (parent, label, content) => {
+  function addRepoInfoRow(parent, label, content) {
     const row = createAndAppend('tr', parent);
     createAndAppend('th', row, {
       text: label,
       class: 'table-header',
     });
     createAndAppend('td', row, {
-      html: content,
+      text: content,
     });
-  };
+    return row;
+  }
 
   function renderRepoInfo(repository) {
     const leftSide = document.getElementById('left-side');
     leftSide.innerHTML = '';
     const repoTable = createAndAppend('table', leftSide);
     const repoTableBody = createAndAppend('tbody', repoTable);
-    addRepoInfoRow(
-      repoTableBody,
-      'Repository',
-      `<a href="${repository.html_url}" target="_blank">${repository.name}</a>`,
-    );
+    const repoNameRow = addRepoInfoRow(repoTableBody, 'Repository', '');
+    createAndAppend('a', repoNameRow.lastChild, {
+      href: repository.html_url,
+      target: '_blank',
+      text: repository.name,
+    });
     addRepoInfoRow(repoTableBody, 'Description', repository.description);
     addRepoInfoRow(
       repoTableBody,
@@ -144,12 +144,12 @@
           text: repository.name,
         });
       });
-      createAndAppend('main', wrapper, {
+      createAndAppend('section', wrapper, {
         class: 'left-side',
         id: 'left-side',
       });
       renderRepoInfo(repositories[select.value]);
-      createAndAppend('main', wrapper, {
+      createAndAppend('section', wrapper, {
         class: 'right-side',
         id: 'right-side',
       });

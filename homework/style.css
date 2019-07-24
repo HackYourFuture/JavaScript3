@@ -30,6 +30,8 @@ body {
 
 .header-title {
   color: #fd5523;
+  text-align: center;
+  line-height: 1.3;
 }
 
 select {
@@ -66,7 +68,6 @@ th {
   border-radius: 5px;
   background-color: rgba(185, 228, 201, 0.2);
   margin: 0 1rem 2rem;
-  width: 100%;
 }
 
 .contributors-title {
