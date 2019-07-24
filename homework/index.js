@@ -85,10 +85,14 @@
         renderError(error);
         return;
       }
-      createAndAppend('h3', rightSide, {
+      const contributorsTitle = createAndAppend('h3', rightSide, {
         text: 'Contributors',
         class: 'contributors-title',
       });
+      if (!contributors.length) {
+        contributorsTitle.textContent = 'No Contributor So Far';
+        return;
+      }
       const contributorsList = createAndAppend('ul', rightSide, {
         class: 'contributors-list',
       });
@@ -115,7 +119,7 @@
     });
   }
 
-  function main(url) {
+  function renderPage(url) {
     const root = document.getElementById('root');
     const header = createAndAppend('header', root, {
       class: 'header',
@@ -156,6 +160,10 @@
       });
     });
   }
-  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-  window.onload = () => main(HYF_REPOS_URL);
+
+  function main() {
+    const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+    renderPage(HYF_REPOS_URL);
+  }
+  window.onload = () => main();
 }
