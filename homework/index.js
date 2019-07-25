@@ -206,7 +206,7 @@
       src: './hyf.png',
       alt: 'hack your future thumbnail',
     });
-    const selectList = createAndAppend('select', header, {
+    createAndAppend('select', header, {
       id: 'repo-select',
       class: 'form-control',
       'aria-label': 'Hack Your Future Repositories Selection',
