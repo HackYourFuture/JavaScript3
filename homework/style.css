@@ -1,3 +1,19 @@
 .alert-error {
     color: red;
 }
+
+.main_container {
+    background-color: gray;
+    min-height: 120px;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.in_root_left {
+    background-color: lightblue;
+    min-height: 120px;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 15px;
+    width: 65%;
+}

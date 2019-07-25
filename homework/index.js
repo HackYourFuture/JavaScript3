@@ -1,5 +1,6 @@
 'use strict';
 
+let data = '';
 {
   function fetchJSON(url, cb) {
     const xhr = new XMLHttpRequest();
@@ -7,6 +8,7 @@
     xhr.responseType = 'json';
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status <= 299) {
+        data = xhr.response;
         cb(null, xhr.response);
       } else {
         cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
@@ -30,6 +32,28 @@
     return elem;
   }
 
+  function viewRepInfo() {
+    const repoName = document.getElementById('repositories_list').value;
+    const wantedRepo = data.filter(element => element.name === repoName)[0];
+    const ToDisplayLeft = [
+      ['Name', wantedRepo.name],
+      ['Description', wantedRepo.description],
+      ['Forks', wantedRepo.forks],
+      ['Last update', new Date(wantedRepo.updated_at)],
+    ];
+    const root = document.getElementById('root');
+
+    if (root.childNodes[1]) {
+      root.removeChild(root.childNodes[1]);
+    }
+    const inRootEl = createAndAppend('div', root, { class: 'in_root_left' });
+    ToDisplayLeft.forEach(array =>
+      array.forEach(element => createAndAppend('p', inRootEl, { text: element })),
+    );
+    console.log(ToDisplayLeft);
+    console.log(typeof root);
+  }
+
   function main(url) {
     fetchJSON(url, (err, repositories) => {
       const root = document.getElementById('root');
@@ -37,14 +61,16 @@
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
         return;
       }
-      createAndAppend('SELECT', root, { class: 'select_list', id: 'repositories_list' });
-      // createAndAppend('pre', root, { text: JSON.stringify(repositories[0].name, null, 2) });
-      const selectEl = document.getElementById('repositories_list');
+      const selectEl = createAndAppend('SELECT', root, {
+        class: 'select_list',
+        id: 'repositories_list',
+      });
       createAndAppend('OPTION', selectEl, { text: 'Select one', disabled: 'disabled' });
       const repoNames = repositories.map(element => element.name).sort();
       repoNames.forEach(element => {
         createAndAppend('OPTION', selectEl, { text: element });
       });
+      selectEl.addEventListener('change', viewRepInfo);
     });
   }
 
