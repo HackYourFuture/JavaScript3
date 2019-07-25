@@ -40,8 +40,11 @@
   function Contributions(inText) {
     const url = inText.innerHTML;
     const infoContainer = document.getElementById('info_container');
-    const infoRight = createAndAppend('div', infoContainer, { class: 'info_right' });
-    createAndAppend('h4', infoRight, { text: 'info_right' });
+    const infoRight = createAndAppend('div', infoContainer, {
+      class: 'info_right',
+      text: 'Contributions:',
+    });
+    // createAndAppend('span', infoRight, { text: 'Contributions' });
     fetchJSON(url, (err, data) => {
       if (err) {
         renderError(err);
@@ -72,10 +75,6 @@
         createAndAppend('hr', infoRight, {
           class: 'hr_contributor',
         });
-        // element.login,
-        // element.avatar_url,
-        // element.html_url,
-        // element.contributions,
       });
     });
     console.log(url);
@@ -91,7 +90,10 @@
       const wantedRepo = data.filter(element => element.name === repoName)[0];
       const infoContainer = document.getElementById('info_container');
       infoContainer.innerHTML = '';
-      const infoLeft = createAndAppend('div', infoContainer, { class: 'info_left' });
+      const infoLeft = createAndAppend('div', infoContainer, {
+        class: 'info_left',
+        text: 'Repository information:',
+      });
       const nameAndLink = createAndAppend('p', infoLeft, {
         class: 'name_ink',
         text: 'Name:',
@@ -120,11 +122,11 @@
       });
       const LastUpdate = createAndAppend('p', infoLeft, {
         class: 'p_infoLeft',
-        text: 'FLast update:',
+        text: 'Last update:',
       });
       createAndAppend('span', LastUpdate, {
         class: 'span_infoLeft',
-        text: new Date(wantedRepo.updated_at),
+        text: new Date(wantedRepo.updated_at).toLocaleString(),
       });
       // ToDisplayLeft.forEach(array =>
       //   array.forEach(element => createAndAppend('p', infoLeft, { text: element })),
@@ -156,6 +158,10 @@
 
         return;
       }
+      createAndAppend('span', root, {
+        class: 'page_title',
+        text: 'HYF Repositories',
+      });
       const selectEl = createAndAppend('SELECT', root, {
         class: 'select_list',
         id: 'repositories_list',
