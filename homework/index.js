@@ -1,7 +1,8 @@
 'use strict';
 
-let data = '';
 {
+  let data = '';
+
   function fetchJSON(url, cb) {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url);
@@ -41,24 +42,36 @@ let data = '';
       ['Forks', wantedRepo.forks],
       ['Last update', new Date(wantedRepo.updated_at)],
     ];
-    const root = document.getElementById('root');
-
-    if (root.childNodes[1]) {
-      root.removeChild(root.childNodes[1]);
-    }
-    const inRootEl = createAndAppend('div', root, { class: 'in_root_left' });
+    const ifoContainer = document.getElementById('ifo_container');
+    ifoContainer.innerHTML = '';
+    const infoLeft = createAndAppend('div', ifoContainer, { class: 'ifo_left' });
     ToDisplayLeft.forEach(array =>
-      array.forEach(element => createAndAppend('p', inRootEl, { text: element })),
+      array.forEach(element => createAndAppend('p', infoLeft, { text: element })),
     );
-    console.log(ToDisplayLeft);
-    console.log(typeof root);
+    const infoRight = createAndAppend('div', ifoContainer, { class: 'ifo_right' });
+    const ToDisplayRight = [['contributors', wantedRepo.contributors_url]];
+    ToDisplayRight.forEach(array =>
+      array.forEach(element => createAndAppend('p', infoRight, { text: element })),
+    );
+    // console.log(ToDisplayLeft);
+    console.log(wantedRepo);
   }
 
   function main(url) {
     fetchJSON(url, (err, repositories) => {
       const root = document.getElementById('root');
+      const ifoContainer = createAndAppend('div', document.body, {
+        id: 'ifo_container',
+        class: 'ifo_container',
+        text: 'You can choose a repository name from the list',
+      });
       if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        ifoContainer.innerHTML = '';
+        createAndAppend('div', ifoContainer, {
+          text: err.message,
+          class: 'alert-error',
+        });
+
         return;
       }
       const selectEl = createAndAppend('SELECT', root, {

@@ -2,18 +2,29 @@
     color: red;
 }
 
-.main_container {
+.select_container {
     background-color: gray;
-    min-height: 120px;
+    min-height: 25px;
     padding: 15px;
     border-radius: 15px;
 }
 
-.in_root_left {
+.ifo_container {
+    background-color: lightgray;
+    min-height: 120px;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 15px;
+    display: flex;
+}
+
+.ifo_right,
+.ifo_left {
     background-color: lightblue;
     min-height: 120px;
     padding: 15px;
     margin-top: 15px;
     border-radius: 15px;
-    width: 65%;
+    margin: 15px;
+    width: 40%;
 }
