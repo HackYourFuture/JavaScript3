@@ -49,14 +49,30 @@
       }
 
       // infoRight.innerHTML = JSON.stringify(data);
-      console.log(
-        data.map(element => [
-          element.login,
-          element.avatar_url,
-          element.html_url,
-          element.contributions,
-        ]),
-      );
+
+      data.forEach(element => {
+        const ContributorEl = createAndAppend('div', infoRight, { class: 'Contributor_el' });
+        const imgDiv = createAndAppend('div', ContributorEl, { class: 'Contributor_img_div' });
+        createAndAppend('img', imgDiv, {
+          class: 'Contributor_img',
+          src: element.avatar_url,
+          alt: 'Contributor photo',
+          width: '50px',
+        });
+        const dataDiv = createAndAppend('div', ContributorEl, { class: 'Contributor_data_div' });
+        createAndAppend('div', dataDiv, {
+          class: 'Contributor_name',
+          text: element.login,
+        });
+        createAndAppend('div', dataDiv, {
+          class: 'Contributor_contributions',
+          text: element.contributions,
+        });
+        // element.login,
+        // element.avatar_url,
+        // element.html_url,
+        // element.contributions,
+      });
     });
     console.log(typeof url);
   }

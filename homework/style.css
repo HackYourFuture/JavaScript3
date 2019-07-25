@@ -32,3 +32,29 @@
     margin: 15px;
     width: 40%;
 }
+
+.Contributor_el {
+    border: 2px solid red;
+    margin: 10px;
+    overflow: auto;
+}
+
+.Contributor_data_div {
+    border: 2px solid green;
+    overflow: auto;
+}
+
+.Contributor_name {
+    border: 2px solid blue;
+    float: left;
+}
+
+.Contributor_img_div {
+    border: 2px solid black;
+    float: left;
+}
+
+.Contributor_contributions {
+    border: 2px solid orange;
+    float: right;
+}
