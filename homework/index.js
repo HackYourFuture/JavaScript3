@@ -90,6 +90,7 @@
       text: options.value,
       class: 'widget-value lead',
     });
+    return widgetContainer;
   }
 
   function createRepositoryLayout(repositoriesData) {
@@ -99,14 +100,14 @@
       id: 'repo-detail',
     });
 
-    createRepositoryWidget(leftColumn, {
+    const widgetContainer = createRepositoryWidget(leftColumn, {
       faClasses: 'fab fa-github',
       title: 'Repository Name:',
       value: repositoriesData.name,
       valueTag: 'a',
     });
 
-    const anchorTag = leftColumn.firstChild.lastChild;
+    const anchorTag = widgetContainer.lastChild;
     anchorTag.setAttribute('href', repositoriesData.html_url);
     anchorTag.setAttribute('target', '_blank');
 
@@ -147,6 +148,10 @@
           value: index,
         });
       });
+
+    // dummy values
+    cb(repositoriesData[0], repositoriesData[0].contributors_url);
+
     // create an eventlistener for select list options
     selectList.addEventListener('change', () => {
       selectList.parentElement.nextElementSibling.innerHTML = '';
@@ -163,17 +168,18 @@
         });
         return;
       }
-      appendRepositoriesToSelect(repositoriesData, (repositoryObj, contributionsURL) => {
+
+      appendRepositoriesToSelect(repositoriesData, (repositoryObj, contributorURL) => {
         createRepositoryLayout(repositoryObj);
-        fetchJSON(contributionsURL, (errContributions, contributionsObj) => {
-          if (errContributions) {
+        fetchJSON(contributorURL, (errContributors, contributorData) => {
+          if (errContributors) {
             createAndAppend('div', root, {
-              text: `${errContributions.message}... The data cannot be fetched`,
+              text: `${errContributors.message}... The data cannot be fetched`,
               class: 'alert alert-danger display-3 text-center',
             });
             return;
           }
-          createContributorsLayout(contributionsObj);
+          createContributorsLayout(contributorData);
         });
       });
     });
