@@ -33,6 +33,10 @@
     width: 40%;
 }
 
+.hr_contributor {
+    border: 1px solid lightgreen;
+}
+
 .Contributor_el {
     border: 2px solid red;
     margin: 15px;

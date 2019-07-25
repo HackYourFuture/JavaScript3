@@ -37,8 +37,8 @@
     xhr.send();
   }
 
-  function Contributions(intext) {
-    const url = intext.innerHTML;
+  function Contributions(inText) {
+    const url = inText.innerHTML;
     const infoContainer = document.getElementById('info_container');
     const infoRight = createAndAppend('div', infoContainer, { class: 'info_right' });
     createAndAppend('h4', infoRight, { text: 'info_right' });
@@ -47,9 +47,6 @@
         renderError(err);
         return;
       }
-
-      // infoRight.innerHTML = JSON.stringify(data);
-
       data.forEach(element => {
         const ContributorEl = createAndAppend('a', infoRight, {
           class: 'Contributor_el',
@@ -72,13 +69,16 @@
           class: 'Contributor_contributions',
           text: element.contributions,
         });
+        createAndAppend('hr', infoRight, {
+          class: 'hr_contributor',
+        });
         // element.login,
         // element.avatar_url,
         // element.html_url,
         // element.contributions,
       });
     });
-    console.log(typeof url);
+    console.log(url);
   }
 
   function viewRepInfo() {
@@ -89,24 +89,53 @@
       }
       const repoName = document.getElementById('repositories_list').value;
       const wantedRepo = data.filter(element => element.name === repoName)[0];
-      const ToDisplayLeft = [
-        ['Name', wantedRepo.name],
-        ['Description', wantedRepo.description],
-        ['Forks', wantedRepo.forks],
-        ['Last update', new Date(wantedRepo.updated_at)],
-      ];
       const infoContainer = document.getElementById('info_container');
       infoContainer.innerHTML = '';
       const infoLeft = createAndAppend('div', infoContainer, { class: 'info_left' });
-      ToDisplayLeft.forEach(array =>
-        array.forEach(element => createAndAppend('p', infoLeft, { text: element })),
-      );
+      const nameAndLink = createAndAppend('p', infoLeft, {
+        class: 'name_ink',
+        text: 'Name:',
+      });
+      createAndAppend('a', nameAndLink, {
+        class: 'rep_ink',
+        text: wantedRepo.name,
+        href: wantedRepo.html_url,
+        target: '_blank',
+      });
+      const Description = createAndAppend('p', infoLeft, {
+        class: 'p_infoLeft',
+        text: 'Description:',
+      });
+      createAndAppend('span', Description, {
+        class: 'span_infoLeft',
+        text: wantedRepo.description,
+      });
+      const forks = createAndAppend('p', infoLeft, {
+        class: 'p_infoLeft',
+        text: 'Forks:',
+      });
+      createAndAppend('span', forks, {
+        class: 'span_infoLeft',
+        text: wantedRepo.forks,
+      });
+      const LastUpdate = createAndAppend('p', infoLeft, {
+        class: 'p_infoLeft',
+        text: 'FLast update:',
+      });
+      createAndAppend('span', LastUpdate, {
+        class: 'span_infoLeft',
+        text: new Date(wantedRepo.updated_at),
+      });
+      // ToDisplayLeft.forEach(array =>
+      //   array.forEach(element => createAndAppend('p', infoLeft, { text: element })),
+      // );
       const contributorsUrl = createAndAppend('span', infoLeft, {
         text: wantedRepo.contributors_url,
         id: 'contributors_url',
         class: 'hidden',
       });
       contributorsUrl.addEventListener('load', Contributions(contributorsUrl));
+      console.log(wantedRepo.html_url);
     });
   }
 
