@@ -2,6 +2,10 @@
     color: red;
 }
 
+.hidden {
+    display: none;
+}
+
 .select_container {
     background-color: gray;
     min-height: 25px;
@@ -9,7 +13,7 @@
     border-radius: 15px;
 }
 
-.ifo_container {
+.info_container {
     background-color: lightgray;
     min-height: 120px;
     padding: 15px;
@@ -18,8 +22,8 @@
     display: flex;
 }
 
-.ifo_right,
-.ifo_left {
+.info_right,
+.info_left {
     background-color: lightblue;
     min-height: 120px;
     padding: 15px;
