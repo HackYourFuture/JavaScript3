@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 .alert-error {
     color: red;
 }
@@ -11,59 +15,109 @@
     min-height: 25px;
     padding: 15px;
     border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-weight: bolder;
+}
+
+.page_title,
+.select_list {
+    margin: 10px;
 }
 
 .info_container {
-    background-color: lightgray;
-    min-height: 120px;
+    background-color: gray;
+    min-height: 40px;
     padding: 15px;
     margin-top: 15px;
     border-radius: 15px;
+    color: white;
     display: flex;
+    justify-content: space-between;
 }
 
 .info_right,
 .info_left {
-    background-color: lightblue;
-    min-height: 120px;
+    background-color: lightgray;
     padding: 15px;
-    margin-top: 15px;
     border-radius: 15px;
-    margin: 15px;
-    width: 40%;
+    margin: 5px;
+    color: black;
+    font-weight: bolder;
+}
+
+.info_right {
+    width: calc(40% - 10px);
+}
+
+.info_left {
+    width: calc(60% - 10px);
+}
+
+.p_infoLeft {
+    font-weight: bold;
+}
+
+.span_infoLeft,
+.rep_link {
+    font-weight: normal;
+    padding-left: 8px;
+    color: black;
 }
 
 .hr_contributor {
-    border: 1px solid lightgreen;
+    border: 1px solid gray;
 }
 
 .Contributor_el {
-    border: 2px solid red;
-    margin: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     overflow: auto;
     display: block;
+    text-decoration: none;
+    color: black;
 }
 
 .Contributor_data_div {
-    border: 2px solid green;
     overflow: auto;
 }
 
 .Contributor_name {
-    border: 2px solid blue;
     float: left;
-    margin: 10px;
     padding: 5px;
+    margin-left: 5px;
+    font-weight: normal;
 }
 
 .Contributor_img_div {
-    border: 2px solid black;
     float: left;
 }
 
+.Contributor_img {
+    border-radius: 5px;
+}
+
 .Contributor_contributions {
-    border: 2px solid orange;
+    border: 2px solid gray;
+    border-radius: 5px;
     float: right;
-    margin: 10px;
-    padding: 5px;
+    padding: 2px;
+}
+
+@media (max-width: 767px) {
+    .select_container,
+    .info_container {
+        flex-direction: column;
+    }
+    .select_container {
+        text-align: center;
+        width: 100%;
+    }
+    .info_right,
+    .info_left {
+        width: 100%;
+        margin: auto;
+        margin-top: 10px;
+    }
 }

@@ -77,7 +77,6 @@
         });
       });
     });
-    console.log(url);
   }
 
   function viewRepInfo() {
@@ -99,7 +98,7 @@
         text: 'Name:',
       });
       createAndAppend('a', nameAndLink, {
-        class: 'rep_ink',
+        class: 'rep_link',
         text: wantedRepo.name,
         href: wantedRepo.html_url,
         target: '_blank',
@@ -137,7 +136,6 @@
         class: 'hidden',
       });
       contributorsUrl.addEventListener('load', Contributions(contributorsUrl));
-      console.log(wantedRepo.html_url);
     });
   }
 
