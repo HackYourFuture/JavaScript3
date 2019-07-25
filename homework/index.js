@@ -44,7 +44,6 @@
       class: 'info_right',
       text: 'Contributions:',
     });
-    // createAndAppend('span', infoRight, { text: 'Contributions' });
     fetchJSON(url, (err, data) => {
       if (err) {
         renderError(err);
@@ -127,9 +126,6 @@
         class: 'span_infoLeft',
         text: new Date(wantedRepo.updated_at).toLocaleString(),
       });
-      // ToDisplayLeft.forEach(array =>
-      //   array.forEach(element => createAndAppend('p', infoLeft, { text: element })),
-      // );
       const contributorsUrl = createAndAppend('span', infoLeft, {
         text: wantedRepo.contributors_url,
         id: 'contributors_url',
