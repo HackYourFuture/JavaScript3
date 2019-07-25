@@ -211,14 +211,6 @@
       class: 'form-control',
       'aria-label': 'Hack Your Future Repositories Selection',
     });
-    // Create Select Box and its options
-    createAndAppend('option', selectList, {
-      value: ' ',
-      disabled: '',
-      selected: '',
-      text: 'Select a repository',
-      class: 'text-muted options',
-    });
   }
 
   function main(url) {
