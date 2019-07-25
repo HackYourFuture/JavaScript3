@@ -4,19 +4,22 @@
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   const root = document.getElementById('root');
 
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status <= 299) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    const promise = new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status <= 299) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
+    return promise;
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -31,6 +34,13 @@
       }
     });
     return elem;
+  }
+
+  function renderError(error) {
+    createAndAppend('div', root, {
+      text: error.message,
+      class: 'alert alert-danger display-3 text-center',
+    });
   }
 
   function createContributorCard(contributorsData, cardsGroup) {
@@ -160,29 +170,16 @@
   }
 
   function fetchRepositoriesAndContributors(url) {
-    fetchJSON(url, (errRepository, repositoriesData) => {
-      if (errRepository) {
-        createAndAppend('div', root, {
-          text: errRepository.message,
-          class: 'alert alert-danger display-3 text-center',
+    fetchJSON(url)
+      .then(repositoriesData => {
+        appendRepositoriesToSelect(repositoriesData, (repositoryObj, contributorURL) => {
+          createRepositoryLayout(repositoryObj);
+          fetchJSON(contributorURL).then(contributorData => {
+            createContributorsLayout(contributorData);
+          });
         });
-        return;
-      }
-
-      appendRepositoriesToSelect(repositoriesData, (repositoryObj, contributorURL) => {
-        createRepositoryLayout(repositoryObj);
-        fetchJSON(contributorURL, (errContributors, contributorData) => {
-          if (errContributors) {
-            createAndAppend('div', root, {
-              text: `${errContributors.message}... The data cannot be fetched`,
-              class: 'alert alert-danger display-3 text-center',
-            });
-            return;
-          }
-          createContributorsLayout(contributorData);
-        });
-      });
-    });
+      })
+      .catch(error => renderError(error));
   }
 
   function createHeader() {
