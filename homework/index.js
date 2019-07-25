@@ -41,7 +41,7 @@
     const url = intext.innerHTML;
     const infoContainer = document.getElementById('info_container');
     const infoRight = createAndAppend('div', infoContainer, { class: 'info_right' });
-    const title = createAndAppend('h4', infoRight, { text: 'info_right' });
+    createAndAppend('h4', infoRight, { text: 'info_right' });
     fetchJSON(url, (err, data) => {
       if (err) {
         renderError(err);
