@@ -35,8 +35,9 @@
 
 .Contributor_el {
     border: 2px solid red;
-    margin: 10px;
+    margin: 15px;
     overflow: auto;
+    display: block;
 }
 
 .Contributor_data_div {
@@ -47,6 +48,8 @@
 .Contributor_name {
     border: 2px solid blue;
     float: left;
+    margin: 10px;
+    padding: 5px;
 }
 
 .Contributor_img_div {
@@ -57,4 +60,6 @@
 .Contributor_contributions {
     border: 2px solid orange;
     float: right;
+    margin: 10px;
+    padding: 5px;
 }

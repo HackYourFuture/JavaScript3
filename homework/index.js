@@ -51,7 +51,11 @@
       // infoRight.innerHTML = JSON.stringify(data);
 
       data.forEach(element => {
-        const ContributorEl = createAndAppend('div', infoRight, { class: 'Contributor_el' });
+        const ContributorEl = createAndAppend('a', infoRight, {
+          class: 'Contributor_el',
+          href: element.html_url,
+          target: '_blank',
+        });
         const imgDiv = createAndAppend('div', ContributorEl, { class: 'Contributor_img_div' });
         createAndAppend('img', imgDiv, {
           class: 'Contributor_img',
