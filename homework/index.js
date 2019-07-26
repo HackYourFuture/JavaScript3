@@ -130,6 +130,14 @@
   function main(url) {
     fetchJSON(url, (err, repositories) => {
       const root = document.getElementById('root');
+      createAndAppend('span', root, {
+        class: 'page_title',
+        text: 'HYF Repositories',
+      });
+      const selectEl = createAndAppend('select', root, {
+        class: 'select_list',
+        id: 'repositories_list',
+      });
       const infoContainer = createAndAppend('div', document.body, {
         id: 'info_container',
         class: 'info_container',
@@ -143,14 +151,7 @@
 
         return;
       }
-      createAndAppend('span', root, {
-        class: 'page_title',
-        text: 'HYF Repositories',
-      });
-      const selectEl = createAndAppend('select', root, {
-        class: 'select_list',
-        id: 'repositories_list',
-      });
+
       const sortedRepos = repositories.sort((e, t) => e.name.localeCompare(t.name));
       console.log(repositories.sort((e, t) => e.name.localeCompare(t.name)));
       sortedRepos.forEach((element, index) => {
