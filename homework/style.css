@@ -40,6 +40,7 @@ header {
   margin: 10px 1.5% 0 1.5%;
   border-radius: 10px;
   float: left;
+  text-align: center;
 }
 ul {
   list-style-type: none;
@@ -48,10 +49,12 @@ ul {
   text-align: start;
   margin-right: 100px;
 }
-tr :nth-child(1),
-tr :nth-child(2),
-tr:nth-child(3) {
-  padding-bottom: 10px;
+tr {
+  display: flex;
+  width: 100%;
+  align-content: space-between;
+  margin: 20px;
+  align-items: center;
 }
 
 a {
@@ -88,26 +91,26 @@ ul.right-ul {
 }
 .contributor {
   border-bottom: 1px solid #e30425;
-  margin: auto;
   background-color: #720d5d;
   box-sizing: border-box;
   width: 100%;
   display: flex;
 }
-.contributor h4 {
-  margin: auto 10px;
-  font-size: 2em;
-  width: 70%;
-}
+
 .num {
-  font-size: 2em;
-  width: 10px;
+  background-color: #e30425;
+  color: #5d1049;
+  margin-left: 50px;
+  flex-shrink: 1;
+  text-align: end;
+  padding: 5px;
 }
 @media (max-width: 800px) {
   .info-box,
   header,
   .contributions {
-    width: 97%;
+    width: 95%;
     margin: 10px auto;
+    overflow: hidden;
   }
 }
