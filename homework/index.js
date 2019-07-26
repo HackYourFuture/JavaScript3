@@ -126,7 +126,7 @@
         class: 'span_infoLeft',
         text: new Date(wantedRepo.updated_at).toLocaleString(),
       });
-      repoName.addEventListener('load', Contributions(wantedRepo.contributors_url));
+      Contributions(wantedRepo.contributors_url);
     });
   }
 
