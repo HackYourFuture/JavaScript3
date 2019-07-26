@@ -33,11 +33,11 @@
   }
 
   function renderError(error) {
-    const container = document.getElementsByClassName('container');
+    const container = document.getElementById('container');
     container.innerHTML = '';
     createAndAppend('div', container, {
       text: error.message,
-      class: 'alert',
+      class: 'error',
     });
   }
 
@@ -126,10 +126,11 @@
     });
     const divElement = createAndAppend('div', rootElement, {
       class: 'container',
+      id: 'container',
     });
     const select = createAndAppend('select', navElement);
-    fetchJSON(url, (err, repositories) => {
-      if (err) {
+    fetchJSON(url, (error, repositories) => {
+      if (error) {
         renderError(error);
         return;
       }
