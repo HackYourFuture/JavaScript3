@@ -55,6 +55,7 @@
         return;
       }
 
+      ul.innerHTML = ' ';
       const li = createAndAppend('li', ul);
       const table = createAndAppend('table', li, { class: 'infoTable' });
       const tbody = createAndAppend('tbody', table);
@@ -80,7 +81,7 @@
     });
   }
 
-  function renderContributorsInformation(subjects) {
+  function renderContributorsInformation(subjects, ul) {
     const url = `https://api.github.com/repos/HackYourFuture/${subjects}/contributors`;
     fetchJSON(url, (error, contributorDetails) => {
       if (error) {
@@ -88,23 +89,19 @@
         return;
       }
 
-      const contrTable = createAndAppend('ul', bodyDiv);
-      const li = createAndAppend('li', contrTable);
-      const table = createAndAppend('table', li, { class: 'contributors-table' });
-      const tbody = createAndAppend('tbody', table);
+      ul.innerHTML = ' ';
       contributorDetails.forEach(contributor => {
-        const tr = createAndAppend('tr', tbody);
-        createAndAppend('img', tr, {
+        const li = createAndAppend('li', ul);
+        createAndAppend('img', li, {
           src: `${contributor.avatar_url}`,
           class: 'images',
         });
-        const contributorsLogin = createAndAppend('td', tr);
-        createAndAppend('a', contributorsLogin, {
+        createAndAppend('a', li, {
           text: `${contributor.login}`,
           href: `${contributor.html_url}`,
           target: 'blank',
         });
-        createAndAppend('span', tr, {
+        createAndAppend('span', li, {
           text: `${contributor.contributions}`,
           class: 'contributions',
         });
@@ -117,7 +114,8 @@
     const bodyDiv = document.getElementById('bodyDiv');
     createAndAppend('p', root, { text: 'HYF Repositories', id: 'hyfText' });
     const select = createAndAppend('select', root, { id: 'selectButton' });
-    const ul = createAndAppend('ul', bodyDiv);
+    const ul = createAndAppend('ul', bodyDiv, { class: 'repoInfoList' });
+    const contrList = createAndAppend('ul', bodyDiv, { class: 'contrList' });
 
     fetchJSON(url, (err, repositories) => {
       if (err) {
@@ -130,7 +128,7 @@
       select.addEventListener('change', () => {
         const selectId = select.value;
         renderRepoInformation(selectId, ul);
-        renderContributorsInformation(selectId);
+        renderContributorsInformation(selectId, contrList);
       });
     });
   }
