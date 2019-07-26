@@ -32,6 +32,15 @@
     return elem;
   }
 
+  function renderError(error) {
+    const container = document.getElementsByClassName('container');
+    container.innerHTML = '';
+    createAndAppend('div', container, {
+      text: error.message,
+      class: 'alert',
+    });
+  }
+
   function showRepositoryInfo(repository) {
     const leftHand = document.getElementById('left-hand');
     leftHand.innerHTML = '';
@@ -120,9 +129,8 @@
     });
     const select = createAndAppend('select', navElement);
     fetchJSON(url, (err, repositories) => {
-      const root = document.getElementById('root');
       if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        renderError(error);
         return;
       }
       createAndAppend('option', select, { text: 'Select repository', disabled: 'disabled' });
