@@ -1,5 +1,6 @@
 'use strict';
 
+// modifying
 {
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
@@ -77,7 +78,7 @@
     });
   }
 
-  function viewRepInfo() {
+  function viewRepoInf() {
     fetchJSON(HYF_REPOS_URL, (err, data) => {
       if (err) {
         renderError(err);
@@ -135,7 +136,6 @@
       const infoContainer = createAndAppend('div', document.body, {
         id: 'info_container',
         class: 'info_container',
-        text: 'You can choose a repository name from the list',
       });
       if (err) {
         infoContainer.innerHTML = '';
@@ -154,15 +154,17 @@
         class: 'select_list',
         id: 'repositories_list',
       });
-      // createAndAppend('OPTION', selectEl, { text: 'Select one', disabled: 'disabled' });
       const repoNames = repositories
         .map(element => element.name)
         .sort((a, b) => a.localeCompare(b));
+      // (jijm)repoNames.forEach((repoName, index) => {
+      //   createAndAppend('option', selectEl, { text: repoName, value: index });
+      // });
       repoNames.forEach(element => {
         createAndAppend('OPTION', selectEl, { text: element });
       });
-      viewRepInfo();
-      selectEl.addEventListener('change', viewRepInfo);
+      viewRepoInf();
+      selectEl.addEventListener('change', viewRepoInf);
     });
   }
 
