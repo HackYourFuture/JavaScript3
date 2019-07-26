@@ -44,6 +44,7 @@
     const tr = createAndAppend('tr', tbody);
     createAndAppend('td', tr, { text: `${label}:`, class: 'label' });
     createAndAppend('td', tr, { text: value });
+    return tr;
   }
 
   function renderRepos(repoName, ul) {
@@ -58,10 +59,12 @@
           const li = createAndAppend('li', ul);
           const table = createAndAppend('table', li);
           const tbody = createAndAppend('tbody', table);
-          const tr1 = createAndAppend('tr', tbody);
-          createAndAppend('td', tr1, { text: `Name:`, class: 'label' });
-          const a = createAndAppend('a', tr1, { href: `${repo.html_url}` });
-          createAndAppend('td', a, { text: `${repo.name}` });
+          const firstRow = addRow(tbody, 'Name', '');
+          createAndAppend('a', firstRow.lastChild, {
+            text: `${repo.name}`,
+            href: repo.html_url,
+            target: '_blank',
+          });
           addRow(tbody, 'Description', `${repo.description}`);
           addRow(tbody, 'Forks', `${repo.forks}`);
           addRow(tbody, 'Updated', `${repo.updated_at.slice(0, 10)}`);
