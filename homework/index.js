@@ -137,7 +137,6 @@
   }
 
   function createOptionElements(repositories, select) {
-    createAndAppend('option', select, { text: 'Repositories', disabled: 'disabled' });
     repositories
       .sort((a, b) => a.name.localeCompare(b.name))
       .forEach(repository => {
@@ -161,6 +160,8 @@
       const mainDiv = createAndAppend('main', root, { class: 'flex-div' });
       const tableDiv = createAndAppend('div', mainDiv, { class: 'table-div' });
       const contributesDiv = createAndAppend('div', mainDiv, { class: 'contributes-div' });
+      renderRepository(tableDiv, 'alumni');
+      renderContributions('alumni', contributesDiv);
 
       select.addEventListener('change', () => {
         const repositoryName = select.value;
