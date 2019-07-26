@@ -79,11 +79,8 @@
   }
 
   function viewRepoInf(arrayOfObjects, indexNumber) {
-    const test = arrayOfObjects[indexNumber].name;
-    console.log(test);
-
     const wantedObject = arrayOfObjects[indexNumber];
-    console.log(wantedObject);
+
     const infoContainer = document.getElementById('info_container');
     infoContainer.innerHTML = '';
     const infoLeft = createAndAppend('div', infoContainer, {
@@ -130,15 +127,18 @@
   function main(url) {
     fetchJSON(url, (err, repositories) => {
       const root = document.getElementById('root');
-      createAndAppend('span', root, {
+      const header = createAndAppend('header', root, {
+        class: 'header',
+      });
+      createAndAppend('span', header, {
         class: 'page_title',
         text: 'HYF Repositories',
       });
-      const selectEl = createAndAppend('select', root, {
+      const selectEl = createAndAppend('select', header, {
         class: 'select_list',
         id: 'repositories_list',
       });
-      const infoContainer = createAndAppend('div', document.body, {
+      const infoContainer = createAndAppend('div', root, {
         id: 'info_container',
         class: 'info_container',
       });
