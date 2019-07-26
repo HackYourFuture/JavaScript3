@@ -37,14 +37,13 @@
     xhr.send();
   }
 
-  function Contributions(inText) {
-    const url = inText.innerHTML;
+  function Contributions(urlText) {
     const infoContainer = document.getElementById('info_container');
     const infoRight = createAndAppend('div', infoContainer, {
       class: 'info_right',
       text: 'Contributions:',
     });
-    fetchJSON(url, (err, data) => {
+    fetchJSON(urlText, (err, data) => {
       if (err) {
         renderError(err);
         return;
@@ -126,12 +125,7 @@
         class: 'span_infoLeft',
         text: new Date(wantedRepo.updated_at).toLocaleString(),
       });
-      const contributorsUrl = createAndAppend('span', infoLeft, {
-        text: wantedRepo.contributors_url,
-        id: 'contributors_url',
-        class: 'hidden',
-      });
-      contributorsUrl.addEventListener('load', Contributions(contributorsUrl));
+      repoName.addEventListener('load', Contributions(wantedRepo.contributors_url));
     });
   }
 
