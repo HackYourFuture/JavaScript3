@@ -44,32 +44,32 @@
       class: 'info_right',
       text: 'Contributions:',
     });
-    fetchJSON(urlText, (err, data) => {
+    fetchJSON(urlText, (err, contributors) => {
       if (err) {
         renderError(err);
         return;
       }
-      data.forEach(element => {
+      contributors.forEach(contributor => {
         const ContributorEl = createAndAppend('a', infoRight, {
           class: 'Contributor_el',
-          href: element.html_url,
+          href: contributor.html_url,
           target: '_blank',
         });
         const imgDiv = createAndAppend('div', ContributorEl, { class: 'Contributor_img_div' });
         createAndAppend('img', imgDiv, {
           class: 'Contributor_img',
-          src: element.avatar_url,
+          src: contributor.avatar_url,
           alt: 'Contributor photo',
           width: '50px',
         });
         const dataDiv = createAndAppend('div', ContributorEl, { class: 'Contributor_data_div' });
         createAndAppend('div', dataDiv, {
           class: 'Contributor_name',
-          text: element.login,
+          text: contributor.login,
         });
         createAndAppend('div', dataDiv, {
           class: 'Contributor_contributions',
-          text: element.contributions,
+          text: contributor.contributions,
         });
         createAndAppend('hr', infoRight, {
           class: 'hr_contributor',
@@ -147,16 +147,16 @@
         class: 'page_title',
         text: 'HYF Repositories',
       });
-      const selectEl = createAndAppend('SELECT', root, {
+      const selectEl = createAndAppend('select', root, {
         class: 'select_list',
         id: 'repositories_list',
       });
       const sortedRepos = repositories.sort((e, t) => e.name.localeCompare(t.name));
       console.log(repositories.sort((e, t) => e.name.localeCompare(t.name)));
       sortedRepos.forEach((element, index) => {
-        createAndAppend('OPTION', selectEl, { text: element.name, value: index });
+        createAndAppend('option', selectEl, { text: element.name, value: index });
       });
-      // selectEl.addEventListener('change', () => console.log(selectEl.value));
+      viewRepoInf(sortedRepos, selectEl.value);
       selectEl.addEventListener('change', () => viewRepoInf(sortedRepos, selectEl.value));
     });
   }
