@@ -78,56 +78,53 @@
     });
   }
 
-  function viewRepoInf() {
-    fetchJSON(HYF_REPOS_URL, (err, data) => {
-      if (err) {
-        renderError(err);
-        return;
-      }
-      const repoName = document.getElementById('repositories_list').value;
-      const wantedRepo = data.filter(element => element.name === repoName)[0];
-      const infoContainer = document.getElementById('info_container');
-      infoContainer.innerHTML = '';
-      const infoLeft = createAndAppend('div', infoContainer, {
-        class: 'info_left',
-        text: 'Repository information:',
-      });
-      const nameAndLink = createAndAppend('p', infoLeft, {
-        class: 'name_ink',
-        text: 'Name:',
-      });
-      createAndAppend('a', nameAndLink, {
-        class: 'rep_link',
-        text: wantedRepo.name,
-        href: wantedRepo.html_url,
-        target: '_blank',
-      });
-      const Description = createAndAppend('p', infoLeft, {
-        class: 'p_infoLeft',
-        text: 'Description:',
-      });
-      createAndAppend('span', Description, {
-        class: 'span_infoLeft',
-        text: wantedRepo.description,
-      });
-      const forks = createAndAppend('p', infoLeft, {
-        class: 'p_infoLeft',
-        text: 'Forks:',
-      });
-      createAndAppend('span', forks, {
-        class: 'span_infoLeft',
-        text: wantedRepo.forks,
-      });
-      const LastUpdate = createAndAppend('p', infoLeft, {
-        class: 'p_infoLeft',
-        text: 'Last update:',
-      });
-      createAndAppend('span', LastUpdate, {
-        class: 'span_infoLeft',
-        text: new Date(wantedRepo.updated_at).toLocaleString(),
-      });
-      Contributions(wantedRepo.contributors_url);
+  function viewRepoInf(arrayOfObjects, indexNumber) {
+    const test = arrayOfObjects[indexNumber].name;
+    console.log(test);
+
+    const wantedObject = arrayOfObjects[indexNumber];
+    console.log(wantedObject);
+    const infoContainer = document.getElementById('info_container');
+    infoContainer.innerHTML = '';
+    const infoLeft = createAndAppend('div', infoContainer, {
+      class: 'info_left',
+      text: 'Repository information:',
     });
+    const nameAndLink = createAndAppend('p', infoLeft, {
+      class: 'name_ink',
+      text: 'Name:',
+    });
+    createAndAppend('a', nameAndLink, {
+      class: 'rep_link',
+      text: wantedObject.name,
+      href: wantedObject.html_url,
+      target: '_blank',
+    });
+    const Description = createAndAppend('p', infoLeft, {
+      class: 'p_infoLeft',
+      text: 'Description:',
+    });
+    createAndAppend('span', Description, {
+      class: 'span_infoLeft',
+      text: wantedObject.description,
+    });
+    const forks = createAndAppend('p', infoLeft, {
+      class: 'p_infoLeft',
+      text: 'Forks:',
+    });
+    createAndAppend('span', forks, {
+      class: 'span_infoLeft',
+      text: wantedObject.forks,
+    });
+    const LastUpdate = createAndAppend('p', infoLeft, {
+      class: 'p_infoLeft',
+      text: 'Last update:',
+    });
+    createAndAppend('span', LastUpdate, {
+      class: 'span_infoLeft',
+      text: new Date(wantedObject.updated_at).toLocaleString(),
+    });
+    Contributions(wantedObject.contributors_url);
   }
 
   function main(url) {
@@ -154,17 +151,13 @@
         class: 'select_list',
         id: 'repositories_list',
       });
-      const repoNames = repositories
-        .map(element => element.name)
-        .sort((a, b) => a.localeCompare(b));
-      // (jijm)repoNames.forEach((repoName, index) => {
-      //   createAndAppend('option', selectEl, { text: repoName, value: index });
-      // });
-      repoNames.forEach(element => {
-        createAndAppend('OPTION', selectEl, { text: element });
+      const sortedRepos = repositories.sort((e, t) => e.name.localeCompare(t.name));
+      console.log(repositories.sort((e, t) => e.name.localeCompare(t.name)));
+      sortedRepos.forEach((element, index) => {
+        createAndAppend('OPTION', selectEl, { text: element.name, value: index });
       });
-      viewRepoInf();
-      selectEl.addEventListener('change', viewRepoInf);
+      // selectEl.addEventListener('change', () => console.log(selectEl.value));
+      selectEl.addEventListener('change', () => viewRepoInf(sortedRepos, selectEl.value));
     });
   }
 
