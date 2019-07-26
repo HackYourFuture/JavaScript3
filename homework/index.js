@@ -41,6 +41,7 @@
       class: 'alert alert-danger display-3 text-center',
     });
   }
+
   function createContributorCard(contributionsData, cardsGroup, cb) {
     contributionsData.forEach(contribution => {
       const card = createAndAppend('a', cardsGroup, {
@@ -57,8 +58,9 @@
         class: 'card-body text-center',
       });
       // The link of the 'followings of a user' is not correct on the api.
-      const followingsUrl = `https://api.github.com/users/${contribution.login}/following`;
-      cb(contribution.followers_url, followingsUrl, contribution.subscriptions_url, cardBody);
+      // const followingsUrl = `https://api.github.com/users/${contribution.login}/following`;
+
+      cb(contribution, cardBody);
       createAndAppend('h5', cardBody, {
         class: 'card-title btn-primary',
         text: contribution.login,
@@ -171,42 +173,38 @@
       });
 
     // dummy values
-    cb(repositoriesData[0], repositoriesData[0].contributors_url);
+    cb(repositoriesData[0]);
 
     // create an eventlistener for select list options
     selectList.addEventListener('change', () => {
       selectList.parentElement.nextElementSibling.innerHTML = '';
-      cb(repositoriesData[selectList.value], repositoriesData[selectList.value].contributors_url);
+      cb(repositoriesData[selectList.value]);
     });
   }
 
   function fetchAllData(url) {
-    fetchJSON(url)
-      .then(repositoriesData => {
-        appendRepositoriesToSelect(repositoriesData, (repositoryObj, contributionsURL) => {
-          createRepositoryLayout(repositoryObj);
-          fetchJSON(contributionsURL).then(contributionsObj => {
-            createContributorsLayout(
-              contributionsObj,
-              (followers, followings, subscriptions, cardBody) => {
-                fetchJSON(followers)
-                  .then(followersArr => {
-                    contributorStats(cardBody, followersArr, 'Followers');
-                    return fetchJSON(followings);
-                  })
-                  .then(followingsArr => {
-                    contributorStats(cardBody, followingsArr, 'Following');
-                    return fetchJSON(subscriptions);
-                  })
-                  .then(subscriptionsArr => {
-                    contributorStats(cardBody, subscriptionsArr, 'Subscriptions');
-                  });
-              },
-            );
+    fetchJSON(url).then(repositoriesData => {
+      appendRepositoriesToSelect(repositoriesData, repositoryObj => {
+        createRepositoryLayout(repositoryObj);
+        fetchJSON(repositoryObj.contributors_url).then(contributionsObj => {
+          createContributorsLayout(contributionsObj, (contributor, cardBody) => {
+            fetchJSON(contributor.followers_url)
+              .then(followersArr => {
+                contributorStats(cardBody, followersArr, 'Followers');
+                return fetchJSON(`https://api.github.com/users/${contributor.login}/following`);
+              })
+              .then(followingsArr => {
+                contributorStats(cardBody, followingsArr, 'Following');
+                return fetchJSON(contributor.subscriptions_url);
+              })
+              .then(subscriptionsArr => {
+                contributorStats(cardBody, subscriptionsArr, 'Subscriptions');
+              })
+              .catch(error => renderError(error));
           });
         });
-      })
-      .catch(error => renderError(error));
+      });
+    });
   }
 
   function createHeader() {
