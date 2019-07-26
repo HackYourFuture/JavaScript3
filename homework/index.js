@@ -154,13 +154,14 @@
         class: 'select_list',
         id: 'repositories_list',
       });
-      createAndAppend('OPTION', selectEl, { text: 'Select one', disabled: 'disabled' });
+      // createAndAppend('OPTION', selectEl, { text: 'Select one', disabled: 'disabled' });
       const repoNames = repositories
         .map(element => element.name)
         .sort((a, b) => a.localeCompare(b));
       repoNames.forEach(element => {
         createAndAppend('OPTION', selectEl, { text: element });
       });
+      viewRepInfo();
       selectEl.addEventListener('change', viewRepInfo);
     });
   }
