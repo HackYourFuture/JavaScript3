@@ -6,10 +6,6 @@
     color: red;
 }
 
-.hidden {
-    display: none;
-}
-
 .header {
     background-color: lightgray;
     min-height: 25px;
@@ -39,7 +35,7 @@
     background-color: gray;
     min-height: 40px;
     margin-top: 4px;
-    */border-radius: 15px;
+    border-radius: 15px;
     color: white;
     display: flex;
     justify-content: space-between;

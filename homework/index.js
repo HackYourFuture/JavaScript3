@@ -78,9 +78,8 @@
     });
   }
 
-  function viewRepoInf(arrayOfObjects, indexNumber) {
+  function viewRepoInfo(arrayOfObjects, indexNumber) {
     const wantedObject = arrayOfObjects[indexNumber];
-
     const infoContainer = document.getElementById('info_container');
     infoContainer.innerHTML = '';
     const infoLeft = createAndAppend('div', infoContainer, {
@@ -151,14 +150,12 @@
 
         return;
       }
-
-      const sortedRepos = repositories.sort((e, t) => e.name.localeCompare(t.name));
-      console.log(repositories.sort((e, t) => e.name.localeCompare(t.name)));
-      sortedRepos.forEach((element, index) => {
+      repositories.sort((a, b) => a.name.localeCompare(b.name));
+      repositories.forEach((element, index) => {
         createAndAppend('option', selectEl, { text: element.name, value: index });
       });
-      viewRepoInf(sortedRepos, selectEl.value);
-      selectEl.addEventListener('change', () => viewRepoInf(sortedRepos, selectEl.value));
+      viewRepoInfo(repositories, selectEl.value);
+      selectEl.addEventListener('change', () => viewRepoInfo(repositories, selectEl.value));
     });
   }
 
