@@ -6,6 +6,10 @@
     color: red;
 }
 
+.select_list {
+    min-width: 80px;
+}
+
 .header {
     background-color: lightgray;
     min-height: 25px;

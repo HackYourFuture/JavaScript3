@@ -1,6 +1,5 @@
 'use strict';
 
-// modifying
 {
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
@@ -151,8 +150,8 @@
         return;
       }
       repositories.sort((a, b) => a.name.localeCompare(b.name));
-      repositories.forEach((element, index) => {
-        createAndAppend('option', selectEl, { text: element.name, value: index });
+      repositories.forEach((repo, index) => {
+        createAndAppend('option', selectEl, { text: repo.name, value: index });
       });
       viewRepoInfo(repositories, selectEl.value);
       selectEl.addEventListener('change', () => viewRepoInfo(repositories, selectEl.value));
