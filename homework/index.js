@@ -15,6 +15,20 @@
     return elem;
   }
 
+  function addRow(tbody, label, value) {
+    const tr = createAndAppend('tr', tbody);
+    createAndAppend('td', tr, { text: `${label}:`, class: 'label' });
+    createAndAppend('td', tr, { text: value });
+  }
+
+  function addHref(value, parent, text) {
+    createAndAppend('a', value, {
+      href: parent.html_url,
+      target: '_blank',
+      text: `${text}`,
+    });
+  }
+
   function fetchJSON(url, cb) {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url);
@@ -41,23 +55,11 @@
       const tr1 = createAndAppend('tr', tbody);
       createAndAppend('td', tr1, { text: 'Repository:', class: 'label' });
       createAndAppend('td', tr1);
-      createAndAppend('a', tr1.lastChild, {
-        href: repoInfo.html_url,
-        target: '_blank',
-        text: repoInfo.name,
-      });
+      addHref(tr1.lastChild, repoInfo, repoInfo.name);
 
-      const tr2 = createAndAppend('tr', tbody);
-      createAndAppend('td', tr2, { text: 'Description:', class: 'label' });
-      createAndAppend('td', tr2, { text: `${repoInfo.description}` });
-
-      const tr3 = createAndAppend('tr', tbody);
-      createAndAppend('td', tr3, { text: 'Forks:', class: 'label' });
-      createAndAppend('td', tr3, { text: `${repoInfo.forks}` });
-
-      const tr4 = createAndAppend('tr', tbody);
-      createAndAppend('td', tr4, { text: 'Updated:', class: 'label' });
-      createAndAppend('td', tr4, { text: new Date(repoInfo.updated_at).toLocaleString() });
+      addRow(tbody, 'Description', repoInfo.description);
+      addRow(tbody, 'Forks', repoInfo.forks);
+      addRow(tbody, 'Updated', new Date(repoInfo.updated_at).toLocaleString());
     });
   }
 
@@ -72,11 +74,7 @@
           alt: `${contributor.login} photo`,
         });
         createAndAppend('h1', listItems);
-        createAndAppend('a', listItems.lastChild, {
-          href: contributor.html_url,
-          target: '_blank',
-          text: `${contributor.login}`,
-        });
+        addHref(listItems.lastChild, contributor, contributor.login);
         createAndAppend('p', listItems, { text: `${contributor.contributions}` });
       });
     });
