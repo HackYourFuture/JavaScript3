@@ -1,3 +1,137 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  width: 230px;
+  margin-right: auto;
+  background-color: #e9e3e3;
+}
+
 .alert-error {
-    color: red;
+  color: red;
+  font-size: 2rem;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.header {
+  display: flex;
+  align-items: stretch;
+  background-color: rgb(73, 73, 158);
+  width: 80rem;
+  margin-left: 2.5rem;
+}
+
+.header h1 {
+  font-size: 1.5rem;
+  color: whitesmoke;
+  padding: 1.5rem;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.label {
+  font-weight: bolder;
+}
+
+select {
+  margin-left: 50px;
+  margin-top: 2rem;
+  font-size: 14px;
+  width: 20rem;
+  height: 32px;
+  border-radius: 10px;
+}
+
+#li1 {
+  margin-bottom: 8px;
+  border: none;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
+    0 3px 3px -2px rgba(0, 0, 0, 0.12);
+  margin-left: 2rem;
+  width: 450px;
+  list-style-type: none;
+}
+
+td {
+  padding: 10px;
+  vertical-align: top;
+}
+
+.li-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.li2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  width: 650px;
+  border: none;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14),
+    0 3px 3px -2px rgba(0, 0, 0, 0.12);
+}
+
+.info-section-div {
+  display: flex;
+  align-items: flex-start;
+}
+
+.li2 img {
+  width: 70px;
+  height: 70px;
+  border-radius: 29px 29px 29px 29px;
+}
+
+.li2 p {
+  width: 2rem;
+  text-align: center;
+  background-color: #646262;
+  color: whitesmoke;
+  border-radius: 25px 25px 25px 25px;
+}
+
+.li2 h1 {
+  font-size: 1.2rem;
+}
+
+@media screen and (max-width: 480px) {
+  .header {
+    display: flex;
+    flex-direction: column;
+    width: 25rem;
+    margin: auto;
+  }
+  .header h1 {
+    font-size: 2.5rem;
+    color: whitesmoke;
+    padding: 1.5rem;
+  }
+  select {
+    margin: auto;
+  }
+  .info-section-div {
+    display: flex;
+    flex-direction: column;
+    max-width: 25rem;
+  }
 }
