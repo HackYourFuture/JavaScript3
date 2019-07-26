@@ -41,25 +41,27 @@
       class: 'alert alert-danger display-3 text-center',
     });
   }
-
-  function createContributorCard(contributorsData, cardsGroup) {
-    contributorsData.forEach(contributor => {
+  function createContributorCard(contributionsData, cardsGroup, cb) {
+    contributionsData.forEach(contribution => {
       const card = createAndAppend('a', cardsGroup, {
         class: 'card border border-danger shadow-lg mb-3 mx-2',
-        href: contributor.html_url,
+        href: contribution.html_url,
         target: '_blank',
       });
       createAndAppend('img', card, {
         class: 'card-img-top',
-        src: contributor.avatar_url,
-        alt: `${contributor.login}'s avatar`,
+        src: contribution.avatar_url,
+        alt: `${contribution.login}'s avatar`,
       });
       const cardBody = createAndAppend('div', card, {
         class: 'card-body text-center',
       });
+      // The link of the 'followings of a user' is not correct on the api.
+      const followingsUrl = `https://api.github.com/users/${contribution.login}/following`;
+      cb(contribution.followers_url, followingsUrl, contribution.subscriptions_url, cardBody);
       createAndAppend('h5', cardBody, {
         class: 'card-title btn-primary',
-        text: contributor.login,
+        text: contribution.login,
       });
       const contributionInfo = createAndAppend('p', cardBody, {
         class: 'card-text btn btn-danger d-flex justify-content-between rounded-0',
@@ -67,12 +69,12 @@
       });
       createAndAppend('span', contributionInfo, {
         class: 'card-text badge badge-light d-flex justify-content-between ',
-        text: contributor.contributions,
+        text: contribution.contributions,
       });
     });
   }
 
-  function createContributorsLayout(contributorsData) {
+  function createContributorsLayout(contributionsData, cb) {
     const mainParent = document.getElementById('main');
     const contributionCardsContainer = createAndAppend('div', mainParent, {
       id: 'repo-contributor',
@@ -80,7 +82,7 @@
     const cardsGroup = createAndAppend('div', contributionCardsContainer, {
       class: 'card-group d-flex container-fluid',
     });
-    createContributorCard(contributorsData, cardsGroup);
+    createContributorCard(contributionsData, cardsGroup, cb);
   }
 
   function createRepositoryWidget(container, options = {}) {
@@ -108,38 +110,37 @@
       class: 'd-flex flex-column repo-detail',
       id: 'repo-detail',
     });
-
+    //
     const widgetContainer = createRepositoryWidget(leftColumn, {
       faClasses: 'fab fa-github',
       title: 'Repository Name:',
       value: repositoriesData.name,
       valueTag: 'a',
     });
-
     const anchorTag = widgetContainer.lastChild;
     anchorTag.setAttribute('href', repositoriesData.html_url);
     anchorTag.setAttribute('target', '_blank');
-
+    //
     createRepositoryWidget(leftColumn, {
       faClasses: 'fas fa-pen-alt',
       title: 'Description',
       value: repositoriesData.description,
     });
-
+    //
     const createdDate = new Date(repositoriesData.created_at).toDateString();
     createRepositoryWidget(leftColumn, {
       faClasses: 'fas fa-calendar-plus',
       title: 'Created',
       value: createdDate,
     });
-
+    //
     const updatedDate = new Date(repositoriesData.updated_at).toDateString();
     createRepositoryWidget(leftColumn, {
       faClasses: 'fas fa-clock',
       title: 'Updated',
       value: updatedDate,
     });
-
+    //
     createRepositoryWidget(leftColumn, {
       faClasses: 'fas fa-code-branch',
       title: 'Forks',
@@ -147,6 +148,17 @@
     });
   }
 
+  function contributorStats(cardBody, dataArr, textValue) {
+    const parent = createAndAppend('p', cardBody, {
+      class: 'card-text btn btn-danger d-flex justify-content-between rounded-0',
+      text: `${textValue}:`,
+    });
+    createAndAppend('span', parent, {
+      class: 'card-text badge badge-light d-flex justify-content-between ',
+      text: dataArr.length,
+    });
+  }
+  //
   function appendRepositoriesToSelect(repositoriesData, cb) {
     const selectList = document.getElementById('repo-select');
     repositoriesData
@@ -168,13 +180,29 @@
     });
   }
 
-  function fetchRepositoriesAndContributors(url) {
+  function fetchAllData(url) {
     fetchJSON(url)
       .then(repositoriesData => {
-        appendRepositoriesToSelect(repositoriesData, (repositoryObj, contributorURL) => {
+        appendRepositoriesToSelect(repositoriesData, (repositoryObj, contributionsURL) => {
           createRepositoryLayout(repositoryObj);
-          fetchJSON(contributorURL).then(contributorData => {
-            createContributorsLayout(contributorData);
+          fetchJSON(contributionsURL).then(contributionsObj => {
+            createContributorsLayout(
+              contributionsObj,
+              (followers, followings, subscriptions, cardBody) => {
+                fetchJSON(followers)
+                  .then(followersArr => {
+                    contributorStats(cardBody, followersArr, 'Followers');
+                    return fetchJSON(followings);
+                  })
+                  .then(followingsArr => {
+                    contributorStats(cardBody, followingsArr, 'Following');
+                    return fetchJSON(subscriptions);
+                  })
+                  .then(subscriptionsArr => {
+                    contributorStats(cardBody, subscriptionsArr, 'Subscriptions');
+                  });
+              },
+            );
           });
         });
       })
@@ -211,7 +239,7 @@
 
   function main(url) {
     createHeader();
-    fetchRepositoriesAndContributors(url);
+    fetchAllData(url);
   }
   window.onload = () => main(HYF_REPOS_URL);
 }
