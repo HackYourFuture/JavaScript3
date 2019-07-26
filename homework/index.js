@@ -54,7 +54,7 @@
       const trName = createAndAppend('tr', tbody);
       createAndAppend('th', trName, { text: 'Repository:' });
       const tdName = createAndAppend('td', trName);
-      createAndAppend('a', tdName, { text: repo.name, href: repo.html_url });
+      createAndAppend('a', tdName, { text: repo.name, href: repo.html_url, target: '_blank' });
       const trDes = createAndAppend('tr', tbody);
       createAndAppend('th', trDes, { text: 'Description:' });
       createAndAppend('td', trDes, { text: repo.description });
@@ -88,6 +88,7 @@
         createAndAppend('a', contributorNameH4, {
           text: contributor.login,
           href: contributor.html_url,
+          target: '_blank',
         });
         createAndAppend('td', contributorTr, { text: contributor.contributions, class: 'num' });
       });
