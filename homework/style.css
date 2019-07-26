@@ -5,6 +5,7 @@
 
 body {
   font-family: 'Roboto';
+  background-color: rgba(204, 255, 204, 0.363);
 }
 
 #hyfText {
@@ -29,16 +30,18 @@ body {
   top: -55px;
   margin-right: 10px;
   font-size: 1.2em;
+  clear: both;
 }
 
 @media screen and (max-width: 768px) {
   #selectButton {
     all: initial;
+    background-color: white;
     font-family: 'Roboto';
     width: 100%;
     height: 50px;
     font-size: 1.2em;
-    border: 4px solid black;
+    border: 2px solid black;
     box-sizing: border-box;
   }
 }
@@ -54,6 +57,12 @@ body {
   #bodyDiv {
     flex-direction: column;
   }
+}
+
+.contributors-div {
+  width: 30%;
+  margin-top: 25px;
+  margin-bottom: 5px;
 }
 
 ul {
@@ -76,8 +85,11 @@ a:hover {
   height: 60px;
 }
 
+h4 {
+  padding: 10px;
+}
+
 .repoInfoList {
-  box-sizing: border-box;
   width: 60%;
 }
 
@@ -88,11 +100,10 @@ a:hover {
 }
 
 .contrList {
-  display: table-cell;
-  flex-direction: column;
-  width: 30%;
-  float: right;
-  clear: both;
+  display: table;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 0 5px 0.5px rgb(209, 208, 208);
 }
 
 .contrList li {
@@ -104,12 +115,13 @@ a:hover {
   position: relative;
   bottom: 20px;
   left: 15%;
+  font-size: 2vw;
 }
 
 .contrList span {
   float: right;
   position: relative;
-  bottom: -10px;
+  bottom: -20px;
   padding: 10px;
   background-color: rgb(99, 95, 95);
   color: white;
@@ -120,10 +132,16 @@ a:hover {
   .contrList {
     width: 100%;
   }
+
+  .contrList li a {
+    font-size: 3vw;
+  }
 }
 
 table {
   box-shadow: 0 0 5px 0.5px rgb(209, 208, 208);
+  background-color: white;
+  box-sizing: content-box;
 }
 
 table:hover {
@@ -136,14 +154,11 @@ table td {
 }
 
 .infoTable {
-  margin: 10px;
+  margin-top: 20px;
+  padding: 20px;
   font-size: 1.5em;
+  float: right;
   width: 100%;
-}
-
-.contributors-table {
-  margin: 10px;
-  padding: 15px;
 }
 
 .explanations {

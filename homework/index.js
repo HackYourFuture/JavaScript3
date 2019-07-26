@@ -90,6 +90,7 @@
       }
 
       ul.innerHTML = ' ';
+      createAndAppend('h4', ul, { text: 'Contributors' });
       contributorDetails.forEach(contributor => {
         const li = createAndAppend('li', ul);
         createAndAppend('img', li, {
@@ -115,7 +116,8 @@
     createAndAppend('p', root, { text: 'HYF Repositories', id: 'hyfText' });
     const select = createAndAppend('select', root, { id: 'selectButton' });
     const ul = createAndAppend('ul', bodyDiv, { class: 'repoInfoList' });
-    const contrList = createAndAppend('ul', bodyDiv, { class: 'contrList' });
+    const contrDiv = createAndAppend('div', bodyDiv, { class: 'contributors-div' });
+    const contrList = createAndAppend('ul', contrDiv, { class: 'contrList' });
 
     fetchJSON(url, (err, repositories) => {
       if (err) {
