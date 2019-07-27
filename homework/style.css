@@ -7,6 +7,10 @@
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
+a {
+  color: #000;
+}
+
 img {
   height: 60px;
 }
@@ -83,12 +87,9 @@ tr {
 }
 .list {
   padding-bottom: 15px;
-  margin-bottom: 10px;
+  margin-top: 15px;
   justify-content: space-around;
-  border-bottom: 1px #cecccc solid;
-}
-.list:last-child {
-  border-bottom: none;
+  border-bottom: solid 1px #cecccc;
 }
 .contributor-info {
   width: calc(100% - 2 * 70px);
