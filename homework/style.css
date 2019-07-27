@@ -1,3 +1,15 @@
 .alert-error {
     color: red;
-}
+  }
+  .portion-parent,
+  .rightParent {
+    display: flex;
+    margin: 30px;
+  }
+  .rightParent p {
+    padding: 10px;
+  }
+  img {
+    width: 100px;
+  }
+  
