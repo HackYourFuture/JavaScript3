@@ -64,22 +64,14 @@ function main(url) {
       for (let i = 0; i < repositories.length; i++) {
         if (repositories[i].name == reponame) {
           let repo = repositories[i];
-          //console.log(repo);
           leftPortion.innerHTML = '';
           createAndAppend('p', leftPortion, { text: repo.name });
           createAndAppend('p', leftPortion, { text: repo.description });
           createAndAppend('p', leftPortion, { text: repo.forks });
           createAndAppend('p', leftPortion, { text: repo.updated_at });
-          // console.log(repo.name);
-          // console.log(repo.description);
-          // console.log(repo.forks);
-          // console.log(repo.updated_at);
-
           let contUrl = repo.contributors_url;
           fetchJSON(contUrl, (cerr, cont_list) => {
             rightPortion.innerHTML = '';
-            console.log(cont_list);
-
             for (let i = 0; i < cont_list.length; i++) {
               createAndAppend('div', rightPortion, {
                 class: 'rightParent',
@@ -104,7 +96,6 @@ function main(url) {
 }
 
 function displayDetails(repositories, value) {
-  console.log(value);
 }
 
 const HYF_REPOS_URL =
