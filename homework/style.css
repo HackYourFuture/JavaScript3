@@ -66,6 +66,7 @@
 .p-info-left {
     font-weight: bold;
     display: table;
+    text-align: left;
 }
 
 .span-info-left,
@@ -74,6 +75,7 @@
     padding-left: 8px;
     color: black;
     display: table-cell;
+    text-align: left;
 }
 
 .hr-contributor {
