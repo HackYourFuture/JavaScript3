@@ -75,9 +75,9 @@ function main(url) {
             for (let j = 0; j < contList.length; j++) {
               createAndAppend('div', rightPortion, {
                 class: 'rightParent',
-                id: 'contList' + [j],
+                id: `contList${[j]}`,
               });
-              const rightParent = document.getElementById('contList' + j);
+              const rightParent = document.getElementById(`contList${j}`);
               createAndAppend('img', rightParent, {
                 src: contList[j].avatar_url,
               });
