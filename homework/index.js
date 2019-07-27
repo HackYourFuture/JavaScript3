@@ -37,41 +37,35 @@
     container.innerHTML = '';
     createAndAppend('div', container, {
       text: error.message,
-      class: 'error',
+      class: 'alert-error',
     });
+  }
+
+  function addRow(table, text, value) {
+    const tableRow = createAndAppend('tr', table);
+    createAndAppend('th', tableRow, {
+      text: text,
+      class: 'table-header',
+    });
+    createAndAppend('td', tableRow, {
+      text: value,
+    });
+    return tableRow;
   }
 
   function showRepositoryInfo(repository) {
     const leftHand = document.getElementById('left-hand');
     leftHand.innerHTML = '';
     const tableElement = createAndAppend('table', leftHand);
-    const rowForName = createAndAppend('tr', tableElement);
-    createAndAppend('th', rowForName, {
-      text: 'Repository:',
-    });
-    const tdForName = createAndAppend('td', rowForName);
-    createAndAppend('a', tdForName, {
+    const rowElement = addRow(tableElement, 'Repository:', '');
+    createAndAppend('a', rowElement.lastChild, {
       href: repository.html_url,
       target: '_blank',
       text: repository.name,
     });
-    const rowForDescription = createAndAppend('tr', tableElement);
-    createAndAppend('th', rowForDescription, {
-      text: 'Description:',
-    });
-    createAndAppend('td', rowForDescription, { text: repository.description });
-    const rowForForks = createAndAppend('tr', tableElement);
-    createAndAppend('th', rowForForks, {
-      text: 'Forks:',
-    });
-    createAndAppend('td', rowForForks, { text: repository.forks_count });
-    const rowForUpdated = createAndAppend('tr', tableElement);
-    createAndAppend('th', rowForUpdated, {
-      text: 'Updated:',
-    });
-    createAndAppend('td', rowForUpdated, {
-      text: new Date(repository.updated_at).toLocaleString('en-GB'),
-    });
+    addRow(tableElement, 'Description:', repository.description);
+    addRow(tableElement, 'Forks:', repository.forks_count);
+    addRow(tableElement, 'Updated:', new Date(repository.updated_at).toLocaleString('en-GB'));
   }
 
   function setRepository(repository) {
@@ -96,21 +90,23 @@
         const liElement = createAndAppend('li', ulElement, {
           class: 'contributors',
         });
-        createAndAppend('img', liElement, {
+        const anchorElement = createAndAppend('a', liElement, {
+          href: elem.html_url,
+          target: '_blank',
+          class: 'liLink',
+        });
+        createAndAppend('img', anchorElement, {
           class: 'user-image',
           src: elem.avatar_url,
         });
-        createAndAppend('span', liElement, {
+        createAndAppend('span', anchorElement, {
           class: 'login',
           text: elem.login,
         });
-        createAndAppend('span', liElement, {
+        createAndAppend('span', anchorElement, {
           class: 'counter',
           text: elem.contributions,
         });
-        liElement.onclick = () => {
-          window.open(elem.html_url, '_blank');
-        };
       });
     });
   }
@@ -134,7 +130,6 @@
         renderError(error);
         return;
       }
-      createAndAppend('option', select, { text: 'Select repository', disabled: 'disabled' });
       repositories.sort((a, b) => a.name.localeCompare(b.name));
       repositories.forEach((elem, index) => {
         createAndAppend('option', select, {
@@ -146,10 +141,12 @@
         class: 'left-hand',
         id: 'left-hand',
       });
+      showRepositoryInfo(repositories[select.value]);
       createAndAppend('section', divElement, {
         class: 'right-hand',
         id: 'right-hand',
       });
+      setRepository(repositories[select.value]);
       select.addEventListener('change', () => {
         showRepositoryInfo(repositories[select.value]);
         setRepository(repositories[select.value]);
