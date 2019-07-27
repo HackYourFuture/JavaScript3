@@ -36,54 +36,54 @@ function main(url) {
       createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       return;
     }
-    let repNames = [];
+    const repNames = [];
     createAndAppend('select', root, { id: 'main-select' });
     createAndAppend('div', root, { class: 'portion-parent', id: 'parent' });
-    let parent = document.getElementById('parent');
+    const parent = document.getElementById('parent');
     createAndAppend('div', parent, { class: 'left-portion', id: 'lft' });
     createAndAppend('div', parent, { class: 'right-portion', id: 'rt' });
 
-    let leftPortion = document.getElementById('lft');
-    let rightPortion = document.getElementById('rt');
+    const leftPortion = document.getElementById('lft');
+    const rightPortion = document.getElementById('rt');
     for (let i = 0; i < repositories.length; i++) {
-      let rep = repositories[i];
+      const rep = repositories[i];
       repNames.push(rep.name);
     }
-    let selectItem = document.getElementById('main-select');
+    const selectItem = document.getElementById('main-select');
 
     repNames.sort();
     for (let i = 0; i < repNames.length; i++) {
       createAndAppend('option', selectItem, {
         value: i,
-        text: repNames[i]
+        text: repNames[i],
       });
     }
     selectItem.selectedIndex = 0;
     selectItem.addEventListener('change', () => {
-      let reponame = selectItem.options[selectItem.selectedIndex].text;
+      const reponame = selectItem.options[selectItem.selectedIndex].text;
       for (let i = 0; i < repositories.length; i++) {
-        if (repositories[i].name == reponame) {
-          let repo = repositories[i];
+        if (repositories[i].name === reponame) {
+          const repo = repositories[i];
           leftPortion.innerHTML = '';
           createAndAppend('p', leftPortion, { text: repo.name });
           createAndAppend('p', leftPortion, { text: repo.description });
           createAndAppend('p', leftPortion, { text: repo.forks });
           createAndAppend('p', leftPortion, { text: repo.updated_at });
-          let contUrl = repo.contributors_url;
-          fetchJSON(contUrl, (cerr, cont_list) => {
+          const contUrl = repo.contributors_url;
+          fetchJSON(contUrl, (cerr, cont_List) => {
             rightPortion.innerHTML = '';
-            for (let i = 0; i < cont_list.length; i++) {
+            for (let j = 0; j < cont_List.length; j++) {
               createAndAppend('div', rightPortion, {
                 class: 'rightParent',
-                id: 'contList' + i
+                id: 'contList' + [j]
               });
-              let rightParent = document.getElementById('contList' + i);
+              const rightParent = document.getElementById('contList' + j);
               createAndAppend('img', rightParent, {
-                src: cont_list[i].avatar_url
+                src: cont_List[j].avatar_url,
               });
-              createAndAppend('p', rightParent, { text: cont_list[i].login });
+              createAndAppend('p', rightParent, { text: cont_List[j].login });
               createAndAppend('p', rightParent, {
-                text: cont_list[i].contributions
+                text: cont_List[j].contributions,
               });
             }
           });
@@ -93,9 +93,6 @@ function main(url) {
 
     // createAndAppend('pre', root, {text: JSON.stringify(repositories, null, 2)});
   });
-}
-
-function displayDetails(repositories, value) {
 }
 
 const HYF_REPOS_URL =
