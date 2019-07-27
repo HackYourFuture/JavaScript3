@@ -70,20 +70,20 @@ function main(url) {
           createAndAppend('p', leftPortion, { text: repo.forks });
           createAndAppend('p', leftPortion, { text: repo.updated_at });
           const contUrl = repo.contributors_url;
-          fetchJSON(contUrl, (cerr, cont_List) => {
+          fetchJSON(contUrl, (cerr, contList) => {
             rightPortion.innerHTML = '';
-            for (let j = 0; j < cont_List.length; j++) {
+            for (let j = 0; j < contList.length; j++) {
               createAndAppend('div', rightPortion, {
                 class: 'rightParent',
-                id: 'contList' + [j]
+                id: 'contList' + [j],
               });
               const rightParent = document.getElementById('contList' + j);
               createAndAppend('img', rightParent, {
-                src: cont_List[j].avatar_url,
+                src: contList[j].avatar_url,
               });
-              createAndAppend('p', rightParent, { text: cont_List[j].login });
+              createAndAppend('p', rightParent, { text: contList[j].login });
               createAndAppend('p', rightParent, {
-                text: cont_List[j].contributions,
+                text: contList[j].contributions,
               });
             }
           });
@@ -94,8 +94,6 @@ function main(url) {
     // createAndAppend('pre', root, {text: JSON.stringify(repositories, null, 2)});
   });
 }
-
-const HYF_REPOS_URL =
-  'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
 window.onload = () => main(HYF_REPOS_URL);
