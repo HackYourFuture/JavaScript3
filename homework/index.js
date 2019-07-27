@@ -159,26 +159,26 @@
       });
 
     // dummy values
-    cb(repositoriesData[0], repositoriesData[0].contributors_url);
+    cb(repositoriesData[0]);
 
     // create an eventlistener for select list options
     selectList.addEventListener('change', () => {
       selectList.parentElement.nextElementSibling.innerHTML = '';
-      cb(repositoriesData[selectList.value], repositoriesData[selectList.value].contributors_url);
+      cb(repositoriesData[selectList.value]);
     });
   }
 
   function fetchRepositoriesAndContributors(url) {
-    fetchJSON(url)
-      .then(repositoriesData => {
-        appendRepositoriesToSelect(repositoriesData, (repositoryObj, contributorURL) => {
-          createRepositoryLayout(repositoryObj);
-          fetchJSON(contributorURL).then(contributorData => {
+    fetchJSON(url).then(repositoriesData => {
+      appendRepositoriesToSelect(repositoriesData, repositoryObj => {
+        createRepositoryLayout(repositoryObj);
+        fetchJSON(repositoryObj.contributors_url)
+          .then(contributorData => {
             createContributorsLayout(contributorData);
-          });
-        });
-      })
-      .catch(error => renderError(error));
+          })
+          .catch(error => renderError(error));
+      });
+    });
   }
 
   function createHeader() {
