@@ -6,7 +6,7 @@
     color: red;
 }
 
-.select_list {
+.select-list {
     min-width: 80px;
 }
 
@@ -30,12 +30,12 @@
     margin: auto;
 }
 
-.page_title,
-.select_list {
+.page-title,
+.slect-list {
     margin: 10px;
 }
 
-.info_container {
+.info-container {
     background-color: gray;
     min-height: 40px;
     margin-top: 4px;
@@ -45,8 +45,8 @@
     justify-content: space-between;
 }
 
-.info_right,
-.info_left {
+.info-right,
+.info-left {
     background-color: lightgray;
     padding: 15px;
     border-radius: 15px;
@@ -55,30 +55,32 @@
     font-weight: bolder;
 }
 
-.info_right {
+.info-right {
     width: calc(40% - 10px);
 }
 
-.info_left {
+.info-left {
     width: calc(60% - 10px);
 }
 
-.p_infoLeft {
+.p-info-left {
     font-weight: bold;
+    display: table;
 }
 
-.span_infoLeft,
-.rep_link {
+.span-info-left,
+.repo-link {
     font-weight: normal;
     padding-left: 8px;
     color: black;
+    display: table-cell;
 }
 
-.hr_contributor {
+.hr-contributor {
     border: 1px solid gray;
 }
 
-.Contributor_el {
+.contributor-link {
     margin-top: 10px;
     margin-bottom: 10px;
     overflow: auto;
@@ -87,26 +89,26 @@
     color: black;
 }
 
-.Contributor_data_div {
+.contributor-data-div {
     overflow: auto;
 }
 
-.Contributor_name {
+.contributor-name {
     float: left;
     padding: 5px;
     margin-left: 5px;
     font-weight: normal;
 }
 
-.Contributor_img_div {
+.contributor-img-div {
     float: left;
 }
 
-.Contributor_img {
+.contributor-img {
     border-radius: 5px;
 }
 
-.Contributor_contributions {
+.contributor-contributions {
     border: 2px solid gray;
     border-radius: 5px;
     float: right;
@@ -115,16 +117,16 @@
 
 @media (max-width: 767px) {
     .header,
-    .info_container {
+    .info-container {
         flex-direction: column;
         text-align: center;
     }
-    .select_container {
+    .select-container {
         text-align: center;
         width: 100%;
     }
-    .info_right,
-    .info_left {
+    .info-right,
+    .info-left {
         width: 100%;
         margin: auto;
         margin-top: 10px;
@@ -133,6 +135,7 @@
 
 @media (min-width: 1024px) {
     .root {
+        margin-top: 25px;
         width: 70%;
     }
 }
