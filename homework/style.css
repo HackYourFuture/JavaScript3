@@ -73,6 +73,7 @@ ul {
   padding: 10px;
   border-bottom: 1px solid black;
   align-items: center;
+  text-decoration: none;
 }
 
 li:hover {
@@ -97,6 +98,7 @@ img {
   padding: 5px;
   border-radius: 10px;
   color: #fff;
+  font-weight: bold;
 }
 
 .alert-error {
