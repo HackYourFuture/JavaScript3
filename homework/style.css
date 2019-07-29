@@ -27,7 +27,9 @@ body {
 
 .alert {
   color: #fd2323;
-  padding: 2rem;
+  padding: 20px;
+  background-color: #FFFF00;
+  font-weight: bold;
 }
 
 select {
@@ -51,6 +53,7 @@ select:focus {
   display: flex;
   flex-flow: row nowrap;
   align-items: flex-start;
+  justify-content: space-around;
   width: 80%;
   padding: 50px;
 }
@@ -81,6 +84,7 @@ select:focus {
   list-style: none;
   border-bottom: 1px solid #c0bebe;
   padding: 0.5rem;
+  cursor: pointer;
 }
 
 h2 {
@@ -102,4 +106,14 @@ h2 {
 .contrib-name {
   padding: 0.5rem;
   color: #9e2a2a;
+}
+
+@media screen and (max-width: 300px) {
+  main#container {
+    flex-flow: column nowrap;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+
 }
