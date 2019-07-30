@@ -48,24 +48,18 @@
   }
 
   function renderRepos(repo, div) {
-    fetchJSON(HYF_REPOS_URL, err => {
-      if (err) {
-        renderError(err);
-        return;
-      }
-      div.innerHTML = '';
-      const table = createAndAppend('table', div);
-      const tbody = createAndAppend('tbody', table);
-      const firstRow = addRow(tbody, 'Name', '');
-      createAndAppend('a', firstRow.lastChild, {
-        href: repo.html_url,
-        text: repo.name,
-        target: `_blank`,
-      });
-      addRow(tbody, 'Description', repo.description);
-      addRow(tbody, 'Forks', repo.forks);
-      addRow(tbody, 'Updated', new Date(repo.updated_at).toLocaleString('en-GB'));
+    div.innerHTML = '';
+    const table = createAndAppend('table', div);
+    const tbody = createAndAppend('tbody', table);
+    const firstRow = addRow(tbody, 'Name', '');
+    createAndAppend('a', firstRow.lastChild, {
+      href: repo.html_url,
+      text: repo.name,
+      target: `_blank`,
     });
+    addRow(tbody, 'Description', repo.description);
+    addRow(tbody, 'Forks', repo.forks);
+    addRow(tbody, 'Updated', new Date(repo.updated_at).toLocaleString('en-GB'));
   }
 
   function renderContributions(repo, ul) {
@@ -76,15 +70,15 @@
       }
       ul.innerHTML = '';
       createAndAppend('h3', ul, { text: `Contributors:` });
-      contributors.forEach(item => {
-        const a = createAndAppend('a', ul, { href: item.html_url, target: '_blank' });
+      contributors.forEach(contributor => {
+        const a = createAndAppend('a', ul, { href: contributor.html_url, target: '_blank' });
         const li = createAndAppend('li', a);
         const table = createAndAppend('table', li);
         const tbody = createAndAppend('tbody', table);
         const tr1 = createAndAppend('tr', tbody);
-        createAndAppend('img', tr1, { src: item.avatar_url });
-        createAndAppend('td', tr1, { text: item.login });
-        createAndAppend('td', tr1, { text: item.contributions });
+        createAndAppend('img', tr1, { src: contributor.avatar_url });
+        createAndAppend('td', tr1, { text: contributor.login });
+        createAndAppend('td', tr1, { text: contributor.contributions });
       });
     });
   }
