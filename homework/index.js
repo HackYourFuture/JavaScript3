@@ -19,8 +19,25 @@
     return elem;
   }
   // ********************************************************
+  const root = document.getElementById('root');
+  const header = createAndAppend('header', root, {
+    class: 'header',
+  });
+  createAndAppend('span', header, {
+    class: 'page-title',
+    text: 'HYF Repositories',
+  });
+  const selectEl = createAndAppend('select', header, {
+    class: 'select-list',
+    id: 'repositories_list',
+  });
+  const infoContainer = createAndAppend('div', root, {
+    id: 'info_container',
+    class: 'info-container',
+  });
+
+  // ********************************************************
   function renderError(error) {
-    const root = document.getElementById('root');
     createAndAppend('h1', root, { text: error.message });
   }
   // *****************************************************
@@ -39,8 +56,7 @@
     xhr.send();
   }
   // *********************************************************
-  function ShowContributions(urlText) {
-    const infoContainer = document.getElementById('info_container');
+  function showContributions(urlText) {
     const infoRight = createAndAppend('div', infoContainer, {
       class: 'info-right',
       text: 'Contributions:',
@@ -79,9 +95,7 @@
     });
   }
   // *************************************************
-  function ShowRepoInfo(wantedRepo) {
-    const infoContainer = document.getElementById('info_container');
-    infoContainer.innerHTML = '';
+  function showRepoInfo(wantedRepo) {
     const infoLeft = createAndAppend('div', infoContainer, {
       class: 'info-left',
       text: 'Repository information:',
@@ -121,24 +135,12 @@
       text: new Date(wantedRepo.updated_at).toLocaleString(),
     });
   }
+  // ************************************
+  const clearinfoContainer = () => {
+    infoContainer.innerHTML = '';
+  };
   // *****************************************
   function starter(url) {
-    const root = document.getElementById('root');
-    const header = createAndAppend('header', root, {
-      class: 'header',
-    });
-    createAndAppend('span', header, {
-      class: 'page-title',
-      text: 'HYF Repositories',
-    });
-    const selectEl = createAndAppend('select', header, {
-      class: 'select-list',
-      id: 'repositories_list',
-    });
-    const infoContainer = createAndAppend('div', root, {
-      id: 'info_container',
-      class: 'info-container',
-    });
     fetchJSON(url, (err, repositories) => {
       if (err) {
         infoContainer.innerHTML = '';
@@ -146,18 +148,18 @@
           text: err.message,
           class: 'alert-error',
         });
-
         return;
       }
       repositories.sort((a, b) => a.name.localeCompare(b.name));
       repositories.forEach((repo, index) => {
         createAndAppend('option', selectEl, { text: repo.name, value: index });
       });
-      ShowRepoInfo(repositories[selectEl.value]);
-      ShowContributions(repositories[selectEl.value].contributors_url);
+      showRepoInfo(repositories[selectEl.value]);
+      showContributions(repositories[selectEl.value].contributors_url);
       selectEl.addEventListener('change', () => {
-        ShowRepoInfo(repositories[selectEl.value]);
-        setTimeout(ShowContributions(repositories[selectEl.value].contributors_url), 0);
+        clearinfoContainer();
+        showRepoInfo(repositories[selectEl.value]);
+        setTimeout(showContributions(repositories[selectEl.value].contributors_url), 0);
       });
     });
   }
