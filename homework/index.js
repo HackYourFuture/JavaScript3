@@ -71,9 +71,9 @@
       ul.innerHTML = '';
       createAndAppend('h3', ul, { text: `Contributors:` });
       contributors.forEach(contributor => {
-        const a = createAndAppend('a', ul, { href: contributor.html_url, target: '_blank' });
-        const li = createAndAppend('li', a);
-        const table = createAndAppend('table', li);
+        const li = createAndAppend('li', ul);
+        const a = createAndAppend('a', li, { href: contributor.html_url, target: '_blank' });
+        const table = createAndAppend('table', a);
         const tbody = createAndAppend('tbody', table);
         const tr1 = createAndAppend('tr', tbody);
         createAndAppend('img', tr1, { src: contributor.avatar_url });
@@ -97,9 +97,9 @@
     createAndAppend('h1', header, { text: 'HYF Repositories' });
     const select = createAndAppend('select', header);
     const mainContainer = createAndAppend('div', root, { id: `main-container` });
-    const div1 = createAndAppend('div', mainContainer, { id: 'table-container' });
-    const div2 = createAndAppend('div', mainContainer, { id: 'list-container' });
-    const ul = createAndAppend('ul', div2, { id: 'list-contributions' });
+    const tableContainer = createAndAppend('div', mainContainer, { id: 'table-container' });
+    const listContainer = createAndAppend('div', mainContainer, { id: 'list-container' });
+    const ul = createAndAppend('ul', listContainer, { id: 'list-contributions' });
 
     fetchJSON(url, (err, repositories) => {
       if (err) {
@@ -107,17 +107,17 @@
         return;
       }
 
+      createOptionElements(repositories, select);
+
       function setDefault() {
-        renderRepos(repositories[0], div1);
+        renderRepos(repositories[0], tableContainer);
         renderContributions(repositories[0], ul);
       }
       setDefault();
 
-      createOptionElements(repositories, select);
-
       select.addEventListener('change', () => {
         const repo = repositories[select.value];
-        renderRepos(repo, div1);
+        renderRepos(repo, tableContainer);
         renderContributions(repo, ul);
       });
     });
