@@ -3,19 +3,21 @@
 {
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
-  function fetchJSON(url, callBackFunction) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status <= 299) {
-        callBackFunction(null, xhr.response);
-      } else {
-        callBackFunction(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => callBackFunction(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status <= 299) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -60,6 +62,7 @@
     createAndAppend('td', tr, {
       text: value,
     });
+    return tr;
   }
 
   function renderRepositories(repository) {
@@ -69,11 +72,11 @@
     const tBody = createAndAppend('tbody', repTable, {
       class: 'table_elms',
     });
-    addRow(tBody, 'Repository', '');
+    const firstRow = addRow(tBody, 'Repository', '');
     addRow(tBody, 'Description', repository.description);
     addRow(tBody, 'Forks', repository.forks);
     addRow(tBody, 'Updated', new Date(repository.updated_at).toLocaleString('en-GB'));
-    createAndAppend('a', tBody.firstChild.lastChild, {
+    createAndAppend('a', firstRow.lastChild, {
       href: repository.html_url,
       target: '_blank',
       text: repository.name,
@@ -83,39 +86,38 @@
   function renderContributions(repository) {
     const rightBox = document.getElementById('right-box');
     rightBox.innerHTML = '';
-    fetchJSON(repository.contributors_url, (error, contributions) => {
-      if (error) {
-        renderError(error);
-        return;
-      }
-      createAndAppend('h2', rightBox, {
-        text: 'Contributions',
-        class: 'contrib-title',
-      });
-      const contributionsList = createAndAppend('ul', rightBox, {
-        class: 'list-container',
-      });
-      contributions.forEach(contribution => {
-        const listItem = createAndAppend('li', contributionsList, {
-          class: 'contrib',
+    fetchJSON(repository.contributors_url)
+      .then(contributions => {
+        createAndAppend('h2', rightBox, {
+          text: 'Contributions',
+          class: 'contrib-title',
         });
-        listItem.addEventListener('click', () => {
-          window.open(contribution.html_url, '_blank');
+        const contributionsList = createAndAppend('ul', rightBox, {
+          class: 'list-container',
         });
-        createAndAppend('img', listItem, {
-          class: 'contrib_img',
-          src: contribution.avatar_url,
+        contributions.forEach(contribution => {
+          const listItem = createAndAppend('li', contributionsList, {
+            class: 'contrib',
+          });
+          createAndAppend('img', listItem, {
+            class: 'contrib_img',
+            src: contribution.avatar_url,
+          });
+          const contribName = createAndAppend('span', listItem, {
+            class: 'contrib-name',
+          });
+          createAndAppend('a', contribName, {
+            href: contribution.html_url,
+            target: '_blank',
+            text: contribution.login,
+          });
+          createAndAppend('span', listItem, {
+            class: 'contrib-count',
+            text: contribution.contributions,
+          });
         });
-        createAndAppend('span', listItem, {
-          class: 'contrib-name',
-          text: contribution.login,
-        });
-        createAndAppend('span', listItem, {
-          class: 'contrib-count',
-          text: contribution.contributions,
-        });
-      });
-    });
+      })
+      .catch(error => renderError(error));
   }
 
   function main(url) {
@@ -131,26 +133,26 @@
     const container = createAndAppend('main', root, {
       id: 'container',
     });
-    fetchJSON(url, (error, repositories) => {
-      if (error) {
-        renderError(error);
-        return;
-      }
-      createOptionElements(repositories, select);
-      createAndAppend('section', container, {
-        class: 'left-box',
-        id: 'left-box',
-      });
-      createAndAppend('section', container, {
-        class: 'right-box',
-        id: 'right-box',
-      });
-      select.addEventListener('change', () => {
-        const repIndex = select.value;
-        renderRepositories(repositories[repIndex]);
-        renderContributions(repositories[repIndex]);
-      });
-    });
+    fetchJSON(url)
+      .then(repositories => {
+        createOptionElements(repositories, select);
+        createAndAppend('section', container, {
+          class: 'left-box',
+          id: 'left-box',
+        });
+        createAndAppend('section', container, {
+          class: 'right-box',
+          id: 'right-box',
+        });
+        renderRepositories(repositories[select.value]);
+        renderContributions(repositories[select.value]);
+        select.addEventListener('change', () => {
+          const repIndex = select.value;
+          renderRepositories(repositories[repIndex]);
+          renderContributions(repositories[repIndex]);
+        });
+      })
+      .catch(error => renderError(error));
   }
   window.onload = () => main(HYF_REPOS_URL);
 }
