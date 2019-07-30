@@ -61,8 +61,8 @@
           class: 'contributor-img',
           src: contributor.avatar_url,
           alt: 'Contributor photo',
-          width: '50px',
         });
+        imgDiv.firstChild.style.maxHeight = '50px';
         const dataDiv = createAndAppend('div', contributorLink, { class: 'contributor-data-div' });
         createAndAppend('div', dataDiv, {
           class: 'contributor-name',
