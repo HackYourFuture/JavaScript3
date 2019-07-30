@@ -1,13 +1,22 @@
 * {
   margin: 0;
-  box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
   margin-bottom: 100px;
   color: rgb(36, 63, 111);
-  background: url(https://images.pexels.com/photos/19670/pexels-photo.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940);
+  background: rgb(216, 247, 254);
+  background: radial-gradient(
+    circle,
+    rgba(216, 247, 254, 0.9976365546218487) 29%,
+    rgba(80, 117, 244, 1) 100%
+  );
+}
+
+#root {
+  width: 80%;
+  margin: 0 auto;
 }
 
 .alert-error {
@@ -20,7 +29,11 @@ body {
 
 a {
   padding: 0;
-  text-decoration: none;
+  color: rgb(25, 92, 150);
+}
+
+a:hover {
+  font-size: 1.1em;
 }
 
 img {
@@ -29,79 +42,80 @@ img {
 }
 
 header {
-  font-size: 1.5em;
   display: block;
-  padding: 2em;
-  color: rgb(254, 240, 224);
-  text-shadow: -2px 0 rgba(0, 0, 0, 0.185),
-    0px 2px rgba(0, 0, 0, 0.118),
-    4px 0 rgba(0, 0, 0, 0.219),
-    0px 2px rgba(0, 0, 0, 0.228);
-  border-left-color: azure;
+  padding: 3em;
   align-content: center;
   text-align: center;
+  text-shadow: 1px 3px 3px rgb(87, 68, 154);
+}
+
+h1 {
+  font-size: 3em;
+  letter-spacing: 2px;
+  color: rgb(210, 249, 222);
 }
 
 select {
   color: rgb(36, 63, 111);
   margin-top: 20px;
-  padding: 10p;
+  padding: 10px;
   width: 250px;
   height: 30px;
   font-size: 15px;
-  background-color: rgb(249, 242, 233);
+  background-color: rgb(237, 253, 242);
 }
 
-div {
-  width: 100%;
-  margin: 0;
+#main-container {
   padding: 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
-ul {
+#table-container,
+#list-container {
   padding: 30px;
   margin-bottom: 50px;
-  min-width: 500px;
+  min-width: 400px;
   min-height: 300px;
   flex-basis: 40%;
-  list-style-type: none;
   position: relative;
-  background-color: rgb(215, 201, 184);
-  border: 1px solid rgba(219, 210, 210, 0.748);
+  box-sizing: content-box;
+  background-color: white;
   box-shadow: 8px 8px 5px rgba(0, 0, 0, 0.118);
 }
 
 ul:first-child {
   padding: 30px;
-  background-color: rgb(237, 222, 204);
+  background-color: rgba(201, 238, 212, 0.625);
 }
 
 table tr {
   border-spacing: 0;
   text-align: center;
-  background-color: rgba(247, 237, 224);
 }
 
 table tr td {
-  background-color: rgba(247, 237, 224, 0.952);
+  background-color: rgba(237, 253, 242);
   padding: 20px;
   width: 100%;
 }
 
 td.label {
-  width: 100px;
+  min-width: 100px;
   font-weight: bold;
 }
 
 li {
+  list-style-type: none;
   margin-top: 10px;
 }
 
 @media (max-width: 480px) {
-  ul {
-    flex-basis: 100%;
+  h1 {
+    font-size: 2em;
   }
+}
+
+@media (min-width: 480px) and (max-width: 1150px) {
 }
