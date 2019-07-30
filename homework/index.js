@@ -1,19 +1,21 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status <= 299) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status <= 299) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -80,43 +82,67 @@
   function fetchAndRender(repository) {
     const rightSide = document.getElementById('right-side');
     rightSide.innerHTML = '';
-    fetchJSON(repository.contributors_url, (error, contributors) => {
-      if (error) {
-        renderError(error);
-        return;
-      }
-      const contributorsTitle = createAndAppend('h3', rightSide, {
-        text: 'Contributors',
-        class: 'contributors-title',
-      });
-      if (!contributors.length) {
-        contributorsTitle.textContent = 'No Contributor So Far';
-        return;
-      }
-      const contributorsList = createAndAppend('ul', rightSide, {
-        class: 'contributors-list',
-      });
-      contributors.forEach(contributor => {
-        const listItem = createAndAppend('li', contributorsList, {
-          class: 'contributor',
+    fetchJSON(repository.contributors_url)
+      .then(contributors => {
+        const contributorsTitle = createAndAppend('h3', rightSide, {
+          text: 'Contributors',
+          class: 'contributors-title',
         });
-        createAndAppend('img', listItem, {
-          class: 'contributor-avatar',
-          src: contributor.avatar_url,
+        if (!contributors.length) {
+          contributorsTitle.textContent = 'No Contributor So Far';
+          return;
+        }
+        const contributorsList = createAndAppend('ul', rightSide, {
+          class: 'contributors-list',
         });
-        createAndAppend('span', listItem, {
-          class: 'contributor-name',
-          text: contributor.login,
+        contributors.forEach(contributor => {
+          const listItem = createAndAppend('li', contributorsList, {
+            class: 'contributor',
+          });
+          createAndAppend('img', listItem, {
+            class: 'contributor-avatar',
+            src: contributor.avatar_url,
+          });
+          createAndAppend('span', listItem, {
+            class: 'contributor-name',
+            text: contributor.login,
+          });
+          createAndAppend('span', listItem, {
+            class: 'contribution-count',
+            text: contributor.contributions,
+          });
+          listItem.addEventListener('click', () => {
+            window.open(contributor.html_url, '_blank');
+          });
         });
-        createAndAppend('span', listItem, {
-          class: 'contribution-count',
-          text: contributor.contributions,
-        });
-        listItem.addEventListener('click', () => {
-          window.open(contributor.html_url, '_blank');
-        });
+      })
+      .catch(error => renderError(error));
+  }
+
+  function initializePage(repositories) {
+    const select = document.getElementById('select');
+    const wrapper = document.getElementById('wrapper');
+    repositories.sort((a, b) => a.name.localeCompare(b.name));
+    repositories.forEach((repository, index) => {
+      createAndAppend('option', select, {
+        value: index,
+        text: repository.name,
       });
     });
+    createAndAppend('section', wrapper, {
+      class: 'left-side',
+      id: 'left-side',
+    });
+    renderRepoInfo(repositories[select.value]);
+    createAndAppend('section', wrapper, {
+      class: 'right-side',
+      id: 'right-side',
+    });
+    select.addEventListener('change', () => {
+      renderRepoInfo(repositories[select.value]);
+      fetchAndRender(repositories[select.value]);
+    });
+    return repositories[select.value];
   }
 
   function renderPage(url) {
@@ -128,37 +154,17 @@
       class: 'header-title',
       text: 'Hack Your Future Repositories',
     });
-    const wrapper = createAndAppend('main', root, {
+    createAndAppend('main', root, {
       id: 'wrapper',
     });
-    const select = createAndAppend('select', header);
-    fetchJSON(url, (error, repositories) => {
-      if (error) {
-        renderError(error);
-        return;
-      }
-      repositories.sort((a, b) => a.name.localeCompare(b.name));
-      repositories.forEach((repository, index) => {
-        createAndAppend('option', select, {
-          value: index,
-          text: repository.name,
-        });
-      });
-      createAndAppend('section', wrapper, {
-        class: 'left-side',
-        id: 'left-side',
-      });
-      renderRepoInfo(repositories[select.value]);
-      createAndAppend('section', wrapper, {
-        class: 'right-side',
-        id: 'right-side',
-      });
-      fetchAndRender(repositories[select.value]);
-      select.addEventListener('change', () => {
-        renderRepoInfo(repositories[select.value]);
-        fetchAndRender(repositories[select.value]);
-      });
+    createAndAppend('select', header, {
+      id: 'select',
     });
+
+    fetchJSON(url)
+      .then(repositories => initializePage(repositories))
+      .then(repository => fetchAndRender(repository))
+      .catch(error => renderError(error));
   }
 
   function main() {
