@@ -98,6 +98,8 @@
         contributors.forEach(contributor => {
           const listItem = createAndAppend('li', contributorsList, {
             class: 'contributor',
+            tabindex: 0,
+            'aria-label': contributor.login,
           });
           createAndAppend('img', listItem, {
             class: 'contributor-avatar',
@@ -112,7 +114,12 @@
             text: contributor.contributions,
           });
           listItem.addEventListener('click', () => {
+            // Go to new page on click
             window.open(contributor.html_url, '_blank');
+          });
+          listItem.addEventListener('keyup', event => {
+            // Open new page with contributor url when pressed Enter on focused contributor
+            if (event.key === 'Enter') window.open(contributor.html_url, '_blank');
           });
         });
       })
@@ -159,6 +166,7 @@
     });
     createAndAppend('select', header, {
       id: 'select',
+      'aria-label': 'HYF Repositories',
     });
 
     fetchJSON(url)
