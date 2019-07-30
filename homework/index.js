@@ -81,18 +81,17 @@
       const ul = createAndAppend('ul', contributesDiv);
 
       Object.keys(contributors).forEach(contributor => {
-        const hyperlink = createAndAppend('a', ul, {
+        const listItem = createAndAppend('li', ul, { class: 'list flex-div' });
+        const hyperlink = createAndAppend('a', listItem, {
           href: contributors[contributor].html_url,
           target: '_blank',
         });
-
-        const listItem = createAndAppend('li', hyperlink, { class: 'list flex-div' });
-        createAndAppend('img', listItem, {
+        createAndAppend('img', hyperlink, {
           src: contributors[contributor].avatar_url,
           alt: `${contributors[contributor].login} photo`,
         });
 
-        const contributorInfoDiv = createAndAppend('div', listItem, {
+        const contributorInfoDiv = createAndAppend('div', hyperlink, {
           class: 'contributor-info flex-div',
         });
         createAndAppend('p', contributorInfoDiv, {
@@ -119,6 +118,7 @@
     fetchJSON(url, (err, data) => {
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        return;
       }
       const repositories = data.sort((a, b) => a.name.localeCompare(b.name));
 
