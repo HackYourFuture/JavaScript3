@@ -31,13 +31,13 @@
 }
 
 .page-title,
-.slect-list {
+.select-list {
     margin: 10px;
 }
 
 .info-container {
     background-color: gray;
-    min-height: 40px;
+    min-height: 100%;
     margin-top: 4px;
     border-radius: 15px;
     color: white;
