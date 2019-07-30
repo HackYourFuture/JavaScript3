@@ -44,20 +44,19 @@
 
   function renderRepositories(repos, divRepoInfo) {
     divRepoInfo.innerHTML = '';
-    const { html_url, name, description, forks, updated_at } = repos;
     const table = createAndAppend('table', divRepoInfo);
     const tbody = createAndAppend('tbody', table);
 
     const firstRow = addRow(tbody, 'Repository', '');
     createAndAppend('a', firstRow.lastChild, {
-      href: html_url,
+      href: repos.html_url,
       target: '_blank',
-      text: name,
+      text: repos.name,
     });
 
-    addRow(tbody, 'Description', description);
-    addRow(tbody, 'Forks', forks);
-    addRow(tbody, 'Updated', new Date(updated_at).toLocaleString());
+    addRow(tbody, 'Description', repos.description);
+    addRow(tbody, 'Forks', repos.forks);
+    addRow(tbody, 'Updated', new Date(repos.updated_at).toLocaleString());
   }
 
   function renderContributors(contributorRepo, ulContributorInfo) {
@@ -70,20 +69,19 @@
       ulContributorInfo.innerHTML = '';
 
       contributors.forEach(contributor => {
-        const { html_url, avatar_url, login, contributions } = contributor;
         const contributorLink = createAndAppend('a', ulContributorInfo, {
-          href: html_url,
+          href: contributor.html_url,
           target: '_blank',
         });
         const listItem = createAndAppend('li', contributorLink, {
           class: 'contributor-list-item',
         });
         createAndAppend('img', listItem, {
-          src: avatar_url,
-          alt: `${login} photo`,
+          src: contributor.avatar_url,
+          alt: `${contributor.login} photo`,
         });
-        createAndAppend('h1', listItem, { text: login });
-        createAndAppend('p', listItem, { text: contributions });
+        createAndAppend('h1', listItem, { text: contributor.login });
+        createAndAppend('p', listItem, { text: contributor.contributions });
       });
     });
   }
