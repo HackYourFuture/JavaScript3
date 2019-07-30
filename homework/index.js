@@ -17,11 +17,6 @@
     xhr.send();
   }
 
-  function renderError(error) {
-    const root = document.getElementById('root');
-    createAndAppend('h1', root, { text: error.message });
-  }
-
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
@@ -36,10 +31,15 @@
     return elem;
   }
 
+  function renderError(error) {
+    const root = document.getElementById('root');
+    createAndAppend('h1', root, { text: error.message });
+  }
+
   function createOptions(repoNames, select) {
     createAndAppend('option', select, { text: 'Select module', disabled: 'disabled' });
     repoNames.sort((a, b) => a.name.localeCompare(b.name));
-    repoNames.forEach((repository, i) => {
+    repoNames.forEach(repository => {
       createAndAppend('option', select, {
         text: repository.name,
         value: repository.name,
