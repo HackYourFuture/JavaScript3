@@ -102,6 +102,14 @@
     return widgetContainer;
   }
 
+  function fetchContributor(url) {
+    fetchJSON(url)
+      .then(contributorsData => {
+        createContributorsLayout(contributorsData);
+      })
+      .catch(err => renderError(err));
+  }
+
   function createRepositoryLayout(repositoriesData) {
     const mainParent = document.getElementById('main');
     const leftColumn = createAndAppend('div', mainParent, {
@@ -147,7 +155,7 @@
     });
   }
 
-  function appendRepositoriesToSelect(repositoriesData, cb) {
+  function appendRepositoriesToSelect(repositoriesData) {
     const selectList = document.getElementById('repo-select');
     repositoriesData
       .sort((a, b) => a.name.localeCompare(b.name))
@@ -158,26 +166,22 @@
         });
       });
 
-    // dummy values
-    cb(repositoriesData[0]);
+    createRepositoryLayout(repositoriesData[0]);
+    fetchContributor(repositoriesData[0].contributors_url);
 
     selectList.addEventListener('change', () => {
       selectList.parentElement.nextElementSibling.innerHTML = '';
-      cb(repositoriesData[selectList.value]);
+      createRepositoryLayout(repositoriesData[selectList.value]);
+      fetchContributor(repositoriesData[selectList.value].contributors_url);
     });
   }
 
-  function fetchRepositoriesAndContributors(url) {
-    fetchJSON(url).then(repositoriesData => {
-      appendRepositoriesToSelect(repositoriesData, repositoryObj => {
-        createRepositoryLayout(repositoryObj);
-        fetchJSON(repositoryObj.contributors_url)
-          .then(contributorData => {
-            createContributorsLayout(contributorData);
-          })
-          .catch(error => renderError(error));
-      });
-    });
+  function fetchRepository(url) {
+    fetchJSON(url)
+      .then(repositoryData => {
+        appendRepositoriesToSelect(repositoryData);
+      })
+      .catch(err => renderError(err));
   }
 
   function createHeader() {
@@ -210,7 +214,7 @@
 
   function main(url) {
     createHeader();
-    fetchRepositoriesAndContributors(url);
+    fetchRepository(url);
   }
   window.onload = () => main(HYF_REPOS_URL);
 }
