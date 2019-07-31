@@ -18,6 +18,12 @@
     });
     return elem;
   }
+  // ******************************************From jim
+  function addRow(tbody, label, value) {
+    const tr = createAndAppend('tr', tbody);
+    createAndAppend('td', tr, { text: `${label}:` });
+    createAndAppend('td', tr, { text: value });
+  }
   // ********************************************************
   const root = document.getElementById('root');
   const header = createAndAppend('header', root, {
@@ -100,39 +106,25 @@
       class: 'info-left',
       text: 'Repository information:',
     });
-    const nameAndLink = createAndAppend('p', infoLeft, {
-      class: 'p-info-left',
-      text: 'Name:',
+    /* Adham table from Jim */
+    const table = createAndAppend('table', infoLeft, {
+      class: 'repo-table',
+      id: 'repo_table',
     });
-    createAndAppend('a', nameAndLink, {
-      class: 'repo-link',
-      text: wantedRepo.name,
-      href: wantedRepo.html_url,
-      target: '_blank',
+    const tbody = createAndAppend('tbody', table);
+    addRow(tbody, `Name`, wantedRepo.name);
+    addRow(tbody, `Description`, wantedRepo.description);
+    addRow(tbody, `Forks`, wantedRepo.forks);
+    addRow(tbody, `Last update`, new Date(wantedRepo.updated_at).toLocaleString());
+    const toBeLink = tbody.childNodes[0].childNodes[1];
+    console.log(toBeLink);
+
+    toBeLink.addEventListener('mouseover', () => {
+      toBeLink.style.textDecoration = 'underline';
     });
-    const Description = createAndAppend('p', infoLeft, {
-      class: 'p-info-left',
-      text: 'Description:',
-    });
-    createAndAppend('span', Description, {
-      class: 'span-info-left',
-      text: wantedRepo.description,
-    });
-    const forks = createAndAppend('p', infoLeft, {
-      class: 'p-info-left',
-      text: 'Forks:',
-    });
-    createAndAppend('span', forks, {
-      class: 'span-info-left',
-      text: wantedRepo.forks,
-    });
-    const lastUpdate = createAndAppend('p', infoLeft, {
-      class: 'p-info-left',
-      html: 'Last&nbsp;update:',
-    });
-    createAndAppend('span', lastUpdate, {
-      class: 'span-info-left',
-      text: new Date(wantedRepo.updated_at).toLocaleString(),
+    toBeLink.addEventListener('click', () => window.open(wantedRepo.html_url));
+    toBeLink.addEventListener('mouseout', () => {
+      toBeLink.style.textDecoration = 'none';
     });
   }
   // ************************************
