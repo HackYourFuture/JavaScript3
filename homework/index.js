@@ -18,13 +18,13 @@
     });
     return elem;
   }
-  // ******************************************From jim
+
   function addRow(tbody, label, value) {
     const tr = createAndAppend('tr', tbody);
     createAndAppend('td', tr, { text: `${label}:` });
     createAndAppend('td', tr, { text: value });
   }
-  // ********************************************************
+
   const root = document.getElementById('root');
   const header = createAndAppend('header', root, {
     class: 'header',
@@ -42,11 +42,10 @@
     class: 'info-container',
   });
 
-  // ********************************************************
   function renderError(error) {
     createAndAppend('h1', root, { text: error.message });
   }
-  // *****************************************************
+
   function fetchJSON(url) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -63,7 +62,7 @@
       xhr.send();
     });
   }
-  // *********************************************************
+
   function showContributions(urlText) {
     const infoRight = createAndAppend('div', infoContainer, {
       class: 'info-right',
@@ -102,7 +101,7 @@
       .then(goodResult => renderContributions(goodResult))
       .catch(somethingWrong => renderError(somethingWrong));
   }
-  // *************************************************
+
   function showRepoInfo(wantedRepo) {
     const infoLeft = createAndAppend('div', infoContainer, {
       class: 'info-left',
@@ -117,13 +116,12 @@
     const toBeLink = tbody.firstChild.childNodes[1];
     toBeLink.innerHTML = `<a href="${wantedRepo.html_url}" target="_blank">${wantedRepo.name}</a>`;
   }
-  // ************************************
+
   const clearinfoContainer = () => {
     while (infoContainer.firstChild) {
       infoContainer.removeChild(infoContainer.firstChild);
     }
   };
-  // *****************************************
 
   function starter(url) {
     function renderResult(repositories) {
