@@ -112,14 +112,8 @@
     addRow(tbody, `Description`, wantedRepo.description);
     addRow(tbody, `Forks`, wantedRepo.forks);
     addRow(tbody, `Last update`, new Date(wantedRepo.updated_at).toLocaleString());
-    const toBeLink = tbody.childNodes[0].childNodes[1];
-    toBeLink.addEventListener('mouseover', () => {
-      toBeLink.style.textDecoration = 'underline';
-    });
-    toBeLink.addEventListener('click', () => window.open(wantedRepo.html_url));
-    toBeLink.addEventListener('mouseout', () => {
-      toBeLink.style.textDecoration = 'none';
-    });
+    const toBeLink = tbody.firstChild.childNodes[1];
+    toBeLink.innerHTML = `<a href="${wantedRepo.html_url}" target="_blank">${wantedRepo.name}</a>`;
   }
   // ************************************
   const clearinfoContainer = () => {
