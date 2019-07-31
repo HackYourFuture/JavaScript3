@@ -81,7 +81,7 @@
       const contrList = createAndAppend('ul', div, { class: 'contr-list' });
       contributorDetails.forEach(contributor => {
         const li = createAndAppend('li', contrList);
-        const a = createAndAppend('a', li, { href: 'contributor.html_url', target: 'blank' });
+        const a = createAndAppend('a', li, { href: contributor.html_url, target: 'blank' });
         createAndAppend('img', a, {
           src: contributor.avatar_url,
           class: 'images',
@@ -126,7 +126,6 @@
       createOptions(repositories, select);
       select.addEventListener('change', () => {
         const repository = repositories[select.value];
-        const names = repositories[select.value].name;
         renderRepoInformation(repository, section);
         renderContributorsInformation(repository, contrDiv);
       });
