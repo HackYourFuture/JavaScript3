@@ -1,19 +1,21 @@
 'use strict';
 
 {
-  function fetchJSON(url, resolve, reject) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status <= 299) {
-        resolve(null, xhr.response);
-      } else {
-        reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => reject(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status <= 299) {
+          resolve(null, xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.open('GET', url);
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -104,7 +106,6 @@
     const section = createAndAppend('section', bodyDiv, { class: 'repo-info-list' });
     const contrDiv = createAndAppend('div', bodyDiv, {
       class: 'contributors-div',
-      id: 'cont-ulist',
     });
 
     fetchJSON(url)
