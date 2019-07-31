@@ -63,8 +63,8 @@
       target: 'blank',
       text: `${repositories.name}`,
     });
-    addRow(tbody, 'Description:', 'repositories.description', 'explanations');
-    addRow(tbody, 'Fork:', 'repositories.forks', 'explanations');
+    addRow(tbody, 'Description:', repositories.description, 'explanations');
+    addRow(tbody, 'Fork:', repositories.forks, 'explanations');
     addRow(tbody, 'Updated:', `${repositories.updated_at}`.substring(0, 10), 'explanations');
   }
 
