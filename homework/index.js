@@ -61,8 +61,8 @@
       target: 'blank',
       text: `${repositories.name}`,
     });
-    addRow(tbody, 'Description:', 'repositories.description', 'explanations');
-    addRow(tbody, 'Fork:', 'repositories.forks', 'explanations');
+    addRow(tbody, 'Description:', repositories.description, 'explanations');
+    addRow(tbody, 'Fork:', repositories.forks, 'explanations');
     addRow(tbody, 'Updated:', `${repositories.updated_at}`.substring(0, 10), 'explanations');
   }
 
@@ -110,18 +110,11 @@
     });
 
     fetchJSON(url, (err, repositories) => {
+      repositories.sort((a, b) => a.name.localeCompare(b.name));
       if (err) {
         renderError(err);
         return;
       }
-
-      createOptions(repositories, select);
-      select.addEventListener('change', () => {
-        const repository = repositories[select.value];
-        const names = repositories[select.value].name;
-        renderRepoInformation(repository, section);
-        renderContributorsInformation(repository, contrDiv);
-      });
 
       function showFirstRepo() {
         renderRepoInformation(repositories[0], section);
@@ -130,7 +123,13 @@
 
       showFirstRepo();
 
-      repositories.sort((a, b) => a.name.localeCompare(b.name));
+      createOptions(repositories, select);
+      select.addEventListener('change', () => {
+        const repository = repositories[select.value];
+        const names = repositories[select.value].name;
+        renderRepoInformation(repository, section);
+        renderContributorsInformation(repository, contrDiv);
+      });
     });
   }
 
