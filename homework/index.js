@@ -69,11 +69,8 @@
       class: 'info-right',
       text: 'Contributions:',
     });
-    fetchJSON(urlText, (err, contributors) => {
-      if (err) {
-        renderError(err);
-        return;
-      }
+
+    function renderContributions(contributors) {
       contributors.forEach(contributor => {
         const contributorLink = createAndAppend('a', infoRight, {
           class: 'contributor-link',
@@ -100,7 +97,10 @@
           class: 'hr-contributor',
         });
       });
-    });
+    }
+    fetchJSON(urlText)
+      .then(goodResult => renderContributions(goodResult))
+      .catch(somethingWrong => renderError(somethingWrong));
   }
   // *************************************************
   function showRepoInfo(wantedRepo) {
@@ -124,8 +124,6 @@
     }
   };
   // *****************************************
-  // .then(goodResult => renderData(goodResult))
-  //           .catch(err => renderError(err));
 
   function starter(url) {
     function renderResult(repositories) {
