@@ -5,19 +5,21 @@
 {
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status <= 299) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Oops! Network request failed...'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status <= 299) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Oops! Network request failed...'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -63,24 +65,22 @@
   }
 
   function renderContributions(repo, ul) {
-    fetchJSON(repo.contributors_url, (err, contributors) => {
-      if (err) {
-        renderError(err);
-        return;
-      }
-      ul.innerHTML = '';
-      createAndAppend('h3', ul, { text: `Contributors:` });
-      contributors.forEach(contributor => {
-        const li = createAndAppend('li', ul);
-        const a = createAndAppend('a', li, { href: contributor.html_url, target: '_blank' });
-        const table = createAndAppend('table', a);
-        const tbody = createAndAppend('tbody', table);
-        const tr1 = createAndAppend('tr', tbody);
-        createAndAppend('img', tr1, { src: contributor.avatar_url });
-        createAndAppend('td', tr1, { text: contributor.login });
-        createAndAppend('td', tr1, { text: contributor.contributions });
-      });
-    });
+    fetchJSON(repo.contributors_url)
+      .then(contributors => {
+        ul.innerHTML = '';
+        createAndAppend('h3', ul, { text: `Contributors:` });
+        contributors.forEach(contributor => {
+          const li = createAndAppend('li', ul);
+          const a = createAndAppend('a', li, { href: contributor.html_url, target: '_blank' });
+          const table = createAndAppend('table', a);
+          const tbody = createAndAppend('tbody', table);
+          const tr1 = createAndAppend('tr', tbody);
+          createAndAppend('img', tr1, { src: contributor.avatar_url });
+          createAndAppend('td', tr1, { text: contributor.login });
+          createAndAppend('td', tr1, { text: contributor.contributions });
+        });
+      })
+      .catch(error => renderError(error));
   }
 
   function createOptionElements(repositories, select) {
@@ -101,26 +101,23 @@
     const listContainer = createAndAppend('div', mainContainer, { id: 'list-container' });
     const ul = createAndAppend('ul', listContainer, { id: 'list-contributions' });
 
-    fetchJSON(url, (err, repositories) => {
-      if (err) {
-        renderError(err);
-        return;
-      }
+    fetchJSON(url)
+      .then(repositories => {
+        createOptionElements(repositories, select);
 
-      createOptionElements(repositories, select);
+        function setDefault() {
+          renderRepos(repositories[0], tableContainer);
+          renderContributions(repositories[0], ul);
+        }
+        setDefault();
 
-      function setDefault() {
-        renderRepos(repositories[0], tableContainer);
-        renderContributions(repositories[0], ul);
-      }
-      setDefault();
-
-      select.addEventListener('change', () => {
-        const repo = repositories[select.value];
-        renderRepos(repo, tableContainer);
-        renderContributions(repo, ul);
-      });
-    });
+        select.addEventListener('change', () => {
+          const repo = repositories[select.value];
+          renderRepos(repo, tableContainer);
+          renderContributions(repo, ul);
+        });
+      })
+      .catch(error => renderError(error));
   }
 
   window.onload = () => {
