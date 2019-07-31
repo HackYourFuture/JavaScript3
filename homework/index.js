@@ -15,19 +15,21 @@
     return elem;
   }
 
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status <= 299) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status <= 299) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function loader(parent) {
@@ -63,47 +65,50 @@
       href: repository.html_url,
       target: '_blank',
     });
-    addRow(tbody, 'Description:', 'description-td td-header', repository.description);
+    if (repository.description) {
+      addRow(tbody, 'Description:', 'description-td td-header', repository.description);
+    }
     addRow(tbody, 'Forks:', 'td-header', repository.forks_count);
     addRow(tbody, 'Updated:', 'td-header', new Date(repository.updated_at).toLocaleString());
   }
 
   function renderContributions(url, contributesDiv) {
-    fetchJSON(url, (err, contributors) => {
-      if (err) {
-        renderError(err);
-        return;
-      }
+    fetchJSON(url)
+      .then(contributors => {
+        contributesDiv.innerHTML = '';
+        createAndAppend('h1', contributesDiv, {
+          class: 'contributes-header',
+          text: 'Contributions',
+        });
+        const ul = createAndAppend('ul', contributesDiv);
 
-      contributesDiv.innerHTML = '';
-      createAndAppend('h1', contributesDiv, { class: 'contributes-header', text: 'Contributions' });
+        Object.keys(contributors).forEach(contributor => {
+          const listItem = createAndAppend('li', ul, { class: 'list flex-div' });
+          const hyperlink = createAndAppend('a', listItem, {
+            href: contributors[contributor].html_url,
+            target: '_blank',
+          });
+          createAndAppend('img', hyperlink, {
+            src: contributors[contributor].avatar_url,
+            alt: `${contributors[contributor].login} photo`,
+          });
 
-      const ul = createAndAppend('ul', contributesDiv);
-
-      Object.keys(contributors).forEach(contributor => {
-        const listItem = createAndAppend('li', ul, { class: 'list flex-div' });
-        const hyperlink = createAndAppend('a', listItem, {
-          href: contributors[contributor].html_url,
-          target: '_blank',
+          const contributorInfoDiv = createAndAppend('div', hyperlink, {
+            class: 'contributor-info flex-div',
+          });
+          createAndAppend('p', contributorInfoDiv, {
+            class: 'contributorsName',
+            text: contributors[contributor].login,
+          });
+          createAndAppend('p', contributorInfoDiv, {
+            text: contributors[contributor].contributions,
+            class: 'badge',
+          });
         });
-        createAndAppend('img', hyperlink, {
-          src: contributors[contributor].avatar_url,
-          alt: `${contributors[contributor].login} photo`,
-        });
-
-        const contributorInfoDiv = createAndAppend('div', hyperlink, {
-          class: 'contributor-info flex-div',
-        });
-        createAndAppend('p', contributorInfoDiv, {
-          class: 'contributorsName',
-          text: contributors[contributor].login,
-        });
-        createAndAppend('p', contributorInfoDiv, {
-          text: contributors[contributor].contributions,
-          class: 'badge',
-        });
+      })
+      .catch(error => {
+        renderError(error);
       });
-    });
   }
 
   function createOptionElements(repositories, select) {
@@ -115,28 +120,26 @@
   function main(url) {
     const root = document.getElementById('root');
 
-    fetchJSON(url, (err, data) => {
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-        return;
-      }
-      const repositories = data.sort((a, b) => a.name.localeCompare(b.name));
+    fetchJSON(url)
+      .then(data => {
+        const repositories = data.sort((a, b) => a.name.localeCompare(b.name));
 
-      const header = createAndAppend('header', root, { class: 'flex-div' });
-      createAndAppend('h1', header, { text: 'Repositories', class: 'app-header' });
-      const select = createAndAppend('select', header);
-      createOptionElements(repositories, select);
-      const mainDiv = createAndAppend('main', root, { class: 'flex-div' });
-      const tableDiv = createAndAppend('div', mainDiv, { class: 'table-div' });
-      const contributesDiv = createAndAppend('div', mainDiv, { class: 'contributes-div' });
-      renderRepository(tableDiv, repositories[select.value]);
-      renderContributions(repositories[select.value].contributors_url, contributesDiv);
-      select.addEventListener('change', () => {
-        loader(contributesDiv);
+        const header = createAndAppend('header', root, { class: 'flex-div' });
+        createAndAppend('h1', header, { text: 'Repositories', class: 'app-header' });
+        const select = createAndAppend('select', header);
+        createOptionElements(repositories, select);
+        const mainDiv = createAndAppend('main', root, { class: 'flex-div' });
+        const tableDiv = createAndAppend('div', mainDiv, { class: 'table-div' });
+        const contributesDiv = createAndAppend('div', mainDiv, { class: 'contributes-div' });
         renderRepository(tableDiv, repositories[select.value]);
-        renderContributions(repositories[select.value].contributors_url, contributesDiv, tableDiv);
-      });
-    });
+        renderContributions(repositories[select.value].contributors_url, contributesDiv);
+        select.addEventListener('change', () => {
+          loader(contributesDiv);
+          renderRepository(tableDiv, repositories[select.value]);
+          renderContributions(repositories[select.value].contributors_url, contributesDiv);
+        });
+      })
+      .catch(error => renderError(error, root));
   }
 
   const URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
