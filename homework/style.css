@@ -63,6 +63,24 @@
     width: calc(60% - 10px);
 }
 
+table {
+    margin-top: 16px;
+    padding: 16px;
+    table-layout: fixed;
+    color: rgb(0, 0, 0, 81%);
+}
+
+td {
+    padding: 10px;
+    vertical-align: top;
+}
+
+td:first-child {
+    width: 80px;
+    color: red;
+    white-space: nowrap;
+}
+
 .p-info-left {
     font-weight: bold;
     display: table;
