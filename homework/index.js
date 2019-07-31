@@ -5,7 +5,7 @@
   const root = document.getElementById('root');
 
   function fetchJSON(url) {
-    const key = '';
+    const key = '1d0a6d9c5b6412d8be49e127ac396b49f9ba6807';
     const query = url.includes('?') ? `&oauth_token=${key}` : `?oauth_token=${key}`;
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
