@@ -64,6 +64,7 @@
         return fetchJSON(followingsUrl);
       })
       .then(data => {
+        console.log(data);
         contributorStats(contribution, cardBody, data, 'following');
         return fetchJSON(contribution.subscriptions_url);
       })

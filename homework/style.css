@@ -44,7 +44,6 @@ header {
 }
 
 .card-text {
-  text-transform: capitalize;
   border-color: #000;
   max-width: 13rem;
   padding-bottom: 0;
