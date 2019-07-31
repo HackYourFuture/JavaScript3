@@ -69,19 +69,21 @@
       ulContributorInfo.innerHTML = '';
 
       contributors.forEach(contributor => {
-        const contributorLink = createAndAppend('a', ulContributorInfo, {
+        const listItem = createAndAppend('li', ulContributorInfo, {
+          class: 'contributor-list-item',
+        });
+        const contributorLink = createAndAppend('a', listItem, {
+          class: 'contributorLink-a',
           href: contributor.html_url,
           target: '_blank',
         });
-        const listItem = createAndAppend('li', contributorLink, {
-          class: 'contributor-list-item',
-        });
-        createAndAppend('img', listItem, {
+
+        createAndAppend('img', contributorLink, {
           src: contributor.avatar_url,
           alt: `${contributor.login} photo`,
         });
-        createAndAppend('h1', listItem, { text: contributor.login });
-        createAndAppend('p', listItem, { text: contributor.contributions });
+        createAndAppend('h1', contributorLink, { text: contributor.login });
+        createAndAppend('p', contributorLink, { text: contributor.contributions });
       });
     });
   }
@@ -111,17 +113,17 @@
       }
       repositories.sort((a, b) => a.name.localeCompare(b.name));
       createOptionElements(repositories, select);
-      const repo = repositories[select.value];
+      let repo = repositories[select.value];
       renderRepositories(repo, repoInfo);
       renderContributors(repo, contributorInfo);
 
       select.addEventListener('change', () => {
-        // const repo = repositories[select.value];
+        repo = repositories[select.value];
         renderRepositories(repo, repoInfo);
         renderContributors(repo, contributorInfo);
       });
     });
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-  window.onload = main(HYF_REPOS_URL);
+  window.onload = () => main(HYF_REPOS_URL);
 }

@@ -49,10 +49,9 @@ select {
 }
 
 .flex-container {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 2rem;
-}
-
-section ul {
   margin-top: -2px;
 }
 
@@ -76,10 +75,12 @@ table {
 td {
   padding: 10px;
 }
-
-.contributor-list-item {
+.contributor-list-item a {
   display: flex;
   align-items: center;
+}
+.contributor-list-item {
+  display: flex;
   justify-content: space-around;
   padding: 2rem;
   width: calc(100% -20rem);
@@ -97,16 +98,17 @@ td {
 }
 
 .contributor-list-item p {
-  width: 1.5rem;
+  width: 1.7rem;
   text-align: center;
   background-color: #646262;
   color: whitesmoke;
   border-radius: 25px 25px 25px 25px;
+  margin-left: 0.7rem;
 }
 
 .contributor-list-item h1 {
   font-size: 0.875rem;
-  margin: 0 0.5rem;
+  margin-left: 0.7rem;
 }
 
 @media screen and (max-width: 565px) {
