@@ -66,6 +66,7 @@
         renderError(err);
         return;
       }
+
       ulContributorInfo.innerHTML = '';
 
       contributors.forEach(contributor => {
