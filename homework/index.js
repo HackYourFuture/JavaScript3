@@ -106,19 +106,13 @@
       class: 'info-left',
       text: 'Repository information:',
     });
-    /* Adham table from Jim */
-    const table = createAndAppend('table', infoLeft, {
-      class: 'repo-table',
-      id: 'repo_table',
-    });
+    const table = createAndAppend('table', infoLeft);
     const tbody = createAndAppend('tbody', table);
     addRow(tbody, `Name`, wantedRepo.name);
     addRow(tbody, `Description`, wantedRepo.description);
     addRow(tbody, `Forks`, wantedRepo.forks);
     addRow(tbody, `Last update`, new Date(wantedRepo.updated_at).toLocaleString());
     const toBeLink = tbody.childNodes[0].childNodes[1];
-    console.log(toBeLink);
-
     toBeLink.addEventListener('mouseover', () => {
       toBeLink.style.textDecoration = 'underline';
     });
@@ -129,7 +123,9 @@
   }
   // ************************************
   const clearinfoContainer = () => {
-    infoContainer.innerHTML = '';
+    while (infoContainer.firstChild) {
+      infoContainer.removeChild(infoContainer.firstChild);
+    }
   };
   // *****************************************
   function starter(url) {
