@@ -47,19 +47,21 @@
     createAndAppend('h1', root, { text: error.message });
   }
   // *****************************************************
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status <= 299) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status <= 299) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
   // *********************************************************
   function showContributions(urlText) {
@@ -122,16 +124,11 @@
     }
   };
   // *****************************************
+  // .then(goodResult => renderData(goodResult))
+  //           .catch(err => renderError(err));
+
   function starter(url) {
-    fetchJSON(url, (err, repositories) => {
-      if (err) {
-        infoContainer.innerHTML = '';
-        createAndAppend('div', infoContainer, {
-          text: err.message,
-          class: 'alert-error',
-        });
-        return;
-      }
+    function renderResult(repositories) {
       repositories.sort((a, b) => a.name.localeCompare(b.name));
       repositories.forEach((repo, index) => {
         createAndAppend('option', selectEl, { text: repo.name, value: index });
@@ -143,7 +140,10 @@
         showRepoInfo(repositories[selectEl.value]);
         setTimeout(showContributions(repositories[selectEl.value].contributors_url), 0);
       });
-    });
+    }
+    fetchJSON(url)
+      .then(goodResult => renderResult(goodResult))
+      .catch(err => renderError(err));
   }
 
   window.onload = () => starter(HYF_REPOS_URL);
