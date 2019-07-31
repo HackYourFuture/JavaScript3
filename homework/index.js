@@ -143,7 +143,7 @@
     }
     fetchJSON(url)
       .then(goodResult => renderResult(goodResult))
-      .catch(err => renderError(err));
+      .catch(somethingWrong => renderError(somethingWrong));
   }
 
   window.onload = () => starter(HYF_REPOS_URL);
