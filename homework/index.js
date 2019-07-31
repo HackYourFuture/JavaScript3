@@ -82,14 +82,14 @@
           const li = createAndAppend('li', contrList);
           const a = createAndAppend('a', li, { href: contributor.html_url, target: 'blank' });
           createAndAppend('img', a, {
-            src: 'contributor.avatar_url',
+            src: contributor.avatar_url,
             class: 'images',
           });
           createAndAppend('span', a, {
-            text: 'contributor.login',
+            text: contributor.login,
           });
           createAndAppend('span', a, {
-            text: 'contributor.contributions',
+            text: contributor.contributions,
             class: 'contributions',
           });
         });
