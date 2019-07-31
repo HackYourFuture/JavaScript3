@@ -60,7 +60,17 @@ body {
 }
 
 .contributors-div {
+  position: relative;
+  top: -40px;
   width: 30%;
+}
+
+@media screen and (max-width: 768px) {
+  .contributors-div {
+    width: 100%;
+    position: relative;
+    top: 0px;
+  }
 }
 
 ul {
@@ -81,6 +91,9 @@ a:hover {
 .images {
   width: 60px;
   height: 60px;
+  position: relative;
+  right: 20px;
+  top: 20px;
 }
 
 h4 {
@@ -94,6 +107,7 @@ h4 {
 @media screen and (max-width: 768px) {
   .repo-info-list {
     width: 100%;
+    margin-top: 20px;
   }
 }
 
@@ -107,6 +121,7 @@ h4 {
 .contr-list li {
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   margin: 10px;
+  box-sizing: border-box;
 }
 
 .contr-list li a {
@@ -129,7 +144,7 @@ h4 {
 .contributions {
   float: right;
   position: relative;
-  bottom: -20px;
+  bottom: -15px;
   padding: 10px;
   background-color: rgb(99, 95, 95);
   color: white;
@@ -137,6 +152,7 @@ h4 {
 }
 
 table {
+  width: 100%;
   padding: 10px;
   box-shadow: 0 0 5px 0.5px rgb(209, 208, 208);
   background-color: white;
