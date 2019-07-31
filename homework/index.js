@@ -7,7 +7,7 @@
       xhr.responseType = 'json';
       xhr.onload = () => {
         if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(null, xhr.response);
+          resolve(xhr.response, null);
         } else {
           reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
         }
@@ -73,22 +73,23 @@
     const url = contributors;
     fetchJSON(url)
       .then(contributorDetails => {
+        console.log(contributorDetails);
         container.innerHTML = ' ';
         const div = document.getElementById('cont-ulist');
         createAndAppend('h4', div, { text: 'Contributors' });
         const contrList = createAndAppend('ul', div, { class: 'contr-list' });
         contributorDetails.forEach(contributor => {
           const li = createAndAppend('li', contrList);
-          const a = createAndAppend('a', li, { href: 'contributor.html_url', target: 'blank' });
+          const a = createAndAppend('a', li, { href: contributor.html_url, target: 'blank' });
           createAndAppend('img', a, {
-            src: contributor.avatar_url,
+            src: 'contributor.avatar_url',
             class: 'images',
           });
           createAndAppend('span', a, {
-            text: contributor.login,
+            text: 'contributor.login',
           });
           createAndAppend('span', a, {
-            text: contributor.contributions,
+            text: 'contributor.contributions',
             class: 'contributions',
           });
         });
@@ -106,23 +107,24 @@
     const section = createAndAppend('section', bodyDiv, { class: 'repo-info-list' });
     const contrDiv = createAndAppend('div', bodyDiv, {
       class: 'contributors-div',
+      id: 'cont-ulist',
     });
 
     fetchJSON(url)
       .then(repositories => {
+        repositories.sort((a, b) => a.name.localeCompare(b.name));
         createOptions(repositories, select);
+
+        function showFirstRepo() {
+          renderRepoInformation(repositories[0], section);
+          renderContributorsInformation(repositories[0], contrDiv);
+        }
+        showFirstRepo();
+
         select.addEventListener('change', () => {
           const repository = repositories[select.value];
           renderRepoInformation(repository, section);
           renderContributorsInformation(repository, contrDiv);
-
-          repositories.sort((a, b) => a.name.localeCompare(b.name));
-
-          function showFirstRepo() {
-            renderRepoInformation(repositories[0], section);
-            renderContributorsInformation(repositories[0], contrDiv);
-          }
-          showFirstRepo();
         });
       })
       .catch(error => renderError(error));
