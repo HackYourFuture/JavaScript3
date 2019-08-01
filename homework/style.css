@@ -37,7 +37,7 @@ select:focus {
 }
 
 .root {
-    padding: 8px;
+    /* padding: 8px; */
     border-radius: 3px;
     color: white;
     font-weight: bolder;
@@ -51,6 +51,7 @@ select:focus {
 
 .info-container {
     margin-top: 4px;
+    padding: 12px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
