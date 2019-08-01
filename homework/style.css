@@ -29,6 +29,7 @@ body {
   display: flex;
   color: white;
   background-color: darkmagenta;
+  justify-content: center;
 }
 
 select {
@@ -44,7 +45,7 @@ select {
   overflow: hidden;
   background-color: blue;
   margin: 20px 0;
-  height: 250px;
+  height: 200px;
 }
 
 
@@ -64,12 +65,10 @@ a {
 
 .right {
   width: 37%;
-  margin-left: 3%;
   background-color: yellowgreen;
   padding: 10px;
   box-sizing: border-box;
-  margin-top: 20px;
-
+  margin: 20px 0 20px 3%;
 }
 
 h2 {
@@ -106,6 +105,9 @@ section:nth-child(2) {
 }
 
 @media(max-width:700px) {
+  select {
+    width: 100%;
+  }
 
   .right,
   .left {
