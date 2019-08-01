@@ -68,7 +68,6 @@ select:focus {
   line-height: 1cm;
   text-align: justify;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
-  text-transform: capitalize;
 }
 
 .right-box {
