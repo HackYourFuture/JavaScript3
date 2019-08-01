@@ -50,6 +50,7 @@ select:focus {
     color: white;
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
 }
 
 .info-right,
@@ -73,6 +74,11 @@ select:focus {
     margin-top: 20px;
 }
 
+.info-right hr:last-child {
+    /* background-color: blueviolet; */
+    display: none;
+}
+
 .info-left {
     width: calc(60% - 10px);
 }
@@ -82,11 +88,14 @@ table {
     /* padding: 16px; */
     table-layout: fixed;
     border-collapse: collapse;
+    table-layout: auto;
+    width: 100%;
 }
 
 td {
     padding: 10px;
     vertical-align: top;
+    text-align: left;
 }
 
 td:first-child {
@@ -96,7 +105,8 @@ td:first-child {
 }
 
 table,
-th,
+tbody,
+tr,
 td {
     border: 1px solid black;
 }
