@@ -96,9 +96,6 @@
           class: 'hr-contributor',
         });
       });
-    }
-
-    function notifyNoData() {
       if (infoRight.firstElementChild === null) {
         createAndAppend('p', infoRight, {
           class: 'no-content',
@@ -106,9 +103,9 @@
         });
       }
     }
+
     fetchJSON(urlText)
       .then(goodResult => renderContributions(goodResult))
-      .then(notifyNoData)
       .catch(somethingWrong => renderError(somethingWrong));
   }
 
@@ -125,6 +122,13 @@
     addRow(tbody, `Last update`, new Date(wantedRepo.updated_at).toLocaleString());
     const toBeLink = tbody.firstChild.childNodes[1];
     toBeLink.innerHTML = `<a href="${wantedRepo.html_url}" target="_blank">${wantedRepo.name}</a>`;
+    const descriptionCell = tbody.childNodes[1].childNodes[1];
+    if (descriptionCell.textContent === '') {
+      createAndAppend('span', descriptionCell, {
+        class: 'no-content',
+        text: 'There is NO description',
+      });
+    }
   }
 
   const clearinfoContainer = () => {
