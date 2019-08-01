@@ -29,11 +29,14 @@ select:focus {
     background-color: #24292e;
     min-height: 25px;
     padding: 15px;
-    border-radius: 3px;
     display: flex;
     justify-content: center;
     color: white;
     font-weight: bolder;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
 }
 
 .root {
@@ -172,5 +175,8 @@ td:first-child {
     .root {
         margin-top: 25px;
         width: 70%;
+    }
+    .header {
+        border-radius: 3px;
     }
 }
