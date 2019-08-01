@@ -21,12 +21,11 @@ class App {
     const header = Util.createAndAppend('header', root, { class: 'header' });
     Util.createAndAppend('p', header, { text: 'HYF Repositories' });
     const select = Util.createAndAppend('select', header, { class: 'repo-selector' });
-    const container = Util.createAndAppend('div', root, { id: 'container' });
+    Util.createAndAppend('div', root, { id: 'container' });
 
     try {
       const repos = await Util.fetchJSON(url);
       // // TODO: add your own code here
-      this.repos = repos;
       this.repos = repos
         .sort((a, b) => a.name.localeCompare(b.name))
         .map(repo => new Repository(repo));

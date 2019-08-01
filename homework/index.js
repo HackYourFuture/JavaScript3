@@ -1,21 +1,8 @@
 'use strict';
 
 function fetchJSON(url) {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        resolve(xhr.response);
-      } else {
-        reject(new Error(`Network Error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => reject(new Error('Network request failed'));
-    xhr.send();
-  });
+  const data = fetch(url);
+  return data.json();
 }
 
 function createAndAppend(name, parent, options = {}) {
