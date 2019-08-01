@@ -82,15 +82,15 @@
         });
         const ul = createAndAppend('ul', contributesDiv);
 
-        Object.keys(contributors).forEach(contributor => {
+        contributors.forEach(contributor => {
           const listItem = createAndAppend('li', ul, { class: 'list flex-div' });
           const hyperlink = createAndAppend('a', listItem, {
-            href: contributors[contributor].html_url,
+            href: contributor.html_url,
             target: '_blank',
           });
           createAndAppend('img', hyperlink, {
-            src: contributors[contributor].avatar_url,
-            alt: `${contributors[contributor].login} photo`,
+            src: contributor.avatar_url,
+            alt: `${contributor.login} photo`,
           });
 
           const contributorInfoDiv = createAndAppend('div', hyperlink, {
@@ -98,10 +98,10 @@
           });
           createAndAppend('p', contributorInfoDiv, {
             class: 'contributorsName',
-            text: contributors[contributor].login,
+            text: contributor.login,
           });
           createAndAppend('p', contributorInfoDiv, {
-            text: contributors[contributor].contributions,
+            text: contributor.contributions,
             class: 'badge',
           });
         });
