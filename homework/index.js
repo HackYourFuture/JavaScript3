@@ -108,7 +108,7 @@
     }
     fetchJSON(urlText)
       .then(goodResult => renderContributions(goodResult))
-      .then(notifyNoData())
+      .then(notifyNoData)
       .catch(somethingWrong => renderError(somethingWrong));
   }
 
