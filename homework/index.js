@@ -1,8 +1,6 @@
 'use strict';
 
 {
-  let repositoryList = [];
-
   function fetchJSON(url) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -49,14 +47,14 @@
         createAndAppend('h4', div, { text: 'Contributions' });
         createAndAppend('hr', div);
 
-        const table = createAndAppend('div', div, { class: 'grid' });
+        const table = createAndAppend('ul', div, { class: 'grid' });
         const contributors = response;
-        for (let index = 0; index < contributors.length; index++) {
+        contributors.forEach((_contributor, index) => {
           const imageUrl = contributors[index].avatar_url;
           const name = contributors[index].login;
           const contributionsCount = contributors[index].contributions;
           const profileURL = contributors[index].html_url;
-          const tr = createAndAppend('div', table, { class: 'clickable row' });
+          const tr = createAndAppend('li', table, { class: 'clickable row' });
           tr.onclick = () => openNewTab(profileURL);
           const td1 = createAndAppend('div', tr, { class: 'col-30' });
           const imgContainerDiv = createAndAppend('div', td1, {
@@ -73,7 +71,7 @@
           });
           const td3 = createAndAppend('div', tr, { class: 'col-30' });
           createAndAppend('label', td3, { text: contributionsCount });
-        }
+        });
       })
       .catch(error => {
         createAndAppend('div', contributorsDiv, {
@@ -83,17 +81,16 @@
       });
   }
   function bindRepositoryDetails(selectedRepository) {
-    const { description } = selectedRepository.description;
-    const { forks } = selectedRepository.forks;
+    const { description, forks } = selectedRepository;
     const repositoryName = selectedRepository.name;
     const updatedOn = new Date(selectedRepository.updated_at).toLocaleString();
     const repoURL = selectedRepository.html_url;
 
     const infoContainerDiv = document.getElementById('repo-info-container');
-    const repoInfodiv = createAndAppend('div', infoContainerDiv, {
+    const repoInfoDiv = createAndAppend('div', infoContainerDiv, {
       class: 'repo-info',
     });
-    const div = createAndAppend('div', repoInfodiv);
+    const div = createAndAppend('div', repoInfoDiv);
     const table = createAndAppend('div', div, { class: 'grid' });
 
     const tr1 = createAndAppend('div', table, { class: 'row' });
@@ -118,11 +115,11 @@
     createAndAppend('div', tr4, { text: updatedOn, class: 'col-50' });
   }
 
-  function repositoryChanged(event) {
+  function repositoryChanged(selectedRepo) {
     const infoElement = document.getElementById('repo-info-container');
     infoElement.innerHTML = '';
-    const repositoryIndex = parseInt(event.target.selectedOptions[0].value, 10);
-    const selectedRepo = repositoryList[repositoryIndex];
+    // const repositoryIndex = parseInt(event.target.selectedOptions[0].value, 10);
+    // const selectedRepo = repositoryList[repositoryIndex];
     bindRepositoryDetails(selectedRepo);
     bindContributions(selectedRepo.contributors_url);
   }
@@ -137,30 +134,19 @@
       id: 'ddlRepository',
       class: 'select-css',
     });
-    createAndAppend('option', repoDropDown, { text: 'Select Repository' });
-    repositories.sort((a, b) => {
-      const x = a.name.toLowerCase();
-      const y = b.name.toLowerCase();
-      if (x < y) {
-        return -1;
-      }
-      if (x > y) {
-        return 1;
-      }
-      return 0;
-    });
-
-    for (let index = 0; index < repositories.length; index++) {
-      const element = repositories[index];
-      createAndAppend('option', repoDropDown, {
-        text: element.name,
-        value: index,
+    repositories
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .forEach((element, index) => {
+        createAndAppend('option', repoDropDown, {
+          text: element.name,
+          value: [index],
+        });
       });
-    }
-    repoDropDown.onchange = event => repositoryChanged(event);
+    repoDropDown.onchange = () => repositoryChanged(repositories[repoDropDown.value]);
   }
 
   function main(url) {
+    let repositoryList = [];
     const root = document.getElementById('root');
     fetchJSON(url)
       .then(response => {
@@ -170,6 +156,7 @@
           class: 'info-container',
           id: 'repo-info-container',
         });
+        repositoryChanged(repositoryList[0]);
       })
       .catch(err => {
         createAndAppend('div', root, {
