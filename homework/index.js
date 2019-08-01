@@ -117,14 +117,13 @@
     }
   }
 
-  const clearInfoContainer = element => {
-    while (element.firstChild) {
-      element.removeChild(element.firstChild);
+  const deleteContents = container => {
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
     }
   };
 
   function starter(url) {
-    // ******
     const root = document.getElementById('root');
     const header = createAndAppend('header', root, {
       class: 'header',
@@ -141,7 +140,7 @@
       id: 'info_container',
       class: 'info-container',
     });
-    // *******
+
     function renderResult(repositories) {
       repositories.sort((a, b) => a.name.localeCompare(b.name));
       repositories.forEach((repo, index) => {
@@ -150,9 +149,8 @@
       showRepoInfo(repositories[selectEl.value], infoContainer);
       showContributions(repositories[selectEl.value].contributors_url, infoContainer);
       selectEl.addEventListener('change', () => {
-        clearInfoContainer(infoContainer);
+        deleteContents(infoContainer);
         showRepoInfo(repositories[selectEl.value], infoContainer);
-        console.log(repositories[selectEl.value].contributors_url);
         setTimeout(
           showContributions(repositories[selectEl.value].contributors_url, infoContainer),
           0,
