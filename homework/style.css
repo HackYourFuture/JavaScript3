@@ -27,21 +27,16 @@ select:focus {
 
 .header {
     background-color: #24292e;
-    min-height: 25px;
+    min-height: 35px;
     padding: 15px;
     display: flex;
     justify-content: center;
     color: white;
     font-weight: bolder;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
 }
 
 .root {
-    border-radius: 3px;
-    color: white;
+    color: #fafafa;
     font-weight: bolder;
     margin: auto;
 }
@@ -52,7 +47,6 @@ select:focus {
 }
 
 .info-container {
-    margin-top: 4px;
     padding: 12px;
     display: flex;
     justify-content: space-between;
@@ -124,10 +118,11 @@ td:first-child {
     display: block;
     text-decoration: none;
     color: black;
+    min-height: 50px;
 }
 
 .contributor-data-div {
-    overflow: auto;
+    overflow: hidden;
 }
 
 .contributor-name {
@@ -139,6 +134,7 @@ td:first-child {
 
 .contributor-img-div {
     float: left;
+    min-width: 50px;
 }
 
 .contributor-img {
@@ -153,14 +149,12 @@ td:first-child {
 }
 
 @media (max-width: 767px) {
-    .header,
-    .info-container {
+    .header {
         flex-direction: column;
         text-align: center;
     }
-    .select-container {
-        text-align: center;
-        width: 100%;
+    .info-container {
+        flex-direction: column;
     }
     .info-right,
     .info-left {
@@ -171,11 +165,8 @@ td:first-child {
 }
 
 @media (min-width: 1024px) {
-    .root {
-        margin-top: 25px;
-        width: 70%;
-    }
-    .header {
-        border-radius: 3px;
+    .info-container {
+        width: 75%;
+        margin: auto;
     }
 }
