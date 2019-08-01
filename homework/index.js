@@ -117,15 +117,17 @@
     });
     const table = createAndAppend('table', infoLeft);
     const tbody = createAndAppend('tbody', table);
-    addRow(tbody, `Name`, wantedRepo.name);
-    addRow(tbody, `Description`, wantedRepo.description);
+    const firstRow = addRow(tbody, `Name`);
+    const secondRow = addRow(tbody, `Description`, wantedRepo.description);
     addRow(tbody, `Forks`, wantedRepo.forks);
     addRow(tbody, `Last update`, new Date(wantedRepo.updated_at).toLocaleString());
-    const toBeLink = tbody.firstChild.childNodes[1];
-    toBeLink.innerHTML = `<a href="${wantedRepo.html_url}" target="_blank">${wantedRepo.name}</a>`;
-    const descriptionCell = tbody.childNodes[1].childNodes[1];
-    if (descriptionCell.textContent === '') {
-      createAndAppend('span', descriptionCell, {
+    createAndAppend('a', firstRow.childNodes[1], {
+      text: wantedRepo.name,
+      href: wantedRepo.html_url,
+      target: '_blank',
+    });
+    if (secondRow.childNodes[1].textContent === '') {
+      createAndAppend('span', secondRow.childNodes[1], {
         class: 'no-content',
         text: 'There is NO description',
       });
