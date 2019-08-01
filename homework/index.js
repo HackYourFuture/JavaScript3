@@ -105,8 +105,8 @@
     }
 
     fetchJSON(urlText)
-      .then(goodResult => renderContributions(goodResult))
-      .catch(somethingWrong => renderError(somethingWrong));
+      .then(contributors => renderContributions(contributors))
+      .catch(error => renderError(error));
   }
 
   function showRepoInfo(wantedRepo) {
@@ -152,8 +152,8 @@
       });
     }
     fetchJSON(url)
-      .then(goodResult => renderResult(goodResult))
-      .catch(somethingWrong => renderError(somethingWrong));
+      .then(repositories => renderResult(repositories))
+      .catch(error => renderError(error));
   }
 
   window.onload = () => starter(HYF_REPOS_URL);
