@@ -43,7 +43,7 @@
   });
 
   function renderError(error) {
-    createAndAppend('h1', root, { text: error.message });
+    createAndAppend('h1', root, { text: error.message, class: 'alert-error' });
   }
 
   function fetchJSON(url) {
