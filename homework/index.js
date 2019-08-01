@@ -26,8 +26,8 @@
     return tr;
   }
 
-  function renderError(error) {
-    createAndAppend('h1', root, { text: error.message, class: 'alert-error' });
+  function renderError(error, container) {
+    createAndAppend('div', container, { text: error.message, class: 'alert-error' });
   }
 
   function fetchJSON(url) {
@@ -90,7 +90,7 @@
 
     fetchJSON(urlText)
       .then(contributors => renderContributions(contributors))
-      .catch(error => renderError(error));
+      .catch(error => renderError(error, infoRight));
   }
 
   function showRepoInfo(wantedRepo, container) {
@@ -152,6 +152,7 @@
       selectEl.addEventListener('change', () => {
         clearInfoContainer(infoContainer);
         showRepoInfo(repositories[selectEl.value], infoContainer);
+        console.log(repositories[selectEl.value].contributors_url);
         setTimeout(
           showContributions(repositories[selectEl.value].contributors_url, infoContainer),
           0,
@@ -160,7 +161,7 @@
     }
     fetchJSON(url)
       .then(repositories => renderResult(repositories))
-      .catch(error => renderError(error));
+      .catch(error => renderError(error, infoContainer));
   }
 
   window.onload = () => starter(HYF_REPOS_URL);
