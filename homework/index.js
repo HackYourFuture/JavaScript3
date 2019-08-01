@@ -97,8 +97,18 @@
         });
       });
     }
+
+    function notifyNoData() {
+      if (infoRight.firstElementChild === null) {
+        createAndAppend('p', infoRight, {
+          class: 'no-content',
+          text: 'There is no data',
+        });
+      }
+    }
     fetchJSON(urlText)
       .then(goodResult => renderContributions(goodResult))
+      .then(notifyNoData())
       .catch(somethingWrong => renderError(somethingWrong));
   }
 
