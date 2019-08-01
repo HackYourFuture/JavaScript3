@@ -131,7 +131,7 @@
     }
   }
 
-  const clearinfoContainer = () => {
+  const clearInfoContainer = () => {
     while (infoContainer.firstChild) {
       infoContainer.removeChild(infoContainer.firstChild);
     }
@@ -146,7 +146,7 @@
       showRepoInfo(repositories[selectEl.value]);
       showContributions(repositories[selectEl.value].contributors_url);
       selectEl.addEventListener('change', () => {
-        clearinfoContainer();
+        clearInfoContainer();
         showRepoInfo(repositories[selectEl.value]);
         setTimeout(showContributions(repositories[selectEl.value].contributors_url), 0);
       });
