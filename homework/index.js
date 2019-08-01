@@ -3,19 +3,21 @@
 {
   let repositoryList = [];
 
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status <= 299) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status <= 299) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -37,45 +39,48 @@
   }
 
   function bindContributions(contributorsUrl) {
-    fetchJSON(contributorsUrl, (error, response) => {
-      const repoInfoContainer = document.getElementById('repo-info-container');
-      const contributorsDiv = createAndAppend('div', repoInfoContainer, {
-        class: 'contributors-info',
-      });
-      if (error) {
+    const repoInfoContainer = document.getElementById('repo-info-container');
+    const contributorsDiv = createAndAppend('div', repoInfoContainer, {
+      class: 'contributors-info',
+    });
+    fetchJSON(contributorsUrl)
+      .then(response => {
+        const div = createAndAppend('div', contributorsDiv);
+        createAndAppend('h4', div, { text: 'Contributions' });
+        createAndAppend('hr', div);
+
+        const table = createAndAppend('div', div, { class: 'grid' });
+        const contributors = response;
+        for (let index = 0; index < contributors.length; index++) {
+          const imageUrl = contributors[index].avatar_url;
+          const name = contributors[index].login;
+          const contributionsCount = contributors[index].contributions;
+          const profileURL = contributors[index].html_url;
+          const tr = createAndAppend('div', table, { class: 'clickable row' });
+          tr.onclick = () => openNewTab(profileURL);
+          const td1 = createAndAppend('div', tr, { class: 'col-30' });
+          const imgContainerDiv = createAndAppend('div', td1, {
+            class: 'image-container',
+          });
+          createAndAppend('img', imgContainerDiv, {
+            src: imageUrl,
+            width: 80,
+            height: 80,
+          });
+          createAndAppend('div', tr, {
+            text: name,
+            class: 'col-30 description',
+          });
+          const td3 = createAndAppend('div', tr, { class: 'col-30' });
+          createAndAppend('label', td3, { text: contributionsCount });
+        }
+      })
+      .catch(error => {
         createAndAppend('div', contributorsDiv, {
           text: error.message,
           class: 'alert-error',
         });
-        return;
-      }
-
-      const div = createAndAppend('div', contributorsDiv);
-      createAndAppend('h4', div, { text: 'Contributions' });
-      createAndAppend('hr', div);
-      const table = createAndAppend('div', div, { class: 'grid' });
-      const contributors = response;
-      for (let index = 0; index < contributors.length; index++) {
-        const imageUrl = contributors[index].avatar_url;
-        const name = contributors[index].login;
-        const contributionsCount = contributors[index].contributions;
-        const profileURL = contributors[index].html_url;
-        const tr = createAndAppend('div', table, { class: 'clickable row' });
-        tr.onclick = () => openNewTab(profileURL);
-        const td1 = createAndAppend('div', tr, { class: 'col-30' });
-        const imgContainerDiv = createAndAppend('div', td1, {
-          class: 'image-container',
-        });
-        createAndAppend('img', imgContainerDiv, {
-          src: imageUrl,
-          width: 80,
-          height: 80,
-        });
-        createAndAppend('div', tr, { text: name, class: 'col-30 description' });
-        const td3 = createAndAppend('div', tr, { class: 'col-30' });
-        createAndAppend('label', td3, { text: contributionsCount });
-      }
-    });
+      });
   }
   function bindRepositoryDetails(selectedRepository) {
     const { description } = selectedRepository.description;
@@ -156,22 +161,22 @@
   }
 
   function main(url) {
-    fetchJSON(url, (err, repositories) => {
-      const root = document.getElementById('root');
-      if (err) {
+    const root = document.getElementById('root');
+    fetchJSON(url)
+      .then(response => {
+        repositoryList = response;
+        createDropDown(root, repositoryList);
+        createAndAppend('div', root, {
+          class: 'info-container',
+          id: 'repo-info-container',
+        });
+      })
+      .catch(err => {
         createAndAppend('div', root, {
           text: err.message,
           class: 'alert-error',
         });
-        return;
-      }
-      repositoryList = repositories;
-      createDropDown(root, repositoryList);
-      createAndAppend('div', root, {
-        class: 'info-container',
-        id: 'repo-info-container',
       });
-    });
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
