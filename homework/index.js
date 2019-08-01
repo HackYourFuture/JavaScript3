@@ -50,7 +50,7 @@
     createAndAppend(
       'td',
       tr,
-      value
+      value != null
         ? {
             text: value,
           }
