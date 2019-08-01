@@ -11,6 +11,10 @@ body {
     color: #721c24;
     background-color: #f8d7da;
     padding: 15px;
+    width: 100%;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
 }
 
 .select-list {
