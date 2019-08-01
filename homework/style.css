@@ -1,4 +1,4 @@
-/* will update the css ASAP */
+/* will improve css further in the next commit */
 
 *, *:before, *:after {
   margin: 0;
@@ -109,6 +109,11 @@
   box-shadow: 0 0 0.2em rgba(0, 0, 0, 0.555);
   background-color: rgb(212, 212, 212);
   transition: transform 0.2s;
+}
+
+#main-table:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 0.2em rgba(2, 5, 197, 0.904);
 }
 
 @media (max-width: 767px) {
