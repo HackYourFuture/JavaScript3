@@ -26,23 +26,6 @@
     return tr;
   }
 
-  const root = document.getElementById('root');
-  const header = createAndAppend('header', root, {
-    class: 'header',
-  });
-  createAndAppend('span', header, {
-    class: 'page-title',
-    text: 'HYF Repositories',
-  });
-  const selectEl = createAndAppend('select', header, {
-    class: 'select-list',
-    id: 'repositories_list',
-  });
-  const infoContainer = createAndAppend('div', root, {
-    id: 'info_container',
-    class: 'info-container',
-  });
-
   function renderError(error) {
     createAndAppend('h1', root, { text: error.message, class: 'alert-error' });
   }
@@ -64,8 +47,8 @@
     });
   }
 
-  function showContributions(urlText) {
-    const infoRight = createAndAppend('div', infoContainer, {
+  function showContributions(urlText, container) {
+    const infoRight = createAndAppend('div', container, {
       class: 'info-right',
       text: 'Contributions:',
     });
@@ -110,8 +93,8 @@
       .catch(error => renderError(error));
   }
 
-  function showRepoInfo(wantedRepo) {
-    const infoLeft = createAndAppend('div', infoContainer, {
+  function showRepoInfo(wantedRepo, container) {
+    const infoLeft = createAndAppend('div', container, {
       class: 'info-left',
       text: 'Repository information:',
     });
@@ -134,24 +117,45 @@
     }
   }
 
-  const clearInfoContainer = () => {
-    while (infoContainer.firstChild) {
-      infoContainer.removeChild(infoContainer.firstChild);
+  const clearInfoContainer = element => {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
     }
   };
 
   function starter(url) {
+    // ******
+    const root = document.getElementById('root');
+    const header = createAndAppend('header', root, {
+      class: 'header',
+    });
+    createAndAppend('span', header, {
+      class: 'page-title',
+      text: 'HYF Repositories',
+    });
+    const selectEl = createAndAppend('select', header, {
+      class: 'select-list',
+      id: 'repositories_list',
+    });
+    const infoContainer = createAndAppend('div', root, {
+      id: 'info_container',
+      class: 'info-container',
+    });
+    // *******
     function renderResult(repositories) {
       repositories.sort((a, b) => a.name.localeCompare(b.name));
       repositories.forEach((repo, index) => {
         createAndAppend('option', selectEl, { text: repo.name, value: index });
       });
-      showRepoInfo(repositories[selectEl.value]);
-      showContributions(repositories[selectEl.value].contributors_url);
+      showRepoInfo(repositories[selectEl.value], infoContainer);
+      showContributions(repositories[selectEl.value].contributors_url, infoContainer);
       selectEl.addEventListener('change', () => {
-        clearInfoContainer();
-        showRepoInfo(repositories[selectEl.value]);
-        setTimeout(showContributions(repositories[selectEl.value].contributors_url), 0);
+        clearInfoContainer(infoContainer);
+        showRepoInfo(repositories[selectEl.value], infoContainer);
+        setTimeout(
+          showContributions(repositories[selectEl.value].contributors_url, infoContainer),
+          0,
+        );
       });
     }
     fetchJSON(url)
