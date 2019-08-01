@@ -1,5 +1,3 @@
-/* eslint-disable prefer-destructuring */
-
 'use strict';
 
 {
@@ -68,7 +66,7 @@
     fetchJSON(repo.contributors_url)
       .then(contributors => {
         ul.innerHTML = '';
-        createAndAppend('h3', ul, { text: `Contributors:` });
+        createAndAppend('li', ul, { text: `Contributors:` });
         contributors.forEach(contributor => {
           const li = createAndAppend('li', ul);
           const a = createAndAppend('a', li, { href: contributor.html_url, target: '_blank' });
@@ -105,11 +103,8 @@
       .then(repositories => {
         createOptionElements(repositories, select);
 
-        function setDefault() {
-          renderRepos(repositories[0], tableContainer);
-          renderContributions(repositories[0], ul);
-        }
-        setDefault();
+        renderRepos(repositories[0], tableContainer);
+        renderContributions(repositories[0], ul);
 
         select.addEventListener('change', () => {
           const repo = repositories[select.value];
