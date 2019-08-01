@@ -40,7 +40,6 @@ select:focus {
 }
 
 .root {
-    /* padding: 8px; */
     border-radius: 3px;
     color: white;
     font-weight: bolder;
