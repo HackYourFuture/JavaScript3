@@ -104,13 +104,13 @@
     const secondRow = addRow(tbody, `Description`, wantedRepo.description);
     addRow(tbody, `Forks`, wantedRepo.forks);
     addRow(tbody, `Last update`, new Date(wantedRepo.updated_at).toLocaleString());
-    createAndAppend('a', firstRow.childNodes[1], {
+    createAndAppend('a', firstRow.lastChild, {
       text: wantedRepo.name,
       href: wantedRepo.html_url,
       target: '_blank',
     });
-    if (secondRow.childNodes[1].textContent === '') {
-      createAndAppend('span', secondRow.childNodes[1], {
+    if (secondRow.lastChild.textContent === '') {
+      createAndAppend('span', secondRow.lastChild, {
         class: 'no-content',
         text: 'There is NO description',
       });
