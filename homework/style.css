@@ -34,12 +34,14 @@
 }
 
 #HYF-Logo {
-  width: 10%;
+  max-width: 10%;
   margin: 0.5em;
 }
 
 #main-wrapper {
   display: flex;
+  justify-content: space-between;
+  padding: 1em -1em 1em 1.7em;
 }
 
 #repository-selector {
@@ -71,8 +73,65 @@
   width: 49%;
 }
 
+.contributor-wrapper {
+  display: flex;
+  background-color: #aaa;
+  margin: 0.2em;
+  justify-content: space-between;
+  width: 95%;
+  border: 2px ridge #ffffffd3;
+  border-radius: 2px;
+  box-shadow: 0 0 0.2em rgba(0, 0, 0, 0.555);
+  background-color: rgb(212, 212, 212);
+  transition: transform 0.2s;
+}
+
+.contributor-wrapper:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 0.2em rgba(2, 5, 197, 0.904);
+}
+
+.contributor-wrapper img {
+  max-width: 20%;
+}
+
+.contributor-wrapper a {
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+#main-table {
+  font-size: 1.5em;
+  margin: 1em 0.1em 1em 0.1em;
+  width: 95%;
+  border: 2px ridge #ffffffd3;
+  border-radius: 2px;
+  box-shadow: 0 0 0.2em rgba(0, 0, 0, 0.555);
+  background-color: rgb(212, 212, 212);
+  transition: transform 0.2s;
+}
+
 @media (max-width: 767px) {
+  * {
+    font-size: 90%;
+  }
+  #title {
+    font-size: 4.2em;
+    width: 70%;
+  }
+  #HYF-Logo {
+    max-width: 30%;
+    margin: 0.5em;
+  }
+  #main-wrapper {
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
   #left-column, #right-column {
-    min-width: 99%;
+    width: 100%;
+  }
+  #repository-selector {
+    width: 80%;
+    max-width: 100%;
   }
 }

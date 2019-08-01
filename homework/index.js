@@ -71,7 +71,7 @@
   function createContributors(rightColumn, requestURL) {
     fetchJSON(requestURL, (err, contributors) => {
       if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        createAndAppend('div', rightColumn, { text: err.message, class: 'alert-error' });
       }
       const rightUL = createAndAppend('ul', rightColumn, { id: 'main-list' });
       contributors.forEach(contributor => {
@@ -93,7 +93,7 @@
           href: contributor.html_url,
         });
         createAndAppend('div', contributorWrapper, {
-          text: contributor.contributions,
+          text: `Number of contributions: ${contributor.contributions}`,
           class: 'number-of-commits',
         });
       });
