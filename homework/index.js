@@ -99,7 +99,7 @@
       if (infoRight.firstElementChild === null) {
         createAndAppend('p', infoRight, {
           class: 'no-content',
-          text: 'There is no data',
+          text: 'There are no contributions yet.',
         });
       }
     }
