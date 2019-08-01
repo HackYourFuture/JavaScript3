@@ -23,6 +23,7 @@
     const tr = createAndAppend('tr', tbody);
     createAndAppend('td', tr, { text: `${label}:` });
     createAndAppend('td', tr, { text: value });
+    return tr;
   }
 
   const root = document.getElementById('root');
