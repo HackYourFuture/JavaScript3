@@ -112,7 +112,7 @@
     if (secondRow.lastChild.textContent === '') {
       createAndAppend('span', secondRow.lastChild, {
         class: 'no-content',
-        text: 'There is NO description',
+        text: 'There is NO description.',
       });
     }
   }
