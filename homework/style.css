@@ -48,6 +48,7 @@ header {
   max-width: 13rem;
   padding-bottom: 0;
   padding-top: 0;
+  text-transform: capitalize;
 }
 
 .card-text.badge {
