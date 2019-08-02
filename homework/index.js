@@ -53,34 +53,31 @@
     return tr;
   }
 
-  function renderRepoInformation(repositories, container) {
+  function renderRepoInformation(repository, container) {
     container.innerHTML = ' ';
     const table = createAndAppend('table', container, { class: 'infoTable' });
     const tbody = createAndAppend('tbody', table);
     const firstRow = addRow(tbody, 'Repository: ', '', 'explanations');
     createAndAppend('a', firstRow.lastChild, {
-      href: `${repositories.html_url}`,
+      href: repository.html_url,
       target: 'blank',
-      text: `${repositories.name}`,
+      text: repository.name,
     });
-    addRow(tbody, 'Description:', repositories.description, 'explanations');
-    addRow(tbody, 'Fork:', repositories.forks, 'explanations');
-    addRow(tbody, 'Updated:', `${repositories.updated_at}`.substring(0, 10), 'explanations');
+    addRow(tbody, 'Description:', repository.description, 'explanations');
+    addRow(tbody, 'Fork:', repository.forks, 'explanations');
+    addRow(tbody, 'Updated:', `${repository.updated_at}`.substring(0, 10), 'explanations');
   }
 
-  function renderContributorsInformation(repositories, container) {
-    const contributors = repositories.contributors_url;
-    const url = contributors;
-    fetchJSON(url)
+  function renderContributorsInformation(repository, container) {
+    fetchJSON(repository.contributors_url)
       .then(contributorDetails => {
-        console.log(contributorDetails);
         container.innerHTML = ' ';
         const div = document.getElementById('cont-ulist');
         createAndAppend('h4', div, { text: 'Contributors' });
         const contrList = createAndAppend('ul', div, { class: 'contr-list' });
         contributorDetails.forEach(contributor => {
           const li = createAndAppend('li', contrList);
-          const a = createAndAppend('a', li, { href: contributor.html_url, target: 'blank' });
+          const a = createAndAppend('a', li, { href: contributor.html_url, target: '_blank' });
           createAndAppend('img', a, {
             src: contributor.avatar_url,
             class: 'images',
@@ -115,11 +112,8 @@
         repositories.sort((a, b) => a.name.localeCompare(b.name));
         createOptions(repositories, select);
 
-        function showFirstRepo() {
-          renderRepoInformation(repositories[0], section);
-          renderContributorsInformation(repositories[0], contrDiv);
-        }
-        showFirstRepo();
+        renderRepoInformation(repositories[0], section);
+        renderContributorsInformation(repositories[0], contrDiv);
 
         select.addEventListener('change', () => {
           const repository = repositories[select.value];
