@@ -1,0 +1,1681 @@
+[33mcommit d5082f65083c6acb20603bf30b40a622705e4b54[m[33m ([m[1;36mHEAD -> [m[1;32mJS3-week1[m[33m)[m
+Author: elicarcar <elisabetta.carcar@hotmail.com>
+Date:   Fri Jul 26 12:16:45 2019 +0200
+
+    Styling complete, adding 'contributors' heading
+
+[33mcommit 46665a36962b453a0c5fdc7b9f3386b9bda46ccd[m
+Author: elicarcar <elisabetta.carcar@hotmail.com>
+Date:   Wed Jul 24 23:23:51 2019 +0200
+
+    Basic code construction is almost done, still working on CSS
+
+[33mcommit 763e670e79c1a3e13490d0c04d5a3ca93b1f611d[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Merge: bd30c3a 67f5ccc
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Jul 19 18:11:05 2019 +0200
+
+    Merge pull request #290 from HackYourFuture/prep-class22
+    
+    Fix security alert
+
+[33mcommit 67f5ccc2cf2813088b9fba66ff053f9969a1c38a[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Jul 19 18:08:29 2019 +0200
+
+    Fix security alert
+
+[33mcommit bd30c3a86e7c435b0a4cecc0cdd15771b4ad0dc2[m
+Merge: 9bd7d0d 0579f32
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Jul 19 18:06:51 2019 +0200
+
+    Merge pull request #289 from HackYourFuture/prep-class22
+    
+    Prep for class 22
+
+[33mcommit 0579f32473e00c38ccebdd9eff24cf3bf000aa6e[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Jul 19 18:02:51 2019 +0200
+
+    Fix GitHub security alerts
+
+[33mcommit d215b6756d86ff00d0b832a3ac2ed0efd12f2967[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Jul 17 12:57:23 2019 +0200
+
+    Check for valid HTTP 2xx responses
+
+[33mcommit 2e3be8fe662c2eaaab862598af3d63027e4cfad8[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Jul 10 19:16:30 2019 +0200
+
+    Rename createAppend back to createAndAppend
+
+[33mcommit 4a64e939c6ceeba6080a10a8f83aedbf2b6cb300[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Jul 5 11:57:19 2019 +0200
+
+    Add `fetch` to the assignment
+
+[33mcommit c351f9d7d87ea188af0278ed207b4e74322585bd[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Jul 5 11:45:36 2019 +0200
+
+    Rename createAndAppend to createAppend
+
+[33mcommit 7f2833b7ff977041a094c28c37b13fc302c4f60f[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Jul 5 11:23:10 2019 +0200
+
+    Add unit tests for homework reviews
+
+[33mcommit a7e24597467e8644d204e8d35250df076f8baf02[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Jul 5 10:11:20 2019 +0200
+
+    Prepare for class 22
+
+[33mcommit 9bd7d0d563cb847ee7be566d66d05f7f7b42ee3d[m
+Merge: 5553de8 6b12ffb
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Jun 27 13:50:16 2019 +0200
+
+    Merge pull request #278 from HackYourFuture/fix-week3
+    
+    Fix incorrect arguments for createAndAppend
+
+[33mcommit 6b12ffbb42d28ffc967c99f2dd43349b5d3c197d[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Jun 27 13:41:28 2019 +0200
+
+    Fix incorrect arguments for createAndAppend
+
+[33mcommit 5553de8adc745b66948a9f6945226a0b2c620a15[m
+Author: Joost Lubach <joostlubach@gmail.com>
+Date:   Sun Jan 27 11:38:18 2019 +0100
+
+    App hackyourinfo: Fixed small bug
+
+[33mcommit 4dc517f4eb39b98871b8b2f71527ea4faed70485[m
+Author: Joost Lubach <joostlubach@gmail.com>
+Date:   Sun Jan 27 11:33:30 2019 +0100
+
+    Added 'hackyourinfo' app - a small web server for students to POST info to as a learning aid in Week 1.
+    
+    Usage:
+    
+    - Deploy somehwere (e.g. using now: `now -p -n hackyourinfo`)
+    - Give URL to users
+    - Endpoints:
+    
+    POST /:name.json : Post any JSON body to save info for a student.
+    GET /:name.json : Retrieve that student JSON body
+    GET /_all.json : Retrieve all students' info
+    DELETE /:name.json : Delete one student's info.
+    DELETE /_all.json : Start over
+
+[33mcommit e4b19cbcb8bef9bbbc035b9c644cd67f6eae5dd0[m
+Merge: fa8725a ab596ac
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Sun Jan 20 17:48:50 2019 +0100
+
+    Merge pull request #158 from Meno-101/Meno-101-patch-1
+    
+    Create .gitattributes
+
+[33mcommit fa8725a5c69ea49e4c2f2e5526f42c88ad40f928[m
+Merge: 61dbd6a 99c1e64
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Jan 14 14:27:51 2019 +0100
+
+    Merge pull request #163 from remarcmij/class19
+    
+    Class19 preparation
+
+[33mcommit 99c1e646dfc1f861d31c9e08b9b51990a196b416[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Jan 10 16:58:56 2019 +0100
+
+    replace innerText with textContent
+
+[33mcommit 80c53692be237fcf01d2808eeb8d79d93e2ddd45[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Jan 9 10:43:09 2019 +0100
+
+    Remove --fix from eslint in package.json
+
+[33mcommit 065d914c377952c8d0235e38745e8527d87eface[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Jan 9 10:41:56 2019 +0100
+
+    Relax eslint rules
+
+[33mcommit ab596ace3d3a617929d973487c8260c9869fc09d[m
+Author: Jawhar B <j.birakdar@gmail.com>
+Date:   Sat Dec 22 03:44:21 2018 +0100
+
+    Create .gitattributes
+    
+    Dealing with line endings across students platform.
+
+[33mcommit 61dbd6aee8fd22e71df39b7691276b63fe2626ab[m
+Merge: 1c03673 d3a174b
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Nov 22 11:11:12 2018 +0100
+
+    Merge pull request #133 from remarcmij/master
+    
+    ESLint Airbnb, Prettier and Travis CI
+
+[33mcommit d3a174bd1ba0e3681532e518b6ed30d45e71b0d3[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Nov 22 10:51:07 2018 +0100
+
+    readme/makeme tweaks
+
+[33mcommit 3b8c8d9bf4fcb4742c7872c402f5e58145e8310c[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Nov 21 21:40:42 2018 +0100
+
+    Added instruction to run npm test before submitting PR
+
+[33mcommit 3bab08efd2629800a6db1a8ce460a1427ac0ba81[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Nov 21 20:00:56 2018 +0100
+
+    More eslint/travis preparations
+
+[33mcommit ee0a47230c1b7607ba58ba95197da1b9a01a2d2e[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Nov 21 11:24:53 2018 +0100
+
+    undo travis error test
+
+[33mcommit 90775a7992e7baa64697f5d8162dffefdf029e2d[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Nov 21 11:23:03 2018 +0100
+
+    travis error test
+
+[33mcommit 1b421b3d2b535850f65584fc7fa93fd39ba6f8f3[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Nov 21 11:21:16 2018 +0100
+
+    use node 10 for travis ci
+
+[33mcommit cefa2d68dbe18c57c5ceb93b00bf664219df65ea[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Nov 21 11:18:32 2018 +0100
+
+    prepare for travis
+
+[33mcommit 9ca6e156d12aeb195bbb7a99011dc40849a8817b[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Nov 21 11:02:58 2018 +0100
+
+    added prettier + eslint-airbnb eslint support
+
+[33mcommit 1c03673bb2258cd849f95de335a142c743393b3b[m
+Merge: da506b5 89df696
+Author: Jawhar B <j.birakdar@gmail.com>
+Date:   Sat Oct 13 15:44:48 2018 +0200
+
+    Merge pull request #94 from HackYourFuture/update-class17
+    
+    Replace innerHTML with innerText
+
+[33mcommit 89df6961750d6a1952587812e74b920574b71d3d[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Sat Oct 13 15:10:51 2018 +0200
+
+    Replace innerHTML with innerText
+
+[33mcommit da506b538c22c7b7f012331ba935d9a4335baf8c[m
+Merge: 41d73a0 0db8a17
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Aug 17 12:02:17 2018 +0200
+
+    Merge pull request #61 from JawharBairakdar/master
+    
+    Update code formating link
+
+[33mcommit 0db8a17a5ee57efce5deb7121333e70ecb0363ff[m
+Author: M.J Birakdar <j.birakdar@gmail.com>
+Date:   Fri Aug 17 01:18:29 2018 +0200
+
+    Update code formating link
+
+[33mcommit 41d73a0221fc57e52b178997bf1d28156f0ce850[m
+Merge: 2a362f8 c934aca
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Aug 10 22:17:15 2018 +0200
+
+    Merge pull request #53 from HackYourFuture/gijscor-patch-1
+    
+    Update MAKEME.md
+
+[33mcommit c934aca61da3533517de419ff97be3560ea92586[m
+Author: Gijs C <gijscorstens@gmail.com>
+Date:   Thu Aug 9 10:53:24 2018 +0200
+
+    Update MAKEME.md
+
+[33mcommit 2a362f84927c1be132a8576a13bc8ceeeeec5714[m
+Merge: 783adc3 936bff1
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Fri Jun 8 12:55:52 2018 +0200
+
+    Merge pull request #14 from remarcmij/master
+    
+    Resubmission of PR to remove block by Maartje
+
+[33mcommit 936bff191bf93ec5d555a73fb93789a48f529df7[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Jun 8 12:50:10 2018 +0200
+
+    Clarification on the functionalities the application is to deliver
+
+[33mcommit 5c9c677648eb244facb5615f2116411921828767[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Jun 8 12:44:05 2018 +0200
+
+    Made ARIA-compliance BONUS instead of ES6 Classes
+
+[33mcommit c1d13033d73162ad89b91781b16ed98646d39e7c[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Jun 8 12:37:23 2018 +0200
+
+    incorporated Maartjes feedback
+
+[33mcommit a02af3396b173e018c1f0bb137e8ea1ff62c701d[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu May 31 15:04:38 2018 +0200
+
+    Removed bonus designation from ES6 classes assignment
+
+[33mcommit 696ad59ca3b821ca6895aa69071d00458b8b1e7d[m
+Merge: 14cb668 783adc3
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed May 30 17:30:37 2018 +0200
+
+    Merge remote-tracking branch 'upstream/master'
+
+[33mcommit 14cb668dd0852ac7c18fbf9fb7065f57ef1a9e9a[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed May 30 17:28:16 2018 +0200
+
+    updated MAKEME's
+
+[33mcommit 783adc34c670d75a3438934fb26c4b3edb77aace[m
+Merge: 8b3184c 56343f9
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Sun May 27 13:04:15 2018 +0200
+
+    Merge pull request #8 from mkruijt/master
+    
+    added link pr in main readme
+
+[33mcommit 99d49adac1843366b72168dfc232ef348fe57769[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Sun May 27 10:57:24 2018 +0200
+
+    preparation for homework as PR
+
+[33mcommit 8b3184c652b4e88a7c53a5bc1c091a0df704fb5a[m
+Merge: ea48a05 523ddfd
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Apr 19 12:48:04 2018 +0200
+
+    Merge pull request #9 from remarcmij/master
+    
+    corrects an error re window.onload in the week 3 skeleton
+
+[33mcommit 523ddfd540caab08df9a7e3f93c4a666bc439e44[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Apr 18 20:17:35 2018 +0200
+
+    corrects an error re window.onload in the week skeleton
+
+[33mcommit 56343f98cd458d27604ce9b16cc7599e30176949[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Thu Apr 5 15:04:18 2018 +0200
+
+    added link pr
+
+[33mcommit 613f4d9066a59eaa96bbe681944400d9bb6b848b[m
+Merge: 8e292b3 ea48a05
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Thu Apr 5 14:35:13 2018 +0200
+
+    Merge pull request #1 from HackYourFuture/master
+    
+    pull
+
+[33mcommit ea48a058fbe01e6978ca99c8e4eeb167948c19b5[m
+Merge: dc861d5 6d95c62
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Mon Mar 26 11:56:16 2018 +0200
+
+    Merge pull request #7 from remarcmij/master
+    
+    Added try...catch and async/await to week 3
+
+[33mcommit 6d95c629d00cf1a217e261c2abf6a5aaf1c82456[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 26 10:25:10 2018 +0200
+
+    fixed wrong week number reference
+
+[33mcommit 9a7c55a4319e0a8456476e8e12c477497c835731[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 26 10:23:59 2018 +0200
+
+    updated homework
+
+[33mcommit 32a2229a09ef222484b21bb5f42500a90ed6e434[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 26 10:13:16 2018 +0200
+
+    second attempt to fix link
+
+[33mcommit 97a9d724751c8cdc89216ba3b868e13875f03de8[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 26 10:12:15 2018 +0200
+
+    fixed broken link
+
+[33mcommit eac6b816ebf99f29ccd72e1d443313653b2fd663[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 26 10:05:27 2018 +0200
+
+    updated the skeleton for the GitHub app for async/await
+
+[33mcommit f82ebbdb733a0e0987fd9012d51809b2ad40423a[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 26 09:52:18 2018 +0200
+
+    added sorting of repo names to the assignment
+
+[33mcommit dda0a47ab190250f99cc7c9d2d6e4b5ec84177ef[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 26 09:30:08 2018 +0200
+
+    added async/await to assignment
+
+[33mcommit bf1b982f6a6d10560235eedc43643252d9ef570c[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 26 09:29:48 2018 +0200
+
+    mentioned media queries to make app responsive
+
+[33mcommit 95e2b3f2c15337cf64c2bfef667d61bcca852e44[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 26 09:28:25 2018 +0200
+
+    add try...catch & async/await as Week3 topics
+
+[33mcommit 6d347fa6f5700a975fd8388a7a5db8a21cbb55f8[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 26 09:27:15 2018 +0200
+
+    removed lecture examples (will post in separate repo)
+
+[33mcommit 1c00a29f8988771389e14fbf0c32835ec491a7a0[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Sun Mar 25 19:22:04 2018 +0200
+
+    added week2 bonus assignments
+
+[33mcommit 0c6d01236549c8e59cbf1e4c7064bcda0105978c[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Sun Mar 25 19:18:03 2018 +0200
+
+    fixed link
+
+[33mcommit e320d960fab74f0dfafa9e80f2ee7ddf3e2fba82[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Sun Mar 25 19:16:19 2018 +0200
+
+    fixed broken links to fundamentals in READMEs
+
+[33mcommit dc861d5b14e5d26aa98def0e6feb30731b1100b6[m
+Merge: 8b378c3 d54a80e
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Wed Mar 21 10:56:13 2018 +0100
+
+    Merge pull request #5 from remarcmij/master
+    
+    Move promises forward, OOP last; GitHub assignment used for all homework
+
+[33mcommit d54a80e2e16329948d767ca504b151c0e6feb6e6[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Tue Mar 20 16:37:49 2018 +0100
+
+    corrected typos and wording in READMEs and MAKEMEs
+
+[33mcommit 7c6abf14e53042aa2195aed51fa6b0d32b4c5c6b[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Tue Mar 20 15:48:18 2018 +0100
+
+    added Nobel Prize API lecture + code to week1
+
+[33mcommit 8224b0405ec406d3af81962dbe14ea4617b093c0[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Tue Mar 20 15:47:41 2018 +0100
+
+    complete reworked to use GitHub app as basis for all homework
+
+[33mcommit b8898b14375cea977dd115671483b7ecc6cd3d78[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 19 15:58:39 2018 +0100
+
+    corrected typos
+
+[33mcommit 15e1cb3612e09a52f28df115fe68c48c3418e50f[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 19 15:54:59 2018 +0100
+
+    removed unnecessary escapes
+
+[33mcommit 48bee1ad264cf5fb50d4b32f2476015c4998ce0e[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 19 15:53:26 2018 +0100
+
+    corrected typos
+
+[33mcommit 13bd4b22bd8e8e1449e3f856140ae89244c868cc[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 19 15:45:47 2018 +0100
+
+    corrected title of week1 MAKEME
+
+[33mcommit dc80c4b4e207c8b6b01cd213f5ccb30cf940d8d7[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 19 15:43:12 2018 +0100
+
+    swapped weeks and modified homework for week1: GitHub API
+
+[33mcommit 8b378c3145240c2a876f3bbb4a8ef43859c145cf[m
+Merge: 5198899 8e292b3
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Mon Mar 19 11:37:24 2018 +0100
+
+    Merge pull request #4 from mkruijt/master
+    
+    moved readings to corresponding weeks
+
+[33mcommit 8e292b30e260432a86c796c45c42406e97acdb2a[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Mon Mar 19 10:25:31 2018 +0100
+
+    moved readings to corresponding weeks
+
+[33mcommit 5198899eaf211d9e555d73ceee8bcb7ec71603e1[m
+Merge: aa6fb3b 82cab6e
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Mon Mar 19 09:53:44 2018 +0100
+
+    Merge pull request #1 from mkruijt/master
+    
+    Moved week 7,8,9 from the JavaScript repo to this repository (So JavaScript3).
+
+[33mcommit 82cab6e1dbf5a02a0d199cf412e4111743f0b788[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Tue Mar 13 15:08:36 2018 +0100
+
+    changed header
+
+[33mcommit 1984444e777dbb33ab110e3e079899d110ec14a2[m
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Mar 13 14:26:12 2018 +0100
+
+    Updated header
+
+[33mcommit 640b7f8f6dff6cfc7676239f6979b904ca6e3933[m
+Merge: 367768e a5dcc2c
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Tue Mar 13 14:23:00 2018 +0100
+
+    merge fixed path
+    Merge branch 'master' of github.com:mkruijt/JavaScript3
+
+[33mcommit 367768ec7ca35f2012e148683980cadb5db246ad[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Tue Mar 13 14:22:48 2018 +0100
+
+    shorter relative paths
+
+[33mcommit a5dcc2c8c9231981d664b6e3b925bd22c32760cb[m
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Mar 13 14:21:01 2018 +0100
+
+    update path
+
+[33mcommit 6307a9222e85d08811223e2447e11ad56ba36b0d[m
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Mar 13 14:20:36 2018 +0100
+
+    updated path
+
+[33mcommit ac9e56ae461230406259df60948cbeb487c02b76[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Tue Mar 13 14:17:27 2018 +0100
+
+    renamed weeks and fixed relative links to fundamentals repo
+
+[33mcommit aa6fb3b0f7933f77e9e64e47cbb18ea954ef05b2[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Mon Mar 12 13:13:32 2018 +0100
+
+    added JavaScript3
+
+[33mcommit 81492c728623c9286372793616f1fe644563043a[m
+Merge: a0a38a6 d67409e
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 5 14:11:22 2018 +0100
+
+    Merge pull request #40 from remarcmij/master
+    
+    Updated/added fundamentals.
+    
+    Further suggested changes:
+    
+    Swap week 7 & 8 topics. Do XMLHttpRequest in week 7 and combine with promises, leaving more time in JS3 to do promises homework and exercises. We need XMLHttpRequest here because at this point in the curriculum it is the only realistic use case for promises.
+
+[33mcommit d67409e93dfdba62bf2e3af49ca0d4605ce5c113[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 5 14:05:08 2018 +0100
+
+    added midway .catch to absorb errors and provide fallback value
+
+[33mcommit 4203cbdb2c7df8a3994b44f6e901a91311424acb[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Mar 5 14:02:23 2018 +0100
+
+    reworded description of the callstack
+
+[33mcommit 9c4250a41b11139e0a19f7d41b717c8d58471e1d[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Mar 2 11:55:04 2018 +0100
+
+    corrected type
+
+[33mcommit 1dd5e594bab38a55512cab3c477d07da89af08fb[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Feb 28 17:13:44 2018 +0100
+
+    corrected typo
+
+[33mcommit fa0387b30993e88106331f7816c0a8584b19e445[m
+Author: Jason Gwartz <jason@gwartz.me>
+Date:   Wed Feb 28 17:01:29 2018 +0100
+
+    Adds very small clarification re: .catch()
+
+[33mcommit f06d33dc06488bcdd1cbae0e9671deba273355f3[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Feb 28 16:53:39 2018 +0100
+
+    incorporated comment from Jason on .catch()
+
+[33mcommit d09002bcff7e3194d28f82391437057c088ab12f[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Feb 28 16:23:12 2018 +0100
+
+    Changed code flow to event loop in WEEK 9
+
+[33mcommit 8ccb1db2a85a72cdbc9c5a6b4653ff664688f309[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Feb 28 16:22:41 2018 +0100
+
+    updated makeme with changes from Samir
+
+[33mcommit f0dae827459bcacd6ac4f1a5995c1649ba6a1923[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Feb 28 16:21:27 2018 +0100
+
+    update map & filter fundamental
+
+[33mcommit 55cf38b911ea1c65353844974c29ee931da5fae0[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Feb 28 16:21:04 2018 +0100
+
+    added an event loop fundamental
+
+[33mcommit 24e85670636cf5fead4bad5c42c0c1f1a971d865[m
+Merge: 7e92772 a0a38a6
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Feb 28 16:20:23 2018 +0100
+
+    extended promises fundamental
+
+[33mcommit a0a38a66c64aa3f9f950c6990b7c17d801f806f2[m
+Merge: 6809091 1071b84
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Feb 27 15:17:11 2018 +0100
+
+    Merge pull request #39 from HackYourFuture/gijscor-patch-1
+    
+    Update promises.md
+
+[33mcommit 1071b84a6a991f6eef972bb3b00324b58a6d2a4c[m
+Author: Gijs C <gijscorstens@gmail.com>
+Date:   Tue Feb 27 14:33:17 2018 +0100
+
+    Update promises.md
+
+[33mcommit 68090916bc9694f5092c5231f406bdc69c637e13[m
+Merge: 9a15e40 2007189
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Sun Feb 25 12:30:03 2018 +0100
+
+    Merge pull request #38 from eidosam/master
+    
+    Week3 Homework Amendments
+
+[33mcommit 2007189949d9c02cc787a312383fc3373165bf43[m
+Author: Samir Aleido <eidosam@hotmail.com>
+Date:   Sat Feb 24 19:08:16 2018 +0100
+
+    :art: style: Consistent format across all changes
+
+[33mcommit e6abfb576d684bb5c52b46cf8019211119694c5e[m
+Author: Samir Aleido <eidosam@hotmail.com>
+Date:   Sat Feb 24 18:57:56 2018 +0100
+
+    :bulb: refactor: Ask to print properties to avoid confusion
+
+[33mcommit e7b7fea113b3fda991d4e464cbba88279180e1b4[m
+Author: Samir Aleido <eidosam@hotmail.com>
+Date:   Sat Feb 24 18:53:29 2018 +0100
+
+    :bug: fix: According to `vehiclesList` the 3rd (ordinary) is bike
+
+[33mcommit 2cc49f528333cdd0fcf045a5e623ecc306ade5ed[m
+Author: Samir Aleido <eidosam@hotmail.com>
+Date:   Sat Feb 24 18:44:51 2018 +0100
+
+    :bulb: refactor: Use yes/no to ensure using conditional operator
+
+[33mcommit 35af4c2baac325a7731ce5dc54aeef1bc1141896[m
+Author: Samir Aleido <eidosam@hotmail.com>
+Date:   Sat Feb 24 18:38:14 2018 +0100
+
+    :pencil2: refactor: Replace `console.log` with log verb
+
+[33mcommit 3044904d3dbf2f4968cca48d58a804464304b573[m
+Author: Samir Aleido <eidosam@hotmail.com>
+Date:   Sat Feb 24 18:26:31 2018 +0100
+
+    :star2: refactor: Take out string initialization out of the challenges
+
+[33mcommit 820c7ef170e21a810139df5dc12d8a9bff37c018[m
+Author: Samir Aleido <eidosam@hotmail.com>
+Date:   Sat Feb 24 18:05:58 2018 +0100
+
+    :pencil: fix: Spelling and grammar corrections
+
+[33mcommit 73b5fa4ba9659022da371887315f1c61b58150a7[m
+Author: Samir Aleido <eidosam@hotmail.com>
+Date:   Sat Feb 24 17:43:38 2018 +0100
+
+    :art: style: Clean whitespaces
+
+[33mcommit 7e92772e4f031cd6bbe0df8bc47df4e6a4df292d[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Feb 16 22:22:41 2018 +0100
+
+    extended promises fundamental
+
+[33mcommit 9a15e4069fa0b783056fd3844e73793f3a52b5ad[m
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Mon Feb 12 15:29:11 2018 +0100
+
+    Update README.md
+
+[33mcommit b14e5832de84b3aabbb326a15a3818346f3da52e[m
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Mon Feb 12 15:26:54 2018 +0100
+
+    Update README.md
+
+[33mcommit 5b644b4746e440656ab7348f304a2cc86cf5e384[m
+Merge: 967815d 04d9f20
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Thu Feb 8 13:24:39 2018 +0100
+
+    Merge pull request #35 from remarcmij/master
+    
+    MAKEME week 7, README Week 1 + prototype chain
+
+[33mcommit 04d9f200d01813ef99094a1a95b3ad7f4c6c50b5[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Feb 8 13:11:08 2018 +0100
+
+    added prototype chain explanation
+
+[33mcommit a77ec6d2b75fc3f01cc2c26a8211e1384897447b[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Feb 8 13:10:40 2018 +0100
+
+    replaced broken link to review to fundamental topics
+
+[33mcommit 0a0e41b48f3cda0ebe4f3b2fdab468e8ef8c7345[m
+Merge: a4efa29 967815d
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Feb 7 16:07:26 2018 +0100
+
+    Merge remote-tracking branch 'upstream/master'
+
+[33mcommit a4efa29762949462474f74075256ab0cdef828be[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Feb 7 16:05:55 2018 +0100
+
+    corrected MAKEME week7
+
+[33mcommit 967815ddac978c13f4f5a4229a70ce51a68ba832[m
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Feb 6 13:12:46 2018 +0100
+
+    fixed link
+
+[33mcommit b8c25437cbb65c6b34259361db9fcb7e94f1e7b5[m
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Feb 6 13:12:22 2018 +0100
+
+    fixed typo's
+
+[33mcommit 360e52e2423f8be6b04d7fd720ea8c9e373a03f2[m
+Merge: 42aa079 3f4e3a1
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Feb 6 13:11:11 2018 +0100
+
+    Merge pull request #33 from Kemirdin/patch-1
+    
+    Update README.md
+
+[33mcommit 3f4e3a1d3894fcda3d4e8a8fb0063c7e5a473609[m
+Author: K3M1RD1N <33654086+Kemirdin@users.noreply.github.com>
+Date:   Tue Feb 6 13:04:58 2018 +0100
+
+    Update README.md
+    
+    delete this line
+
+[33mcommit 42aa07995143c07f2f333706f2e27b20da3a1c67[m
+Merge: 5ff6907 d7431e5
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Feb 6 13:03:42 2018 +0100
+
+    Merge pull request #34 from remarcmij/master
+    
+    Updated this.md, homework week 7 Step 5
+
+[33mcommit d7431e55a6bcc37baa606a9bb575b2311b8e2bd3[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Tue Feb 6 00:07:57 2018 +0100
+
+    this.md typos and style, extended setTimeout example
+
+[33mcommit 2fb00685bb43b7af77fb52c0b5897d19a3660a15[m
+Author: K3M1RD1N <33654086+Kemirdin@users.noreply.github.com>
+Date:   Mon Feb 5 23:48:51 2018 +0100
+
+    Update README.md
+    
+     I have read this article and I found it very nice for good understanding promises especially for beginners.
+
+[33mcommit 660fe2d457e1f14abca0ef8fb23ed5e5ce383bfd[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Feb 5 23:36:39 2018 +0100
+
+    updated step 5 of homework week 7
+
+[33mcommit 5ff690771729d925348486ac66f6c2d529cf1d63[m
+Merge: 402134f 09c04ff
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Mon Feb 5 18:57:40 2018 +0100
+
+    Merge pull request #32 from remarcmij/master
+    
+    OOP fundamental
+
+[33mcommit 09c04ffe20272074ea5f0280d49431843bf17844[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Feb 5 18:47:19 2018 +0100
+
+    fixed link
+
+[33mcommit 6efd1f054e18b11c316c3eab13d67b2763f91416[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Feb 5 18:45:10 2018 +0100
+
+    added a 'this' fundamental; move promises to week 9
+
+[33mcommit d7d2b83a8c3875a4aaa57ee19d7d416f3120c88a[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Feb 1 22:48:34 2018 +0100
+
+    updated OOP fundamental
+
+[33mcommit 9b5187efd90ae538d2cdf8ddf328c34817899712[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Feb 1 19:08:53 2018 +0100
+
+    updated OOP fundamental
+
+[33mcommit 9f87bdd17bb8b43338e51cad7ba37b8248943c6c[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Feb 1 18:40:48 2018 +0100
+
+    completed OOP fundamental
+
+[33mcommit 3b9cec3eee635a7e3107531013d40e0b6a539f06[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Feb 1 18:40:29 2018 +0100
+
+    updated week 6 makeme
+
+[33mcommit 8de8c9b8132cc8ae1aee0058a8ace423afac58a8[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Jan 31 14:16:55 2018 +0100
+
+    more OOP fundamental updates
+
+[33mcommit 9f7547d0d600bf647217245704bb8c8539d83050[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Jan 31 13:44:35 2018 +0100
+
+    OOP fundamentals updates
+
+[33mcommit 20e95c1dade879e88fbc2802b46995c7ba3396d0[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Tue Jan 30 22:24:35 2018 +0100
+
+    corrected typos
+
+[33mcommit 6a9a5bf4c58c58691fa5043218c35168902620ff[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Tue Jan 30 22:14:26 2018 +0100
+
+    OOP fundamental wip
+
+[33mcommit a58bd77e962d4bf6e6bf9873498771e60056ce20[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Tue Jan 30 14:09:09 2018 +0100
+
+    updated oop/classes fundamental
+
+[33mcommit c47fb852e3ab53ac887c30f0036808e31a582375[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Tue Jan 30 13:11:20 2018 +0100
+
+    added link to oop fundamental
+
+[33mcommit 399ba3fef4d423906ca8ae33415a8415fbf21e17[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Tue Jan 30 13:08:34 2018 +0100
+
+    added fundamental for OOP and ES6 classes
+
+[33mcommit 402134f451063a34bacd41c06e6d40f943c29380[m
+Merge: 339691f fb22cae
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Thu Jan 25 15:02:11 2018 +0100
+
+    Merge pull request #31 from remarcmij/master
+    
+    additions to fundamentals
+
+[33mcommit fb22cae1bb5c6e60c9b94607d075eef1ec3c2bbf[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Jan 25 14:02:40 2018 +0100
+
+    expanded some fundaments
+
+[33mcommit 5f8ae988b8c181607929c82dff57b7e7e20d589a[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Jan 18 21:38:15 2018 +0100
+
+    updated functions fundamental
+
+[33mcommit 58b519773484dab2be87574efb51c907a1b1d2ed[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Jan 18 17:54:21 2018 +0100
+
+    additions to fundamentals
+
+[33mcommit 339691f5cbd2117b9df3b1da05507c233adee923[m
+Merge: 8ba83f7 72babba
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Wed Jan 10 16:32:09 2018 +0100
+
+    Merge pull request #30 from remarcmij/master
+    
+    Updates for JavaScript 2 Class 13
+
+[33mcommit 72babba68984f27de20ae8007f26609db09ad3fa[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Jan 10 16:20:48 2018 +0100
+
+    add code formatting to week 4
+
+[33mcommit 50d5e32b1857cc2074f96cac0571da59e28dc398[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Jan 10 16:18:49 2018 +0100
+
+    fixed broken links
+
+[33mcommit 6755444d38500f1f28373bd9295136b235ef9945[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Jan 10 16:18:28 2018 +0100
+
+    fixed broken links
+
+[33mcommit 7852907138801aabee3191bb57d67b2995e883e1[m
+Merge: 025bfb4 8ba83f7
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Jan 10 16:09:19 2018 +0100
+
+    Merge remote-tracking branch 'upstream/master'
+
+[33mcommit 025bfb43e9d0708fec6435eef4116e53e35e01d2[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Jan 10 16:08:15 2018 +0100
+
+    Updated for Class 13 JavaScript 2
+
+[33mcommit 8ba83f7d0ba4361c651fb9454efbd3ede5bcf36d[m
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Jan 9 11:49:00 2018 +0100
+
+    Update README.md
+
+[33mcommit 6a85a7d304333204b91976397b85ef41b853d2fe[m
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Jan 9 11:47:47 2018 +0100
+
+    Update README.md
+
+[33mcommit 36f5f1b62fc5f00603b57c86e99bfdbc6c0407a0[m
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Jan 9 11:47:28 2018 +0100
+
+    Update README.md
+
+[33mcommit 53611d75f01eb83ea913268260061706f0f45a7a[m
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Jan 9 11:44:36 2018 +0100
+
+    Update README.md
+
+[33mcommit f79583ab400bb08d2b83054cb58ed3dfee94958f[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Mon Dec 18 22:15:29 2017 +0100
+
+    rearenged homework
+
+[33mcommit fbf518a745682b63afa45a5a2cf7e279f19d753f[m
+Merge: e337bdc 8200dd5
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Sun Dec 17 11:29:20 2017 +0100
+
+    Merge pull request #27 from remarcmij/master
+    
+    Added fundamentals
+
+[33mcommit 8200dd59391c3bc4579d23f42df3767f3c4c7c79[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Sun Dec 17 11:27:25 2017 +0100
+
+    change types to upppercase
+
+[33mcommit e337bdcd2d396937f9600615a628f242c156d8ec[m
+Merge: 3e912c1 89b8411
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Sat Dec 16 19:49:16 2017 +0100
+
+    Merge pull request #26 from malnajar/master
+    
+    MAKEME.md
+
+[33mcommit cc390d420c46955f07424758e502665968fab71a[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Dec 15 22:17:16 2017 +0100
+
+    corrected spelling errors flagged by spell checker
+
+[33mcommit e93b400f9f714a519d84afd7e41455ed20d884a6[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Dec 15 18:24:17 2017 +0100
+
+    added fundamental for scope
+
+[33mcommit 89b841118ddc6d31d3ecc52ec2b155e333fa6511[m
+Author: Mohammad AL-Najar <32513012+malnajar@users.noreply.github.com>
+Date:   Fri Dec 15 17:59:48 2017 +0100
+
+    MAKEME.md
+    
+    fixing few mistakes
+
+[33mcommit 1e466d2a903a3e2cf1c9244c8b12cd5bf380ef9f[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Dec 15 13:17:40 2017 +0100
+
+    added loops fundamental
+
+[33mcommit 18a034ec76ee8d2e341a26d49340437179de3362[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Dec 14 17:32:49 2017 +0100
+
+    added a fundamental on conditional execution
+
+[33mcommit 27d4c47a9c6e577703d0e93740b793f293e8c144[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Dec 14 14:55:54 2017 +0100
+
+    Updated MAKEME week 3
+
+[33mcommit 94595222cf62ed8cea4731733246bd0f076ba15d[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Dec 14 13:59:04 2017 +0100
+
+    updated MAKEME week 2
+
+[33mcommit a1c446a750f34bf14ced2d6d581fa66c724bf071[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Dec 14 13:16:34 2017 +0100
+
+    added direct link for fundamentals README
+
+[33mcommit b689c206b83c50f7e937ee82c747e70cb3d3ef51[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Dec 14 13:15:17 2017 +0100
+
+    added direct link to fundamentals README
+
+[33mcommit f8f67f88fba16166ea8557498740a285d62df7af[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Dec 14 13:12:59 2017 +0100
+
+    fixed links
+
+[33mcommit 4456aa4d778843f419956d26da23fc0e1d1f5ae8[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Dec 14 13:08:05 2017 +0100
+
+    replaced REVIEWs by direct links to fundamentals in main README
+
+[33mcommit 3e912c1213e28ebe0b01d9576781f40bd530b046[m
+Merge: 126be5c 7122d5b
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Dec 12 22:03:37 2017 +0100
+
+    Merge pull request #23 from remarcmij/master
+    
+    Split REVIEWs and match up with revised schedule
+
+[33mcommit 7122d5b5c1e5f35843ec4124e14e511e48d79755[m
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Mon Dec 11 15:42:47 2017 +0100
+
+    Update REVIEW.md
+
+[33mcommit 4d2a6ef0dfe20c6a5b046a19b8d60169b1048c3a[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Dec 11 14:14:25 2017 +0100
+
+    fixed broken link
+
+[33mcommit 64daf3f0ec0d6a972e5a054ace8624a404c92001[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Dec 11 14:13:43 2017 +0100
+
+    added code commenting link
+
+[33mcommit 2efd3035d7dfb93b95d32d0e1f8e57779f56958a[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Dec 11 14:05:13 2017 +0100
+
+    fixed week 6 review
+
+[33mcommit 1848c776bcd5a1be4d4894df3ebdcb33b0ca493c[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Dec 11 14:03:17 2017 +0100
+
+    fixed broken links
+
+[33mcommit cd7cb0f5d682d06373f98efd58381eec8d200bce[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Dec 11 14:01:53 2017 +0100
+
+    fixed week 5 review
+
+[33mcommit b1b37eccce2071a1448d80be5ab1b40ee2d8cc48[m
+Merge: 7b48a0b b57caa6
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Dec 11 14:00:58 2017 +0100
+
+    Merge branch 'master' of https://github.com/remarcmij/JavaScript
+
+[33mcommit 7b48a0b98a2f95fb5344c36659438cd00c9ba346[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Dec 11 14:00:52 2017 +0100
+
+    fixed week5 review
+
+[33mcommit b57caa6d546ea5fd6b379b1252b167cb9bc95d8c[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Dec 11 13:51:30 2017 +0100
+
+    removed unused file
+
+[33mcommit cb27d56962b85a8633a914a31901e8e9a3603a41[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Dec 11 13:49:21 2017 +0100
+
+    fixed broken link
+
+[33mcommit 341052659921b538f1cb98847dbb5ec10d4afa01[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Dec 11 13:33:52 2017 +0100
+
+    removed week 1 REVIEW
+
+[33mcommit fd3d453bbbdaab9213d087f4f11c5c962b534166[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Dec 11 13:32:24 2017 +0100
+
+    fixed VSCode tips indentation
+
+[33mcommit 126be5cbbe29892d75fdff4d299d991bc9303c87[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Mon Dec 11 13:29:48 2017 +0100
+
+    cleaned up
+
+[33mcommit 623d75b3693e27aeaf2adcf879b866ad461ad909[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Mon Dec 11 13:28:51 2017 +0100
+
+    added extra step
+
+[33mcommit 60ebb3578eb911a46927aecd5ee3cc64dfa37f52[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Dec 11 13:28:30 2017 +0100
+
+    Updated VSCode tips
+
+[33mcommit 722f2675230d1a7d4542abc4ac855f84ddb761b1[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Mon Dec 11 13:27:40 2017 +0100
+
+    added code from class
+
+[33mcommit 8e14b6f3ce805b85c9030eaa0a38d472bdc17068[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Mon Dec 11 12:40:21 2017 +0100
+
+    minor correction in homework
+
+[33mcommit 8fa097a28ef143e9b1d40845cc88b0d7831f6dde[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Mon Dec 11 12:39:11 2017 +0100
+
+    rearrenged homework and added deadlines
+
+[33mcommit 2f1d01ee7b821e13440bf9fe34d642707ce0228c[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Sun Dec 10 23:59:59 2017 +0100
+
+    matched up REVIEWS with schedule
+
+[33mcommit 1e2bdd2c4cf462389ce43f24009fc102d5eeda92[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Sun Dec 10 13:03:01 2017 +0100
+
+    completed chopping up the review topics
+
+[33mcommit d52c44eef0d1ca389b2d70ba6062b07e6a93993a[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Sun Dec 10 12:21:53 2017 +0100
+
+    fixed readme
+
+[33mcommit d09a9253913de36dad82e05ede2f78acfe37a90b[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Sat Dec 9 10:59:28 2017 +0100
+
+    splitted up REVIEW Week 3
+
+[33mcommit 0a458e85a884c72edd76912552be4c7acf5b047b[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Dec 7 17:15:15 2017 +0100
+
+    fixed links
+
+[33mcommit e5cc6a50fad9c767c4663bbd8a69bc411e495b3b[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Dec 7 17:13:06 2017 +0100
+
+    fixed links
+
+[33mcommit 5c1c8630a1eed40ac93f5ba31feb9442bdd91bf8[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Dec 7 17:12:31 2017 +0100
+
+    fixed links
+
+[33mcommit 93583ea758c283d65d88e3a96cdc3abf9f27bd7f[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Thu Dec 7 17:10:48 2017 +0100
+
+    splitted up REVIEW Week 2
+
+[33mcommit 6b231c8dbfc1cc981488340ad14025492c0d50cb[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Dec 6 18:00:57 2017 +0100
+
+    First attempt to split up reviews (WEEK 1)
+
+[33mcommit 535f7c3bb8b7fe1ea58bb46010c6855ad9bd0735[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Dec 6 18:00:18 2017 +0100
+
+    replaced var by let
+
+[33mcommit b190b44a356a838a2521e0d549ac17a7169dde99[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Wed Dec 6 15:46:08 2017 +0100
+
+    indentation readme
+
+[33mcommit fa0d024303f4139b3154a8f5c5d5b19c315c01e6[m
+Merge: f52d2a9 a593368
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Wed Dec 6 10:51:02 2017 +0100
+
+    Merge pull request #21 from mkruijt/master
+    
+    update js planning class12 and class13
+
+[33mcommit a593368a7cfdfeed99b40be7ef79bc03288f09a8[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Tue Dec 5 15:35:08 2017 +0100
+
+    last changes according to jim's feedback
+
+[33mcommit f67386308b5148da884e0222470814d0d06c830d[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Tue Dec 5 14:01:42 2017 +0100
+
+    implemeted Jim's feedbacl
+
+[33mcommit 5fbd33c64b53b643b9022223989754d52af90922[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Mon Dec 4 14:43:53 2017 +0100
+
+    added right reference to feedback
+
+[33mcommit 386c84dc2e2f3debf5fe3e7d7973c2c3ed7f0985[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Mon Dec 4 14:28:57 2017 +0100
+
+    added video's git and cli and implemented a part of Jim's feedback
+
+[33mcommit a7b3ef02824ce3d12be469aa331018b2ded59c4c[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Wed Nov 29 14:38:09 2017 +0100
+
+    fixed merge conflict
+
+[33mcommit 3fab09150cc79edd1fcba8e89f71d5371dbd4254[m
+Merge: 49a3bae 1f6d0e1
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Wed Nov 29 14:34:49 2017 +0100
+
+    Merge branch 'master' of github.com:mkruijt/JavaScript
+    merge changes
+
+[33mcommit 49a3bae9739ec4882b1a7e62f1bd7f011ddef61e[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Wed Nov 29 14:34:33 2017 +0100
+
+    fixed merge conflict
+
+[33mcommit 1f6d0e1d76705d30e51750d12e17959da21325e9[m
+Merge: 544517e f52d2a9
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Wed Nov 29 14:29:51 2017 +0100
+
+    Merge branch 'master' into master
+
+[33mcommit 544517ec940f1b5bcd732e4eedb488150b44d856[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Wed Nov 29 14:14:55 2017 +0100
+
+    fixed numbers assignments
+
+[33mcommit 24d607ccd5e19ab5c81f3535eba7ddfd876b131f[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Wed Nov 29 14:13:02 2017 +0100
+
+    added rover to homework
+
+[33mcommit 6e9503f66e6f6910c31cc53e19fbb9bdd5b684c8[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Wed Nov 29 13:58:08 2017 +0100
+
+    fixed homework class13
+
+[33mcommit 669c39e0e07229504e511023d2f94e0aff2a304a[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Tue Nov 28 21:50:30 2017 +0100
+
+    fix table
+
+[33mcommit a415e974b69da8e5fe8bff9da610b3bbfdaf035f[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Tue Nov 28 21:49:56 2017 +0100
+
+    fix table
+
+[33mcommit fb8cab29d0bf44dd91bd70303558b7ce2a78d60a[m
+Merge: cfd2c79 11f2ffc
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Tue Nov 28 21:47:21 2017 +0100
+
+    fixed planning class13
+
+[33mcommit 11f2ffc3f8dc07013e1bffc7748bea9ebba6de1f[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Tue Nov 28 15:22:29 2017 +0100
+
+    removed reduce from homework
+
+[33mcommit 0f0b7beb994e58ada62007caf41d80acf0eb7298[m
+Merge: 1cfb702 9b8ab7e
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Tue Nov 28 15:18:39 2017 +0100
+
+    Merge branch 'planningClass12' of github.com:mkruijt/JavaScript into planningClass12
+    
+    remove reduce
+
+[33mcommit 1cfb7024a497cf7e0a3afae17e1d90da720930de[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Tue Nov 28 15:18:16 2017 +0100
+
+    finished planningclass12
+
+[33mcommit 9b8ab7ef75ca746832e57ad48830271824a2ea14[m
+Merge: 2a37d2e 53e6799
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Nov 28 15:09:20 2017 +0100
+
+    Merge pull request #4 from remarcmij/planningClass12
+    
+    Removed `reduce` dependencies in assigments
+
+[33mcommit 53e6799922bfbc6956683eb3d63c613564a87555[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Tue Nov 28 15:00:39 2017 +0100
+
+    Removed `reduce` dependencies in assigments
+
+[33mcommit 2a37d2e0ad82c8adda1e133a9138933bd6b98d88[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Tue Nov 28 14:48:58 2017 +0100
+
+    fixed indentation?
+
+[33mcommit 0cb54261c12aa5ca5df108ea70faa711beba1f13[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Tue Nov 28 14:44:06 2017 +0100
+
+    fixed indentation?
+
+[33mcommit 465d24594153134359a4f31aaa1416a37b470b54[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Mon Nov 27 22:07:12 2017 +0100
+
+    fixed indentation?
+
+[33mcommit d06363e3a684957e84b8aa6624e20871462414ce[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Mon Nov 27 21:54:17 2017 +0100
+
+    fixed indentation?
+
+[33mcommit d0f36bb6cfb5dd48d3cb539f554de4a9636aaeba[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Mon Nov 27 21:52:50 2017 +0100
+
+    fixed indentation?
+
+[33mcommit ab353565d04cba9197cf6053a17e3fb1dbb40228[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Mon Nov 27 21:50:02 2017 +0100
+
+    fixed indentation
+
+[33mcommit 3e90399613141f741c157bc7f48b504fdb6a2f6e[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Mon Nov 27 21:35:20 2017 +0100
+
+    fixed links and steps in homework
+
+[33mcommit 13269c7f858c7cd7bda6c92925cbd5888a430378[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Sun Nov 26 15:15:11 2017 +0100
+
+    added homwork week5
+
+[33mcommit 1f8ecab5450e9334b7866e58379ed1d294525900[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Fri Nov 24 11:49:46 2017 +0100
+
+    moved resources
+
+[33mcommit 819c344e0731b18f9625218edebf4160a8a31b49[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Sun Nov 19 23:28:31 2017 +0100
+
+    homework week4
+
+[33mcommit 883ea44b513737076fe77674851778d0757a4dc2[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Sun Nov 19 23:26:32 2017 +0100
+
+    added homework week4
+
+[33mcommit cfd2c79cea10018d613ab10dec752ea371c47f64[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Sun Nov 19 23:20:22 2017 +0100
+
+    some progress in changing shedule
+
+[33mcommit c871d1c46d73cb992377ad79091c325a6eb8a4bb[m
+Merge: 5fa9ac4 dca9da8
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Sun Nov 19 23:18:47 2017 +0100
+
+    Merge pull request #2 from remarcmij/planningClass12
+    
+    Planning class12
+
+[33mcommit dca9da848dcf9467021f29eb3093e834cf7aa1e5[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Sun Nov 19 16:01:18 2017 +0100
+
+    corrected typo
+
+[33mcommit db0fff016dd4add9836bbf1e32df5b62167c2305[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Sun Nov 19 15:59:17 2017 +0100
+
+    Updated MAKEME for Week 4
+
+[33mcommit f52d2a9bff0b2a3780037697de99f695d989ae92[m
+Merge: 735a7b2 f0d357b
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Nov 14 17:40:17 2017 +0100
+
+    Merge pull request #19 from remarcmij/master
+    
+    fixed formatting MAKEME week3
+
+[33mcommit f0d357be8caca41bf1303aefc3bc5811cda5a67f[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Nov 13 22:19:39 2017 +0100
+
+    fixed formatting MAKEME week3
+
+[33mcommit 5fa9ac46f6f918e1d01c44fdd12d2810d42d4a70[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Sat Nov 11 13:42:33 2017 +0100
+
+    fixed homework week3/4
+
+[33mcommit 0ae128a93c8c66ad09b12031987b720d6d37cd05[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Fri Nov 10 17:16:37 2017 +0100
+
+    table fix
+
+[33mcommit 772bfea2992b419732615c996cbd2134b761f343[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Fri Nov 10 17:11:46 2017 +0100
+
+    added new planning to master
+
+[33mcommit 86f82d0debb770929ac2c8be2015664857cca037[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Fri Nov 10 17:00:41 2017 +0100
+
+    table is fixed
+
+[33mcommit b92dd6e7616e5690fa35a7ee59f147a55dab4dae[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Fri Nov 10 16:58:44 2017 +0100
+
+    yep almost there
+
+[33mcommit c5b1d9ed9e5683d00584f5d7700ecd3be53ef0f9[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Fri Nov 10 16:57:56 2017 +0100
+
+    attempt2 fix table
+
+[33mcommit 15cddd7cb0870cbdd9b8fcc198abc8351faf8122[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Fri Nov 10 16:56:55 2017 +0100
+
+    fix table
+
+[33mcommit bfdb81c07d58bcce0a30a25f3a7c9c4104be117e[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Fri Nov 10 16:51:55 2017 +0100
+
+    first attempt new planning and changing homwork accordinly
+
+[33mcommit 0c576b52ac6bb9764ec273f6650cfbac073bb0e9[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Fri Nov 10 16:05:16 2017 +0100
+
+    added branch versionOne which holds the old planning
+
+[33mcommit 735a7b25cfba3b2bebffcfc33adc169f3b8a81ff[m
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Fri Nov 10 15:47:04 2017 +0100
+
+    changes link to vscode tips
+
+[33mcommit 6c1e8d52f4e9bf4ac1ef84a1c056d164e83065ac[m
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Fri Nov 10 15:46:23 2017 +0100
+
+    renamed file so the contents will show right away
+
+[33mcommit 92b6bffe70becfae73c6a70a411472c634e02024[m
+Merge: 0bb3d2c 54cdd24
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Fri Nov 10 15:44:55 2017 +0100
+
+    Merge pull request #18 from remarcmij/master
+    
+    Added VSCode Tips
+
+[33mcommit 54cdd24009ba14026fa8cdab72647efd761e2d50[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Fri Nov 10 15:06:57 2017 +0100
+
+    corrected bullet list formatting, added semicolons
+
+[33mcommit e15b715e4c0273eb7ddcbd2044f6594f8a7d4786[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Nov 8 20:43:37 2017 +0100
+
+    fixed some number references
+
+[33mcommit 5e781ae0853f2abbfd0d62615cc949bfa551376b[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Wed Nov 8 16:40:22 2017 +0100
+
+    Added VSCode Tips
+
+[33mcommit 0bb3d2c0bad892b95fef45455de0ff1f2569a2cb[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Sun Nov 5 15:09:49 2017 +0100
+
+    added rover the robot
+
+[33mcommit 5e6a8041bbe27e36a0b4e13b7076a2ef1edb27d2[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Sun Nov 5 14:30:17 2017 +0100
+
+    changes step numbers
+
+[33mcommit 9f136f65d47195f22ce14ec25a4fa58f8582f165[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Sun Nov 5 14:23:16 2017 +0100
+
+    chanhed homework week2
+
+[33mcommit 30409d38bf1a9a44e80540fe8f88617f81b15610[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Wed Nov 1 13:11:42 2017 +0100
+
+    changes shedule
+
+[33mcommit 864c90c007bc7ce0c611b3303216b6559213c7b1[m
+Author: mkruijt <maartjekruijt@hotmail.com>
+Date:   Tue Oct 31 11:53:37 2017 +0100
+
+    added link to review week7
+
+[33mcommit c0370a61a009bda6e140addc8f0369b4de0b00e2[m
+Merge: ddd4771 249807e
+Author: Maartje Kruijt <maartjekruijt@hotmail.com>
+Date:   Tue Oct 31 11:49:13 2017 +0100
+
+    Merge pull request #17 from remarcmij/master
+    
+    Added REVIEW Week 7 content
+
+[33mcommit 249807efa815b38bc3a2365285d396b254709fa1[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Oct 30 16:04:50 2017 +0100
+
+    Incorporated feedback from Maartje
+
+[33mcommit 19c76db6e43106f8749d46f8715186fc7565a147[m
+Author: Jim Cramer <remarcmij@gmail.com>
+Date:   Mon Oct 30 14:41:24 2017 +0100
+
+    Added REVIEW Week 7 content
+
+[33mcommit ddd477147d297de668c43cb0f9ad6aa2b254ed54[m
+Au
