@@ -55,7 +55,7 @@ body {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
 }
 
 @media screen and (max-width: 768px) {
@@ -68,6 +68,7 @@ body {
   position: relative;
   top: -40px;
   width: 30%;
+  margin: 20px;
 }
 
 @media screen and (max-width: 768px) {
@@ -107,6 +108,7 @@ h4 {
 
 .repo-info-list {
   width: 60%;
+  margin-right: 10px;
 }
 
 @media screen and (max-width: 768px) {
@@ -133,7 +135,6 @@ h4 {
   position: relative;
   bottom: 20px;
   left: 15%;
-  font-size: 1.5vw;
 }
 
 @media screen and (max-width: 768px) {
@@ -142,7 +143,7 @@ h4 {
   }
 
   .contr-list li a {
-    font-size: 3vw;
+    font-size: 20px;
   }
 }
 
@@ -150,7 +151,7 @@ h4 {
   float: right;
   position: relative;
   bottom: -15px;
-  padding: 5px;
+  padding: 2.5px;
   background-color: rgb(99, 95, 95);
   color: white;
   border-radius: 15%;

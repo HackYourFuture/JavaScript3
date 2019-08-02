@@ -60,7 +60,7 @@
     const firstRow = addRow(tbody, 'Repository: ', '', 'explanations');
     createAndAppend('a', firstRow.lastChild, {
       href: repository.html_url,
-      target: 'blank',
+      target: '_blank',
       text: repository.name,
     });
     addRow(tbody, 'Description:', repository.description, 'explanations');
