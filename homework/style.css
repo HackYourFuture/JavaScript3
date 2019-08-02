@@ -90,11 +90,11 @@ select:focus {
 
 table {
     margin-top: 15px;
-    table-layout: fixed;
     border-collapse: collapse;
-    table-layout: auto;
-    width: 100%;
     font-weight: normal;
+    table-layout: fixed;
+    width: 100%;
+    word-wrap: break-word;
 }
 
 td {
@@ -105,7 +105,15 @@ td {
 
 td:first-child {
     white-space: nowrap;
+    width: 35%;
+    margin-right: 10px;
+    font-size: larger;
 }
+
+
+/* td:nth-child(2) a {
+    white-space: nowrap;
+} */
 
 .no-content {
     color: #bcbcbe;
@@ -165,6 +173,22 @@ td:first-child {
         width: 100%;
         margin: auto;
         margin-top: 10px;
+    }
+    tr {
+        display: flex;
+        flex-direction: column;
+        border-bottom: 1px solid #c6cbd1;
+    }
+    tr:last-child {
+        border-bottom: none;
+    }
+    td:first-child {
+        padding-bottom: 5px;
+        width: 100%;
+    }
+    td:nth-child(2) {
+        padding-top: 5px;
+        margin-bottom: 10px;
     }
 }
 
