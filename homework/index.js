@@ -170,8 +170,10 @@
     });
 
     fetchJSON(url)
-      .then(repositories => initializePage(repositories))
-      .then(repository => fetchAndRender(repository))
+      .then(repositories => {
+        const repository = initializePage(repositories);
+        return fetchAndRender(repository);
+      })
       .catch(error => renderError(error));
   }
 
