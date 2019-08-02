@@ -51,25 +51,23 @@
     return tr;
   }
 
-  function renderRepoInformation(repositories, container) {
+  function renderRepoInformation(repository, container) {
     container.innerHTML = ' ';
     const table = createAndAppend('table', container, { class: 'infoTable' });
     const tbody = createAndAppend('tbody', table);
     const firstRow = addRow(tbody, 'Repository: ', '', 'explanations');
     createAndAppend('a', firstRow.lastChild, {
-      href: `${repositories.html_url}`,
+      href: `${repository.html_url}`,
       target: 'blank',
-      text: `${repositories.name}`,
+      text: `${repository.name}`,
     });
-    addRow(tbody, 'Description:', repositories.description, 'explanations');
-    addRow(tbody, 'Fork:', repositories.forks, 'explanations');
-    addRow(tbody, 'Updated:', `${repositories.updated_at}`.substring(0, 10), 'explanations');
+    addRow(tbody, 'Description:', repository.description, 'explanations');
+    addRow(tbody, 'Fork:', repository.forks, 'explanations');
+    addRow(tbody, 'Updated:', `${repository.updated_at}`.substring(0, 10), 'explanations');
   }
 
-  function renderContributorsInformation(repositories, container) {
-    const contributors = repositories.contributors_url;
-    const url = contributors;
-    fetchJSON(url, (error, contributorDetails) => {
+  function renderContributorsInformation(repository, container) {
+    fetchJSON(repository.contributors_url, (error, contributorDetails) => {
       if (error) {
         renderError(error);
         return;
@@ -110,18 +108,15 @@
     });
 
     fetchJSON(url, (err, repositories) => {
-      repositories.sort((a, b) => a.name.localeCompare(b.name));
       if (err) {
         renderError(err);
         return;
       }
 
-      function showFirstRepo() {
-        renderRepoInformation(repositories[0], section);
-        renderContributorsInformation(repositories[0], contrDiv);
-      }
+      repositories.sort((a, b) => a.name.localeCompare(b.name));
 
-      showFirstRepo();
+      renderRepoInformation(repositories[0], section);
+      renderContributorsInformation(repositories[0], contrDiv);
 
       createOptions(repositories, select);
       select.addEventListener('change', () => {
