@@ -67,23 +67,24 @@
 
   function createContributorsList(repository, ul) {
     clearContainer(ul);
+    createAndAppend('li', ul, { id: 'Contributors-h2', text: 'contributions' });
     fetchJSON(repository.contributors_url)
       .then(contributors =>
         contributors.forEach(contributor => {
           const li = createAndAppend('li', ul);
           const a = createAndAppend('a', li, {
-            href: repository.html_url,
+            href: contributor.html_url,
             target: '_blank',
-            id: 'link_contributions',
+            class: 'link-contributions',
           });
-          const div = createAndAppend('div', a);
-          createAndAppend('img', div, {
-            class: 'contributor_avatar',
+
+          createAndAppend('img', a, {
+            class: 'contributor-avatar',
             src: contributor.avatar_url,
             alt: contributor.login,
           });
-          createAndAppend('p', div, { id: 'p1', text: contributor.login });
-          createAndAppend('p', div, { id: 'p2', text: contributor.contributions });
+          createAndAppend('p', a, { class: 'p1', text: contributor.login });
+          createAndAppend('p', a, { class: 'p2', text: contributor.contributions });
         }),
       )
       .catch(err => renderError(err));
@@ -99,11 +100,10 @@
     const header = createAndAppend('header', root);
     const section = createAndAppend('section', root);
     createAndAppend('h1', header, { text: 'HYF Repositories' });
-    const table = createAndAppend('div', section, { id: 'repo_information_table_container' });
+    const table = createAndAppend('div', section, { id: 'table-container' });
     const select = createAndAppend('select', header);
     const listContainer = createAndAppend('ul', section, {
-      id: 'Contributors_list',
-      text: 'contributions',
+      id: 'Contributors-list',
     });
     fetchJSON(url)
       .then(repositories => {
