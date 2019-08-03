@@ -52,7 +52,8 @@
 
   function createInfoList(repository, container) {
     clearContainer(container);
-    const tbody = createAndAppend('tbody', container);
+    const table = createAndAppend('table', container);
+    const tbody = createAndAppend('tbody', table);
     const firstRow = addRow(tbody, 'Repository');
     createAndAppend('a', firstRow.lastChild, {
       href: repository.html_url,
@@ -93,9 +94,9 @@
     });
   }
 
-  function startPage(repositories, listContainer, ul) {
-    createContributorsList(repositories, listContainer);
-    createInfoList(repositories, ul);
+  function startPage(repository, listContainer, ul) {
+    createContributorsList(repository, listContainer);
+    createInfoList(repository, ul);
   }
 
   function main(url) {
