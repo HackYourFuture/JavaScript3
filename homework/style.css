@@ -33,7 +33,7 @@ img {
   box-shadow: 3px 4px 3px rgba(43, 10, 33, 0.2);
   border-radius: 0.5rem;
 }
-#p1 {
+.p1 {
   margin-left: -3rem;
   font-family: Monospace;
 }
@@ -77,7 +77,7 @@ h1 {
   margin-left: 2rem;
 }
 
-#repo_information_table_container {
+#table-container {
   box-shadow: 3px 4px 3px rgba(43, 10, 33, 0.2);
   margin: 2.5rem 1.5rem 1.5rem 0.5rem;
   width: 30rem;
@@ -90,7 +90,7 @@ section {
   flex-direction: row;
 }
 
-#p2 {
+.p2 {
   background-color: rgb(165, 168, 166, 0.7);
   padding: 0.1rem 0.5rem;
   border-radius: 0.5rem;

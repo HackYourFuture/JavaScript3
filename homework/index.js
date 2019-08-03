@@ -78,7 +78,7 @@
         const a = createAndAppend('a', li, {
           href: repository.html_url,
           target: '_blank',
-          id: 'link_contributions',
+          class: 'link_contributions',
         });
         const div = createAndAppend('div', a);
 
@@ -87,8 +87,8 @@
           src: contributor.avatar_url,
           alt: contributor.login,
         });
-        createAndAppend('p', div, { id: 'p1', text: contributor.login });
-        createAndAppend('p', div, { id: 'p2', text: contributor.contributions });
+        createAndAppend('p', div, { class: 'p1', text: contributor.login });
+        createAndAppend('p', div, { class: 'p2', text: contributor.contributions });
       });
     });
   }
@@ -103,10 +103,10 @@
     const header = createAndAppend('header', root);
     const section = createAndAppend('section', root);
     createAndAppend('h1', header, { text: 'HYF Repositories' });
-    const table = createAndAppend('div', section, { id: 'repo_information_table_container' });
+    const table = createAndAppend('div', section, { id: 'table-container' });
     const select = createAndAppend('select', header);
     const listContainer = createAndAppend('ul', section, {
-      id: 'Contributors_list',
+      class: 'Contributors_list',
       text: 'contributions',
     });
     fetchJSON(url, (err, repositories) => {
