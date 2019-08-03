@@ -2,6 +2,13 @@
   color: red;
   background-color: rgba(201, 152, 186, 0.2);
   border-radius: 0.5rem;
+  margin: 2rem, 1rem, 2rem, 2rem;
+  box-shadow: 3px 4px 3px rgba(43, 10, 33, 0.2);
+  border-radius: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.5rem;
+  padding: 20px 20px 20px 40px;
 }
 
 * {
