@@ -27,7 +27,7 @@ _Deadline Monday_
 The homework for week 3 will build on the work you did in week 2. You will create a new branch based on the `week2` branch.
 
 1. Make sure that you committed all changes in the week 2 version of your homework.
-2. Create a new `week3` branch:
+2. With the `week2` branch checked out, create a new `week3` branch:
 
    ```
    git checkout -b week3
@@ -35,12 +35,14 @@ The homework for week 3 will build on the work you did in week 2. You will creat
 
 ### 2.2 Assignment
 
-This week you will work with all JavaScript files in the `src` folder. The assignment consists of two parts:
+The assignment consists of two parts.
+
+In the first part you will modify the 'promise' homework in the from week 2 (in the `homework` folder):
 
 1. Replace `XMLHttpRequest` with the `fetch` API.
 2. Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
-3. Make your app ARIA-compliant (see below).
-4. Refactor your application to use ES6 classes.
+
+In the second part you will 'refactor' your application to use ES6 classes. For this, you need to modify the files in the `homework-classes` folder.
 
 #### 2.2.1 Replace XMLHttpRequest with fetch
 
