@@ -4,26 +4,6 @@
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   const root = document.getElementById('root');
 
-  function fetchJSON(url) {
-    // a sample invalid token, you need to use your own token instead
-    const key = '1d0a6d9c5b6412d8be49e127ac396b49f9ba6807';
-    const query = url.includes('?') ? `&oauth_token=${key}` : `?oauth_token=${key}`;
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url + query);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
-    });
-  }
-
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
@@ -45,38 +25,8 @@
     });
   }
 
-  function contributorStats(contribution, cardBody, dataArr, textValue) {
-    const parent = createAndAppend('a', cardBody, {
-      class: 'card-text btn btn-danger d-flex justify-content-between rounded-0 my-3',
-      text: `${textValue}:`,
-      href: `https://github.com/${contribution.login}?tab=${textValue}`,
-      target: '_blank',
-    });
-    createAndAppend('span', parent, {
-      class: 'card-text badge badge-light d-flex justify-content-between ',
-      text: dataArr.length,
-    });
-  }
-
-  function fetchStats(contribution, cardBody, followingsUrl) {
-    fetchJSON(contribution.followers_url)
-      .then(data => {
-        contributorStats(contribution, cardBody, data, 'followers');
-        return fetchJSON(followingsUrl);
-      })
-      .then(data => {
-        console.log(data);
-        contributorStats(contribution, cardBody, data, 'following');
-        return fetchJSON(contribution.subscriptions_url);
-      })
-      .then(data => {
-        contributorStats(contribution, cardBody, data, 'subscriptions');
-      })
-      .catch(err => renderError(err));
-  }
-
-  function createContributorCard(contributorData, cardsGroup) {
-    contributorData.forEach(contributor => {
+  function createContributorCard(contributorsData, cardsGroup) {
+    contributorsData.forEach(contributor => {
       const card = createAndAppend('a', cardsGroup, {
         class: 'card border border-danger shadow-lg mb-3 mx-2',
         href: contributor.html_url,
@@ -90,9 +40,6 @@
       const cardBody = createAndAppend('div', card, {
         class: 'card-body text-center',
       });
-      // The link of the 'followings of a user is not correct on the api.
-      const followingsUrl = `https://api.github.com/users/${contributor.login}/following`;
-
       createAndAppend('h5', cardBody, {
         class: 'card-title btn-primary',
         text: contributor.login,
@@ -105,12 +52,10 @@
         class: 'card-text badge badge-light d-flex justify-content-between ',
         text: contributor.contributions,
       });
-
-      fetchStats(contributor, cardBody, followingsUrl);
     });
   }
 
-  function createContributorsLayout(contributionsData) {
+  function createContributorsLayout(contributorsData) {
     const mainParent = document.getElementById('main');
     const contributionCardsContainer = createAndAppend('div', mainParent, {
       id: 'repo-contributor',
@@ -118,7 +63,7 @@
     const cardsGroup = createAndAppend('div', contributionCardsContainer, {
       class: 'card-group d-flex container-fluid',
     });
-    createContributorCard(contributionsData, cardsGroup);
+    createContributorCard(contributorsData, cardsGroup);
   }
 
   function createRepositoryWidget(container, options = {}) {
@@ -140,6 +85,17 @@
     return widgetContainer;
   }
 
+  async function fetchContributor(url) {
+    try {
+      const response = await fetch(url);
+      if (response.ok !== true) throw new Error('Failed to retrieve contributor information:');
+      const contributorsData = await response.json();
+      createContributorsLayout(contributorsData);
+    } catch (err) {
+      renderError(err);
+    }
+  }
+
   function createRepositoryLayout(repositoriesData) {
     const mainParent = document.getElementById('main');
     const leftColumn = createAndAppend('div', mainParent, {
@@ -153,6 +109,7 @@
       value: repositoriesData.name,
       valueTag: 'a',
     });
+
     const anchorTag = widgetContainer.lastChild;
     anchorTag.setAttribute('href', repositoriesData.html_url);
     anchorTag.setAttribute('target', '_blank');
@@ -184,14 +141,6 @@
     });
   }
 
-  function fetchContributor(url) {
-    fetchJSON(url)
-      .then(contributorsData => {
-        createContributorsLayout(contributorsData);
-      })
-      .catch(err => renderError(err));
-  }
-
   function appendRepositoriesToSelect(repositoriesData) {
     const selectList = document.getElementById('repo-select');
     repositoriesData
@@ -213,12 +162,15 @@
     });
   }
 
-  function fetchRepository(url) {
-    fetchJSON(url)
-      .then(repositoryData => {
-        appendRepositoriesToSelect(repositoryData);
-      })
-      .catch(err => renderError(err));
+  async function fetchRepository(url) {
+    try {
+      const response = await fetch(url);
+      if (response.ok !== true) throw new Error('Failed to retrieve repository information');
+      const repositories = await response.json();
+      appendRepositoriesToSelect(repositories);
+    } catch (err) {
+      renderError(err);
+    }
   }
 
   function createHeader() {

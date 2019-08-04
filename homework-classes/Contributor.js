@@ -8,12 +8,45 @@ class Contributor {
     this.contributor = contributor;
   }
 
-  /**
-   * Render the contributor info to the DOM.
-   * @param {HTMLElement} container The container element in which to render the contributor.
-   */
-  render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, { text: JSON.stringify(this.contributor, null, 2) });
+  createContributorCard(contributorsData, cardsGroup) {
+    contributorsData.forEach(contributor => {
+      const card = Util.createAndAppend('a', cardsGroup, {
+        class: 'card border border-danger shadow-lg mb-3 mx-2',
+        href: contributor.html_url,
+        target: '_blank',
+      });
+      Util.createAndAppend('img', card, {
+        class: 'card-img-top',
+        src: contributor.avatar_url,
+        alt: `${contributor.login}'s avatar`,
+      });
+      const cardBody = Util.createAndAppend('div', card, {
+        class: 'card-body text-center',
+      });
+      Util.createAndAppend('h5', cardBody, {
+        class: 'card-title btn-primary',
+        text: contributor.login,
+      });
+      const contributionInfo = Util.createAndAppend('p', cardBody, {
+        class: 'card-text btn btn-danger d-flex justify-content-between rounded-0',
+        text: 'Contributions:',
+      });
+      Util.createAndAppend('span', contributionInfo, {
+        class: 'card-text badge badge-light d-flex justify-content-between ',
+        text: contributor.contributions,
+      });
+    });
+  }
+
+  render() {
+    const mainParent = document.getElementById('container');
+    const contributionCardsContainer = Util.createAndAppend('div', mainParent, {
+      id: 'repo-contributor',
+    });
+    const cardsGroup = Util.createAndAppend('div', contributionCardsContainer, {
+      class: 'card-group d-flex container-fluid',
+    });
+    this.createContributorCard(this.contributor, cardsGroup);
+    return this;
   }
 }

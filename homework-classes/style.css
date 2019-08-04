@@ -1,3 +1,134 @@
-.alert-error {
-    color: red;
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', Courier, sans-serif;
+}
+
+header {
+  background: #614ad3 !important;
+}
+
+.display-4 {
+  color: #f8f8f8 !important;
+  font-size: 3rem;
+}
+
+.card-group {
+  margin: 0 auto !important;
+  justify-content: center !important;
+}
+
+.card {
+  max-width: 18rem !important;
+  min-width: 15rem !important;
+  text-decoration: none !important;
+}
+
+.card-body {
+  padding: 1.25rem 0 !important;
+  font-size: 1.5rem;
+}
+
+.card-title {
+  background: #614ad3;
+  font-size: 1.75rem;
+  color: #f8f8f8;
+  text-transform: capitalize;
+  max-width: fit-content;
+  text-align: center !important;
+}
+
+.card-text {
+  border-color: #000;
+  max-width: 13rem;
+  padding-bottom: 0;
+  padding-top: 0;
+  text-transform: capitalize;
+}
+
+.card-text.badge {
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.btn-danger {
+  background-color: #dc3582;
+}
+
+.container {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.repo-detail {
+  min-width: 20% !important;
+  width: 100% !important;
+}
+
+.widget-title {
+  color: #dc3582;
+  margin-left: 1rem;
+  flex-basis: 25%;
+}
+
+.widget-value {
+  color: #2d248a;
+  margin-left: 1rem;
+  font-size: 1.25rem;
+  flex-basis: 50%;
+  text-transform: capitalize;
+  text-decoration: none;
+}
+
+a.widget-value:hover {
+  color: #dc3582;
+  text-decoration: none;
+}
+
+.fa-code-branch {
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.widget-icon {
+  color: #614ad3;
+}
+
+.alert-primary {
+  background: #f9f3ec80;
+  border-color: #dc3582;
+}
+
+@media (max-width: 768px) {
+  .header-title {
+    text-align: center;
+    padding-bottom: 2rem;
+  }
+  .header-group {
+    display: flex;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .header-title {
+    text-align: center;
+    padding-bottom: 2rem;
+    font-size: 1.75rem;
+  }
+  .card {
+    max-width: none !important;
+    min-width: none !important;
+  }
+  .header-group {
+    display: flex;
+    flex-direction: column;
+  }
 }
