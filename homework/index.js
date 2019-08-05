@@ -165,7 +165,7 @@
     try {
       const repositories = await fetchJSON(url);
       const repository = initializePage(repositories);
-      await fetchAndRender(repository);
+      fetchAndRender(repository);
     } catch (error) {
       renderError(error);
     }

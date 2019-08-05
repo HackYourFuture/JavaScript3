@@ -13,18 +13,32 @@ class App {
    * @param {string} url The GitHub URL for obtaining the organization's repositories.
    */
   async initialize(url) {
-    // Add code here to initialize your app
-    // 1. Create the fixed HTML elements of your page
-    // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
-
     const root = document.getElementById('root');
     const header = Util.createAndAppend('header', root, { class: 'header' });
-    this.mainContainer = Util.createAndAppend('div', root, { id: 'container' });
+    Util.createAndAppend('h1', header, {
+      class: 'header-title',
+      text: 'Hack Your Future Repositories',
+    });
+    const select = Util.createAndAppend('select', header, {
+      id: 'select',
+      'aria-label': 'HYF Repositories',
+    });
+    select.addEventListener('change', () => this.selectRepository(this.repositories[select.value]));
+    this.mainContainer = Util.createAndAppend('main', root, { id: 'wrapper' });
 
     try {
-      const repos = await Util.fetchJSON(url);
-      this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
+      const repositories = await Util.fetchJSON(url);
+      this.repositories = repositories
+        .map(repository => new Repository(repository))
+        .sort((a, b) => a.name().localeCompare(b.name()));
+      this.repositories.forEach((repository, index) => {
+        Util.createAndAppend('option', select, {
+          value: index,
+          text: repository.name(),
+        });
+      });
+
+      this.selectRepository(this.repositories[select.value]);
     } catch (error) {
       this.renderError(error);
     }
@@ -42,20 +56,34 @@ class App {
 
   /**
    * Fetch contributor information for the selected repository and render the
-   * repo and its contributors as HTML elements in the DOM.
-   * @param {object} repo The selected repository object
+   * repository and its contributors as HTML elements in the DOM.
+   * @param {object} repository The selected repository object
    */
-  async selectRepository(repo) {
+  async selectRepository(repository) {
     try {
       this.clearContainer();
-      const contributors = await repo.fetchContributors();
+      const contributors = await repository.fetchContributors();
 
-      const repoContainer = Util.createAndAppend('div', this.mainContainer);
-      const contributorContainer = Util.createAndAppend('div', this.mainContainer);
+      const repoContainer = Util.createAndAppend('div', this.mainContainer, {
+        class: 'left-side',
+        id: 'left-side',
+      });
+      const contributorContainer = Util.createAndAppend('div', this.mainContainer, {
+        class: 'right-side',
+        id: 'right-side',
+      });
+      const contributorsTitle = Util.createAndAppend('h3', contributorContainer, {
+        text: 'Contributors',
+        class: 'contributors-title',
+      });
+      if (!contributors.length) {
+        contributorsTitle.textContent = 'No Contributor So Far';
+      }
+      const contributorList = Util.createAndAppend('ul', contributorContainer, {
+        class: 'contributors-list',
+      });
 
-      const contributorList = Util.createAndAppend('ul', contributorContainer);
-
-      repo.render(repoContainer);
+      repository.render(repoContainer);
 
       contributors
         .map(contributor => new Contributor(contributor))
@@ -70,7 +98,11 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    console.error(error); // TODO: replace with your own code
+    this.clearContainer();
+    Util.createAndAppend('div', this.mainContainer, {
+      text: error.message,
+      class: 'alert',
+    });
   }
 }
 
