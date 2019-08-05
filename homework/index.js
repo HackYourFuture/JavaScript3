@@ -2,19 +2,11 @@
 
 {
   function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
+    return fetch(url).then(response => {
+      if (!response.ok) {
+        throw new Error(`Error occured ${response.status} ${response.statusText}`);
+      }
+      return response.json();
     });
   }
 
@@ -79,51 +71,52 @@
     addRepoInfoRow(repoTableBody, 'Watchers', repository.watchers_count);
   }
 
-  function fetchAndRender(repository) {
+  async function fetchAndRender(repository) {
     const rightSide = document.getElementById('right-side');
     rightSide.innerHTML = '';
-    fetchJSON(repository.contributors_url)
-      .then(contributors => {
-        const contributorsTitle = createAndAppend('h3', rightSide, {
-          text: 'Contributors',
-          class: 'contributors-title',
+    try {
+      const contributors = await fetchJSON(repository.contributors_url);
+      const contributorsTitle = createAndAppend('h3', rightSide, {
+        text: 'Contributors',
+        class: 'contributors-title',
+      });
+      if (!contributors.length) {
+        contributorsTitle.textContent = 'No Contributor So Far';
+        return;
+      }
+      const contributorsList = createAndAppend('ul', rightSide, {
+        class: 'contributors-list',
+      });
+      contributors.forEach(contributor => {
+        const listItem = createAndAppend('li', contributorsList, {
+          class: 'contributor',
+          tabindex: 0,
+          'aria-label': contributor.login,
         });
-        if (!contributors.length) {
-          contributorsTitle.textContent = 'No Contributor So Far';
-          return;
-        }
-        const contributorsList = createAndAppend('ul', rightSide, {
-          class: 'contributors-list',
+        createAndAppend('img', listItem, {
+          class: 'contributor-avatar',
+          src: contributor.avatar_url,
         });
-        contributors.forEach(contributor => {
-          const listItem = createAndAppend('li', contributorsList, {
-            class: 'contributor',
-            tabindex: 0,
-            'aria-label': contributor.login,
-          });
-          createAndAppend('img', listItem, {
-            class: 'contributor-avatar',
-            src: contributor.avatar_url,
-          });
-          createAndAppend('span', listItem, {
-            class: 'contributor-name',
-            text: contributor.login,
-          });
-          createAndAppend('span', listItem, {
-            class: 'contribution-count',
-            text: contributor.contributions,
-          });
-          listItem.addEventListener('click', () => {
-            // Go to new page on click
-            window.open(contributor.html_url, '_blank');
-          });
-          listItem.addEventListener('keyup', event => {
-            // Open new page with contributor url when pressed Enter on focused contributor
-            if (event.key === 'Enter') window.open(contributor.html_url, '_blank');
-          });
+        createAndAppend('span', listItem, {
+          class: 'contributor-name',
+          text: contributor.login,
         });
-      })
-      .catch(error => renderError(error));
+        createAndAppend('span', listItem, {
+          class: 'contribution-count',
+          text: contributor.contributions,
+        });
+        listItem.addEventListener('click', () => {
+          // Go to new page on click
+          window.open(contributor.html_url, '_blank');
+        });
+        listItem.addEventListener('keyup', event => {
+          // Open new page with contributor url when pressed Enter on focused contributor
+          if (event.key === 'Enter') window.open(contributor.html_url, '_blank');
+        });
+      });
+    } catch (error) {
+      renderError(error);
+    }
   }
 
   function initializePage(repositories) {
@@ -152,7 +145,7 @@
     return repositories[select.value];
   }
 
-  function renderPage(url) {
+  async function renderPage(url) {
     const root = document.getElementById('root');
     const header = createAndAppend('header', root, {
       class: 'header',
@@ -169,12 +162,13 @@
       'aria-label': 'HYF Repositories',
     });
 
-    fetchJSON(url)
-      .then(repositories => {
-        const repository = initializePage(repositories);
-        return fetchAndRender(repository);
-      })
-      .catch(error => renderError(error));
+    try {
+      const repositories = await fetchJSON(url);
+      const repository = initializePage(repositories);
+      await fetchAndRender(repository);
+    } catch (error) {
+      renderError(error);
+    }
   }
 
   function main() {
