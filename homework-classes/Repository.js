@@ -70,6 +70,16 @@ class Repository {
       title: 'Forks',
       value: this.repository.forks,
     });
-    return this;
+  }
+
+  fetchContributors() {
+    return Util.fetchJSON(this.repository.contributors_url);
+  }
+
+  /**
+   * Returns the name of the repository
+   */
+  name() {
+    return this.repository.name;
   }
 }

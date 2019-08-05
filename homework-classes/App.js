@@ -1,19 +1,51 @@
 'use strict';
 
 /* global Util, Repository, Contributor */
-const root = document.getElementById('root');
 const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
 class App {
   constructor(url) {
-    this.createHeader(url);
+    this.initialize(url);
   }
 
-  createHeader(url) {
-    const header = Util.createAndAppend('header', root, {
+  /**
+   * @param {string} url The GitHub URL for obtaining the organization's repositories.
+   */
+
+  async initialize(url) {
+    this.root = document.getElementById('root');
+    this.createHeader();
+    const selectList = document.getElementById('repo-select');
+
+    try {
+      const repositories = await Util.fetchJSON(url);
+      this.repos = repositories
+        .map(repo => new Repository(repo))
+        .sort((a, b) => a.name().localeCompare(b.name()));
+      this.repos.forEach((repository, index) => {
+        Util.createAndAppend('option', selectList, {
+          text: repository.name(),
+          value: index,
+        });
+      });
+
+      this.repos[0].render();
+      this.selectRepository(this.repos[0]);
+      selectList.addEventListener('change', () => {
+        this.root.lastChild.innerHTML = '';
+        this.repos[selectList.value].render();
+        this.selectRepository(this.repos[selectList.value]);
+      });
+    } catch (error) {
+      this.renderError(error);
+    }
+  }
+
+  createHeader() {
+    const header = Util.createAndAppend('header', this.root, {
       class: 'container jumbotron mt-3 mb-3 px-5',
     });
-    Util.createAndAppend('main', root, {
+    Util.createAndAppend('main', this.root, {
       id: 'container',
       class: 'container align-items-start',
     });
@@ -38,49 +70,25 @@ class App {
       class: 'form-control',
       'aria-label': 'Hack Your Future Repositories Selection',
     });
-    this.fetchRepositories(url);
   }
 
   /**
-   * @param {string} url The GitHub URL for obtaining the organization's repositories.
+   * @param {object} repo The selected repository object
    */
-
-  async fetchRepositories(url) {
+  async selectRepository(repo) {
     try {
-      const repos = await Util.fetchJSON(url);
-      this.repos = repos.map(repo => new Repository(repo));
-      this.appendRepositoriesToSelect(repos);
-    } catch (error) {
-      this.renderError(error);
-    }
-  }
-
-  appendRepositoriesToSelect(repos) {
-    const selectList = document.getElementById('repo-select');
-    repos
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .forEach((repository, index) => {
-        Util.createAndAppend('option', selectList, {
-          text: repository.name,
-          value: index,
-        });
+      const contributors = await repo.fetchContributors();
+      const mainParent = document.getElementById('container');
+      const contributionCardsContainer = Util.createAndAppend('div', mainParent, {
+        id: 'repo-contributor',
       });
-    this.defaultRepo = new Repository(repos[0]).render();
-    this.fetchContributor(repos[0].contributors_url);
-    selectList.addEventListener('change', () => {
-      root.lastChild.innerHTML = '';
-      this.selectedRepo = new Repository(repos[selectList.value]).render();
-      this.fetchContributor(repos[selectList.value].contributors_url);
-    });
-  }
-
-  /**
-   * @param {string} url The selected repository url
-   */
-  async fetchContributor(url) {
-    try {
-      const contributors = await Util.fetchJSON(url);
-      this.contributors = new Contributor(contributors).render();
+      Util.createAndAppend('div', contributionCardsContainer, {
+        class: 'card-group d-flex container-fluid',
+        id: 'cards-group',
+      });
+      contributors
+        .map(contributor => new Contributor(contributor))
+        .forEach(contributor => contributor.render());
     } catch (error) {
       this.renderError(error);
     }
@@ -90,7 +98,7 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    Util.createAndAppend('div', root, {
+    Util.createAndAppend('div', this.root, {
       text: error.message,
       class: 'alert alert-danger display-3 text-center',
     });
