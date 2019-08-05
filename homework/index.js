@@ -1,21 +1,20 @@
 'use strict';
 
 {
-  function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
-    });
+  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+  function fetchJSON(url, cb) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.responseType = 'json';
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status <= 299) {
+        cb(null, xhr.response);
+      } else {
+        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+      }
+    };
+    xhr.onerror = () => cb(new Error('Network request failed'));
+    xhr.send();
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -32,140 +31,108 @@
     return elem;
   }
 
-  function openNewTab(url) {
-    window.open(url, '_blank');
+  function clearContainer(container) {
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
   }
 
-  function bindContributions(contributorsUrl) {
-    const repoInfoContainer = document.getElementById('repo-info-container');
-    const contributorsDiv = createAndAppend('div', repoInfoContainer, {
-      class: 'contributors-info',
+  function renderError(err) {
+    const listContainer = document.getElementById('repo-container');
+    clearContainer(listContainer);
+    const root = document.getElementById('root');
+    createAndAppend('div', root, {
+      text: err.message,
+      class: 'alert alert-error',
     });
-    fetchJSON(contributorsUrl)
-      .then(response => {
-        const div = createAndAppend('div', contributorsDiv);
-        createAndAppend('h4', div, { text: 'Contributions' });
-        createAndAppend('hr', div);
+  }
 
-        const table = createAndAppend('ul', div, { class: 'grid' });
-        const contributors = response;
-        contributors.forEach((_contributor, index) => {
-          const imageUrl = contributors[index].avatar_url;
-          const name = contributors[index].login;
-          const contributionsCount = contributors[index].contributions;
-          const profileURL = contributors[index].html_url;
-          const tr = createAndAppend('li', table, { class: 'clickable row' });
-          tr.onclick = () => openNewTab(profileURL);
-          const td1 = createAndAppend('div', tr, { class: 'col-30' });
-          const imgContainerDiv = createAndAppend('div', td1, {
-            class: 'image-container',
-          });
-          createAndAppend('img', imgContainerDiv, {
-            src: imageUrl,
-            width: 80,
-            height: 80,
-          });
-          createAndAppend('div', tr, {
-            text: name,
-            class: 'col-30 description',
-          });
-          const td3 = createAndAppend('div', tr, { class: 'col-30' });
-          createAndAppend('label', td3, { text: contributionsCount });
+  function addRow(tbody, label, value) {
+    const tr = createAndAppend('tr', tbody);
+    createAndAppend('td', tr, { text: `${label}:`, class: 'label' });
+    createAndAppend('td', tr, { text: value });
+    return tr;
+  }
+
+  function renderContributors(repo, contributorContainer) {
+    clearContainer(contributorContainer);
+    const url = repo.contributors_url;
+    fetchJSON(url, (err, contributorList) => {
+      if (err) {
+        renderError(err);
+        return;
+      }
+      const div = createAndAppend('div', contributorContainer);
+      createAndAppend('h3', div, { text: 'Contributions' });
+      contributorList.forEach(contributor => {
+        const contributorRow = createAndAppend('div', contributorContainer, {
+          class: 'contributorRow',
         });
-      })
-      .catch(error => {
-        createAndAppend('div', contributorsDiv, {
-          text: error.message,
-          class: 'alert-error',
+        createAndAppend('img', contributorRow, { src: contributor.avatar_url });
+        createAndAppend('a', contributorRow, {
+          text: contributor.login,
+          href: contributor.html_url,
+          target: '_blank',
+        });
+        createAndAppend('p', contributorRow, {
+          text: contributor.contributions,
         });
       });
-  }
-  function bindRepositoryDetails(selectedRepository) {
-    const { description, forks } = selectedRepository;
-    const repositoryName = selectedRepository.name;
-    const updatedOn = new Date(selectedRepository.updated_at).toLocaleString();
-    const repoURL = selectedRepository.html_url;
-
-    const infoContainerDiv = document.getElementById('repo-info-container');
-    const repoInfoDiv = createAndAppend('div', infoContainerDiv, {
-      class: 'repo-info',
     });
-    const div = createAndAppend('div', repoInfoDiv);
-    const table = createAndAppend('div', div, { class: 'grid' });
+  }
 
-    const tr1 = createAndAppend('div', table, { class: 'row' });
-    createAndAppend('div', tr1, { text: 'Repository:', class: 'col-50' });
-    const repoNameCol = createAndAppend('div', tr1, { class: 'col-50' });
-    createAndAppend('a', repoNameCol, {
-      href: repoURL,
+  function renderRepo(listContainer, contributorContainer, repo) {
+    const table = createAndAppend('table', listContainer);
+    const tbody = createAndAppend('tbody', table);
+    const firstRow = addRow(tbody, 'Repository', '');
+    createAndAppend('a', firstRow.lastChild, {
+      href: repo.html_url,
+      text: repo.name,
       target: '_blank',
-      text: repositoryName,
     });
-
-    const tr2 = createAndAppend('div', table, { class: 'row' });
-    createAndAppend('div', tr2, { text: 'Description:', class: 'col-50' });
-    createAndAppend('div', tr2, { text: description, class: 'col-50' });
-
-    const tr3 = createAndAppend('div', table, { class: 'row' });
-    createAndAppend('div', tr3, { text: 'Forks:', class: 'col-50' });
-    createAndAppend('div', tr3, { text: forks, class: 'col-50' });
-
-    const tr4 = createAndAppend('div', table, { class: 'row' });
-    createAndAppend('div', tr4, { text: 'Updated:', class: 'col-50' });
-    createAndAppend('div', tr4, { text: updatedOn, class: 'col-50' });
+    addRow(tbody, 'Description', `${repo.description}`);
+    addRow(tbody, 'Forks', `${repo.forks}`);
+    addRow(tbody, 'Updated', `${repo.updated_at}`);
+    renderContributors(repo, contributorContainer);
   }
 
-  function repositoryChanged(selectedRepo) {
-    const infoElement = document.getElementById('repo-info-container');
-    infoElement.innerHTML = '';
-    // const repositoryIndex = parseInt(event.target.selectedOptions[0].value, 10);
-    // const selectedRepo = repositoryList[repositoryIndex];
-    bindRepositoryDetails(selectedRepo);
-    bindContributions(selectedRepo.contributors_url);
-  }
-
-  function createDropDown(parentElement, repositories) {
-    const topNavDiv = createAndAppend('div', parentElement, { class: 'topnav' });
-    const div = createAndAppend('div', topNavDiv, { class: 'header-container' });
-    const div1 = createAndAppend('div', div, { class: 'col-50' });
-    createAndAppend('a', div1, { text: 'HYF Repositories', href: '#' });
-    const repoDiv = createAndAppend('div', div, { class: 'col-50' });
-    const repoDropDown = createAndAppend('select', repoDiv, {
-      id: 'ddlRepository',
-      class: 'select-css',
-    });
-    repositories
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .forEach((element, index) => {
-        createAndAppend('option', repoDropDown, {
-          text: element.name,
-          value: [index],
-        });
-      });
-    repoDropDown.onchange = () => repositoryChanged(repositories[repoDropDown.value]);
+  function onChangeSelect(listContainer, contributorContainer, repo) {
+    clearContainer(listContainer);
+    renderRepo(listContainer, contributorContainer, repo);
   }
 
   function main(url) {
-    let repositoryList = [];
     const root = document.getElementById('root');
-    fetchJSON(url)
-      .then(response => {
-        repositoryList = response;
-        createDropDown(root, repositoryList);
-        createAndAppend('div', root, {
-          class: 'info-container',
-          id: 'repo-info-container',
+    const topNav = createAndAppend('div', root, { class: 'topNav' });
+    createAndAppend('p', topNav, { text: 'HYF Repositories' });
+    const select = createAndAppend('select', topNav);
+    const repoContainer = createAndAppend('div', root, {
+      id: 'repo-container',
+    });
+    const contributorContainer = createAndAppend('div', root, {
+      id: 'cont-container',
+    });
+
+    fetchJSON(url, (err, repositories) => {
+      if (err) {
+        renderError(err);
+        return;
+      }
+      repositories
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .forEach((repository, index) => {
+          createAndAppend('option', select, {
+            text: repository.name,
+            value: index,
+          });
         });
-        repositoryChanged(repositoryList[0]);
-      })
-      .catch(err => {
-        createAndAppend('div', root, {
-          text: err.message,
-          class: 'alert-error',
-        });
+
+      select.addEventListener('change', () => {
+        onChangeSelect(repoContainer, contributorContainer, repositories[select.value]);
       });
+      onChangeSelect(repoContainer, contributorContainer, repositories[0]);
+    });
   }
 
-  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => main(HYF_REPOS_URL);
 }
