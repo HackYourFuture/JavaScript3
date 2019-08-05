@@ -2,22 +2,13 @@
 
 {
   function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
+    return fetch(url).then(res => {
+      if (!res.ok) {
+        throw Error(`HTTP error ${res.status}- ${res.statusText}`);
+      }
+      return res.json();
     });
   }
-
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
@@ -65,29 +56,30 @@
     addRow(tbody, 'Updated:', new Date(repository.updated_at).toLocaleString());
   }
 
-  function createContributorsList(repository, ul) {
+  async function createContributorsList(repository, ul) {
     clearContainer(ul);
     createAndAppend('li', ul, { id: 'Contributors-h2', text: 'contributions' });
-    fetchJSON(repository.contributors_url)
-      .then(contributors =>
-        contributors.forEach(contributor => {
-          const li = createAndAppend('li', ul);
-          const a = createAndAppend('a', li, {
-            href: contributor.html_url,
-            target: '_blank',
-            class: 'link-contributions',
-          });
+    try {
+      const contributors = await fetchJSON(repository.contributors_url);
+      contributors.forEach(contributor => {
+        const li = createAndAppend('li', ul);
+        const a = createAndAppend('a', li, {
+          href: contributor.html_url,
+          target: '_blank',
+          class: 'link-contributions',
+        });
 
-          createAndAppend('img', a, {
-            class: 'contributor-avatar',
-            src: contributor.avatar_url,
-            alt: contributor.login,
-          });
-          createAndAppend('p', a, { class: 'p1', text: contributor.login });
-          createAndAppend('p', a, { class: 'p2', text: contributor.contributions });
-        }),
-      )
-      .catch(err => renderError(err));
+        createAndAppend('img', a, {
+          class: 'contributor-avatar',
+          src: contributor.avatar_url,
+          alt: contributor.login,
+        });
+        createAndAppend('p', a, { class: 'p1', text: contributor.login });
+        createAndAppend('p', a, { class: 'p2', text: contributor.contributions });
+      });
+    } catch (err) {
+      renderError(err);
+    }
   }
 
   function startPage(repository, listContainer, ul) {
@@ -95,7 +87,7 @@
     createInfoList(repository, ul);
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
     const header = createAndAppend('header', root);
     const section = createAndAppend('section', root);
@@ -105,22 +97,24 @@
     const listContainer = createAndAppend('ul', section, {
       id: 'Contributors-list',
     });
-    fetchJSON(url)
-      .then(repositories => {
-        repositories
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .forEach((repository, index) => {
-            createAndAppend('option', select, { text: repository.name, value: index });
-          });
-        startPage(repositories[0], listContainer, table);
-        select.addEventListener('change', () => {
-          clearContainer(table);
-          clearContainer(listContainer);
-          const repositoryData = repositories[select.value];
-          startPage(repositoryData, listContainer, table);
+    try {
+      const repositories = await fetchJSON(url);
+
+      repositories
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .forEach((repository, index) => {
+          createAndAppend('option', select, { text: repository.name, value: index });
         });
-      })
-      .catch(err => renderError(err));
+      startPage(repositories[0], listContainer, table);
+      select.addEventListener('change', () => {
+        clearContainer(table);
+        clearContainer(listContainer);
+        const repositoryData = repositories[select.value];
+        startPage(repositoryData, listContainer, table);
+      });
+    } catch (err) {
+      renderError(err);
+    }
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
