@@ -2,19 +2,11 @@
 
 {
   function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(xhr.response, null);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.open('GET', url);
-      xhr.send();
+    return fetch(url).then(res => {
+      if (!res.ok) {
+        throw Error(`HTTP Error ${res.status} - ${res.statusText}`);
+      }
+      return res.json();
     });
   }
 
@@ -68,9 +60,9 @@
     addRow(tbody, 'Updated:', `${repository.updated_at}`.substring(0, 10), 'explanations');
   }
 
-  function renderContributorsInformation(repository, container) {
-    fetchJSON(repository.contributors_url)
-      .then(contributorDetails => {
+  async function renderContributorsInformation(repository, container) {
+    try {
+      await fetchJSON(repository.contributors_url).then(contributorDetails => {
         container.innerHTML = ' ';
         const div = document.getElementById('cont-ulist');
         createAndAppend('h4', div, { text: 'Contributors' });
@@ -90,12 +82,13 @@
             class: 'contributions',
           });
         });
-      })
-
-      .catch(err => renderError(err));
+      });
+    } catch (err) {
+      renderError(err);
+    }
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
     const menuSection = createAndAppend('section', root, { id: 'menu-section' });
     createAndAppend('p', menuSection, { text: 'HYF Repositories', id: 'hyf-text' });
@@ -107,21 +100,22 @@
       id: 'cont-ulist',
     });
 
-    fetchJSON(url)
-      .then(repositories => {
-        repositories.sort((a, b) => a.name.localeCompare(b.name));
-        createOptions(repositories, select);
+    try {
+      const repositories = await fetchJSON(url);
+      repositories.sort((a, b) => a.name.localeCompare(b.name));
+      createOptions(repositories, select);
 
-        renderRepoInformation(repositories[0], section);
-        renderContributorsInformation(repositories[0], contrDiv);
+      renderRepoInformation(repositories[0], section);
+      renderContributorsInformation(repositories[0], contrDiv);
 
-        select.addEventListener('change', () => {
-          const repository = repositories[select.value];
-          renderRepoInformation(repository, section);
-          renderContributorsInformation(repository, contrDiv);
-        });
-      })
-      .catch(error => renderError(error));
+      select.addEventListener('change', () => {
+        const repository = repositories[select.value];
+        renderRepoInformation(repository, section);
+        renderContributorsInformation(repository, contrDiv);
+      });
+    } catch (error) {
+      renderError(error);
+    }
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
