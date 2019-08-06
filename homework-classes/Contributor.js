@@ -14,6 +14,26 @@ class Contributor {
    */
   render(container) {
     // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, { text: JSON.stringify(this.contributor, null, 2) });
+    const listItem = Util.createAndAppend('li', container, { class: 'list flex-div' });
+    const hyperlink = Util.createAndAppend('a', listItem, {
+      href: this.contributor.html_url,
+      target: '_blank',
+    });
+    Util.createAndAppend('img', hyperlink, {
+      src: this.contributor.avatar_url,
+      alt: `${this.contributor.login} photo`,
+    });
+
+    const contributorInfoDiv = Util.createAndAppend('div', hyperlink, {
+      class: 'contributor-info flex-div',
+    });
+    Util.createAndAppend('p', contributorInfoDiv, {
+      class: 'contributorsName',
+      text: this.contributor.login,
+    });
+    Util.createAndAppend('p', contributorInfoDiv, {
+      text: this.contributor.contributions,
+      class: 'badge',
+    });
   }
 }

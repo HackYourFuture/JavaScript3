@@ -18,16 +18,30 @@ class App {
     // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
 
     const root = document.getElementById('root');
-    const header = Util.createAndAppend('header', root, { class: 'header' });
-    this.mainContainer = Util.createAndAppend('div', root, { id: 'container' });
-
+    const header = Util.createAndAppend('header', root, { class: 'flex-div' });
+    Util.createAndAppend('h1', header, { text: 'Repositories', class: 'app-header' });
+    const select = Util.createAndAppend('select', header);
+    this.mainContainer = Util.createAndAppend('main', root, { class: 'flex-div' });
+    let repositories;
     try {
-      const repos = await Util.fetchJSON(url);
-      this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
+      repositories = await Util.fetchJSON(url);
+      this.repositories = repositories
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map(repository => new Repository(repository));
+
+      this.repositories.forEach((repositoryObj, index) => {
+        Util.createAndAppend('option', select, {
+          text: repositoryObj.repository.name,
+          value: index,
+        });
+      });
+      this.selectRepository(this.repositories[select.value]);
     } catch (error) {
       this.renderError(error);
     }
+    select.addEventListener('change', () => {
+      this.selectRepository(this.repositories[select.value]);
+    });
   }
 
   /**
@@ -42,20 +56,24 @@ class App {
 
   /**
    * Fetch contributor information for the selected repository and render the
-   * repo and its contributors as HTML elements in the DOM.
-   * @param {object} repo The selected repository object
+   * repository and its contributors as HTML elements in the DOM.
+   * @param {object} repository The selected repository object
    */
-  async selectRepository(repo) {
+  async selectRepository(repository) {
     try {
       this.clearContainer();
-      const contributors = await repo.fetchContributors();
 
-      const repoContainer = Util.createAndAppend('div', this.mainContainer);
-      const contributorContainer = Util.createAndAppend('div', this.mainContainer);
+      const contributors = await repository.fetchContributors();
+
+      const repositoryContainer = Util.createAndAppend('div', this.mainContainer, {
+        class: 'table-div',
+      });
+      const contributorContainer = Util.createAndAppend('div', this.mainContainer, {
+        class: 'contributes-div',
+      });
 
       const contributorList = Util.createAndAppend('ul', contributorContainer);
-
-      repo.render(repoContainer);
+      repository.render(repositoryContainer);
 
       contributors
         .map(contributor => new Contributor(contributor))
@@ -70,9 +88,10 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    console.error(error); // TODO: replace with your own code
+    const root = document.getElementById('root');
+    Util.createAndAppend('h1', root, { text: error.message });
   }
 }
 
-const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-window.onload = () => new App(HYF_REPOS_URL);
+const URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+window.onload = () => new App(URL);
