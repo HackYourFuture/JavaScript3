@@ -1,8 +1,6 @@
 'use strict';
 
 {
-  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
@@ -122,6 +120,20 @@
       container.removeChild(container.firstChild);
     }
   };
+  // ********************************
+  function renderStarterResult(repositories, selectEl, infoContainer) {
+    repositories.sort((a, b) => a.name.localeCompare(b.name));
+    repositories.forEach((repo, index) => {
+      createAndAppend('option', selectEl, { text: repo.name, value: index });
+    });
+    showRepoInfo(repositories[selectEl.value], infoContainer);
+    showContributions(repositories[selectEl.value].contributors_url, infoContainer);
+    selectEl.addEventListener('change', () => {
+      deleteContents(infoContainer);
+      showRepoInfo(repositories[selectEl.value], infoContainer);
+      showContributions(repositories[selectEl.value].contributors_url, infoContainer);
+    });
+  }
 
   function starter(url) {
     const root = document.getElementById('root');
@@ -141,26 +153,10 @@
       class: 'info-container',
     });
 
-    function renderResult(repositories) {
-      repositories.sort((a, b) => a.name.localeCompare(b.name));
-      repositories.forEach((repo, index) => {
-        createAndAppend('option', selectEl, { text: repo.name, value: index });
-      });
-      showRepoInfo(repositories[selectEl.value], infoContainer);
-      showContributions(repositories[selectEl.value].contributors_url, infoContainer);
-      selectEl.addEventListener('change', () => {
-        deleteContents(infoContainer);
-        showRepoInfo(repositories[selectEl.value], infoContainer);
-        setTimeout(
-          showContributions(repositories[selectEl.value].contributors_url, infoContainer),
-          0,
-        );
-      });
-    }
     fetchJSON(url)
-      .then(repositories => renderResult(repositories))
+      .then(repositories => renderStarterResult(repositories, selectEl, infoContainer))
       .catch(error => renderError(error, infoContainer));
   }
-
+  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => starter(HYF_REPOS_URL);
 }
