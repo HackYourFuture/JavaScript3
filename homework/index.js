@@ -107,29 +107,10 @@
     });
     const table = createAndAppend('table', infoLeft);
     const tbody = createAndAppend('tbody', table);
-    const firstRow = addRow(
-      tbody,
-      `
-                        Name `,
-    );
-    const secondRow = addRow(
-      tbody,
-      `
-                        Description `,
-      wantedRepo.description,
-    );
-    addRow(
-      tbody,
-      `
-                        Forks `,
-      wantedRepo.forks,
-    );
-    addRow(
-      tbody,
-      `
-                        Last update `,
-      new Date(wantedRepo.updated_at).toLocaleString(),
-    );
+    const firstRow = addRow(tbody, `Name `);
+    const secondRow = addRow(tbody, `Description `, wantedRepo.description);
+    addRow(tbody, `Forks `, wantedRepo.forks);
+    addRow(tbody, `Last update `, new Date(wantedRepo.updated_at).toLocaleString());
     createAndAppend('a', firstRow.lastChild, {
       text: wantedRepo.name,
       href: wantedRepo.html_url,
