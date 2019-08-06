@@ -46,7 +46,6 @@
   }
   // ***********************************
   function renderContributions(contributors, infoRight) {
-    console.log(contributors);
     if (contributors === null) {
       createAndAppend('p', infoRight, {
         class: 'no-content',
@@ -141,7 +140,6 @@
         class: 'no-content',
         text: 'There is NO description.',
       });
-      console.log(wantedRepo.description);
     }
   }
 
