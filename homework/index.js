@@ -44,6 +44,41 @@
       xhr.send();
     });
   }
+  // ***********************************
+  function renderContributions(contributors, infoRight) {
+    contributors.forEach(contributor => {
+      const contributorLink = createAndAppend('a', infoRight, {
+        class: 'contributor-link',
+        href: contributor.html_url,
+        target: '_blank',
+      });
+      const imgDiv = createAndAppend('div', contributorLink, { class: 'contributor-img-div' });
+      createAndAppend('img', imgDiv, {
+        class: 'contributor-img',
+        src: contributor.avatar_url,
+        alt: 'Contributor photo',
+      });
+      imgDiv.firstChild.style.maxHeight = '50px';
+      const dataDiv = createAndAppend('div', contributorLink, { class: 'contributor-data-div' });
+      createAndAppend('div', dataDiv, {
+        class: 'contributor-name',
+        text: contributor.login,
+      });
+      createAndAppend('div', dataDiv, {
+        class: 'contributor-contributions',
+        text: contributor.contributions,
+      });
+      createAndAppend('hr', infoRight, {
+        class: 'hr-contributor',
+      });
+    });
+    if (infoRight.firstElementChild === null) {
+      createAndAppend('p', infoRight, {
+        class: 'no-content',
+        text: 'There are no contributions yet.',
+      });
+    }
+  }
 
   function bringContributions(urlText, container) {
     const infoRight = createAndAppend('div', container, {
@@ -51,43 +86,8 @@
       text: 'Contributions:',
     });
 
-    function renderContributions(contributors) {
-      contributors.forEach(contributor => {
-        const contributorLink = createAndAppend('a', infoRight, {
-          class: 'contributor-link',
-          href: contributor.html_url,
-          target: '_blank',
-        });
-        const imgDiv = createAndAppend('div', contributorLink, { class: 'contributor-img-div' });
-        createAndAppend('img', imgDiv, {
-          class: 'contributor-img',
-          src: contributor.avatar_url,
-          alt: 'Contributor photo',
-        });
-        imgDiv.firstChild.style.maxHeight = '50px';
-        const dataDiv = createAndAppend('div', contributorLink, { class: 'contributor-data-div' });
-        createAndAppend('div', dataDiv, {
-          class: 'contributor-name',
-          text: contributor.login,
-        });
-        createAndAppend('div', dataDiv, {
-          class: 'contributor-contributions',
-          text: contributor.contributions,
-        });
-        createAndAppend('hr', infoRight, {
-          class: 'hr-contributor',
-        });
-      });
-      if (infoRight.firstElementChild === null) {
-        createAndAppend('p', infoRight, {
-          class: 'no-content',
-          text: 'There are no contributions yet.',
-        });
-      }
-    }
-
     fetchJSON(urlText)
-      .then(contributors => renderContributions(contributors))
+      .then(contributors => renderContributions(contributors, infoRight))
       .catch(error => renderError(error, infoRight));
   }
 
