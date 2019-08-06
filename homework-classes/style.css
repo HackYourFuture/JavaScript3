@@ -1,3 +1,118 @@
-.alert-error {
-    color: red;
+img {
+  width: 15%;
+  transform: scale(1);
+  transition: .3s ease-in-out;
+  opacity: 1;
+  border: 1px solid #6a6e75;
+  border-radius: 4px;
+}
+
+body {
+  font-family: Verdana, sans-serif;
+  line-height: 1.5rem;
+  margin: 0 auto;
+  background-color: #9198e5;
+  color: #131816;
+}
+
+#header {
+  background-color: rgb(230, 100, 101);
+  padding: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  height: 8rem;
+}
+
+.alert {
+  color: #fd2323;
+  padding: 20px;
+  background-color: #FFFF00;
+  font-weight: bold;
+}
+
+select {
+  position: relative;
+  display: block;
+  height: 2rem;
+  padding: 3px;
+  max-width: 100%;
+  margin: 1rem auto;
+  cursor: pointer;
+  border-radius: 8px;
+  border: none;
+  background: rgb(250, 250, 250);
+}
+
+select:focus {
+  outline: none;
+}
+
+#container {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  justify-content: space-around;
+  width: 80%;
+  padding: 50px;
+}
+
+.left_box {
+  padding: 1rem;
+  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+  background-color: rgba(157, 177, 165, 0.2);
+  margin: 0 1rem 2rem;
+  width: 65%;
+  line-height: 1cm;
+  text-align: justify;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
+}
+
+.right_box {
+  padding: 1rem;
+  width: 35%;
+  border-radius: 5px;
+  background-color: rgba(19, 36, 25, 0.2);
+  margin: 0 1rem 2rem;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode';
+}
+
+.contrib_ul {
+  list-style: none;
+  border-bottom: 1px solid #c0bebe;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+h2 {
+  text-align: center;
+  text-decoration: underline;
+}
+
+.contrib_count {
+  padding: 0.5rem;
+  border: 1px solid #6a6e75;
+  border-radius: 4px;
+  background-color: rgba(19, 36, 25, 0.2);
+  width: relative;
+  float: right;
+  color: rgb(97, 61, 7);
+  font-weight: bold;
+}
+
+.contrib_name {
+  padding: 0.5rem;
+  color: #9e2a2a;
+}
+
+@media screen and (max-width: 300px) {
+  main#container {
+    flex-flow: column nowrap;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+
 }
