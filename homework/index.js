@@ -46,6 +46,22 @@
   }
   // ***********************************
   function renderContributions(contributors, infoRight) {
+    console.log(contributors);
+    if (contributors === null) {
+      createAndAppend('p', infoRight, {
+        class: 'no-content',
+        html: 'This repository is empty.<br /> It has No content. <br /> It has No contributions.',
+      });
+      return;
+    }
+    if (contributors.length === 0) {
+      createAndAppend('p', infoRight, {
+        class: 'no-content',
+        text: 'There are no contributions yet.',
+      });
+      return;
+    }
+
     contributors.forEach(contributor => {
       const contributorLink = createAndAppend('a', infoRight, {
         class: 'contributor-link',
@@ -72,12 +88,6 @@
         class: 'hr-contributor',
       });
     });
-    if (infoRight.firstElementChild === null) {
-      createAndAppend('p', infoRight, {
-        class: 'no-content',
-        text: 'There are no contributions yet.',
-      });
-    }
   }
 
   function bringContributions(urlText, container) {
@@ -98,20 +108,40 @@
     });
     const table = createAndAppend('table', infoLeft);
     const tbody = createAndAppend('tbody', table);
-    const firstRow = addRow(tbody, `Name`);
-    const secondRow = addRow(tbody, `Description`, wantedRepo.description);
-    addRow(tbody, `Forks`, wantedRepo.forks);
-    addRow(tbody, `Last update`, new Date(wantedRepo.updated_at).toLocaleString());
+    const firstRow = addRow(
+      tbody,
+      `
+                        Name `,
+    );
+    const secondRow = addRow(
+      tbody,
+      `
+                        Description `,
+      wantedRepo.description,
+    );
+    addRow(
+      tbody,
+      `
+                        Forks `,
+      wantedRepo.forks,
+    );
+    addRow(
+      tbody,
+      `
+                        Last update `,
+      new Date(wantedRepo.updated_at).toLocaleString(),
+    );
     createAndAppend('a', firstRow.lastChild, {
       text: wantedRepo.name,
       href: wantedRepo.html_url,
       target: '_blank',
     });
-    if (secondRow.lastChild.textContent === '') {
+    if (wantedRepo.description === null) {
       createAndAppend('span', secondRow.lastChild, {
         class: 'no-content',
         text: 'There is NO description.',
       });
+      console.log(wantedRepo.description);
     }
   }
 
