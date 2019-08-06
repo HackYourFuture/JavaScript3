@@ -14,7 +14,6 @@ class App {
   async initialize(url) {
     // Add code here to initialize your app
     // 1. Create the fixed HTML elements of your page
-    // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
 
     const root = document.getElementById('root');
     const header = Util.createAndAppend('header', root, { class: 'header' });
