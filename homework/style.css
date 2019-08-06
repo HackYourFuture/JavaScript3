@@ -23,12 +23,7 @@
   max-width: 650px;
   margin: 0 auto;
 }
-/* td:first-of-type {
-  font-weight: bold;
-}
-p:first-of-type {
-  background-color: dodgerblue;
-} */
+
 .image {
   width: 60px;
   height: 60px;
@@ -48,13 +43,9 @@ p:first-of-type {
   box-shadow: 4px 3px 19px -5px rgba(0, 0, 0, 0.75);
   padding: 2%;
   flex: 1;
+  margin: 0px 5px 0px 5px;
 }
-.right-div {
-  margin-left: 5px;
-}
-.left-div {
-  margin-right: 5px;
-}
+
 select {
   font-size: 14px;
   width: 250px;

@@ -23,23 +23,31 @@ class App {
       text: 'HYF Repositories',
     });
     const select = Util.createAndAppend('select', header);
-    const container = Util.createAndAppend('div', root, { class: 'repo-div', id: 'containers' });
+    Util.createAndAppend('div', root, { class: 'repo-div', id: 'containers' });
     select.addEventListener('change', event => {
       this.fetchContributorsAndRender(event.target.value);
     });
 
     try {
-      const repos = await Util.fetchJSON(url);
-      this.repos = repos.map(repo => new Repository(repo));   
-      repos.forEach((repo, index) => {
+      const data = await fetch(url);
+      const fetchedData = await (function error() {
+        if (data.ok) {
+          return data.json();
+        }
+        throw new Error('There is fetching error');
+      })();
+      this.repos = fetchedData
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map(repo => new Repository(repo));
+      fetchedData.forEach((repo, index) => {
         Util.createAndAppend('option', select, {
           text: repo.name,
           value: index,
         });
       });
+      this.fetchContributorsAndRender([0]);
     } catch (error) {
       this.renderError(error);
-      console.log(error);
     }
   }
 
@@ -58,6 +66,7 @@ class App {
    * repo and its contributors as HTML elements in the DOM.
    * @param {number} index The array index of the repository.
    */
+
   async fetchContributorsAndRender(index) {
     try {
       const container = document.querySelector('#containers');
