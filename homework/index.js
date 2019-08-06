@@ -89,15 +89,17 @@
     });
   }
 
-  function bringContributions(urlText, container) {
+  async function bringContributions(urlText, container) {
     const infoRight = createAndAppend('div', container, {
       class: 'info-right',
       text: 'Contributions:',
     });
-
-    fetchJSON(urlText)
-      .then(contributors => renderContributions(contributors, infoRight))
-      .catch(error => renderError(error, infoRight));
+    try {
+      const contributors = await fetchJSON(urlText);
+      renderContributions(contributors, infoRight);
+    } catch (error) {
+      renderError(error, infoRight);
+    }
   }
 
   function showRepoInfo(wantedRepo, container) {
@@ -130,7 +132,7 @@
     }
   };
   // ********************************
-  function renderStarterResult(repositories, selectEl, infoContainer) {
+  function renderSelectElement(repositories, selectEl, infoContainer) {
     repositories.sort((a, b) => a.name.localeCompare(b.name));
     repositories.forEach((repo, index) => {
       createAndAppend('option', selectEl, { text: repo.name, value: index });
@@ -144,7 +146,7 @@
     });
   }
 
-  function starter(url) {
+  async function starter(url) {
     const root = document.getElementById('root');
     const header = createAndAppend('header', root, {
       class: 'header',
@@ -161,10 +163,12 @@
       id: 'info_container',
       class: 'info-container',
     });
-
-    fetchJSON(url)
-      .then(repositories => renderStarterResult(repositories, selectEl, infoContainer))
-      .catch(error => renderError(error, infoContainer));
+    try {
+      const repositories = await fetchJSON(url);
+      renderSelectElement(repositories, selectEl, infoContainer);
+    } catch (error) {
+      renderError(error, infoContainer);
+    }
   }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => starter(HYF_REPOS_URL);
