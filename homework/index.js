@@ -45,7 +45,7 @@
     });
   }
 
-  function showContributions(urlText, container) {
+  function bringContributions(urlText, container) {
     const infoRight = createAndAppend('div', container, {
       class: 'info-right',
       text: 'Contributions:',
@@ -127,11 +127,11 @@
       createAndAppend('option', selectEl, { text: repo.name, value: index });
     });
     showRepoInfo(repositories[selectEl.value], infoContainer);
-    showContributions(repositories[selectEl.value].contributors_url, infoContainer);
+    bringContributions(repositories[selectEl.value].contributors_url, infoContainer);
     selectEl.addEventListener('change', () => {
       deleteContents(infoContainer);
       showRepoInfo(repositories[selectEl.value], infoContainer);
-      showContributions(repositories[selectEl.value].contributors_url, infoContainer);
+      bringContributions(repositories[selectEl.value].contributors_url, infoContainer);
     });
   }
 
