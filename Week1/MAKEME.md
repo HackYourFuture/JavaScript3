@@ -15,6 +15,13 @@
 
 ## **3. Code along**
 
+Now that you've learned about APIs and how to connect with them, let's apply it in the context of a complete application.
+
+In
+
+- [Vanilla JS Numbers Facts App - AJAX & Fetch](https://www.youtube.com/watch?v=tUE2Nic21BA)
+- [Build a JavaScript & jQuery Movie Info App](https://www.youtube.com/watch?v=YsPqjYGauns)
+
 ## **4. PROJECT: Hack Your Repo I**
 
 > In this assignment you will built upon some existing code that is already pre-written by your teachers. Your homework consist of writing the code to make the application work as requested per week.

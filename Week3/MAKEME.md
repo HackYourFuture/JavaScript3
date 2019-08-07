@@ -13,57 +13,14 @@
 
 ## **3. Code along**
 
+- [YouTube API Project with Authentication](https://www.youtube.com/watch?v=r-yxNNO1EI8)
+
 ## **4. PROJECT: Hack Your Repo III**
-
-# Homework Week 3
-
-```
-Topics discussed this week:
-• Object Oriented Programming and ES6 Classes
-• The this keyword
-• call, apply, bind
-```
-
-## Step 1: Fix requested changes
-
-_Deadline Monday_
-
-- Fix Requested Changes (if any) on the Pull Request.
-
-## Step 2
-
-**_Deadline Thursday_**
-
-### 2.1 Preparation
-
-**Read the fundamental pages on:**
-
-- [try...catch](../../../../fundamentals/blob/master/fundamentals/try_catch.md)
-- [async/await](../../../../fundamentals/blob/master/fundamentals/async_await.md)
-
-The homework for week 3 will build on the work you did in week 2. You will create a new branch based on the `week2` branch.
-
-1. Make sure that you committed all changes in the week 2 version of your homework.
-2. Create a new `week3` branch:
-
-   ```
-   git checkout -b week3
-   ```
-
-### 2.2 Assignment
 
 This week you will work with all JavaScript files in the `src` folder. The assignment consists of two parts:
 
 1. Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
 2. Refactor your application to use ES6 classes.
-
-#### 2.2.1 async/await
-
-**Instructions:**
-
-1. Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
-
-2. Make sure that your error handling code still works. See the week2 MAKEME on how to force an error response from GitHub.
 
 #### 2.2.2 ES6 Classes
 

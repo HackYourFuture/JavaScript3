@@ -11,11 +11,15 @@ These are the topics for week 1:
    - XMLHttpRequest (XHR)
    - What is JSON?
 3. jQuery
-   - What's a module/package?
+   - What's a module?
    - What's a library?
    - Using jQuery to make AJAX requests
 
 ## 1. Application Programming Interface (API)
+
+An Application Programming Interface, or API for short, is
+
+You can think of APIs in the following manner: Imagine you want to rent out a room in your house through Airbnb.
 
 - [What are APIs - series](https://www.youtube.com/watch?v=cpRcK4GS068&list=PLcgRuP1JhcBP8Kh0MC53GH_pxqfOhTVLa)
 
@@ -41,10 +45,14 @@ It's because the HackYourFuture website sends an **API call** to Mollie. The req
 
 > Anytime a request to an API is made this is called an `API call`. However, in practice people use different terms for the same thing. Synonyms for `API call` are `API request`, `Network call/request` or`HTTP call/request`. Which do you prefer?
 
+For further study of how to make API calls, check out the following resources:
+
 - [Working with APIs in JavaScript](https://www.youtube.com/watch?v=ecT42O6I_WI)
 - [Making HTTP Requests in JavaScript](https://www.kirupa.com/html5/making_http_requests_js.htm)
 
 ## 2. Asynchronous JavaScript and XML (AJAX)
+
+AJAX is the idea that data can be loaded into a webpage without refreshing the entire website.
 
 ### XMLHttpRequests (XHR)
 
@@ -53,8 +61,24 @@ It's because the HackYourFuture website sends an **API call** to Mollie. The req
 
 ## 3. jQuery
 
-### What's a module/package?
+### What's a module?
+
+A `module` is a part of a program that contains one or more functionalities. For example, a single function that has only 1 job could be considered a module. When developing applications you'll always be writing multiple functionalities in order for your software to work as expected. These can be written all in one file, and it would fine. The browser/operating system would be able to interpret and execute it anyway. But for you, the human, it's very hard to keep overview of what is happening at what level of the application.
+
+In order to keep a better overview, we can choose to **modularize** our application: split it up into smaller parts that, in theory, all work independently.
+
+However, creating better overview is not the only reason. Among other reasons, modules make a developer's job easy by:
+
+- Allowing the them to focus on only one area of the functionality of the software application
+- Isolating individual blocks of code, in case anything breaks
+- Encouraging the developer to write code in a way that makes it reusable
+
+For more information about this, go through the following:
+
+- [JavaScript Modules: From IIFEs to CommonJS to ES6 Modules](https://www.youtube.com/watch?v=qJWALEoGge4)
 
 ### What's a library?
 
 ### Using jQuery to make AJAX requests
+
+One of the most well-known and often used libraries in JavaScript is called `jQuery`. It's a library that was designed to make DOM manipulation, as well as event handling, CSS animation and AJAX operations much easier to perform.
