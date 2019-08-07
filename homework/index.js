@@ -26,12 +26,10 @@
 
   function renderError(error, container) {
     createAndAppend('div', container, { text: error.message, class: 'alert-error' });
-    console.log(error);
   }
 
   async function bringData(url) {
     const response = await fetch(url);
-    console.log(response);
     if (!response.ok) {
       throw Error(`Network error: ${response.status} - ${response.statusText}`);
     } else if (response.statusText !== 'OK') {
