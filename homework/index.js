@@ -47,7 +47,6 @@
       text: err.message,
       class: 'alert alert-error',
     });
-<<<<<<< HEAD
   }
 
   function addRow(tbody, label, value) {
@@ -84,43 +83,6 @@
       });
   }
 
-=======
-  }
-
-  function addRow(tbody, label, value) {
-    const tr = createAndAppend('tr', tbody);
-    createAndAppend('td', tr, { text: `${label}:`, class: 'label' });
-    createAndAppend('td', tr, { text: value });
-    return tr;
-  }
-
-  async function renderContributors(repo, contributorContainer) {
-    clearContainer(contributorContainer);
-    const url = repo.contributors_url;
-    try {
-      const contributorList = await fetchJSON(url);
-      const div = createAndAppend('div', contributorContainer);
-      createAndAppend('h3', div, { text: 'Contributions' });
-      contributorList.forEach(contributor => {
-        const contributorRow = createAndAppend('div', contributorContainer, {
-          class: 'contributorRow',
-        });
-        createAndAppend('img', contributorRow, { src: contributor.avatar_url });
-        createAndAppend('a', contributorRow, {
-          text: contributor.login,
-          href: contributor.html_url,
-          target: '_blank',
-        });
-        createAndAppend('p', contributorRow, {
-          text: contributor.contributions,
-        });
-      });
-    } catch (err) {
-      renderError(err);
-    }
-  }
-
->>>>>>> a68b58188f2c8560987a699ec445c64cb992b054
   function renderRepo(listContainer, contributorContainer, repo) {
     const table = createAndAppend('table', listContainer);
     const tbody = createAndAppend('tbody', table);
@@ -141,11 +103,7 @@
     renderRepo(listContainer, contributorContainer, repo);
   }
 
-<<<<<<< HEAD
   function main(url) {
-=======
-  async function main(url) {
->>>>>>> a68b58188f2c8560987a699ec445c64cb992b054
     const root = document.getElementById('root');
     const topNav = createAndAppend('div', root, { class: 'topNav' });
     createAndAppend('p', topNav, { text: 'HYF Repositories' });
@@ -157,7 +115,6 @@
       id: 'cont-container',
     });
 
-<<<<<<< HEAD
     fetchJSON(url)
       .then(repositories => {
         repositories
@@ -176,25 +133,6 @@
       .catch(err => {
         renderError(err);
       });
-=======
-    try {
-      const repositories = await fetchJSON(url);
-      repositories
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .forEach((repository, index) => {
-          createAndAppend('option', select, {
-            text: repository.name,
-            value: index,
-          });
-        });
-      select.addEventListener('change', () => {
-        onChangeSelect(repoContainer, contributorContainer, repositories[select.value]);
-      });
-      onChangeSelect(repoContainer, contributorContainer, repositories[0]);
-    } catch (err) {
-      renderError(err);
-    }
->>>>>>> a68b58188f2c8560987a699ec445c64cb992b054
   }
 
   window.onload = () => main(HYF_REPOS_URL);
