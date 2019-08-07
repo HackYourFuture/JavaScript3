@@ -26,6 +26,7 @@
 
   function renderError(error, container) {
     createAndAppend('div', container, { text: error.message, class: 'alert-error' });
+    console.log(error);
   }
 
   async function fetchJSON(url) {
