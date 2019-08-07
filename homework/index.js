@@ -29,7 +29,7 @@
     console.log(error);
   }
 
-  async function fetchJSON(url) {
+  async function bringData(url) {
     const response = await fetch(url);
     console.log(response);
     if (!response.ok) {
@@ -91,7 +91,7 @@
       text: 'Contributions:',
     });
     try {
-      const contributors = await fetchJSON(urlText);
+      const contributors = await bringData(urlText);
       renderContributions(contributors, infoRight);
     } catch (error) {
       renderError(error, infoRight);
@@ -160,7 +160,7 @@
       class: 'info-container',
     });
     try {
-      const repositories = await fetchJSON(url);
+      const repositories = await bringData(url);
       renderSelectElement(repositories, selectEl, infoContainer);
     } catch (error) {
       renderError(error, infoContainer);
