@@ -2,7 +2,6 @@
 
 {
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-
   function fetchJSON(url) {
     return new Promise((resolved, reject) => {
       const xhr = new XMLHttpRequest();
