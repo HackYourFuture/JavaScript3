@@ -28,21 +28,16 @@
     createAndAppend('div', container, { text: error.message, class: 'alert-error' });
   }
 
-  function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
-    });
+  async function fetchJSON(url) {
+    const response = await fetch(url);
+    console.log(response);
+    if (!response.ok) {
+      throw Error(`Network error: ${response.status} - ${response.statusText}`);
+    } else if (response.statusText !== 'OK') {
+      return null;
+    } else {
+      return response.json();
+    }
   }
   // ***********************************
   function renderContributions(contributors, infoRight) {
