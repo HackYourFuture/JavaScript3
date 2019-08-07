@@ -1,19 +1,21 @@
-# Homework Week 1
+# Homework JavaScript3 Week 1
 
-```
-Topics discussed this week:
-• Structure for a basic SPA
-• XMLHttpRequests
-• API calls
-```
+## **Todo list**
 
-## Step 1: Single Page Application :sweat_drops:
+1. Practice the concepts
+2. JavaScript exercises
+3. Code along
+4. PROJECT: Hack Your Repo I
 
-**_Deadline Thursday_**
+## **1. Practice the concepts**
 
-_This homework is more extensive and challenging than previous homework! Please read the instructions below carefully and follow them with great attention to detail. Start this homework as soon as you can and allow time for discussion and questions (slack!)._
+- [Introduction to jQuery](https://www.codecademy.com/learn/learn-jquery)
 
-### 1.1 Introduction
+## **2. JavaScript exercises**
+
+## **3. Code along**
+
+## **4. PROJECT: Hack Your Repo I**
 
 > In this assignment you will built upon some existing code that is already pre-written by your teachers. Your homework consist of writing the code to make the application work as requested per week.
 

@@ -1,3 +1,22 @@
+# Homework JavaScript3 Week 2
+
+## **Todo list**
+
+1. Practice the concepts
+2. JavaScript exercises
+3. Code along
+4. PROJECT: Hack Your Repo II
+
+## **1. Practice the concepts**
+
+## **2. JavaScript exercises**
+
+## **3. Code along**
+
+- [Build a Weather App with Vanilla JavaScript Tutorial](https://www.youtube.com/watch?v=wPElVpR1rwA)
+
+## **4. PROJECT: Hack Your Repo II**
+
 # Homework Week 2
 
 ```

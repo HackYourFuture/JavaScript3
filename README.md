@@ -1,23 +1,51 @@
 > Please help us improve and share your feedback! If you find better tutorials
-or links, please share them by [opening a pull request](https://github.com/HackYourFuture/JavaScript3/pulls).
+> or links, please share them by [opening a pull request](https://github.com/HackYourFuture/JavaScript3/pulls).
 
-# HackYourFuture JavaScript 3
+# Module #4 - JavaScript 3: Advanced JavaScript and working with APIs (Frontend)
 
-Here you can find course content and homework for the JavaScript3 modules
+![JavaScript3](./assets/javascript3.png)
 
-|Week|Topic|Read|Homework|
-|----|-----|----|--------|
-|1.|• Structure for a basic SPA (Single Page Application) <br>• [XMLHttpRequests](../../../fundamentals/blob/master/fundamentals/XMLHttpRequest.md) <br>• API calls|[Reading Week 1](/Week1/README.md)|[Homework Week 1](/Week1/MAKEME.md)|
-|2.|• [Event Loop (order of execution)](../../../fundamentals/blob/master/fundamentals/event_loop.md)<br>• [Promises](../../../fundamentals/blob/master/fundamentals/promises.md)|[Reading Week 2](/Week2/README.md)|[Homework Week 2](/Week2/MAKEME.md)|
-|3.|• [try...catch](../../../fundamentals/blob/master/fundamentals/try_catch.md)<br>• [async/await](../../../fundamentals/blob/master/fundamentals/async_await.md)<br>• [The `this` keyword](../../../fundamentals/blob/master/fundamentals/this.md)<br>• call, apply, bind<br>• [Object Oriented Programming and ES6 Classes](../../../fundamentals/blob/master/fundamentals/oop_classes.md)|[Reading Week 3](/Week3/README.md)|[Homework Week 3](/Week3/MAKEME.md)|
+## Learning goals
 
-__Kind note:__
+In order to successfully complete this module you will need to master the following:
 
-We expect you to __always__ come prepared to the class on Sunday.
+-
+
+## How to use this repository
+
+This repository consists of 3 essential parts:
+
+1. `Reading materials`: this document contains all the required theory you need to know _**while**_ you're coding. It's meant as both study material and as a reference to understand what you're doing.
+2. `Homework`: this document contains the instructions for each week's homework.
+3. `Lesson Plans`: this part is meant for teachers as a reference. However, as a student don't be shy to take a look at it as well!
+
+After your first class you should start off with checking the `reading materials` for that week. At the beginning that would be the [Week 1 Reading](/Week1/README.md). Study all the concepts and try to get the gist of everything. After, you can get started with the `homework` for that week.
+
+If you have any questions or if something is not entirely clear ¯\\\_(ツ)\_/¯, please ask/comment on Slack!
+
+Topics:
+
+1. API calls
+   - XMLHttpRequest
+   - Fetch
+   - jQuery
+
+> In practice, the terms `API call`, `network request` and `network call` are all used to refer to the same thing: sending a request from the client to some kind of server in order to get data.
+
+| Week | Topic                                                 | Reading Materials              | Homework                        | Lesson Plan                            |
+| ---- | ----------------------------------------------------- | ------------------------------ | ------------------------------- | -------------------------------------- |
+| 1.   | Application Programming Interface (API), AJAX, jQuery | [Reading W1](/Week1/README.md) | [Homework W1](/Week1/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
+| 2.   | Fetch API, Promises, Async/await, Try...Catch         | [Reading W2](/Week2/README.md) | [Homework W2](/Week2/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
+| 3.   | ES6 Classes, 'this' keyword, Arrow functions          | [Reading W3](/Week3/README.md) | [Homework W3](/Week3/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
+
+**Kind note:**
+
+We expect you to **always** come prepared to the class on Sunday.
 
 ### Overall
+
 A good understanding of all the above mentioned topics. Want to check your Knowledge? Go through the [JavaScript Fundamentals README](../../../fundamentals/blob/master/README.md) and research/ ask for help (Slack!) with the concepts that are not entirely clear.
 
-*The HackYourFuture curriculum is subject to CC BY copyright. This means you can freely use our materials, but just make sure to give us credit for it :)*
+_The HackYourFuture curriculum is subject to CC BY copyright. This means you can freely use our materials, but just make sure to give us credit for it :)_
 
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
