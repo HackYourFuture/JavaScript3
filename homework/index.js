@@ -40,7 +40,7 @@
       return response.json();
     }
   }
-  // ***********************************
+
   function renderContributions(contributors, infoRight) {
     if (contributors === null) {
       createAndAppend('p', infoRight, {
@@ -127,7 +127,7 @@
       container.removeChild(container.firstChild);
     }
   };
-  // ********************************
+
   function renderSelectElement(repositories, selectEl, infoContainer) {
     repositories.sort((a, b) => a.name.localeCompare(b.name));
     repositories.forEach((repo, index) => {
