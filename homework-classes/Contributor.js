@@ -14,6 +14,26 @@ class Contributor {
    */
   render(container) {
     // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, { text: JSON.stringify(this.contributor, null, 2) });
+    // Util.createAndAppend('pre', container, { text: JSON.stringify(this.contributor, null, 2) });
+    const liElement = Util.createAndAppend('li', container, {
+      class: 'contributors',
+    });
+    const anchorElement = Util.createAndAppend('a', liElement, {
+      href: this.contributor.html_url,
+      target: '_blank',
+      class: 'liLink',
+    });
+    Util.createAndAppend('img', anchorElement, {
+      class: 'user-image',
+      src: this.contributor.avatar_url,
+    });
+    Util.createAndAppend('span', anchorElement, {
+      class: 'login',
+      text: this.contributor.login,
+    });
+    Util.createAndAppend('span', anchorElement, {
+      class: 'counter',
+      text: this.contributor.contributions,
+    });
   }
 }

@@ -20,11 +20,27 @@ class App {
     const root = document.getElementById('root');
     const header = Util.createAndAppend('header', root, { class: 'header' });
     this.mainContainer = Util.createAndAppend('div', root, { id: 'container' });
-
+    Util.createAndAppend('h2', header, {
+      class: 'heading-two',
+      text: 'HYF Repositories:',
+    });
+    const selectElement = Util.createAndAppend('select', header);
     try {
       const repos = await Util.fetchJSON(url);
       this.repos = repos.map(repo => new Repository(repo));
       // TODO: add your own code here
+
+      repos.sort((a, b) => a.name.localeCompare(b.name));
+      repos.forEach((repo, index) => {
+        Util.createAndAppend('option', selectElement, {
+          value: index,
+          text: repo.name,
+        });
+      });
+      this.selectRepository(this.repos[selectElement.value]);
+      selectElement.addEventListener('change', () => {
+        this.selectRepository(this.repos[selectElement.value]);
+      });
     } catch (error) {
       this.renderError(error);
     }
@@ -50,8 +66,20 @@ class App {
       this.clearContainer();
       const contributors = await repo.fetchContributors();
 
-      const repoContainer = Util.createAndAppend('div', this.mainContainer);
-      const contributorContainer = Util.createAndAppend('div', this.mainContainer);
+      const repoContainer = Util.createAndAppend('div', this.mainContainer, {
+        class: 'left-hand',
+      });
+      const contributorContainer = Util.createAndAppend('div', this.mainContainer, {
+        class: 'right-hand',
+      });
+
+      const h3Element = Util.createAndAppend('h3', contributorContainer, {
+        text: 'Contributors:',
+      });
+      if (contributors.length === 0) {
+        h3Element.textContent = 'Contributor Not Found!';
+        return;
+      }
 
       const contributorList = Util.createAndAppend('ul', contributorContainer);
 
@@ -70,7 +98,12 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    console.error(error); // TODO: replace with your own code
+    const container = document.getElementById('container');
+    container.innerHTML = '';
+    Util.createAndAppend('div', container, {
+      text: error.message,
+      class: 'alert-error',
+    });
   }
 }
 

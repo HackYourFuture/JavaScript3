@@ -16,6 +16,18 @@ class Util {
     return elem;
   }
 
+  static addRow(table, text, value) {
+    const tableRow = Util.createAndAppend('tr', table);
+    Util.createAndAppend('th', tableRow, {
+      text,
+      class: 'table-header',
+    });
+    Util.createAndAppend('td', tableRow, {
+      text: value,
+    });
+    return tableRow;
+  }
+
   static fetchJSON(url) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();

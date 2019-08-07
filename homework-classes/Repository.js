@@ -14,7 +14,21 @@ class Repository {
    */
   render(container) {
     // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, { text: JSON.stringify(this.repository, null, 2) });
+    // Util.createAndAppend('pre', container, { text: JSON.stringify(this.repository, null, 2) });
+    const tableElement = Util.createAndAppend('table', container);
+    const rowElement = Util.addRow(tableElement, 'Repository:', '');
+    Util.createAndAppend('a', rowElement.lastChild, {
+      href: this.repository.html_url,
+      target: '_blank',
+      text: this.repository.name,
+    });
+    Util.addRow(tableElement, 'Description:', this.repository.description);
+    Util.addRow(tableElement, 'Forks:', this.repository.forks_count);
+    Util.addRow(
+      tableElement,
+      'Updated:',
+      new Date(this.repository.updated_at).toLocaleString('en-GB'),
+    );
   }
 
   /**
