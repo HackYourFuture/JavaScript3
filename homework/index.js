@@ -2,19 +2,22 @@
 
 {
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status <= 299) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+
+  function fetchJSON(url) {
+    return new Promise((resolved, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status <= 299) {
+          resolved(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -57,28 +60,29 @@
   function renderContributors(repo, contributorContainer) {
     clearContainer(contributorContainer);
     const url = repo.contributors_url;
-    fetchJSON(url, (err, contributorList) => {
-      if (err) {
+
+    fetchJSON(url)
+      .then(contributorList => {
+        const div = createAndAppend('div', contributorContainer);
+        createAndAppend('h3', div, { text: 'Contributions' });
+        contributorList.forEach(contributor => {
+          const contributorRow = createAndAppend('div', contributorContainer, {
+            class: 'contributorRow',
+          });
+          createAndAppend('img', contributorRow, { src: contributor.avatar_url });
+          createAndAppend('a', contributorRow, {
+            text: contributor.login,
+            href: contributor.html_url,
+            target: '_blank',
+          });
+          createAndAppend('p', contributorRow, {
+            text: contributor.contributions,
+          });
+        });
+      })
+      .catch(err => {
         renderError(err);
-        return;
-      }
-      const div = createAndAppend('div', contributorContainer);
-      createAndAppend('h3', div, { text: 'Contributions' });
-      contributorList.forEach(contributor => {
-        const contributorRow = createAndAppend('div', contributorContainer, {
-          class: 'contributorRow',
-        });
-        createAndAppend('img', contributorRow, { src: contributor.avatar_url });
-        createAndAppend('a', contributorRow, {
-          text: contributor.login,
-          href: contributor.html_url,
-          target: '_blank',
-        });
-        createAndAppend('p', contributorRow, {
-          text: contributor.contributions,
-        });
       });
-    });
   }
 
   function renderRepo(listContainer, contributorContainer, repo) {
@@ -113,25 +117,25 @@
       id: 'cont-container',
     });
 
-    fetchJSON(url, (err, repositories) => {
-      if (err) {
-        renderError(err);
-        return;
-      }
-      repositories
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .forEach((repository, index) => {
-          createAndAppend('option', select, {
-            text: repository.name,
-            value: index,
+    fetchJSON(url)
+      .then(repositories => {
+        repositories
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .forEach((repository, index) => {
+            createAndAppend('option', select, {
+              text: repository.name,
+              value: index,
+            });
           });
-        });
 
-      select.addEventListener('change', () => {
-        onChangeSelect(repoContainer, contributorContainer, repositories[select.value]);
+        select.addEventListener('change', () => {
+          onChangeSelect(repoContainer, contributorContainer, repositories[select.value]);
+        });
+        onChangeSelect(repoContainer, contributorContainer, repositories[0]);
+      })
+      .catch(err => {
+        renderError(err);
       });
-      onChangeSelect(repoContainer, contributorContainer, repositories[0]);
-    });
   }
 
   window.onload = () => main(HYF_REPOS_URL);
