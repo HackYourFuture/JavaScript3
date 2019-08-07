@@ -56,31 +56,30 @@
     return tr;
   }
 
-  function renderContributors(repo, contributorContainer) {
+  async function renderContributors(repo, contributorContainer) {
     clearContainer(contributorContainer);
     const url = repo.contributors_url;
-    fetchJSON(url)
-      .then(contributorList => {
-        const div = createAndAppend('div', contributorContainer);
-        createAndAppend('h3', div, { text: 'Contributions' });
-        contributorList.forEach(contributor => {
-          const contributorRow = createAndAppend('div', contributorContainer, {
-            class: 'contributorRow',
-          });
-          createAndAppend('img', contributorRow, { src: contributor.avatar_url });
-          createAndAppend('a', contributorRow, {
-            text: contributor.login,
-            href: contributor.html_url,
-            target: '_blank',
-          });
-          createAndAppend('p', contributorRow, {
-            text: contributor.contributions,
-          });
+    try {
+      const contributorList = await fetchJSON(url);
+      const div = createAndAppend('div', contributorContainer);
+      createAndAppend('h3', div, { text: 'Contributions' });
+      contributorList.forEach(contributor => {
+        const contributorRow = createAndAppend('div', contributorContainer, {
+          class: 'contributorRow',
         });
-      })
-      .catch(err => {
-        renderError(err);
+        createAndAppend('img', contributorRow, { src: contributor.avatar_url });
+        createAndAppend('a', contributorRow, {
+          text: contributor.login,
+          href: contributor.html_url,
+          target: '_blank',
+        });
+        createAndAppend('p', contributorRow, {
+          text: contributor.contributions,
+        });
       });
+    } catch (err) {
+      renderError(err);
+    }
   }
 
   function renderRepo(listContainer, contributorContainer, repo) {
@@ -103,7 +102,7 @@
     renderRepo(listContainer, contributorContainer, repo);
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
     const topNav = createAndAppend('div', root, { class: 'topNav' });
     createAndAppend('p', topNav, { text: 'HYF Repositories' });
@@ -115,25 +114,23 @@
       id: 'cont-container',
     });
 
-    fetchJSON(url)
-      .then(repositories => {
-        repositories
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .forEach((repository, index) => {
-            createAndAppend('option', select, {
-              text: repository.name,
-              value: index,
-            });
+    try {
+      const repositories = await fetchJSON(url);
+      repositories
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .forEach((repository, index) => {
+          createAndAppend('option', select, {
+            text: repository.name,
+            value: index,
           });
-
-        select.addEventListener('change', () => {
-          onChangeSelect(repoContainer, contributorContainer, repositories[select.value]);
         });
-        onChangeSelect(repoContainer, contributorContainer, repositories[0]);
-      })
-      .catch(err => {
-        renderError(err);
+      select.addEventListener('change', () => {
+        onChangeSelect(repoContainer, contributorContainer, repositories[select.value]);
       });
+      onChangeSelect(repoContainer, contributorContainer, repositories[0]);
+    } catch (err) {
+      renderError(err);
+    }
   }
 
   window.onload = () => main(HYF_REPOS_URL);
