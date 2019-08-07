@@ -4,19 +4,11 @@
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
   function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Oops! Network request failed...'));
-      xhr.send();
+    return fetch(url).then(resolve => {
+      if (!resolve.ok) {
+        throw Error(`HTTP error ${resolve.status} - ${resolve.statusText}`);
+      }
+      return resolve.json();
     });
   }
 
@@ -62,23 +54,25 @@
     addRow(tbody, 'Updated', new Date(repo.updated_at).toLocaleString('en-GB'));
   }
 
-  function renderContributions(repo, ul) {
-    fetchJSON(repo.contributors_url)
-      .then(contributors => {
-        ul.innerHTML = '';
-        createAndAppend('li', ul, { text: `Contributors:` });
-        contributors.forEach(contributor => {
-          const li = createAndAppend('li', ul);
-          const a = createAndAppend('a', li, { href: contributor.html_url, target: '_blank' });
-          const table = createAndAppend('table', a);
-          const tbody = createAndAppend('tbody', table);
-          const tr1 = createAndAppend('tr', tbody);
-          createAndAppend('img', tr1, { src: contributor.avatar_url });
-          createAndAppend('td', tr1, { text: contributor.login });
-          createAndAppend('td', tr1, { text: contributor.contributions });
-        });
-      })
-      .catch(error => renderError(error));
+  async function renderContributions(repo, ul) {
+    ul.innerHTML = '';
+    createAndAppend('li', ul, { text: `Contributors:` });
+
+    try {
+      const contributors = await fetchJSON(repo.contributors_url);
+      contributors.forEach(contributor => {
+        const li = createAndAppend('li', ul);
+        const a = createAndAppend('a', li, { href: contributor.html_url, target: '_blank' });
+        const table = createAndAppend('table', a);
+        const tbody = createAndAppend('tbody', table);
+        const tr1 = createAndAppend('tr', tbody);
+        createAndAppend('img', tr1, { src: contributor.avatar_url });
+        createAndAppend('td', tr1, { text: contributor.login });
+        createAndAppend('td', tr1, { text: contributor.contributions });
+      });
+    } catch (error) {
+      renderError(error);
+    }
   }
 
   function createOptionElements(repositories, select) {
@@ -89,7 +83,7 @@
       });
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
     const header = createAndAppend('header', root);
     createAndAppend('h1', header, { text: 'HYF Repositories' });
@@ -99,20 +93,21 @@
     const listContainer = createAndAppend('div', mainContainer, { id: 'list-container' });
     const ul = createAndAppend('ul', listContainer, { id: 'list-contributions' });
 
-    fetchJSON(url)
-      .then(repositories => {
-        createOptionElements(repositories, select);
+    try {
+      const repositories = await fetchJSON(url);
+      createOptionElements(repositories, select);
 
-        renderRepos(repositories[0], tableContainer);
-        renderContributions(repositories[0], ul);
+      renderRepos(repositories[0], tableContainer);
+      renderContributions(repositories[0], ul);
 
-        select.addEventListener('change', () => {
-          const repo = repositories[select.value];
-          renderRepos(repo, tableContainer);
-          renderContributions(repo, ul);
-        });
-      })
-      .catch(error => renderError(error));
+      select.addEventListener('change', () => {
+        const repo = repositories[select.value];
+        renderRepos(repo, tableContainer);
+        renderContributions(repo, ul);
+      });
+    } catch (error) {
+      renderError(error);
+    }
   }
 
   window.onload = () => {
