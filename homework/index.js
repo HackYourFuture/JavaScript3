@@ -1,21 +1,14 @@
 'use strict';
 
 {
-  function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
-    });
+  const root = document.getElementById('root');
+
+  async function fetchJSON(url) {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw new Error(`Network error: ${res.status} - ${res.statusText}`);
+    }
+    return res.json();
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -73,17 +66,16 @@
   }
 
   function renderError(err) {
-    const root = document.getElementById('root');
     createAndAppend('div', root, {
       text: err.message,
       class: 'alert-error',
     });
   }
 
-  function renderContributions(repository, ul) {
+  async function renderContributions(repository, ul) {
     const url = repository.contributors_url;
-    fetchJSON(url)
-      .then(contributions => {
+    try {
+      await fetchJSON(url).then(contributions => {
         ul.innerHTML = '';
         contributions.forEach(contributor => {
           const li = createAndAppend('li', ul);
@@ -104,14 +96,15 @@
             class: 'num',
           });
         });
-      })
-      .catch(err => renderError(err));
+      });
+    } catch (err) {
+      renderError(err);
+    }
   }
 
-  function main(url) {
-    fetchJSON(url)
-      .then(repositories => {
-        const root = document.getElementById('root');
+  async function main(url) {
+    try {
+      await fetchJSON(url).then(repositories => {
         const header = createAndAppend('div', root, {
           class: 'header',
         });
@@ -143,8 +136,10 @@
           renderRepositoryBasicInfo(repository, table);
           renderContributions(repository, ul);
         });
-      })
-      .catch(err => renderError(err));
+      });
+    } catch (err) {
+      renderError(err);
+    }
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
