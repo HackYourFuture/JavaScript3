@@ -35,39 +35,36 @@
     return elem;
   }
 
-  function createDetails(leftColumn, repositories) {
+  function addRow(tBody, label, value) {
+    const row = createAndAppend('tr', tBody);
+    if (value === null) {
+      createAndAppend('td', row, { text: `${label} :`, class: 'label' });
+      createAndAppend('td', row, {
+        text: `No ${label.toLowerCase()} is provided for this repository.`,
+      });
+    } else {
+      createAndAppend('td', row, { text: `${label} :`, class: 'label' });
+      createAndAppend('td', row, { text: value });
+    }
+    return row;
+  }
+
+  function jsUcfirst(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  function createDetails(leftColumn, repository) {
     const table = createAndAppend('table', leftColumn, { id: 'main-table' });
     const tBody = createAndAppend('tbody', table);
-    const repoDetails = ['Repository', 'Description', 'Forks', 'Updated'];
-    repoDetails.forEach(detail => {
-      const tr = createAndAppend('tr', tBody, { class: `${detail.toLowerCase()}-row` });
-      createAndAppend('td', tr, {
-        text: `${detail}: `,
-        class: `${detail.toLowerCase()}-header`,
-      });
-      createAndAppend('td', tr, { class: `${detail.toLowerCase()}-data` });
-    });
-    const repositoryName = document.querySelector('.repository-data');
-
-    // Functional requirement 4 -providing a link to the repository in the name property of the selected object
-
-    createAndAppend('a', repositoryName, {
-      href: repositories.html_url,
+    const firstRow = addRow(tBody, 'Repository', '');
+    createAndAppend('a', firstRow.lastChild, {
+      href: repository.html_url,
       target: '_blank',
-      text: repositories.name,
-      class: 'repository-name',
+      text: jsUcfirst(repository.name),
     });
-    if (repositories.description === null) {
-      document.querySelector(
-        '.description-data',
-      ).innerText = `No description is provided for this repository.`;
-    } else {
-      document.querySelector('.description-data').innerText = repositories.description;
-    }
-    document.querySelector('.forks-data').innerText = repositories.forks;
-    document.querySelector('.updated-data').innerText = new Date(
-      repositories.updated_at,
-    ).toLocaleString();
+    addRow(tBody, 'Description', repository.description);
+    addRow(tBody, 'Forks', repository.forks);
+    addRow(tBody, 'Updated', repository.updated_at);
   }
 
   function createContributors(rightColumn, requestURL) {

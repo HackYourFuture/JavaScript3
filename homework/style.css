@@ -101,13 +101,21 @@
 }
 
 #main-table {
-  font-size: 1.5em;
-  width: 95%;
+  font-size: 1.3em;
+  width: 99%;
   border: 2px ridge #ffffffd3;
   border-radius: 2px;
   box-shadow: 0 0 0.2em rgba(0, 0, 0, 0.555);
   background-color: rgb(212, 212, 212);
   transition: transform 0.2s;
+}
+
+.label:first-child {
+  font-weight: bold;
+}
+
+td:last-child {
+  font-size: 0.9em;
 }
 
 #main-table:hover {
@@ -117,24 +125,27 @@
 
 @media (max-width: 767px) {
   * {
-    font-size: 90%;
+    margin: 0.1em;
+  }
+  #header {
+    width: 99%;
   }
   #title {
-    font-size: 4.2em;
+    font-size: 3.2em;
     width: 70%;
   }
   #HYF-Logo {
-    max-width: 30%;
-    margin: 0.5em;
+    display: none;
   }
   #main-wrapper {
     flex-direction: column;
     justify-content: space-evenly;
   }
   #left-column, #right-column {
-    width: 100%;
+    font-size: 0.8em;
+    width: 95%;
   }
   #repository-selector {
-    width: 100%;
+    width: 99%;
   }
 }
