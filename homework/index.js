@@ -4,7 +4,7 @@
   function fetchJSON(url) {
     return fetch(url).then(response => {
       if (!response.ok) {
-        throw new Error(`Error occured ${response.status} ${response.statusText}`);
+        throw new Error(`Error occurred ${response.status} ${response.statusText}`);
       }
       return response.json();
     });
@@ -164,8 +164,8 @@
 
     try {
       const repositories = await fetchJSON(url);
-      const repository = initializePage(repositories);
-      fetchAndRender(repository);
+      initializePage(repositories);
+      fetchAndRender(repositories[0]);
     } catch (error) {
       renderError(error);
     }
