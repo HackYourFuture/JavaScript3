@@ -13,8 +13,6 @@ class Repository {
    * @param {HTMLElement} container The container element in which to render the repository.
    */
   render(container) {
-    // TODO: replace the next line with your code.
-    // Util.createAndAppend('pre', container, { text: JSON.stringify(this.repository, null, 2) });
     const tableElement = Util.createAndAppend('table', container);
     const rowElement = Util.addRow(tableElement, 'Repository:', '');
     Util.createAndAppend('a', rowElement.lastChild, {

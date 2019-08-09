@@ -27,10 +27,8 @@ class App {
     const selectElement = Util.createAndAppend('select', header);
     try {
       const repos = await Util.fetchJSON(url);
-      this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
-
       repos.sort((a, b) => a.name.localeCompare(b.name));
+      this.repos = repos.map(repo => new Repository(repo));
       repos.forEach((repo, index) => {
         Util.createAndAppend('option', selectElement, {
           value: index,

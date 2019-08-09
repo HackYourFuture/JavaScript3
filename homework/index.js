@@ -121,10 +121,10 @@
     try {
       const repositories = await fetchJSON(url);
       repositories.sort((a, b) => a.name.localeCompare(b.name));
-      repositories.forEach((elem, index) => {
+      repositories.forEach((repository, index) => {
         createAndAppend('option', select, {
           value: index,
-          text: elem.name,
+          text: repository.name,
         });
       });
       createAndAppend('section', divElement, {
