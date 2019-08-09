@@ -66,7 +66,8 @@
         const table = createAndAppend('table', a);
         const tbody = createAndAppend('tbody', table);
         const tr1 = createAndAppend('tr', tbody);
-        createAndAppend('img', tr1, { src: contributor.avatar_url });
+        const imgContainer = createAndAppend('td', tr1);
+        createAndAppend('img', imgContainer, { src: contributor.avatar_url });
         createAndAppend('td', tr1, { text: contributor.login });
         createAndAppend('td', tr1, { text: contributor.contributions });
       });
