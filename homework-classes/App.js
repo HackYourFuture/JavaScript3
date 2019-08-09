@@ -19,12 +19,24 @@ class App {
 
     const root = document.getElementById('root');
     const header = Util.createAndAppend('header', root, { class: 'header' });
+    Util.createAndAppend('h1', header, { text: 'HYF Repositories' });
     this.mainContainer = Util.createAndAppend('div', root, { id: 'container' });
 
     try {
       const repos = await Util.fetchJSON(url);
       this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
+      const select = Util.createAndAppend('select', header);
+      this.repos.sort((a, b) => a.name().localeCompare(b.name()));
+      this.repos.forEach((repo, index) => {
+        Util.createAndAppend('option', select, {
+          text: repo.repository.name,
+          value: index,
+        });
+      });
+
+      this.selectRepository(this.repos[0]);
+
+      select.addEventListener('change', () => this.selectRepository(this.repos[select.value]));
     } catch (error) {
       this.renderError(error);
     }
@@ -50,8 +62,12 @@ class App {
       this.clearContainer();
       const contributors = await repo.fetchContributors();
 
-      const repoContainer = Util.createAndAppend('div', this.mainContainer);
-      const contributorContainer = Util.createAndAppend('div', this.mainContainer);
+      const repoContainer = Util.createAndAppend('div', this.mainContainer, {
+        id: 'repo-container',
+      });
+      const contributorContainer = Util.createAndAppend('div', this.mainContainer, {
+        id: 'contributor-container',
+      });
 
       const contributorList = Util.createAndAppend('ul', contributorContainer);
 
@@ -70,7 +86,9 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    console.error(error); // TODO: replace with your own code
+    const root = document.getElementById('root');
+    root.innerHTML = '';
+    Util.createAndAppend('h1', root, { text: error.message, class: 'alert-error' });
   }
 }
 

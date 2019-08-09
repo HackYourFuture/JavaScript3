@@ -1,3 +1,118 @@
+* {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  margin-bottom: 100px;
+  color: rgb(36, 63, 111);
+  background: radial-gradient(
+    circle,
+    rgba(216, 247, 254, 0.9976365546218487) 29%,
+    rgba(80, 117, 244, 1) 100%
+  );
+}
+
+#root {
+  width: 80%;
+  margin: 0 auto;
+}
+
 .alert-error {
-    color: red;
+  color: red;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+a {
+  padding: 0;
+  color: rgb(25, 92, 150);
+}
+
+a:hover {
+  font-size: 1.1em;
+}
+
+img {
+  width: 70px;
+  height: 70px;
+}
+
+header {
+  padding: 3em;
+  align-content: center;
+  text-align: center;
+  text-shadow: 1px 3px 3px rgb(87, 68, 154);
+}
+
+h1 {
+  font-size: 3em;
+  letter-spacing: 2px;
+  color: rgb(210, 249, 222);
+}
+
+select {
+  color: #243f6f;
+  margin-top: 20px;
+  width: 250px;
+  height: 30px;
+  font-size: 15px;
+  background-color: rgb(237, 253, 242);
+}
+
+#main-container {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#repo-container,
+#contributor-container {
+  padding: 20px;
+  margin-bottom: 50px;
+  min-width: 400px;
+  min-height: 200px;
+  flex-basis: 40%;
+  position: relative;
+  box-sizing: content-box;
+  background-color: white;
+  box-shadow: 8px 8px 5px rgba(0, 0, 0, 0.118);
+}
+
+ul:first-child {
+  padding: 30px;
+  background-color: rgba(201, 238, 212, 0.625);
+}
+
+table tr {
+  border-spacing: 0;
+  text-align: center;
+}
+
+table tr td {
+  background-color: rgba(237, 253, 242);
+  padding: 20px;
+  width: 100%;
+}
+
+.label {
+  width: 300px;
+  font-weight: bold;
+}
+
+li {
+  list-style-type: none;
+  margin-top: 10px;
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2em;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 1150px) {
 }
