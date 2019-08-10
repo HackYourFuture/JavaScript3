@@ -1,3 +1,52 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+.header {
+  background-color: grey;
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 1rem;
+  margin-bottom: 3rem;
+  align-self: auto;
+}
+.headTitle {
+  color: blue;
+}
+.select {
+  background-color: yellow;
+  height: 2rem;
+  margin: 1rem auto;
+}
+
 .alert-error {
-    color: red;
+  color: red;
+}
+
+main {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.leftSide,
+.rightSide {
+  flex: 1;
+  margin: 0 1rem 2rem;
+  background-color: lightgrey;
+}
+.contributors-title {
+  text-align: center;
+  color: #356859;
+}
+
+.contributorLi {
+  list-style: none;
+}
+
+.contributorLi img {
+  border-radius: 50%;
+  height: 100px;
 }
