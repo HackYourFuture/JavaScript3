@@ -13,8 +13,24 @@ class Repository {
    * @param {HTMLElement} container The container element in which to render the repository.
    */
   render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, { text: JSON.stringify(this.repository, null, 2) });
+    const table = Util.createAndAppend('table', container);
+    const tbody = Util.createAndAppend('tbody', table);
+    const firstRow = this.addRow(tbody, 'Repository');
+    Util.createAndAppend('a', firstRow.lastChild, {
+      href: this.repository.html_url,
+      target: '_blank',
+      text: this.repository.name,
+    });
+    this.addRow(tbody, 'Description:', this.repository.description);
+    this.addRow(tbody, 'Forks:', this.repository.forks);
+    this.addRow(tbody, 'Updated:', new Date(this.repository.updated_at).toLocaleString());
+  }
+
+  addRow(tbody, label, value = '') {
+    const row = Util.createAndAppend('tr', tbody);
+    Util.createAndAppend('td', row, { text: `${label} :`, class: 'label' });
+    Util.createAndAppend('td', row, { text: value });
+    return row;
   }
 
   /**

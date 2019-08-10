@@ -1,6 +1,7 @@
 'use strict';
 
 {
+  //-----------------------------------------
   function fetchJSON(url) {
     return fetch(url).then(res => {
       if (!res.ok) {
@@ -22,7 +23,7 @@
     });
     return elem;
   }
-
+  //-----------------------------
   function clearContainer(container) {
     while (container.firstChild) {
       container.removeChild(container.firstChild);
