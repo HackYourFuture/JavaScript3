@@ -65,7 +65,7 @@ select {
   border-radius: 0.5rem;
 }
 
-.Contributors-list {
+.contributors-list {
   display: flex;
   flex-direction: column;
   padding: 1rem 1rem;
@@ -73,7 +73,7 @@ select {
   justify-content: space-between;
 }
 
-.Contributors-list {
+.contributors-list {
   margin-top: 100px;
 }
 #Contributors-h2 {
@@ -82,7 +82,7 @@ select {
   color: rgb(70, 71, 95);
   border-radius: 0.5rem;
 }
-.Contributors-list li a {
+.contributors-list li a {
   display: flex;
   flex-direction: row;
   box-shadow: 3px 4px 3px rgba(43, 10, 33, 0.2);
@@ -157,7 +157,7 @@ h2 {
     flex-direction: column;
     margin: 2rem 3rem 0 2rem;
   }
-  .Contributors-list {
+  .contributors-list {
     margin-top: 30px;
     width: 100%;
   }
@@ -211,7 +211,7 @@ h2 {
     padding: 1.5rem 5rem 2.5rem 0.5rem;
     width: 100%;
   }
-  .Contributors-list {
+  .contributors-list {
     margin-top: 10px;
     width: 100%;
   }

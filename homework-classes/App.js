@@ -61,11 +61,11 @@ class App {
         id: 'table-container',
       });
       const contributorContainer = Util.createAndAppend('div', this.mainContainer, {
-        class: 'Contributors-list',
+        class: 'contributors-list',
       });
 
       const contributorList = Util.createAndAppend('ul', contributorContainer);
-      Util.createAndAppend('li', contributorList, { id: 'Contributors-h2', text: 'contributions' });
+      Util.createAndAppend('li', contributorList, { id: 'contributors-h2', text: 'contributions' });
 
       repository.render(repoContainer);
 
@@ -82,7 +82,6 @@ class App {
    * @param {Error} error An Error object describing the error.
    */
   renderError(error) {
-    // console.error(error); // TODO: replace with your own code
     this.clearContainer();
     Util.createAndAppend('div', this.mainContainer, {
       text: error.message,
