@@ -52,7 +52,7 @@ For further study of how to make API calls, check out the following resources:
 
 ## 2. Asynchronous JavaScript and XML (AJAX)
 
-AJAX is the idea that data can be loaded into a webpage without refreshing the entire website.
+AJAX is the idea that data can be loaded into a webpage without refreshing the entire website. The term is a
 
 ### XMLHttpRequests (XHR)
 
@@ -69,7 +69,7 @@ In order to keep a better overview, we can choose to **modularize** our applicat
 
 However, creating better overview is not the only reason. Among other reasons, modules make a developer's job easy by:
 
-- Allowing the them to focus on only one area of the functionality of the software application
+- Allowing them to focus on only one area of the functionality of the software application
 - Isolating individual blocks of code, in case anything breaks
 - Encouraging the developer to write code in a way that makes it reusable
 
@@ -79,6 +79,16 @@ For more information about this, go through the following:
 
 ### What's a library?
 
+If you've ever written code you know how easy it is to duplicate it: you just copy and paste it.
+
+Modules are small blocks of code that introduce a . If you were to add more code and the code base could really solve a particular problem?
+
+A `library` is a set of code that a developer (or several developers) has written in order to solve a specific problem within an application. This could be, for example, how to easier select items from the DOM, how to handle [data validation](https://www.techopedia.com/definition/10283/data-validation) or how to more easily create a [Single Page Application](https://en.wikipedia.org/wiki/Single-page_application).
+
+At it's most fundamental level it means that others have written functions and other logical processes to make development quicker and easier. If they have published their code, through [npmjs.com](https://www.npmjs.com/) for example, you can legally make use of it in your own code. Almost all applications out there, no matter what language they're written in, contain at least a couple of libraries.
+
 ### Using jQuery to make AJAX requests
 
 One of the most well-known and often used libraries in JavaScript is called `jQuery`. It's a library that was designed to make DOM manipulation, as well as event handling, CSS animation and AJAX operations much easier to perform.
+
+- [jQuery Crash Course Playlist](https://www.youtube.com/playlist?list=PLillGF-RfqbYJVXBgZ_nA7FTAAEpp_IAc)
