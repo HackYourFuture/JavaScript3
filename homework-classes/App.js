@@ -15,7 +15,10 @@ class App {
   async initialize(url) {
     this.root = document.getElementById('root');
     this.createHeader();
-    const selectList = document.getElementById('repo-select');
+    this.main = Util.createAndAppend('main', this.root, {
+      id: 'container',
+      class: 'container align-items-start',
+    });
 
     try {
       const repositories = await Util.fetchJSON(url);
@@ -23,18 +26,18 @@ class App {
         .map(repo => new Repository(repo))
         .sort((a, b) => a.name().localeCompare(b.name()));
       this.repos.forEach((repository, index) => {
-        Util.createAndAppend('option', selectList, {
+        Util.createAndAppend('option', this.selectList, {
           text: repository.name(),
           value: index,
         });
       });
 
-      this.repos[0].render();
+      this.repos[0].render(this.main);
       this.selectRepository(this.repos[0]);
-      selectList.addEventListener('change', () => {
+      this.selectList.addEventListener('change', () => {
         this.root.lastChild.innerHTML = '';
-        this.repos[selectList.value].render();
-        this.selectRepository(this.repos[selectList.value]);
+        this.repos[this.selectList.value].render(this.main);
+        this.selectRepository(this.repos[this.selectList.value]);
       });
     } catch (error) {
       this.renderError(error);
@@ -45,10 +48,7 @@ class App {
     const header = Util.createAndAppend('header', this.root, {
       class: 'container jumbotron mt-3 mb-3 px-5',
     });
-    Util.createAndAppend('main', this.root, {
-      id: 'container',
-      class: 'container align-items-start',
-    });
+
     const headerDiv = Util.createAndAppend('div', header, {
       class: 'header-group d-flex flex-row justify-content-between mb-5 px-5',
     });
@@ -65,7 +65,7 @@ class App {
       src: './hyf.png',
       alt: 'hack your future thumbnail',
     });
-    Util.createAndAppend('select', header, {
+    this.selectList = Util.createAndAppend('select', header, {
       id: 'repo-select',
       class: 'form-control',
       'aria-label': 'Hack Your Future Repositories Selection',
@@ -78,17 +78,16 @@ class App {
   async selectRepository(repo) {
     try {
       const contributors = await repo.fetchContributors();
-      const mainParent = document.getElementById('container');
-      const contributionCardsContainer = Util.createAndAppend('div', mainParent, {
+      const contributionCardsContainer = Util.createAndAppend('div', this.main, {
         id: 'repo-contributor',
       });
-      Util.createAndAppend('div', contributionCardsContainer, {
+      const cardsGroup = Util.createAndAppend('div', contributionCardsContainer, {
         class: 'card-group d-flex container-fluid',
         id: 'cards-group',
       });
       contributors
         .map(contributor => new Contributor(contributor))
-        .forEach(contributor => contributor.render());
+        .forEach(contributor => contributor.render(cardsGroup));
     } catch (error) {
       this.renderError(error);
     }

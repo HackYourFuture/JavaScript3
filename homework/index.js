@@ -2,7 +2,7 @@
 
 {
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-  const root = document.getElementById('root');
+  const dom = {};
 
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
@@ -19,7 +19,7 @@
   }
 
   function renderError(error) {
-    createAndAppend('div', root, {
+    createAndAppend('div', dom.root, {
       text: error.message,
       class: 'alert alert-danger display-3 text-center',
     });
@@ -56,8 +56,7 @@
   }
 
   function createContributorsLayout(contributorsData) {
-    const mainParent = document.getElementById('main');
-    const contributionCardsContainer = createAndAppend('div', mainParent, {
+    const contributionCardsContainer = createAndAppend('div', dom.main, {
       id: 'repo-contributor',
     });
     const cardsGroup = createAndAppend('div', contributionCardsContainer, {
@@ -88,7 +87,7 @@
   async function fetchContributor(url) {
     try {
       const response = await fetch(url);
-      if (response.ok !== true) throw new Error('Failed to retrieve contributor information:');
+      if (!response.ok) throw new Error('Failed to retrieve contributor information:');
       const contributorsData = await response.json();
       createContributorsLayout(contributorsData);
     } catch (err) {
@@ -97,8 +96,7 @@
   }
 
   function createRepositoryLayout(repositoriesData) {
-    const mainParent = document.getElementById('main');
-    const leftColumn = createAndAppend('div', mainParent, {
+    const leftColumn = createAndAppend('div', dom.main, {
       class: 'd-flex flex-column repo-detail',
       id: 'repo-detail',
     });
@@ -142,11 +140,10 @@
   }
 
   function appendRepositoriesToSelect(repositoriesData) {
-    const selectList = document.getElementById('repo-select');
     repositoriesData
       .sort((a, b) => a.name.localeCompare(b.name))
       .forEach((repository, index) => {
-        createAndAppend('option', selectList, {
+        createAndAppend('option', dom.selectList, {
           text: repository.name,
           value: index,
         });
@@ -155,10 +152,10 @@
     createRepositoryLayout(repositoriesData[0]);
     fetchContributor(repositoriesData[0].contributors_url);
 
-    selectList.addEventListener('change', () => {
-      selectList.parentElement.nextElementSibling.innerHTML = '';
-      createRepositoryLayout(repositoriesData[selectList.value]);
-      fetchContributor(repositoriesData[selectList.value].contributors_url);
+    dom.selectList.addEventListener('change', () => {
+      dom.selectList.parentElement.nextElementSibling.innerHTML = '';
+      createRepositoryLayout(repositoriesData[dom.selectList.value]);
+      fetchContributor(repositoriesData[dom.selectList.value].contributors_url);
     });
   }
 
@@ -174,10 +171,9 @@
   }
 
   function createHeader() {
-    const header = createAndAppend('header', root, {
+    const header = createAndAppend('header', dom.root, {
       class: 'container jumbotron mt-3 mb-3 px-5',
     });
-    createAndAppend('main', root, { id: 'main', class: 'container align-items-start' });
     const headerDiv = createAndAppend('div', header, {
       class: 'header-group d-flex flex-row justify-content-between mb-5 px-5',
     });
@@ -194,7 +190,7 @@
       src: './hyf.png',
       alt: 'hack your future thumbnail',
     });
-    createAndAppend('select', header, {
+    dom.selectList = createAndAppend('select', header, {
       id: 'repo-select',
       class: 'form-control',
       'aria-label': 'Hack Your Future Repositories Selection',
@@ -202,7 +198,12 @@
   }
 
   function main(url) {
+    dom.root = document.getElementById('root');
     createHeader();
+    dom.main = createAndAppend('main', dom.root, {
+      id: 'main',
+      class: 'container align-items-start',
+    });
     fetchRepository(url);
   }
   window.onload = () => main(HYF_REPOS_URL);

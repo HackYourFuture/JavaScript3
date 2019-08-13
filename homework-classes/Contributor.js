@@ -8,8 +8,7 @@ class Contributor {
     this.contributor = contributor;
   }
 
-  render() {
-    const cardsGroup = document.getElementById('cards-group');
+  render(cardsGroup) {
     const card = Util.createAndAppend('a', cardsGroup, {
       class: 'card border border-danger shadow-lg mb-3 mx-2',
       href: this.contributor.html_url,

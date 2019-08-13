@@ -27,8 +27,7 @@ class Repository {
     return widgetContainer;
   }
 
-  render() {
-    const mainParent = document.getElementById('container');
+  render(mainParent) {
     const leftColumn = Util.createAndAppend('div', mainParent, {
       class: 'd-flex flex-column repo-detail',
       id: 'repo-detail',
