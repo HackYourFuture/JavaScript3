@@ -30,22 +30,22 @@
     return elem;
   }
 
-  function main(url) {
+  function main() {
     createLayout();
     getRepositories();
   }
-
+  // create a layout for browser
   function createLayout() {
     const root = document.getElementById('root');
-    createAndAppend('select', root, { id: 'dropdownSelect' });
+    createAndAppend('select', root, { id: 'dropdown-select' });
     createAndAppend('div', root, { id: 'details' });
     createAndAppend('div', root, { id: 'contributors' });
   }
-
+  // get info of repositories API
   function getRepositories() {
     fetchJSON(HYF_REPOS_URL, (err, listOfRepos) => {
-      listOfRepos.forEach(repoDataObj => {
-        createAndAppend('option', document.getElementById('dropdownSelect'), {
+      listOfRepos.sort(sortByName).forEach(repoDataObj => {
+        createAndAppend('option', document.getElementById('dropdown-select'), {
           text: repoDataObj.name,
         });
       });
@@ -54,30 +54,57 @@
     });
   }
 
-  function listenerSelect(listOfRepos) {
-    document.getElementById('dropdownSelect').addEventListener('change', event => {
-      const selectedRepo = event.target.value;
-      const selectedData = listOfRepos.filter(repoData => repoData.name === selectedRepo[0]);
-      repoDetails(selectedData);
-    });
+  // sort repositories
+  function sortByName(repoObjA, repoObjB) {
+    const nameA = repoObjA.name.toUpperCase(); // ignore upper and lowercase
+    const nameB = repoObjB.name.toUpperCase(); // ignore upper and lowercase
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
   }
-  function repoDetails(data) {
-    const detailsDiv = document.getElementById('details');
-    createAndAppend('div', detailsDiv, { text: data.name });
-    createAndAppend('div', detailsDiv, { text: data.description });
-    createAndAppend('div', detailsDiv, { text: data.forks });
-    createAndAppend('div', detailsDiv, { text: data.updated_at });
+  // add an event when selecting a repository
+  function listenerSelect(listOfRepos) {
+    document.getElementById('dropdown-select').addEventListener('change', event => {
+      const selectedRepo = event.target.value;
+      const selectedData = listOfRepos.filter(repoData => repoData.name === selectedRepo)[0];
+
+      repoDetails(selectedData);
+      showContributors(selectedData);
+    });
   }
 
-  /* function showContributors() {
-    fetchJSON(HYF_REPOS_URL, (err, listOfContributors) => {
-      listOfContributors.forEach(repoDataObj => {
-        createAndAppend('option', document.getElementById('dropdownSelect'), {
-          text: repoDataObj.name,
-        });
-      });
+  // display information of each repository
+  function repoDetails(data) {
+    const detailsDiv = document.getElementById('details');
+    detailsDiv.innerHTML = '';
+    createAndAppend('div', detailsDiv, {
+      text: `Repository's Name: ${data.name}`,
     });
-  } */
+    createAndAppend('div', detailsDiv, { text: `Description: ${data.description}` });
+    createAndAppend('div', detailsDiv, { text: `Forks: ${data.forks}` });
+    createAndAppend('div', detailsDiv, { text: `Last Update: ${data.updated_at}` });
+  }
+
+  // show all contributors to repository selected
+  function showContributors(data) {
+    let contributors = document.getElementById('contributors');
+    contributors.innerHTML = '';
+    fetchJSON(data.contributors_url, (err, listOfContributors) => {
+      for (let contributor of listOfContributors) {
+        createAndAppend('img', contributors, {
+          src: contributor.avatar_url,
+          class: 'contri',
+        });
+
+        createAndAppend('div', contributors, { text: contributor.login, class: 'contri' });
+        createAndAppend('div', contributors, { text: contributor.contributions, class: 'contri' });
+      }
+    });
+  }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
