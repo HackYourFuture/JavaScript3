@@ -1,3 +1,15 @@
 .alert-error {
-    color: red;
+	color: red;
+}
+
+body {
+	background-image: url(OlJVkf.jpg);
+}
+
+h1 {
+	color: rgb(180, 244, 255);
+	font-family: Helvetica;
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 3em;
 }
