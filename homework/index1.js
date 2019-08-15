@@ -95,11 +95,7 @@
     contributors.innerHTML = '';
     fetchJSON(data.contributors_url, (err, listOfContributors) => {
       for (let contributor of listOfContributors) {
-        createAndAppend('img', contributors, {
-          src: contributor.avatar_url,
-          class: 'contri',
-        });
-
+        createAndAppend('img', contributors, { src: contributor.avatar_url, class: 'contri' });
         createAndAppend('div', contributors, { text: contributor.login, class: 'contri' });
         createAndAppend('div', contributors, { text: contributor.contributions, class: 'contri' });
       }
