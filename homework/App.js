@@ -28,23 +28,21 @@ class App {
     });
 
     try {
-      const data = await fetch(url);
-      const fetchedData = await (function error() {
-        if (data.ok) {
-          return data.json();
-        }
+      const response = await fetch(url);
+      if (!response.ok) {
         throw new Error('There is fetching error');
-      })();
-      this.repos = fetchedData
+      }
+      const data = await response.json();
+      this.repos = data
         .sort((a, b) => a.name.localeCompare(b.name))
         .map(repo => new Repository(repo));
-      fetchedData.forEach((repo, index) => {
+      data.forEach((repo, index) => {
         Util.createAndAppend('option', select, {
           text: repo.name,
           value: index,
         });
       });
-      this.fetchContributorsAndRender([0]);
+      this.fetchContributorsAndRender(0);
     } catch (error) {
       this.renderError(error);
     }

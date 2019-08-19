@@ -49,8 +49,9 @@ class Repository {
   /**
    * Returns an array of contributors as a promise
    */
-  fetchContributors() {
-    return Util.fetchJSON(this.repository.contributors_url);
+  async fetchContributors() {
+    const data = await fetch(this.repository.contributors_url);
+    return data.json();
   }
 
   /**
