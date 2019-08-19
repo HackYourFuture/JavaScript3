@@ -46,9 +46,9 @@
      * @param {Object[]} repos An array of repository objects.
      */
     renderSelect(repos) {
-      const select = this.createAndAppend('select', this.header);
+      this.select = this.createAndAppend('select', this.header);
       // TODO: replace this comment and the console.log with your own code
-      console.log(select, repos);
+      console.log(repos);
     }
 
     /**
