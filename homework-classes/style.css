@@ -31,6 +31,7 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
+  height: 56px;
 }
 
 .repo-select {
