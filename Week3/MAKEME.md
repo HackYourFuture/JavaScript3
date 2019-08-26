@@ -77,18 +77,21 @@ Object Oriented Programming is a vast topic and in this homework we can only scr
 
 > The relevant files can be found in the **homework-classes** folder.
 
-| File           | Description                                                                                  |
-| -------------- | -------------------------------------------------------------------------------------------- |
-| index.html   | The application's HTML file.                                                                   |
-| style.css    | CSS styling.                                                                                   |
-| hyf.png      | The HYF logo.                                                                                  |
-| App.js       | The **App** class contains the start-up code and manages the overall orchestration of the app. |
+| File | Description |
+| -----| ------------ |
+| index.html   | The application's HTML file. |
+| style.css    | CSS styling. |
+| hyf.png      | The HYF logo.  |
+| App.js       | The **App** class is the main container class for the app. |
+| Observable.js | The **Observable** class is a base class implementing functionality of the Observer pattern. |
 | Model.js     | The **Model** class is concerned with all data handling (e.g. fetching). Extends the Observable class. |
-| View.js      | The **View** class is concerned with rendering the data from the Model to the web page. Extends the Observer class. |
-| Observable.js | The **Observable** class is a component of a Observer pattern implementation. |
-| Observer.js   | The **Observer** class is a component of a Observer pattern implementation. |
+| HeaderView.js | Renders the header with the select element. |
+| RepoView.js   | Renders the details for the selected repository. |
+| ContributorsView.js | Render the contributors for the selected repository. |
+| ErrorView.js | Renders an error, of present. |
+| Util.js | Provides utility functions. |
 
->For this part of the homework you should need to modify **View.js**, by adding and adapting code from your non-OOP version of the homework to this file.
+>For this part of the homework you should modify the **xxxView.js** files, by adding and adapting code from your non-OOP version of the homework to these files. You should also copy the styling from your non-OOP version. Other files should not be modified.
 
 _Read:_
 
