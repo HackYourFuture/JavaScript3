@@ -91,7 +91,7 @@ Object Oriented Programming is a vast topic and in this homework we can only scr
 | ErrorView.js | Renders an error, of present. |
 | Util.js | Provides utility functions. |
 
->For this part of the homework you should modify the **xxxView.js** files, by adding and adapting code from your non-OOP version of the homework to these files. You should also copy the styling from your non-OOP version. Other files should not be modified.
+>For this part of the homework you should modify the **RepoView.js**, **ContributorsView.js** and the **ErrorView.js** files, by adding and adapting code from your non-OOP version of the homework to these files. You should also copy the styling from your non-OOP version. Other files should not be modified.
 
 _Read:_
 
