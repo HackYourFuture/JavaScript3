@@ -1,12 +1,12 @@
 'use strict';
 
 {
-  const { Subject } = window;
+  const { Observable } = window;
 
   const makeUrl = ({ name, type }) =>
     `https://api.github.com/${type}s/${name}/repos?per_page=100`;
 
-  class Model extends Subject {
+  class Model extends Observable {
     constructor(account) {
       super();
       this.account = account;
@@ -19,20 +19,19 @@
     }
 
     async fetchData(selectedIndex = 0) {
-      const newState = { ...this.state, error: null };
+      this.state.error = null;
       try {
         if (this.state.repos.length === 0) {
           const repos = await Model.fetchJSON(makeUrl(this.account));
-          newState.repos = repos.sort((a, b) => a.name.localeCompare(b.name));
+          this.state.repos = repos.sort((a, b) => a.name.localeCompare(b.name));
         }
-        newState.selectedRepo = newState.repos[selectedIndex];
-        newState.contributors = await Model.fetchJSON(
-          newState.selectedRepo.contributors_url,
+        this.state.selectedRepo = this.state.repos[selectedIndex];
+        this.state.contributors = await Model.fetchJSON(
+          this.state.selectedRepo.contributors_url,
         );
       } catch (err) {
-        newState.error = err;
+        this.state.error = err;
       }
-      this.state = newState;
       this.notify(this.state);
     }
 

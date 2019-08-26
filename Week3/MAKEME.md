@@ -83,9 +83,9 @@ Object Oriented Programming is a vast topic and in this homework we can only scr
 | style.css    | CSS styling.                                                                                   |
 | hyf.png      | The HYF logo.                                                                                  |
 | App.js       | The **App** class contains the start-up code and manages the overall orchestration of the app. |
-| Model.js     | The **Model** class is concerned with all data handling (e.g. fetching). Extends the Subject class. |
+| Model.js     | The **Model** class is concerned with all data handling (e.g. fetching). Extends the Observable class. |
 | View.js      | The **View** class is concerned with rendering the data from the Model to the web page. Extends the Observer class. |
-| Subject.js   | The **Subject** class is a component of a Observer pattern implementation. |
+| Observable.js | The **Observable** class is a component of a Observer pattern implementation. |
 | Observer.js   | The **Observer** class is a component of a Observer pattern implementation. |
 
 >For this part of the homework you should need to modify **View.js**, by adding and adapting code from your non-OOP version of the homework to this file.

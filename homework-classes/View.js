@@ -12,9 +12,9 @@
       this.mainContainer = null;
 
       const root = document.getElementById('root');
-      this.header = this.createAndAppend('header', root, { class: 'header' });
-      this.createAndAppend('p', this.header, { text: account.name });
-      this.mainContainer = this.createAndAppend('main', root, {
+      this.header = View.createAndAppend('header', root, { class: 'header' });
+      View.createAndAppend('p', this.header, { text: account.name });
+      this.mainContainer = View.createAndAppend('main', root, {
         id: 'main-container',
       });
 
@@ -22,7 +22,7 @@
     }
 
     /**
-     * Receives data from the Subject to which this Observer is registered
+     * Receives data from the Observable to which this Observer is registered
      * and renders the data.
      * @param {Object} state On object containing the Model state
      */
@@ -46,9 +46,9 @@
      * @param {Object[]} repos An array of repository objects.
      */
     renderSelect(repos) {
-      this.select = this.createAndAppend('select', this.header);
+      this.select = View.createAndAppend('select', this.header);
       // TODO: replace this comment and the console.log with your own code
-      console.log(repos);
+      console.log('renderSelect', repos);
     }
 
     /**
@@ -57,7 +57,7 @@
      */
     renderRepoDetails(repo) {
       // TODO: replace this comment and the console.log with your own code
-      console.log(repo);
+      console.log('renderRepoDetails', repo);
     }
 
     /**
@@ -66,7 +66,7 @@
      */
     renderContributors(contributors) {
       // TODO: replace this comment and the console.log with your own code
-      console.log(contributors);
+      console.log('renderContributors', contributors);
     }
 
     /**
@@ -75,7 +75,7 @@
      */
     renderError(err) {
       // TODO: replace this comment and the console.log with your own code
-      console.log(err);
+      console.log('renderError', err);
     }
 
     /**
@@ -85,7 +85,7 @@
      * @param {HTMLElement} parent The parent element.
      * @param {Object} options An object with attribute names and values.
      */
-    createAndAppend(name, parent, options = {}) {
+    static createAndAppend(name, parent, options = {}) {
       const elem = document.createElement(name);
       parent.appendChild(elem);
       Object.entries(options).forEach(([key, value]) => {

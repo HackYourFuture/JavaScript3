@@ -21,7 +21,7 @@
   class App {
     constructor(account) {
       const model = new Model(account);
-      this.pageView = new View(model, account);
+      this.view = new View(model, account);
     }
   }
 
