@@ -16,6 +16,7 @@ Here are resources that we like you to read as a preparation for the first lectu
 ### APIs
 
 - Read about APIS: https://www.programmableweb.com/api-university/what-are-apis-and-how-do-they-work
+- Traversy Media (YouTube, 18 mins): [What Is A RESTful API? Explanation of REST & HTTP](https://youtu.be/Q-BpqyOT3a8).
 
 ### XMLHttpRequests
 
@@ -25,7 +26,7 @@ Here are resources that we like you to read as a preparation for the first lectu
 
 - [How to write clean code? Lessons learnt from “The Clean Code” — Robert C. Martin](https://medium.com/mindorks/how-to-write-clean-code-lessons-learnt-from-the-clean-code-robert-c-martin-9ffc7aef870c).
 
-  > Note that this article includes some code examples writte in Java, but the same principles can equally be applied to JavaScript.
+  > Note that this article includes some code examples written in Java, but the same principles can equally be applied to JavaScript.
 
 - [Clean Code concepts adapted for JavaScript](https://github.com/ryanmcdermott/clean-code-javascript)
 

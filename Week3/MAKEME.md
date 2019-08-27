@@ -73,9 +73,9 @@ Replace `XMLHttpRequest` in the `fetchJSON` function with `fetch`. Because `fetc
 
 This final assignment requires you to go the extra mile and get acquainted with Object Oriented Programming and ES6 classes.
 
-Object Oriented Programming is a vast topic and in this homework we can only scratch the surface. The approach we have taken for this homework is for you, as aspiring junior developer, to complete an application for which the groundwork has been done by an experienced developer. You may have difficulty understanding the full details of the application, however this is not unlike a real world situation where you will be expected to make relative small modifications to a complex application, without breaking anything. 
+Object Oriented Programming is a vast topic and in this homework we can only scratch the surface. The approach we have taken for this homework is for you, as aspiring junior developer, to complete an application for which the groundwork has been done by an experienced developer. You may find it difficult to understand the full details of the application, however this is not unlike a real world situation where you will be expected to make relative small modifications to a complex application, without breaking anything. 
 
-> The relevant files can be found in the **homework-classes** folder.
+> The relevant files for this part of the homework can be found in the **homework-classes** folder.
 
 | File | Description |
 | -----| ------------ |
@@ -85,13 +85,25 @@ Object Oriented Programming is a vast topic and in this homework we can only scr
 | App.js       | The **App** class is the main container class for the app. |
 | Observable.js | The **Observable** class is a base class implementing functionality of the Observer pattern. |
 | Model.js     | The **Model** class is concerned with all data handling (e.g. fetching). Extends the Observable class. |
-| HeaderView.js | Renders the header with the select element. |
-| RepoView.js   | Renders the details for the selected repository. |
-| ContributorsView.js | Render the contributors for the selected repository. |
-| ErrorView.js | Renders an error, of present. |
-| Util.js | Provides utility functions. |
+| HeaderView.js | The **HeaderView** class renders the header with the select element. |
+| RepoView.js   | The **RepoView** class renders the details for the selected repository. |
+| ContributorsView.js | The **ContributorsView** class renders the contributors for the selected repository. |
+| ErrorView.js | The **ErrorView** class renders an error, if present. |
+| Util.js | The **Utility** class provides (static) utility functions. |
 
 >For this part of the homework you should modify the **RepoView.js** and **ContributorsView.js** files, by adding and adapting code from your non-OOP version of the homework to these files. You should also copy the styling from your non-OOP version. Other files should not be modified.
+
+Figure 1 below illustrates the interrelationship between the various classes in the application using a [UML Class Diagram](https://en.wikipedia.org/wiki/Class_diagram). This particular one was created with with **LucidChart** ([YouTube tutorial](https://youtu.be/UI6lqHOVHic), 10 mins). 
+
+![JavaScript3_classes](./assets/JavaScript3_classes.png)
+Figure 1. A UML Class Diagram showing the interrelationship between the classes in this app.
+
+You can read the following from this diagram:
+
+1. The **Model** class **extends** (_inherits from_) the **Observable** class.
+2. Zero or more 'observers' (classes implementing the IObserver interface) can subscribe to notifications from the **Observable**.
+3. There are four concrete observer classes that implement the IObservable interface, i.e. they implement the required `update()` method: **HeaderView**, **RepoView**, **ContributorsView** and **ErrorView**.
+4. The **SelectView** class calls the `fetchData()` method from the **Model** class to request a data fetch.
 
 _Read:_
 
