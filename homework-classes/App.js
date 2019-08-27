@@ -21,25 +21,36 @@
 
   class App {
     constructor(account) {
-      const root = document.getElementById('root');
-      const header = createAndAppend('header', root, { class: 'header' });
-      this.mainContainer = createAndAppend('main', root, {
-        id: 'main-container',
-      });
+      const containers = App.renderContainers();
 
       const model = new Model(account);
-      model.subscribe(this);
-      model.subscribe(new HeaderView(model, account, header));
-      model.subscribe(new RepoView(this.mainContainer));
-      model.subscribe(new ContributorsView(this.mainContainer));
-      model.subscribe(new ErrorView(this.mainContainer));
-      model.fetchData();
+      const fetchData = model.fetchData.bind(model);
+
+      model.subscribe(new HeaderView(account, containers.header, fetchData));
+      model.subscribe(new RepoView(containers.repo));
+      model.subscribe(new ContributorsView(containers.contributors));
+      model.subscribe(new ErrorView(containers.error));
+
+      fetchData();
     }
 
-    update() {
-      this.mainContainer.innerHTML = '';
+    static renderContainers() {
+      const root = document.getElementById('root');
+      const header = createAndAppend('header', root, { class: 'header' });
+      const error = createAndAppend('div', root);
+      const main = createAndAppend('main', root, {
+        id: 'main-container',
+      });
+      const repo = createAndAppend('section', main, {
+        class: 'repo-container whiteframe',
+      });
+      const contributors = createAndAppend('section', main, {
+        class: 'contributors-container whiteframe',
+      });
+      return { header, error, main, repo, contributors };
     }
   }
 
-  window.onload = () => new App(accounts.hyf);
+  const ACCOUNT_KEY = 'hyf';
+  window.onload = () => new App(accounts[ACCOUNT_KEY]);
 }

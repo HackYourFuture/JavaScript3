@@ -4,15 +4,15 @@
   const { createAndAppend } = window.Util;
 
   class HeaderView {
-    constructor(model, account, header) {
-      this.model = model;
+    constructor(account, header, fetchData) {
       this.account = account;
       this.header = header;
+      this.fetchData = fetchData;
       this.select = null;
     }
 
     update(state) {
-      if (!this.select && !this.error) {
+      if (!this.select && !state.error) {
         this.render(state.repos);
       }
     }
@@ -23,21 +23,21 @@
      * @param {Object[]} repos An array of repository objects.
      */
     render(repos) {
-      createAndAppend('p', this.header, { text: this.account.name });
+      createAndAppend('div', this.header, { text: this.account.name });
       this.select = createAndAppend('select', this.header, {
         class: 'repo-select',
         autofocus: 'autofocus',
       });
 
-      repos.forEach((repo, index) =>
+      repos.forEach(repo =>
         createAndAppend('option', this.select, {
           text: repo.name,
-          value: index,
+          value: repo.id,
         }),
       );
 
       this.select.addEventListener('change', () =>
-        this.model.fetchData(this.select.value),
+        this.fetchData(this.select.value),
       );
     }
   }

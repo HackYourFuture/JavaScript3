@@ -4,8 +4,8 @@
   const { createAndAppend } = window.Util;
 
   class RepoView {
-    constructor(mainContainer) {
-      this.mainContainer = mainContainer;
+    constructor(container) {
+      this.container = container;
     }
 
     update(state) {
@@ -20,7 +20,7 @@
      */
     render(repo) {
       // TODO: replace this comment and the console.log with your own code
-      console.log('renderRepoDetails', repo);
+      console.log('RepoView', repo);
     }
   }
 

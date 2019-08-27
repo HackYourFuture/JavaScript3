@@ -4,8 +4,8 @@
   const { createAndAppend } = window.Util;
 
   class ContributorsView {
-    constructor(mainContainer) {
-      this.mainContainer = mainContainer;
+    constructor(container) {
+      this.container = container;
     }
 
     update(state) {
@@ -20,7 +20,7 @@
      */
     render(contributors) {
       // TODO: replace this comment and the console.log with your own code
-      console.log('renderContributors', contributors);
+      console.log('ContributorsView', contributors);
     }
   }
 

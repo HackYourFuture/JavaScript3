@@ -4,14 +4,12 @@
   const { createAndAppend } = window.Util;
 
   class ErrorView {
-    constructor(mainContainer) {
-      this.mainContainer = mainContainer;
+    constructor(container) {
+      this.container = container;
     }
 
     update(state) {
-      if (state.error) {
-        this.render(state.error);
-      }
+      this.render(state.error);
     }
 
     /**
@@ -19,8 +17,13 @@
      * @param {Error} error An Error object
      */
     render(error) {
-      // TODO: replace this comment and the console.log with your own code
-      console.log('renderError', error);
+      this.container.innerHTML = '';
+      if (error) {
+        createAndAppend('div', this.container, {
+          text: error.message,
+          class: 'alert alert-error',
+        });
+      }
     }
   }
 

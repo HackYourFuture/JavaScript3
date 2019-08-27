@@ -18,14 +18,18 @@
       };
     }
 
-    async fetchData(selectedIndex = 0) {
+    async fetchData(id) {
+      const repoId = parseInt(id, 10);
       this.state.error = null;
       try {
         if (this.state.repos.length === 0) {
           const repos = await Model.fetchJSON(makeUrl(this.account));
           this.state.repos = repos.sort((a, b) => a.name.localeCompare(b.name));
         }
-        this.state.selectedRepo = this.state.repos[selectedIndex];
+        const index = id
+          ? this.state.repos.findIndex(repo => repo.id === repoId)
+          : 0;
+        this.state.selectedRepo = this.state.repos[index];
         this.state.contributors = await Model.fetchJSON(
           this.state.selectedRepo.contributors_url,
         );
