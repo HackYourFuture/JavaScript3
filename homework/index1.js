@@ -1,24 +1,6 @@
 'use strict';
 
 {
-  /* function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status < 400) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => {
-        reject(new Error('Network request failed'));
-      };
-      xhr.send();
-    }); */
-
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
@@ -46,13 +28,14 @@
 
     fetch(HYF_REPOS_URL)
       .then(response => response.json())
-      .then(listOfRepos =>
-        listOfRepos.sort(sortByName).forEach(repoDataObj => {
-          createAndAppend('option', document.getElementById('dropdown-select'), {
-            text: repoDataObj.name,
-          });
-          listenerSelect(listOfRepos);
-        }),
+      .then(
+        listOfRepos =>
+          listOfRepos.sort(sortByName).forEach(repoDataObj => {
+            createAndAppend('option', document.getElementById('dropdown-select'), {
+              text: repoDataObj.name,
+            });
+          }),
+        listenerSelect(listOfRepos),
       );
   }
 
@@ -113,21 +96,3 @@
 
   window.onload = () => main(HYF_REPOS_URL);
 }
-// create a layout for browser
-/*   function createLayout() {
-    const root = document.getElementById('root');
-    createAndAppend('select', root, { id: 'dropdown-select' });
-    createAndAppend('div', root, { id: 'details' });
-    createAndAppend('div', root, { id: 'contributors' }); 
-  }
-  // get info of repositories API
-   function getRepositories() {
-    fetchJSON(HYF_REPOS_URL, (err, listOfRepos) => {
-      listOfRepos.sort(sortByName).forEach(repoDataObj => {
-        createAndAppend('option', document.getElementById('dropdown-select'), {
-          text: repoDataObj.name,
-        });
-      });
-      listenerSelect(listOfRepos);
-    });
-  } */
