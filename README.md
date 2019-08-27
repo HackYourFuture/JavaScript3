@@ -9,7 +9,10 @@
 
 In order to successfully complete this module you will need to master the following:
 
--
+- Learn what an API is
+- Catch up on the history of JavaScript
+- Understand how to write
+- Connect with different public APIs
 
 ## How to use this repository
 
@@ -23,28 +26,19 @@ After your first class you should start off with checking the `reading materials
 
 If you have any questions or if something is not entirely clear ¯\\\_(ツ)\_/¯, please ask/comment on Slack!
 
-Topics:
+## Planning
 
-1. API calls
-   - XMLHttpRequest
-   - Fetch
-   - jQuery
+| Week | Topic                                                                    | Reading Materials              | Homework                        | Lesson Plan                            |
+| ---- | ------------------------------------------------------------------------ | ------------------------------ | ------------------------------- | -------------------------------------- |
+| 1.   | Application Programming Interface (API), AJAX, jQuery                    | [Reading W1](/Week1/README.md) | [Homework W1](/Week1/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
+| 2.   | Fetch API, Promises, JavaScript Versions, Thinking like a programmer III | [Reading W2](/Week2/README.md) | [Homework W2](/Week2/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
+| 3.   | ES6 Classes, 'this' keyword, Async/await, Try...Catch, Arrow functions   | [Reading W3](/Week3/README.md) | [Homework W3](/Week3/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
 
-> In practice, the terms `API call`, `network request` and `network call` are all used to refer to the same thing: sending a request from the client to some kind of server in order to get data.
+## Finished?
 
-| Week | Topic                                                 | Reading Materials              | Homework                        | Lesson Plan                            |
-| ---- | ----------------------------------------------------- | ------------------------------ | ------------------------------- | -------------------------------------- |
-| 1.   | Application Programming Interface (API), AJAX, jQuery | [Reading W1](/Week1/README.md) | [Homework W1](/Week1/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
-| 2.   | Fetch API, Promises, Async/await, Try...Catch         | [Reading W2](/Week2/README.md) | [Homework W2](/Week2/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
-| 3.   | ES6 Classes, 'this' keyword, Arrow functions          | [Reading W3](/Week3/README.md) | [Homework W3](/Week3/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
+Did you finish the module? High five!
 
-**Kind note:**
-
-We expect you to **always** come prepared to the class on Sunday.
-
-### Overall
-
-A good understanding of all the above mentioned topics. Want to check your Knowledge? Go through the [JavaScript Fundamentals README](../../../fundamentals/blob/master/README.md) and research/ ask for help (Slack!) with the concepts that are not entirely clear.
+If you feel ready for the next challenge, click [here](https://www.github.com/HackYourFuture/Node.js) to go to Node.js!
 
 _The HackYourFuture curriculum is subject to CC BY copyright. This means you can freely use our materials, but just make sure to give us credit for it :)_
 

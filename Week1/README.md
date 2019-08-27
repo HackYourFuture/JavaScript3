@@ -8,8 +8,8 @@ These are the topics for week 1:
    - Public/private APIs
    - Connecting with APIs
 2. Asynchronous JavaScript and XML (AJAX)
+   - JavaScript Object Notation (JSON)?
    - XMLHttpRequest (XHR)
-   - What is JSON?
 3. jQuery
    - What's a module?
    - What's a library?
@@ -17,9 +17,19 @@ These are the topics for week 1:
 
 ## 1. Application Programming Interface (API)
 
-An Application Programming Interface, or API for short, is
+Whenever we talk development we'll inevitably end up talking about Application Programming Interfaces, or APIs for short. But what is all the fuss about?
 
-You can think of APIs in the following manner: Imagine you want to rent out a room in your house through Airbnb.
+The first thing we need to understand is that API means different things to different people. Some people use it to refer to a complete application (frontend + backend), others use it to only refer to the server, or there's even people who use it to refer to any
+
+For our purposes it's useful to stick to one definition, while keeping in mind that others will use it differently. Here's the definition we'll use:
+
+```markdown
+An API is that part of the server that is open to requests from the client (whether it's a from a frontend or another server).
+```
+
+You can think of an API in the following manner: Imagine you want to rent out a room in your house through Airbnb. Everyone who has a key to this room can freely enter and make use of whatever is inside.
+
+For more research, check out the following resources:
 
 - [What are APIs - series](https://www.youtube.com/watch?v=cpRcK4GS068&list=PLcgRuP1JhcBP8Kh0MC53GH_pxqfOhTVLa)
 
@@ -39,7 +49,7 @@ Understand this fundamental truth: programming is a means to serving a business 
 
 ### Connecting with APIs
 
-A big part of what applications do is **moving data from one place to another**. Let's say you are on the HackYourFuture website and feel like donating some money. First of all, that's very nice of you! You head out to the website and click on the donate button. You type in the amount and click on "donate"! You'll notice you immediately get redirected to a different website, namely Mollie.com. How did Mollie know to do this?
+A big part of what applications do is **moving data from one place to another**. Let's say you are on the HackYourFuture website and feel like donating some money. First of all, that's very nice of you! You head out to the website and click on the donate button. You type in the amount and click on "donate". You'll notice you immediately get redirected to a different website, namely Mollie.com. How did Mollie know how to do this?
 
 It's because the HackYourFuture website sends an **API call** to Mollie. The request basically says "Hey Mollie, some user from the HackYourFuture site wants to make a digital payment, can you handle that?". As a response Mollie answers "Of course, send the user to this specific URL and I'll take it from there!".
 
@@ -52,11 +62,36 @@ For further study of how to make API calls, check out the following resources:
 
 ## 2. Asynchronous JavaScript and XML (AJAX)
 
-AJAX is the idea that data can be loaded into a webpage without refreshing the entire website. The term is a
+AJAX is the idea that data can be loaded into a webpage without refreshing the entire website. The term is an acronym for `asynchronous JavaScript and XML`. Let's pick that apart:
+
+- Asynchronous JavaScript refers to the fact that an asynchronous function is used. As we've learned in the previous module, an asynchronous function allows the browser to do multiple things simultaneously.
+- XML is a data format used to send information from a server to a client, and vice versa.
+
+The name AJAX is actually a misnomer, because XML isn't really used any more. Instead, another data format has taken its place: `JSON`.
+
+### JSON
+
+In AJAX we make a client request to a web server, that in response sends us back information to be used in the frontend. Generally speaking, this data will be send in `JSON` format.
+
+So, technically speaking, the term would actually be AJAJ
+
+- [JSON Crash Course](https://www.youtube.com/watch?v=wI1CWzNtE-M)
 
 ### XMLHttpRequests (XHR)
 
-- [XMLHttpRequest](../../../../fundamentals/blob/master/fundamentals/XMLHttpRequest.md)
+In order to make an AJAX request we have to make use of a special type of object, called `XMLHttpRequest`(shortened to XHR). It's an object predefined for us by the `window` object in the browser.
+
+> The `window` object is the most top-level object available to us in the browser. It contains the `document`, which contains all the HTML/CSS and JavaScript we write. Besides this, the `window` also contains a lot of other things we use when writing frontend code: `setTimeout()`, alert() and it even contains a reference to the `console` (from which we get `console.log()`). Try it out in the console if you want to see for yourself!
+
+By creating a new instance of this object we can start making AJAX requests!
+
+```js
+const xhr = new XMLHttpRequest();
+```
+
+Check the following resources to learn more about XHR.
+
+- [XMLHttpRequest](https://github.com/hackyourfuture/fundamentals/blob/master/fundamentals/XMLHttpRequest.md)
 - [AJAX Crash Course](https://www.youtube.com/watch?v=82hnvUYY6QA)
 
 ## 3. jQuery
@@ -92,3 +127,7 @@ At it's most fundamental level it means that others have written functions and o
 One of the most well-known and often used libraries in JavaScript is called `jQuery`. It's a library that was designed to make DOM manipulation, as well as event handling, CSS animation and AJAX operations much easier to perform.
 
 - [jQuery Crash Course Playlist](https://www.youtube.com/playlist?list=PLillGF-RfqbYJVXBgZ_nA7FTAAEpp_IAc)
+
+## Finished?
+
+Are you finished with going through the materials? High five! If you feel ready to get practical, click [here](./MAKEME.md).

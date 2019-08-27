@@ -9,22 +9,40 @@
 
 ## **1. Practice the concepts**
 
+This week's concepts can be challenging, therefore let's get an easy introduction using some interactive exercises! Check the following resources out and start practicing:
+
 - [Introduction to jQuery](https://www.codecademy.com/learn/learn-jquery)
 
 ## **2. JavaScript exercises**
+
+**Exercise 1: Place the kitten**
+
+Write an function that makes an API call to https://wwww.placekitten.com/api
+
+XHR, jQuery and fetch
+
+**Exercise 2: Who do we have here?**
+
+Wouldn't it cool to make a new friend with just the click of a button?
+
+Write a function that makes an aPI call to https://www.randomuser.me/api
+
+**Exercise 3: asdsa**
+**Exercise 4: asdsa**
+**Exercise 5: asdsa**
 
 ## **3. Code along**
 
 Now that you've learned about APIs and how to connect with them, let's apply it in the context of a complete application.
 
-In
+In the following two applications you'll be making API calls to two different services. In the first you'll make
 
 - [Vanilla JS Numbers Facts App - AJAX & Fetch](https://www.youtube.com/watch?v=tUE2Nic21BA)
 - [Build a JavaScript & jQuery Movie Info App](https://www.youtube.com/watch?v=YsPqjYGauns)
 
 ## **4. PROJECT: Hack Your Repo I**
 
-> In this assignment you will built upon some existing code that is already pre-written by your teachers. Your homework consist of writing the code to make the application work as requested per week.
+> In this assignment you will build upon some existing code that is already pre-written by your teachers. Your homework consist of writing the code to make the application work as requested per week.
 
 You are going to write a _Single Page Application_ (SPA) that uses the [GitHub API](https://developer.github.com/guides/getting-started/).
 
