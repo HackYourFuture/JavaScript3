@@ -1,20 +1,27 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status < 400) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
-  }
+  /* function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status < 400) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => {
+        reject(new Error('Network request failed'));
+      };
+      xhr.send();
+    }); */
+  fetch('https://api.github.com/orgs/HackYourFuture/repos?per_page=100L', { method: 'GET' })
+    .then(response => response.json())
+    .then(json => console.log(json))
+    .catch(error => console.log('Network request failed'));
 
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
@@ -31,27 +38,19 @@
   }
 
   function main() {
-    createLayout();
-    getRepositories();
-  }
-  // create a layout for browser
-  function createLayout() {
     const root = document.getElementById('root');
     createAndAppend('select', root, { id: 'dropdown-select' });
     createAndAppend('div', root, { id: 'details' });
     createAndAppend('div', root, { id: 'contributors' });
-  }
-  // get info of repositories API
-  function getRepositories() {
-    fetchJSON(HYF_REPOS_URL, (err, listOfRepos) => {
+
+    fetch(HYF_REPOS_URL).then(listOfRepos =>
       listOfRepos.sort(sortByName).forEach(repoDataObj => {
         createAndAppend('option', document.getElementById('dropdown-select'), {
           text: repoDataObj.name,
         });
-      });
-
-      listenerSelect(listOfRepos);
-    });
+        listenerSelect(listOfRepos);
+      }),
+    );
   }
 
   // sort repositories
@@ -93,7 +92,7 @@
   function showContributors(data) {
     let contributors = document.getElementById('contributors');
     contributors.innerHTML = '';
-    fetchJSON(data.contributors_url, (err, listOfContributors) => {
+    fetch(data.contributors_url, (err, listOfContributors) => {
       for (let contributor of listOfContributors) {
         createAndAppend('img', contributors, { src: contributor.avatar_url, class: 'contri' });
         createAndAppend('div', contributors, { text: contributor.login, class: 'contri' });
@@ -106,3 +105,22 @@
 
   window.onload = () => main(HYF_REPOS_URL);
 }
+// create a layout for browser
+/*   function createLayout() {
+    const root = document.getElementById('root');
+    createAndAppend('select', root, { id: 'dropdown-select' });
+    createAndAppend('div', root, { id: 'details' });
+    createAndAppend('div', root, { id: 'contributors' }); 
+  }
+  // get info of repositories API
+   function getRepositories() {
+    fetchJSON(HYF_REPOS_URL, (err, listOfRepos) => {
+      listOfRepos.sort(sortByName).forEach(repoDataObj => {
+        createAndAppend('option', document.getElementById('dropdown-select'), {
+          text: repoDataObj.name,
+        });
+      });
+
+      listenerSelect(listOfRepos);
+    });
+  } */
