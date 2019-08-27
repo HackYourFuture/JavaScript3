@@ -18,10 +18,6 @@
       };
       xhr.send();
     }); */
-  fetch('https://api.github.com/orgs/HackYourFuture/repos?per_page=100L', { method: 'GET' })
-    .then(response => response.json())
-    .then(json => console.log(json))
-    .catch(error => console.log('Network request failed'));
 
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
@@ -38,19 +34,26 @@
   }
 
   function main() {
+    fetch('https://api.github.com/orgs/HackYourFuture/repos?per_page=100L', { method: 'GET' })
+      .then(response => response.json())
+      .then(json => console.log(json))
+      .catch(error => console.log('Network request failed'));
+
     const root = document.getElementById('root');
     createAndAppend('select', root, { id: 'dropdown-select' });
     createAndAppend('div', root, { id: 'details' });
     createAndAppend('div', root, { id: 'contributors' });
 
-    fetch(HYF_REPOS_URL).then(listOfRepos =>
-      listOfRepos.sort(sortByName).forEach(repoDataObj => {
-        createAndAppend('option', document.getElementById('dropdown-select'), {
-          text: repoDataObj.name,
-        });
-        listenerSelect(listOfRepos);
-      }),
-    );
+    fetch(HYF_REPOS_URL)
+      .then(response => response.json())
+      .then(listOfRepos =>
+        listOfRepos.sort(sortByName).forEach(repoDataObj => {
+          createAndAppend('option', document.getElementById('dropdown-select'), {
+            text: repoDataObj.name,
+          });
+          listenerSelect(listOfRepos);
+        }),
+      );
   }
 
   // sort repositories
@@ -92,13 +95,18 @@
   function showContributors(data) {
     let contributors = document.getElementById('contributors');
     contributors.innerHTML = '';
-    fetch(data.contributors_url, (err, listOfContributors) => {
-      for (let contributor of listOfContributors) {
-        createAndAppend('img', contributors, { src: contributor.avatar_url, class: 'contri' });
-        createAndAppend('div', contributors, { text: contributor.login, class: 'contri' });
-        createAndAppend('div', contributors, { text: contributor.contributions, class: 'contri' });
-      }
-    });
+    fetch(data.contributors_url)
+      .then(json => data.json())
+      .then(listOfContributors => {
+        for (let contributor of listOfContributors) {
+          createAndAppend('img', contributors, { src: contributor.avatar_url, class: 'contri' });
+          createAndAppend('div', contributors, { text: contributor.login, class: 'contri' });
+          createAndAppend('div', contributors, {
+            text: contributor.contributions,
+            class: 'contri',
+          });
+        }
+      });
   }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
@@ -120,7 +128,6 @@
           text: repoDataObj.name,
         });
       });
-
       listenerSelect(listOfRepos);
     });
   } */
