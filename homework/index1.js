@@ -16,11 +16,6 @@
   }
 
   function main() {
-    fetch('https://api.github.com/orgs/HackYourFuture/repos?per_page=100L', { method: 'GET' })
-      .then(response => response.json())
-      .then(json => console.log(json))
-      .catch(error => console.log('Network request failed'));
-
     const root = document.getElementById('root');
     createAndAppend('select', root, { id: 'dropdown-select' });
     createAndAppend('div', root, { id: 'details' });
@@ -28,15 +23,14 @@
 
     fetch(HYF_REPOS_URL)
       .then(response => response.json())
-      .then(
-        listOfRepos =>
-          listOfRepos.sort(sortByName).forEach(repoDataObj => {
-            createAndAppend('option', document.getElementById('dropdown-select'), {
-              text: repoDataObj.name,
-            });
-          }),
-        listenerSelect(listOfRepos),
-      );
+      .then(listOfRepos => {
+        listOfRepos.sort(sortByName).forEach(repoDataObj => {
+          createAndAppend('option', document.getElementById('dropdown-select'), {
+            text: repoDataObj.name,
+          });
+        }),
+          listenerSelect(listOfRepos);
+      });
   }
 
   // sort repositories
@@ -79,7 +73,7 @@
     let contributors = document.getElementById('contributors');
     contributors.innerHTML = '';
     fetch(data.contributors_url)
-      .then(json => data.json())
+      .then(data => data.json())
       .then(listOfContributors => {
         for (let contributor of listOfContributors) {
           createAndAppend('img', contributors, { src: contributor.avatar_url, class: 'contri' });
