@@ -18,8 +18,9 @@ Here are resources that we like you to read as a preparation for the first lectu
 - Read about APIS: https://www.programmableweb.com/api-university/what-are-apis-and-how-do-they-work
 - Traversy Media (YouTube, 18 mins): [What Is A RESTful API? Explanation of REST & HTTP](https://youtu.be/Q-BpqyOT3a8).
 
-### XMLHttpRequests
+### AJAX & XMLHttpRequests
 
+- Watch the [Ajax Crash Course](./ajaxcrash) (45 mins) from Traversy Media. 
 - [Making HTTP Requests in JavaScript](https://www.kirupa.com/html5/making_http_requests_js.htm)
 
 ### Clean Code

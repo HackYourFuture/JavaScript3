@@ -10,6 +10,7 @@ In week two we will discuss the following topics:
 Here are resources that we like you to read as a preparation for the second lecture:
 
 ### Async VS Sync
+Traversy Media - [Async JS Crash Course - Callbacks, Promises, Async Await](./traversy_async_crash)
 
 - [Stacks/Queues](https://www.youtube.com/watch?v=wjI1WNcIntg) (5 mins)
 - Read about Asynchronous vs. Synchronous programming: http://www.hongkiat.com/blog/synchronous-asynchronous-javascript/

@@ -17,6 +17,7 @@
     "strict": "off",
     "no-plusplus": "off",
     "linebreak-style": "off",
+    "no-restricted-syntax": "off",
     "no-param-reassign": [
       "error",
       {
