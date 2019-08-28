@@ -73,7 +73,9 @@ Replace `XMLHttpRequest` in the `fetchJSON` function with `fetch`. Because `fetc
 
 This final assignment requires you to go the extra mile and get acquainted with Object Oriented Programming and ES6 classes.
 
-Object Oriented Programming is a vast topic and in this homework we can only scratch the surface. The approach we have taken for this homework is for you, as aspiring junior developer, to complete an application for which the groundwork has been done by an experienced developer. You may find it difficult to understand the full details of the application, however this is not unlike a real world situation where you will be expected to make relative small modifications to a complex application, without breaking anything. 
+Object Oriented Programming is a vast topic and in this homework we can only scratch the surface. The approach we have taken here is for you, as aspiring junior developer, to complete an application for which the groundwork has been done by an experienced developer. You may find it difficult to understand the full details of the application, however this is not unlike a real world situation where you will be expected to make relative small modifications to a complex application, without breaking anything.
+
+> Note that OOP does not play the same, central role in JavaScript as it does in other languages, such as Java, C++ and C#. In JavaScript it is more common to decompose a larger application into JavaScript modules (but which could still contain classes), as you will come across in the Node.js module. 
 
 > The relevant files for this part of the homework can be found in the **homework-classes** folder.
 

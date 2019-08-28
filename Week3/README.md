@@ -9,13 +9,14 @@ In week three we will discuss the following topics:
 
 Here are resources that we like you to read as a preparation for the third lecture:
 
-### Fundamentals
+### OOP
 
-- [Object-Oriented Programming & Classes](../../../../fundamentals/blob/master/fundamentals/oop_classes.md)
-- [What is 'this'?](../../../../fundamentals/blob/master/fundamentals/this.md)
+- Fundamental - [Object-Oriented Programming & Classes](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/oop_classes.md)
+- Traversy Media - [OOP Crash Course](./traversy_oop_crash_course)
 
-### `call` `apply`, `bind`
+### `this`, `call` `apply`, `bind`
 
+- [What is 'this'?](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/this.md)
 - [Function.prototype.call()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/call)
 - [Function.prototype.apply()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply)
 - [Function.prototype.bind()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind)
