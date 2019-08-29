@@ -4,7 +4,6 @@
 
 class App {
   constructor(url) {
-    this.mainContainer = null;
     this.initialize(url);
   }
 
@@ -13,49 +12,57 @@ class App {
    * @param {string} url The GitHub URL for obtaining the organization's repositories.
    */
   async initialize(url) {
-    // Add code here to initialize your app
-    // 1. Create the fixed HTML elements of your page
-    // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
-
     const root = document.getElementById('root');
-    const header = Util.createAndAppend('header', root, { class: 'header' });
-    this.mainContainer = Util.createAndAppend('div', root, { id: 'container' });
+    Util.createAndAppend('select', root, { id: 'dropdown-select' });
+    Util.createAndAppend('div', root, { id: 'details' });
+    Util.createAndAppend('div', root, { id: 'contributors' });
+    Util.createAndAppend('h1', root, { text: 'REPOSITORIES' });
 
     try {
       const repos = await Util.fetchJSON(url);
       this.repos = repos.map(repo => new Repository(repo));
-      // TODO: add your own code here
+      this.repos.forEach(repoDataObj => {
+        repoDataObj.render(document.getElementById('dropdown-select'));
+      });
     } catch (error) {
       this.renderError(error);
     }
+    document.getElementById('dropdown-select').addEventListener('change', event => {
+      const selectedRepo = event.target.value;
+      const selectedData = this.repos.filter(repoData => repoData.name === selectedRepo)[0];
+      this.fetchContributorsAndRender(selectedRepo);
+    });
   }
 
   /**
    * Removes all child elements from a container element
    * @param {*} container Container element to clear
    */
-  clearContainer() {
-    while (this.mainContainer.firstChild) {
-      this.mainContainer.removeChild(this.mainContainer.firstChild);
+  static clearContainer(container) {
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
     }
   }
 
   /**
    * Fetch contributor information for the selected repository and render the
    * repo and its contributors as HTML elements in the DOM.
-   * @param {object} repo The selected repository object
+   * @param {number} index The array index of the repository.
    */
-  async selectRepository(repo) {
+  async fetchContributorsAndRender(index) {
     try {
-      this.clearContainer();
+      const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
 
-      const repoContainer = Util.createAndAppend('div', this.mainContainer);
-      const contributorContainer = Util.createAndAppend('div', this.mainContainer);
+      const container = document.getElementById('container');
+      App.clearContainer(container);
 
-      const contributorList = Util.createAndAppend('ul', contributorContainer);
+      const leftDiv = Util.createAndAppend('div', container);
+      const rightDiv = Util.createAndAppend('div', container);
 
-      repo.render(repoContainer);
+      const contributorList = Util.createAndAppend('ul', rightDiv);
+
+      repo.render(leftDiv);
 
       contributors
         .map(contributor => new Contributor(contributor))

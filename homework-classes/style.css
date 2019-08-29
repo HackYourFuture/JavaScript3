@@ -1,3 +1,64 @@
 .alert-error {
-    color: red;
+	color: red;
+}
+
+body {
+	background-image: url(OlJVkf.jpg);
+}
+
+h1 {
+	color: rgb(180, 244, 255);
+	font-family: Helvetica;
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 3em;
+}
+
+#dropdown-select {
+	width: 25em;
+	height: 3em;
+	border-radius: 5px;
+}
+
+select {
+	width: 20em;
+	font-family: helvetica;
+	text-transform: uppercase;
+	position: relative;
+	color: rgb(13, 96, 110);
+	padding: 10px;
+}
+
+#details {
+	color: white;
+	font-family: helvetica;
+	font-size: 1.5em;
+	margin-top: 1em;
+	width: 30%;
+}
+
+#root {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+img {
+	width: 50px;
+}
+
+#contributors {
+	display: flex;
+	flex-direction: row;
+	align-content: space-around;
+	margin-left: 35%;
+	flex-wrap: wrap;
+	list-style-type: none;
+}
+
+.contri {
+	color: white;
+	flex-wrap: wrap;
+	margin: 20px;
+	flex-grow: 1;
 }

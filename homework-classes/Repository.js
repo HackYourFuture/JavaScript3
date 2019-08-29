@@ -2,7 +2,6 @@
 
 /* global Util */
 
-// eslint-disable-next-line no-unused-vars
 class Repository {
   constructor(repository) {
     this.repository = repository;
@@ -13,8 +12,9 @@ class Repository {
    * @param {HTMLElement} container The container element in which to render the repository.
    */
   render(container) {
-    // TODO: replace the next line with your code.
-    Util.createAndAppend('pre', container, { text: JSON.stringify(this.repository, null, 2) });
+    Util.createAndAppend('option', container, {
+      text: this.name(),
+    });
   }
 
   /**
