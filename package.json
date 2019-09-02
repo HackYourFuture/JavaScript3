@@ -1,12 +1,13 @@
 {
-  "name": "hyf-js3-homework",
+  "name": "javascript3",
   "version": "1.0.0",
-  "description": "GitHub API application",
+  "description": "Course content for the JavaScript3 module",
+  "repository": "https://github.com/HackYourFuture/JavaScript3.git",
   "scripts": {
     "lint": "eslint homework",
     "test": "npm run lint"
   },
-  "author": "Jim Cramer",
+  "author": "HackYourFuture",
   "license": "CC-BY-4.0",
   "dependencies": {
     "eslint": "^6.2.0",
