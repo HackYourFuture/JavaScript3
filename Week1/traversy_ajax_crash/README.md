@@ -11,6 +11,6 @@ The example code in this course is using on ES5 syntax. In the **ajaxcrash** fol
 5. Anonymous functions use the arrow syntax instead of the **function** keyword. Consequently, the `this` value inside the **XMLHttpRequest** event handlers have been replaced with the `xhr` variable name.
 6. The `for...in` loops for iterating through an array have been replace with `for...of`. 
 
-Watch this YouTube video up until the PHP examples (45 mins):
+Watch this YouTube video up until the PHP examples (the first 45 mins):
 
-> Traversy Media - [Ajax Crash Course](https://youtu.be/82hnvUYY6QA)
+- Traversy Media - [Ajax Crash Course](https://youtu.be/82hnvUYY6QA)

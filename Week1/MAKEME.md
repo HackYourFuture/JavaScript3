@@ -155,7 +155,9 @@ _**Do not change or delete any files outside of the `homework` folder!**_
 
 **`style.css`**
 
-- Add your own styling.
+- Add your own CSS styling. Use `style.css` for all your styling your HTML. Avoid using JavaScript for styling unless there is a genuine need. 
+
+    **You are not allowed to use a CSS library such as Bootstrap.**
 
 **Hints:**
 
