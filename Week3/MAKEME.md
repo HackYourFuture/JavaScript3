@@ -79,27 +79,23 @@ Object Oriented Programming is a vast topic and in this homework we can only scr
 
 > The relevant files for this part of the homework can be found in the **homework-classes** folder.
 
-| File | Description |
-| -----| ------------ |
-| index.html*   | The application's HTML file. |
-| style.css*    | CSS styling. |
-| hyf.png      | The HYF logo.  |
-| App.js       | The **App** class is the main container class for the app. |
-| Observable.js | The **Observable** class is a base class implementing functionality of the Observer pattern. |
-| Model.js*     | The **Model** class is concerned with all data handling (e.g. fetching). Extends the Observable class. |
-| HeaderView.js | The **HeaderView** class renders the header with the select element. |
-| RepoView.js*   | The **RepoView** class renders the details for the selected repository. |
-| ContributorsView.js* | The **ContributorsView** class renders the contributors for the selected repository. |
+| File                | Description |
+| ------------------- | ----------- |
+| index.html          | The application's HTML file. |
+| style.css           | CSS styling. |
+| hyf.png             | The HYF logo.  |
+| App.js              | The **App** class is the main container class for the app. |
+| Observable.js       | The **Observable** class is a base class implementing functionality of the Observer pattern. |
+| Model.js            | The **Model** class is concerned with all data handling (e.g. fetching). Extends the Observable class. |
+| HeaderView.js       | The **HeaderView** class renders the header with the select element. |
+| RepoView.js         | The **RepoView** class renders the details for the selected repository. |
+| ContributorsView.js | The **ContributorsView** class renders the contributors for the selected repository. |
 | ErrorView.js | The **ErrorView** class renders an error, if present. |
 | Util.js | The **Utility** class provides (static) utility functions. |
 
->For this part of the homework you should only modify the files indicated with an asterisk in the table above.
-
 1. Copy CSS styling from your non-OOP version of the homework into **style.css**.
-2. Add a `<script>` tag in the `<head>`  section of **index.html** to load the **axios** library package.
-3. Modify **Model.js** to use **axios** instead of **fetch** for fetching data.
-4. Add and adapt code from your non-OOP version of the homework to **RepoView.js** and **ContributorsView.js**.
-5. Do not change any other files.
+2. Add and adapt code from your non-OOP version of the homework to **RepoView.js** and **ContributorsView.js**.
+3. Do not change any other files at this point.
 
 **index.html**, **RepoView.js** and **ContributorsView.js** files, by adding and adapting code from your non-OOP version of the homework to these files. You should also copy the styling from your non-OOP version. Other files should not be modified.
 
@@ -110,10 +106,15 @@ Figure 1. A UML Class Diagram showing the interrelationship between the classes 
 
 You can read the following from this diagram:
 
-1. The **Model** class **extends** (_inherits from_) the **Observable** class.
-2. Zero or more 'observers' (classes implementing the IObserver interface) can subscribe to notifications from the **Observable**.
-3. There are four concrete observer classes that implement the IObservable interface, i.e. they implement the required `update()` method: **HeaderView**, **RepoView**, **ContributorsView** and **ErrorView**.
-4. The **SelectView** class calls the `fetchData()` method from the **Model** class to request a data fetch.
+1. The **Model** class **extends** (_inherits from_) the **Observable** class. Views (i.e., 'observers') can subscribe to the Model and get notified on data updates.
+
+2. There are four View classes that implement the **IObservable** interface, i.e. they implement the required `update()` method: 
+    - **HeaderView**
+    - **RepoView**
+    - **ContributorsView**
+    - **ErrorView**.
+
+3. The **SelectView** class calls the `fetchData()` method from the **Model** class to request a data fetch.
 
 _Read:_
 
@@ -122,15 +123,16 @@ _Read:_
 
 #### 3.2.4 axios
 
-Replace `fetch` 
+1. Modify the `fetchJSON` static method in **Model.js** to replace **fetch** with **axios**.
+2. Add a `<script>` tag to **index.html** to load the **axios** library from a CDN (Content Delivery Network) site.
 
-#### 3.2.4 ARIA-compliance (BONUS)
+#### 3.2.5 ARIA-compliance (BONUS)
 
 Please review the material from the HTML/CSS module: [Get familiar with Accessible Rich Internet Applications (ARIA)](https://github.com/HackYourFuture/HTML-CSS/tree/master/Week1#get-familiar-with-accessible-rich-internet-applications-aria).
 
 For the GitHub application ARIA-compliance means that the Contributors list should either be a native HTML list (i.e. using `ul` and `li` elements) or otherwise marked with an appropriate ARIA **role**. Furthermore, a user should be able to navigate through all interactive elements using the keyboard (e.g., using the **Tab** key). Pressing **Enter** on such an element should be equivalent to clicking the mouse.
 
-#### 3.2.5 Handing in your homework
+#### 3.2.6 Handing in your homework
 
 If necessary, review the instructions how to [Hand in homework](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/homework_pr.md) using GitHub pull request.
 
