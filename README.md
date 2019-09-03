@@ -9,7 +9,7 @@ Here you can find course content and homework for the JavaScript3 modules.
 |----|-----|----|--------|
 |1.|• Structure for a basic SPA (Single Page Application) <br>• AJAX & XMLHttpRequests<br>• API calls|[Reading Week 1](/Week1/README.md)|[Homework Week 1](/Week1/MAKEME.md)|
 |2.|• Event Loop (order of execution)<br>• Promises|[Reading Week 2](/Week2/README.md)|[Homework Week 2](/Week2/MAKEME.md)|
-|3.|• fetch, axios<br>• • async/await<br>try...catch<br>• The `this` keyword<br>• call, apply, bind<br>• Object Oriented Programming and ES6 Classes|[Reading Week 3](/Week3/README.md)|[Homework Week 3](/Week3/MAKEME.md)|
+|3.|• fetch, axios<br>• async/await<br>• try...catch<br>• The `this` keyword<br>• call, apply, bind<br>• Object Oriented Programming and ES6 Classes|[Reading Week 3](/Week3/README.md)|[Homework Week 3](/Week3/MAKEME.md)|
 
 __Kind note:__
 
