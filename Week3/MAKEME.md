@@ -97,14 +97,14 @@ Object Oriented Programming is a vast topic and in this homework we can only scr
 2. Add and adapt code from your non-OOP version of the homework to **RepoView.js** and **ContributorsView.js**.
 3. Do not change any other files at this point.
 
-**index.html**, **RepoView.js** and **ContributorsView.js** files, by adding and adapting code from your non-OOP version of the homework to these files. You should also copy the styling from your non-OOP version. Other files should not be modified.
+Modify the **RepoView.js** and **ContributorsView.js** files, by adding and adapting code from your non-OOP version of the homework to these files. You should also copy the styling from your non-OOP version. Other files should not be modified.
 
 Figure 1 below illustrates the interrelationship between the various classes in the application using a [UML Class Diagram](https://en.wikipedia.org/wiki/Class_diagram). This particular one was created with with **LucidChart** ([YouTube tutorial](https://youtu.be/UI6lqHOVHic), 10 mins). 
 
 ![JavaScript3_classes](./assets/JavaScript3_classes.png)
 Figure 1. A UML Class Diagram showing the interrelationship between the classes in this app.
 
-You can read the following from this diagram:
+You can conclude the following from this diagram:
 
 1. The **Model** class **extends** (_inherits from_) the **Observable** class. Views (i.e., 'observers') can subscribe to the Model and get notified on data updates.
 
