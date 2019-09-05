@@ -29,6 +29,20 @@ The web page should include the following components:
 2. A left-hand column that displays basic information about the selected repository.
 3. A right-hand column that displays a list of contributors to the repository.
 
+A suggested HTML structure could be:
+
+```html
+<body>
+  <div id="root">
+    <header class="...">...</header>
+    <main class="main-container">
+      <section class="repo-container">...</section>
+      <section class="contributors-container">...</section>
+    </main>
+  </div>
+</body>
+```
+
 **Functional Requirements:**
 
 1. The list of repositories in the `select` element should be sorted (case-insensitive) on repository name.
