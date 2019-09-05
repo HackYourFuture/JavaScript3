@@ -39,7 +39,7 @@
       const header = createAndAppend('header', root, { class: 'header' });
       const error = createAndAppend('div', root);
       const main = createAndAppend('main', root, {
-        id: 'main-container',
+        class: 'main-container',
       });
       const repo = createAndAppend('section', main, {
         class: 'repo-container whiteframe',
