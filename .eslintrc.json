@@ -1,5 +1,5 @@
 {
-  "extends": ["airbnb", "prettier"],
+  "extends": ["airbnb-base", "prettier"],
   "plugins": ["prettier"],
   "env": {
     "browser": true,
@@ -9,7 +9,8 @@
     "page": true,
     "browser": true,
     "context": true,
-    "jestPuppeteer": true
+    "jestPuppeteer": true,
+    "axios": "readonly"
   },
   "rules": {
     "prettier/prettier": ["error"],
@@ -17,6 +18,7 @@
     "strict": "off",
     "no-plusplus": "off",
     "linebreak-style": "off",
+    "no-restricted-syntax": "off",
     "no-param-reassign": [
       "error",
       {

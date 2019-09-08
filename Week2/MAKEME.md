@@ -1,57 +1,89 @@
 # Homework Week 2
 
-```
-Topics discussed this week:
-• Async vs Sync
-• Event Loop (order of execution)
-• Promises
-```
+The homework for this week build upon to homework of week 1.
 
-## Step 1: Read
+## Step 1: Implement requested PR changes
 
-- Read this article on scopes & closures: [explaining-javascript-scope-and-closures](https://robertnyman.com/2008/10/09/explaining-javascript-scope-and-closures/)
+- Fix Requested Changes (if any) on the Pull Request from week 1.
 
-- If you are still not completely clear on promises, here are some additional resources :ring:
+## Step 2: Create a new branch
 
-  - [Google's post about Promises](https://developers.google.com/web/fundamentals/getting-started/primers/promises)
-  - [A nice article from David Walsh](https://davidwalsh.name/promises)
-  - [A real life example](https://github.com/mdn/js-examples/blob/master/promises-test/index.html)
-  - [stackoverflow](http://stackoverflow.com/questions/13343340/calling-an-asynchronous-function-within-a-for-loop-in-javascript)
-  - YouTube: [promises](https://www.youtube.com/watch?v=WBupia9oidU)
-
-## Step 2: Implement requested PR changes
-
-- Fix Requested Changes (if any) on the Pull Request.
-
-## Step 3: Convert callbacks to promises
-
-**_Deadline Thursday_**
-
-### 3.1 Preparation
-
-The homework for week 2 will build on the work you did in week 1. You will create a new branch based on the `week1` branch.
-
-1. Make sure that you committed all changes in the week 1 version of your homework.
-2. Create a new `week2` branch:
+1. Make sure that your `week1` branch is checked out and clean.
+2. Create a new branch for the week 2 homework:
 
    ```
    git checkout -b week2
    ```
 
-### 3.2 Assignment
+## Step 3: Enhance the application
 
-You will continue to work on the files `index.js` and (possibly) `style.css`.
+The assignment is to enhance your application to look similar to the one illustrated in Figure 1 below. Instead of displaying details for _all_ repositories, this version should show information for a single repository and also list its contributors. The actual repository for which details are to be displayed should be selectable with a select box.
 
-- Complete your GitHub app code from the previous week, if needed, to meet the requirements from that week's assignment.
-- Replace all asynchronous callbacks (e.g. as used with `XMLHttpRequest`) by ES6 promises.
-- Beautify your app's styling.
-- If not yet completed in week 1, make your app responsive (use CSS media queries and [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)).
+![UI Example](./assets/week2.png)
 
-### 3.3 Handing in your homework
+<small>Figure 1. Example User Interface using [Material Design](https://material.io/guidelines/) principles.</small>
+
+The web page should include the following components:
+
+1. An HTML `select` element from which the user can select a HYF repository. This `select` element must be populated with `option` elements, one for each HYF repository.
+2. A left-hand column that displays basic information about the selected repository.
+3. A right-hand column that displays a list of contributors to the repository.
+
+A suggested HTML structure could be:
+
+```html
+<body>
+  <div id="root">
+    <header class="...">...</header>
+    <main class="main-container">
+      <section class="repo-container">...</section>
+      <section class="contributors-container">...</section>
+    </main>
+  </div>
+</body>
+```
+
+**Functional Requirements:**
+
+1. The list of repositories in the `select` element should be sorted (case-insensitive) on repository name.
+2. At start-up your application should display information about the first repository as displayed in the `select` element.
+3. When the user changes the selection, the information in the web page should be refreshed for the newly selected repository.
+4. You should be able to click on the repository name of the selected repository to open a new browser tab with the GitHub page for that repository.
+5. You should be able to click on a contributor to open a new browser tab with the GitHub page for that contributor.
+6. Your UI should be responsive. Try it with Chrome Developer Tools in the browser, using a mobile phone format and a tablet format, portrait and landscape.
+
+**Code modifications:**
+
+**`index.js`**
+
+- Modify this file as required to meet the functional requirements of the assignment.
+- Convert the callbacks to promises.
+
+**`style.css`**
+
+- Add your own styling.
+
+**Hints:**
+
+- Add one `option` element per repository to the `select` element, where each `option` element has the array index of the repository as its `value` attribute and the name of the repository as its text content:
+
+  ```html
+  <select>
+    <option value="0">alumni</option>
+    <option value="1">angular</option>
+    <!-- etc -->
+  </select>
+  ```
+
+* To sort the list repositories use [`.sort()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) and [`.localeCompare()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare).
+
+* Use CSS media queries and [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) to make the UI responsive.
+
+### Handing in your homework
 
 If necessary, review the instructions how to [Hand in homework](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/homework_pr.md) using GitHub pull request.
 
-To test whether your code will be accepted when you submit your homework as a pull request you need to ensure that it does not contain ESLinr errors. Open a terminal window in VSCode and type the following command:
+To test whether your code will be accepted when you submit your homework as a pull request you need to ensure that it does not contain ESLint errors. Open a terminal window in VSCode and type the following command:
 
 ```
 npm test
