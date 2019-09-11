@@ -9,6 +9,10 @@
 
 ## **1. Practice the concepts**
 
+- [Learn JavaScript: Objects](https://www.codecademy.com/learn/introduction-to-javascript/modules/learn-javascript-objects)
+- [Learn JavaScript: Classes](https://www.codecademy.com/learn/introduction-to-javascript/modules/learn-javascript-classes)
+- [Learn JavaScript: Async/Await](https://www.codecademy.com/learn/introduction-to-javascript/modules/asynch-js)
+
 ## **2. JavaScript exercises**
 
 ## **3. Code along**
@@ -20,11 +24,9 @@
 This week you will work with all JavaScript files in the `src` folder. The assignment consists of two parts:
 
 1. Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
-2. Refactor your application to use ES6 classes.
+2. Refactor your application to use `ES6 classes`.
 
 #### 2.2.2 ES6 Classes
-
-**_Deadline Saturday_**
 
 This final assignment requires you to go the extra mile and master Object Oriented Programming and ES6 classes.
 

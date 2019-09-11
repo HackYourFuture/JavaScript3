@@ -11,7 +11,7 @@
 
 This week's concepts can be challenging, therefore let's get an easy introduction using some interactive exercises! Check the following resources out and start practicing:
 
-- [Introduction to jQuery](https://www.codecademy.com/learn/learn-jquery)
+- [Learn JavaScript: Requests](https://www.codecademy.com/learn/introduction-to-javascript/modules/intermediate-javascript-requests)
 
 ## **2. JavaScript exercises**
 
@@ -25,9 +25,9 @@ XHR, jQuery and fetch
 
 Wouldn't it cool to make a new friend with just the click of a button?
 
-Write a function that makes an aPI call to https://www.randomuser.me/api
+Write a function that makes an API call to https://www.randomuser.me/api
 
-**Exercise 3: asdsa**
+**Exercise 3: **
 **Exercise 4: asdsa**
 **Exercise 5: asdsa**
 
@@ -38,7 +38,6 @@ Now that you've learned about APIs and how to connect with them, let's apply it 
 In the following two applications you'll be making API calls to two different services. In the first you'll make
 
 - [Vanilla JS Numbers Facts App - AJAX & Fetch](https://www.youtube.com/watch?v=tUE2Nic21BA)
-- [Build a JavaScript & jQuery Movie Info App](https://www.youtube.com/watch?v=YsPqjYGauns)
 
 ## **4. PROJECT: Hack Your Repo I**
 
@@ -80,12 +79,6 @@ The returned JSON data contains some basic information about each repository, su
 #### 1.2.2 Get contributor information for a repository
 
 The JSON data that is returned from the initial request to get repository information includes a property named `contributors_url`. Use the value of this property to fetch a list of contributors.
-
-#### 1.2.3 GitHub API documentation
-
-You can find detailed information about the GitHub API by means of the link listed below. However, the documentation is very extensive and not easy to digest. For this homework it is not necessary to study the GitHub API documentation. We provide the link here for completeness.
-
-> GitHub API documentation: https://developer.github.com/v3/
 
 ### 1.3 Coding Style
 
@@ -237,11 +230,9 @@ It should include the following components:
 
 * To force a `404` network error so that you can test the rendering of errors, change the URL to make an invalid GitHub request, e.g. append an `x` to `orgs`: `orgsx`.
 
-### 1.7 Handing in your homework
-
 If necessary, review the instructions how to [Hand in homework](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/homework_pr.md) using GitHub pull request.
 
-To test whether your code will be accepted when you submit your homework as a pull request you need to ensure that it does not contain ESLinr errors. Open a terminal window in VSCode and type the following command:
+To test whether your code will be accepted when you submit your homework as a pull request you need to ensure that it does not contain ESLint errors. Open a terminal window in VSCode and type the following command:
 
 ```
 npm test
@@ -267,12 +258,15 @@ If the answer is 'yes' to the preceding questions you are ready to follow these 
 
 ---
 
-_BONUS_ : Code Kata Race
+## **SUBMIT YOUR HOMEWORK!**
 
-- [Codewars](https://www.codewars.com/collections/hyf-homework-number-2)
+After you've finished your todo list it's time to show us what you got! The homework that needs to be submitted is the following:
 
-## Step 2: Read before next lecture
+1. JavaScript exercises
+2. PROJECT: HackYourRepo I
 
-_Deadline Sunday morning_
+Upload both to your forked JavaScript3 repository in GitHub. Make a pull request to the original repository.
 
-Go through the reading material in the [README.md](/Week2/README.md) to prepare for your next class.
+> Forgotten how to upload your homework? Go through the [guide](../hand-in-homework-guide.md) to learn how to do this again.
+
+_Deadline Saturday 23.59 CET_

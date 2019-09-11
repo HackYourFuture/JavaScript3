@@ -1,9 +1,11 @@
 > Please help us improve and share your feedback! If you find better tutorials
 > or links, please share them by [opening a pull request](https://github.com/HackYourFuture/JavaScript3/pulls).
 
-# Module #4 - JavaScript 3: Advanced JavaScript and working with APIs (Frontend)
+# Module #4 - JavaScript 3: Object-Oriented Programming and working with APIs (Frontend)
 
 ![JavaScript3](./assets/javascript3.png)
+
+Welcome to JavaScript3! In this module you'll be learning about one of the core things of what makes a web developer: working with APIs!
 
 ## Learning goals
 
@@ -28,11 +30,11 @@ If you have any questions or if something is not entirely clear ¯\\\_(ツ)\_/¯
 
 ## Planning
 
-| Week | Topic                                                                    | Reading Materials              | Homework                        | Lesson Plan                            |
-| ---- | ------------------------------------------------------------------------ | ------------------------------ | ------------------------------- | -------------------------------------- |
-| 1.   | Application Programming Interface (API), AJAX, jQuery                    | [Reading W1](/Week1/README.md) | [Homework W1](/Week1/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
-| 2.   | Fetch API, Promises, JavaScript Versions, Thinking like a programmer III | [Reading W2](/Week2/README.md) | [Homework W2](/Week2/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
-| 3.   | ES6 Classes, 'this' keyword, Async/await, Try...Catch, Arrow functions   | [Reading W3](/Week3/README.md) | [Homework W3](/Week3/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
+| Week | Topic                                                                                                    | Reading Materials              | Homework                        | Lesson Plan                            |
+| ---- | -------------------------------------------------------------------------------------------------------- | ------------------------------ | ------------------------------- | -------------------------------------- |
+| 1.   | Application Programming Interface (API), AJAX, jQuery                                                    | [Reading W1](/Week1/README.md) | [Homework W1](/Week1/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
+| 2.   | Promises, Fetch API, JavaScript Versions, 'this' keyword, Arrow functions                                | [Reading W2](/Week2/README.md) | [Homework W2](/Week2/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
+| 3.   | Object-Oriented Programming (OOP), ES6 Classes, Async/await, Try...Catch, Thinking like a programmer III | [Reading W3](/Week3/README.md) | [Homework W3](/Week3/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
 
 ## Finished?
 

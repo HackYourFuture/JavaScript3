@@ -10,24 +10,24 @@ These are the topics for week 1:
 2. Asynchronous JavaScript and XML (AJAX)
    - JavaScript Object Notation (JSON)?
    - XMLHttpRequest (XHR)
-3. jQuery
+3. Axios
    - What's a module?
    - What's a library?
-   - Using jQuery to make AJAX requests
+   - Using Axios to make AJAX requests
 
 ## 1. Application Programming Interface (API)
 
 Whenever we talk development we'll inevitably end up talking about Application Programming Interfaces, or APIs for short. But what is all the fuss about?
 
-The first thing we need to understand is that API means different things to different people. Some people use it to refer to a complete application (frontend + backend), others use it to only refer to the server, or there's even people who use it to refer to any
+The first thing we need to understand is that API means different things to different people. Some people use it to refer to a complete application (frontend + backend), others use it to only refer to the server, or there's even people who use it to refer to any part of an application (i.e. "frontend API"/"server API")
 
 For our purposes it's useful to stick to one definition, while keeping in mind that others will use it differently. Here's the definition we'll use:
 
 ```markdown
-An API is that part of the server that is open to requests from the client (whether it's a from a frontend or another server).
+An API is any software that contains a part that's accessible from an outside source: i.e. open to requests from the client (whether it's a from a frontend or another server). That part that's accessible is the "interface" of that software.
 ```
 
-You can think of an API in the following manner: Imagine you want to rent out a room in your house through Airbnb. Everyone who has a key to this room can freely enter and make use of whatever is inside.
+You can think of an API in the following manner: Imagine you want to rent out a room in your house through Airbnb. Everyone who has a key to this room can freely enter and make use of whatever is inside. In this analogy the house is the API, while the room that's rented out is the "interface".
 
 For more research, check out the following resources:
 
@@ -43,7 +43,7 @@ Conversely, there are also **private** APIs: software companies that grant acces
 
 In reality, there are way more private than public APIs. This is because it's usually in the company's best interest to keep their code base hidden from the public eye: it would be like giving your secret recipe away for nothing.
 
-Understand this fundamental truth: programming is a means to serving a business end. In this course you're learning how to program, to make nice-looking functional applications. However, this is always done within a business context. This is to say: does this software lead to making more money?
+Understand this fundamental truth: **programming is a means to serving a business end**. In this course you're learning how to program, to make nice-looking functional applications. However, this is always done within a business context. This is to say: does this software lead to making more money/gaining more popularity/or the achievement of any other business goal?
 
 - [The Business Impact of Private, Partner and Public APIs](https://www.youtube.com/watch?v=Bk50AYGvs-g)
 
@@ -73,7 +73,7 @@ The name AJAX is actually a misnomer, because XML isn't really used any more. In
 
 In AJAX we make a client request to a web server, that in response sends us back information to be used in the frontend. Generally speaking, this data will be send in `JSON` format.
 
-So, technically speaking, the term would actually be AJAJ
+So, technically speaking, the term would actually be AJAJ. However, the industry has decided to stick with the term AJAX to refer to these processes.
 
 - [JSON Crash Course](https://www.youtube.com/watch?v=wI1CWzNtE-M)
 
@@ -81,7 +81,7 @@ So, technically speaking, the term would actually be AJAJ
 
 In order to make an AJAX request we have to make use of a special type of object, called `XMLHttpRequest`(shortened to XHR). It's an object predefined for us by the `window` object in the browser.
 
-> The `window` object is the most top-level object available to us in the browser. It contains the `document`, which contains all the HTML/CSS and JavaScript we write. Besides this, the `window` also contains a lot of other things we use when writing frontend code: `setTimeout()`, alert() and it even contains a reference to the `console` (from which we get `console.log()`). Try it out in the console if you want to see for yourself!
+> The `window` object is the most top-level object available to us in the browser. It contains the `document`, which contains all the HTML/CSS and JavaScript we write. Besides this, the `window` also contains a lot of other things we use when writing frontend code: `setTimeout()`, `alert()` and it even contains a reference to the `console` (from which we get `console.log()`). Try it out in the console if you want to see for yourself!
 
 By creating a new instance of this object we can start making AJAX requests!
 
@@ -94,7 +94,7 @@ Check the following resources to learn more about XHR.
 - [XMLHttpRequest](https://github.com/hackyourfuture/fundamentals/blob/master/fundamentals/XMLHttpRequest.md)
 - [AJAX Crash Course](https://www.youtube.com/watch?v=82hnvUYY6QA)
 
-## 3. jQuery
+## 3. Axios
 
 ### What's a module?
 
@@ -116,17 +116,15 @@ For more information about this, go through the following:
 
 If you've ever written code you know how easy it is to duplicate it: you just copy and paste it.
 
-Modules are small blocks of code that introduce a . If you were to add more code and the code base could really solve a particular problem?
+Modules are small blocks of code that make up a functionality. But what if you have a bunch of modules that aklsdnl;asndkl;ansl;dnal;ksnd
+
+If you were to add more code and the code base could really solve a particular problem?
 
 A `library` is a set of code that a developer (or several developers) has written in order to solve a specific problem within an application. This could be, for example, how to easier select items from the DOM, how to handle [data validation](https://www.techopedia.com/definition/10283/data-validation) or how to more easily create a [Single Page Application](https://en.wikipedia.org/wiki/Single-page_application).
 
 At it's most fundamental level it means that others have written functions and other logical processes to make development quicker and easier. If they have published their code, through [npmjs.com](https://www.npmjs.com/) for example, you can legally make use of it in your own code. Almost all applications out there, no matter what language they're written in, contain at least a couple of libraries.
 
-### Using jQuery to make AJAX requests
-
-One of the most well-known and often used libraries in JavaScript is called `jQuery`. It's a library that was designed to make DOM manipulation, as well as event handling, CSS animation and AJAX operations much easier to perform.
-
-- [jQuery Crash Course Playlist](https://www.youtube.com/playlist?list=PLillGF-RfqbYJVXBgZ_nA7FTAAEpp_IAc)
+### Using Axios to make AJAX requests
 
 ## Finished?
 

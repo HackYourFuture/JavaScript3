@@ -9,6 +9,8 @@
 
 ## **1. Practice the concepts**
 
+- [Learn JavaScript: Promises](https://www.codecademy.com/learn/introduction-to-javascript/modules/javascript-promises)
+
 ## **2. JavaScript exercises**
 
 ## **3. Code along**
@@ -19,7 +21,7 @@
 
 The homework for week 2 will build on the work you did in week 1. You will create a new branch based on the `week1` branch.
 
-1. Make sure that you committed all changes in the week 1 version of your homework.
+1. Make sure you are on the `week1` branch
 2. Create a new `week2` branch:
 
    ```
