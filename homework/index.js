@@ -30,12 +30,33 @@
   }
 
   function renderRepoDetails(repo, ul) {
-    createAndAppend('li', ul, { text: repo.name });
+    const li = createAndAppend('li', ul, { class: 'list-info' });
+    const table = createAndAppend('table', li);
+    const trName = createAndAppend('tr', table);
+    createAndAppend('th', trName, { text: 'Repository: ' });
+    const tdName = createAndAppend('td', trName);
+    createAndAppend('a', tdName, {
+      text: repo.name,
+      href: repo.html_url,
+      target: '_blank',
+    });
+    const trDesc = createAndAppend('tr', table);
+    createAndAppend('th', trDesc, { text: 'Description: ' });
+    createAndAppend('td', trDesc, { text: repo.description });
+    const trFork = createAndAppend('tr', table);
+    createAndAppend('th', trFork, { text: 'Forks: ' });
+    createAndAppend('td', trFork, { text: repo.forks_count });
+    const trUpdate = createAndAppend('tr', table);
+    createAndAppend('th', trUpdate, { text: 'Last Update: ' });
+    createAndAppend('td', trUpdate, { text: repo.updated_at });
   }
 
   function main(url) {
     fetchJSON(url, (err, repos) => {
       const root = document.getElementById('root');
+      const header = createAndAppend('header', root, { id: 'header' });
+      createAndAppend('h1', header, { text: 'HYF Repositories' });
+
       if (err) {
         createAndAppend('div', root, {
           text: err.message,
@@ -43,7 +64,7 @@
         });
         return;
       }
-      const ul = createAndAppend('ul', root);
+      const ul = createAndAppend('ul', root, { class: 'repo-containers' });
       repos.forEach(repo => renderRepoDetails(repo, ul));
     });
   }
