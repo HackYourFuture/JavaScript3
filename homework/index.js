@@ -29,13 +29,44 @@
     return elem;
   }
 
+  function appendRepoDetail(header, description, listItem, link) {
+    const repoDetailElm = createAndAppend('div', listItem, {
+      class: 'repository-item-detail',
+    });
+    createAndAppend('h4', repoDetailElm, { text: header });
+    const pElm = createAndAppend('p', repoDetailElm);
+    if (link) {
+      createAndAppend('a', pElm, {
+        href: link,
+        text: description,
+      });
+    } else {
+      pElm.textContent = description;
+    }
+    return repoDetailElm;
+  }
+
+  function getDateTimeText(dateTimeStr) {
+    const dateTime = new Date(dateTimeStr);
+    return dateTime.toLocaleString();
+  }
+
+  function sortRepositoriesByNameAscending(firstRepo, secondRepo) {
+    return firstRepo.name.localeCompare(secondRepo.name);
+  }
+
   function renderRepoDetails(repo, ul) {
-    createAndAppend('li', ul, { text: repo.name });
+    const repoItem = createAndAppend('li', ul, { class: 'repository-item' });
+    appendRepoDetail('Repository:', repo.name, repoItem, repo.html_url);
+    appendRepoDetail('Description:', repo.description, repoItem);
+    appendRepoDetail('Forks:', repo.forks, repoItem);
+    appendRepoDetail('Updated:', getDateTimeText(repo.updated_at), repoItem);
   }
 
   function main(url) {
+    const root = document.getElementById('root');
+    createAndAppend('div', root, { text: 'HYF Repositories', class: 'header' });
     fetchJSON(url, (err, repos) => {
-      const root = document.getElementById('root');
       if (err) {
         createAndAppend('div', root, {
           text: err.message,
@@ -43,8 +74,10 @@
         });
         return;
       }
-      const ul = createAndAppend('ul', root);
-      repos.forEach(repo => renderRepoDetails(repo, ul));
+      const ul = createAndAppend('ul', root, { class: 'container' });
+      repos
+        .sort(sortRepositoriesByNameAscending)
+        .forEach(repo => renderRepoDetails(repo, ul));
     });
   }
 
