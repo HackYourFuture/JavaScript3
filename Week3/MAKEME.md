@@ -9,11 +9,15 @@
 
 ## **1. Practice the concepts**
 
+Let's continue exercising those programming muscles! Go through the following exercises:
+
 - [Learn JavaScript: Objects](https://www.codecademy.com/learn/introduction-to-javascript/modules/learn-javascript-objects)
 - [Learn JavaScript: Classes](https://www.codecademy.com/learn/introduction-to-javascript/modules/learn-javascript-classes)
 - [Learn JavaScript: Async/Await](https://www.codecademy.com/learn/introduction-to-javascript/modules/asynch-js)
 
 ## **2. JavaScript exercises**
+
+**_No exercises this week_**
 
 ## **3. Code along**
 
@@ -21,28 +25,79 @@
 
 ## **4. PROJECT: Hack Your Repo III**
 
-This week you will work with all JavaScript files in the `src` folder. The assignment consists of two parts:
+> The homework for week 2 will build on the work you did in week 1. You will create a new branch based on the the previous week's branch.
 
-1. Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
-2. Refactor your application to use `ES6 classes`.
+The final week's assignment consists of two parts.
 
-#### 2.2.2 ES6 Classes
+In the first part you will update the homework from week 2 (in the `homework` folder). In the second part you will refactor your application to use `ES6 classes`. For this, you need to modify the files in the `homework-classes` folder.
 
-This final assignment requires you to go the extra mile and master Object Oriented Programming and ES6 classes.
+### Step 1: Replace `XMLHttpRequest` with `fetch`
 
-In this assignment you need to redistribute and adapt the code from `index.js` to the files `App.js`, `Repository.js` and `Contributor.js`. You do not need to modify `Util.js`.
+- Replace `XMLHttpRequest` in the `fetchJSON` function with `fetch`. Because `fetch` returns a promise out of the box there is no need create a promise yourself with `new Promise(...)`.
 
-| File             | Description                                                                                                                                                                                                        |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `index2.html`    | You should load this HTML file in your browser instead of `index.html` to work with the classes version of your homework. It loads the following JavaScript files through `<script>` tags in the `<body>` element: |
-| `App.js`         | The `App` class contains the start-up code and manages the overall orchestration of the app.                                                                                                                       |
-| `Repository.js`  | The `Repository` class holds code and data for a single repository.                                                                                                                                                |
-| `Contributor.js` | The `Contributor` class holds code and data for a single contributor.                                                                                                                                              |
-| `Util.js`        | The `Util` class contains static helper methods for use in the other classes.                                                                                                                                      |
+> `fetch` does not throw an error for HTTP errors. Review the documentation for [`response.ok`](https://developer.mozilla.org/en-US/docs/Web/API/Response/ok) for a clue how detect HTTP errors.
 
-The `App.js`, `Repository.js` and `Contributor.js` files each contain skeleton code that you can use to migrate portions of your code from `index.js` to.
+### Step 2: `async/await`
 
-_Read:_
+- Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
+- Make sure that your error handling code still works. See the instructions from week 2's [homework](../Week2/MAKEME.md) on how to force an error response from GitHub.
 
-- HYF fundamental: [ES6 Classes](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/oop_classes.md#es6-classes)
-- More on ES6 classes: [ES6 Classes in Depth](https://ponyfoo.com/articles/es6-classes-in-depth)
+### Step 3: OOP and ES6 classes
+
+This final assignment requires you to go the extra mile and get acquainted with Object Oriented Programming and ES6 classes.
+
+> The relevant files for this part of the homework can be found in the **homework-classes** folder.
+
+| File                | Description                                                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------ |
+| index.html          | The application's HTML file.                                                                           |
+| style.css           | CSS styling.                                                                                           |
+| hyf.png             | The HYF logo.                                                                                          |
+| App.js              | The **App** class is the main container class for the app.                                             |
+| Observable.js       | The **Observable** class is a base class implementing functionality of the Observer pattern.           |
+| Model.js            | The **Model** class is concerned with all data handling (e.g. fetching). Extends the Observable class. |
+| HeaderView.js       | The **HeaderView** class renders the header with the select element.                                   |
+| RepoView.js         | The **RepoView** class renders the details for the selected repository.                                |
+| ContributorsView.js | The **ContributorsView** class renders the contributors for the selected repository.                   |
+| ErrorView.js        | The **ErrorView** class renders an error, if present.                                                  |
+| Util.js             | The **Utility** class provides (static) utility functions.                                             |
+
+1. Copy CSS styling from your non-OOP version of the homework into **style.css**.
+2. Add and adapt code from your non-OOP version of the homework to **RepoView.js** and **ContributorsView.js**.
+3. Do not change any other files at this point.
+
+- Modify the **RepoView.js** and **ContributorsView.js** files, by adding and adapting code from your non-OOP version of the homework to these files. You should also copy the styling from your non-OOP version. Other files should not be modified.
+
+The image below illustrates the interrelationship between the various classes in the application using a [UML Class Diagram](https://en.wikipedia.org/wiki/Class_diagram). This particular one was created with with **LucidChart** ([YouTube tutorial](https://youtu.be/UI6lqHOVHic), 10 mins).
+
+![JavaScript3_classes](./assets/JavaScript3_classes.png)
+
+You can conclude the following from this diagram:
+
+1. The **Model** class **extends** (_inherits from_) the **Observable** class. Views (i.e., 'observers') can subscribe to the Model and get notified on data updates.
+
+2. There are four View classes that implement the **IObservable** interface, i.e. they implement the required `update()` method:
+
+   - **HeaderView**
+   - **RepoView**
+   - **ContributorsView**
+   - **ErrorView**
+
+3. The **SelectView** class calls the `fetchData()` method from the **Model** class to request a data fetch.
+
+#### Step 4: `axios`
+
+1. Modify the `fetchJSON` static method in **Model.js** to replace **fetch** with **axios**.
+2. Add a `<script>` tag to **index.html** to load the **axios** library from a CDN (Content Delivery Network) site. Use Google to find the right URL.
+
+## **SUBMIT YOUR HOMEWORK!**
+
+After you've finished your todo list it's time to show us what you got! The homework that needs to be submitted is the following:
+
+1. PROJECT: HackYourRepo III
+
+Upload both to your forked JavaScript3 repository in GitHub. Make a pull request to the original repository.
+
+> Forgotten how to upload your homework? Go through the [guide](../hand-in-homework-guide.md) to learn how to do this again.
+
+_Deadline Saturday 23.59 CET_

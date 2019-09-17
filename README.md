@@ -5,7 +5,10 @@
 
 ![JavaScript3](./assets/javascript3.png)
 
-Welcome to JavaScript3! In this module you'll be learning about one of the core things of what makes a web developer: working with APIs!
+Welcome to JavaScript3! Congratulations on making it this far. You're well on your way to the top.
+
+A big part of being a programmer means moving data from one place to another.
+In this module you'll be learning about one of the core things of what makes a web developer: working with APIs!
 
 ## Learning goals
 
@@ -13,8 +16,11 @@ In order to successfully complete this module you will need to master the follow
 
 - Learn what an API is
 - Catch up on the history of JavaScript
-- Understand how to write
+- Understand how to write more readable asynchronous JavaScript
 - Connect with different public APIs
+- Build a Single Page Application (SPA)
+- Work with pre-existing code
+- Learn about Object-Oriented Programming
 
 ## How to use this repository
 
@@ -28,13 +34,47 @@ After your first class you should start off with checking the `reading materials
 
 If you have any questions or if something is not entirely clear ¯\\\_(ツ)\_/¯, please ask/comment on Slack!
 
+### Before you start
+
+In the following weeks we will be using a `styleguide` to help you write _"clean code"_. What is a styleguide? Simply put, it's a set of design standards put in one collection. Companies create and use them to define their public identity (their "brand"). Watch the following to get a better idea:
+
+- [Creating Your Company's Style Guide](https://www.youtube.com/watch?v=gv_wrrY70E0)
+
+A styleguide is made by designers. In the case of website design, this styleguide is then handed over to developers to use when styling the frontend.
+
+The styleguide we'll be using is the one from Airbnb:
+
+- [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
+
+While you do not need to read this guide in detail, it is recommended that you look at sections 1-8, 12-13, 15-21 and 23.
+
+The required packages you need to install in order to write code according to the styleguide are the following:
+
+```json
+"eslint"
+"eslint-config-airbnb-base"
+"eslint-config-prettier"
+"eslint-plugin-import"
+"eslint-plugin-prettier"
+"prettier"
+```
+
+They are already in this repository's `package.json` so all you have to do now to prepare is to execute the following command in your command line:
+
+```md
+npm install
+```
+
+With this out of the way we can get started!
+
 ## Planning
 
-| Week | Topic                                                                                                    | Reading Materials              | Homework                        | Lesson Plan                            |
-| ---- | -------------------------------------------------------------------------------------------------------- | ------------------------------ | ------------------------------- | -------------------------------------- |
-| 1.   | Application Programming Interface (API), AJAX, jQuery                                                    | [Reading W1](/Week1/README.md) | [Homework W1](/Week1/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
-| 2.   | Promises, Fetch API, JavaScript Versions, 'this' keyword, Arrow functions                                | [Reading W2](/Week2/README.md) | [Homework W2](/Week2/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
-| 3.   | Object-Oriented Programming (OOP), ES6 Classes, Async/await, Try...Catch, Thinking like a programmer III | [Reading W3](/Week3/README.md) | [Homework W3](/Week3/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
+| Week | Topic                                                                                       | Reading Materials              | Homework                        | Lesson Plan                            |
+| ---- | ------------------------------------------------------------------------------------------- | ------------------------------ | ------------------------------- | -------------------------------------- |
+| 1.   | Application Programming Interface (API), AJAX, Modules & Libraries                          | [Reading W1](/Week1/README.md) | [Homework W1](/Week1/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
+| 2.   | Promises, Fetch API, JavaScript Versions, 'this' keyword, Arrow functions                   | [Reading W2](/Week2/README.md) | [Homework W2](/Week2/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
+| 3.   | Object-Oriented Programming (OOP), ES6 Classes, Async/await, Thinking like a programmer III | [Reading W3](/Week3/README.md) | [Homework W3](/Week3/MAKEME.md) | [Lesson Plan W1](/Week1/LESSONPLAN.md) |
+| 4.   | Final JavaScript Test                                                                       | [Details]()                    | -                               | -                                      |
 
 ## Finished?
 

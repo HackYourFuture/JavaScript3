@@ -6,7 +6,7 @@
     xhr.open('GET', url);
     xhr.responseType = 'json';
     xhr.onload = () => {
-      if (xhr.status < 400) {
+      if (xhr.status >= 200 && xhr.status <= 299) {
         cb(null, xhr.response);
       } else {
         cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
@@ -19,8 +19,7 @@
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
-    Object.keys(options).forEach(key => {
-      const value = options[key];
+    Object.entries(options).forEach(([key, value]) => {
       if (key === 'text') {
         elem.textContent = value;
       } else {
@@ -30,18 +29,26 @@
     return elem;
   }
 
+  function renderRepoDetails(repo, ul) {
+    createAndAppend('li', ul, { text: repo.name });
+  }
+
   function main(url) {
-    fetchJSON(url, (err, data) => {
+    fetchJSON(url, (err, repos) => {
       const root = document.getElementById('root');
       if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-      } else {
-        createAndAppend('pre', root, { text: JSON.stringify(data, null, 2) });
+        createAndAppend('div', root, {
+          text: err.message,
+          class: 'alert-error',
+        });
+        return;
       }
+      const ul = createAndAppend('ul', root);
+      repos.forEach(repo => renderRepoDetails(repo, ul));
     });
   }
 
-  const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-
+  const HYF_REPOS_URL =
+    'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => main(HYF_REPOS_URL);
 }

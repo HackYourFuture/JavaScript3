@@ -9,39 +9,87 @@
 
 ## **1. Practice the concepts**
 
+Let's start this week off with some interactive exercises! Visit the following link to get started:
+
 - [Learn JavaScript: Promises](https://www.codecademy.com/learn/introduction-to-javascript/modules/javascript-promises)
 
 ## **2. JavaScript exercises**
 
+**_No exercises this week_**
+
 ## **3. Code along**
+
+In the following "code along" you'll be building a complete Weather App that makes use of the [Darksky API](https://darksky.net).
+
+Enjoy!
 
 - [Build a Weather App with Vanilla JavaScript Tutorial](https://www.youtube.com/watch?v=wPElVpR1rwA)
 
 ## **4. PROJECT: Hack Your Repo II**
 
-The homework for week 2 will build on the work you did in week 1. You will create a new branch based on the `week1` branch.
+> The homework for week 2 will build on the work you did in week 1. You will create a new branch based on the the previous week's branch.
 
-1. Make sure you are on the `week1` branch
-2. Create a new `week2` branch:
+The assignment this week is to enhance your application to look similar to the following:
 
-   ```
-   git checkout -b week2
-   ```
+![UI Example](./assets/week2.png)
 
-### 3.2 Assignment
+Instead of displaying details for _all_ repositories, this version should show information for a single repository and also list its contributors. The actual repository for which details are to be displayed should be selectable with a select box.
 
-You will continue to work on the files `index.js` and (possibly) `style.css`.
+The `index.html` file should include the following components:
 
-- Replace all asynchronous callbacks (e.g. as used with XMLHttpRequest) by ES6 promises.
-- Beautify your app's styling.
-- If not yet completed in week 1, make your app responsive (use CSS media queries and [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)).
+1. An HTML `select` element from which the user can select a HYF repository. This `select` element must be populated with `option` elements, one for each HYF repository.
+2. A left-hand column that displays basic information about the selected repository.
+3. A right-hand column that displays a list of contributors to the repository.
 
-1. Push your `week2` branch to GitHub:
+A suggested HTML structure could be:
 
-   ```
-   git push -u origin week2
-   ```
+```html
+<body>
+  <div id="root">
+    <header class="...">...</header>
+    <main class="main-container">
+      <section class="repo-container">...</section>
+      <section class="contributors-container">...</section>
+    </main>
+  </div>
+</body>
+```
 
-2. Create a pull request for your `week2` branch.
+### Requirements
 
-> Note: Please remove all redundant, commented-out code and console.log's from your files before pushing your homework as finished. There is no need for your mentors to review this stuff. Also, please make sure your code is well-formatted and follows the recommended naming conventions.
+The enhanced application should fulfill the following requirements:
+
+1. The list of repositories in the `select` element should be sorted (case-insensitive) on repository name.
+2. At start-up your application should display information about the first repository as displayed in the `select` element.
+3. When the user changes the selection, the information in the web page should be refreshed for the newly selected repository.
+4. You should be able to click on the repository name of the selected repository to open a new browser tab with the GitHub page for that repository.
+5. You should be able to click on a contributor to open a new browser tab with the GitHub page for that contributor.
+6. Your UI should be responsive. Try it with Chrome Developer Tools in the browser, using a mobile phone format and a tablet format, portrait and landscape.
+
+**Hints:**
+
+- Add one `option` element per repository to the `select` element, where each `option` element has the array index of the repository as its `value` attribute and the name of the repository as its text content:
+
+  ```html
+  <select>
+    <option value="0">alumni</option>
+    <option value="1">angular</option>
+    <!-- etc -->
+  </select>
+  ```
+
+- To sort the list repositories use [`.sort()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) and [`.localeCompare()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare).
+
+Good luck!
+
+## **SUBMIT YOUR HOMEWORK!**
+
+After you've finished your todo list it's time to show us what you got! The homework that needs to be submitted is the following:
+
+1. PROJECT: HackYourRepo II
+
+Upload both to your forked JavaScript3 repository in GitHub. Make a pull request to the original repository.
+
+> Forgotten how to upload your homework? Go through the [guide](../hand-in-homework-guide.md) to learn how to do this again.
+
+_Deadline Saturday 23.59 CET_
