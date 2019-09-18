@@ -28,14 +28,16 @@
     });
     return elem;
   }
-
+  function sortReposByName(a, b) {
+    return a.name.localeCompare(b.name);
+  }
   function renderRepoDetails(repo, ul) {
-    const li = createAndAppend('li', ul, { class: 'list-info' });
+    const li = createAndAppend('li', ul, { class: 'repo-list' });
     const table = createAndAppend('table', li);
-    const trName = createAndAppend('tr', table);
-    createAndAppend('th', trName, { text: 'Repository: ' });
-    const tdName = createAndAppend('td', trName);
-    createAndAppend('a', tdName, {
+    const tr = createAndAppend('tr', table);
+    createAndAppend('th', tr, { text: 'Repository: ' });
+    const td = createAndAppend('td', tr);
+    createAndAppend('a', td, {
       text: repo.name,
       href: repo.html_url,
       target: '_blank',
@@ -65,7 +67,7 @@
         return;
       }
       const ul = createAndAppend('ul', root, { class: 'repo-containers' });
-      repos.forEach(repo => renderRepoDetails(repo, ul));
+      repos.sort(sortReposByName).forEach(repo => renderRepoDetails(repo, ul));
     });
   }
 

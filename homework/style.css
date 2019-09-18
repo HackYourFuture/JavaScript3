@@ -44,7 +44,7 @@ h1 {
   color: #ffffff;
   padding: 45px 0 0 20px;
 }
-.list-info {
+.repo-list {
   border-bottom: 1px solid #adadad;
   background-color: #ffffff;
   margin-bottom: 10px;
@@ -52,7 +52,7 @@ h1 {
   list-style: none;
 }
 
-.list-info tr {
+.repo-list tr {
   vertical-align: top;
 }
 
