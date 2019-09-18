@@ -30,12 +30,31 @@
   }
 
   function renderRepoDetails(repo, ul) {
-    createAndAppend('li', ul, { text: repo.name });
+    const liRepository = createAndAppend('li', ul);
+    createAndAppend('b', liRepository, { text: ' Repository:  ' });
+    createAndAppend('a', liRepository, {
+      text: repo.name,
+      href: repo.html_url,
+      target: '_blank',
+    });
+    const liDescription = createAndAppend('li', ul);
+    createAndAppend('b', liDescription, { text: 'Description:  ' });
+    createAndAppend('span', liDescription, { text: repo.description });
+    const liForks = createAndAppend('li', ul);
+    createAndAppend('b', liForks, { text: 'Forks:  ' });
+    createAndAppend('span', liForks, { text: repo.forks });
+    const liUpdated = createAndAppend('li', ul);
+    createAndAppend('b', liUpdated, { text: 'Updated:  ' });
+    createAndAppend('span', liUpdated, { text: repo.updated_at });
   }
 
   function main(url) {
     fetchJSON(url, (err, repos) => {
       const root = document.getElementById('root');
+      createAndAppend('div', root, {
+        text: 'HYF Repositories',
+        class: 'title',
+      });
       if (err) {
         createAndAppend('div', root, {
           text: err.message,
@@ -43,8 +62,11 @@
         });
         return;
       }
-      const ul = createAndAppend('ul', root);
-      repos.forEach(repo => renderRepoDetails(repo, ul));
+      repos.sort((a, b) => a.name.localeCompare(b.name));
+      repos.forEach(repo => {
+        const ul = createAndAppend('ul', root);
+        renderRepoDetails(repo, ul);
+      });
     });
   }
 
