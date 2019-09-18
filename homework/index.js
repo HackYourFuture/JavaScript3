@@ -30,12 +30,29 @@
   }
 
   function renderRepoDetails(repo, ul) {
-    createAndAppend('li', ul, { text: repo.name });
+    createAndAppend('p', ul, { text: `Repository:` });
+    createAndAppend('p', ul, { text: `Description:` });
+    createAndAppend('p', ul, { text: `Forks:` });
+    createAndAppend('p', ul, { text: `Updated:` });
+  }
+
+  function renderRepoDetailsTitle(repo, ul) {
+    let a = createAndAppend('a', ul, { text: repo.name });
+    a.setAttribute('href', repo.clone_url);
+    createAndAppend('p', ul, { text: repo.description });
+    createAndAppend('p', ul, { text: repo.forks });
+    createAndAppend('p', ul, { text: repo.updated_at });
   }
 
   function main(url) {
     fetchJSON(url, (err, repos) => {
       const root = document.getElementById('root');
+      let HYF_Repositiries = createAndAppend('div', root, {
+        text: 'HYF Repositories',
+      });
+
+      HYF_Repositiries.classList.add('hyfTitle');
+
       if (err) {
         createAndAppend('div', root, {
           text: err.message,
@@ -43,9 +60,23 @@
         });
         return;
       }
-      const ul = createAndAppend('ul', root);
-      repos.forEach(repo => renderRepoDetails(repo, ul));
+
+      repos.sort(sortName);
+      for (let i = 0; i < repos.length; i++) {
+        const div = createAndAppend('div', root);
+        const insideDiv = createAndAppend('div', div);
+        const insideDiv2 = createAndAppend('div', div);
+        div.classList.add('rowFlex');
+        insideDiv.classList.add('insideDiv');
+        insideDiv2.classList.add('insideDiv2');
+        renderRepoDetailsTitle(repos[i], insideDiv2);
+        renderRepoDetails(repos[i], insideDiv);
+      }
     });
+  }
+
+  function sortName(a, b) {
+    return a.name.localeCompare(b.name);
   }
 
   const HYF_REPOS_URL =
