@@ -1,3 +1,5 @@
+/* eslint-disable prefer-template */
+
 'use strict';
 
 {
@@ -28,9 +30,37 @@
     });
     return elem;
   }
-
   function renderRepoDetails(repo, ul) {
-    createAndAppend('li', ul, { text: repo.name });
+    // eslint-disable-next-line prefer-template
+    const li = createAndAppend('li', ul, { id: 'item' });
+    const repoName = createAndAppend('p', li);
+    repoName.innerHTML = "<span class = 'nameItem'>Repository:</span> ";
+    createAndAppend('a', repoName, {
+      href: repo.html_url,
+      text: repo.name,
+    });
+    const repoDescription = createAndAppend('p', li, { class: 'paragraph' });
+    if (repo.description) {
+      repoDescription.innerHTML =
+        "<span class = 'nameItem'>Description:</span> " + repo.description;
+    } else {
+      repoDescription.innerHTML =
+        "<span class = 'nameItem'>Description: </span> N/A";
+    }
+    const repoForks = createAndAppend('p', li, { class: 'paragraph' });
+    repoForks.innerHTML =
+      "<span class = 'nameItem'>Fork: </span>" + repo.forks_count;
+    const repoDate = createAndAppend('p', li);
+    repoDate.innerHTML =
+      "<span class = 'nameItem'>Updated: </span> " +
+      new Date(repo.updated_at).toLocaleString();
+  }
+
+  const createTitle = document.getElementById('root');
+  const title = createAndAppend('h2', createTitle, { class: 'paragraph' });
+  title.innerText = 'HYF Repositories';
+  function sorting(part1, part2) {
+    return part1.name.localeCompare(part2.name);
   }
 
   function main(url) {
@@ -44,6 +74,7 @@
         return;
       }
       const ul = createAndAppend('ul', root);
+      repos.sort(sorting);
       repos.forEach(repo => renderRepoDetails(repo, ul));
     });
   }

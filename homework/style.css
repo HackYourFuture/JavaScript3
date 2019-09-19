@@ -1,3 +1,25 @@
 .alert-error {
-  color: red;
+  color:blue;
+  margin: 0 150px 0 190px;
+  padding: 50px;
+  background-color: red;
 }
+body{
+  background-color: lightyellow;
+  font-size: 1em;
+}
+h2 {
+  margin: 0 150px 0 190px;
+  padding: 50px;
+  background-color: blueviolet;
+}
+#item {
+  list-style: none;
+  margin: 10px 150px;
+  padding: 20px;
+  background-color:lightgray;
+}
+.nameItem {
+  font-weight: bold;
+}
+
