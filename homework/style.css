@@ -6,12 +6,13 @@
 .alert-error {
   color: #ffffff;
   background-color: #b00020;
+  width: 70%;
   padding-top: 30px;
   padding-bottom: 30px;
   padding-left: 25px;
   margin-top: 10px;
-  border-radius: 5px;
-  font-weight: lighter;
+  border-radius: 3px;
+  font-weight: bold;
 }
 
 #root {
@@ -57,4 +58,40 @@ table:hover {
   font-weight: bold;
   margin-left: 30px;
   width: 12%;
+}
+
+@media screen and (min-width: 600px) and (max-width: 1200px) {
+  .main-header {
+    width: 95%;
+  }
+
+  ul {
+    width: 95%;
+  }
+
+  table {
+    padding-left: 10px;
+  }
+
+  .alert-error {
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .main-header {
+    width: 100%;
+  }
+
+  ul {
+    width: 100%;
+  }
+
+  table {
+    padding-left: 10px;
+  }
+
+  .alert-error {
+    width: 100%;
+  }
 }
