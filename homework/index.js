@@ -37,8 +37,11 @@
   }
 
   function renderRepoDetailsTitle(repo, ul) {
-    let a = createAndAppend('a', ul, { text: repo.name });
-    a.setAttribute('href', repo.clone_url);
+    let a = createAndAppend('a', ul, {
+      text: repo.name,
+      href: repo.clone_url,
+      target: '_blank',
+    });
     createAndAppend('p', ul, { text: repo.description });
     createAndAppend('p', ul, { text: repo.forks });
     createAndAppend('p', ul, { text: repo.updated_at });
@@ -49,9 +52,8 @@
       const root = document.getElementById('root');
       let HYF_Repositiries = createAndAppend('div', root, {
         text: 'HYF Repositories',
+        class: 'hyfTitle',
       });
-
-      HYF_Repositiries.classList.add('hyfTitle');
 
       if (err) {
         createAndAppend('div', root, {
