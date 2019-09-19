@@ -26,7 +26,6 @@
         elem.setAttribute(key, value);
       }
     });
-
     return elem;
   }
 
