@@ -28,29 +28,35 @@
     });
     return elem;
   }
+
   function sortReposByName(a, b) {
     return a.name.localeCompare(b.name);
   }
+
+  function addRow(table, labelText, value) {
+    const tr = createAndAppend('tr', table);
+    createAndAppend('th', tr, { text: `${labelText}: ` });
+    createAndAppend('td', tr, { text: value });
+    return tr;
+  }
+
   function renderRepoDetails(repo, ul) {
     const li = createAndAppend('li', ul, { class: 'repo-list' });
     const table = createAndAppend('table', li);
-    const tr = createAndAppend('tr', table);
-    createAndAppend('th', tr, { text: 'Repository: ' });
-    const td = createAndAppend('td', tr);
-    createAndAppend('a', td, {
+
+    const firstRow = addRow(table, 'Name', '');
+    createAndAppend('a', firstRow.lastChild, {
       text: repo.name,
       href: repo.html_url,
       target: '_blank',
     });
-    const trDesc = createAndAppend('tr', table);
-    createAndAppend('th', trDesc, { text: 'Description: ' });
-    createAndAppend('td', trDesc, { text: repo.description });
-    const trFork = createAndAppend('tr', table);
-    createAndAppend('th', trFork, { text: 'Forks: ' });
-    createAndAppend('td', trFork, { text: repo.forks_count });
-    const trUpdate = createAndAppend('tr', table);
-    createAndAppend('th', trUpdate, { text: 'Last Update: ' });
-    createAndAppend('td', trUpdate, { text: repo.updated_at });
+    addRow(table, 'Description', repo.description);
+    addRow(table, 'Forks', repo.forks);
+    addRow(
+      table,
+      'Last update',
+      new Date(repo.updated_at).toLocaleString('en-NL'),
+    );
   }
 
   function main(url) {
