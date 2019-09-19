@@ -1,3 +1,32 @@
 .alert-error {
-    color: red;
+  color: red;
+  font-size: 1.2em;
+  margin: 0 10px;
+  padding: 10px;
+  border: 2px solid white;
+  background: rgb(245, 205, 209);
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+.listItem {
+  border: 1px solid gray;
+  margin: 10px;
+  padding: 10px;
+  font-family: monospace;
+  font-size: 15px;
+}
+#header {
+  padding: 10px;
+  margin: 10px;
+  font-size: 24px;
+  border: 2px solid whitesmoke;
+  background: rgb(48, 58, 166);
+  color: white;
 }

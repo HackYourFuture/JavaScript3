@@ -19,28 +19,98 @@
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
-    Object.keys(options).forEach(key => {
-      const value = options[key];
+    Object.entries(options).forEach(([key, value]) => {
       if (key === 'text') {
         elem.textContent = value;
       } else {
-        elem.setAttribute(key, value);
+        elem.setAttribute(key, value); // ?
       }
     });
     return elem;
   }
 
-  function main(url) {
-    fetchJSON(url, (err, repositories) => {
-      const root = document.getElementById('root');
-      if (err) {
-        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
-        return;
-      }
-      createAndAppend('pre', root, { text: JSON.stringify(repositories, null, 2) });
-    });
+  function changeDateTimeFormat(dateTime) {
+    const timeFormat = new Date(dateTime);
+    return timeFormat.toLocaleString();
   }
 
+  function sortRepos(a, b) {
+    const first = a.name.toUpperCase();
+    const second = b.name.toUpperCase();
+    const key = first < second ? -1 : first > second ? 1 : 0;
+    return key;
+  }
+
+  function renderRepoDetails(repo, ul) {
+    const grouping = createAndAppend('li', ul, { class: 'listItem' });
+    const name = createAndAppend('li', grouping, {
+      text: 'Repository name: ',
+      class: 'title',
+    });
+    const repoLang = createAndAppend('li', grouping, {
+      text: 'Repository language: ',
+      class: 'title',
+    });
+    const description = createAndAppend('li', grouping, {
+      text: 'Description: ',
+      class: 'title',
+    });
+    const forkCount = createAndAppend('li', grouping, {
+      text: 'Fork count: ',
+      class: 'title',
+    });
+    const createTime = createAndAppend('li', grouping, {
+      text: 'Created on: ',
+      class: 'title',
+    });
+    const update = createAndAppend('li', grouping, {
+      text: 'Updated on: ',
+      class: 'title',
+    });
+
+    createAndAppend('a', name, {
+      text: repo.name,
+      href: repo.html_url,
+      class: 'content',
+    });
+    createAndAppend('a', repoLang, {
+      text: repo.language,
+      class: 'content',
+    });
+    createAndAppend('a', description, {
+      text: repo.description,
+      class: 'content',
+    });
+    createAndAppend('a', forkCount, { text: repo.forks, class: 'content' });
+    createAndAppend('a', createTime, {
+      text: changeDateTimeFormat(repo.created_at),
+      class: 'content',
+    });
+    createAndAppend('a', update, {
+      text: changeDateTimeFormat(repo.updated_at),
+      class: 'content',
+    });
+  }
+  function main(url) {
+    fetchJSON(url, (err, repos) => {
+      const root = document.getElementById('root');
+      if (err) {
+        createAndAppend('div', root, {
+          text: err.message,
+          class: 'alert-error',
+        });
+        return;
+      }
+      const ul = createAndAppend('ul', root);
+      repos.sort(sortRepos).forEach(repo => renderRepoDetails(repo, ul));
+    });
+    const mainTitle = document.createElement('header');
+    document.body.appendChild(mainTitle);
+    mainTitle.innerText = 'HYF Repositories';
+    mainTitle.id = 'header';
+    const currentDiv = document.getElementById('root');
+    document.body.insertBefore(mainTitle, currentDiv);
+  }
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => main(HYF_REPOS_URL);
 }
