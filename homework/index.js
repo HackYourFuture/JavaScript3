@@ -23,19 +23,63 @@
       if (key === 'text') {
         elem.textContent = value;
       } else {
-        elem.setAttribute(key, value);
+        elem.setAttribute(key, value); // ?
       }
     });
     return elem;
   }
 
+  function changeDateTimeFormat(dateTime) {
+    const timeFormat = new Date(dateTime);
+    return timeFormat.toLocaleString();
+  }
+
   function renderRepoDetails(repo, ul) {
-    createAndAppend('li', ul, { text: repo.name });
+    const list = createAndAppend('li', ul, { class: 'topClass' });
+    const name = createAndAppend('li', list, {
+      text: 'Repository :',
+      class: 'keys',
+    });
+    const description = createAndAppend('li', list, {
+      text: 'Description :',
+      class: 'keys',
+    });
+    const fork = createAndAppend('li', list, {
+      text: 'Forks :',
+      class: 'keys',
+    });
+    const time = createAndAppend('li', list, {
+      text: 'Updated :',
+      class: 'keys',
+    });
+
+    createAndAppend('a', name, {
+      text: repo.name,
+      href: repo.html_url,
+      class: 'values',
+    });
+    createAndAppend('a', description, {
+      text: repo.description,
+      class: 'values',
+    });
+    createAndAppend('a', fork, { text: repo.forks, class: 'values' });
+    createAndAppend('a', time, {
+      text: changeDateTimeFormat(repo.updated_at),
+      class: 'values',
+    });
+  }
+
+  function sortAlpha(a, b) {
+    return a.name.localeCompare(b.name);
   }
 
   function main(url) {
     fetchJSON(url, (err, repos) => {
       const root = document.getElementById('root');
+      createAndAppend('div', root, {
+        text: 'HYF Repositories',
+        class: 'header',
+      });
       if (err) {
         createAndAppend('div', root, {
           text: err.message,
@@ -43,8 +87,9 @@
         });
         return;
       }
+
       const ul = createAndAppend('ul', root);
-      repos.forEach(repo => renderRepoDetails(repo, ul));
+      repos.sort(sortAlpha).forEach(repo => renderRepoDetails(repo, ul));
     });
   }
 
