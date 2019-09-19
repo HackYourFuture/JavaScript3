@@ -29,8 +29,42 @@
     return elem;
   }
 
-  function renderRepoDetails(repo, ul) {
-    createAndAppend('li', ul, { text: repo.name });
+  function renderRepoDetails(repo) {
+    const reposList = document.getElementById('reposList');
+    const repoItem = createAndAppend('li', reposList);
+    const commonBlock = createAndAppend('div', repoItem, {
+      class: 'commonBlock',
+    });
+    const dataTypeList = createAndAppend('ul', commonBlock, {
+      class: 'dataTypeList',
+    });
+    createAndAppend('li', dataTypeList, { text: 'Repository:' });
+    createAndAppend('li', dataTypeList, { text: 'Description:' });
+    createAndAppend('li', dataTypeList, { text: 'Forks:' });
+    createAndAppend('li', dataTypeList, { text: 'Updated:' });
+    const dataList = createAndAppend('ul', commonBlock, { class: 'dataList' });
+    const repoLink = createAndAppend('li', dataList);
+    createAndAppend('a', repoLink, {
+      href: repo.html_url,
+      target: '_blank',
+      class: 'app-link',
+      text: repo.name,
+    });
+    if (repo.description === null) {
+      createAndAppend('li', dataList, {
+        text: 'No Description',
+        class: 'alert-no-description',
+      });
+    } else {
+      createAndAppend('li', dataList, { text: repo.description });
+    }
+    createAndAppend('li', dataList, { text: repo.forks });
+    createAndAppend('li', dataList, { text: repo.updated_at });
+  }
+
+  function sortRepos(repos) {
+    repos.sort((a, b) => a.name.localeCompare(b.name));
+    return repos;
   }
 
   function main(url) {
@@ -43,8 +77,13 @@
         });
         return;
       }
-      const ul = createAndAppend('ul', root);
-      repos.forEach(repo => renderRepoDetails(repo, ul));
+      createAndAppend('div', root, {
+        id: 'title',
+        text: 'HYF Repositories',
+      });
+      createAndAppend('ul', root, { id: 'reposList' });
+      sortRepos(repos);
+      repos.forEach(repo => renderRepoDetails(repo));
     });
   }
 

@@ -1,3 +1,50 @@
+body {
+  max-width: 840px;
+  margin: 0 auto;
+  color: darkslategray;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.5rem;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
 .alert-error {
-  color: red;
+  background-color: pink;
+  padding: 30px 21px;
+}
+
+.alert-no-description {
+  font-style: italic;
+}
+
+#title {
+  color: white;
+  background-color: slateblue;
+  padding: 30px 21px;
+}
+
+.commonBlock {
+  background-color: white;
+  border-bottom: 1px solid darkgray;
+  padding: 15px 21px;
+  display: flex;
+  flex-flow: row nowrap;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.dataTypeList {
+  min-width: 105px;
+  font-weight: bold;
+}
+
+@media screen and (min-width: 855px) {
+  .commonBlock {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    border-radius: 3px;
+    margin: 6px 0;
+  }
 }
