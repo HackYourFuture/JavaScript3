@@ -13,11 +13,20 @@ _Deadline Monday_
 
 - Fix Requested Changes (if any) on the Pull Request.
 
-## Step 2
+## Step 2: Create a new branch
+
+1. Make sure that your `week2` branch is checked out and clean.
+2. Create a new branch for the week 3 homework:
+
+   ```
+   git checkout -b week3
+   ```
+
+## Step 3
 
 **_Deadline Thursday_**
 
-### 2.1 Preparation
+### 3.1 Preparation
 
 **Read the fundamental pages on:**
 
@@ -33,7 +42,7 @@ The homework for week 3 will build on the work you did in week 2. You will creat
    git checkout -b week3
    ```
 
-### 2.2 Assignment
+### 3.2 Assignment
 
 The assignment consists of two parts.
 
@@ -44,13 +53,13 @@ In the first part you will modify the 'promise' homework in the from week 2 (in 
 
 In the second part you will 'refactor' your application to use ES6 classes. For this, you need to modify the files in the `homework-classes` folder.
 
-#### 2.2.1 Replace XMLHttpRequest with fetch
+#### 3.2.1 Replace XMLHttpRequest with fetch
 
 Replace `XMLHttpRequest` in the `fetchJSON` function with `fetch`. Because `fetch` returns a promise out of the box there is no need create a promise yourself with `new Promise(...)`.
 
 > `fetch` does not throw an error for HTTP errors. Review the documentation for [`response.ok`](https://developer.mozilla.org/en-US/docs/Web/API/Response/ok) for a clue how detect HTTP errors.
 
-#### 2.2.2 async/await
+#### 3.2.2 async/await
 
 **Instructions:**
 
@@ -58,38 +67,72 @@ Replace `XMLHttpRequest` in the `fetchJSON` function with `fetch`. Because `fetc
 
 2. Make sure that your error handling code still works. See the week2 MAKEME on how to force an error response from GitHub.
 
-#### 2.2.3 ES6 Classes
+#### 3.2.3 Object Orientation and ES6 classes
 
 **_Deadline Saturday_**
 
-This final assignment requires you to go the extra mile and master Object Oriented Programming and ES6 classes.
+This final assignment requires you to go the extra mile and get acquainted with Object Oriented Programming and ES6 classes.
 
-> The files to be modified are in the **homework-classes** folder.
+Object Oriented Programming is a vast topic and in this homework we can only scratch the surface. The approach we have taken here is for you, as aspiring junior developer, to complete an application for which the groundwork has been done by an experienced developer. You may find it difficult to understand the full details of the application, however this is not unlike a real world situation where you will be expected to make relative small modifications to a complex application, without breaking anything.
 
-In this assignment you need to redistribute and adapt the code from `index.js` to the files `App.js`, `Repository.js` and `Contributor.js`. You do not need to modify `Util.js`.
+> Note that OOP does not play the same, central role in JavaScript as it does in other languages, such as Java, C++ and C#. In JavaScript it is more common to decompose a larger application into JavaScript modules (but which could still contain classes), as you will come across in the Node.js module. 
 
-| File             | Description                                                                                  |
-| ---------------- | -------------------------------------------------------------------------------------------- |
-| `index.html`     | The application's HTML file.                                                                 |
-| `App.js`         | The `App` class contains the start-up code and manages the overall orchestration of the app. |
-| `Repository.js`  | The `Repository` class holds code and data for a single repository.                          |
-| `Contributor.js` | The `Contributor` class holds code and data for a single contributor.                        |
-| `Util.js`        | The `Util` class contains static helper methods for use in the other classes.                |
+> The relevant files for this part of the homework can be found in the **homework-classes** folder.
 
-The `App.js`, `Repository.js` and `Contributor.js` files each contain skeleton code that you can use to migrate portions of your code from `index.js` to.
+| File                | Description |
+| ------------------- | ----------- |
+| index.html          | The application's HTML file. |
+| style.css           | CSS styling. |
+| hyf.png             | The HYF logo.  |
+| App.js              | The **App** class is the main container class for the app. |
+| Observable.js       | The **Observable** class is a base class implementing functionality of the Observer pattern. |
+| Model.js            | The **Model** class is concerned with all data handling (e.g. fetching). Extends the Observable class. |
+| HeaderView.js       | The **HeaderView** class renders the header with the select element. |
+| RepoView.js         | The **RepoView** class renders the details for the selected repository. |
+| ContributorsView.js | The **ContributorsView** class renders the contributors for the selected repository. |
+| ErrorView.js | The **ErrorView** class renders an error, if present. |
+| Util.js | The **Utility** class provides (static) utility functions. |
+
+1. Copy CSS styling from your non-OOP version of the homework into **style.css**.
+2. Add and adapt code from your non-OOP version of the homework to **RepoView.js** and **ContributorsView.js**.
+3. Do not change any other files at this point.
+
+Modify the **RepoView.js** and **ContributorsView.js** files, by adding and adapting code from your non-OOP version of the homework to these files. You should also copy the styling from your non-OOP version. Other files should not be modified.
+
+Figure 1 below illustrates the interrelationship between the various classes in the application using a [UML Class Diagram](https://en.wikipedia.org/wiki/Class_diagram). This particular one was created with with **LucidChart** ([YouTube tutorial](https://youtu.be/UI6lqHOVHic), 10 mins). 
+
+![JavaScript3_classes](./assets/JavaScript3_classes.png)
+Figure 1. A UML Class Diagram showing the interrelationship between the classes in this app.
+
+You can conclude the following from this diagram:
+
+1. The **Model** class **extends** (_inherits from_) the **Observable** class. Views (i.e., 'observers') can subscribe to the Model and get notified on data updates.
+
+2. There are four View classes that implement the **IObservable** interface, i.e. they implement the required `update()` method: 
+    - **HeaderView**
+    - **RepoView**
+    - **ContributorsView**
+    - **ErrorView**.
+
+3. The **SelectView** class calls the `fetchData()` method from the **Model** class to request a data fetch.
 
 _Read:_
 
 - HYF fundamental: [ES6 Classes](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/oop_classes.md#es6-classes)
 - More on ES6 classes: [ES6 Classes in Depth](https://ponyfoo.com/articles/es6-classes-in-depth)
 
-#### 2.2.4 ARIA-compliance (BONUS)
+#### 3.2.4 axios
+
+1. Modify the `fetchJSON` static method in **Model.js** to replace **fetch** with **axios**.
+2. Add a `<script>` tag to **index.html** to load the **axios** library from a CDN (Content Delivery Network) site.
+
+#### 3.2.5 ARIA-compliance (BONUS)
 
 Please review the material from the HTML/CSS module: [Get familiar with Accessible Rich Internet Applications (ARIA)](https://github.com/HackYourFuture/HTML-CSS/tree/master/Week1#get-familiar-with-accessible-rich-internet-applications-aria).
 
 For the GitHub application ARIA-compliance means that the Contributors list should either be a native HTML list (i.e. using `ul` and `li` elements) or otherwise marked with an appropriate ARIA **role**. Furthermore, a user should be able to navigate through all interactive elements using the keyboard (e.g., using the **Tab** key). Pressing **Enter** on such an element should be equivalent to clicking the mouse.
 
-#### 2.2.5 Handing in your homework
+#### 3.2.6 Handing in your homework
 
 If necessary, review the instructions how to [Hand in homework](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/homework_pr.md) using GitHub pull request.
 
@@ -117,7 +160,7 @@ If the answer is 'yes' to the preceding questions you are ready to follow these 
 
 2. Create a pull request for your `week3` branch.
 
-## Step 3: Read before next lecture
+## Step 4: Read before next lecture
 
 _Deadline Sunday morning_
 
