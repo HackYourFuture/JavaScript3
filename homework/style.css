@@ -1,3 +1,32 @@
 .alert-error {
-  color: red;
+  color: rgb(128, 50, 50);
+  background-color: rgb(248, 215, 218);
+  padding: 10px 10px;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+.repos {
+  list-style: none;
+  border: 2px solid rgb(229, 229, 229);
+  padding: 20px 10px;
+}
+
+.header {
+  background-color: rgb(63, 81, 181);
+  border: 2px solid rgb(229, 229, 229);
+  padding: 20px 10px;
+  color: white;
+}
+#root {
+  width: auto;
+}
+
+.tableText {
+  padding: 3px 10px;
+}
+.tableTitle {
+  width: 100px;
+  font-weight: bold;
 }
