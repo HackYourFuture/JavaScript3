@@ -37,7 +37,7 @@
   }
 
   function renderRepoDetailsTitle(repo, ul) {
-    let a = createAndAppend('a', ul, {
+    createAndAppend('a', ul, {
       text: repo.name,
       href: repo.clone_url,
       target: '_blank',
@@ -46,11 +46,14 @@
     createAndAppend('p', ul, { text: repo.forks });
     createAndAppend('p', ul, { text: repo.updated_at });
   }
+  function sortName(a, b) {
+    return a.name.localeCompare(b.name);
+  }
 
   function main(url) {
     fetchJSON(url, (err, repos) => {
       const root = document.getElementById('root');
-      let HYF_Repositiries = createAndAppend('div', root, {
+      createAndAppend('div', root, {
         text: 'HYF Repositories',
         class: 'hyfTitle',
       });
@@ -75,10 +78,6 @@
         renderRepoDetails(repos[i], insideDiv);
       }
     });
-  }
-
-  function sortName(a, b) {
-    return a.name.localeCompare(b.name);
   }
 
   const HYF_REPOS_URL =
