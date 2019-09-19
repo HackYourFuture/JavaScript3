@@ -26,11 +26,52 @@
         elem.setAttribute(key, value);
       }
     });
+
     return elem;
   }
 
   function renderRepoDetails(repo, ul) {
-    createAndAppend('li', ul, { text: repo.name });
+    const li = createAndAppend('li', ul, {
+      class: 'container',
+    });
+
+    if (repo.name != null) {
+      createAndAppend('li', li, {
+        text: 'Repository :',
+        class: 'leftHandSide',
+      });
+      const repositoryName = createAndAppend('li', li, {
+        class: 'rightHandSide',
+      });
+      createAndAppend('a', repositoryName, {
+        href: repo.html_url,
+        target: '_blank',
+        text: repo.name,
+      });
+    }
+    function keyToRead(key) {
+      let newValue = key;
+      for (let i = 0; i < key.length; i++) {
+        if (key[i] === '_') {
+          newValue = newValue.substr(0, i) + ' ' + newValue.substr(i + 1);
+        }
+      }
+      return newValue[0].toUpperCase() + newValue.slice(1);
+    }
+
+    const renderKeys = ['description', 'forks', 'updated_at'];
+    renderKeys.forEach(key => {
+      if (repo[key] != null) {
+        createAndAppend('li', li, {
+          text: keyToRead(key) + ' :',
+          class: 'leftHandSide',
+        });
+        createAndAppend('li', li, {
+          text: repo[key],
+          class: 'rightHandSide',
+        });
+      }
+    });
   }
 
   function main(url) {
@@ -43,8 +84,12 @@
         });
         return;
       }
+      createAndAppend('h2', root, { text: 'HYF Repositories' });
       const ul = createAndAppend('ul', root);
-      repos.forEach(repo => renderRepoDetails(repo, ul));
+      const reposSorted = repos.sort(function(a, b) {
+        return a.name.localeCompare(b.name);
+      });
+      reposSorted.forEach(repo => renderRepoDetails(repo, ul));
     });
   }
 

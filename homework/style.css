@@ -1,3 +1,54 @@
 .alert-error {
   color: red;
 }
+body {
+  background: rgb(15, 15, 15);
+  color: rgb(220, 220, 220);
+  line-height: 160%;
+}
+
+h2 {
+  margin: 3px;
+  padding: 10px;
+  padding-left: 20px;
+  background: rgb(25, 25, 25);
+  border: black solid 3px;
+  border-radius: 10px;
+}
+ul {
+  margin-left: 6px;
+  padding-left: 10px;
+}
+.container {
+  margin-left: 8px;
+  margin: 2px;
+  padding: 10px;
+  padding-left: 14px;
+  background: rgb(40, 40, 40);
+  border-left: rgb(60, 60, 60) solid 2px;
+  border-top: rgb(100, 100, 100) solid 2px;
+  border-right: rgb(20, 20, 20) solid 3px;
+  border-bottom: black solid 3px;
+
+  border-radius: 5px;
+}
+
+li {
+  margin-left: 8px;
+  list-style-type: none;
+}
+a {
+  color: whitesmoke;
+}
+a:visited {
+  color: lightgreen;
+}
+.leftHandSide {
+  font-weight: bold;
+  float: left;
+}
+.rightHandSide {
+  float: absolute;
+  margin-left: 100px;
+  color: rgb(240, 240, 240);
+}
