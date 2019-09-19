@@ -61,15 +61,25 @@ Almost anything that evolves within programming does so to solve a certain probl
 
 The problems that OOP tries to solve is the question we saw before: how can we write code in an organized and reusable fashion?
 
-The answer that OOP gives us can be summarised in the following 4 pillars:
+The answer that OOP gives us can be summarised in 4 pillars. To illustrate these pillars let's use a simple example:
 
-1. **Encapsulation**: bundling data and operations (that manipulate that data) together, and data hiding. Putting objects inside of a 'capsule' we can prevent direct manipulation by outside sources. Reducing dependencies between objects, so that change in one place doesn't affect the rest of the application.
+```js
+const person = {
+  name: 'Mohammad',
+  age: 28,
+  walk() {
+    return `${this.name} is walking!`;
+  },
+};
+```
 
-2. **Abstraction**: Complexity of logic hidden away, creating a simpler interface (remote controller to a tv). Only expose the essentials. Abstracting away complexities to create a
+1. **Encapsulation**: In the example data and operations (that manipulate that data)are grouped together. This is called `encapsulation`. The main benefit is that this keeps our code organised. The second benefit is that putting objects inside of a 'capsule' we can prevent direct manipulation by outside sources, this is called `data hiding`. This reduces dependencies between objects, so that change in one place doesn't affect the rest of the application.
+
+2. **Abstraction**: Let's say we had a Complexity of logic hidden away, creating a simpler interface (remote controller to a tv). Only expose the essentials. Abstracting away complexities to create an easier to use element.
 
 3. **Inheritance**: eliminates redundant code by inheriting properties and methods in new instances. This encourages code reusability.
 
-4. **Polymorphism**: an object can have many forms of expression, depending on the context.
+4. **Polymorphism**: an object can have many forms of expression, depending on the context. Let's say we inherit
 
 Any class that exists or is made follows these pillars.
 
@@ -97,31 +107,82 @@ const anObj = {
 };
 ```
 
-This is called an `object literal`, and it's a valid way of creating an object. However, writing it like this abstracts away a lot of what's happening behind the scenes.
+This is called an `object literal`, and it's a valid way of creating an object. However, writing it like this "abstracts away" a lot of what's happening behind the scenes.
 
-The same thing
+> To abstract away refers to intentionally hiding the details of how something complex works in order to simplify things conceptually. For example, the remote to your television is a complex device, but all of this is abstracted away so you don't have to deal with it. You just press the ON button and it works.
+
+You can write the same thing by using the Object `constructor function`.
+
+```
+
+```
+
+Well what is a constructor function ? Let's start at the beginning: `factory functions`.
 
 ### Factory functions
 
-What if we want to create hundreds of object instances?
+If we want to create an object we can just use an `object literal` and we're done. But what if we want to create hundreds of object instances of that same object?
+
+For that we use `factory functions`. Don't let the name mislead you though, a factory function is just a regular function. However, the single differentiating factor is that it always returns an object instance: it is a factory that produces object instances, hence the name `factory function`. Here's an example:
+
+```js
+// Defining a blueprint for a person:
+function createPerson(name, age) {
+  var obj = {
+    name: name,
+    age: age,
+    walk: function() {
+      console.log(`${this.name} is walking!`);
+    },
+  };
+  // other code to manipulate our object in some way here
+  return obj;
+}
+```
+
+This is the most simple way of defining a `class` and creating object instances from it. Now every time we call this function we're creating a new person object.
+
+```js
+const noer = createPerson('Noer', 27);
+const wouter = createPerson('Wouter', 33);
+const federico = createPerson('Federico', 32);
+```
+
+Go through the following to learn more about factory functions:
 
 - [The Factory Pattern](https://www.youtube.com/watch?v=0jTfc4wY6bM)
 - [JavaScript Factory Functions](https://www.youtube.com/watch?v=jpegXpQpb3o)
 
 ### Constructor functions
 
+`Constructor functions` are ordinary functions that have a special purpose: to create object instances. You can consider them the more advanced version of `factory functions`.
+
+Here's an example:
+
+```js
+// // Defining a blueprint for a person:
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+```
+
+The difference with a factory function is the way to instantiate it. Instead of just calling it we have to use the keyword `new`, like so:
+
+```js
+const noer = new Person('Noer', 27);
+```
+
 - [JavaScript Constructor Functions](https://www.youtube.com/watch?v=23AOrSN-wmI)
 - [Constructors and object instances](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS#Constructors_and_object_instances)
 
 ### Classes
 
-Like mentioned before, a `class` is a blueprint/template that represents a real-world entity. Whenever we want to create a version of this class, we `instantiate` it: in other words, we're creating a object.
-
 As you've learned in the previous section, in JavaScript we can do this using `factory/constructor function`.
 
-Since ES6 we can
+Since ES6 we can make use of the `class` keyword, which is a way to create constructor objects as well. It's essentially the same thing as a constructor function, only written in a clearer and more straightforward way.
 
-It's essentially the same thing as a constructor function, only written in a clearer and more straightforward way.
+Go through the following to learn more:
 
 - [The Class](https://www.youtube.com/watch?v=sJvPXb_lmPE)
 - [An overview of ES6 classes](https://thecodebarbarian.com/an-overview-of-es6-classes)

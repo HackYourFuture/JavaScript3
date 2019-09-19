@@ -96,6 +96,7 @@ Check the following resources to learn more about XHR.
 
 - [XMLHttpRequest](https://github.com/hackyourfuture/fundamentals/blob/master/fundamentals/XMLHttpRequest.md)
 - [AJAX Crash Course](https://www.youtube.com/watch?v=82hnvUYY6QA)
+- [Sending JavaScript Http Requests with XMLHttRequest](https://www.youtube.com/watch?v=4K33w-0-p2c)
 
 ## 3. Modules & Libraries
 
