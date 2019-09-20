@@ -1,3 +1,91 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Roboto', Georgia, serif;
+  line-height: 1.5rem;
+  margin: 0 auto;
+  padding: 0;
+  background-color: #fffbe6;
+  color: #2747d4;
+  max-width: 768px;
+}
 .alert-error {
   color: red;
+  margin: 10px;
+  padding: 20px 0 20px 10px;
+  background:pink;
+}
+
+section{
+  padding: 10px;
+  list-style-type:none;
+  display: flex;
+  flex-flow: column wrap; 
+  
+}
+
+ul {
+  padding: 15px 0;
+  border: 1px solid rgb(255, 255, 255);
+  box-shadow: 0px 3px rgba(85, 84, 84, 0.247);
+ 
+  }
+  li{
+    padding: 5px;
+    list-style-type: none;
+    display: flex;
+    flex-flow: row nowrap; 
+  }
+  /* li:nth-child(1){
+    padding-right: 5px;
+  }
+ */
+  .left-side #text{
+  font-size: 140px;
+}
+.Header{
+  background-color: #1132ee;
+  color: #fffbe6;
+  border: 5px;
+  padding: 10px;
+  margin: 10px;
+  font-size: 20px;
+}
+.left-side {
+  font-weight: bold;
+  color: #2b2e30;
+}
+
+p{
+  padding-right: 5px;
+}
+.right-side-1 {
+  font-weight: normal;
+  padding-left: 15px;
+}
+.right-side-2 {
+  font-weight: normal;
+  padding-left: 10px;
+}
+.right-side-3 {
+  font-weight: normal;
+  padding-left: 48px;
+}
+.right-side-4 {
+  font-weight: normal;
+  padding-left: 32px;
+}
+@media (max-width: 600px) {
+ li{
+  font-size: 13px;
+}
+  
 }
