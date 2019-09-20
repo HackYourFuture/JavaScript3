@@ -1,3 +1,45 @@
+#root {
+  width: 90%;
+  display: table;
+  margin-left: auto;
+
+}
+
+
+
 .alert-error {
   color: red;
+}
+
+.title {
+  background-color: blue;
+  color: aliceblue;
+  font-size: 20px;
+  padding: 20px 20px 20px;
+  width: 75%;
+}
+
+li {
+  list-style: none;
+  padding-bottom: 8px;
+}
+
+.repo-container {
+  float: left;
+  width: 80%;
+  border: 1px solid gray;
+
+}
+
+.title1 {
+  width: 100px;
+  float: left;
+  font-weight: bold;
+  line-height: 25px;
+  padding-left: 20px;
+
+}
+
+a {
+  text-decoration: none;
 }
