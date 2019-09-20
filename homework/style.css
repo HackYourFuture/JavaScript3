@@ -1,3 +1,29 @@
 .alert-error {
   color: red;
+  font-size: 1.5 rem;
+}
+
+.repo-header {
+  padding: 40px 20px;
+  background-color: #3F51B5;
+  color: white;
+  font-size: 4rem;
+  text-align: center;
+}
+
+.rep-list {
+  list-style-type: none;
+  border: 2px 0PX solid pink;
+  box-shadow: 1px 4px pink;
+
+}
+
+.repo-details {
+  font-size: 2.2rem;
+  font-weight: bold;
+}
+
+.texts {
+  font-size: 1.8rem;
+  font-weight: lighter;
 }

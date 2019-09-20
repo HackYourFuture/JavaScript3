@@ -28,14 +28,75 @@
     });
     return elem;
   }
+  // convert date time
+  function convertDataTime(dateTimeTxt) {
+    const dateTime = new Date(dateTimeTxt);
+    return dateTime.toLocaleString();
+  }
+  // sort repositories by name
+  function sortElements(a, b) {
+    return a.name.localeCompare(b.name);
+  }
 
   function renderRepoDetails(repo, ul) {
-    createAndAppend('li', ul, { text: repo.name });
+    const repoList = createAndAppend('li', ul, { class: 'rep-list' });
+    const repositoryName = createAndAppend('p', repoList, {
+      text: ' Repository: ',
+      class: 'repo-details',
+    });
+
+    const description = createAndAppend('p', repoList, {
+      text: ' Description: ',
+      class: 'repo-details',
+    });
+
+    const forkedNumbers = createAndAppend('p', repoList, {
+      text: ' Forks: ',
+      class: 'repo-details',
+    });
+
+    const updatedTime = createAndAppend('p', repoList, {
+      text: ' Updated: ',
+      class: 'repo-details',
+    });
+
+    createAndAppend('a', repositoryName, {
+      text: repo.name,
+      href: repo.html_url,
+      target: '_blank',
+    });
+
+    if (repo.description === null) {
+      createAndAppend('span', description, {
+        text: 'No Description Added Yet',
+        class: 'texts',
+      });
+    } else {
+      createAndAppend('span', description, {
+        text: repo.description,
+        class: 'texts',
+      });
+    }
+
+    createAndAppend('span', forkedNumbers, {
+      text: repo.forks,
+      class: 'texts',
+    });
+
+    createAndAppend('span', updatedTime, {
+      text: convertDataTime(repo.updated_at),
+      class: 'texts',
+    });
   }
 
   function main(url) {
     fetchJSON(url, (err, repos) => {
       const root = document.getElementById('root');
+      createAndAppend('div', root, {
+        text: 'HYF Repositories',
+        class: 'repo-header',
+      });
+
       if (err) {
         createAndAppend('div', root, {
           text: err.message,
@@ -44,7 +105,7 @@
         return;
       }
       const ul = createAndAppend('ul', root);
-      repos.forEach(repo => renderRepoDetails(repo, ul));
+      repos.sort(sortElements).forEach(repo => renderRepoDetails(repo, ul));
     });
   }
 
