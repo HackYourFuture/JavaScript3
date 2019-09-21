@@ -3,6 +3,7 @@
   background-color: rgb(248, 215, 218);
   padding: 10px 10px;
 }
+
 * {
   margin: 0;
   padding: 0;
@@ -19,14 +20,16 @@
   padding: 20px 10px;
   color: white;
 }
+
 #root {
-  width: auto;
+  max-width: 800px;
 }
 
-.tableText {
+.values {
   padding: 3px 10px;
 }
-.tableTitle {
+
+.titles {
   width: 100px;
   font-weight: bold;
 }

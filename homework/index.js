@@ -29,41 +29,37 @@
     return elem;
   }
 
-  function makeText(stringDateAndTime) {
+  function addRepoDetailsInfo(listElm, title, value, link) {
+    const trElm = createAndAppend('tr', listElm);
+    createAndAppend('td', trElm, {
+      class: 'titles',
+      text: title,
+    });
+    const secondTdElm = createAndAppend('td', trElm, {
+      class: 'values',
+    });
+
+    if (link) {
+      createAndAppend('a', secondTdElm, { href: link, text: value });
+    } else {
+      secondTdElm.innerText = value;
+    }
+
+    return trElm;
+  }
+
+  function formatDate(stringDateAndTime) {
     const dt = new Date(stringDateAndTime);
     return dt.toLocaleString();
   }
 
   function renderRepoDetails(repo, ul) {
     const li = createAndAppend('li', ul, { class: 'repos' });
-    const table = createAndAppend('table', li, { class: 'table' });
-    const tr1 = createAndAppend('tr', table);
-    const tr2 = createAndAppend('tr', table);
-    const tr3 = createAndAppend('tr', table);
-    const tr4 = createAndAppend('tr', table);
-
-    createAndAppend('td', tr1, { text: 'Repository :', class: 'tableTitle' });
-    const link = createAndAppend('td', tr1, { class: 'tableText' });
-    createAndAppend('a', link, { text: repo.name, href: repo.html_url });
-    createAndAppend('td', tr2, { text: 'Description :', class: 'tableTitle' });
-    if (repo.description === null) {
-      createAndAppend('td', tr2, {
-        text: 'No Information',
-        class: 'tableText',
-      });
-    } else {
-      createAndAppend('td', tr2, {
-        text: repo.description,
-        class: 'tableText',
-      });
-    }
-    createAndAppend('td', tr3, { text: 'Forks :', class: 'tableTitle' });
-    createAndAppend('td', tr3, { text: repo.forks, class: 'tableText' });
-    createAndAppend('td', tr4, { text: 'Updated :', class: 'tableTitle' });
-    createAndAppend('td', tr4, {
-      text: makeText(repo.updated_at),
-      class: 'tableText',
-    });
+    const table = createAndAppend('table', li);
+    addRepoDetailsInfo(table, 'Repository :', repo.name, repo.html_url);
+    addRepoDetailsInfo(table, 'Description :', repo.description);
+    addRepoDetailsInfo(table, 'Forks :', repo.forks);
+    addRepoDetailsInfo(table, 'Updated :', formatDate(repo.updated_at));
   }
 
   function sortReposByNameProp(firstRepo, secondRepo) {
