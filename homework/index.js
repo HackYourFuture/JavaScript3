@@ -28,53 +28,32 @@
     });
     return elem;
   }
-  function NewDate(dateString) {
+  function formatDate(dateString) {
     const dateTime = new Date(dateString);
     return dateTime.toLocaleString();
   }
 
-  function renderRepoDetails(repo, section) {
-    const Mix = createAndAppend('ul', section);
-    const name = createAndAppend('li', Mix, {
-      text: 'Repository:',
-      class: 'left-side',
-    });
-    const description = createAndAppend('li', Mix, {
-      text: 'Description:',
-      class: 'left-side',
-    });
-    const fork = createAndAppend('li', Mix, {
-      text: 'Forks:',
-      class: 'left-side',
-    });
-    const time = createAndAppend('li', Mix, {
-      text: 'Updated:',
-      class: 'left-side',
-    });
+  function addTable(table, body, value) {
+    const tr = createAndAppend('tr', table);
+    createAndAppend('th', tr, { text: body});
+    createAndAppend('td', tr, { text: value });
+    return tr;
+  }
 
-    // now I'm going to use that name,description,fork,time in the below function
-
-    createAndAppend('a', name, {
-      href: repo.clone_url,
-      target: '_blank',
-      class: 'right-side-1',
+  function renderRepoDetails(repo, li) {
+    const table = createAndAppend('table', li,);
+    const tr1 = addTable(table, 'Repository:', '');
+    createAndAppend('a', tr1.lastChild, {
+      href: repo.html_url,
       text: repo.name,
     });
-    createAndAppend('p', description, {
-      text: repo.description,
-      class: 'right-side-2',
-    });
-    createAndAppend('p', fork, { text: repo.forks, class: 'right-side-3' });
-    createAndAppend('p', time, {
-      text: NewDate(repo.updated_at),
-      class: 'right-side-4',
-    });
+    addTable(table, 'Description:', repo.description);
+    addTable(table, 'Fork: ', repo.forks);
+    addTable(table, 'Updated:', formatDate(repo.updated_at));
+    
   }
 
-  function sortName(first, second) {
-    return first.name.localeCompare(second.name);
-  }
-
+  
   function main(url) {
     fetchJSON(url, (err, repos) => {
       const root = document.getElementById('root');
@@ -90,12 +69,16 @@
         });
         return;
       }
-      const section = createAndAppend('section', root);
+      const ul = createAndAppend('ul', root);
+      const li = createAndAppend('li', ul);
 
-      repos.sort(sortName).forEach(repo => renderRepoDetails(repo, section));
+      repos
+  .sort((a, b) => a.name.localeCompare(b.name))
+  .forEach(repo => renderRepoDetails(repo, li));
+
     });
   }
-  const HYF_REPO_URL =
+  const HYF_REPOS_URL =
     'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-  window.onload = () => main(HYF_REPO_URL);
+  window.onload = () => main(HYF_REPOS_URL);
 }
