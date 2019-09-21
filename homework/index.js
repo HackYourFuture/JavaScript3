@@ -28,14 +28,42 @@
     });
     return elem;
   }
+  function createTable(table, header, value) {
+    const tr = createAndAppend('tr', table);
+    createAndAppend('th', tr, { text: header, class: 'keys' });
+    createAndAppend('td', tr, { text: value, class: 'values' });
+    return tr;
+  }
+
+  function changDate(dateTime) {
+    const newDate = new Date(dateTime);
+    return newDate.toLocaleString();
+  }
 
   function renderRepoDetails(repo, ul) {
-    createAndAppend('li', ul, { text: repo.name });
+    const table = createAndAppend('table', ul);
+    const repoItem = createTable(table, 'Repository');
+    createAndAppend('a', repoItem.lastChild, {
+      href: repo.html_url,
+      text: repo.name,
+    });
+
+    createTable(table, 'Description:', repo.description);
+    createTable(table, 'Fork: ', repo.forks);
+    createTable(table, 'Update: ', changDate(repo.updated_at));
+  }
+
+  function sortFun(a, b) {
+    return a.name.localeCompare(b.name);
   }
 
   function main(url) {
     fetchJSON(url, (err, repos) => {
       const root = document.getElementById('root');
+      createAndAppend('div', root, {
+        text: 'HYF Repositories',
+        class: 'header',
+      });
       if (err) {
         createAndAppend('div', root, {
           text: err.message,
@@ -44,7 +72,7 @@
         return;
       }
       const ul = createAndAppend('ul', root);
-      repos.forEach(repo => renderRepoDetails(repo, ul));
+      repos.sort(sortFun).forEach(repos => renderRepoDetails(repos, ul));
     });
   }
 

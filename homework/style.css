@@ -1,3 +1,45 @@
 .alert-error {
   color: red;
+  background-color: black;
+  width: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+body {
+  background-color: bisque;
+  font-size: 18px;
+}
+
+ul {
+  list-style: none;
+  padding: 10px;
+}
+
+.values {
+  color: palevioletred;
+}
+
+.header {
+  margin: 10px;
+  padding: 10px;
+  background: #3f51b5;
+  color: palevioletred;
+  border: 2px solid whitesmoke;
+  font-size: 25px;
+  text-align: center;
+}
+
+.keys {
+  color: #3f51b5;
+  padding: 10px;
 }
