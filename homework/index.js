@@ -35,13 +35,14 @@
 
   function addTable(table, body, value) {
     const tr = createAndAppend('tr', table);
-    createAndAppend('th', tr, { text: body});
+    createAndAppend('th', tr, { text: body });
     createAndAppend('td', tr, { text: value });
     return tr;
   }
 
-  function renderRepoDetails(repo, li) {
-    const table = createAndAppend('table', li,);
+  function renderRepoDetails(repo, ul) {
+    const li = createAndAppend('li', ul);
+    const table = createAndAppend('table', li);
     const tr1 = addTable(table, 'Repository:', '');
     createAndAppend('a', tr1.lastChild, {
       href: repo.html_url,
@@ -50,10 +51,8 @@
     addTable(table, 'Description:', repo.description);
     addTable(table, 'Fork: ', repo.forks);
     addTable(table, 'Updated:', formatDate(repo.updated_at));
-    
   }
 
-  
   function main(url) {
     fetchJSON(url, (err, repos) => {
       const root = document.getElementById('root');
@@ -70,12 +69,9 @@
         return;
       }
       const ul = createAndAppend('ul', root);
-      const li = createAndAppend('li', ul);
-
       repos
-  .sort((a, b) => a.name.localeCompare(b.name))
-  .forEach(repo => renderRepoDetails(repo, li));
-
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .forEach(repo => renderRepoDetails(repo, ul));
     });
   }
   const HYF_REPOS_URL =
