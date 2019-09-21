@@ -29,23 +29,25 @@
     return elem;
   }
 
+  function createLiElement(ul, element1, element2, options1, options2) {
+    const li = createAndAppend('li', ul, {class: 'list'});
+    return createAndAppend(element1, li, options1),
+      createAndAppend(element2, li, options2);
+  }
+
+  function dateChange(date){
+    return new Date(date).toLocaleString();
+  }
+
   function renderRepoDetails(repo, ul) {
-    const liRepository = createAndAppend('li', ul);
-    createAndAppend('b', liRepository, { text: ' Repository:  ' });
-    createAndAppend('a', liRepository, {
+    createLiElement(ul, 'h3', 'a', { text: ' Repository:  ' }, {
       text: repo.name,
       href: repo.html_url,
       target: '_blank',
     });
-    const liDescription = createAndAppend('li', ul);
-    createAndAppend('b', liDescription, { text: 'Description:  ' });
-    createAndAppend('span', liDescription, { text: repo.description });
-    const liForks = createAndAppend('li', ul);
-    createAndAppend('b', liForks, { text: 'Forks:  ' });
-    createAndAppend('span', liForks, { text: repo.forks });
-    const liUpdated = createAndAppend('li', ul);
-    createAndAppend('b', liUpdated, { text: 'Updated:  ' });
-    createAndAppend('span', liUpdated, { text: repo.updated_at });
+    createLiElement(ul, 'h3', 'span', { text: ' Description:  ' }, { text: repo.description });
+    createLiElement(ul, 'h3', 'span', { text: ' Forks:  ' }, { text: repo.forks });
+    createLiElement(ul, 'h3', 'span', { text: ' Updated:  ' }, { text: dateChange(repo.updated_at) });
   }
 
   function main(url) {
@@ -62,10 +64,11 @@
         });
         return;
       }
-      repos.sort((a, b) => a.name.localeCompare(b.name));
-      repos.forEach(repo => {
-        const ul = createAndAppend('ul', root);
-        renderRepoDetails(repo, ul);
+      repos
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .forEach(repo => {
+          const ul = createAndAppend('ul', root, {class: 'listContainer'});
+          renderRepoDetails(repo, ul);
       });
     });
   }
