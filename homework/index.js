@@ -23,7 +23,7 @@
       if (key === 'text') {
         elem.textContent = value;
       } else {
-        elem.setAttribute(key, value); // ?
+        elem.setAttribute(key, value);
       }
     });
     return elem;
@@ -33,40 +33,24 @@
     const timeFormat = new Date(dateTime);
     return timeFormat.toLocaleString();
   }
+  function makeTable(table, header, value) {
+    const tr = createAndAppend('tr', table, { class: 'tr' });
+    createAndAppend('th', tr, { text: header, class: 'keys' });
+    createAndAppend('td', tr, { text: value, class: 'values' });
+    return tr;
+  }
 
   function renderRepoDetails(repo, ul) {
-    const list = createAndAppend('li', ul, { class: 'topClass' });
-    const name = createAndAppend('li', list, {
-      text: 'Repository :',
-      class: 'keys',
-    });
-    const description = createAndAppend('li', list, {
-      text: 'Description :',
-      class: 'keys',
-    });
-    const fork = createAndAppend('li', list, {
-      text: 'Forks :',
-      class: 'keys',
-    });
-    const time = createAndAppend('li', list, {
-      text: 'Updated :',
-      class: 'keys',
+    const table = createAndAppend('table', ul, { class: 'table' });
+    const tr1 = makeTable(table, 'Repository', '');
+    createAndAppend('a', tr1.lastChild, {
+      href: repo.html_url,
+      text: repo.name,
     });
 
-    createAndAppend('a', name, {
-      text: repo.name,
-      href: repo.html_url,
-      class: 'values',
-    });
-    createAndAppend('a', description, {
-      text: repo.description,
-      class: 'values',
-    });
-    createAndAppend('a', fork, { text: repo.forks, class: 'values' });
-    createAndAppend('a', time, {
-      text: changeDateTimeFormat(repo.updated_at),
-      class: 'values',
-    });
+    makeTable(table, 'Description:', repo.description);
+    makeTable(table, 'Fork: ', repo.forks);
+    makeTable(table, 'Updated:', changeDateTimeFormat(repo.updated_at));
   }
 
   function sortAlpha(a, b) {
