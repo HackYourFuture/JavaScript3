@@ -1,22 +1,29 @@
 .root {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
-.rowFlex {
+.row-Flex {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
   border: 1px black solid;
   box-shadow: 3px 4px grey;
   margin: 5px;
 }
-.insideDiv {
+.inside-Div {
   margin: 10px 15px;
+}
+
+table {
+  text-align: left;
+}
+
+table tr th {
   font-weight: bold;
+  padding-right: 20px;
 }
-.insideDiv2 {
-  margin: 25px 15px;
-}
+
 .alert-error {
   color: red;
   background-color: pink;
@@ -28,7 +35,7 @@
   margin: 5px;
 }
 
-.hyfTitle {
+.hyf-Title {
   background-color: blue;
   color: #fff;
   height: 40px;

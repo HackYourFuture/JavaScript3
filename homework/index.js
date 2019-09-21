@@ -28,24 +28,25 @@
     });
     return elem;
   }
+  function renderRepoDetails(table, title, repoText, article, repoHref = '') {
+    const tr = createAndAppend('tr', table);
+    if (article === 'a') {
+      createAndAppend('th', tr, {
+        text: title,
+      });
 
-  function renderRepoDetails(repo, ul) {
-    createAndAppend('p', ul, { text: `Repository:` });
-    createAndAppend('p', ul, { text: `Description:` });
-    createAndAppend('p', ul, { text: `Forks:` });
-    createAndAppend('p', ul, { text: `Updated:` });
+      createAndAppend(article, tr, {
+        text: repoText,
+        href: repoHref,
+      });
+    } else {
+      createAndAppend('th', tr, {
+        text: title,
+      });
+      createAndAppend(article, tr, { text: repoText });
+    }
   }
 
-  function renderRepoDetailsTitle(repo, ul) {
-    createAndAppend('a', ul, {
-      text: repo.name,
-      href: repo.clone_url,
-      target: '_blank',
-    });
-    createAndAppend('p', ul, { text: repo.description });
-    createAndAppend('p', ul, { text: repo.forks });
-    createAndAppend('p', ul, { text: repo.updated_at });
-  }
   function sortName(a, b) {
     return a.name.localeCompare(b.name);
   }
@@ -55,7 +56,7 @@
       const root = document.getElementById('root');
       createAndAppend('div', root, {
         text: 'HYF Repositories',
-        class: 'hyfTitle',
+        class: 'hyf-Title',
       });
 
       if (err) {
@@ -65,18 +66,18 @@
         });
         return;
       }
-
-      repos.sort(sortName);
-      for (let i = 0; i < repos.length; i++) {
-        const div = createAndAppend('div', root);
-        const insideDiv = createAndAppend('div', div);
-        const insideDiv2 = createAndAppend('div', div);
-        div.classList.add('rowFlex');
-        insideDiv.classList.add('insideDiv');
-        insideDiv2.classList.add('insideDiv2');
-        renderRepoDetailsTitle(repos[i], insideDiv2);
-        renderRepoDetails(repos[i], insideDiv);
-      }
+      repos.sort(sortName).forEach(repo => {
+        const div = createAndAppend('div', root, {
+          class: 'row-Flex',
+        });
+        const insideDiv = createAndAppend('div', div, { class: 'inside-Div' });
+        const table = createAndAppend('table', insideDiv);
+        const date = new Date(repo.updated_at);
+        renderRepoDetails(table, 'Repository:', repo.name, 'a', repo.url);
+        renderRepoDetails(table, 'Description:', repo.description, 'td');
+        renderRepoDetails(table, 'Forks:', repo.forks, 'td');
+        renderRepoDetails(table, 'Updated:  ', date.toLocaleDateString(), 'td');
+      });
     });
   }
 
