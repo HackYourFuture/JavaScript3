@@ -29,20 +29,23 @@
     return elem;
   }
 
-  function addRepoDetailsInfo(listElm, title, value, link) {
+  function addRepoDetailsInfo(listElm, title, value) {
     const trElm = createAndAppend('tr', listElm);
     createAndAppend('td', trElm, {
       class: 'titles',
       text: title,
     });
-    const secondTdElm = createAndAppend('td', trElm, {
-      class: 'values',
-    });
 
-    if (link) {
-      createAndAppend('a', secondTdElm, { href: link, text: value });
+    if (value === null) {
+      createAndAppend('td', trElm, {
+        class: 'values',
+        text: 'No Information',
+      });
     } else {
-      secondTdElm.innerText = value;
+      createAndAppend('td', trElm, {
+        class: 'values',
+        text: value,
+      });
     }
 
     return trElm;
@@ -56,7 +59,11 @@
   function renderRepoDetails(repo, ul) {
     const li = createAndAppend('li', ul, { class: 'repos' });
     const table = createAndAppend('table', li);
-    addRepoDetailsInfo(table, 'Repository :', repo.name, repo.html_url);
+    const firstRow = addRepoDetailsInfo(table, 'Repository :', '');
+    createAndAppend('a', firstRow.lastChild, {
+      text: repo.name,
+      href: repo.html_url,
+    });
     addRepoDetailsInfo(table, 'Description :', repo.description);
     addRepoDetailsInfo(table, 'Forks :', repo.forks);
     addRepoDetailsInfo(table, 'Updated :', formatDate(repo.updated_at));
