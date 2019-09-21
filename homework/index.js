@@ -36,17 +36,10 @@
       text: title,
     });
 
-    if (value === null) {
-      createAndAppend('td', trElm, {
-        class: 'values',
-        text: 'No Information',
-      });
-    } else {
-      createAndAppend('td', trElm, {
-        class: 'values',
-        text: value,
-      });
-    }
+    createAndAppend('td', trElm, {
+      class: 'values',
+      text: value !== null ? value : 'No Information',
+    });
 
     return trElm;
   }
