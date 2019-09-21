@@ -7,19 +7,35 @@
 body{
   background-color: lightyellow;
   font-size: 1em;
+  width: 75%;
+  margin:auto;
 }
-h2 {
-  margin: 0 150px 0 190px;
-  padding: 50px;
+ul {
+  padding-left: 0px;
+}
+h1 {
+  padding: 40px 30px;
   background-color: blueviolet;
+  margin-bottom: -10px;
+  box-shadow: 5px 0px 3px 0px lightsalmon;
 }
-#item {
+
+.item {
   list-style: none;
-  margin: 10px 150px;
   padding: 20px;
+  margin: 10px 0px;
   background-color:lightgray;
+  box-shadow: 5px 0px 3px 0px lightsalmon;
 }
-.nameItem {
-  font-weight: bold;
+
+@media screen and (max-width: 600px) {
+  body {
+    padding: 0;
+    width: 95%;
+  }
+  .item {
+    padding: 10px;
+   }
+
 }
 
