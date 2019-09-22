@@ -29,30 +29,32 @@
     return elem;
   }
 
-  function renderRepoDetails(repo, div) {
-    createAndAppend('p', div, {
-      text: `Repository: Description: Forks:    Updated:`,
-      class: 'title1',
+  function renderRepoDetails(repo, table) {
+    const RepositoryTr = createAndAppend('tr', table);
+    createAndAppend('th', RepositoryTr, {
+      text: 'Repository:',
     });
-    const ul = createAndAppend('ul', div);
-    const repoName = createAndAppend('li', ul);
-    createAndAppend('a', repoName, {
+    const RepoNameTh = createAndAppend('td', RepositoryTr);
+    createAndAppend('a', RepoNameTh, {
       text: repo.name,
       href: repo.html_url,
       target: '_blank',
     });
 
-    createAndAppend('li', ul, {
-      text: repo.description,
-    });
+    function renderRepoTable(name, path) {
+      const tr = createAndAppend('tr', table);
+      createAndAppend('th', tr, {
+        text: name,
+      });
+      createAndAppend('td', tr, {
+        text: path,
+      });
+    }
 
-    createAndAppend('li', ul, {
-      text: repo.forks,
-    });
+    renderRepoTable('Description:', repo.description);
+    renderRepoTable('Forks:', repo.forks);
     const date = new Date(repo.updated_at).toLocaleString('en-US');
-    createAndAppend('li', ul, {
-      text: date,
-    });
+    renderRepoTable('Updated:', date);
   }
 
   function main(url) {
@@ -69,16 +71,17 @@
         text: 'HYF Repository',
         class: 'title',
       });
-      repos.sort((a, b) => {
-        return a.name.localeCompare(b.name);
-      });
 
-      repos.forEach(repo => {
-        const div = createAndAppend('div', root, {
-          class: 'repo-container',
+      repos
+        .sort((a, b) => {
+          return a.name.localeCompare(b.name);
+        })
+        .forEach(repo => {
+          const repoTable = createAndAppend('table', root, {
+            class: 'repo-container',
+          });
+          renderRepoDetails(repo, repoTable);
         });
-        renderRepoDetails(repo, div);
-      });
     });
   }
 

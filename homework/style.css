@@ -1,11 +1,7 @@
 #root {
-  width: 90%;
   display: table;
-  margin-left: auto;
-
+  padding: 20px 100px 20px 100px;
 }
-
-
 
 .alert-error {
   color: red;
@@ -16,30 +12,26 @@
   color: aliceblue;
   font-size: 20px;
   padding: 20px 20px 20px;
-  width: 75%;
-}
-
-li {
-  list-style: none;
-  padding-bottom: 8px;
 }
 
 .repo-container {
   float: left;
-  width: 80%;
+  width: 100%;
   border: 1px solid gray;
-
 }
 
-.title1 {
-  width: 100px;
-  float: left;
-  font-weight: bold;
+th {
+  width: 80px;
   line-height: 25px;
   padding-left: 20px;
-
 }
 
 a {
   text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  #root {
+    padding: 2px;
+  }
 }
