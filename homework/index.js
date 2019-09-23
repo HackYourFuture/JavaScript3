@@ -19,11 +19,11 @@
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
-    Object.entries(options).forEach(([key, value]) => {
+    Object.entries(options).forEach(([key, content]) => {
       if (key === 'text') {
-        elem.textContent = value;
+        elem.textContent = content;
       } else {
-        elem.setAttribute(key, value);
+        elem.setAttribute(key, content);
       }
     });
     return elem;
@@ -42,54 +42,25 @@
   }
 
   function renderRepoDetails(repo, ul) {
-    const grouping = createAndAppend('li', ul, { class: 'listItem' });
-    const name = createAndAppend('li', grouping, {
-      text: 'Repository name: ',
-      class: 'title',
-    });
-    const repoLang = createAndAppend('li', grouping, {
-      text: 'Repository language: ',
-      class: 'title',
-    });
-    const description = createAndAppend('li', grouping, {
-      text: 'Description: ',
-      class: 'title',
-    });
-    const forkCount = createAndAppend('li', grouping, {
-      text: 'Fork count: ',
-      class: 'title',
-    });
-    const createTime = createAndAppend('li', grouping, {
-      text: 'Created on: ',
-      class: 'title',
-    });
-    const updateTime = createAndAppend('li', grouping, {
-      text: 'Updated on: ',
-      class: 'title',
-    });
+    function createTable(table, heading, content) {
+      const row = createAndAppend('tr', table, { class: 'row' });
+      createAndAppend('th', row, { text: heading, class: 'heading' });
+      createAndAppend('td', row, { text: content, class: 'content' });
+      return row;
+    }
 
-    createAndAppend('a', name, {
-      text: repo.name,
+    const listItem = createAndAppend('li', ul, { class: 'listItem' });
+    const table = createAndAppend('table', listItem, { class: 'table' });
+    const rowTop = createTable(table, 'Repository:', '');
+    createAndAppend('a', rowTop.lastChild, {
       href: repo.html_url,
-      class: 'content',
+      text: repo.name,
     });
-    createAndAppend('span', repoLang, {
-      text: repo.language,
-      class: 'content',
-    });
-    createAndAppend('span', description, {
-      text: repo.description,
-      class: 'content',
-    });
-    createAndAppend('span', forkCount, { text: repo.forks, class: 'content' });
-    createAndAppend('span', createTime, {
-      text: changeDateFormat(repo.created_at),
-      class: 'content',
-    });
-    createAndAppend('span', updateTime, {
-      text: changeDateFormat(repo.updated_at),
-      class: 'content',
-    });
+    createTable(table, 'Repository:', repo.language);
+    createTable(table, 'Description:', repo.description);
+    createTable(table, 'Fork count: ', repo.forks);
+    createTable(table, 'Created on:', changeDateFormat(repo.created_at));
+    createTable(table, 'Updated on:', changeDateFormat(repo.updated_at));
   }
   function main(url) {
     fetchJSON(url, (err, repos) => {

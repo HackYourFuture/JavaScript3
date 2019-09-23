@@ -37,6 +37,7 @@ ul {
   box-shadow: 2px 2px 2px 2px rgba(128, 128, 128, 0.733);
   font-family: monospace;
   font-size: 15px;
+  /* line-height: 15px; */
 }
 
 .title {
@@ -45,11 +46,24 @@ ul {
 
 .content {
   font-weight: normal;
+  padding-left: 10px;
 }
 
 @media only screen and (min-width: 600px) and (max-width: 1200px) {
   body {
-    width: 90vw;
+    max-width: 50vw;
+    margin-top: 5px;
+    margin-left: 5vw;
+    justify-content: center;
+  }
+  .listItem {
+    padding: 5px;
+    font-size: 2.5vw;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  body {
+    max-width: 90vw;
     margin-top: 5px;
     margin-left: 5vw;
     align-items: center;
