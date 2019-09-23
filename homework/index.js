@@ -28,48 +28,43 @@
     });
     return elem;
   }
+
+  // 1- create function to add row
+  function createRow(table, label, content) {
+    const row = createAndAppend('tr', table);
+    createAndAppend('th', row, { text: label });
+    createAndAppend('td', row, { text: content });
+    return row;
+  }
+
+  // 2-  append details of repositories to list
   function renderRepoDetails(repo, ul) {
     const li = createAndAppend('li', ul, { class: 'item' });
     const table = createAndAppend('table', li);
-
-    // add Repository name
-    const row1 = createAndAppend('tr', table);
-    const repoName = createAndAppend('th', row1);
-    repoName.innerText = 'Repository:';
-    const repoNameContent = createAndAppend('td', row1);
-    createAndAppend('a', repoNameContent, {
+    // 2-1 add repository name
+    const repoName = createRow(table, 'Repository:');
+    createAndAppend('a', repoName.lastChild, {
       href: repo.html_url,
       text: repo.name,
+      target: '_blank',
     });
-
-    // add description
-    const row2 = createAndAppend('tr', table);
-    const repoDescription = createAndAppend('th', row2);
-    repoDescription.innerText = 'Description:';
-    const repoDescriptionContent = createAndAppend('td', row2);
+    // 2-2 add description
     if (repo.description) {
-      repoDescriptionContent.innerText = repo.description;
+      createRow(table, 'Description:', repo.description);
     } else {
-      repoDescriptionContent.innerText = 'N/A';
+      createRow(table, 'Description:', 'N/A');
     }
-
-    // add Forks
-    const row3 = createAndAppend('tr', table);
-    const repoForks = createAndAppend('th', row3);
-    repoForks.innerText = 'Forks:';
-    const repoForksContent = createAndAppend('td', row3);
-    repoForksContent.innerText = repo.forks_count;
-
-    // add updated
-    const row4 = createAndAppend('tr', table);
-    const repoUpdate = createAndAppend('th', row4);
-    repoUpdate.innerText = 'Updated:';
-    const repoUpdateContent = createAndAppend('td', row4);
-    repoUpdateContent.innerText = new Date(repo.updated_at).toLocaleString();
+    // 2-3 add Forks
+    createRow(table, 'Forks:', repo.forks);
+    // 2-4 add updated
+    createRow(table, 'Updated:', new Date(repo.updated_at).toLocaleString());
   }
+
+  // 3- Create function to sort the repositories
   function sorting(part1, part2) {
     return part1.name.localeCompare(part2.name);
   }
+
   function main(url) {
     fetchJSON(url, (err, repos) => {
       const root = document.getElementById('root');
@@ -83,7 +78,6 @@
         return;
       }
       const ul = createAndAppend('ul', root);
-
       repos.sort(sorting).forEach(repo => renderRepoDetails(repo, ul));
     });
   }
