@@ -3,16 +3,15 @@
   flex-direction: column;
   width: 100%;
 }
-.row-Flex {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
+.li-root {
   border: 1px black solid;
   box-shadow: 3px 4px grey;
   margin: 5px;
 }
-.inside-Div {
-  margin: 10px 15px;
+.ul-root {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 table {
@@ -35,7 +34,7 @@ table tr th {
   margin: 5px;
 }
 
-.hyf-Title {
+.hyf-title {
   background-color: blue;
   color: #fff;
   height: 40px;

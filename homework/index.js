@@ -54,9 +54,9 @@
   function main(url) {
     fetchJSON(url, (err, repos) => {
       const root = document.getElementById('root');
-      createAndAppend('div', root, {
+      createAndAppend('header', root, {
         text: 'HYF Repositories',
-        class: 'hyf-Title',
+        class: 'hyf-title',
       });
 
       if (err) {
@@ -66,12 +66,12 @@
         });
         return;
       }
+      const ul = createAndAppend('ul', root, {
+        class: 'ul-root',
+      });
       repos.sort(sortName).forEach(repo => {
-        const div = createAndAppend('div', root, {
-          class: 'row-Flex',
-        });
-        const insideDiv = createAndAppend('div', div, { class: 'inside-Div' });
-        const table = createAndAppend('table', insideDiv);
+        const li = createAndAppend('li', ul, { class: 'li-root' });
+        const table = createAndAppend('table', li);
         const date = new Date(repo.updated_at);
         renderRepoDetails(table, 'Repository:', repo.name, 'a', repo.url);
         renderRepoDetails(table, 'Description:', repo.description, 'td');
