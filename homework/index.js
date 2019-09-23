@@ -42,7 +42,7 @@
     const li = createAndAppend('li', ul, { class: 'item' });
     const table = createAndAppend('table', li);
     // 2-1 add repository name
-    const repoName = createRow(table, 'Repository:');
+    const repoName = createRow(table, 'Repository:', '');
     createAndAppend('a', repoName.lastChild, {
       href: repo.html_url,
       text: repo.name,
