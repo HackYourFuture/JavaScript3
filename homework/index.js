@@ -1,19 +1,21 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status <= 299) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status <= 299) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -73,19 +75,19 @@
   function main(url) {
     const root = document.getElementById('root');
     createAndAppend('div', root, { text: 'HYF Repositories', class: 'header' });
-    fetchJSON(url, (err, repos) => {
-      if (err) {
+    fetchJSON(url)
+      .then(repositoryInfos => {
+        const ul = createAndAppend('ul', root, { class: 'container' });
+        repositoryInfos
+          .sort(sortRepositoriesByNameAscending)
+          .forEach(repo => renderRepoDetails(repo, ul));
+      })
+      .catch(error => {
         createAndAppend('div', root, {
-          text: err.message,
+          text: error.message,
           class: 'alert-error',
         });
-        return;
-      }
-      const ul = createAndAppend('ul', root, { class: 'container' });
-      repos
-        .sort(sortRepositoriesByNameAscending)
-        .forEach(repo => renderRepoDetails(repo, ul));
-    });
+      });
   }
 
   const HYF_REPOS_URL =
