@@ -3,23 +3,23 @@
   font-family: Roboto;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .alert-error {
   color: #ffffff;
   background-color: #b00020;
-  width: 70%;
+  width: 100%;
   padding-top: 30px;
   padding-bottom: 30px;
   padding-left: 25px;
   margin-top: 10px;
   border-radius: 3px;
   font-weight: bold;
-}
-
-#root {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 .main-header {
@@ -32,11 +32,35 @@
   padding-left: 25px;
 }
 
-ul {
-  list-style: none;
-  padding-left: 0px;
-  margin-top: 5px;
+#main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   width: 70%;
+}
+
+section {
+  width: 49%;
+  margin-top: 5px;
+}
+
+.header-text {
+  float: left;
+}
+
+.repo-select {
+  margin-left: 20px;
+  width: 200px;
+  border-radius: 3px;
+}
+
+.repo-select:focus {
+  border-color: #ffffff;
+}
+
+.contributions-section {
+  box-shadow: 0px 0px 4px #7e57c2;
+  border-radius: 3px;
 }
 
 table {
@@ -60,8 +84,54 @@ table:hover {
   width: 12%;
 }
 
+ul {
+  list-style: none;
+  padding-left: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+ul p {
+  padding-left: 10px;
+  color: #344955;
+}
+.list-item {
+  display: flex;
+  width: 100%;
+  border-bottom: 1px solid #eeeeee;
+  align-items: center;
+}
+
+.list-item:hover {
+  box-shadow: 0px 0px 8px #311b92;
+}
+
+.contributor-img {
+  width: 15%;
+  border-radius: 4px;
+  margin: 10px 30px 10px 10px;
+}
+
+.list-item a {
+  text-decoration: none;
+  width: 75%;
+}
+
+.contributions-div {
+  background-color: #03dac5;
+  border-radius: 4px;
+  color: #ffffff;
+  width: 10%;
+  text-align: center;
+  margin-right: 10px;
+}
+
 @media screen and (min-width: 600px) and (max-width: 1200px) {
   .main-header {
+    width: 95%;
+  }
+
+  #main {
     width: 95%;
   }
 
@@ -71,10 +141,6 @@ table:hover {
 
   table {
     padding-left: 10px;
-  }
-
-  .alert-error {
-    width: 95%;
   }
 }
 
@@ -83,15 +149,31 @@ table:hover {
     width: 100%;
   }
 
+  .header-text {
+    float: none;
+    text-align: center;
+    width: calc(100% - 25px);
+  }
+
+  .repo-select {
+    margin-left: 0px;
+    margin-top: 10px;
+    width: calc(100% - 25px);
+  }
+  #main {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  section {
+    width: 100%;
+  }
+
   ul {
     width: 100%;
   }
 
   table {
     padding-left: 10px;
-  }
-
-  .alert-error {
-    width: 100%;
   }
 }
