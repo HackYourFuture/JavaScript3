@@ -33,7 +33,6 @@
 
   function createErrorMessage(error) {
     const mainSection = document.getElementById('main');
-    console.log(mainSection);
     mainSection.innerHTML = '';
     createAndAppend('div', mainSection, {
       text: error.message,
@@ -56,20 +55,15 @@
   function renderRepoDetails(repo, section) {
     section.innerHTML = '';
     const table = createAndAppend('table', section);
-    let description;
-    if (repo.description) {
-      description = repo.description;
-    } else {
-      description = 'No description';
-    }
     const firstRow = createTableRow(table, 'Repository:');
     createAndAppend('a', firstRow.lastChild, {
       text: repo.name,
       href: repo.html_url,
       target: '_blank',
     });
-
-    createTableRow(table, 'Description:', { text: description });
+    createTableRow(table, 'Description:', {
+      text: repo.description ? repo.description : 'No description',
+    });
     createTableRow(table, 'Forks:', { text: repo.forks });
     createTableRow(table, 'Updated', { text: formatDate(repo.updated_at) });
   }
@@ -93,13 +87,13 @@
   }
 
   function renderContribution(contributorsUrl, section) {
-    section.innerHTML = '';
-    const ul = createAndAppend('ul', section);
-    createAndAppend('p', ul, { text: 'Contributions' });
-
     const contributorsPromise = fetchJSON(contributorsUrl);
     contributorsPromise
       .then(data => {
+        section.innerHTML = '';
+        const ul = createAndAppend('ul', section);
+        const li = createAndAppend('li', ul);
+        createAndAppend('p', li, { text: 'Contributions' });
         data.forEach(contributor => createListItem(ul, contributor));
       })
       .catch(err => {
@@ -107,44 +101,23 @@
       });
   }
 
-  function selectRepository(select, mainDiv, input, initialSelectValue = '') {
-    return function() {
-      mainDiv.innerHTML = '';
-      const basicInfoSec = createAndAppend('section', mainDiv);
-      const contributionsSec = createAndAppend('section', mainDiv, {
-        class: 'contributions-section',
-      });
-      const selectedRepoIndex =
-        select.options[select.options.selectedIndex].value;
+  function selectRepository(select, mainDiv, repos) {
+    mainDiv.innerHTML = '';
+    const basicInfoSec = createAndAppend('section', mainDiv);
+    const contributionsSec = createAndAppend('section', mainDiv, {
+      class: 'contributions-section',
+    });
+    const repo = repos[select.value];
 
-      if (initialSelectValue === 0) {
-        renderRepoDetails(input, basicInfoSec);
-        renderContribution(input.contributors_url, contributionsSec);
-      } else {
-        renderRepoDetails(input[selectedRepoIndex], basicInfoSec);
-        renderContribution(
-          input[selectedRepoIndex].contributors_url,
-          contributionsSec,
-        );
-      }
-    };
+    renderRepoDetails(repo, basicInfoSec);
+    renderContribution(repo.contributors_url, contributionsSec);
   }
 
-  function renderRepoSelect(repo, optionValue, select, mainDiv) {
-    const repoItem = createAndAppend('option', select, {
+  function renderRepoSelect(repo, optionValue, select) {
+    createAndAppend('option', select, {
       text: repo.name,
       value: optionValue,
     });
-    if (optionValue === 0) {
-      repoItem.selected = true;
-      const selectFirstOption = selectRepository(
-        select,
-        mainDiv,
-        repo,
-        optionValue,
-      );
-      selectFirstOption();
-    }
   }
 
   function main(url) {
@@ -168,13 +141,11 @@
           .sort((firstRepo, secondRepo) => {
             return firstRepo.name.localeCompare(secondRepo.name);
           })
-          .forEach((repo, index) =>
-            renderRepoSelect(repo, index, select, mainSection),
-          );
-        select.addEventListener(
-          'change',
+          .forEach((repo, index) => renderRepoSelect(repo, index, select));
+        select.addEventListener('change', () =>
           selectRepository(select, mainSection, repos),
         );
+        selectRepository(select, mainSection, repos);
       })
       .catch(err => {
         createErrorMessage(err);
