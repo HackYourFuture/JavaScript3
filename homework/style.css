@@ -1,6 +1,7 @@
 .alert-error {
   color: rgb(255, 255, 255);
   background-color: #adadad;
+  margin-top: -41px;
   padding: 30px;
   font-weight: bolder;
 }
@@ -21,43 +22,132 @@ body {
   background-color: #e9e9e7;
 }
 
-a {
-  text-decoration: none;
-  color: #517fa4;
-}
-
-td {
-  padding-left: 10px;
-}
-
 #root {
   display: grid;
   grid-template-columns: 1fr;
 }
+
 header {
   background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
   height: 150px;
   margin-bottom: 10px;
 }
 
-h1 {
+h2 {
   color: #ffffff;
-  padding: 45px 0 0 20px;
+  padding: 45px 0 0 25px;
 }
-.repo-list {
+
+#select-btn {
+  width: 240px;
+  height: 30px;
+  margin: 10px 0 0 25px;
+  padding: 7px;
+  font-size: 12px;
+  line-height: 1;
+  border: 0;
+  border-radius: 2px;
+  background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png)
+    no-repeat right #ffffff;
+  -webkit-appearance: none;
+  background-position-x: 216px;
+}
+
+#main-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+}
+
+#repos-container {
+  text-align: left;
   border-bottom: 1px solid #adadad;
   background-color: #ffffff;
-  margin-bottom: 10px;
   padding: 20px;
+  margin-bottom: 10px;
+  max-height: 170px;
+}
+
+a {
+  text-decoration: none;
+  color: #517fa4;
+}
+
+tr {
+  vertical-align: top;
+  width: 100%;
+  min-width: 300px;
+  font-size: 14px;
+}
+
+td {
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+img {
+  width: 60px;
+  border-radius: 5px;
+}
+
+#contributors-container {
+  border-bottom: 1px solid #adadad;
+  background-color: #ffffff;
+  padding: 20px 20px 0 20px;
+  margin-bottom: 10px;
+}
+
+#contributors-container li {
   list-style: none;
 }
 
-.repo-list tr {
-  vertical-align: top;
+#contributors-title {
+  font-size: 14px;
+  font-weight: bolder;
+  padding: 0 0 15px 0;
 }
 
-@media only screen and (max-width: 600px) {
+.contributor-details {
+  width: 100%;
+}
+
+li {
+  border-bottom: 1px solid #d3d3d3;
+  margin-bottom: 10px;
+}
+
+li:nth-last-child(1) {
+  border-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+  margin-bottom: 10px;
+}
+
+.contributions-count {
+  text-align: right;
+  color: #000000;
+  margin-top: 43px;
+}
+
+.user-name {
+  margin-top: 43px;
+}
+
+@media only screen and (max-width: 768px) {
   body {
     width: 100%;
+  }
+
+  #main-container {
+    grid-template-columns: 1fr;
+    grid-gap: 1px;
+  }
+
+  #table-container {
+    margin-bottom: 10px;
   }
 }

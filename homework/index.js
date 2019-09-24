@@ -1,19 +1,21 @@
 'use strict';
 
 {
-  function fetchJSON(url, cb) {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status <= 299) {
-        cb(null, xhr.response);
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+  function fetchJSON(url) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url);
+      xhr.responseType = 'json';
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status <= 299) {
+          resolve(xhr.response);
+        } else {
+          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+        }
+      };
+      xhr.onerror = () => reject(new Error('Network request failed'));
+      xhr.send();
+    });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -29,21 +31,16 @@
     return elem;
   }
 
-  function sortReposByName(a, b) {
-    return a.name.localeCompare(b.name);
-  }
-
   function addRow(table, labelText, value) {
     const tr = createAndAppend('tr', table);
-    createAndAppend('th', tr, { text: `${labelText}: ` });
+    createAndAppend('th', tr, { text: `${labelText}:` });
     createAndAppend('td', tr, { text: value });
     return tr;
   }
 
-  function renderRepoDetails(repo, ul) {
-    const li = createAndAppend('li', ul, { class: 'repo-list' });
-    const table = createAndAppend('table', li);
-
+  function renderRepoDetails(repo, div) {
+    div.innerHTML = ''; // to clear result of the previous selection
+    const table = createAndAppend('table', div, { class: 'repos-table' });
     const firstRow = addRow(table, 'Name', '');
     createAndAppend('a', firstRow.lastChild, {
       text: repo.name,
@@ -54,27 +51,97 @@
     addRow(table, 'Forks', repo.forks);
     addRow(
       table,
-      'Last update',
-      new Date(repo.updated_at).toLocaleString('en-NL'),
+      'Updated at',
+      new Date(repo.updated_at).toLocaleString('en-GB', { timeZone: 'UTC' }),
     );
   }
 
-  function main(url) {
-    fetchJSON(url, (err, repos) => {
-      const root = document.getElementById('root');
-      const header = createAndAppend('header', root, { id: 'header' });
-      createAndAppend('h1', header, { text: 'HYF Repositories' });
+  /* must declare variable: root, before the next function. */
+  const root = document.getElementById('root');
 
-      if (err) {
+  function renderContributors(repo, ul) {
+    fetchJSON(repo.contributors_url)
+      .then(contributors => {
+        ul.innerHTML = '';
+        createAndAppend('p', ul, {
+          text: `Contributors:`,
+          id: 'contributors-title',
+        });
+        contributors.forEach(contributor => {
+          const li = createAndAppend('li', ul);
+          const table = createAndAppend('table', li, {
+            class: 'contributor-details',
+          });
+          const a = createAndAppend('a', table, {
+            href: contributor.html_url,
+            target: '_blank',
+          });
+          const tableRow = createAndAppend('tr', a, { class: 'table-row' });
+          createAndAppend('img', tableRow, { src: contributor.avatar_url });
+          createAndAppend('td', tableRow, {
+            text: contributor.login,
+            class: 'user-name',
+          });
+          createAndAppend('td', tableRow, {
+            text: contributor.contributions,
+            class: 'contributions-count',
+          });
+        });
+      })
+      .catch(err => {
         createAndAppend('div', root, {
           text: err.message,
           class: 'alert-error',
         });
-        return;
-      }
-      const ul = createAndAppend('ul', root, { class: 'repo-containers' });
-      repos.sort(sortReposByName).forEach(repo => renderRepoDetails(repo, ul));
+      });
+  }
+
+  function createAndSortElements(repos, select) {
+    repos
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .forEach((repo, index) => {
+        createAndAppend('option', select, { text: repo.name, value: index });
+      });
+  }
+
+  function main(url) {
+    const header = createAndAppend('header', root);
+    createAndAppend('h2', header, { text: 'HYF Repositories' });
+    const select = createAndAppend('select', header, {
+      id: 'select-btn',
+      title: 'Select Repository',
     });
+    const mainContainer = createAndAppend('div', root, {
+      id: `main-container`,
+    });
+    const reposContainer = createAndAppend('section', mainContainer, {
+      id: 'repos-container',
+    });
+    const contributorsContainer = createAndAppend('section', mainContainer, {
+      id: 'contributors-container',
+    });
+    const ul = createAndAppend('ul', contributorsContainer, {
+      id: 'list-contributions',
+    });
+
+    fetchJSON(url)
+      .then(repos => {
+        createAndSortElements(repos, select);
+        renderRepoDetails(repos[0], reposContainer);
+        renderContributors(repos[0], ul);
+
+        select.addEventListener('change', () => {
+          const repo = repos[select.value];
+          renderRepoDetails(repo, reposContainer);
+          renderContributors(repo, ul);
+        });
+      })
+      .catch(err => {
+        createAndAppend('div', root, {
+          text: err.message,
+          class: 'alert-error',
+        });
+      });
   }
 
   const HYF_REPOS_URL =
