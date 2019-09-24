@@ -55,6 +55,29 @@
     return firstRepo.name.localeCompare(secondRepo.name);
   }
 
+  function renderRepositoryNames(repositories, select) {
+    repositories.forEach(repository => {
+      console.log(repository);
+      createAndAppend('option', select, {
+        text: repository.name,
+        value: repository.name,
+      });
+    });
+  }
+
+  function generateRequiredInformationOfRepositories(repositoryInfos) {
+    return repositoryInfos
+      .sort(sortRepositoriesByNameAscending)
+      .map(repositoryInfo => ({
+        name: repositoryInfo.name,
+        url: repositoryInfo.html_url,
+        description: repositoryInfo.description,
+        forks: repositoryInfo.forks,
+        lastUpdateTime: getDateTimeText(repositoryInfo.updated_at),
+        contributorsUrl: repositoryInfo.contributors_url,
+      }));
+  }
+
   function renderRepoDetails(repo, ul) {
     const repoListItem = createAndAppend('li', ul, {
       class: 'repository-item',
@@ -72,15 +95,25 @@
     );
   }
 
+  function renderHeaderAndGetSelect(title, parent) {
+    const header = createAndAppend('header', parent);
+    createAndAppend('span', header, {
+      text: title,
+      class: 'header-title',
+    });
+    return createAndAppend('select', header);
+  }
+
   function main(url) {
     const root = document.getElementById('root');
-    createAndAppend('div', root, { text: 'HYF Repositories', class: 'header' });
+    const select = renderHeaderAndGetSelect('HYF Repositories', root);
     fetchJSON(url)
-      .then(repositoryInfos => {
+      .then(repos => {
         const ul = createAndAppend('ul', root, { class: 'container' });
-        repositoryInfos
-          .sort(sortRepositoriesByNameAscending)
-          .forEach(repo => renderRepoDetails(repo, ul));
+        const repositoryInfos = generateRequiredInformationOfRepositories(
+          repos,
+        );
+        renderRepositoryNames(repositoryInfos, select);
       })
       .catch(error => {
         createAndAppend('div', root, {

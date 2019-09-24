@@ -7,9 +7,13 @@
   font-size: 1rem;
 }
 
-.header {
-  padding: 40px 20px;
+header {
   background-color: #151c74;
+  padding: 40px 20px;
+}
+
+.header-title {
+  padding-right: 20px;
   color: white;
   font-size: 1.25rem;
 }
