@@ -29,21 +29,19 @@
     return elem;
   }
 
-  function appendRepoDetail(header, description, listItem, link) {
-    const repoDetailElm = createAndAppend('div', listItem, {
-      class: 'repository-item-detail',
-    });
-    createAndAppend('h4', repoDetailElm, { text: header });
-    const pElm = createAndAppend('p', repoDetailElm);
+  function appendRepoDetail(header, description, parentTable, link) {
+    const repoDetailRow = createAndAppend('tr', parentTable);
+    createAndAppend('th', repoDetailRow, { text: header });
+    const descriptionElm = createAndAppend('td', repoDetailRow);
     if (link) {
-      createAndAppend('a', pElm, {
+      createAndAppend('a', descriptionElm, {
         href: link,
         text: description,
       });
     } else {
-      pElm.textContent = description;
+      descriptionElm.textContent = description;
     }
-    return repoDetailElm;
+    return repoDetailRow;
   }
 
   function getDateTimeText(dateTimeStr) {
@@ -56,11 +54,20 @@
   }
 
   function renderRepoDetails(repo, ul) {
-    const repoItem = createAndAppend('li', ul, { class: 'repository-item' });
-    appendRepoDetail('Repository:', repo.name, repoItem, repo.html_url);
-    appendRepoDetail('Description:', repo.description, repoItem);
-    appendRepoDetail('Forks:', repo.forks, repoItem);
-    appendRepoDetail('Updated:', getDateTimeText(repo.updated_at), repoItem);
+    const repoListItem = createAndAppend('li', ul, {
+      class: 'repository-item',
+    });
+    const repoDetailsTable = createAndAppend('table', repoListItem, {
+      class: 'repository-item-table',
+    });
+    appendRepoDetail('Repository:', repo.name, repoDetailsTable, repo.html_url);
+    appendRepoDetail('Description:', repo.description, repoDetailsTable);
+    appendRepoDetail('Forks:', repo.forks, repoDetailsTable);
+    appendRepoDetail(
+      'Updated:',
+      getDateTimeText(repo.updated_at),
+      repoDetailsTable,
+    );
   }
 
   function main(url) {
