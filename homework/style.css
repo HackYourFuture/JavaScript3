@@ -14,15 +14,28 @@ header {
   background: rgb(25, 25, 25);
   border: black solid 3px;
   border-radius: 10px;
-  max-width: 700px;
+  max-width: 1100px;
   position: relative;
   margin: auto;
 }
+select {
+  margin: 10px;
+}
+
+#flexContainer {
+  display: flex;
+  flex-wrap: wrap;
+  border: solid black 2px;
+  max-width: 1100px;
+  position: relative;
+  margin: auto;
+  align-items: flex-start;
+}
 
 .container {
-  margin-left: 4px;
-  padding: 8px;
-  padding-left: 12px;
+  margin: 2px;
+  padding: 6px;
+  padding-left: 8px;
   background: rgb(40, 40, 40);
   border-left: rgb(60, 60, 60) solid 2px;
   border-top: rgb(100, 100, 100) solid 2px;
@@ -30,14 +43,13 @@ header {
   border-bottom: black solid 3px;
   border-radius: 5px;
   max-width: 700px;
-  align-content: center;
-  position: relative;
-  margin: auto;
+  min-width: 300px;
+  flex: 1;
+  vertical-align: top;
 }
 table {
   width: 100%;
   margin-left: 6px;
-  padding-left: 10px;
 }
 
 tr:hover {
@@ -58,4 +70,17 @@ a {
 }
 a:visited {
   color: lightgreen;
+}
+.contributorImg {
+  width: 60px;
+}
+.contributeNumber {
+  background: rgb(50, 50, 50);
+  border-left: rgb(60, 60, 60) solid 2px;
+  border-top: rgb(100, 100, 100) solid 2px;
+  border-right: rgb(20, 20, 20) solid 3px;
+  border-bottom: black solid 3px;
+  border-radius: 5px;
+  position: relative;
+  text-align: right;
 }
