@@ -120,7 +120,7 @@
     const contributorsContainer = createAndAppend('section', flexContainer, {
       class: 'container',
     });
-    createAndAppend('h6', contributorsContainer, { text: 'Contributions' });
+    createAndAppend('h5', contributorsContainer, { text: 'Contributions' });
     // eslint-disable-next-line func-names
     repos
       .sort((a, b) => a.name.localeCompare(b.name))
