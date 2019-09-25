@@ -61,10 +61,10 @@
   }
 
   function renderRepositoryNames(repositories, select) {
-    repositories.forEach(repository => {
+    repositories.forEach((repository, index) => {
       createAndAppend('option', select, {
         text: repository.name,
-        value: repository.name,
+        value: index,
       });
     });
   }
@@ -141,12 +141,6 @@
     renderSubSection(REPOSITORY_CONTRIBUTORS_SECTION_ID, mainSection);
   }
 
-  function getSelectedRepositoryByName(repositories, name) {
-    return repositories.filter(
-      repositoryInfo => repositoryInfo.name === name,
-    )[0];
-  }
-
   function getUnorderedListAsEmpty(sectionId) {
     const section = document.getElementById(sectionId);
     const ul = section.getElementsByTagName('ul')[0];
@@ -177,14 +171,6 @@
     renderRepositoryContributorsSection(repository);
   }
 
-  function renderSelectedRepository(repositoryName, allRepositories) {
-    const selectedRepository = getSelectedRepositoryByName(
-      allRepositories,
-      repositoryName,
-    );
-    renderRepository(selectedRepository);
-  }
-
   function main(url) {
     const root = document.getElementById('root');
     const select = renderHeaderSection('HYF Repositories', root);
@@ -194,9 +180,9 @@
         renderRepositoryNames(repositoryInfos, select);
         renderMainSectionWithSubSections(root);
         select.addEventListener('change', changeEvent => {
-          renderSelectedRepository(changeEvent.target.value, repositoryInfos);
+          renderRepository(repositoryInfos[changeEvent.target.value]);
         });
-        renderSelectedRepository(select.value, repositoryInfos); // For the first load
+        renderRepository(repositoryInfos[select.value]); // For the first load
       })
       .catch(error => {
         createAndAppend('div', root, {
