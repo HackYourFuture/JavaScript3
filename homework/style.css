@@ -25,13 +25,35 @@ body {
 }
 
 
-.Header{
+header{
   background-color: #08176e;
   color: #fffbe6;
   border: 5px;
   padding: 20px;
   margin: 10px;
   font-size: 20px;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.Header {
+  color: #fffbe6;
+  font-size: 0.9rem;
+  text-align: center;
+  float: left;
+}
+
+select {
+  position: relative;
+  font-size: 0.8rem;
+  width: 32%;
+  line-height: 1.3;
+  height: 2rem;
+  padding: 3px;
+  max-width: 50%;
+  margin-left: 1rem;
+  cursor: pointer;
+  outline: none;
 }
 
 table {
@@ -61,11 +83,60 @@ td {
   padding-left: 5px;
 }
 
+.main-container{
+  display:flex;
+  flex-flow: row nowrap;
+}
 
+.title{
+  text-align: center;
+  color: #356859;
+}
+.contributors-list {
+  list-style: none;
+  border-bottom: 1px solid #253964;
+  
+}
+.contributors-container{
+  margin: 1% 5% 1% 5%;
+}
+.contributor-item{
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-top: 1px solid #08176e;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 300ms ease-in-out;
+}
+.contributor-item:hover {
+  background-color: #354568;
+}
+.image{
+  width: 20%;
+}
+.contribution-count{
+  border:1px solid #2a2b2c;
+  border-radius: 5px;
+  width: 10%;
+  text-align: center;
+  color:white;
+  background-color: grey;
+  line-height: 0.9rem;
+}
+.contributor-name{
+  padding-right: 20px;
+}
 
-@media (max-width: 600px) {
+@media (max-width: 767px) {
  body{
   font-size: 13px;
 }
-  
-}
+  .main-container{
+    flex-flow: column nowrap;
+    align-items: stretch;
+  }
+  select{
+    width: 50%;
+  }
+ }
