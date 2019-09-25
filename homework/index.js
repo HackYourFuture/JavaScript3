@@ -1,6 +1,8 @@
 'use strict';
 
 {
+  const HYF_REPOS_URL =
+    'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   const REPOSITORY_DETAIL_SECTION_ID = 'repository-detail-container';
   const REPOSITORY_CONTRIBUTORS_SECTION_ID =
     'repository-contributors-container';
@@ -69,7 +71,7 @@
     });
   }
 
-  function makeRequiredInformationOfRepositories(repositoryInfos) {
+  function sortAndMapRepositories(repositoryInfos) {
     return repositoryInfos
       .sort(sortRepositoriesByNameAscending)
       .map(repositoryInfo => ({
@@ -158,6 +160,7 @@
   function renderRepositoryContributorsSection(repository) {
     const ul = getUnorderedListAsEmpty(REPOSITORY_CONTRIBUTORS_SECTION_ID);
     fetchJSON(repository.contributorsUrl).then(contributors => {
+      // In case of non contributors situation
       if (contributors) {
         contributors.forEach((contributor, index) => {
           renderContributorDetails(contributor, ul, index);
@@ -176,7 +179,7 @@
     const select = renderHeaderSection('HYF Repositories', root);
     fetchJSON(url)
       .then(repos => {
-        const repositoryInfos = makeRequiredInformationOfRepositories(repos);
+        const repositoryInfos = sortAndMapRepositories(repos);
         renderRepositoryNames(repositoryInfos, select);
         renderMainSectionWithSubSections(root);
         select.addEventListener('change', changeEvent => {
@@ -192,7 +195,5 @@
       });
   }
 
-  const HYF_REPOS_URL =
-    'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => main(HYF_REPOS_URL);
 }
