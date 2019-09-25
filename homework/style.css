@@ -1,5 +1,5 @@
 .alert-error {
-  color: rgb(255, 255, 255);
+  color: #ffffff;
   background-color: #adadad;
   margin-top: -41px;
   padding: 30px;
@@ -65,7 +65,7 @@ h2 {
   background-color: #ffffff;
   padding: 20px;
   margin-bottom: 10px;
-  max-height: 170px;
+  max-height: 175px;
 }
 
 a {
@@ -130,11 +130,11 @@ li:nth-last-child(1) {
 .contributions-count {
   text-align: right;
   color: #000000;
-  margin-top: 43px;
+  margin: auto 0;
 }
 
 .user-name {
-  margin-top: 43px;
+  margin: auto 0;
 }
 
 @media only screen and (max-width: 768px) {

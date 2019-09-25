@@ -39,7 +39,7 @@
   }
 
   function renderRepoDetails(repo, div) {
-    div.innerHTML = ''; // to clear result of the previous selection
+    div.innerHTML = '';
     const table = createAndAppend('table', div, { class: 'repos-table' });
     const firstRow = addRow(table, 'Name', '');
     createAndAppend('a', firstRow.lastChild, {
@@ -56,32 +56,35 @@
     );
   }
 
-  /* must declare variable: root, before the next function. */
   const root = document.getElementById('root');
 
   function renderContributors(repo, ul) {
     fetchJSON(repo.contributors_url)
       .then(contributors => {
         ul.innerHTML = '';
-        createAndAppend('p', ul, {
-          text: `Contributors:`,
-          id: 'contributors-title',
-        });
+
         contributors.forEach(contributor => {
           const li = createAndAppend('li', ul);
           const table = createAndAppend('table', li, {
             class: 'contributor-details',
           });
-          const a = createAndAppend('a', table, {
+          const tableBody = createAndAppend('tbody', table);
+          const tableRow = createAndAppend('tr', tableBody, {
+            class: 'table-row',
+          });
+
+          createAndAppend('img', tableRow, { src: contributor.avatar_url });
+
+          const contributorName = createAndAppend('td', tableRow, {
+            class: 'user-name',
+          });
+          const contributorNameP = createAndAppend('p', contributorName);
+          createAndAppend('a', contributorNameP, {
+            text: contributor.login,
             href: contributor.html_url,
             target: '_blank',
           });
-          const tableRow = createAndAppend('tr', a, { class: 'table-row' });
-          createAndAppend('img', tableRow, { src: contributor.avatar_url });
-          createAndAppend('td', tableRow, {
-            text: contributor.login,
-            class: 'user-name',
-          });
+
           createAndAppend('td', tableRow, {
             text: contributor.contributions,
             class: 'contributions-count',
@@ -96,7 +99,7 @@
       });
   }
 
-  function createAndSortElements(repos, select) {
+  function renderOptionElements(repos, select) {
     repos
       .sort((a, b) => a.name.localeCompare(b.name))
       .forEach((repo, index) => {
@@ -120,13 +123,18 @@
     const contributorsContainer = createAndAppend('section', mainContainer, {
       id: 'contributors-container',
     });
+    createAndAppend('p', contributorsContainer, {
+      text: `Contributors:`,
+      id: 'contributors-title',
+    });
     const ul = createAndAppend('ul', contributorsContainer, {
       id: 'list-contributions',
     });
 
     fetchJSON(url)
+      .then(repos => repos.sort((a, b) => a.name.localeCompare(b.name)))
       .then(repos => {
-        createAndSortElements(repos, select);
+        renderOptionElements(repos, select);
         renderRepoDetails(repos[0], reposContainer);
         renderContributors(repos[0], ul);
 
