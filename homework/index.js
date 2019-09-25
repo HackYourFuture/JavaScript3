@@ -44,7 +44,7 @@
     });
   }
 
-  function addTable(table, body, value) {
+  function addRow(table, body, value) {
     const tr = createAndAppend('tr', table);
     createAndAppend('th', tr, { text: body });
     createAndAppend('td', tr, { text: value });
@@ -54,24 +54,48 @@
   function renderRepoDetails(repo) {
     const leftSide = document.getElementById('left-side');
     leftSide.innerHTML = '';
-    const ul = createAndAppend('ul', leftSide);
-    const li = createAndAppend('li', ul);
-    const table = createAndAppend('table', li);
-    const tr1 = addTable(table, 'Repository:', '');
+    const table = createAndAppend('table', leftSide);
+    const tr1 = addRow(table, 'Repository:', '');
     createAndAppend('a', tr1.lastChild, {
       href: repo.html_url,
       text: repo.name,
     });
-    addTable(table, 'Description:', repo.description);
-    addTable(table, 'Fork: ', repo.forks);
-    addTable(table, 'Updated:', formatDate(repo.updated_at));
+    addRow(table, 'Description:', repo.description);
+    addRow(table, 'Fork: ', repo.forks);
+    addRow(table, 'Updated:', formatDate(repo.updated_at));
   }
 
+  function renderContributor(contributor, contributorList) {
+    const li = createAndAppend('li', contributorList);
+    const list = createAndAppend('a', li, {
+      class: 'contributor-item',
+      href: contributor.html_url,
+      target: '_blank',
+    });
+    createAndAppend('img', list, {
+      class: 'image',
+      src: contributor.avatar_url,
+    });
+    createAndAppend('span', list, {
+      class: 'contributor-name',
+      text: contributor.login,
+    });
+    createAndAppend('span', list, {
+      class: 'contribution-count',
+      text: contributor.contributions,
+    });
+    list.addEventListener('click', () => {
+      window.open(contributor.html_url, '_blank');
+    });
+    list.addEventListener('key', event => {
+      if (event.key === 'Enter') window.open(contributor.html_url, '_blank');
+    });
+  }
   function fetchAndRender(repo) {
-    const rightSide = document.getElementById('right-side');
-    rightSide.innerHTML = '';
     fetchJSON(repo.contributors_url)
       .then(contributors => {
+        const rightSide = document.getElementById('right-side');
+        rightSide.innerHTML = '';
         createAndAppend('span', rightSide, {
           text: 'Contributions',
           class: 'title',
@@ -79,58 +103,37 @@
         const contributorList = createAndAppend('ul', rightSide, {
           class: 'contributor-list',
         });
-        contributors.forEach(contributor => {
-          const list = createAndAppend('li', contributorList, {
-            class: 'contributor-item',
-          });
-          createAndAppend('img', list, {
-            class: 'image',
-            src: contributor.avatar_url,
-          });
-          createAndAppend('span', list, {
-            class: 'contributor-name',
-            text: contributor.login,
-          });
-          createAndAppend('span', list, {
-            class: 'contribution-count',
-            text: contributor.contributions,
-          });
-          list.addEventListener('click', () => {
-            window.open(contributor.html_url, '_blank');
-          });
-          list.addEventListener('key', event => {
-            if (event.key === 'Enter')
-              window.open(contributor.html_url, '_blank');
-          });
-        });
+        contributors.forEach(contributor =>
+          renderContributor(contributor, contributorList),
+        );
       })
       .catch(error => renderError(error));
   }
 
-  function startPage(repository) {
+  function startPage(repositories) {
     const select = document.getElementById('select');
-    repository.sort((a, b) => a.name.localeCompare(b.name));
-    repository.forEach((repositories, index) => {
+    repositories.sort((a, b) => a.name.localeCompare(b.name));
+    repositories.forEach((repo, index) => {
       createAndAppend('option', select, {
         value: index,
-        text: repositories.name,
+        text: repo.name,
       });
     });
-    renderRepoDetails(repository[select.value]);
+    renderRepoDetails(repositories[select.value]);
 
     select.addEventListener('change', () => {
-      renderRepoDetails(repository[select.value]);
-      fetchAndRender(repository[select.value]);
+      renderRepoDetails(repositories[select.value]);
+      fetchAndRender(repositories[select.value]);
     });
-    return repository[select.value];
+    return repositories[select.value];
   }
 
   function main(url) {
     const root = document.getElementById('root');
     const header = createAndAppend('header', root);
     createAndAppend('p', header, {
-      class: 'Header',
-      id: 'Header',
+      class: 'header-title',
+      id: 'header-title',
       text: 'HYF-Repositories',
     });
     createAndAppend('select', header, {

@@ -36,7 +36,7 @@ header{
   align-items: center;
 }
 
-.Header {
+.header-title {
   color: #fffbe6;
   font-size: 0.9rem;
   text-align: center;
@@ -54,6 +54,11 @@ select {
   margin-left: 1rem;
   cursor: pointer;
   outline: none;
+}
+
+#left-side,
+#right-side {
+  flex: 1;
 }
 
 table {
@@ -108,6 +113,7 @@ td {
   align-items: center;
   cursor: pointer;
   transition: background-color 300ms ease-in-out;
+  text-decoration: none;
 }
 .contributor-item:hover {
   background-color: #354568;
