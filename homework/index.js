@@ -82,16 +82,34 @@
   }
 
   function renderRepoDetails(repo, ul) {
-    const repoListItem = createAndAppend('li', ul, {
+    const repoDetailsListItem = createAndAppend('li', ul, {
       class: 'repository-item',
     });
-    const repoDetailsTable = createAndAppend('table', repoListItem, {
+    const repoDetailsTable = createAndAppend('table', repoDetailsListItem, {
       class: 'repository-item-table',
     });
     appendRepoDetail('Repository:', repo.name, repoDetailsTable, repo.url);
     appendRepoDetail('Description:', repo.description, repoDetailsTable);
     appendRepoDetail('Forks:', repo.forks, repoDetailsTable);
     appendRepoDetail('Updated:', repo.lastUpdateTime, repoDetailsTable);
+  }
+
+  function renderContributorDetails(contributor, ul) {
+    const repoContributorListItem = createAndAppend('li', ul, {
+      class: 'contributors-item',
+    });
+    createAndAppend('img', repoContributorListItem, {
+      src: contributor.avatar_url,
+      alt: 'Contributor avatar picture',
+    });
+    createAndAppend('a', repoContributorListItem, {
+      href: contributor.html_url,
+      text: contributor.login,
+      target: '_blank',
+    });
+    createAndAppend('span', repoContributorListItem, {
+      text: contributor.contributions,
+    });
   }
 
   function renderHeaderSection(title, parent) {
@@ -123,16 +141,35 @@
     )[0];
   }
 
-  function renderRepositoryDetailSection(repository) {
-    const ul = document
-      .getElementById(REPOSITORY_DETAIL_SECTION_ID)
-      .getElementsByTagName('ul')[0];
+  function getUnorderedListAsEmptyWithSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    const ul = section.getElementsByTagName('ul')[0];
     ul.innerHTML = ''; // If the ul has child nodes, clear them first
-    renderRepoDetails(repository, ul);
+    return { ul, section };
+  }
+
+  function renderRepositoryDetailSection(repository) {
+    renderRepoDetails(
+      repository,
+      getUnorderedListAsEmptyWithSection(REPOSITORY_DETAIL_SECTION_ID).ul,
+    );
+  }
+
+  function renderRepositoryContributorsSection(repository) {
+    const { ul, section } = getUnorderedListAsEmptyWithSection(
+      REPOSITORY_CONTRIBUTORS_SECTION_ID,
+    );
+    createAndAppend('h4', section, { text: 'Contributions' });
+    fetchJSON(repository.contributorsUrl).then(contributors => {
+      contributors.forEach(contributor => {
+        renderContributorDetails(contributor, ul);
+      });
+    });
   }
 
   function renderSelectedRepository(repository) {
     renderRepositoryDetailSection(repository);
+    renderRepositoryContributorsSection(repository);
   }
 
   function main(url) {

@@ -19,10 +19,11 @@ header {
 }
 
 .container {
-  padding: 0;
+  padding: 0 10px;
   margin: 15px 0;
   display: flex;
   justify-content: space-between;
+  background-color: #f6f3f3;
 }
 
 .sub-container {
@@ -31,12 +32,13 @@ header {
   margin: 15px 0;
   display: flex;
   flex-direction: column;
+  background-color: white;
+  box-shadow: -2px 2px 5px lightgray;
 }
 
 .repository-item {
   padding: 10px 20px;
-  margin: 3px 0;
-  box-shadow: -2px 2px 5px lightgray;
+  margin: 0;
 }
 
 .repository-item-table {
@@ -55,6 +57,34 @@ header {
   color: #818181;
 }
 
+.contributors-item {
+  padding: 10px 20px;
+  border-bottom: 1px solid lightgray;
+  align-items: center;
+  display: flex;
+}
+
+.contributors-item img {
+  height: 50px;
+  width: 50px;
+  border-radius: 5px;
+  margin-right: 10px;
+  flex: 0;
+}
+
+.contributors-item a {
+  flex: 1;
+}
+
+.contributors-item span {
+  color: white;
+  background-color: #818181;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  flex: 0;
+}
+
 @media screen and (min-width: 1200px) {
   body {
     padding: 20px 10%;
@@ -62,7 +92,7 @@ header {
 
   .repository-detail-container,
   .repository-contributors-container {
-    width: 45%;
+    width: 49%;
   }
 }
 
@@ -73,7 +103,7 @@ header {
 
   .repository-detail-container,
   .repository-contributors-container {
-    width: 45%;
+    width: 49%;
   }
 }
 
