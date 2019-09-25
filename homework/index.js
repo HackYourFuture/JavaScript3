@@ -1,6 +1,10 @@
 'use strict';
 
 {
+  const REPOSITORY_DETAIL_SECTION_ID = 'repository-detail-container';
+  const REPOSITORY_CONTRIBUTORS_SECTION_ID =
+    'repository-contributors-container';
+
   function fetchJSON(url) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -57,7 +61,6 @@
 
   function renderRepositoryNames(repositories, select) {
     repositories.forEach(repository => {
-      console.log(repository);
       createAndAppend('option', select, {
         text: repository.name,
         value: repository.name,
@@ -85,17 +88,13 @@
     const repoDetailsTable = createAndAppend('table', repoListItem, {
       class: 'repository-item-table',
     });
-    appendRepoDetail('Repository:', repo.name, repoDetailsTable, repo.html_url);
+    appendRepoDetail('Repository:', repo.name, repoDetailsTable, repo.url);
     appendRepoDetail('Description:', repo.description, repoDetailsTable);
     appendRepoDetail('Forks:', repo.forks, repoDetailsTable);
-    appendRepoDetail(
-      'Updated:',
-      getDateTimeText(repo.updated_at),
-      repoDetailsTable,
-    );
+    appendRepoDetail('Updated:', repo.lastUpdateTime, repoDetailsTable);
   }
 
-  function renderHeaderAndGetSelect(title, parent) {
+  function renderHeaderSection(title, parent) {
     const header = createAndAppend('header', parent);
     createAndAppend('span', header, {
       text: title,
@@ -104,16 +103,55 @@
     return createAndAppend('select', header);
   }
 
+  function renderSubSection(sectionId, parent) {
+    const subSection = createAndAppend('section', parent, {
+      class: sectionId,
+      id: sectionId,
+    });
+    createAndAppend('ul', subSection, { class: 'sub-container' });
+  }
+
+  function renderMainSectionWithSubSections(parent) {
+    const mainSection = createAndAppend('main', parent, { class: 'container' });
+    renderSubSection(REPOSITORY_DETAIL_SECTION_ID, mainSection);
+    renderSubSection(REPOSITORY_CONTRIBUTORS_SECTION_ID, mainSection);
+  }
+
+  function getSelectedRepositoryByName(repositories, name) {
+    return repositories.filter(
+      repositoryInfo => repositoryInfo.name === name,
+    )[0];
+  }
+
+  function renderRepositoryDetailSection(repository) {
+    const ul = document
+      .getElementById(REPOSITORY_DETAIL_SECTION_ID)
+      .getElementsByTagName('ul')[0];
+    ul.innerHTML = ''; // If the ul has child nodes, clear them first
+    renderRepoDetails(repository, ul);
+  }
+
+  function renderSelectedRepository(repository) {
+    renderRepositoryDetailSection(repository);
+  }
+
   function main(url) {
     const root = document.getElementById('root');
-    const select = renderHeaderAndGetSelect('HYF Repositories', root);
+    const select = renderHeaderSection('HYF Repositories', root);
     fetchJSON(url)
       .then(repos => {
-        const ul = createAndAppend('ul', root, { class: 'container' });
         const repositoryInfos = generateRequiredInformationOfRepositories(
           repos,
         );
         renderRepositoryNames(repositoryInfos, select);
+        renderMainSectionWithSubSections(root);
+        select.addEventListener('change', changeEvent => {
+          const selectedRepository = getSelectedRepositoryByName(
+            repositoryInfos,
+            changeEvent.target.value,
+          );
+          renderSelectedRepository(selectedRepository);
+        });
       })
       .catch(error => {
         createAndAppend('div', root, {

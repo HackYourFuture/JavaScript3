@@ -19,9 +19,16 @@ header {
 }
 
 .container {
+  padding: 0;
+  margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.sub-container {
   list-style-type: none;
   padding: 0;
-  margin: 5px 0;
+  margin: 15px 0;
   display: flex;
   flex-direction: column;
 }
@@ -52,16 +59,35 @@ header {
   body {
     padding: 20px 10%;
   }
+
+  .repository-detail-container,
+  .repository-contributors-container {
+    width: 45%;
+  }
 }
 
 @media screen and (min-width: 600px) and (max-width: 1200px) {
   body {
     padding: 5px 5%;
   }
+
+  .repository-detail-container,
+  .repository-contributors-container {
+    width: 45%;
+  }
 }
 
 @media screen and (max-width: 600px) {
   body {
     padding: 0;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+
+  .repository-detail-container,
+  .repository-contributors-container {
+    width: 100%;
   }
 }
