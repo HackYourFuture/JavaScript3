@@ -1,9 +1,8 @@
 body {
-  max-width: 840px;
-  margin: 0 auto;
+  width: 100%;
   color: darkslategray;
   font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.5rem;
+  margin: 0;
 }
 
 ul {
@@ -11,39 +10,53 @@ ul {
   padding-left: 0;
 }
 
-.alert-error {
-  background-color: pink;
+header {
+  color: white;
+  background-image: linear-gradient(to bottom right, darkslateblue, darkcyan);
   padding: 30px 21px;
+}
+
+table {
+  text-align: left;
+}
+
+td {
+  padding-left: 15px;
 }
 
 .alert-no-description {
   font-style: italic;
 }
 
-#title {
-  color: white;
-  background-color: slateblue;
-  padding: 30px 21px;
+.alert-error {
+  background-color: mistyrose;
+  border-radius: 3px;
+  text-transform: uppercase;
+  font-style: italic;
+  margin-top: 6px;
+  padding: 21px 60px;
 }
 
-.commonBlock {
+.main-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.details {
   background-color: white;
   border-bottom: 1px solid darkgray;
-  padding: 15px 21px;
-  display: flex;
-  flex-flow: row nowrap;
-  overflow-x: auto;
-  white-space: nowrap;
+  padding: 21px;
 }
 
-.dataTypeList {
-  min-width: 105px;
-  font-weight: bold;
-}
+@media screen and (min-width: 812px) {
+  body {
+    width: 80%;
+    max-width: 1024px;
+    margin: 0 auto;
+  }
 
-@media screen and (min-width: 855px) {
-  .commonBlock {
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  .details {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.19), 0 0 6px rgba(0, 0, 0, 0.23);
     border-radius: 3px;
     margin: 6px 0;
   }

@@ -12,5 +12,7 @@
     "remarcmij",
     "tabindex",
     "whiteframe"
-  ]
+  ],
+  "prettier.tabWidth": 4,
+  "prettier.printWidth": 120
 }
