@@ -43,6 +43,7 @@
       createAndAppend('a', descriptionElm, {
         href: link,
         text: description,
+        target: '_blank',
       });
     } else {
       descriptionElm.textContent = description;
@@ -68,7 +69,7 @@
     });
   }
 
-  function generateRequiredInformationOfRepositories(repositoryInfos) {
+  function makeRequiredInformationOfRepositories(repositoryInfos) {
     return repositoryInfos
       .sort(sortRepositoriesByNameAscending)
       .map(repositoryInfo => ({
@@ -94,10 +95,15 @@
     appendRepoDetail('Updated:', repo.lastUpdateTime, repoDetailsTable);
   }
 
-  function renderContributorDetails(contributor, ul) {
+  function renderContributorDetails(contributor, ul, index) {
     const repoContributorListItem = createAndAppend('li', ul, {
       class: 'contributors-item',
     });
+    if (index === 0) {
+      createAndAppend('h6', repoContributorListItem, {
+        text: 'Contributions:',
+      });
+    }
     createAndAppend('img', repoContributorListItem, {
       src: contributor.avatar_url,
       alt: 'Contributor avatar picture',
@@ -141,35 +147,42 @@
     )[0];
   }
 
-  function getUnorderedListAsEmptyWithSection(sectionId) {
+  function getUnorderedListAsEmpty(sectionId) {
     const section = document.getElementById(sectionId);
     const ul = section.getElementsByTagName('ul')[0];
     ul.innerHTML = ''; // If the ul has child nodes, clear them first
-    return { ul, section };
+    return ul;
   }
 
   function renderRepositoryDetailSection(repository) {
     renderRepoDetails(
       repository,
-      getUnorderedListAsEmptyWithSection(REPOSITORY_DETAIL_SECTION_ID).ul,
+      getUnorderedListAsEmpty(REPOSITORY_DETAIL_SECTION_ID),
     );
   }
 
   function renderRepositoryContributorsSection(repository) {
-    const { ul, section } = getUnorderedListAsEmptyWithSection(
-      REPOSITORY_CONTRIBUTORS_SECTION_ID,
-    );
-    createAndAppend('h4', section, { text: 'Contributions' });
+    const ul = getUnorderedListAsEmpty(REPOSITORY_CONTRIBUTORS_SECTION_ID);
     fetchJSON(repository.contributorsUrl).then(contributors => {
-      contributors.forEach(contributor => {
-        renderContributorDetails(contributor, ul);
-      });
+      if (contributors) {
+        contributors.forEach((contributor, index) => {
+          renderContributorDetails(contributor, ul, index);
+        });
+      }
     });
   }
 
-  function renderSelectedRepository(repository) {
+  function renderRepository(repository) {
     renderRepositoryDetailSection(repository);
     renderRepositoryContributorsSection(repository);
+  }
+
+  function renderSelectedRepository(repositoryName, allRepositories) {
+    const selectedRepository = getSelectedRepositoryByName(
+      allRepositories,
+      repositoryName,
+    );
+    renderRepository(selectedRepository);
   }
 
   function main(url) {
@@ -177,18 +190,13 @@
     const select = renderHeaderSection('HYF Repositories', root);
     fetchJSON(url)
       .then(repos => {
-        const repositoryInfos = generateRequiredInformationOfRepositories(
-          repos,
-        );
+        const repositoryInfos = makeRequiredInformationOfRepositories(repos);
         renderRepositoryNames(repositoryInfos, select);
         renderMainSectionWithSubSections(root);
         select.addEventListener('change', changeEvent => {
-          const selectedRepository = getSelectedRepositoryByName(
-            repositoryInfos,
-            changeEvent.target.value,
-          );
-          renderSelectedRepository(selectedRepository);
+          renderSelectedRepository(changeEvent.target.value, repositoryInfos);
         });
+        renderSelectedRepository(select.value, repositoryInfos); // For the first load
       })
       .catch(error => {
         createAndAppend('div', root, {
