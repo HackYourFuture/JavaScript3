@@ -58,34 +58,25 @@
 
   const root = document.getElementById('root');
 
-  function renderContributors(repo, ul) {
+  function renderContributors(repo, div) {
     fetchJSON(repo.contributors_url)
       .then(contributors => {
-        ul.innerHTML = '';
+        div.innerHTML = '';
 
         contributors.forEach(contributor => {
-          const li = createAndAppend('li', ul);
-          const table = createAndAppend('table', li, {
+          const contributorDiv = createAndAppend('div', div, {
             class: 'contributor-details',
           });
-          const tableBody = createAndAppend('tbody', table);
-          const tableRow = createAndAppend('tr', tableBody, {
-            class: 'table-row',
+          createAndAppend('img', contributorDiv, {
+            src: contributor.avatar_url,
           });
-
-          createAndAppend('img', tableRow, { src: contributor.avatar_url });
-
-          const contributorName = createAndAppend('td', tableRow, {
-            class: 'user-name',
-          });
-          const contributorNameP = createAndAppend('p', contributorName);
-          createAndAppend('a', contributorNameP, {
+          createAndAppend('a', contributorDiv, {
             text: contributor.login,
             href: contributor.html_url,
             target: '_blank',
+            class: 'user-name',
           });
-
-          createAndAppend('td', tableRow, {
+          createAndAppend('div', contributorDiv, {
             text: contributor.contributions,
             class: 'contributions-count',
           });
@@ -99,11 +90,12 @@
       });
   }
 
-  // I think i forgot to delete .sort form this function. it been used already in main:
   function renderOptionElements(repos, select) {
-    repos.forEach((repo, index) => {
-      createAndAppend('option', select, { text: repo.name, value: index });
-    });
+    repos
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .forEach((repo, index) => {
+        createAndAppend('option', select, { text: repo.name, value: index });
+      });
   }
 
   function main(url) {
@@ -126,7 +118,7 @@
       text: `Contributors:`,
       id: 'contributors-title',
     });
-    const ul = createAndAppend('ul', contributorsContainer, {
+    const div = createAndAppend('div', contributorsContainer, {
       id: 'list-contributions',
     });
 
@@ -135,12 +127,12 @@
       .then(repos => {
         renderOptionElements(repos, select);
         renderRepoDetails(repos[0], reposContainer);
-        renderContributors(repos[0], ul);
+        renderContributors(repos[0], div);
 
         select.addEventListener('change', () => {
           const repo = repos[select.value];
           renderRepoDetails(repo, reposContainer);
-          renderContributors(repo, ul);
+          renderContributors(repo, div);
         });
       })
       .catch(err => {
