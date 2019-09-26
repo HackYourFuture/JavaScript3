@@ -22,7 +22,7 @@ select {
   margin: 10px;
 }
 
-#flexContainer {
+#flex-container {
   display: flex;
   flex-wrap: wrap;
   border: solid black 2px;
@@ -71,10 +71,10 @@ a {
 a:visited {
   color: lightgreen;
 }
-.contributorImg {
+.contributor-img {
   width: 60px;
 }
-.contributeNumber {
+.contribute-number {
   background: rgb(50, 50, 50);
   border-left: rgb(60, 60, 60) solid 2px;
   border-top: rgb(100, 100, 100) solid 2px;

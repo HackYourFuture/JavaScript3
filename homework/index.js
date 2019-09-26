@@ -31,23 +31,23 @@
     return elem;
   }
 
-  function addCont(login, img, contributeNumber, parent, link) {
+  function addContributor(contributor, parent) {
     const tr = createAndAppend('tr', parent);
     const imageColumn = createAndAppend('th', tr);
     createAndAppend('img', imageColumn, {
-      src: img,
-      class: 'contributorImg',
+      src: contributor.avatar_url,
+      class: 'contributor-img',
     });
     const name = createAndAppend('td', tr);
     createAndAppend('a', name, {
-      href: link,
+      href: contributor.html_url,
       target: '_blank',
-      text: login,
+      text: contributor.login,
     });
     const contributeNamePlace = createAndAppend('td', tr);
     createAndAppend('span', contributeNamePlace, {
-      text: contributeNumber,
-      class: 'contributeNumber',
+      text: contributor.contributions,
+      class: 'contribute-number',
     });
   }
 
@@ -60,25 +60,10 @@
     return tr;
   }
 
-  let optionNumber = 0;
-  function madeOption(repo, selectButton) {
-    createAndAppend('option', selectButton, {
-      text: repo.name,
-      value: optionNumber,
-    });
-    optionNumber++;
-  }
-
-  function renderContributorDetails(conts, contributorsContainer) {
+  function renderContributorDetails(contributors, contributorsContainer) {
     const table = createAndAppend('table', contributorsContainer);
-    conts.forEach(cont => {
-      addCont(
-        cont.login,
-        cont.avatar_url,
-        cont.contributions,
-        table,
-        cont.html_url,
-      );
+    contributors.forEach(contributor => {
+      addContributor(contributor, table);
     });
   }
 
@@ -94,28 +79,29 @@
     addRow('Forks', repo.forks, table);
     addRow('Updated', repo.updated_at, table);
   }
-
-  function fetchContributors(url, contributorsContainer) {
-    const promiseContributor = fetchJSON(url);
-    promiseContributor.then((conts, err) => {
-      if (err) {
-        createAndAppend('div', contributorsContainer, {
-          text: err.message,
-          class: 'alert-error',
-        });
-        return;
-      }
-      renderContributorDetails(conts, contributorsContainer);
+  function renderError(error, contributorsContainer) {
+    createAndAppend('div', contributorsContainer, {
+      text: error.message,
+      class: 'alert-error',
     });
   }
 
+  function fetchContributors(url, contributorsContainer) {
+    const promiseContributor = fetchJSON(url);
+    promiseContributor
+      .then(contributors => {
+        renderContributorDetails(contributors, contributorsContainer);
+      })
+      .catch(error => renderError(error, contributorsContainer));
+  }
+
   function deleteContainers() {
-    document.getElementById('flexContainer').remove();
+    document.getElementById('flex-container').remove();
   }
 
   function makeFlexContainer(root, repos, selectButton) {
     const flexContainer = createAndAppend('section', root, {
-      id: 'flexContainer',
+      id: 'flex-container',
     });
     const repoContainer = createAndAppend('section', flexContainer, {
       class: 'container',
@@ -124,11 +110,14 @@
       class: 'container',
     });
     createAndAppend('h5', contributorsContainer, { text: 'Contributions' });
-    // eslint-disable-next-line func-names
+
     repos
       .sort((a, b) => a.name.localeCompare(b.name))
-      .forEach(repo => {
-        madeOption(repo, selectButton);
+      .forEach((repo, index) => {
+        createAndAppend('option', selectButton, {
+          text: repo.name,
+          value: index,
+        });
       });
     renderRepoDetails(repos[selectButton.value], repoContainer);
     fetchContributors(
@@ -138,27 +127,21 @@
   }
 
   function main(url) {
-    const promise = fetchJSON(url);
-    promise.then((repos, err) => {
-      const root = document.getElementById('root');
-      if (err) {
-        createAndAppend('div', root, {
-          text: err.message,
-          class: 'alert-error',
-        });
-        return;
-      }
-      const header = createAndAppend('header', root, {
-        text: 'HYF Repositories',
-      });
-
-      const selectButton = createAndAppend('select', header);
-      selectButton.addEventListener('change', () => {
-        deleteContainers();
-        makeFlexContainer(root, repos, selectButton);
-      });
-      makeFlexContainer(root, repos, selectButton);
+    const root = document.getElementById('root');
+    const header = createAndAppend('header', root, {
+      text: 'HYF Repositories',
     });
+    const promise = fetchJSON(url);
+    promise
+      .then(repos => {
+        const selectButton = createAndAppend('select', header);
+        selectButton.addEventListener('change', () => {
+          deleteContainers();
+          makeFlexContainer(root, repos, selectButton);
+        });
+        makeFlexContainer(root, repos, selectButton);
+      })
+      .catch(error => renderError(error, root));
   }
 
   const HYF_REPOS_URL =
