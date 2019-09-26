@@ -11,13 +11,19 @@
   padding: 0;
 }
 
-#header {
+header {
+  position: sticky;
+  top: 0;
   margin: 5px;
   padding: 7px;
   border: 2px solid white;
   background: rgb(48, 58, 166);
   color: white;
-  font-size: 2em;
+  font-size: 1.1em;
+}
+select {
+  font-size: 15px;
+  margin: 10px;
 }
 ul {
   list-style: none;
@@ -26,50 +32,86 @@ ul {
 #root {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .listItem {
   border: 1px solid gray;
   margin: 5px;
   padding: 5px;
-  box-shadow: 2px 2px 2px 2px rgba(128, 128, 128, 0.733);
   font-family: monospace;
   font-size: 15px;
-  /* line-height: 15px; */
 }
 
-.title {
+.right-title {
+  border-bottom: 3px solid gray;
+  text-align: center;
   font-weight: bold;
 }
 
-.content {
-  font-weight: normal;
-  padding-left: 10px;
+.rightList {
+  border-bottom: 1px solid gray;
+  margin-bottom: 5px;
+  font-family: monospace;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
 }
 
-@media only screen and (min-width: 600px) and (max-width: 1200px) {
+.cont-link {
+  margin-left: 10px;
+  flex: 6;
+}
+.contributions {
+  flex: 1;
+  border: 2px solid gray;
+  background: rgba(73, 72, 72, 0.603);
+  color: white;
+  text-align: center;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.repo-container {
+  flex: 1;
+}
+.contributors-container {
+  flex: 1;
+  border: 1px solid gray;
+  margin: 5px;
+  padding: 5px;
+  box-shadow: 2px 2px 2px 2px rgba(128, 128, 128, 0.733);
+  font-family: monospace;
+  font-size: 15px;
+}
+
+img {
+  height: 70px;
+  margin: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+@media (max-width: 500px) {
   body {
-    max-width: 50vw;
-    margin-top: 5px;
-    margin-left: 5vw;
-    justify-content: center;
+    margin: 5px 3%;
   }
-  .listItem {
-    padding: 5px;
-    font-size: 2.5vw;
+  header {
+    position: sticky;
+    top: 0;
+  }
+  .repo-container {
+    flex: 1;
   }
 }
-@media only screen and (min-width: 1200px) {
+@media (min-width: 500px) and (max-width: 1200px) {
   body {
-    max-width: 90vw;
-    margin-top: 5px;
-    margin-left: 5vw;
-    align-items: center;
-  }
-  .listItem {
-    padding: 5px;
-    font-size: 2.5vw;
+    margin: 5px 10px 5px 10px;
   }
 }
