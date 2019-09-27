@@ -1,9 +1,6 @@
 'use strict';
 
 {
-  const HYF_REPOS_URL =
-    'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-
   function fetchJSON(url) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -53,13 +50,13 @@
     const dt = new Date(stringDateAndTime);
     return dt.toLocaleString();
   }
+
   function sortReposByNameProp(firstRepo, secondRepo) {
     return firstRepo.name.localeCompare(secondRepo.name);
   }
 
-  function renderRepoDetails(repo, ul) {
-    const li = createAndAppend('li', ul, { class: 'repos' });
-    const table = createAndAppend('table', li);
+  function renderRepoDetails(repo, reposSection) {
+    const table = createAndAppend('table', reposSection, { class: 'table' });
     const firstRow = addRepoDetailsInfo(table, 'Repository :', '');
     createAndAppend('a', firstRow.lastChild, {
       text: repo.name,
@@ -70,13 +67,11 @@
     addRepoDetailsInfo(table, 'Updated :', formatDate(repo.updated_at));
   }
 
-  function renderContDetails(contributors, contUl) {
-    createAndAppend('h5', contUl, {
-      text: 'Contributions',
-      class: 'cont-title',
-    });
-    return contributors.forEach(contributor => {
-      const li = createAndAppend('li', contUl, { class: 'contribution' });
+  function renderContDetails(selectedRepo, contributionsUl) {
+    selectedRepo.forEach(contributor => {
+      const li = createAndAppend('li', contributionsUl, {
+        class: 'contribution',
+      });
       createAndAppend('img', li, {
         src: contributor.avatar_url,
         alt: `${contributor.login}'s image`,
@@ -94,36 +89,26 @@
       });
     });
   }
-  function renderContributors(selectedRepo, contUl) {
+
+  function renderContributors(selectedRepo, contributionsUl, root) {
     fetchJSON(selectedRepo.contributors_url)
       .then(contributors => {
-        contUl.innerHTML = '';
+        contributionsUl.innerHTML = '';
 
-        renderContDetails(contributors, contUl);
+        renderContDetails(contributors, contributionsUl);
       })
-      .catch((err, root) => {
+      .catch(err => {
         createAndAppend('div', root, {
           text: err.message,
           class: 'alert-error',
         });
       });
   }
-  function renderPage(event, reposUl, contUl) {
-    const url = HYF_REPOS_URL;
-    fetchJSON(url)
-      .then(repos => {
-        reposUl.innerHTML = '';
-        const sortedRepos = repos.sort(sortReposByNameProp);
-        const selectedRepo = sortedRepos[event.target.value || 0];
-        renderRepoDetails(selectedRepo, reposUl);
-        renderContributors(selectedRepo, contUl);
-      })
-      .catch((err, root) => {
-        createAndAppend('div', root, {
-          text: err.message,
-          class: 'alert-error',
-        });
-      });
+
+  function renderPage(selectedRepo, reposSection, contributionsUl) {
+    reposSection.innerHTML = '';
+    renderRepoDetails(selectedRepo, reposSection);
+    renderContributors(selectedRepo, contributionsUl);
   }
 
   function main(url) {
@@ -135,16 +120,14 @@
     const reposSection = createAndAppend('section', mainElm, {
       class: 'repos-section',
     });
-    const contSection = createAndAppend('section', mainElm, {
-      class: 'cont-section',
+    const contributionsSection = createAndAppend('section', mainElm, {
+      class: 'contributions-section',
     });
-    const reposUl = createAndAppend('ul', reposSection, {
-      class: 'repos-ul',
+    createAndAppend('h5', contributionsSection, {
+      text: 'Contributions',
+      class: 'contributions-title',
     });
-    const contUl = createAndAppend('ul', contSection, { class: 'cont-ul' });
-    select.addEventListener('change', event =>
-      renderPage(event, reposUl, contUl),
-    );
+    const contributionsUl = createAndAppend('ul', contributionsSection);
 
     fetchJSON(url).then(repos => {
       repos.sort(sortReposByNameProp).forEach((repo, index) => {
@@ -153,9 +136,14 @@
           text: repo.name,
         });
       });
-      renderPage(event, reposUl, contUl);
+      select.addEventListener('change', event =>
+        renderPage(repos[event.target.value], reposSection, contributionsUl),
+      );
+      renderPage(repos[0], reposSection, contributionsUl);
     });
   }
 
+  const HYF_REPOS_URL =
+    'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => main(HYF_REPOS_URL);
 }
