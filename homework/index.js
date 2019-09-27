@@ -1,11 +1,13 @@
 'use strict';
 
 {
+  const dom = {};
+
   const HYF_REPOS_URL =
     'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-  const REPOSITORY_DETAIL_SECTION_ID = 'repository-detail-container';
-  const REPOSITORY_CONTRIBUTORS_SECTION_ID =
-    'repository-contributors-container';
+  const DETAIL_SECTION = 'repository-detail-container';
+  const CONTRIBUTORS_SECTION = 'repository-contributors-container';
+  const CONTRIBUTORS_LIST = 'contributors-list';
 
   function fetchJSON(url) {
     return new Promise((resolve, reject) => {
@@ -62,11 +64,8 @@
     });
   }
 
-  function renderRepoDetails(repo, ul) {
-    const repoDetailsListItem = createAndAppend('li', ul, {
-      class: 'repository-item',
-    });
-    const repoDetailsTable = createAndAppend('table', repoDetailsListItem, {
+  function renderRepoDetails(repo, section) {
+    const repoDetailsTable = createAndAppend('table', section, {
       class: 'repository-item-table',
     });
     const firstRow = appendRepoDetail('Repository:', '', repoDetailsTable);
@@ -116,48 +115,34 @@
     return createAndAppend('select', header);
   }
 
-  function renderSubSection(sectionId, parent) {
-    const subSection = createAndAppend('section', parent, {
-      class: sectionId,
-      id: sectionId,
-    });
-    createAndAppend('ul', subSection, { class: 'sub-container' });
-  }
-
-  function renderMainSectionWithSubSections(parent) {
+  function createMainSectionWithSubSections(parent) {
     const mainSection = createAndAppend('main', parent, { class: 'container' });
-    renderSubSection(REPOSITORY_DETAIL_SECTION_ID, mainSection);
-    renderSubSection(REPOSITORY_CONTRIBUTORS_SECTION_ID, mainSection);
-  }
-
-  function getUnorderedListAsEmpty(sectionId) {
-    const section = document.getElementById(sectionId);
-    const ul = section.getElementsByTagName('ul')[0];
-    ul.innerHTML = ''; // If the ul has child nodes, clear them first
-    return ul;
-  }
-
-  function renderRepositoryDetailSection(repository) {
-    renderRepoDetails(
-      repository,
-      getUnorderedListAsEmpty(REPOSITORY_DETAIL_SECTION_ID),
-    );
+    dom[DETAIL_SECTION] = createAndAppend('section', mainSection, {
+      class: DETAIL_SECTION,
+    });
+    dom[CONTRIBUTORS_SECTION] = createAndAppend('section', mainSection, {
+      class: CONTRIBUTORS_SECTION,
+    });
+    dom[CONTRIBUTORS_LIST] = createAndAppend('ul', dom[CONTRIBUTORS_SECTION], {
+      class: 'sub-container',
+    });
   }
 
   function renderRepositoryContributorsSection(repository) {
-    const ul = getUnorderedListAsEmpty(REPOSITORY_CONTRIBUTORS_SECTION_ID);
+    // Clear previous list items first
+    dom[CONTRIBUTORS_LIST].innerHTML = '';
     fetchJSON(repository.contributors_url).then(contributors => {
       // In case of non contributors situation
       if (contributors) {
         contributors.forEach((contributor, index) => {
-          renderContributorDetails(contributor, ul, index);
+          renderContributorDetails(contributor, dom[CONTRIBUTORS_LIST], index);
         });
       }
     });
   }
 
   function renderRepository(repository) {
-    renderRepositoryDetailSection(repository);
+    renderRepoDetails(repository, dom[DETAIL_SECTION]);
     renderRepositoryContributorsSection(repository);
   }
 
@@ -168,7 +153,7 @@
       .then(repos => {
         const repositoryInfos = repos.sort(sortRepositoriesByNameAscending);
         populateSelectElement(repositoryInfos, select);
-        renderMainSectionWithSubSections(root);
+        createMainSectionWithSubSections(root);
         select.addEventListener('change', changeEvent => {
           renderRepository(repositoryInfos[changeEvent.target.value]);
         });
