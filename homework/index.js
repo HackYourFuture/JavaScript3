@@ -46,8 +46,8 @@
     return trElm;
   }
 
-  function formatDate(stringDateAndTime) {
-    const dt = new Date(stringDateAndTime);
+  function formatDate(date) {
+    const dt = new Date(date);
     return dt.toLocaleString();
   }
 
@@ -67,8 +67,8 @@
     addRepoDetailsInfo(table, 'Updated :', formatDate(repo.updated_at));
   }
 
-  function renderContDetails(selectedRepo, contributionsUl) {
-    selectedRepo.forEach(contributor => {
+  function renderContributorDetails(contributors, contributionsUl) {
+    contributors.forEach(contributor => {
       const li = createAndAppend('li', contributionsUl, {
         class: 'contribution',
       });
@@ -95,7 +95,7 @@
       .then(contributors => {
         contributionsUl.innerHTML = '';
 
-        renderContDetails(contributors, contributionsUl);
+        renderContributorDetails(contributors, contributionsUl);
       })
       .catch(err => {
         createAndAppend('div', root, {
