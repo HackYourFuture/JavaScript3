@@ -62,19 +62,6 @@
     });
   }
 
-  function sortAndMapRepositories(repositoryInfos) {
-    return repositoryInfos
-      .sort(sortRepositoriesByNameAscending)
-      .map(repositoryInfo => ({
-        name: repositoryInfo.name,
-        url: repositoryInfo.html_url,
-        description: repositoryInfo.description,
-        forks: repositoryInfo.forks,
-        lastUpdateTime: getDateTimeText(repositoryInfo.updated_at),
-        contributorsUrl: repositoryInfo.contributors_url,
-      }));
-  }
-
   function renderRepoDetails(repo, ul) {
     const repoDetailsListItem = createAndAppend('li', ul, {
       class: 'repository-item',
@@ -84,13 +71,17 @@
     });
     const firstRow = appendRepoDetail('Repository:', '', repoDetailsTable);
     createAndAppend('a', firstRow.lastChild, {
-      href: repo.url,
+      href: repo.html_url,
       text: repo.name,
       target: '_blank',
     });
     appendRepoDetail('Description:', repo.description, repoDetailsTable);
     appendRepoDetail('Forks:', repo.forks, repoDetailsTable);
-    appendRepoDetail('Updated:', repo.lastUpdateTime, repoDetailsTable);
+    appendRepoDetail(
+      'Updated:',
+      getDateTimeText(repo.updated_at),
+      repoDetailsTable,
+    );
   }
 
   function renderContributorDetails(contributor, ul, index) {
@@ -155,7 +146,7 @@
 
   function renderRepositoryContributorsSection(repository) {
     const ul = getUnorderedListAsEmpty(REPOSITORY_CONTRIBUTORS_SECTION_ID);
-    fetchJSON(repository.contributorsUrl).then(contributors => {
+    fetchJSON(repository.contributors_url).then(contributors => {
       // In case of non contributors situation
       if (contributors) {
         contributors.forEach((contributor, index) => {
@@ -175,7 +166,7 @@
     const select = renderHeaderSection('HYF Repositories', root);
     fetchJSON(url)
       .then(repos => {
-        const repositoryInfos = sortAndMapRepositories(repos);
+        const repositoryInfos = repos.sort(sortRepositoriesByNameAscending);
         populateSelectElement(repositoryInfos, select);
         renderMainSectionWithSubSections(root);
         select.addEventListener('change', changeEvent => {
