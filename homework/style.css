@@ -10,17 +10,42 @@
   font-size: 1.2em;
 }
 .title {
+  height: 80px;
   margin: 0 5%;
-  padding: 15px 10px;
+  padding-top: 20px;
+  padding-left: 20px;
   background-color: rgb(80, 102, 231);
   color: white;
-  font-size: 1em;
+  font-size: 1.5em;
+  text-align: left;
+}
+.selection{
+  height: 30px;
+  margin: 10px;
+}
+.main-container{
+  margin: 0 5%;
+  width: 90%;
+  display: flex;
+  flex-wrap: nowrap;
+  margin-top: 1%;
+}
+.repo-container{
+  width: 60%;
+}
+.contributors-container{
+  width: 40%;
+  box-shadow: 1px 2px 3px 1px #666;
+}
+.contributors-container h3{
+  margin: 30px;
+  font-size: 1.5em;
 }
 .listContainer {
   font-size: 2em;
   list-style: none;
   padding: 5px;
-  margin: 1% 5%;
+  margin-right: 2%;
   box-shadow: 1px 2px 3px 1px #666;
 }
 .list {
@@ -32,6 +57,7 @@
 }
 .list h3 {
   width: 25%;
+  margin-right: 5%;
 }
 .list span {
   display: inline-flex;
@@ -41,17 +67,67 @@
   width: 70%;
   color: blue;
 }
+.itemList{
+  font-size: 2em;
+  list-style: none;
+  margin: 1% 2% 0 0;
+}
+.itemList li{
+  display: flex;
+  flex-wrap: nowrap;
+  height: 10rem;
+  margin-bottom: 0;
+  border-bottom: 1px solid gray;
+}
+.infoImg{
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  margin: auto 20px;
+}
+.infoImg img{
+  width: 100%;
+  border-radius: 50%;
+}
+.infoName{
+  margin: 60px 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+}
+.infoName a{
+  text-decoration: none;
+  font-size: 0.8em;
+}
+.infoName span{
+  background: skyblue;
+  border-radius: 8px;
+  padding: 5px;
+}
+
 
 @media only screen and (min-width: 600px) and (max-width: 1200px) {
-  body {
-    background: #999;
+  .main-container{
+    display: block;
+  }
+  .repo-container{
+    width: 100%;
+  }
+  .contributors-container{
+    width: 100%;
+    background: white;
+  }
+  .contributors-container h3{
+   padding: 10px;
   }
   .listContainer {
-    background-color: #f4f4f4;
+    background: white;
+    margin: 0;
   }
   .title {
     text-align: center;
     font-size: 1.5em;
+    padding-top: 20px;
   }
   .listContainer {
     font-size: 1.5em;
@@ -64,17 +140,37 @@
   body {
     background-color: #555;
     min-width: 320px;
-    font-size: 0.6em;
+    font-size: 0.55em;
+  }
+   .main-container{
+    display: block;
+  }
+  .repo-container{
+    width: 100%;
+  }
+  .contributors-container{
+    width: 100%;
+    background: white;
+  }
+  .contributors-container h3{
+   padding: 10px;
+  }
+  .listContainer {
+    background: white;
+    margin: 0;
   }
   .title {
     text-align: center;
     font-size: 1.5em;
+    padding-top: 20px;
   }
   .listContainer {
-    background-color: #f2f2f2;
-    font-size: 1.2em;
+    font-size: 1.3em;
   }
-  .list h3 {
-    margin-right: 1.5em;
+  .infoName  a{
+    margin-top: 10px;
   }
-}
+  .infoName span{
+    margin-left: 30px;
+  }
+  }
