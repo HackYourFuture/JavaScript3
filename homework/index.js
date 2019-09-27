@@ -37,19 +37,10 @@
     return elem;
   }
 
-  function appendRepoDetail(header, description, parentTable, link) {
+  function appendRepoDetail(header, description, parentTable) {
     const repoDetailRow = createAndAppend('tr', parentTable);
     createAndAppend('th', repoDetailRow, { text: header });
-    const descriptionElm = createAndAppend('td', repoDetailRow);
-    if (link) {
-      createAndAppend('a', descriptionElm, {
-        href: link,
-        text: description,
-        target: '_blank',
-      });
-    } else {
-      descriptionElm.textContent = description;
-    }
+    createAndAppend('td', repoDetailRow, { text: description });
     return repoDetailRow;
   }
 
@@ -91,7 +82,12 @@
     const repoDetailsTable = createAndAppend('table', repoDetailsListItem, {
       class: 'repository-item-table',
     });
-    appendRepoDetail('Repository:', repo.name, repoDetailsTable, repo.url);
+    const firstRow = appendRepoDetail('Repository:', '', repoDetailsTable);
+    createAndAppend('a', firstRow.lastChild, {
+      href: repo.url,
+      text: repo.name,
+      target: '_blank',
+    });
     appendRepoDetail('Description:', repo.description, repoDetailsTable);
     appendRepoDetail('Forks:', repo.forks, repoDetailsTable);
     appendRepoDetail('Updated:', repo.lastUpdateTime, repoDetailsTable);
