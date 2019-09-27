@@ -66,13 +66,6 @@ header {
   flex-wrap: wrap;
 }
 
-.contributors-item h6 {
-  flex: 0 0 100%;
-  color: #9c9c9c;
-  font-family: 'Courier New', Courier, monospace;
-  margin-top: 10px;
-}
-
 .contributors-item img {
   height: 50px;
   width: 50px;
@@ -100,6 +93,13 @@ header {
   margin: 20px 0;
   background-color: white;
   box-shadow: -2px 2px 5px lightgray;
+}
+
+.repository-contributors-container h6 {
+  flex: 0 0 100%;
+  color: #9c9c9c;
+  font-family: 'Courier New', Courier, monospace;
+  margin: 10px 0 0 20px;
 }
 
 @media screen and (min-width: 1200px) {

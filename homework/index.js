@@ -83,15 +83,10 @@
     );
   }
 
-  function renderContributorDetails(contributor, ul, index) {
+  function renderContributorDetails(contributor, ul) {
     const repoContributorListItem = createAndAppend('li', ul, {
       class: 'contributors-item',
     });
-    if (index === 0) {
-      createAndAppend('h6', repoContributorListItem, {
-        text: 'Contributions:',
-      });
-    }
     createAndAppend('img', repoContributorListItem, {
       src: contributor.avatar_url,
       alt: 'Contributor avatar picture',
@@ -106,7 +101,7 @@
     });
   }
 
-  function renderHeaderSection(title, parent) {
+  function createHeaderSection(title, parent) {
     const header = createAndAppend('header', parent);
     createAndAppend('span', header, {
       text: title,
@@ -123,9 +118,18 @@
     dom[CONTRIBUTORS_SECTION] = createAndAppend('section', mainSection, {
       class: CONTRIBUTORS_SECTION,
     });
+    createAndAppend('h6', dom[CONTRIBUTORS_SECTION], {
+      text: 'Contributions:',
+    });
     dom[CONTRIBUTORS_LIST] = createAndAppend('ul', dom[CONTRIBUTORS_SECTION], {
       class: 'sub-container',
     });
+  }
+
+  function renderRepositoryDetailsSection(repository) {
+    // Clear previous item first
+    dom[DETAIL_SECTION].innerHTML = '';
+    renderRepoDetails(repository, dom[DETAIL_SECTION]);
   }
 
   function renderRepositoryContributorsSection(repository) {
@@ -134,21 +138,26 @@
     fetchJSON(repository.contributors_url).then(contributors => {
       // In case of non contributors situation
       if (contributors) {
-        contributors.forEach((contributor, index) => {
-          renderContributorDetails(contributor, dom[CONTRIBUTORS_LIST], index);
+        contributors.forEach(contributor => {
+          renderContributorDetails(contributor, dom[CONTRIBUTORS_LIST]);
+        });
+      } else {
+        createAndAppend('li', dom[CONTRIBUTORS_LIST], {
+          text: 'There is not any contributors for this repository.',
+          class: 'alert-error',
         });
       }
     });
   }
 
   function renderRepository(repository) {
-    renderRepoDetails(repository, dom[DETAIL_SECTION]);
+    renderRepositoryDetailsSection(repository);
     renderRepositoryContributorsSection(repository);
   }
 
   function main(url) {
     const root = document.getElementById('root');
-    const select = renderHeaderSection('HYF Repositories', root);
+    const select = createHeaderSection('HYF Repositories', root);
     fetchJSON(url)
       .then(repos => {
         const repositoryInfos = repos.sort(sortRepositoriesByNameAscending);
