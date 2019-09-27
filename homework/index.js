@@ -53,7 +53,7 @@
     return firstRepo.name.localeCompare(secondRepo.name);
   }
 
-  function renderRepositoryNames(repositories, select) {
+  function populateSelectElement(repositories, select) {
     repositories.forEach((repository, index) => {
       createAndAppend('option', select, {
         text: repository.name,
@@ -176,7 +176,7 @@
     fetchJSON(url)
       .then(repos => {
         const repositoryInfos = sortAndMapRepositories(repos);
-        renderRepositoryNames(repositoryInfos, select);
+        populateSelectElement(repositoryInfos, select);
         renderMainSectionWithSubSections(root);
         select.addEventListener('change', changeEvent => {
           renderRepository(repositoryInfos[changeEvent.target.value]);
