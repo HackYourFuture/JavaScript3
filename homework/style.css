@@ -1,3 +1,137 @@
-.alert-error {
-  color: red;
+.alert-error { 
+  color: black;
+  background-color: rgb(247, 111, 111);
+  font-weight: bold;
+  padding: 20px;
+  text-align: center;
 }
+
+body {
+  box-sizing: border-box;
+  margin-top: 10px;
+  width: 80%;
+}
+.header {
+  color: white;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 7px 15px;
+  margin-bottom: 15px;
+  background-color: blueviolet;
+  box-shadow: 0 0 10px rgb(87, 0, 0);
+}
+#drop-list{
+  padding: 7px;
+  margin-left: 10px;
+  margin: 10px;
+ 
+}
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.left-section,
+.right-section {
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 1px 0px 1px 2px lightsalmon;
+}
+
+th {
+ text-align: left;
+  
+}
+.contributor-list {
+  padding-left: 0;
+  list-style-type: none;
+}
+.contributor-item {
+  padding: 8px 14px;
+  box-shadow: 1px 1px 1px 1px lightsalmon;
+  margin-bottom: 5px;
+ 
+}
+.contributor-item a {
+  text-decoration: none;
+}
+.contributor-avatar {
+  height: 48px;
+  margin-right: 16px;
+}
+.contributor {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.contributor-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+}
+.contributor-login {
+  padding: 10px;
+  color: black;
+}
+.contributions-number {
+  padding: 3px;
+  color: black;
+  background-color: gray;
+}
+.item {
+  list-style: none;
+  padding: 10px;
+  margin: 10px 0px;
+}
+@media (min-width: 768px) {
+  body {
+    max-width: 90%;
+    margin: auto;
+  }
+  
+  #drop-list{
+    font-size: 2vw;
+  }
+
+  .container {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .left-section {
+    margin-right: 10px;
+    flex: 2;
+ }
+  .right-section {
+    flex: 1;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    max-width: 80%;
+    font-size: 1.5vw;
+  }
+
+  #drop-list{
+    font-size: 1.3vw;
+  }
+}
+
+@media (min-width: 1440px) {
+  body {
+    max-width: 70%;
+    font-size: 1.5vw;
+  }
+
+  #drop-list{
+    font-size: 1.1vw;
+  }
+}
+
