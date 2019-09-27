@@ -160,13 +160,13 @@
     const select = createHeaderSection('HYF Repositories', root);
     fetchJSON(url)
       .then(repos => {
-        const repositoryInfos = repos.sort(sortRepositoriesByNameAscending);
-        populateSelectElement(repositoryInfos, select);
+        const repositoriesInfo = repos.sort(sortRepositoriesByNameAscending);
+        populateSelectElement(repositoriesInfo, select);
         createMainSectionWithSubSections(root);
         select.addEventListener('change', changeEvent => {
-          renderRepository(repositoryInfos[changeEvent.target.value]);
+          renderRepository(repositoriesInfo[changeEvent.target.value]);
         });
-        renderRepository(repositoryInfos[select.value]); // For the first load
+        renderRepository(repositoriesInfo[select.value]); // For the first load
       })
       .catch(error => {
         createAndAppend('div', root, {

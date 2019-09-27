@@ -137,4 +137,8 @@ header {
   .repository-contributors-container {
     width: 100%;
   }
+
+  .repository-detail-container {
+    margin-bottom: 0;
+  }
 }
