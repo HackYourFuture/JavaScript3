@@ -1,4 +1,4 @@
-.alert-error { 
+.not-available { 
   color: black;
   background-color: rgb(247, 111, 111);
   font-weight: bold;
@@ -8,8 +8,8 @@
 
 body {
   box-sizing: border-box;
-  margin-top: 10px;
-  width: 80%;
+  padding: 10px;
+  
 }
 .header {
   color: white;
@@ -53,6 +53,7 @@ th {
   padding: 8px 14px;
   box-shadow: 1px 1px 1px 1px lightsalmon;
   margin-bottom: 5px;
+  list-style: none;
  
 }
 .contributor-item a {
@@ -111,6 +112,7 @@ th {
   .right-section {
     flex: 1;
   }
+  
 }
 
 @media (min-width: 1024px) {

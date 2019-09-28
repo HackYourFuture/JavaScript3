@@ -42,7 +42,7 @@
 
   // 2- create details of repositories
   function renderRepoDetails(detailsSection, repo) {
-    const li = createAndAppend('table', detailsSection, { class: 'item' });
+    const li = createAndAppend('li', detailsSection, { class: 'item' });
     const table = createAndAppend('table', li);
     // 2-1 add repository name
     const repoName = createRow(table, 'Repository:', '');
@@ -52,11 +52,7 @@
       target: '_blank',
     });
     // 2-2 add description
-    if (repo.description) {
-      createRow(table, 'Description:', repo.description);
-    } else {
-      createRow(table, 'Description:', 'N/A');
-    }
+    createRow(table, 'Description:', repo.description || 'N/A');
     // 2-3 add Forks
     createRow(table, 'Forks:', repo.forks);
     // 2-4 add updated
@@ -69,47 +65,49 @@
   }
 
   // 4- Creating the contributions part
+  function renderContributor(contributor, ul) {
+    const contributorItem = createAndAppend('li', ul, {
+      class: 'contributor-item',
+    });
+    const contributorLink = createAndAppend('a', contributorItem, {
+      href: contributor.html_url,
+      target: '_blank',
+    });
+    const contributorDiv = createAndAppend('div', contributorLink, {
+      class: 'contributor',
+    });
+    createAndAppend('img', contributorDiv, {
+      src: contributor.avatar_url,
+      class: 'contributor-avatar',
+    });
+    const contributorDetails = createAndAppend('div', contributorDiv, {
+      class: 'contributor-details',
+    });
+    createAndAppend('div', contributorDetails, {
+      text: contributor.login,
+      class: 'contributor-login',
+    });
+    createAndAppend('div', contributorDetails, {
+      text: contributor.contributions,
+      class: 'contributions-number',
+    });
+  }
+
   function createContributors(contributorSection, url) {
     createAndAppend('h4', contributorSection, {
-      text: 'Contributions: ',
+      text: 'Contributions:',
     });
     fetchJSON(url)
       .then(contributors => {
         if (contributors && contributors.length) {
-          const ul = createAndAppend('ul', contributorSection, {
-            class: 'contributor-list',
-          });
-          contributors.forEach(contributor => {
-            const contributorItem = createAndAppend('li', ul, {
-              class: 'contributor-item',
-            });
-            const contributorLink = createAndAppend('a', contributorItem, {
-              href: contributor.html_url,
-              target: '_blank',
-            });
-            const contributorDiv = createAndAppend('div', contributorLink, {
-              class: 'contributor',
-            });
-            createAndAppend('img', contributorDiv, {
-              src: contributor.avatar_url,
-              class: 'contributor-avatar',
-            });
-            const contributorDetails = createAndAppend('div', contributorDiv, {
-              class: 'contributor-details',
-            });
-            createAndAppend('div', contributorDetails, {
-              text: contributor.login,
-              class: 'contributor-login',
-            });
-            createAndAppend('div', contributorDetails, {
-              text: contributor.contributions,
-              class: 'contributions-number',
-            });
-          });
+          const ul = createAndAppend('ul', contributorSection);
+          contributors.forEach(contributor =>
+            renderContributor(contributor, ul),
+          );
         } else {
           createAndAppend('div', contributorSection, {
             text: 'N/A',
-            class: 'alert-error',
+            class: 'not-available',
           });
         }
       })
