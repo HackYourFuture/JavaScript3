@@ -1,21 +1,94 @@
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.repo-header {
+  float: left;
+  padding: 40px 20px;
+  background-color: #3F51B5;
+  color: white;
+  font-size: 4rem;
+  text-align: left;
+}
+
+.main-container {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.select-repository {
+  height: 30px;
+  width: 20%;
+  margin-left: 2%;
+  border-radius: 4%;
+  font-size: 20px;
+
+}
+
+.repository-section {
+  border: 2px 0PX solid pink;
+  box-shadow: 1px 4px pink;
+  padding-right: 2px;
+  padding-left: 10px;
+  margin-right: 1%;
+}
+
+.contributors-section {
+  display: float;
+  width: 70%;
+  text-align: justify;
+  border: 2px 0PX solid pink;
+  box-shadow: 1px 4px pink;
+}
+
+.contributors-li {
+  list-style-type: none;
+}
+
+.added-contributions {
+  float: right;
+  font-size: 44px;
+  border-radius: 20%;
+  border: 4px solid white;
+  background-color: grey
+}
+
+.contributor-image {
+  float: left;
+}
+
+.contributor-name {
+  clear: both;
+  font-size: 30px;
+}
+
+.contributor-image img {
+  width: 26%;
+  margin: 8px 28px 8px 8px;
+}
+
+.contributor-name a {
+  text-decoration: none;
+}
+
 .alert-error {
   color: red;
   font-size: 1.5 rem;
 }
 
-.repo-header {
-  padding: 40px 20px;
-  background-color: #3F51B5;
-  color: white;
-  font-size: 4rem;
-  text-align: center;
-}
-
 .rep-list {
   list-style-type: none;
-  border: 2px 0PX solid pink;
-  box-shadow: 1px 4px pink;
-
 }
 
 .repo-details {
