@@ -91,11 +91,9 @@
   }
 
   function renderOptionElements(repos, select) {
-    repos
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .forEach((repo, index) => {
-        createAndAppend('option', select, { text: repo.name, value: index });
-      });
+    repos.forEach((repo, index) => {
+      createAndAppend('option', select, { text: repo.name, value: index });
+    });
   }
 
   function main(url) {
