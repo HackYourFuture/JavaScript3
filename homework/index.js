@@ -62,11 +62,6 @@
     });
   }
 
-  function selectedIndex(selection, repositories, parent) {
-    const repo = repositories[selection];
-    renderRepoDetails(repo, parent);
-  }
-
   function createContributorsSection(url, parent) {
     fetchJSON(url)
       .then(contributes => {
@@ -95,16 +90,11 @@
       });
   }
 
-  function firstScreen(repos, repoParent, contParent, index) {
-    renderRepoDetails(repos[index], repoParent);
-    createContributorsSection(repos[index].contributors_url, contParent);
-  }
-
-  function changeSelection(select, repos, repoParent, contParent) {
-    const selection = select.value;
-    const contUrl = repos[selection].contributors_url;
-    selectedIndex(selection, repos, repoParent);
-    createContributorsSection(contUrl, contParent);
+  function changeSelection(repo, repoParent, contParent) {
+    repoParent.innerHTML = '';
+    contParent.innerHTML = '';
+    renderRepoDetails(repo, repoParent);
+    createContributorsSection(repo.contributors_url, contParent);
   }
 
   function main(url) {
@@ -152,12 +142,10 @@
           .forEach((repo, index) => {
             createOption(repo, select, index);
           });
-        firstScreen(repos, div, ulCont, 0);
+        changeSelection(repos[0], div, ulCont);
 
         select.addEventListener('change', () => {
-          div.innerHTML = '';
-          ulCont.innerHTML = '';
-          changeSelection(select, repos, div, ulCont);
+          changeSelection(repos[select.value], div, ulCont);
         });
       })
       .catch(err => {
