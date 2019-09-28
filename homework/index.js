@@ -31,65 +31,44 @@
     return elem;
   }
 
-  function createElement(ul, element1, element2, options1, options2) {
+  function createDetailLine(ul, labelText, value) {
     const li = createAndAppend('li', ul, { class: 'list' });
-    createAndAppend(element1, li, options1);
-    createAndAppend(element2, li, options2);
+    createAndAppend('h3', li, { text: `${labelText}` });
+    createAndAppend('span', li, { text: value });
+    return li;
   }
 
-  function dateChange(date) {
+  function formatDate(date) {
     return new Date(date).toLocaleString();
   }
 
   function renderRepoDetails(repo, ul) {
     ul.innerHTML = ' ';
-    createElement(
-      ul,
-      'h3',
-      'a',
-      { text: ' Repository:  ' },
-      {
-        text: repo.name,
-        href: repo.html_url,
-        target: '_blank',
-      },
-    );
-    createElement(
-      ul,
-      'h3',
-      'span',
-      { text: ' Description:  ' },
-      { text: repo.description },
-    );
-    createElement(
-      ul,
-      'h3',
-      'span',
-      { text: ' Forks:  ' },
-      { text: repo.forks },
-    );
-    createElement(
-      ul,
-      'h3',
-      'span',
-      { text: ' Updated:  ' },
-      { text: dateChange(repo.updated_at) },
-    );
+    const first = createDetailLine(ul, 'Repository', '');
+    console.log(first);
+    createAndAppend('a', first.lastChild, {
+      text: repo.name,
+      href: repo.html_url,
+      target: '_blank',
+    });
+    createDetailLine(ul, 'Description', repo.description);
+    createDetailLine(ul, 'Forks', repo.forks);
+    createDetailLine(ul, 'Updated', formatDate(repo.updated_at));
   }
 
-  function renderContributes(repositories, ul) {
+  function renderContributors(repositories, ul) {
     const url = repositories.contributors_url;
     fetchJSON(url)
-      .then(contributions => {
+      .then(contributors => {
         ul.innerHTML = ' ';
-        contributions.forEach(contributor => {
+        contributors.forEach(contributor => {
           const li = createAndAppend('li', ul);
-          const infoImg = createAndAppend('div', li, { class: 'infoImg' });
+          const infoImg = createAndAppend('div', li, { class: 'info-img' });
           createAndAppend('img', infoImg, {
             src: contributor.avatar_url,
             alt: contributor.login,
           });
-          const infoName = createAndAppend('div', li, { class: 'infoName' });
+          const infoName = createAndAppend('div', li, { class: 'info-name' });
           createAndAppend('a', infoName, {
             text: contributor.login,
             href: contributor.html_url,
@@ -102,7 +81,7 @@
         });
       })
       .catch(err => {
-        createAndAppend('div', root, {
+        createAndAppend('div', document.getElementById('root'), {
           text: err.message,
           class: 'alert-error',
         });
@@ -135,7 +114,7 @@
           class: 'repo-container',
         });
         const ul = createAndAppend('ul', repoContainer, {
-          class: 'listContainer',
+          class: 'list-container',
         });
         renderRepoDetails(repos[0], ul);
         const contribContainer = createAndAppend('div', mainContainer, {
@@ -145,18 +124,18 @@
           text: 'Contributions',
         });
         const ulContributes = createAndAppend('ul', contribContainer, {
-          class: 'itemList',
+          class: 'item-list',
         });
-        renderContributes(repos[0], ulContributes);
+        renderContributors(repos[0], ulContributes);
 
         select.addEventListener('click', () => {
           const repo = repos[select.value];
           renderRepoDetails(repo, ul);
-          renderContributes(repo, ulContributes);
+          renderContributors(repo, ulContributes);
         });
       })
       .catch(err => {
-        createAndAppend('div', root, {
+        createAndAppend('div', document.getElementById('root'), {
           text: err.message,
           class: 'alert-error',
         });

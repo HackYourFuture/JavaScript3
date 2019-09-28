@@ -41,7 +41,7 @@
   margin: 30px;
   font-size: 1.5em;
 }
-.listContainer {
+.list-container {
   font-size: 2em;
   list-style: none;
   padding: 5px;
@@ -67,39 +67,39 @@
   width: 70%;
   color: blue;
 }
-.itemList{
+.item-list{
   font-size: 2em;
   list-style: none;
   margin: 1% 2% 0 0;
 }
-.itemList li{
+.item-list li{
   display: flex;
   flex-wrap: nowrap;
   height: 10rem;
   margin-bottom: 0;
   border-bottom: 1px solid gray;
 }
-.infoImg{
+.info-img{
   height: 100px;
   width: 100px;
   border-radius: 50%;
   margin: auto 20px;
 }
-.infoImg img{
+.info-img img{
   width: 100%;
   border-radius: 50%;
 }
-.infoName{
+.info-name{
   margin: 60px 20px;
   display: flex;
   justify-content: space-between;
   width: 70%;
 }
-.infoName a{
+.info-name a{
   text-decoration: none;
   font-size: 0.8em;
 }
-.infoName span{
+.info-name span{
   background: skyblue;
   border-radius: 8px;
   padding: 5px;
@@ -167,10 +167,10 @@
   .listContainer {
     font-size: 1.3em;
   }
-  .infoName  a{
+  .info-name  a{
     margin-top: 10px;
   }
-  .infoName span{
+  .info-name span{
     margin-left: 30px;
   }
   }
