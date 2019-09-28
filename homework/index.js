@@ -132,7 +132,7 @@
         class: 'contributor-container',
       },
     );
-    const p = createAndAppend('p', contributorsContainerSection, {
+    createAndAppend('p', contributorsContainerSection, {
       class: 'contributors-title',
       text: 'Contributions',
     });
