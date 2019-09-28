@@ -29,32 +29,27 @@
     return elem;
   }
 
-  function renderRepoDetails(repo, table) {
-    const RepositoryTr = createAndAppend('tr', table);
-    createAndAppend('th', RepositoryTr, {
-      text: 'Repository:',
+  function renderRepoTable(table, name, path) {
+    const tr = createAndAppend('tr', table);
+    createAndAppend('th', tr, {
+      text: name,
     });
-    const RepoNameTh = createAndAppend('td', RepositoryTr);
-    createAndAppend('a', RepoNameTh, {
+    createAndAppend('td', tr, {
+      text: path,
+    });
+    return tr;
+  }
+  function renderRepoDetails(repo, table) {
+    const firstRow = renderRepoTable(table, 'Repository', '');
+    createAndAppend('a', firstRow.lastChild, {
       text: repo.name,
       href: repo.html_url,
       target: '_blank',
     });
-
-    function renderRepoTable(name, path) {
-      const tr = createAndAppend('tr', table);
-      createAndAppend('th', tr, {
-        text: name,
-      });
-      createAndAppend('td', tr, {
-        text: path,
-      });
-    }
-
-    renderRepoTable('Description:', repo.description);
-    renderRepoTable('Forks:', repo.forks);
+    renderRepoTable(table, 'Description:', repo.description);
+    renderRepoTable(table, 'Forks:', repo.forks);
     const date = new Date(repo.updated_at).toLocaleString('en-US');
-    renderRepoTable('Updated:', date);
+    renderRepoTable(table, 'Updated:', date);
   }
 
   function main(url) {
