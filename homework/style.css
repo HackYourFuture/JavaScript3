@@ -1,28 +1,32 @@
 .root{
   width: 70%;
 }
-.li-root {
-  border: 1px black solid;
+
+table {
+  text-align: left;
+ 
+}
+
+.divTable{
+ border: 1px black solid;
   box-shadow: 3px 4px grey;
   border-radius: 10px;
   margin: 5px;
   padding: 15px;
-}
-.ul-root {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-table {
-  text-align: left;
 }
 
 table tr th {
   font-weight: bold;
   padding-right: 20px;
   vertical-align: top;
+  text-align: left;
+  vertical-align: top
 }
+
+table tr td{
+  vertical-align: top;
+}
+
 
 .alert-error {
   color: red;

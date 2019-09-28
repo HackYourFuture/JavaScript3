@@ -39,10 +39,10 @@
     createAndAppend('td', tr, { text: repoText });
     return tr;
   }
-  function renderRepoDetails(repo, ul) {
+
+  function renderRepoDetails(repo, parent) {
     const date = new Date(repo.updated_at);
-    const li = createAndAppend('li', ul, { class: 'li-root' });
-    const table = createAndAppend('table', li);
+    const table = createAndAppend('table', parent);
     const firstRow = addRow(table, 'Repository:', '');
     createAndAppend('a', firstRow.lastChild, {
       href: repo.html_url,
@@ -55,38 +55,56 @@
     addRow(table, 'Updated:', date.toLocaleDateString(), 'td');
   }
 
-  function createOptions(repo, parent, index) {
+  function createOption(repo, parent, index) {
     createAndAppend('option', parent, {
       text: repo.name,
       value: index,
     });
   }
-  function selections(selection, data, parent) {
-    const ul = createAndAppend('ul', parent, {
-      class: 'ul-root',
-    });
-    const repo = data[selection];
-    renderRepoDetails(repo, ul);
+
+  function selectedIndex(selection, repositories, parent) {
+    const repo = repositories[selection];
+    renderRepoDetails(repo, parent);
   }
+
   function createContributorsSection(url, parent) {
-    fetchJSON(url).then(data => {
-      data.forEach(repo => {
-        const li = createAndAppend('li', parent);
-        createAndAppend('img', li, {
-          src: repo.avatar_url,
-          class: 'avatar',
+    fetchJSON(url)
+      .then(contributes => {
+        contributes.forEach(contribute => {
+          const li = createAndAppend('li', parent);
+          createAndAppend('img', li, {
+            src: contribute.avatar_url,
+            class: 'avatar',
+          });
+          createAndAppend('a', li, {
+            text: contribute.login,
+            href: contribute.html_url,
+            target: '_blank',
+            class: 'cont-name',
+          });
+          createAndAppend('p', li, {
+            text: contribute.contributions,
+          });
         });
-        createAndAppend('a', li, {
-          text: repo.login,
-          href: repo.html_url,
-          target: '_blank',
-          class: 'cont-name',
-        });
-        createAndAppend('p', li, {
-          text: repo.contributions,
+      })
+      .catch(err => {
+        createAndAppend('div', parent, {
+          text: err.message,
+          class: 'alert-error',
         });
       });
-    });
+  }
+
+  function firstScreen(repos, repoParent, contParent, index) {
+    renderRepoDetails(repos[index], repoParent);
+    createContributorsSection(repos[index].contributors_url, contParent);
+  }
+
+  function changeSelection(select, repos, repoParent, contParent) {
+    const selection = select.value;
+    const contUrl = repos[selection].contributors_url;
+    selectedIndex(selection, repos, repoParent);
+    createContributorsSection(contUrl, contParent);
   }
 
   function main(url) {
@@ -104,8 +122,8 @@
     const repoContainerSection = createAndAppend('section', mainSection, {
       class: 'repo-container',
     });
-    const ul = createAndAppend('ul', repoContainerSection, {
-      class: 'ul-root',
+    const div = createAndAppend('div', repoContainerSection, {
+      class: 'divTable',
     });
     const contributorsContainerSection = createAndAppend(
       'section',
@@ -116,8 +134,8 @@
     );
     const p = createAndAppend('p', contributorsContainerSection, {
       class: 'contributors-title',
+      text: 'Contributions',
     });
-    p.innerHTML = 'Contributions';
 
     const ulCont = createAndAppend('ul', contributorsContainerSection, {
       class: 'ul-cont-root',
@@ -128,22 +146,18 @@
     });
 
     fetchJSON(url)
-      .then(data => {
-        renderRepoDetails(data[17], ul);
-        const urlStart = data[17].contributors_url;
-        createContributorsSection(urlStart, ulCont);
-        data
+      .then(repos => {
+        repos
           .sort((a, b) => a.name.localeCompare(b.name))
           .forEach((repo, index) => {
-            createOptions(repo, select, index);
+            createOption(repo, select, index);
           });
+        firstScreen(repos, div, ulCont, 0);
+
         select.addEventListener('change', () => {
-          repoContainerSection.innerHTML = '';
+          div.innerHTML = '';
           ulCont.innerHTML = '';
-          const selection = select.value;
-          selections(selection, data, repoContainerSection);
-          const contUrl = data[selection].contributors_url;
-          createContributorsSection(contUrl, ulCont);
+          changeSelection(select, repos, div, ulCont);
         });
       })
       .catch(err => {
