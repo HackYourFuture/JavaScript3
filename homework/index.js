@@ -96,6 +96,12 @@
   }
 
   function deleteContainers() {
+    const selectButton = document.getElementById('selectButton');
+    let firstOption = selectButton.firstChild;
+    while (firstOption) {
+      selectButton.removeChild(firstOption);
+      firstOption = selectButton.firstChild;
+    }
     document.getElementById('flex-container').remove();
   }
 
@@ -134,7 +140,9 @@
     const promise = fetchJSON(url);
     promise
       .then(repos => {
-        const selectButton = createAndAppend('select', header);
+        const selectButton = createAndAppend('select', header, {
+          id: 'selectButton',
+        });
         selectButton.addEventListener('change', () => {
           deleteContainers();
           makeFlexContainer(root, repos, selectButton);
