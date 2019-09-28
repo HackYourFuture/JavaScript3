@@ -1,3 +1,11 @@
+.alert-error { 
+  color: black;
+  background-color: rgb(247, 111, 111);
+  font-weight: bold;
+  padding: 20px;
+  text-align: center;
+}
+
 .not-available { 
   color: black;
   background-color: rgb(247, 111, 111);
