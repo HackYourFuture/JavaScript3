@@ -102,7 +102,6 @@
         });
       })
       .catch(err => {
-        const root = document.getElementById('root');
         createAndAppend('div', root, {
           text: err.message,
           class: 'alert-error',
@@ -150,14 +149,13 @@
         });
         renderContributes(repos[0], ulContributes);
 
-        select.addEventListener('change', () => {
+        select.addEventListener('click', () => {
           const repo = repos[select.value];
           renderRepoDetails(repo, ul);
           renderContributes(repo, ulContributes);
         });
       })
       .catch(err => {
-        const root = document.getElementById('root');
         createAndAppend('div', root, {
           text: err.message,
           class: 'alert-error',
