@@ -1,3 +1,65 @@
+#root {
+  display: table;
+  width: 90%
+}
+
+body {
+  background-color: lightgray;
+}
+
 .alert-error {
   color: red;
+}
+
+.header-class {
+  background-color: blue;
+  color: aliceblue;
+  font-size: 20px;
+  width: 90%;
+}
+
+.main-container {
+  width: 90%
+}
+
+* {
+  padding: 10px;
+}
+
+th {
+  width: 80px;
+  line-height: 25px;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  width: 100px;
+}
+
+.repos-container,
+.contributor-container {
+  width: 45%;
+
+}
+
+.main-container,
+.header-class {
+  display: flex;
+}
+
+.contributor-details {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: stretch;
+  border-bottom: 1px solid lightgray;
+  background-color: white;
+}
+
+@media (max-width: 600px) {
+  #root {
+    padding: 2px;
+  }
 }
