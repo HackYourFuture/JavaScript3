@@ -100,11 +100,13 @@
       text: 'HYF Repositories',
     });
     const select = createAndAppend('select', header, { class: 'select' });
-    const main = createAndAppend('main', root, { class: 'main-container' });
-    const repoContainer = createAndAppend('section', main, {
+    const mainSection = createAndAppend('main', root, {
+      class: 'main-container',
+    });
+    const repoContainer = createAndAppend('section', mainSection, {
       class: 'repo-container',
     });
-    const contributorContainer = createAndAppend('section', main, {
+    const contributorContainer = createAndAppend('section', mainSection, {
       class: 'contributors-container',
     });
     createAndAppend('p', contributorContainer, {
