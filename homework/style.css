@@ -9,6 +9,7 @@
 * {
   margin: 0;
   padding: 0;
+  text-decoration: none;
 }
 
 body {
@@ -18,37 +19,109 @@ body {
 }
 
 .header {
-  width: 90%;
-  margin: 1% 5% 1% 5%;
-  padding: 30px 0 30px 0;
+  max-width: 81%;
+  margin: 0 auto;
+  padding: 20px 0 20px 0;
   background: #3f51b5;
+}
+
+.header-text {
   color: white;
-  border: 1px solid whitesmoke;
-  box-shadow: 2px 2px rgba(128, 128, 128, 0.247);
-  font-size: 24px;
+  margin: 10px 20px 10px 20px;
+}
+
+.select-bar {
+  margin: 10px;
+  padding: 10px;
+}
+
+main {
+  max-width: 80%;
+  margin: 0 auto;
+  margin-top: 5px;
+  display: flex;
+}
+
+.repo-container {
+  flex: 1;
+  margin-right: 5px;
 }
 
 .table {
-  width: 90%;
-  margin: 1% 5% 1% 5%;
-  border: 1px solid whitesmoke;
-  box-shadow: 2px 2px rgba(128, 128, 128, 0.247);
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  text-align: left;
+  box-shadow: -2px 2px 5px 5px rgba(128, 128, 128, 0.247);
+  width: 100%;
+  vertical-align: top;
 }
 
 .keys {
   width: 20%;
-  padding-left: 20px;
-  color: #3c4144;
 }
 
-.values {
-  width: 80%;
+.contributors-container {
+  box-shadow: -2px 2px 5px 5px rgba(128, 128, 128, 0.247);
+
+  flex: 1;
 }
 
-@media (max-width: 900px) {
-  body {
-    font-size: 14px;
+.contributor-image {
+  width: 80px;
+  padding: 20px;
+  border-radius: 26px;
+}
+
+.contributor-link {
+  flex-grow: 1;
+}
+
+.contributor-div {
+  padding: 2px 13px;
+  margin-right: 15px;
+  background: grey;
+  border-radius: 5px;
+  color: white;
+  line-height: 1;
+  font-size: 16px;
+}
+
+.contributor-title {
+  color: grey;
+  font-size: 18px;
+  padding: 20px;
+}
+
+.contributor-list {
+  list-style-type: none;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.459);
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 670px) {
+  main {
+    font-size: 12px;
+    display: table;
+    width: 100%;
+  }
+
+  .repo-container {
+    width: 100%;
+  }
+
+  .contributors-container {
+    margin-top: 5px;
+    width: 100%;
+    box-shadow: -2px 2px 5px rgba(128, 128, 128, 0.247);
+  }
+
+  .table {
+    box-shadow: -2px 2px 5px rgba(128, 128, 128, 0.247);
+  }
+
+  .contributor-title {
+    font-size: 15px;
+  }
+
+  .keys {
+    width: 30%;
   }
 }
