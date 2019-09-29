@@ -21,11 +21,11 @@
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
-    Object.entries(options).forEach(([key, content]) => {
+    Object.entries(options).forEach(([key, value]) => {
       if (key === 'text') {
-        elem.textContent = content;
+        elem.textContent = value;
       } else {
-        elem.setAttribute(key, content);
+        elem.setAttribute(key, value);
       }
     });
     return elem;
@@ -36,9 +36,9 @@
     return timeFormat.toLocaleString();
   }
 
-  function createTable(table, header, content) {
-    const row = createAndAppend('tr', table);
-    createAndAppend('th', row, { text: header, class: 'header' });
+  function createTableRow(table, header, content) {
+    const row = createAndAppend('tr', table, { class: 'row' });
+    createAndAppend('th', row, { text: header, class: 'table-header' });
     createAndAppend('td', row, { text: content, class: 'content' });
     return row;
   }
@@ -46,35 +46,36 @@
   function renderRepoDetails(repo, ul) {
     const listItem = createAndAppend('li', ul, { class: 'listItem' });
     const table = createAndAppend('table', listItem, { class: 'table' });
-    const topRow = createTable(table, 'Repository: ');
+    const topRow = createTableRow(table, 'Repository: ');
     createAndAppend('a', topRow.lastChild, {
       text: repo.name,
       href: repo.html_url,
     });
-    createTable(table, 'Description: ', repo.description);
-    createTable(table, 'Fork count: ', repo.forks);
-    createTable(table, 'Created on: ', changeDateFormat(repo.created_at));
-    createTable(table, 'Updated on: ', changeDateFormat(repo.updated_at));
+    createTableRow(table, 'Description: ', repo.description);
+    createTableRow(table, 'Fork count: ', repo.forks);
+    createTableRow(table, 'Created on: ', changeDateFormat(repo.created_at));
+    createTableRow(table, 'Updated on: ', changeDateFormat(repo.updated_at));
   }
 
-  function contributorsSection(url, parent) {
+  function getContributorsData(url, parent) {
     fetchJSON(url)
-      .then(repos => {
-        repos.forEach(repo => {
+      .then(contributors => {
+        contributors.forEach(contributor => {
           const li = createAndAppend('li', parent, { class: 'rightList' });
           createAndAppend('img', li, {
             class: 'image',
-            src: repo.avatar_url,
+            src: contributor.avatar_url,
+            alt: `Image of the contributor ${contributor.login}`,
           });
           createAndAppend('a', li, {
-            text: repo.login,
-            href: repo.html_url,
+            text: contributor.login,
+            href: contributor.html_url,
             target: '_blank',
-            class: 'cont-link',
+            class: 'contributors-link',
           });
           createAndAppend('p', li, {
             class: 'contributions',
-            text: repo.contributions,
+            text: contributor.contributions,
           });
         });
       })
@@ -87,34 +88,35 @@
   }
 
   function repoSelect(item, repoItem, parent) {
-    const ul = createAndAppend('ul', parent);
+    const repoUl = createAndAppend('ul', parent, { class: 'repo-ul' });
     const repo = repoItem[item];
-    renderRepoDetails(repo, ul);
+    renderRepoDetails(repo, repoUl);
   }
 
   function main(url) {
     const root = document.getElementById('root');
     const header = createAndAppend('header', root, {
+      class: 'main-header',
       text: 'HYF Repositories',
     });
-    const mainElem = createAndAppend('main', root, { class: 'main-container' });
-    const repoContainer = createAndAppend('section', mainElem, {
+    const select = createAndAppend('select', header, { class: 'select' });
+    const main = createAndAppend('main', root, { class: 'main-container' });
+    const repoContainer = createAndAppend('section', main, {
       class: 'repo-container',
     });
-    const ul = createAndAppend('ul', repoContainer);
-    const rightSection = createAndAppend('section', mainElem, {
+    const contributorContainer = createAndAppend('section', main, {
       class: 'contributors-container',
     });
-    const p = createAndAppend('p', rightSection, { class: 'right-title' });
-    p.innerHTML = 'Contributions';
-    const rightUl = createAndAppend('ul', rightSection, { class: 'right-ul' });
-    const select = createAndAppend('select', header, { class: 'test' });
+    createAndAppend('p', contributorContainer, {
+      text: 'Contributions',
+      class: 'right-title',
+    });
+    const rightUl = createAndAppend('ul', contributorContainer, {
+      class: 'right-ul',
+    });
     fetchJSON(url)
-      .then(repoItem => {
-        renderRepoDetails(repoItem[17], ul);
-        const startItem = repoItem[17].contributors_url;
-        contributorsSection(startItem, rightUl);
-        repoItem
+      .then(repositories => {
+        repositories
           .sort((a, b) => a.name.localeCompare(b.name))
           .forEach((repo, index) => {
             createAndAppend('option', select, {
@@ -122,13 +124,14 @@
               value: index,
             });
           });
+        renderRepoDetails(repositories[0], repoContainer);
+        getContributorsData(repositories[0].contributors_url, rightUl);
         select.addEventListener('change', () => {
           repoContainer.innerHTML = '';
           rightUl.innerHTML = '';
-          const selectInput = select.value;
-          repoSelect(selectInput, repoItem, repoContainer);
-          const contUrl = repoItem[selectInput].contributors_url;
-          contributorsSection(contUrl, rightUl);
+          repoSelect(select.value, repositories, repoContainer);
+          const contributorsUrl = repositories[select.value].contributors_url;
+          getContributorsData(contributorsUrl, rightUl);
         });
       })
       .catch(err => {

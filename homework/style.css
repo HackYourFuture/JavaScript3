@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 .alert-error {
   color: red;
   font-size: 1.2em;
@@ -6,12 +11,8 @@
   border: 2px solid white;
   background: rgb(245, 205, 209);
 }
-* {
-  margin: 0;
-  padding: 0;
-}
 
-header {
+.main-header {
   position: sticky;
   top: 0;
   margin: 5px;
@@ -21,11 +22,11 @@ header {
   color: white;
   font-size: 1.1em;
 }
-select {
+.select {
   font-size: 15px;
   margin: 10px;
 }
-ul {
+.repo-ul.right-ul {
   list-style: none;
 }
 
@@ -59,7 +60,7 @@ ul {
   align-items: center;
 }
 
-.cont-link {
+.contributors-link {
   margin-left: 10px;
   flex: 6;
 }
@@ -79,10 +80,10 @@ ul {
 }
 
 .repo-container {
-  flex: 1;
+  flex: 1.5;
 }
 .contributors-container {
-  flex: 1;
+  flex: 1.2;
   border: 1px solid gray;
   margin: 5px;
   padding: 5px;
@@ -91,8 +92,8 @@ ul {
   font-size: 15px;
 }
 
-img {
-  height: 70px;
+.image {
+  height: 50px;
   margin: 5px;
   border: 1px solid black;
   border-radius: 5px;
@@ -101,8 +102,9 @@ img {
 @media (max-width: 500px) {
   body {
     margin: 5px 3%;
+    overflow: hidden;
   }
-  header {
+  .main-header {
     position: sticky;
     top: 0;
   }
