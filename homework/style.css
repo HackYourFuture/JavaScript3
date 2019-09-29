@@ -1,7 +1,8 @@
-body {
-  width: 100%;
+* {
   color: darkslategray;
-  font-family: Arial, Helvetica, sans-serif;
+  font-weight: normal;
+  font-family: 'Arial Narrow', Arial, sans-serif;
+  font-stretch: ultra-condensed;
   margin: 0;
 }
 
@@ -10,14 +11,34 @@ ul {
   padding-left: 0;
 }
 
+a {
+  color: royalblue;
+}
+
 header {
-  color: white;
   background-image: linear-gradient(to bottom right, darkslateblue, darkcyan);
-  padding: 30px 21px;
+  padding: 21px 18px;
+}
+
+header > h1 {
+  color: white;
+  font-size: 1.1rem;
+  display: inline;
+}
+
+header > select {
+  width: 270px;
+  font-size: 1rem;
+  margin-left: 15px;
+  padding: 9px 3px;
 }
 
 table {
   text-align: left;
+}
+
+th {
+  font-weight: bold;
 }
 
 td {
@@ -30,7 +51,6 @@ td {
 
 .alert-error {
   background-color: mistyrose;
-  border-radius: 3px;
   text-transform: uppercase;
   font-style: italic;
   margin-top: 6px;
@@ -42,22 +62,63 @@ td {
   flex-direction: column;
 }
 
-.details {
+.main-container > * {
   background-color: white;
   border-bottom: 1px solid darkgray;
+}
+
+.details {
   padding: 21px;
 }
 
+.contributors-container > h3 {
+  color: darkgray;
+  font-size: 0.9rem;
+  padding: 21px;
+  display: block;
+}
+
+.contributor {
+  background-color: white;
+  border-bottom: 1px solid darkgray;
+  margin: 0;
+  padding: 21px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.contributor > img {
+  height: 60px;
+  border-radius: 6px;
+  order: -1;
+}
+
+.contributor > a {
+  text-decoration: none;
+  padding-left: 21px;
+  flex: 1;
+}
+
+.contributor > span {
+  color: white;
+  background-color: darkgray;
+  padding: 6px 9px;
+  border-radius: 6px;
+  display: block;
+}
+
 @media screen and (min-width: 812px) {
-  body {
-    width: 80%;
-    max-width: 1024px;
-    margin: 0 auto;
+  .main-container {
+    flex-direction: row;
+    align-items: flex-start;
   }
 
-  .details {
+  .main-container > * {
+    width: calc(50% - 12px * 1.5);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.19), 0 0 6px rgba(0, 0, 0, 0.23);
     border-radius: 3px;
-    margin: 6px 0;
+    margin-top: 9px;
+    margin-left: 12px;
   }
 }
