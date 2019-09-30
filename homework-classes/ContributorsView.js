@@ -20,7 +20,7 @@
      */
     render(contributors) {
       this.container.innerHTML = '';
-      createAndAppend('h6', this.container, {
+      createAndAppend('label', this.container, {
         text: 'Contributions:',
       });
       const ul = createAndAppend('ul', this.container, {
@@ -30,6 +30,9 @@
         const repoContributorListItem = createAndAppend('li', ul, {
           class: 'contributors-item',
         });
+        // repoContributorListItem.addEventListener('click', () => {
+        //   window.location.href = contributor.html_url;
+        // });
         createAndAppend('img', repoContributorListItem, {
           src: contributor.avatar_url,
           alt: 'Contributor avatar picture',

@@ -35,11 +35,11 @@
       });
       this.appendRepoDetail('Description:', repo.description, repoDetailsTable);
       this.appendRepoDetail('Forks:', repo.forks, repoDetailsTable);
-      this.appendRepoDetail(
-        'Updated:',
-        this.getDateTimeText(repo.updated_at),
-        repoDetailsTable,
-      );
+      const timeRow = this.appendRepoDetail('Updated:', '', repoDetailsTable);
+      createAndAppend('time', timeRow.lastChild, {
+        text: this.getDateTimeText(repo.updated_at),
+        datetime: repo.updated_at,
+      });
     }
 
     appendRepoDetail(header, description, parentTable) {

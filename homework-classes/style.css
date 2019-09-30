@@ -72,6 +72,7 @@ header {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
+  cursor: pointer;
 }
 
 .contributors-item img {
@@ -106,7 +107,7 @@ header {
   align-self: flex-start;
 }
 
-.contributors-container h6 {
+.contributors-container label {
   flex: 0 0 100%;
   color: #9c9c9c;
   font-family: 'Courier New', Courier, monospace;
