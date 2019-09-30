@@ -37,7 +37,7 @@ h2 {
   padding: 45px 0 0 25px;
 }
 
-#select-btn {
+#btn {
   width: 240px;
   height: 30px;
   margin: 10px 0 0 25px;
@@ -52,13 +52,13 @@ h2 {
   background-position-x: 216px;
 }
 
-#main-container {
+#main-cont {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
 }
 
-#repos-container {
+#repos-cont {
   text-align: left;
   border-bottom: 1px solid #adadad;
   background-color: #ffffff;
@@ -89,7 +89,7 @@ img {
   border-radius: 5px;
 }
 
-#contributors-container {
+#contributors-cont {
   border-bottom: 1px solid #adadad;
   background-color: #ffffff;
   padding: 20px 20px 0 20px;
