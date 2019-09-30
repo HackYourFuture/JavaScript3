@@ -5,9 +5,6 @@
 
   const HYF_REPOS_URL =
     'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-  const DETAIL_SECTION = 'repository-detail-container';
-  const CONTRIBUTORS_SECTION = 'repository-contributors-container';
-  const CONTRIBUTORS_LIST = 'contributors-list';
 
   function fetchJSON(url) {
     return new Promise((resolve, reject) => {
@@ -112,38 +109,38 @@
 
   function createMainSectionWithSubSections(parent) {
     const mainSection = createAndAppend('main', parent, { class: 'container' });
-    dom[DETAIL_SECTION] = createAndAppend('section', mainSection, {
-      class: DETAIL_SECTION,
+    dom.detailSection = createAndAppend('section', mainSection, {
+      class: 'repository-detail-container',
     });
-    dom[CONTRIBUTORS_SECTION] = createAndAppend('section', mainSection, {
-      class: CONTRIBUTORS_SECTION,
+    dom.contributorsSection = createAndAppend('section', mainSection, {
+      class: 'repository-contributors-container',
     });
-    createAndAppend('h6', dom[CONTRIBUTORS_SECTION], {
+    createAndAppend('h6', dom.contributorsSection, {
       text: 'Contributions:',
     });
-    dom[CONTRIBUTORS_LIST] = createAndAppend('ul', dom[CONTRIBUTORS_SECTION], {
+    dom.contributorsList = createAndAppend('ul', dom.contributorsSection, {
       class: 'sub-container',
     });
   }
 
   function renderRepositoryDetailsSection(repository) {
     // Clear previous item first
-    dom[DETAIL_SECTION].innerHTML = '';
-    renderRepoDetails(repository, dom[DETAIL_SECTION]);
+    dom.detailSection.innerHTML = '';
+    renderRepoDetails(repository, dom.detailSection);
   }
 
   function renderRepositoryContributorsSection(repository) {
     // Clear previous list items first
-    dom[CONTRIBUTORS_LIST].innerHTML = '';
+    dom.contributorsList.innerHTML = '';
     fetchJSON(repository.contributors_url).then(contributors => {
       // In case of non contributors situation
       if (contributors) {
         contributors.forEach(contributor => {
-          renderContributorDetails(contributor, dom[CONTRIBUTORS_LIST]);
+          renderContributorDetails(contributor, dom.contributorsList);
         });
       } else {
-        createAndAppend('li', dom[CONTRIBUTORS_LIST], {
-          text: 'There is not any contributors for this repository.',
+        createAndAppend('li', dom.contributorsList, {
+          text: 'There are no contributors for this repository.',
           class: 'alert-error',
         });
       }
