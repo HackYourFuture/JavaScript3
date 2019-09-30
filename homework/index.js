@@ -1,21 +1,14 @@
 'use strict';
 
 {
-  function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
-    });
+  async function fetchJSON(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(
+        `Network error: ${response.status} - ${response.statusText}`,
+      );
+    }
+    return response.json();
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -62,32 +55,32 @@
     });
   }
 
-  function createContributorsSection(url, parent) {
-    fetchJSON(url)
-      .then(contributes => {
-        contributes.forEach(contribute => {
-          const li = createAndAppend('li', parent);
-          createAndAppend('img', li, {
-            src: contribute.avatar_url,
-            class: 'avatar',
-          });
-          createAndAppend('a', li, {
-            text: contribute.login,
-            href: contribute.html_url,
-            target: '_blank',
-            class: 'cont-name',
-          });
-          createAndAppend('p', li, {
-            text: contribute.contributions,
-          });
+  async function createContributorsSection(url, parent) {
+    try {
+      const contributes = await fetchJSON(url);
+      contributes.forEach(contribute => {
+        const li = createAndAppend('li', parent);
+        createAndAppend('img', li, {
+          src: contribute.avatar_url,
+          class: 'avatar',
         });
-      })
-      .catch(err => {
-        createAndAppend('div', parent, {
-          text: err.message,
-          class: 'alert-error',
+        createAndAppend('a', li, {
+          text: contribute.login,
+          href: contribute.html_url,
+          target: '_blank',
+          class: 'cont-name',
+        });
+        createAndAppend('p', li, {
+          text: contribute.contributions,
         });
       });
+    } catch (err) {
+      const root = document.getElementById('root');
+      createAndAppend('div', root, {
+        text: err.message,
+        class: 'alert-error',
+      });
+    }
   }
 
   function changeSelection(repo, repoParent, contParent) {
@@ -95,6 +88,26 @@
     contParent.innerHTML = '';
     renderRepoDetails(repo, repoParent);
     createContributorsSection(repo.contributors_url, contParent);
+  }
+
+  async function fetchAndRender(url, select, repoParent, contParent) {
+    try {
+      const data = await fetchJSON(url);
+      const sortedRepos = data.sort((a, b) => a.name.localeCompare(b.name));
+      sortedRepos.forEach((repo, index) => {
+        createOption(repo, select, index);
+      });
+      changeSelection(sortedRepos[0], repoParent, contParent);
+      select.addEventListener('change', () => {
+        changeSelection(sortedRepos[select.value], repoParent, contParent);
+      });
+    } catch (err) {
+      const root = document.getElementById('root');
+      createAndAppend('div', root, {
+        text: err.message,
+        class: 'alert-error',
+      });
+    }
   }
 
   function main(url) {
@@ -135,25 +148,7 @@
       class: 'selection-module',
     });
 
-    fetchJSON(url)
-      .then(repos => {
-        repos
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .forEach((repo, index) => {
-            createOption(repo, select, index);
-          });
-        changeSelection(repos[0], div, ulCont);
-
-        select.addEventListener('change', () => {
-          changeSelection(repos[select.value], div, ulCont);
-        });
-      })
-      .catch(err => {
-        createAndAppend('div', root, {
-          text: err.message,
-          class: 'alert-error',
-        });
-      });
+    fetchAndRender(url, select, div, ulCont);
   }
 
   const HYF_REPOS_URL =
