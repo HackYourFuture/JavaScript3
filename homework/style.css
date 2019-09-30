@@ -12,6 +12,15 @@
   background: rgb(245, 205, 209);
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-width: 90%;
+  align-content: center;
+  margin: auto;
+}
+
 .main-header {
   position: sticky;
   top: 0;
@@ -22,22 +31,19 @@
   color: white;
   font-size: 1.1em;
 }
+
 .select {
   font-size: 15px;
   margin: 10px;
 }
-.repo-ul.right-ul {
+
+.repo-ul {
   list-style: none;
+  position: sticky;
+  top: 70px;
 }
 
-#root {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.listItem {
+.table {
   border: 1px solid gray;
   margin: 5px;
   padding: 5px;
@@ -49,9 +55,12 @@
   border-bottom: 3px solid gray;
   text-align: center;
   font-weight: bold;
+  position: sticky;
+  top: 70px;
+  background: white;
 }
 
-.rightList {
+.right-list {
   border-bottom: 1px solid gray;
   margin-bottom: 5px;
   font-family: monospace;
@@ -64,6 +73,7 @@
   margin-left: 10px;
   flex: 6;
 }
+
 .contributions {
   flex: 1;
   border: 2px solid gray;
@@ -82,6 +92,7 @@
 .repo-container {
   flex: 1.5;
 }
+
 .contributors-container {
   flex: 1.2;
   border: 1px solid gray;
@@ -112,6 +123,7 @@
     flex: 1;
   }
 }
+
 @media (min-width: 500px) and (max-width: 1200px) {
   body {
     margin: 5px 10px 5px 10px;

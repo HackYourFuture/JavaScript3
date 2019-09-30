@@ -43,9 +43,8 @@
     return row;
   }
 
-  function renderRepoDetails(repo, ul) {
-    const listItem = createAndAppend('li', ul, { class: 'listItem' });
-    const table = createAndAppend('table', listItem, { class: 'table' });
+  function renderRepoDetails(repo, repoName) {
+    const table = createAndAppend('table', repoName, { class: 'table' });
     const topRow = createTableRow(table, 'Repository: ');
     createAndAppend('a', topRow.lastChild, {
       text: repo.name,
@@ -61,7 +60,7 @@
     fetchJSON(url)
       .then(contributors => {
         contributors.forEach(contributor => {
-          const li = createAndAppend('li', parent, { class: 'rightList' });
+          const li = createAndAppend('li', parent, { class: 'right-list' });
           createAndAppend('img', li, {
             class: 'image',
             src: contributor.avatar_url,
@@ -87,10 +86,11 @@
       });
   }
 
-  function repoSelect(item, repoItem, parent) {
-    const repoUl = createAndAppend('ul', parent, { class: 'repo-ul' });
-    const repo = repoItem[item];
-    renderRepoDetails(repo, repoUl);
+  function render(repo, repoContainer, rightUl) {
+    repoContainer.innerHTML = '';
+    rightUl.innerHTML = '';
+    renderRepoDetails(repo, repoContainer);
+    getContributorsData(repo.contributors_url, rightUl);
   }
 
   function main(url) {
@@ -126,14 +126,9 @@
               value: index,
             });
           });
-        renderRepoDetails(repositories[0], repoContainer);
-        getContributorsData(repositories[0].contributors_url, rightUl);
+        render(repositories[0], repoContainer, rightUl);
         select.addEventListener('change', () => {
-          repoContainer.innerHTML = '';
-          rightUl.innerHTML = '';
-          repoSelect(select.value, repositories, repoContainer);
-          const contributorsUrl = repositories[select.value].contributors_url;
-          getContributorsData(contributorsUrl, rightUl);
+          render(repositories[select.value], repoContainer, rightUl);
         });
       })
       .catch(err => {
