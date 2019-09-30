@@ -40,11 +40,8 @@
     }
 
     static async fetchJSON(url) {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP: ${response.status} - ${response.statusText}`);
-      }
-      return response.status === 200 ? response.json() : null;
+      const response = await axios.get(url);
+      return response.data;
     }
   }
 
