@@ -128,9 +128,14 @@ _Read:_
 
 #### 3.2.5 ARIA-compliance (BONUS)
 
-Please review the material from the HTML/CSS module: [Get familiar with Accessible Rich Internet Applications (ARIA)](https://github.com/HackYourFuture/HTML-CSS/tree/master/Week1#get-familiar-with-accessible-rich-internet-applications-aria).
-
 For the GitHub application ARIA-compliance means that the Contributors list should either be a native HTML list (i.e. using `ul` and `li` elements) or otherwise marked with an appropriate ARIA **role**. Furthermore, a user should be able to navigate through all interactive elements using the keyboard (e.g., using the **Tab** key). Pressing **Enter** on such an element should be equivalent to clicking the mouse.
+
+**Get familiar with Accessible Rich Internet Applications (ARIA)**
+
+- [What is ARIA and why is it important?](https://www.youtube.com/watch?v=HtTyRajRuyY)
+- [Introduction to ARIA](https://www.youtube.com/watch?v=g9Qff0b-lHk&t=4s)
+- [Web applications and ARIA FAQ](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Web_applications_and_ARIA_FAQ)
+- _Bonus knowlegde:_ [Practical guide for developers on how to add accessibility information to HTML elements using the ARIA specification](https://w3c.github.io/using-aria/)
 
 #### 3.2.6 Handing in your homework
 
