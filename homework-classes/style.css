@@ -1,3 +1,155 @@
 .alert-error {
-  color: red;
+  background-color: #eebaba;
+  color: #aa1f1f;
+}
+
+.alert {
+  border-radius: 5px;
+  margin: 5px 0;
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+header {
+  background-color: #151c74;
+  padding: 40px 20px;
+}
+
+.header {
+  padding-right: 20px;
+  color: white;
+  font-size: 1.25rem;
+}
+
+.repo-select {
+  color: #151c74;
+  background-color: white;
+}
+
+.main-container {
+  padding: 0 10px;
+  margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  background-color: #f6f3f3;
+}
+
+.contributers-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 15px 0 0;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+
+.repository-item {
+  padding: 10px 20px;
+  margin: 0;
+}
+
+.repository-item-table {
+  width: 100%;
+  padding: 10px 20px;
+}
+
+.repository-item-table th {
+  width: 1px;
+  white-space: nowrap;
+  vertical-align: top;
+  color: #353535;
+  text-align: left;
+}
+
+.repository-item-table td {
+  padding-left: 10px;
+  color: #818181;
+}
+
+.contributors-item {
+  padding: 10px 20px;
+  border-bottom: 1px solid lightgray;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.contributors-item img {
+  height: 50px;
+  width: 50px;
+  border-radius: 5px;
+  margin-right: 10px;
+  flex: 0 0 50px;
+}
+
+.contributors-item a {
+  flex: 1;
+}
+
+.contributors-item span {
+  color: white;
+  background-color: #818181;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 5px;
+  flex: 0;
+}
+
+.whiteframe {
+  margin: 20px 0;
+  background-color: white;
+  box-shadow: -2px 2px 5px lightgray;
+}
+
+.repo-container,
+.contributors-container {
+  align-self: flex-start;
+}
+
+.contributors-container h6 {
+  flex: 0 0 100%;
+  color: #9c9c9c;
+  font-family: 'Courier New', Courier, monospace;
+  margin: 10px 0 0 20px;
+}
+
+@media screen and (min-width: 1200px) {
+  body {
+    padding: 20px 10%;
+  }
+
+  .repo-container,
+  .contributors-container {
+    width: 49%;
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1200px) {
+  body {
+    padding: 5px 5%;
+  }
+
+  .repo-container,
+  .contributors-container {
+    width: 49%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  body {
+    padding: 0;
+  }
+
+  .main-container {
+    flex-direction: column;
+  }
+
+  .repo-container,
+  .contributors-container {
+    width: 100%;
+  }
+
+  .repo-container {
+    margin-bottom: 0;
+  }
 }

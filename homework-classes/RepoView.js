@@ -19,6 +19,7 @@
      * @param {Object} repo A repository object.
      */
     render(repo) {
+      this.container.innerHTML = '';
       const repoDetailsTable = createAndAppend('table', this.container, {
         class: 'repository-item-table',
       });
