@@ -6,21 +6,23 @@
   const HYF_REPOS_URL =
     'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
 
-  function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
-    });
+  async function fetchJSON(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(
+        `Network error: ${response.status} - ${response.statusText}`,
+      );
+    }
+    /**
+     * we could use just return response.json();
+     * But when it gets empty body as response; for example empty contributors;
+     * json() method throws an error 'Unexpected end of JSON input' which is meaningless for a user.
+     * And response.status is: 204, response.statusText is: No Content.
+     * We can check status for 204 but this seems more elegant.
+     * We are handling empty results in the calling function.
+     */
+    const responseData = await response.text();
+    return responseData ? JSON.parse(responseData) : null;
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -34,6 +36,13 @@
       }
     });
     return elem;
+  }
+
+  function showError(error, parent) {
+    createAndAppend('div', parent, {
+      text: error.message,
+      class: 'alert-error',
+    });
   }
 
   function appendRepoDetail(header, description, parentTable) {
@@ -129,22 +138,25 @@
     renderRepoDetails(repository, dom.detailSection);
   }
 
-  function renderRepositoryContributorsSection(repository) {
+  async function renderRepositoryContributorsSection(repository) {
     // Clear previous list items first
     dom.contributorsList.innerHTML = '';
-    fetchJSON(repository.contributors_url).then(contributors => {
+    try {
+      const contributors = await fetchJSON(repository.contributors_url);
       // In case of non contributors situation
       if (contributors) {
         contributors.forEach(contributor => {
           renderContributorDetails(contributor, dom.contributorsList);
         });
       } else {
-        createAndAppend('li', dom.contributorsList, {
-          text: 'There are no contributors for this repository.',
-          class: 'alert-error',
-        });
+        showError(
+          new Error('There are no contributors for this repository.'),
+          dom.contributorsList,
+        );
       }
-    });
+    } catch (error) {
+      showError(error, dom.contributorsList);
+    }
   }
 
   function renderRepository(repository) {
@@ -152,25 +164,28 @@
     renderRepositoryContributorsSection(repository);
   }
 
-  function main(url) {
-    const root = document.getElementById('root');
-    const select = createHeaderSection('HYF Repositories', root);
-    fetchJSON(url)
-      .then(repos => {
-        const repositoriesInfo = repos.sort(sortRepositoriesByNameAscending);
-        populateSelectElement(repositoriesInfo, select);
-        createMainSectionWithSubSections(root);
+  async function main(url) {
+    dom.root = document.getElementById('root');
+    const select = createHeaderSection('HYF Repositories', dom.root);
+    try {
+      let repositories = await fetchJSON(url);
+      if (repositories) {
+        repositories = repositories.sort(sortRepositoriesByNameAscending);
+        populateSelectElement(repositories, select);
+        createMainSectionWithSubSections(dom.root);
         select.addEventListener('change', changeEvent => {
-          renderRepository(repositoriesInfo[changeEvent.target.value]);
+          renderRepository(repositories[changeEvent.target.value]);
         });
-        renderRepository(repositoriesInfo[select.value]); // For the first load
-      })
-      .catch(error => {
-        createAndAppend('div', root, {
-          text: error.message,
-          class: 'alert-error',
-        });
-      });
+        renderRepository(repositories[select.value]); // For the first load
+      } else {
+        showError(
+          new Error('There are no contributors for this repository.'),
+          dom.root,
+        );
+      }
+    } catch (error) {
+      showError(error, dom.root);
+    }
   }
 
   window.onload = () => main(HYF_REPOS_URL);
