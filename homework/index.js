@@ -41,8 +41,8 @@
   }
 
   function renderRepoDetails(repo, ul) {
-    ul.textContent = ' ';
-    const repoList = createAndAppend('li', ul, { class: 'rep-list' });
+    ul.textContent = '';
+    const repoList = createAndAppend('li', ul, { class: 'repo-list' });
     const repositoryName = createAndAppend('p', repoList, {
       text: ' Repository: ',
       class: 'repo-details',
@@ -71,12 +71,7 @@
 
     if (repo.description === null) {
       createAndAppend('span', description, {
-        text: 'No Description Added Yet',
-        class: 'texts',
-      });
-    } else {
-      createAndAppend('span', description, {
-        text: repo.description,
+        text: repo.description || 'No Description Added Yet',
         class: 'texts',
       });
     }
@@ -92,35 +87,39 @@
     });
   }
 
+  function renderContributor(contributor, ul) {
+    const li = createAndAppend('li', ul, { class: 'contributors-li' });
+    const contributorImage = createAndAppend('div', li, {
+      class: 'contributor-image',
+    });
+    createAndAppend('img', contributorImage, {
+      src: contributor.avatar_url,
+      alt: contributor.login,
+    });
+
+    const contributorName = createAndAppend('div', li, {
+      class: 'contributor-name',
+    });
+    createAndAppend('a', contributorName, {
+      text: contributor.login,
+      href: contributor.html_url,
+      target: '_blank',
+    });
+
+    createAndAppend('span', contributorName, {
+      text: contributor.contributions,
+      class: 'added-contributions',
+    });
+  }
+
   function getContributorsInfo(repositories, ul) {
-    ul.textContent = ' ';
+    ul.innerHTML = '';
     const url = repositories.contributors_url;
     fetchJSON(url)
       .then(contributions => {
-        contributions.forEach(contributor => {
-          const li = createAndAppend('li', ul, { class: 'contributors-li' });
-          const contributorImage = createAndAppend('div', li, {
-            class: 'contributor-image',
-          });
-          createAndAppend('img', contributorImage, {
-            src: contributor.avatar_url,
-            alt: contributor.login,
-          });
-
-          const contributorName = createAndAppend('div', li, {
-            class: 'contributor-name',
-          });
-          createAndAppend('a', contributorName, {
-            text: contributor.login,
-            href: contributor.html_url,
-            target: '_blank',
-          });
-
-          createAndAppend('span', contributorName, {
-            text: contributor.contributions,
-            class: 'added-contributions',
-          });
-        });
+        contributions.forEach(contributor =>
+          renderContributor(contributor, ul),
+        );
       })
       .catch(err => {
         createAndAppend('div', document.getElementById('root'), {
@@ -173,7 +172,7 @@
         const ulContributors = createAndAppend('ul', contributorContainer);
         getContributorsInfo(repos[0], ulContributors);
 
-        select.addEventListener('click', () => {
+        select.addEventListener('change', () => {
           const repo = repos[select.value];
           renderRepoDetails(repo, ul);
           getContributorsInfo(repo, ulContributors);
