@@ -19,7 +19,7 @@ body {
 }
 
 .header {
-  max-width: 81%;
+  width: 81%;
   margin: 0 auto;
   padding: 20px 0 20px 0;
   background: #3f51b5;
@@ -36,9 +36,9 @@ body {
 }
 
 main {
-  max-width: 80%;
-  margin: 0 auto;
-  margin-top: 5px;
+  width: 80%;
+  margin: 5px auto;
+  /* margin-top: 5px; */
   display: flex;
 }
 
@@ -50,16 +50,21 @@ main {
 .table {
   box-shadow: -2px 2px 5px 5px rgba(128, 128, 128, 0.247);
   width: 100%;
-  vertical-align: top;
 }
 
 .keys {
   width: 20%;
+  padding: 0 10px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.values {
+  width: 80%;
 }
 
 .contributors-container {
   box-shadow: -2px 2px 5px 5px rgba(128, 128, 128, 0.247);
-
   flex: 1;
 }
 
@@ -96,10 +101,15 @@ main {
   align-items: center;
 }
 
-@media (max-width: 670px) {
+@media (max-width: 770px) {
   main {
     font-size: 12px;
     display: table;
+    width: 100%;
+    /* margin: 5px 0; */
+  }
+
+  .header {
     width: 100%;
   }
 
@@ -123,5 +133,11 @@ main {
 
   .keys {
     width: 30%;
+    padding-left: 20px;
+  }
+
+  .select-bar {
+    margin-left: 20px;
+    padding: 6px 10px;
   }
 }

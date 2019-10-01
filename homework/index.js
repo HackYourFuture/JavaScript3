@@ -1,8 +1,6 @@
 'use strict';
 
 {
-  let sortedRepos = [];
-
   function fetchJSON(url) {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
@@ -45,9 +43,9 @@
     return tr;
   }
 
-  function renderRepoDetails(repo, ul) {
-    ul.innerHTML = '';
-    const table = createAndAppend('table', ul, { class: 'table' });
+  function renderRepoDetails(repo, repoSection) {
+    repoSection.innerHTML = '';
+    const table = createAndAppend('table', repoSection, { class: 'table' });
     const tr1 = addTableRow(table, 'Repository:', '');
     createAndAppend('a', tr1.lastChild, {
       href: repo.html_url,
@@ -61,12 +59,6 @@
   function renderContributorsDetails(contributorsUrl, ul, root) {
     ul.innerHTML = '';
     fetchJSON(contributorsUrl)
-      .catch(err => {
-        createAndAppend('div', root, {
-          text: err.message,
-          class: 'alert-error',
-        });
-      })
       .then(contributors => {
         contributors.forEach(contributor => {
           const contributorLi = createAndAppend('li', ul, {
@@ -89,10 +81,16 @@
             class: 'contributor-div ',
           });
         });
+      })
+      .catch(err => {
+        createAndAppend('div', root, {
+          text: err.message,
+          class: 'alert-error',
+        });
       });
   }
 
-  function bridgeSections(repo, repoList, contributorList) {
+  function renderSections(repo, repoList, contributorList) {
     renderRepoDetails(repo, repoList);
     renderContributorsDetails(repo.contributors_url, contributorList);
   }
@@ -115,7 +113,6 @@
     const repoSection = createAndAppend('section', mainContainer, {
       class: 'repo-container',
     });
-    const repoUl = createAndAppend('ul', repoSection);
     const contributorSection = createAndAppend('section', mainContainer, {
       class: 'contributors-container',
     });
@@ -128,14 +125,18 @@
 
     fetchJSON(url)
       .then(repos => {
-        sortedRepos = repos.sort(sortAlpha);
-        sortedRepos.forEach(repo => {
+        const sortedRepos = repos.sort(sortAlpha);
+        sortedRepos.forEach((repo, index) => {
           createAndAppend('option', select, {
             text: repo.name,
-            value: repo.id,
+            value: index,
           });
         });
-        bridgeSections(repos[0], repoUl, contributorUl);
+        renderSections(repos[0], repoSection, contributorUl);
+        select.addEventListener('change', event => {
+          const selectedRepo = repos[event.target.value];
+          renderSections(selectedRepo, repoSection, contributorUl);
+        });
       })
       .catch(err => {
         createAndAppend('div', root, {
@@ -143,14 +144,6 @@
           class: 'alert-error',
         });
       });
-
-    select.addEventListener('change', event => {
-      const selectedRepo = sortedRepos.filter(
-        repo => repo.id === parseInt(event.target.value, 10),
-      )[0];
-
-      bridgeSections(selectedRepo, repoUl, contributorUl);
-    });
   }
 
   const HYF_REPOS_URL =
