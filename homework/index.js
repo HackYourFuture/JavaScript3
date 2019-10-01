@@ -2,19 +2,11 @@
 
 {
   function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
+    return fetch(url).then(response => {
+      if (!response.ok) {
+        throw new Error(`Error ${response.status} ${response.statusText}`);
+      }
+      return response.json();
     });
   }
 
@@ -91,23 +83,24 @@
       if (event.key === 'Enter') window.open(contributor.html_url, '_blank');
     });
   }
-  function fetchAndRender(repo) {
-    fetchJSON(repo.contributors_url)
-      .then(contributors => {
-        const rightSide = document.getElementById('right-side');
-        rightSide.innerHTML = '';
-        createAndAppend('span', rightSide, {
-          text: 'Contributions',
-          class: 'title',
-        });
-        const contributorList = createAndAppend('ul', rightSide, {
-          class: 'contributor-list',
-        });
-        contributors.forEach(contributor =>
-          renderContributor(contributor, contributorList),
-        );
-      })
-      .catch(error => renderError(error));
+  async function fetchAndRender(repo) {
+    try {
+      const contributors = await fetchJSON(repo.contributors_url);
+      const rightSide = document.getElementById('right-side');
+      rightSide.innerHTML = '';
+      createAndAppend('span', rightSide, {
+        text: 'Contributions',
+        class: 'title',
+      });
+      const contributorList = createAndAppend('ul', rightSide, {
+        class: 'contributor-list',
+      });
+      contributors.forEach(contributor =>
+        renderContributor(contributor, contributorList),
+      );
+    } catch (error) {
+      renderError(error);
+    }
   }
 
   function startPage(repositories) {
@@ -128,7 +121,7 @@
     return repositories[select.value];
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
     const header = createAndAppend('header', root);
     createAndAppend('p', header, {
@@ -153,12 +146,14 @@
       id: 'right-side',
     });
 
-    fetchJSON(url)
-      .then(repository => {
-        const repo = startPage(repository);
-        return fetchAndRender(repo);
-      })
-      .catch(error => renderError(error));
+    fetchJSON(url);
+    try {
+      const repository = await fetchJSON(url);
+      startPage(repository);
+      fetchAndRender(repository[0]);
+    } catch (error) {
+      renderError(error);
+    }
   }
   const HYF_REPOS_URL =
     'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
