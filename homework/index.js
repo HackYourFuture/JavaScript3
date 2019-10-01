@@ -134,7 +134,7 @@
           renderContent(select.value);
         });
       })
-      .catch(err => {
+      .catch((err, div) => {
         createAndAppend('div', div, {
           text: err.message,
           class: 'alert-error',
