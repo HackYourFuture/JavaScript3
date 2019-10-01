@@ -1,29 +1,59 @@
-#root {
-  display: table;
-  width: 90%
+body {
+  margin-top: 0;
+  background-color: #f3f3f3;
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-body {
-  background-color: lightgray;
+.contribution-count {
+  font-size: 12px;
+  padding: 2px 8px;
+  line-height: 1rem;
+  background-color: gray;
+  color: #f3f3f3;
+  border-radius: 5px;
 }
+
+
 
 .alert-error {
-  color: red;
+  color: #f64153;
+  padding: 0.75rem 1.75rem;
+  margin-bottom: 1rem;
+  border-radius: 0, 25rem;
+  background-color: #f8cdd1;
 }
 
 .header-class {
-  background-color: blue;
+  background-color: rgb(36, 36, 151);
   color: aliceblue;
   font-size: 20px;
-  width: 90%;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
 }
 
-.main-container {
-  width: 90%
-}
-
-* {
+.repos-container,
+.contributor-container {
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: white;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.12);
   padding: 10px;
+  width: 47%;
+}
+
+.select-class {
+  margin-left: 20px;
+  width: 250px;
+  height: 40px;
+  padding: 3px;
+  font-size: 14px;
+
 }
 
 th {
@@ -31,35 +61,54 @@ th {
   line-height: 25px;
 }
 
-a {
-  text-decoration: none;
+td {
+  vertical-align: top;
 }
 
-img {
+td:first-child {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+}
+
+.avatar {
+  border-radius: 5px;
+  margin-right: 15;
   width: 100px;
 }
 
-.repos-container,
-.contributor-container {
-  width: 45%;
-
-}
-
-.main-container,
-.header-class {
+.main-container {
   display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-top: 10px;
 }
 
-.contributor-details {
+a {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: stretch;
-  border-bottom: 1px solid lightgray;
-  background-color: white;
+  justify-content: space-between;
+  border-bottom: 1px solid rgb(0, 0, 0, 15%);
+  padding: 15px;
+  align-items: center;
+  text-decoration: none;
+
+
 }
 
-@media (max-width: 600px) {
-  #root {
-    padding: 2px;
+@media (max-width: 800px) {
+  .select-class {
+    width: 175;
+  }
+
+  h3 {
+    font-size: 10px
+  }
+
+  body {
+
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
   }
 }
