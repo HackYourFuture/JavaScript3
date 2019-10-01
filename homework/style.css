@@ -4,6 +4,10 @@
   padding: 0px;
 }
 
+body {
+  background-color: #fda085;
+}
+
 #root {
   display: flex;
   flex-direction: column;
@@ -37,19 +41,15 @@
 }
 
 .repository-section {
-  border: 2px 0PX solid pink;
-  box-shadow: 1px 4px pink;
   padding-right: 2px;
   padding-left: 10px;
   margin-right: 1%;
 }
 
 .contributors-section {
-  display: float;
   width: 70%;
   text-align: justify;
-  border: 2px 0PX solid pink;
-  box-shadow: 1px 4px pink;
+  box-shadow: 4px 0px 4px 4px #3F51B5;
 }
 
 .contributors-li {
@@ -58,10 +58,14 @@
 
 .added-contributions {
   float: right;
-  font-size: 44px;
+  font-size: 36px;
   border-radius: 20%;
   border: 4px solid white;
   background-color: grey
+}
+
+h2 {
+  font-size: 2em;
 }
 
 .contributor-image {
@@ -73,13 +77,19 @@
   font-size: 30px;
 }
 
+.ul {
+  box-shadow: 4px 0px 4px 4px#3F51B5;
+}
+
 .contributor-image img {
   width: 26%;
   margin: 8px 28px 8px 8px;
+  border-radius: 40%;
 }
 
 .contributor-name a {
   text-decoration: none;
+  color: black;
 }
 
 .alert-error {
@@ -87,7 +97,7 @@
   font-size: 1.5 rem;
 }
 
-.rep-list {
+.repo-list {
   list-style-type: none;
 }
 

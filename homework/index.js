@@ -1,21 +1,14 @@
 'use strict';
 
 {
-  function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
-    });
+  async function fetchJSON(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(
+        `Network error: ${response.status} - ${response.statusText}`,
+      );
+    }
+    return response.json();
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -112,78 +105,68 @@
     });
   }
 
-  function getContributorsInfo(repositories, ul) {
-    ul.innerHTML = '';
+  async function getContributorsInfo(repositories, ul) {
     const url = repositories.contributors_url;
-    fetchJSON(url)
-      .then(contributions => {
-        contributions.forEach(contributor =>
-          renderContributor(contributor, ul),
-        );
-      })
-      .catch(err => {
-        createAndAppend('div', document.getElementById('root'), {
-          text: err.message,
-          class: 'alert-error',
-        });
+    try {
+      const contributors = await fetchJSON(url);
+      ul.innerHTML = '';
+      contributors.forEach(contributor => renderContributor(contributor, ul));
+    } catch (err) {
+      createAndAppend('div', document.getElementById('root'), {
+        text: err.message,
+        class: 'alert-error',
       });
+    }
   }
 
-  function main(url) {
-    fetchJSON(url)
-      .then(repos => {
-        const root = document.getElementById('root');
-        const headerDiv = createAndAppend('header', root, {
-          text: 'HYF Repositories',
-          class: 'repo-header',
-        });
-
-        const select = createAndAppend('select', headerDiv, {
-          class: 'select-repository',
-        });
-        repos.sort(sortRepositoriesByName).forEach((repo, index) =>
-          createAndAppend('option', select, {
-            text: repo.name,
-            value: index,
-          }),
-        );
-
-        const mainContainer = createAndAppend('main', root, {
-          class: 'main-container',
-        });
-
-        const repositoryContainer = createAndAppend('section', mainContainer, {
-          class: 'repository-section',
-        });
-
-        const ul = createAndAppend('ul', repositoryContainer, {
-          class: 'ul',
-        });
-
-        renderRepoDetails(repos[0], ul);
-        const contributorContainer = createAndAppend('section', mainContainer, {
-          class: 'contributors-section',
-        });
-
-        createAndAppend('h2', contributorContainer, {
-          text: 'Contributors',
-        });
-
-        const ulContributors = createAndAppend('ul', contributorContainer);
-        getContributorsInfo(repos[0], ulContributors);
-
-        select.addEventListener('change', () => {
-          const repo = repos[select.value];
-          renderRepoDetails(repo, ul);
-          getContributorsInfo(repo, ulContributors);
-        });
-      })
-      .catch(err => {
-        createAndAppend('div', document.getElementById('root'), {
-          text: err.message,
-          class: 'alert-error',
-        });
+  async function main(url) {
+    try {
+      const root = document.getElementById('root');
+      const headerDiv = createAndAppend('header', root, {
+        text: 'HYF Repositories',
+        class: 'repo-header',
       });
+      const select = createAndAppend('select', headerDiv, {
+        class: 'select-repository',
+      });
+      const repos = await fetchJSON(url);
+      repos.sort(sortRepositoriesByName).forEach((repo, index) =>
+        createAndAppend('option', select, {
+          text: repo.name,
+          value: index,
+        }),
+      );
+      const mainContainer = createAndAppend('main', root, {
+        class: 'main-container',
+      });
+      const repositoryContainer = createAndAppend('section', mainContainer, {
+        class: 'repository-section',
+      });
+      const ul = createAndAppend('ul', repositoryContainer, {
+        class: 'ul',
+      });
+      renderRepoDetails(repos[0], ul);
+      const contributorContainer = createAndAppend('section', mainContainer, {
+        class: 'contributors-section',
+      });
+      createAndAppend('h2', contributorContainer, {
+        text: 'Contributors',
+      });
+
+      const ulContributors = createAndAppend('ul', contributorContainer);
+      getContributorsInfo(repos[0], ulContributors);
+
+      select.addEventListener('change', () => {
+        const repo = repos[select.value];
+        renderRepoDetails(repo, ul);
+        getContributorsInfo(repo, ulContributors);
+      });
+    } catch (err) {
+      createAndAppend('div', document.getElementById('root'), {
+        text: err.message,
+        class: 'alert-error',
+      });
+    }
   }
 
   const HYF_REPOS_URL =
