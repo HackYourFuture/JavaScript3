@@ -1,21 +1,14 @@
 'use strict';
 
 {
-  function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
-    });
+  async function fetchJSON(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(
+        `Network error: ${response.status} - ${response.statusText}`,
+      );
+    }
+    return response.json();
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -43,8 +36,8 @@
     return row;
   }
 
-  function renderRepoDetails(repo, repoName) {
-    const table = createAndAppend('table', repoName, { class: 'table' });
+  function renderRepoDetails(repo, repoSection) {
+    const table = createAndAppend('table', repoSection, { class: 'table' });
     const topRow = createTableRow(table, 'Repository: ');
     createAndAppend('a', topRow.lastChild, {
       text: repo.name,
@@ -56,34 +49,33 @@
     createTableRow(table, 'Updated on: ', changeDateFormat(repo.updated_at));
   }
 
-  function getContributorsData(url, parent) {
-    fetchJSON(url)
-      .then(contributors => {
-        contributors.forEach(contributor => {
-          const li = createAndAppend('li', parent, { class: 'right-list' });
-          createAndAppend('img', li, {
-            class: 'image',
-            src: contributor.avatar_url,
-            alt: `Image of the contributor ${contributor.login}`,
-          });
-          createAndAppend('a', li, {
-            text: contributor.login,
-            href: contributor.html_url,
-            target: '_blank',
-            class: 'contributors-link',
-          });
-          createAndAppend('p', li, {
-            class: 'contributions',
-            text: contributor.contributions,
-          });
+  async function getContributorsData(url, parent) {
+    try {
+      const contributors = await fetchJSON(url);
+      contributors.forEach(contributor => {
+        const li = createAndAppend('li', parent, { class: 'right-list' });
+        createAndAppend('img', li, {
+          class: 'image',
+          src: contributor.avatar_url,
+          alt: `Image of the contributor ${contributor.login}`,
         });
-      })
-      .catch(err => {
-        createAndAppend('div', parent, {
-          text: err.message,
-          class: 'alert-error',
+        createAndAppend('a', li, {
+          text: contributor.login,
+          href: contributor.html_url,
+          target: '_blank',
+          class: 'contributors-link',
+        });
+        createAndAppend('p', li, {
+          class: 'contributions',
+          text: contributor.contributions,
         });
       });
+    } catch (err) {
+      createAndAppend('div', parent, {
+        text: err.message,
+        class: 'alert-error',
+      });
+    }
   }
 
   function render(repo, repoContainer, rightUl) {
@@ -93,7 +85,7 @@
     getContributorsData(repo.contributors_url, rightUl);
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
     const header = createAndAppend('header', root, {
       class: 'main-header',
@@ -116,27 +108,26 @@
     const rightUl = createAndAppend('ul', contributorContainer, {
       class: 'right-ul',
     });
-    fetchJSON(url)
-      .then(repositories => {
-        repositories
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .forEach((repo, index) => {
-            createAndAppend('option', select, {
-              text: repo.name,
-              value: index,
-            });
+    try {
+      const repositories = await fetchJSON(url);
+      repositories
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .forEach((repo, index) => {
+          createAndAppend('option', select, {
+            text: repo.name,
+            value: index,
           });
-        render(repositories[0], repoContainer, rightUl);
-        select.addEventListener('change', () => {
-          render(repositories[select.value], repoContainer, rightUl);
         });
-      })
-      .catch(err => {
-        createAndAppend('div', root, {
-          text: err.message,
-          class: 'alert-error',
-        });
+      render(repositories[0], repoContainer, rightUl);
+      select.addEventListener('change', () => {
+        render(repositories[select.value], repoContainer, rightUl);
       });
+    } catch (err) {
+      createAndAppend('div', root, {
+        text: err.message,
+        class: 'alert-error',
+      });
+    }
   }
   const HYF_REPOS_URL =
     'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
