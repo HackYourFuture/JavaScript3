@@ -33,9 +33,11 @@
     return a.name.localeCompare(b.name);
   }
 
-  function renderRepoDetails(repo, ul) {
-    ul.textContent = '';
-    const repoList = createAndAppend('li', ul, { class: 'repo-list' });
+  function renderRepoDetails(repo, repositoryContainer) {
+    repositoryContainer.textContent = '';
+    const repoList = createAndAppend('div', repositoryContainer, {
+      class: 'repo-list',
+    });
     const repositoryName = createAndAppend('p', repoList, {
       text: ' Repository: ',
       class: 'repo-details',
@@ -62,12 +64,10 @@
       target: '_blank',
     });
 
-    if (repo.description === null) {
-      createAndAppend('span', description, {
-        text: repo.description || 'No Description Added Yet',
-        class: 'texts',
-      });
-    }
+    createAndAppend('span', description, {
+      text: repo.description || 'No Description Added Yet',
+      class: 'texts',
+    });
 
     createAndAppend('span', forkedNumbers, {
       text: repo.forks,
@@ -142,10 +142,7 @@
       const repositoryContainer = createAndAppend('section', mainContainer, {
         class: 'repository-section',
       });
-      const ul = createAndAppend('ul', repositoryContainer, {
-        class: 'ul',
-      });
-      renderRepoDetails(repos[0], ul);
+
       const contributorContainer = createAndAppend('section', mainContainer, {
         class: 'contributors-section',
       });
@@ -154,11 +151,13 @@
       });
 
       const ulContributors = createAndAppend('ul', contributorContainer);
+
+      renderRepoDetails(repos[0], repositoryContainer);
       getContributorsInfo(repos[0], ulContributors);
 
       select.addEventListener('change', () => {
         const repo = repos[select.value];
-        renderRepoDetails(repo, ul);
+        renderRepoDetails(repo, repositoryContainer);
         getContributorsInfo(repo, ulContributors);
       });
     } catch (err) {

@@ -5,51 +5,59 @@
 }
 
 body {
-  background-color: #fda085;
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  color: beige;
+  font-size: 17px;
 }
 
 #root {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  margin: 10px 14px;
 }
 
 .repo-header {
-  float: left;
-  padding: 40px 20px;
+  height: 100px;
   background-color: #3F51B5;
   color: white;
-  font-size: 4rem;
-  text-align: left;
-}
-
-.main-container {
-  padding-top: 20px;
+  padding: 0px 20px;
+  margin-bottom: 14px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
+  align-items: center;
+  font-size: 3rem;
+  box-shadow: 0px 3px 10px rgba(151, 18, 18, 0.8);
 }
 
 .select-repository {
-  height: 30px;
-  width: 20%;
-  margin-left: 2%;
-  border-radius: 4%;
-  font-size: 20px;
+  margin-left: 22px;
+  font-size: 16px;
+  height: 28px;
+}
 
+.main-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
 .repository-section {
-  padding-right: 2px;
-  padding-left: 10px;
-  margin-right: 1%;
+  background-color: #BA9E4C;
+  display: flex;
+  padding: 8px 10px;
+  flex: 1;
+  box-shadow: 0px 3px 10px rgba(160, 9, 9, 0.8);
+  margin-right: 7px;
+  border-radius: 5px;
 }
 
 .contributors-section {
-  width: 70%;
-  text-align: justify;
-  box-shadow: 4px 0px 4px 4px #3F51B5;
+  background-color: #FF3921;
+  padding: 16px;
+  flex: 1;
+  box-shadow: 0px 3px 10px rgba(160, 9, 9, 0.8);
+  margin-left: 7px;
+  border-radius: 5px;
 }
 
 .contributors-li {
@@ -57,34 +65,35 @@ body {
 }
 
 .added-contributions {
-  float: right;
-  font-size: 36px;
+  font-size: 1.3rem;
   border-radius: 20%;
-  border: 4px solid white;
-  background-color: grey
+  border: 1px solid white;
+  padding-bottom: 6px;
+  margin-left: 12px;
+  text-align: right;
+}
+
+
+li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 12px auto;
 }
 
 h2 {
-  font-size: 2em;
-}
-
-.contributor-image {
-  float: left;
-}
-
-.contributor-name {
-  clear: both;
-  font-size: 30px;
-}
-
-.ul {
-  box-shadow: 4px 0px 4px 4px#3F51B5;
+  font-size: 1.8rem;
 }
 
 .contributor-image img {
-  width: 26%;
-  margin: 8px 28px 8px 8px;
-  border-radius: 40%;
+  height: 70px;
+  border-radius: 30%;
+  margin-right: 30px;
+}
+
+.contributor-name {
+  margin-left: 20px;
+  font-size: 1.6rem;
 }
 
 .contributor-name a {
@@ -94,19 +103,43 @@ h2 {
 
 .alert-error {
   color: red;
-  font-size: 1.5 rem;
+  font-size: 3rem;
 }
 
 .repo-list {
   list-style-type: none;
+
 }
 
 .repo-details {
-  font-size: 2.2rem;
+  font-size: 1.7rem;
   font-weight: bold;
+  color: black;
 }
 
 .texts {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-weight: lighter;
+
+}
+
+@media (max-width: 799px) {
+  body {
+    width: 100%;
+  }
+
+
+  .main-container {
+    margin: 0;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .repository-section {
+    margin: 0px 0px 6px 0px;
+  }
+
+  .contributors-section {
+    margin: 6px 0px 0px 0px;
+  }
 }
