@@ -22,7 +22,14 @@
      * We are handling empty results in the calling function.
      */
     const responseData = await response.text();
-    return responseData ? JSON.parse(responseData) : null;
+    if (responseData) {
+      try {
+        return JSON.parse(responseData);
+      } catch (error) {
+        return null;
+      }
+    }
+    return null;
   }
 
   function createAndAppend(name, parent, options = {}) {
