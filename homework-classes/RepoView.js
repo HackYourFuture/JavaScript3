@@ -38,7 +38,6 @@
       const timeRow = this.appendRepoDetail('Updated:', '', repoDetailsTable);
       createAndAppend('time', timeRow.lastChild, {
         text: this.getDateTimeText(repo.updated_at),
-        datetime: repo.updated_at,
       });
     }
 
@@ -51,7 +50,7 @@
 
     getDateTimeText(dateTimeStr) {
       const dateTime = new Date(dateTimeStr);
-      return dateTime.toLocaleString();
+      return dateTime.toDateString();
     }
   }
 
