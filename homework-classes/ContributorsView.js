@@ -24,7 +24,7 @@
         text: 'Contributions:',
       });
       const ul = createAndAppend('ul', this.container, {
-        class: 'contributers-list',
+        class: 'contributors-list',
       });
       contributors.forEach(contributor => {
         const repoContributorListItem = createAndAppend('li', ul, {
