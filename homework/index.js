@@ -1,5 +1,7 @@
 'use strict';
 
+const HYF_BASE_URL = 'https://api.github.com';
+
 {
   function fetchJSON(url) {
     return new Promise((resolve, reject) => {
@@ -31,6 +33,28 @@
     return elem;
   }
 
+  function renderContributorsDetails(contributor, contributorsList) {
+    const contributorItem = createAndAppend('li', contributorsList);
+    const contributorDetails = createAndAppend('div', contributorItem, {
+      class: 'contributor',
+    });
+
+    createAndAppend('a', contributorDetails, {
+      href: contributor.html_url,
+      target: `_blank`,
+      text: contributor.login,
+    });
+
+    createAndAppend('img', contributorDetails, {
+      src: contributor.avatar_url,
+      alt: 'avatar',
+    });
+
+    createAndAppend('span', contributorDetails, {
+      text: contributor.contributions,
+    });
+  }
+
   function buildTableRow(title, parent, content) {
     const row = createAndAppend(`tr`, parent);
     createAndAppend(`th`, row, { text: `${title}:` });
@@ -38,8 +62,14 @@
     return row;
   }
 
-  function renderRepoDetails(repo, parent) {
-    const table = createAndAppend(`table`, parent);
+  function renderRepoDetails(repo, mainSection) {
+    const repoSection = createAndAppend('section', mainSection, {
+      class: 'repo-container',
+    });
+    const repoDetails = createAndAppend('div', repoSection, {
+      class: 'details',
+    });
+    const table = createAndAppend(`table`, repoDetails);
 
     const firstRow = buildTableRow(`Repository`, table, ``);
     createAndAppend(`a`, firstRow.lastChild, {
@@ -60,18 +90,38 @@
     buildTableRow(`Updated`, table, date.toLocaleString());
   }
 
-  // function renderContributorsDetails(repo, parent) {}
-
-  function selectRepo(select, mainSection, repos) {
-    const repo = repos[select.value];
-    const detailsSection = createAndAppend(`section`, mainSection, {
-      class: `details`,
+  function selectRepo(repos, select, root) {
+    const mainSection = createAndAppend('main', root, {
+      class: 'main-container',
     });
-    // const contributorsSection = createAndAppend(`section`, mainSection, {
-    //   class: `contributors-container`,
-    // });
-    renderRepoDetails(repo, detailsSection);
-    // renderContributorsDetails(repo.contributors_url, contributorsSection);
+
+    select.addEventListener('change', () => {
+      mainSection.innerHTML = '';
+
+      const repo = repos[select.value];
+      renderRepoDetails(repo, mainSection);
+
+      const contributorsSection = createAndAppend('section', mainSection, {
+        class: 'contributors-container',
+      });
+      createAndAppend('h3', contributorsSection, { text: 'Contributions' });
+      const contributorsList = createAndAppend('ul', contributorsSection);
+
+      const CONTRIBUTORS_URL = `${HYF_BASE_URL}/repos/HackYourFuture/${repo.name}/contributors`;
+      fetchJSON(CONTRIBUTORS_URL)
+        .then(contributors =>
+          contributors.forEach(contributor =>
+            renderContributorsDetails(contributor, contributorsList),
+          ),
+        )
+
+        .catch(err =>
+          createAndAppend('div', root, {
+            text: err.message,
+            class: 'alert-error',
+          }),
+        );
+    });
   }
 
   function main(url) {
@@ -80,34 +130,52 @@
     const header = createAndAppend(`header`, root);
     createAndAppend(`h1`, header, { text: `HYF Repositories` });
     const select = createAndAppend(`select`, header);
-
-    const mainSection = createAndAppend(`main`, root, {
-      class: `main-container`,
+    createAndAppend('option', select, {
+      text: 'Select a repository',
+      disabled: 'disabled',
+      selected: 'selected',
     });
 
-    const promise = fetchJSON(url);
-    promise.then(repos =>
-      repos
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .forEach((repo, index) =>
-          createAndAppend(`option`, select, {
-            text: repo.name,
-            value: index,
-          }),
-        ),
-    );
-    promise.then(repos =>
-      select.addEventListener(`change`, selectRepo(select, mainSection, repos)),
-    );
-    promise.catch(err =>
-      createAndAppend('div', root, {
-        text: err.message,
-        class: 'alert-error',
-      }),
-    );
+    fetchJSON(url)
+      .then(repos => {
+        repos
+          .sort((a, b) => a.name.localeCompare(b.name))
+          .forEach((repo, index) => {
+            const option = createAndAppend('option', select, { value: index });
+            option.innerHTML = repo.name;
+          });
+
+        selectRepo(repos, select, root);
+      })
+
+      .catch(err =>
+        createAndAppend('div', root, {
+          text: err.message,
+          class: 'alert-error',
+        }),
+      );
   }
 
-  const HYF_REPOS_URL =
-    'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-  window.onload = () => main(HYF_REPOS_URL);
+  //   const mainSection = createAndAppend(`main`, root, {
+  //     class: `main-container`,
+  //   });
+
+  //   const promise = fetchJSON(url);
+  //   promise.then(repos =>
+  //     repos
+  //       .forEach((repo, index) =>
+  //         createAndAppend(`option`, select, {
+  //           text: repo.name,
+  //           value: index,
+  //         }),
+  //       ),
+  //   );
+  //   promise.then(repos =>
+  //     select.addEventListener('change', selectRepo(select, mainSection, repos)),
+  //   );
+  //   );
+  // }
+
+  const REPOS_URL = `${HYF_BASE_URL}/orgs/HackYourFuture/repos?per_page=100`;
+  window.onload = () => main(REPOS_URL);
 }
