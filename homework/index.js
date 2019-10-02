@@ -1,21 +1,28 @@
 'use strict';
 
 {
-  function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
-    });
+  async function fetchJSON(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(
+        `Network error: ${response.status} - ${response.statusText}`,
+      );
+    }
+    return response.json();
+    // return new Promise((resolve, reject) => {
+    //   const xhr = new XMLHttpRequest();
+    //   xhr.open('GET', url);
+    //   xhr.responseType = 'json';
+    //   xhr.onload = () => {
+    //     if (xhr.status >= 200 && xhr.status <= 299) {
+    //       resolve(xhr.response);
+    //     } else {
+    //       reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+    //     }
+    //   };
+    //   xhr.onerror = () => reject(new Error('Network request failed'));
+    //   xhr.send();
+    // });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -90,19 +97,28 @@
     });
   }
 
-  function renderContributors(selectedRepo, contributionsUl, root) {
-    fetchJSON(selectedRepo.contributors_url)
-      .then(contributors => {
-        contributionsUl.innerHTML = '';
-
-        renderContributorDetails(contributors, contributionsUl);
-      })
-      .catch(err => {
-        createAndAppend('div', root, {
-          text: err.message,
-          class: 'alert-error',
-        });
+  async function renderContributors(selectedRepo, contributionsUl, root) {
+    try {
+      const contributors = await fetchJSON(selectedRepo.contributors_url);
+      contributionsUl.innerHTML = '';
+      renderContributorDetails(contributors, contributionsUl);
+    } catch (err) {
+      createAndAppend('div', root, {
+        text: err.message,
+        class: 'alert-error',
       });
+    }
+    // fetchJSON(selectedRepo.contributors_url)
+    //   .then(contributors => {
+    //     contributionsUl.innerHTML = '';
+    //     renderContributorDetails(contributors, contributionsUl);
+    //   })
+    //   .catch(err => {
+    //     createAndAppend('div', root, {
+    //       text: err.message,
+    //       class: 'alert-error',
+    //     });
+    //   });
   }
 
   function renderPage(selectedRepo, reposSection, contributionsUl) {
@@ -111,7 +127,7 @@
     renderContributors(selectedRepo, contributionsUl);
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
     const header = createAndAppend('header', root, { class: 'header' });
     const mainElm = createAndAppend('main', root, { class: 'main-elm' });
@@ -128,8 +144,8 @@
       class: 'contributions-title',
     });
     const contributionsUl = createAndAppend('ul', contributionsSection);
-
-    fetchJSON(url).then(repos => {
+    try {
+      const repos = await fetchJSON(url);
       repos.sort(sortReposByNameProp).forEach((repo, index) => {
         createAndAppend('option', select, {
           value: index,
@@ -140,7 +156,25 @@
         renderPage(repos[event.target.value], reposSection, contributionsUl),
       );
       renderPage(repos[0], reposSection, contributionsUl);
-    });
+    } catch (err) {
+      createAndAppend('div', root, {
+        text: err.message,
+        class: 'alert-error',
+      });
+    }
+
+    // fetchJSON(url).then(repos => {
+    //   repos.sort(sortReposByNameProp).forEach((repo, index) => {
+    //     createAndAppend('option', select, {
+    //       value: index,
+    //       text: repo.name,
+    //     });
+    //   });
+    //   select.addEventListener('change', event =>
+    //     renderPage(repos[event.target.value], reposSection, contributionsUl),
+    //   );
+    //   renderPage(repos[0], reposSection, contributionsUl);
+    // });
   }
 
   const HYF_REPOS_URL =
