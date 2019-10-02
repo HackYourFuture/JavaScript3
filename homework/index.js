@@ -169,20 +169,13 @@
     const select = createHeaderSection('HYF Repositories', dom.root);
     try {
       let repositories = await fetchJSON(url);
-      if (repositories) {
-        repositories = repositories.sort(sortRepositoriesByNameAscending);
-        populateSelectElement(repositories, select);
-        createMainSectionWithSubSections(dom.root);
-        select.addEventListener('change', changeEvent => {
-          renderRepository(repositories[changeEvent.target.value]);
-        });
-        renderRepository(repositories[select.value]); // For the first load
-      } else {
-        showError(
-          new Error('There are no contributors for this repository.'),
-          dom.root,
-        );
-      }
+      repositories = repositories.sort(sortRepositoriesByNameAscending);
+      populateSelectElement(repositories, select);
+      createMainSectionWithSubSections(dom.root);
+      select.addEventListener('change', changeEvent => {
+        renderRepository(repositories[changeEvent.target.value]);
+      });
+      renderRepository(repositories[select.value]); // For the first load
     } catch (error) {
       showError(error, dom.root);
     }
