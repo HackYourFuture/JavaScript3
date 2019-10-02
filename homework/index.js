@@ -143,17 +143,9 @@
     dom.contributorsList.innerHTML = '';
     try {
       const contributors = await fetchJSON(repository.contributors_url);
-      // In case of non contributors situation
-      if (contributors) {
-        contributors.forEach(contributor => {
-          renderContributorDetails(contributor, dom.contributorsList);
-        });
-      } else {
-        showError(
-          new Error('There are no contributors for this repository.'),
-          dom.contributorsList,
-        );
-      }
+      contributors.forEach(contributor => {
+        renderContributorDetails(contributor, dom.contributorsList);
+      });
     } catch (error) {
       showError(error, dom.contributorsList);
     }
