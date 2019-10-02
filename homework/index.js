@@ -43,7 +43,7 @@
   }
 
   function renderRepoDetails(repo, table) {
-    const firstRow = renderRepoTable(table, 'Repository', '');
+    const firstRow = renderRepoTable(table, 'Repository:', '');
     createAndAppend('a', firstRow.lastChild, {
       text: repo.name,
       href: repo.html_url,
@@ -87,6 +87,13 @@
       });
   }
 
+  function renderContent(repos, reposContainer, contributorContainer) {
+    reposContainer.innerHTML = '';
+    contributorContainer.innerHTML = '';
+    renderRepoDetails(repos, reposContainer);
+    contributorContainer.innerHTML = 'Contributors';
+    renderContributors(repos.contributors_url, contributorContainer);
+  }
   function main(url) {
     fetchJSON(url)
       .then(repos => {
@@ -114,24 +121,21 @@
           .sort((a, b) => {
             return a.name.localeCompare(b.name);
           })
-          .forEach((elem, index) => {
+          .forEach((repo, index) => {
             createAndAppend('option', select, {
               value: index,
-              text: repos[index].name,
+              text: repo.name,
               class: 'select-class',
             });
           });
-        function renderContent(elem) {
-          reposContainer.innerHTML = '';
-          contributorContainer.innerHTML = '';
-          const repo = repos[elem];
-          renderRepoDetails(repo, reposContainer);
-          contributorContainer.innerHTML = 'Contributors';
-          renderContributors(repo.contributors_url, contributorContainer);
-        }
-        renderContent(0);
+
+        renderContent(repos[0], reposContainer, contributorContainer);
         select.addEventListener('change', () => {
-          renderContent(select.value);
+          renderContent(
+            repos[select.value],
+            reposContainer,
+            contributorContainer,
+          );
         });
       })
       .catch((err, div) => {

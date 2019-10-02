@@ -59,6 +59,7 @@ body {
 th {
   width: 80px;
   line-height: 25px;
+  text-align: left;
 }
 
 td {
@@ -80,20 +81,17 @@ td:first-child {
 .main-container {
   display: flex;
   align-items: flex-start;
-  justify-content: center;
-  flex-wrap: wrap;
+  justify-content: space-between;
   padding-top: 10px;
 }
 
-a {
+.contributor-details a {
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid rgb(0, 0, 0, 15%);
   padding: 15px;
   align-items: center;
   text-decoration: none;
-
-
 }
 
 @media (max-width: 800px) {
@@ -101,12 +99,18 @@ a {
     width: 175;
   }
 
+  .main-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
   h3 {
     font-size: 10px
   }
 
   body {
-
     width: 100%;
     flex-direction: column;
     align-items: stretch;
