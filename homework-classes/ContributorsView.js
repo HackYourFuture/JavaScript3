@@ -30,19 +30,19 @@
         const repoContributorListItem = createAndAppend('li', ul, {
           class: 'contributors-item',
         });
-        // repoContributorListItem.addEventListener('click', () => {
-        //   window.location.href = contributor.html_url;
-        // });
-        createAndAppend('img', repoContributorListItem, {
+        createAndAppend('a', repoContributorListItem, {
+          href: contributor.html_url,
+          text: '',
+          target: '_blank',
+        });
+        createAndAppend('img', repoContributorListItem.firstChild, {
           src: contributor.avatar_url,
           alt: 'Contributor avatar picture',
         });
-        createAndAppend('a', repoContributorListItem, {
-          href: contributor.html_url,
+        createAndAppend('p', repoContributorListItem.firstChild, {
           text: contributor.login,
-          target: '_blank',
         });
-        createAndAppend('span', repoContributorListItem, {
+        createAndAppend('span', repoContributorListItem.firstChild, {
           text: contributor.contributions,
         });
       });

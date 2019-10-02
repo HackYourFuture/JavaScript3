@@ -66,13 +66,13 @@ header {
   color: #818181;
 }
 
-.contributors-item {
+.contributors-item a {
   padding: 10px 20px;
   border-bottom: 1px solid lightgray;
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  cursor: pointer;
+  text-decoration: none;
 }
 
 .contributors-item img {
@@ -83,7 +83,7 @@ header {
   flex: 0 0 50px;
 }
 
-.contributors-item a {
+.contributors-item p {
   flex: 1;
 }
 

@@ -61,7 +61,7 @@
 
   function getDateTimeText(dateTimeStr) {
     const dateTime = new Date(dateTimeStr);
-    return dateTime.toLocaleString();
+    return dateTime.toDateString();
   }
 
   function sortRepositoriesByNameAscending(firstRepo, secondRepo) {
