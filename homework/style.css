@@ -21,11 +21,6 @@ body {
   font-weight: bolder;
 }
 
-#root {
-  display: grid;
-  grid-template-columns: 1fr;
-}
-
 header {
   background-image: linear-gradient(to right, #243949 0%, #517fa4 100%);
   height: 150px;
@@ -130,12 +125,8 @@ img {
     width: 100%;
   }
 
-  #main-container {
+  #main-cont {
     grid-template-columns: 1fr;
     grid-gap: 1px;
-  }
-
-  #table-container {
-    margin-bottom: 10px;
   }
 }
