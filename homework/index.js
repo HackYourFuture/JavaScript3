@@ -51,9 +51,9 @@
   async function renderContributors(repositories, ul) {
     const url = repositories.contributors_url;
     try {
-      const data = await fetchJSON(url);
+      const contributors = await fetchJSON(url);
       ul.innerHTML = ' ';
-      data.forEach(contributor => {
+      contributors.forEach(contributor => {
         const li = createAndAppend('li', ul);
         const infoImg = createAndAppend('div', li, { class: 'info-img' });
         createAndAppend('img', infoImg, {
@@ -83,13 +83,13 @@
       const root = document.getElementById('root');
       const header = createAndAppend('header', root, {
         text: 'HYF Repositories',
-        class: 'title',
+        class: 'header',
       });
       const select = createAndAppend('select', header, {
         class: 'selection',
       });
-      const data = await fetchJSON(url);
-      data
+      const repositories = await fetchJSON(url);
+      repositories
         .sort((a, b) => a.name.localeCompare(b.name))
         .forEach((repo, index) =>
           createAndAppend('option', select, {
@@ -106,7 +106,7 @@
       const ul = createAndAppend('ul', repoContainer, {
         class: 'list-container',
       });
-      renderRepoDetails(data[0], ul);
+      renderRepoDetails(repositories[0], ul);
       const contribContainer = createAndAppend('div', mainContainer, {
         class: 'contributors-container',
       });
@@ -116,9 +116,9 @@
       const ulContributes = createAndAppend('ul', contribContainer, {
         class: 'item-list',
       });
-      renderContributors(data[0], ulContributes);
+      renderContributors(repositories[0], ulContributes);
       select.addEventListener('click', () => {
-        const repo = data[select.value];
+        const repo = repositories[select.value];
         renderRepoDetails(repo, ul);
         renderContributors(repo, ulContributes);
       });
