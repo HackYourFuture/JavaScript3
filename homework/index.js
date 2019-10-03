@@ -22,6 +22,7 @@
     });
     return elem;
   }
+
   function formatDate(dateString) {
     const dateTime = new Date(dateString);
     return dateTime.toLocaleString();
@@ -59,30 +60,31 @@
 
   function renderContributor(contributor, contributorList) {
     const li = createAndAppend('li', contributorList);
-    const list = createAndAppend('a', li, {
+    const participantList = createAndAppend('a', li, {
       class: 'contributor-item',
       href: contributor.html_url,
       target: '_blank',
     });
-    createAndAppend('img', list, {
+    createAndAppend('img', participantList, {
       class: 'image',
       src: contributor.avatar_url,
     });
-    createAndAppend('span', list, {
+    createAndAppend('span', participantList, {
       class: 'contributor-name',
       text: contributor.login,
     });
-    createAndAppend('span', list, {
+    createAndAppend('span', participantList, {
       class: 'contribution-count',
       text: contributor.contributions,
     });
-    list.addEventListener('click', () => {
+    participantList.addEventListener('click', () => {
       window.open(contributor.html_url, '_blank');
     });
-    list.addEventListener('key', event => {
+    participantList.addEventListener('key', event => {
       if (event.key === 'Enter') window.open(contributor.html_url, '_blank');
     });
   }
+
   async function fetchAndRender(repo) {
     try {
       const contributors = await fetchJSON(repo.contributors_url);

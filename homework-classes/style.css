@@ -1,3 +1,148 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Roboto', Georgia, serif;
+  line-height: 1.5rem;
+  margin: 0 auto;
+  padding: 0;
+  background-color: #fffbe6;
+  color: #2747d4;
+  max-width: 768px;
+}
 .alert-error {
   color: red;
+  margin: 10px;
+  padding: 20px 0 20px 10px;
+  background:pink;
 }
+
+
+header{
+  background-color: #08176e;
+  color: #fffbe6;
+  border: 5px;
+  padding: 20px;
+  margin: 10px;
+  font-size: 20px;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.header-title {
+  color: #fffbe6;
+  font-size: 0.9rem;
+  text-align: center;
+  float: left;
+}
+
+select {
+  position: relative;
+  font-size: 0.8rem;
+  width: 32%;
+  line-height: 1.3;
+  height: 2rem;
+  padding: 3px;
+  max-width: 50%;
+  margin-left: 1rem;
+  cursor: pointer;
+  outline: none;
+}
+
+#left-side,
+#right-side {
+  flex: 1;
+}
+
+table {
+  width: 90%;
+  margin: 1% 5% 1% 5%;
+  border: 1px solid whitesmoke;
+  box-shadow: 0px 2px rgba(180, 176, 176, 0.247);
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: left;
+  padding: 10px 0;
+  
+}
+li{
+  list-style-type: none;
+}
+
+th {
+  width: 15%;
+  color: #0c0c0c;
+  font-weight: bold;
+  top: 0%;
+}
+
+td {
+  width: 85%;
+  color: rgb(75, 67, 67);
+  padding-left: 5px;
+}
+
+.main-container{
+  display:flex;
+  flex-flow: row nowrap;
+}
+
+.title{
+  text-align: center;
+  color: #356859;
+}
+.contributors-list {
+  list-style: none;
+  border-bottom: 1px solid #253964;
+  
+}
+.contributors-container{
+  margin: 1% 5% 1% 5%;
+}
+.contributor-item{
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-top: 1px solid #08176e;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 300ms ease-in-out;
+  text-decoration: none;
+}
+.contributor-item:hover {
+  background-color: #354568;
+}
+.image{
+  width: 20%;
+}
+.contribution-count{
+  border:1px solid #2a2b2c;
+  border-radius: 5px;
+  width: 10%;
+  text-align: center;
+  color:white;
+  background-color: grey;
+  line-height: 0.9rem;
+}
+.contributor-name{
+  padding-right: 20px;
+}
+
+@media (max-width: 767px) {
+ body{
+  font-size: 13px;
+}
+  .main-container{
+    flex-flow: column nowrap;
+    align-items: stretch;
+  }
+  select{
+    width: 50%;
+  }
+ }
