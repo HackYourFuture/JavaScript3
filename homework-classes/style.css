@@ -95,18 +95,21 @@ td {
   padding: 0 0 15px 0;
 }
 
+li {
+  list-style: none;
+  border-bottom: 1px solid #d3d3d3;
+}
+
+li:nth-last-child(1) {
+  border-bottom: 0px;
+  margin-bottom: 0px;
+}
+
 .contributor-details {
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
   font-size: 14px;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #d3d3d3;
-}
-
-.contributor-details:nth-last-child(1) {
-  border-bottom: 0px;
-  margin-bottom: 0px;
+  margin: 10px 0;
 }
 
 img {

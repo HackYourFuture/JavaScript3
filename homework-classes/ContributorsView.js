@@ -23,31 +23,27 @@
       createAndAppend('p', this.container, {
         text: `Contributors:`,
         id: 'contributors-title',
-        role: 'heading',
       });
-      const div = createAndAppend('div', this.container, {
+      const ul = createAndAppend('ul', this.container, {
         id: 'list-contributions',
-        role: 'list',
       });
 
       contributors.forEach(contributor => {
-        const contributorDiv = createAndAppend('div', div, {
-          class: 'contributor-details',
-          role: 'listitem',
-        });
-        createAndAppend('img', contributorDiv, {
-          src: contributor.avatar_url,
-          alt: 'Contributor avatar image',
-          role: 'img',
-        });
-        createAndAppend('a', contributorDiv, {
-          text: contributor.login,
+        const contributorDiv = createAndAppend('li', ul, { class: 'li' });
+        const contributorsLink = createAndAppend('a', contributorDiv, {
           href: contributor.html_url,
           target: '_blank',
-          class: 'user-name',
-          role: 'link',
+          class: 'contributor-details',
         });
-        createAndAppend('div', contributorDiv, {
+        createAndAppend('img', contributorsLink, {
+          src: contributor.avatar_url,
+          alt: 'Contributor avatar image',
+        });
+        createAndAppend('p', contributorsLink, {
+          text: contributor.login,
+          class: 'user-name',
+        });
+        createAndAppend('p', contributorsLink, {
           text: contributor.contributions,
           class: 'contributions-count',
         });
