@@ -53,23 +53,24 @@ body {
   height: 40px;
   padding: 3px;
   font-size: 14px;
-
+  background-color: #f3f3f3;
 }
 
 th {
-  width: 80px;
+  /* width: 80px; */
   line-height: 25px;
   text-align: left;
 }
 
+th,
 td {
   vertical-align: top;
 }
 
-td:first-child {
-  width: 100px;
+td {
+  /* width: 100px;
   min-width: 100px;
-  max-width: 100px;
+  max-width: 100px; */
 }
 
 .avatar {
@@ -96,7 +97,13 @@ td:first-child {
 
 @media (max-width: 800px) {
   .select-class {
-    width: 175;
+    width: 175px;
+    height: 25px;
+    font-size: 10;
+  }
+
+  .avatar {
+    width: 50px;
   }
 
   .main-container {
@@ -107,7 +114,11 @@ td:first-child {
   }
 
   h3 {
-    font-size: 10px
+    font-size: 15px;
+  }
+
+  h4 {
+    font-size: 15px;
   }
 
   body {
