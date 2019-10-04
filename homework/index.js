@@ -9,20 +9,6 @@
       );
     }
     return response.json();
-    // return new Promise((resolve, reject) => {
-    //   const xhr = new XMLHttpRequest();
-    //   xhr.open('GET', url);
-    //   xhr.responseType = 'json';
-    //   xhr.onload = () => {
-    //     if (xhr.status >= 200 && xhr.status <= 299) {
-    //       resolve(xhr.response);
-    //     } else {
-    //       reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-    //     }
-    //   };
-    //   xhr.onerror = () => reject(new Error('Network request failed'));
-    //   xhr.send();
-    // });
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -108,17 +94,6 @@
         class: 'alert-error',
       });
     }
-    // fetchJSON(selectedRepo.contributors_url)
-    //   .then(contributors => {
-    //     contributionsUl.innerHTML = '';
-    //     renderContributorDetails(contributors, contributionsUl);
-    //   })
-    //   .catch(err => {
-    //     createAndAppend('div', root, {
-    //       text: err.message,
-    //       class: 'alert-error',
-    //     });
-    //   });
   }
 
   function renderPage(selectedRepo, reposSection, contributionsUl) {
@@ -162,19 +137,6 @@
         class: 'alert-error',
       });
     }
-
-    // fetchJSON(url).then(repos => {
-    //   repos.sort(sortReposByNameProp).forEach((repo, index) => {
-    //     createAndAppend('option', select, {
-    //       value: index,
-    //       text: repo.name,
-    //     });
-    //   });
-    //   select.addEventListener('change', event =>
-    //     renderPage(repos[event.target.value], reposSection, contributionsUl),
-    //   );
-    //   renderPage(repos[0], reposSection, contributionsUl);
-    // });
   }
 
   const HYF_REPOS_URL =
