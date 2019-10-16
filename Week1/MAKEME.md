@@ -136,7 +136,7 @@ The returned JSON data contains some basic information about each repository, su
 
 Do the following to fulfill this week's requirements:
 
-1. Modify **`imdex.js`**: Modify whatever you need in order to successfully make an API call to the HackYourFuture GitHub account and display the results inside the DOM. It is not likely that you will need to modify `fetchJSON()` and `createAndAppend()`.
+1. Modify **`index.js`**: Modify whatever you need in order to successfully make an API call to the HackYourFuture GitHub account and display the results inside the DOM. It is not likely that you will need to modify `fetchJSON()` and `createAndAppend()`.
 
 2. Add your own CSS styling inside **`style.css`**. Avoid using JavaScript for styling unless there is a genuine need. **You are not allowed to use a CSS library such as Bootstrap.**
 

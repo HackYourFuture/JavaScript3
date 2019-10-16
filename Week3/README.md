@@ -32,7 +32,7 @@ However, in the evolution of programming languages programmers started to think 
 
 In this week you'll be exposed to one such programming style that evolved: `object oriented programming` (or OOP for short). OOP is a fundamentally different way of writing software: instead of breaking up a problem in variables and functions that operate on those variables, we break problems up into "entities" that interact with each other.
 
-> Just to make sure you completely get the idea here: OOP is about a different way of thinking about how to write software. The concepts of variables, functions, promises, API (calls) and error handling all still apply. It's just that the way code is organised is differently. Instead of creating long procedures, we create objects that interact with each other.
+> Just to make sure you completely get the idea here: OOP is about a different way of thinking about how to write software. The concepts of variables, functions, promises, API (calls) and error handling all still apply. It's just that the way code is organised is different. Instead of creating long procedures, we create objects that interact with each other.
 
 For further study, check the following:
 
@@ -178,7 +178,7 @@ const noer = new Person('Noer', 27);
 
 ### Classes
 
-As you've learned in the previous section, in JavaScript we can do this using `factory/constructor function`.
+As you've learned in the previous section, in JavaScript we can do this using `factory or constructor functions`.
 
 Since ES6 we can make use of the `class` keyword, which is a way to create constructor objects as well. It's essentially the same thing as a constructor function, only written in a clearer and more straightforward way.
 
@@ -198,16 +198,27 @@ const someFunc(param1, callback) {
 }
 ```
 
-Then we learned about how Promises are an improved on callbacks, by providing the developer with a more readable syntax that avoids **callback hell**. We can call them callbacks version 2.0.
+Then we learned about how Promises are an improvement upon callbacks, by providing the developer with a more readable syntax that avoids **callback hell**. We can call them callbacks version 2.0. Here's the basic structure again:
 
 ```js
 new Promise(reject, resolve).then(...);
 ```
 
-And now we've arrived at the latest upgrade of the callback mechanism: `async/await`.
+And now we've arrived at the latest upgrade of the callback mechanism: `async/await`. This construct is part of **ECMAScript 6** and its main benefit is to make using callbacks even more readable. Here's how it might look in action:
 
 ```js
+async fetchData () {
+  const fetchedData = await fetch('https://randomuser.me/api/');
+  const parsedData = await fetchedData.json();
+  return parsedData;
+}
 ```
+
+This new construct makes use of the Promise object, in the same way that Promises make use of callback functions.
+
+How do we use it? We put the keyword `async` in front of the function declaration that will contain asynchronous code. Then in every line that returns the Promise we put the keyword `await` in front.
+
+For more research, check the following resources:
 
 - [The Evolution of Callbacks, Promises & Async/Await](https://www.youtube.com/watch?v=gB-OmN1egV8)
 - [Async JS Crash Course - Callbacks, Promises, Async/Await](https://www.youtube.com/watch?v=PoRJizFvM7s)
@@ -216,9 +227,26 @@ And now we've arrived at the latest upgrade of the callback mechanism: `async/aw
 
 As you might have noticed, the Async/Await doesn't give us a way to do error handling like it does in the Promise object.
 
-In the Promise object we have access to the `catch()` function,
+In the Promise object we are given access to the `catch()` function, a function whose sole job it is to "catch errors". "Catching errors" is a phrase developers use to indicate various things:
+
+1. that a line of code has caused an error
+2. that the program has shutdown to prevent any other errors from happening
+3. that the application gives feedback to the developer and/or user
+
+In the Promise object, we can use the function `catch` to take care of errors. It takes in a callback, which automatically receives an error object. Here's an example:
+
+```js
+Promise.catch(function(error) {
+  console.log(error);
+});
+```
+
+With the Async/Await construction, we don't get that. So instead we have to use some other solution: the `try... catch` block. It's also an addition to the language, given to us by **ECMAScript 6**.
+
+Learn more about it here:
 
 - [JavaScript Try Catch & Error Handling ES6 Tutorial](https://www.youtube.com/watch?v=ye-aIwGJKNg)
+- [Error handling, "try..catch"](https://javascript.info/try-catch)
 
 ## Finished?
 
