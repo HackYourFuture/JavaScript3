@@ -1,23 +1,6 @@
 'use strict';
 
 {
-  function fetchJSON(url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('GET', url);
-      xhr.responseType = 'json';
-      xhr.onload = () => {
-        if (xhr.status >= 200 && xhr.status <= 299) {
-          resolve(xhr.response);
-        } else {
-          reject(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        }
-      };
-      xhr.onerror = () => reject(new Error('Network request failed'));
-      xhr.send();
-    });
-  }
-
   function createAndAppend(name, parent, options = {}) {
     const elem = document.createElement(name);
     parent.appendChild(elem);
@@ -38,6 +21,20 @@
       text: error.message,
       class: 'alert-error',
     });
+  }
+  async function fetchJSON(url) {
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(
+          `Network error: ${response.status} - ${response.statusText}`,
+        );
+      }
+      return response.json();
+    } catch (error) {
+      createErrorMessage(error);
+      return null;
+    }
   }
 
   function createTableRow(table, header, optionsValue = {}) {
@@ -86,9 +83,18 @@
     });
   }
 
-  function renderContribution(contributorsUrl, section) {
-    const contributorsPromise = fetchJSON(contributorsUrl);
-    contributorsPromise
+  async function renderContribution(contributorsUrl, section) {
+    const contributors = await fetchJSON(contributorsUrl);
+    try {
+      section.innerHTML = '';
+      const ul = createAndAppend('ul', section);
+      const li = createAndAppend('li', ul);
+      createAndAppend('p', li, { text: 'Contributions' });
+      contributors.forEach(contributor => createListItem(ul, contributor));
+    } catch (err) {
+      createErrorMessage(err);
+    }
+    /* contributorsPromise
       .then(data => {
         section.innerHTML = '';
         const ul = createAndAppend('ul', section);
@@ -98,7 +104,7 @@
       })
       .catch(err => {
         createErrorMessage(err);
-      });
+      }); */
   }
 
   function selectRepository(select, mainDiv, repos) {
@@ -120,7 +126,7 @@
     });
   }
 
-  function main(url) {
+  async function main(url) {
     const root = document.getElementById('root');
     const header = createAndAppend('header', root, {
       class: 'main-header',
@@ -134,7 +140,26 @@
     });
     const mainSection = createAndAppend('main', root, { id: 'main' });
 
-    const promise = fetchJSON(url);
+    const repos = await fetchJSON(url);
+
+    try {
+      if (!repos) {
+        throw new Error('Could not retrieve repositories');
+      }
+      repos
+        .sort((firstRepo, secondRepo) => {
+          return firstRepo.name.localeCompare(secondRepo.name);
+        })
+        .forEach((repo, index) => renderRepoSelect(repo, index, select));
+      select.addEventListener('change', () =>
+        selectRepository(select, mainSection, repos),
+      );
+      selectRepository(select, mainSection, repos);
+    } catch (err) {
+      createErrorMessage(err);
+    }
+
+    /*  const promise = fetchJSON(url);
     promise
       .then(repos => {
         repos
@@ -149,10 +174,10 @@
       })
       .catch(err => {
         createErrorMessage(err);
-      });
+      }); */
   }
 
   const HYF_REPOS_URL =
-    'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+    'https://api.github.com/orgs/HackYourFuturfge/repos?per_page=100';
   window.onload = () => main(HYF_REPOS_URL);
 }
