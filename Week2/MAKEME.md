@@ -33,7 +33,7 @@ The assignment this week is to enhance your application to look similar to the f
 
 As you can see, it looks different from the one from last week. This week we'll be rewriting most of our code to now show information for a single repository and also list its contributors (instead of the details for all repositories). A user should be able to search for all repositories in the account and select the one they want more information on.
 
-## Week 2 Assignment
+### Week 2 Assignment
 
 The enhanced application should fulfill the following requirements:
 

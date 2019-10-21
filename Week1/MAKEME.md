@@ -23,7 +23,7 @@ Who doesn't love kittens on their screen?
 
 Write an function that makes an API call to https://wwww.placekitten.com/api
 
-- Inside the same file write two programs: one with `XMLHttpRequest`, and the other with `Axios`
+- Inside the same file write two programs: one with `XMLHttpRequest`, and the other with `axios`
 - Each function should make an API call to the given endpoint: `https://wwww.placekitten.com/api`
 - Log the received data to the console
 - Incorporate error handling
@@ -34,7 +34,7 @@ Wouldn't it cool to make a new friend with just the click of a button?
 
 Write a function that makes an API call to https://www.randomuser.me/api
 
-- Inside the same file write two functions: one with `XMLHttpRequest`, and the other with `Axios`
+- Inside the same file write two functions: one with `XMLHttpRequest`, and the other with `axios`
 - Each function should make an API call to the given endpoint: `https://www.randomuser.me/api`
 - Log the received data to the console
 - Incorporate error handling
@@ -46,7 +46,7 @@ Let's make a randomized photo gallery!
 Write a function that makes an API call to https://picsum.photos/400
 
 - Create an `index.html` file that will display your random image
-- Write two programs: one with `XMLHttpRequest`, and the other with `Axios`
+- Write two programs: one with `XMLHttpRequest`, and the other with `axios`
 - Each function should make an API call to the given endpoint: `https://picsum.photos/400`
 - After receiving the data, render it to the page in a `<img>`
 - Incorporate error handling
@@ -129,7 +129,7 @@ This URL is special, as it gives us data in JSON format (Try it out in your brow
 
 Note the query string `?per_page=100` in the above URL. If you don't specify this `query string` you will only get the first 30 repositories (the default `per_page` is 30, which we know because it says so in the [API documentation](https://developer.github.com/v3/#pagination)).
 
-## Week 1 Assignment:
+### Week 1 Assignment
 
 The assignment for this week is to produce a functional application that looks similar to Figure 1:
 
