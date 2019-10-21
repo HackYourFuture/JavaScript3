@@ -24,6 +24,7 @@ Who doesn't love kittens on their screen?
 Write an function that makes an API call to https://wwww.placekitten.com/api
 
 - Inside the same file write two programs: one with `XMLHttpRequest`, and the other with `Axios`
+- Each function should make an API call to the given endpoint: `https://wwww.placekitten.com/api`
 - Log the received data to the console
 - Incorporate error handling
 
@@ -33,7 +34,8 @@ Wouldn't it cool to make a new friend with just the click of a button?
 
 Write a function that makes an API call to https://www.randomuser.me/api
 
-- Inside the same file write two programs: one with `XMLHttpRequest`, and the other with `Axios`
+- Inside the same file write two functions: one with `XMLHttpRequest`, and the other with `Axios`
+- Each function should make an API call to the given endpoint: `https://www.randomuser.me/api`
 - Log the received data to the console
 - Incorporate error handling
 
@@ -45,7 +47,8 @@ Write a function that makes an API call to https://picsum.photos/400
 
 - Create an `index.html` file that will display your random image
 - Write two programs: one with `XMLHttpRequest`, and the other with `Axios`
-- After receiving the data, render it to the page in a `<li>`
+- Each function should make an API call to the given endpoint: `https://picsum.photos/400`
+- After receiving the data, render it to the page in a `<img>`
 - Incorporate error handling
 
 ## **3. Code along**
@@ -60,22 +63,20 @@ Enjoy!
 
 ## **4. PROJECT: Hack Your Repo I**
 
-> In this assignment you will built upon some existing code that is already pre-written by your teachers. Your homework consist of writing the code to make the application work as requested per week.
-
 In the following three weeks you are going to write a _Single Page Application_ (SPA) that makes use of the [GitHub API](https://developer.github.com/v3/guides/getting-started/).
 
-Figure 1 below shows an example of what your application could look like.
+Figure 1 below shows an example of what your application will look like.
 
 ![UI Example](./assets/hyf-github.png)
 
-This application serves 2 purpose:
+This application does 2 things:
 
 1. It makes connection to the GitHub API and retrieves all the repositories found in the [HackYourFuture account](https://www.github.com/hackyourfuture).
 2. It displays those repositories in an alphabetically-oreded list. When a user clicks on any of the repository names it will show more details about it.
 
 ### Getting an overview
 
-For this week you're expected to build upon the pre-existing code, found in the folder `homework`. Here's what you'll find:
+For this week you're expected to build upon pre-existing code, found in the folder `homework`. Here's what you'll find:
 
 | Filename     | Description                       |
 | ------------ | --------------------------------- |
@@ -88,7 +89,7 @@ As you'll experience in your job, you'll be exposed to an already existing codeb
 
 ### A first examination
 
-1. Open `index.html` and examine its contents (but don't modify anything). Notice that the HTML `body` looks like this:
+1. Open `index.html` and examine its contents (but don't modify anything). Notice that the HTML `<body>` looks like this:
 
    ```html
    <body>
@@ -97,7 +98,7 @@ As you'll experience in your job, you'll be exposed to an already existing codeb
    </body>
    ```
 
-   The `body` tag contains a single `div` to which you will need to dynamically append HTML elements through your JavaScript code in `index.js`.
+   The `<body>` tag contains a single `<div>` to which you will need to dynamically append HTML elements through your JavaScript code in `index.js`.
 
 2. Open `index.js`. This file contains a starter set of code for you to expand. It contains the following three functions:
 
@@ -107,7 +108,7 @@ As you'll experience in your job, you'll be exposed to an already existing codeb
    | `createAndAppend` | A utility function for easily creating and appending HTML elements.                                          |
    | `main`            | Contains the start-up code for the application.                                                              |
 
-   `index.js` also contains a constant with the URL required for fetching information about the HYF repositories:
+   `index.js` also contains a variable with the URL required for fetching information about the HYF repositories:
 
    ```js
    const HYF_REPOS_URL =
@@ -124,25 +125,46 @@ As you'll experience in your job, you'll be exposed to an already existing codeb
 https://api.github.com/orgs/HackYourFuture/repos?per_page=100
 ```
 
-> This URL is special, as it gives us data in JSON format. This type of URL is also known as an `endpoint`, an address that we can use to send a request to in order to get data. Learn more about endpoints [here](https://smartbear.com/learn/performance-monitoring/api-endpoints/).
+This URL is special, as it gives us data in JSON format (Try it out in your browser!). This type of URL is also known as an `endpoint`, an address that we can use to send a request to in order to get data. Learn more about endpoints [here](https://smartbear.com/learn/performance-monitoring/api-endpoints/).
 
-If you open this URL in the browser (_try it!_) you will receive JSON data about the available HYF repositories. This is the data that you will need to work with in this assignment.
+Note the query string `?per_page=100` in the above URL. If you don't specify this `query string` you will only get the first 30 repositories (the default `per_page` is 30, which we know because it says so in the [API documentation](https://developer.github.com/v3/#pagination)).
 
-<small>Note the query string `?per_page=100` in the above URL. If you don't specify this query string you will only get the first 30 repositories (the default `per_page` is 30, which we know because it says so in the [API documentation](https://developer.github.com/v3/#pagination)).</small>
+## Week 1 Assignment:
 
-The returned JSON data contains some basic information about each repository, such as `name`, `full_name`, `description` etc. There are also many properties that contain URLs that can be used to obtain detail information about certain aspects of the repository.
+The assignment for this week is to produce a functional application that looks similar to Figure 1:
 
-### In Summary: the assignment
+![UI Example](./assets/hyf-github.png)
 
-Do the following to fulfill this week's requirements:
+Functionally, the application should do the following:
 
-1. Modify **`index.js`**: Modify whatever you need in order to successfully make an API call to the HackYourFuture GitHub account and display the results inside the DOM. It is not likely that you will need to modify `fetchJSON()` and `createAndAppend()`.
+1. Make an API call to the endpoint: https://api.github.com/orgs/HackYourFuture/repos?per_page=100
+2. Display the first 10 items in the HTML file (write JavaScript to add element to the DOM)
+3. Show feedback when an error has happened
 
-2. Add your own CSS styling inside **`style.css`**. Avoid using JavaScript for styling unless there is a genuine need. **You are not allowed to use a CSS library such as Bootstrap.**
+Modify the following files:
 
-**Hints**
+**1. `index.js`**
 
-- Use CSS media queries and [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) to make the UI responsive.
+- Add new functions and modify function `main()` as you see fit.
+- Render network errors to the DOM (see Figure 2 below for an example). Do not use `console.log` as regular users will not see the console output. Instead, create an element that displays the error message in the DOM. Use the predefined `alert-error` class from `style.css` to style your error. It should look like this:
+
+![Error rendering](./assets/hyf-github-error.png)
+
+<small>Figure 2. Rendering of network errors.</small>
+
+**2. `style.css`**
+
+- Add your own CSS styling. Use `style.css` for all of your CSS rules to style the `index.html`. Make sure your UI is responsive. Try it with Chrome Developer Tools in the browser, using a mobile phone format and a tablet format, portrait and landscape.
+
+  **You are not allowed to use a CSS library such as Bootstrap.**
+
+**Hints:**
+
+- To sort the list repositories use [`.sort()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) and [`.localeCompare()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare).
+
+- Use CSS media queries, percentage values and [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) to make the UI responsive.
+
+- To force a `404` network error so that you can test the rendering of errors, change the URL to make an invalid GitHub request, e.g. append an `x` to `orgs`: `orgsx`.
 
 Good luck!
 
@@ -153,7 +175,7 @@ After you've finished your todo list it's time to show us what you got! The home
 1. JavaScript exercises
 2. PROJECT: HackYourRepo I
 
-Upload both to your forked JavaScript3 repository in GitHub. Make a pull request to the original repository.
+Upload both to your forked JavaScript3 repository in GitHub. Make a pull request to your teacher's forked repository.
 
 > Forgotten how to upload your homework? Go through the [guide](../hand-in-homework-guide.md) to learn how to do this again.
 

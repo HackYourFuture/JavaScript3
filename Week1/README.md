@@ -171,7 +171,7 @@ axios
 
 Any library that exists is developed to solve some problem. The main problems `axios` aims to solve are the following:
 
-1. how to much easier make an `HTTP request`
+1. how to make an `HTTP request` in an easier way
 2. how to write more readable asynchronous code.
 
 Here's how `axios` solves problem 1:
@@ -180,13 +180,22 @@ Here's how `axios` solves problem 1:
 
 Here's how `axios` solves problem 2:
 
--
+- It makes use of the Promise structure, which will allow you (the developer) to "chain" operations in a readable and intuitive way.
 
 ### How to use a library
 
-Now that you've learned about the utility of libraries, let's talk a little about how to approach using a library. The first question we must ask is: when is it appropriate to use a library?
+Now that you've learned about the utility of libraries, let's talk a little about how to approach using a library. Keep in mind that this is not the only way to do it, but it will set you off on a good start.
 
-The second question is: how to start using a new library?
+1. **Do your research**. Doing research means finding out more about the library. Is it new? Is it fully functional? What do other people say about using it? Is it backed by the community? Does the library have a GitHub page?
+2. **Read the documentation**. If code has been published for everyone to use, most likely the developers have written a guide on how to use it. This is called `documentation`. After doing your research delve into it and try to figure out what the philosophy and usages of the library are.
+3. **Try out a basic example**. A basic example can usually be found in the documentation. Copy and paste it into an empty file for yourself and try it out. It's best to try it out in isolation first, so that you can learn exactly what makes it work. Then slowly start playing around with it: change names, move lines of code.
+4. **Try to integrate it with your own code base**. Once you've tried it out it's time integrate it into your own code. Figure out where to best put it. The documentation can help you out with that. Look at other developer's code and see how they use it. Watch videos or read articles online.
+
+As an example, try it out with `axios`. To help you out, here are some resources:
+
+- [Documentation](https://github.com/axios/axios)
+- [Guide - Written](https://blog.logrocket.com/how-to-make-http-requests-like-a-pro-with-axios/)
+- [Guide - Video](https://www.youtube.com/watch?v=oAHGpmyJD7g)
 
 ## Finished?
 

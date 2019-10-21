@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "CoenraadS.bracket-pair-colorizer",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ritwickdey.LiveServer",
+    "streetsidesoftware.code-spell-checker",
+    "techer.open-in-browser"
+  ]
+}
