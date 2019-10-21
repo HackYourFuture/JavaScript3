@@ -65,6 +65,7 @@ The enhanced application should fulfill the following requirements:
 4. You should be able to click on the repository name of the selected repository to open a new browser tab with the GitHub page for that repository.
 5. You should be able to click on a contributor to open a new browser tab with the GitHub page for that contributor.
 6. Your UI should be responsive. Try it with Chrome Developer Tools in the browser, using a mobile phone format and a tablet format, portrait and landscape.
+7. The `XMLHttpRequest` in the `fetchJSON` function should be replaced with `fetch`. Hint: Because `fetch` returns a promise out of the box there is no need create a promise yourself with `new Promise(...)`.
 
 **Hints:**
 

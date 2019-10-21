@@ -25,24 +25,18 @@ Let's continue exercising those programming muscles! Go through the following ex
 
 ## **4. PROJECT: Hack Your Repo III**
 
-> The homework for week 2 will build on the work you did in week 1. You will create a new branch based on the the previous week's branch.
+> The homework for week 3 will build on the work you did in week 2. You will create a new branch based on the the previous week's branch.
 
 The final week's assignment consists of two parts.
 
 In the first part you will update the homework from week 2 (in the `homework` folder). In the second part you will refactor your application to use `ES6 classes`. For this, you need to modify the files in the `homework-classes` folder.
 
-### Step 1: Replace `XMLHttpRequest` with `fetch`
-
-- Replace `XMLHttpRequest` in the `fetchJSON` function with `fetch`. Because `fetch` returns a promise out of the box there is no need create a promise yourself with `new Promise(...)`.
-
-> `fetch` does not throw an error for HTTP errors. Review the documentation for [`response.ok`](https://developer.mozilla.org/en-US/docs/Web/API/Response/ok) for a clue how detect HTTP errors.
-
-### Step 2: `async/await`
+### Step 1: `async/await`
 
 - Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
 - Make sure that your error handling code still works. See the instructions from week 2's [homework](../Week2/MAKEME.md) on how to force an error response from GitHub.
 
-### Step 3: OOP and ES6 classes
+### Step 2: OOP and ES6 classes
 
 This final assignment requires you to go the extra mile and get acquainted with Object Oriented Programming and ES6 classes.
 
@@ -85,7 +79,7 @@ You can conclude the following from this diagram:
 
 3. The **SelectView** class calls the `fetchData()` method from the **Model** class to request a data fetch.
 
-#### Step 4: `axios`
+#### Step 3: `axios`
 
 1. Modify the `fetchJSON` static method in **Model.js** to replace **fetch** with **axios**.
 2. Add a `<script>` tag to **index.html** to load the **axios** library from a CDN (Content Delivery Network) site. Use Google to find the right URL.

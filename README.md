@@ -5,10 +5,11 @@
 
 ![JavaScript3](./assets/javascript3.png)
 
-Welcome to JavaScript3! Congratulations on making it this far. You're well on your way to the top.
+Welcome to JavaScript3! Congratulations on making it this far. You're well on your way to the top!
 
-A big part of being a programmer means moving data from one place to another.
-In this module you'll be learning about one of the core things of what makes a web developer: working with APIs!
+A big part of being a programmer means moving data from one place to another. It also means working with other people's software. In this module you'll be learning about one of the core things of what makes a web developer: working with APIs!
+
+On top of that you'll also learn how to think differently about how you write your programs. Like in any field, once you've mastered a particular way of doing things you start thinking about how it could be done differently. In programming we call these `paradigms` and in this module you'll one such paradigm: Object-Oriented Programming!
 
 ## Learning goals
 
