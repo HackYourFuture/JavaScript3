@@ -1,97 +1,82 @@
-# Homework Week 1
+# Homework JavaScript3 Week 1
 
-```
-Topics discussed this week:
-• Structure for a basic SPA
-• XMLHttpRequests
-• API calls
-```
+## **Todo list**
 
-## Step 1: Single Page Application :sweat_drops:
+1. Practice the concepts
+2. JavaScript exercises
+3. Code along
+4. PROJECT: Hack Your Repo I
 
-**_Deadline Thursday_**
+## **1. Practice the concepts**
 
-_This homework is more extensive and challenging than previous homework! Please read the instructions below carefully and follow them with great attention to detail. Start this homework as soon as you can and allow time for discussion and questions (slack!)._
+This week's concepts can be challenging, therefore let's get an easy introduction using some interactive exercises! Check the following resources out and start practicing:
 
-### 1.1 Introduction
+- [Learn JavaScript: Requests](https://www.codecademy.com/learn/introduction-to-javascript/modules/intermediate-javascript-requests)
 
-> In this assignment you will built upon some existing code that is already pre-written by your teachers. Your homework consist of writing the code to make the application work as requested per week.
+## **2. JavaScript exercises**
 
-You are going to write a _Single Page Application_ (SPA) that uses the [GitHub API](https://developer.github.com/guides/getting-started/).
+> Inside of your `JavaScript3` fork and inside of the `Week1` folder, create a folder called `homework`. Inside of that folder, create a folder called `js-exercises`. For all the following exercises create a new `.js` file in that folder (3 files in total). Make sure the name of each file reflects its content: for example, the filename for exercise one could be placeKitten.js.
 
-This application should display information about the available [HYF GitHub repositories](https://github.com/hackyourfuture). The functionalities we would like to see in your application in the first week are as follows:
+**Exercise 1: Place the kitten**
 
-- The application should fetch repository information for the HYF GitHub account and display summary information for each repository.
-- This list of repositories should be sorted alphabetically by repository name.
+Who doesn't love kittens on their screen?
 
-Figure 1 below shows an example of what your application could look like.
+Write an function that makes an API call to https://wwww.placekitten.com/api
+
+- Inside the same file write two programs: one with `XMLHttpRequest`, and the other with `axios`
+- Each function should make an API call to the given endpoint: `https://wwww.placekitten.com/api`
+- Log the received data to the console
+- Incorporate error handling
+
+**Exercise 2: Who do we have here?**
+
+Wouldn't it cool to make a new friend with just the click of a button?
+
+Write a function that makes an API call to https://www.randomuser.me/api
+
+- Inside the same file write two functions: one with `XMLHttpRequest`, and the other with `axios`
+- Each function should make an API call to the given endpoint: `https://www.randomuser.me/api`
+- Log the received data to the console
+- Incorporate error handling
+
+**Exercise 3: Photo gallery**
+
+Let's make a randomized photo gallery!
+
+Write a function that makes an API call to https://picsum.photos/400
+
+- Create an `index.html` file that will display your random image
+- Write two programs: one with `XMLHttpRequest`, and the other with `axios`
+- Each function should make an API call to the given endpoint: `https://picsum.photos/400`
+- After receiving the data, render it to the page in a `<img>`
+- Incorporate error handling
+
+## **3. Code along**
+
+Now that you've learned about APIs and how to connect with them, let's apply it in the context of a complete application.
+
+In the following application you'll be making an API call to an external, public API.
+
+Enjoy!
+
+- [Vanilla JS Numbers Facts App - AJAX & Fetch](https://www.youtube.com/watch?v=tUE2Nic21BA)
+
+## **4. PROJECT: Hack Your Repo I**
+
+In the following three weeks you are going to write a _Single Page Application_ (SPA) that makes use of the [GitHub API](https://developer.github.com/v3/guides/getting-started/).
+
+Figure 1 below shows an example of what your application will look like.
 
 ![UI Example](./assets/hyf-github.png)
 
-<small>Figure 1. Example User Interface using [Material Design](https://material.io/guidelines/) principles.</small>
+This application does 2 things:
 
-### 1.2 The GitHub API
+1. It makes connection to the GitHub API and retrieves all the repositories found in the [HackYourFuture account](https://www.github.com/hackyourfuture).
+2. It displays those repositories in an alphabetically-oreded list. When a user clicks on any of the repository names it will show more details about it.
 
-#### 1.2.1 Get a list of HYF repositories
+### Getting an overview
 
-You can fetch a list of HYF repositories through this API endpoint ([What is an API Endpoint?](https://teamtreehouse.com/community/what-is-an-api-endpoint)):
-
-```
-https://api.github.com/orgs/HackYourFuture/repos?per_page=100
-```
-
-If you open this URL in the browser (_try it!_) you will receive JSON data about the available HYF repositories. This is the data that you will need to work with in this assignment.
-
-<small>Note the query string `?per_page=100` in the above URL. If you don't specify this query string you will only get the first 30 repositories (the default `per_page` is 30). HackYourFuture has more than 30 repositories but less than 100.</small>
-
-The returned JSON data contains some basic information about each repository, such as `name`, `full_name`, `description` etc. There are also many properties that contain URLs that can be used to obtain detail information about certain aspects of the repository.
-
-#### 1.2.2 GitHub API documentation
-
-You can find detailed information about the GitHub API by means of the link listed below. However, the documentation is very extensive and not easy to digest. For this homework it is not necessary to study the GitHub API documentation. We provide the link here for completeness.
-
-> GitHub API documentation: https://developer.github.com/v3/
-
-### 1.3 Coding Style
-
-In this homework we will be introducing a preferred coding style and supporting tools to help you write _"clean code"_. A number of popular [_JavaScript Style Guides_](https://codeburst.io/5-javascript-style-guides-including-airbnb-github-google-88cbc6b2b7aa) have recently emerged of which the one developed by [Airbnb](https://github.com/airbnb/javascript) has been chosen for this homework and is recommended for subsequent use during the HYF curriculum. It is documented here:
-
-- [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
-
-While you do not need to read this guide in detail, it is recommended that you review sections 1-8, 12-13, 15-21 and 23. The tools installed during the project preparation step below will help you to implement these guidelines in your code. You will see error and warning messages in the VSCode editor when your code deviates from the recommended style. An additional check will be done when you submit your homework as a pull request on GitHub.
-
-### 1.5 Preparation
-
-You will be working on the same application during the next three weeks. For each week you will need to create a new Git branch, as listed in the Table 1 below.
-
-| Week | Branch  | Assignment |
-| :--: | ------- | ---------- |
-|  1   | `week1` | - Create a basic application using callbacks to handle network requests. |                                       
-|  2   | `week2` | Based on the `week1` branch:<br>- Display details on a single repository and its contributors<br>- Refactor the callbacks to promises. |
-|  3   | `week3` | Based on the `week2` branch:<br>- Refactor the application to use `fetch` and `async`/`await`.<br>- Reuse portions of the code to complete a provided Object Oriented (OOP) version of the application that uses ES6 classes. |
-
-<small>Table 1. Homework schedule</small>
-
-**Instructions**
-
-1. Fork the JavaScript3 repository (_this repository_) to your own GitHub account.
-2. Clone the fork to your laptop.
-3. Open the newly created `JavaScript3` folder from the cloned repository in VSCode.
-4. Open a Terminal window in VSCode and type the following command to install Prettier and ESLint tools as required for the homework:
-
-   ```
-   npm install
-   ```
-
-5. Create a new branch for the week 1 homework with the following command:
-
-   ```
-   git checkout -b week1
-   ```
-
-### 1.5 Code Overview
-
-The files that make up the application are located in the `homework` folder. It contains the following files:
+For this week you're expected to build upon pre-existing code, found in the folder `homework`. Here's what you'll find:
 
 | Filename     | Description                       |
 | ------------ | --------------------------------- |
@@ -100,13 +85,11 @@ The files that make up the application are located in the `homework` folder. It 
 | `index.js`   | A starter JavaScript file.        |
 | `style.css`  | A starter CSS file.               |
 
-Although you should only modify files in the `homework` folder, we recommend that you always open the `JavaScript3` folder rather than directly opening the `homework` folder in VSCode. The `JavaScript3` folder contains the actual git repository and the configuration files required by the installed tools.
+As you'll experience in your job, you'll be exposed to an already existing codebase. It's an essential skill to get used to doing this. But how?
 
-_**Do not change or delete any files outside of the `homework` folder!**_
+### A first examination
 
-#### 1.5.1 A first examination
-
-1. Open `index.html` and examine its contents (but don't modify anything). Notice that the HTML `body` looks like this:
+1. Open `index.html` and examine its contents (but don't modify anything). Notice that the HTML `<body>` looks like this:
 
    ```html
    <body>
@@ -115,7 +98,7 @@ _**Do not change or delete any files outside of the `homework` folder!**_
    </body>
    ```
 
-   The `body` tag contains a single `div` to which you will need to dynamically append HTML elements through your JavaScript code in `index.js`.
+   The `<body>` tag contains a single `<div>` to which you will need to dynamically append HTML elements through your JavaScript code in `index.js`.
 
 2. Open `index.js`. This file contains a starter set of code for you to expand. It contains the following three functions:
 
@@ -125,85 +108,75 @@ _**Do not change or delete any files outside of the `homework` folder!**_
    | `createAndAppend` | A utility function for easily creating and appending HTML elements.                                          |
    | `main`            | Contains the start-up code for the application.                                                              |
 
-   `index.js` also contains a constant with the URL required for fetching information about the HYF repositories:
+   `index.js` also contains a variable with the URL required for fetching information about the HYF repositories:
 
    ```js
-   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+   const HYF_REPOS_URL =
+     'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
    ```
 
 3. Open the `index.html` file in your browser. You will see an unordered list with the names of the HYF repositories.
 
 4. Review the `main()` function in `index.js` and examine how this code fetches the JSON data and calls renders the data as unordered list in the web page.
 
-### 1.6 Week 1 Assignment
+5. Take a look at the API URL:
 
-1. The assignment is to produce an application similar to the one illustrated in Figure 1 above.
+```
+https://api.github.com/orgs/HackYourFuture/repos?per_page=100
+```
 
-2. You should render network errors to the DOM (see Figure 2 below for an example). Do not use `console.log` as regular users will not see the console output. Use the predefined `alert-error` class from `style.css` to style your error.
+This URL is special, as it gives us data in JSON format (Try it out in your browser!). This type of URL is also known as an `endpoint`, an address that we can use to send a request to in order to get data. Learn more about endpoints [here](https://smartbear.com/learn/performance-monitoring/api-endpoints/).
 
-3. Your UI should be responsive. Try it with Chrome Developer Tools in the browser, using a mobile phone format and a tablet format, portrait and landscape. If necessary, you can also do this work in week 2.
+Note the query string `?per_page=100` in the above URL. If you don't specify this `query string` you will only get the first 30 repositories (the default `per_page` is 30, which we know because it says so in the [API documentation](https://developer.github.com/v3/#pagination)).
+
+### Week 1 Assignment
+
+The assignment for this week is to produce a functional application that looks similar to Figure 1:
+
+![UI Example](./assets/hyf-github.png)
+
+Functionally, the application should do the following:
+
+1. Make an API call to the endpoint: https://api.github.com/orgs/HackYourFuture/repos?per_page=100
+2. Display the first 10 items in the HTML file (write JavaScript to add element to the DOM)
+3. Show feedback when an error has happened
+
+Modify the following files:
+
+**1. `index.js`**
+
+- Add new functions and modify function `main()` as you see fit.
+- Render network errors to the DOM (see Figure 2 below for an example). Do not use `console.log` as regular users will not see the console output. Instead, create an element that displays the error message in the DOM. Use the predefined `alert-error` class from `style.css` to style your error. It should look like this:
 
 ![Error rendering](./assets/hyf-github-error.png)
 
 <small>Figure 2. Rendering of network errors.</small>
 
-**Code modifications:**
+**2. `style.css`**
 
-**`index.js`**
+- Add your own CSS styling. Use `style.css` for all of your CSS rules to style the `index.html`. Make sure your UI is responsive. Try it with Chrome Developer Tools in the browser, using a mobile phone format and a tablet format, portrait and landscape.
 
-- Add new functions and modify function `main()` as you see fit. It is not likely that you will need to modify `fetchJSON()` and `createAndAppend()`.
-
-**`style.css`**
-
-- Add your own CSS styling. Use `style.css` for all your styling your HTML. Avoid using JavaScript for styling unless there is a genuine need. 
-
-    **You are not allowed to use a CSS library such as Bootstrap.**
+  **You are not allowed to use a CSS library such as Bootstrap.**
 
 **Hints:**
 
-* To sort the list repositories use [`.sort()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) and [`.localeCompare()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare).
+- To sort the list repositories use [`.sort()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) and [`.localeCompare()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare).
 
-* Use CSS media queries and [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) to make the UI responsive.
+- Use CSS media queries, percentage values and [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) to make the UI responsive.
 
-* To force a `404` network error so that you can test the rendering of errors, change the URL to make an invalid GitHub request, e.g. append an `x` to `orgs`: `orgsx`.
+- To force a `404` network error so that you can test the rendering of errors, change the URL to make an invalid GitHub request, e.g. append an `x` to `orgs`: `orgsx`.
 
+Good luck!
 
-### 1.7 Handing in your homework
+## **SUBMIT YOUR HOMEWORK!**
 
-If necessary, review the instructions how to [Hand in homework](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/homework_pr.md) using GitHub pull request.
+After you've finished your todo list it's time to show us what you got! The homework that needs to be submitted is the following:
 
-To test whether your code will be accepted when you submit your homework as a pull request you need to ensure that it does not contain ESLint errors. Open a terminal window in VSCode and type the following command:
+1. JavaScript exercises
+2. PROJECT: HackYourRepo I
 
-```
-npm test
-```
+Upload both to your forked JavaScript3 repository in GitHub. Make a pull request to your teacher's forked repository.
 
-If any errors or warnings are reported by this command you need to fix them before submitting a pull request.
+> Forgotten how to upload your homework? Go through the [guide](../hand-in-homework-guide.md) to learn how to do this again.
 
-In addition, check for the following:
-
-- Have you removed all commented out code (should never be present in a PR)?
-- Do the variable, function and argument names you created follow the [Naming Conventions](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md)?
-- Is your code well-formatted (see [Code Formatting](../../../../fundamentals/blob/master/fundamentals/code_formatting.md))?
-
-If the answer is 'yes' to the preceding questions you are ready to follow these instructions:
-
-1. Push your `week1` branch to GitHub:
-
-   ```
-   git push -u origin week1
-   ```
-
-2. Create a pull request for your `week1` branch.
-
----
-
-_BONUS_ : Code Kata Race
-
-- [Codewars](https://www.codewars.com/collections/hyf-homework-number-2)
-
-## Step 2: Read before next lecture
-
-_Deadline Sunday morning_
-
-Go through the reading material in the [README.md](/Week2/README.md) to prepare for your next class.
+_Deadline Saturday 23.59 CET_

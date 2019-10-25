@@ -1,189 +1,118 @@
-# Homework Week 3
+# Homework JavaScript3 Week 3
 
-```
-Topics discussed this week:
-• Object Oriented Programming and ES6 Classes
-• The this keyword
-• call, apply, bind
-```
+## **Todo list**
 
-## Step 1: Fix requested changes
+1. Practice the concepts
+2. JavaScript exercises
+3. Code along
+4. PROJECT: Hack Your Repo III
 
-_Deadline Monday_
+## **1. Practice the concepts**
 
-- Fix Requested Changes (if any) on the Pull Request.
+Let's continue exercising those programming muscles! Go through the following exercises:
 
-## Step 2: Create a new branch
+- [Learn JavaScript: Objects](https://www.codecademy.com/learn/introduction-to-javascript/modules/learn-javascript-objects)
+- [Learn JavaScript: Classes](https://www.codecademy.com/learn/introduction-to-javascript/modules/learn-javascript-classes)
+- [Learn JavaScript: Async/Await](https://www.codecademy.com/learn/introduction-to-javascript/modules/asynch-js)
 
-1. Make sure that your `week2` branch is checked out and clean.
-2. Create a new branch for the week 3 homework:
+## **2. JavaScript exercises**
 
-   ```
-   git checkout -b week3
-   ```
+**_No exercises this week_**
 
-## Step 3
+## **3. Code along**
 
-**_Deadline Thursday_**
+In this weeks `code along` you'll be building a website that uses the YouTube API to fetch channel data and videos. You'll be creating a search form to change channels and use [OAuth2](https://www.youtube.com/watch?v=CPbvxxslDTU) to login and logout.
 
-### 3.1 Preparation
+Happy learning!
 
-**Read the fundamental pages on:**
+- [YouTube API Project with Authentication](https://www.youtube.com/watch?v=r-yxNNO1EI8)
 
-- [try...catch](../../../../fundamentals/blob/master/fundamentals/try_catch.md)
-- [async/await](../../../../fundamentals/blob/master/fundamentals/async_await.md)
+## **4. PROJECT: Hack Your Repo III**
 
-The homework for week 3 will build on the work you did in week 2. You will create a new branch based on the `week2` branch.
+The final week's assignment consists of two parts.
 
-1. Make sure that you committed all changes in the week 2 version of your homework.
-2. With the `week2` branch checked out, create a new `week3` branch:
+In the first part you will update the homework from week 2 (in the `homework` folder). In the second part you will refactor your application to use `ES6 classes`. For this, you need to modify the files in the `homework-classes` folder.
 
-   ```
-   git checkout -b week3
-   ```
+### PART 1: `async/await` & `axios`
 
-### 3.2 Assignment
+In the first part you'll need to modify some parts of your code with what you've learned about. Implement the following:
 
-The assignment consists of two parts.
+### OOP and ES6 classes
 
-In the first part you will modify the 'promise' homework in the from week 2 (in the `homework` folder):
+In this second part requires you'll work with a codebase that is build in the Object Oriented Programming paradigm (OOP). OOP is a vast topic and in this homework we can only scratch the surface. The approach we have taken here is for you, as aspiring junior developer, to complete an application for which the groundwork has been done by an experienced developer. You may find it difficult to understand the full details of the application, however this is not unlike a real world situation where you will be expected to make relative small modifications to a complex application, without breaking anything.
 
-1. Replace `XMLHttpRequest` with the `fetch` API.
-2. Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
+### Getting an overview
 
-In the second part you will 'refactor' your application to use ES6 classes. For this, you need to modify the files in the `homework-classes` folder.
+The relevant files for this part of the homework can be found in the **homework-classes** folder. In the following table you'll find an outline (with explanations about their role in our application):
 
-#### 3.2.1 Replace XMLHttpRequest with fetch
-
-Replace `XMLHttpRequest` in the `fetchJSON` function with `fetch`. Because `fetch` returns a promise out of the box there is no need create a promise yourself with `new Promise(...)`.
-
-> `fetch` does not throw an error for HTTP errors. Review the documentation for [`response.ok`](https://developer.mozilla.org/en-US/docs/Web/API/Response/ok) for a clue how detect HTTP errors.
-
-#### 3.2.2 async/await
-
-**Instructions:**
-
-1. Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
-
-2. Make sure that your error handling code still works. See the week2 MAKEME on how to force an error response from GitHub.
-
-#### 3.2.3 Object Orientation and ES6 classes
-
-**_Deadline Saturday_**
-
-This final assignment requires you to go the extra mile and get acquainted with Object Oriented Programming and ES6 classes.
-
-Object Oriented Programming is a vast topic and in this homework we can only scratch the surface. The approach we have taken here is for you, as aspiring junior developer, to complete an application for which the groundwork has been done by an experienced developer. You may find it difficult to understand the full details of the application, however this is not unlike a real world situation where you will be expected to make relative small modifications to a complex application, without breaking anything.
-
-> Note that OOP does not play the same, central role in JavaScript as it does in other languages, such as Java, C++ and C#. In JavaScript it is more common to decompose a larger application into JavaScript modules (but which could still contain classes), as you will come across in the Node.js module. 
-
-> The relevant files for this part of the homework can be found in the **homework-classes** folder.
-
-| File                | Description |
-| ------------------- | ----------- |
-| index.html          | The application's HTML file. |
-| style.css           | CSS styling. |
-| hyf.png             | The HYF logo.  |
-| App.js              | The **App** class is the main container class for the app. |
-| Observable.js       | The **Observable** class is a base class implementing functionality of the Observer pattern. |
+| File                | Description                                                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------ |
+| index.html          | The application's HTML file.                                                                           |
+| style.css           | CSS styling.                                                                                           |
+| hyf.png             | The HYF logo.                                                                                          |
+| App.js              | The **App** class is the main container class for the app.                                             |
+| Observable.js       | The **Observable** class is a base class implementing functionality of the Observer pattern.           |
 | Model.js            | The **Model** class is concerned with all data handling (e.g. fetching). Extends the Observable class. |
-| HeaderView.js       | The **HeaderView** class renders the header with the select element. |
-| RepoView.js         | The **RepoView** class renders the details for the selected repository. |
-| ContributorsView.js | The **ContributorsView** class renders the contributors for the selected repository. |
-| ErrorView.js | The **ErrorView** class renders an error, if present. |
-| Util.js | The **Utility** class provides (static) utility functions. |
+| HeaderView.js       | The **HeaderView** class renders the header with the select element.                                   |
+| RepoView.js         | The **RepoView** class renders the details for the selected repository.                                |
+| ContributorsView.js | The **ContributorsView** class renders the contributors for the selected repository.                   |
+| ErrorView.js        | The **ErrorView** class renders an error, if present.                                                  |
+| Util.js             | The **Utility** class provides (static) utility functions.                                             |
 
-1. Copy CSS styling from your non-OOP version of the homework into **style.css**.
-2. Add and adapt code from your non-OOP version of the homework to **RepoView.js** and **ContributorsView.js**.
-3. Do not change any other files at this point.
+Like mentioned in the readings, the point of OOP is to split your application up into "entities". These entities then work together like a team in order to make an application work.
 
-Modify the **RepoView.js** and **ContributorsView.js** files, by adding and adapting code from your non-OOP version of the homework to these files. You should also copy the styling from your non-OOP version. Other files should not be modified.
-
-Figure 1 below illustrates the interrelationship between the various classes in the application using a [UML Class Diagram](https://en.wikipedia.org/wiki/Class_diagram). This particular one was created with with **LucidChart** ([YouTube tutorial](https://youtu.be/UI6lqHOVHic), 10 mins). 
+The image below illustrates the interrelationship between the various classes in the application using a [UML Class Diagram](https://en.wikipedia.org/wiki/Class_diagram).
 
 ![JavaScript3_classes](./assets/JavaScript3_classes.png)
-Figure 1. A UML Class Diagram showing the interrelationship between the classes in this app.
+
+### A first examination
 
 You can conclude the following from this diagram:
 
 1. The **Model** class **extends** (_inherits from_) the **Observable** class. Views (i.e., 'observers') can subscribe to the Model and get notified on data updates.
+2. There are four View classes that implement the **IObservable** interface, i.e. they implement the required `update()` method:
 
-2. There are four View classes that implement the **IObservable** interface, i.e. they implement the required `update()` method: 
-    - **HeaderView**
-    - **RepoView**
-    - **ContributorsView**
-    - **ErrorView**.
+   - **HeaderView**
+   - **RepoView**
+   - **ContributorsView**
+   - **ErrorView**.
 
 3. The **SelectView** class calls the `fetchData()` method from the **Model** class to request a data fetch.
 
-_Read:_
+4. There are four View classes that implement the **IObservable** interface, i.e. they implement the required `update()` method:
 
-- HYF fundamental: [ES6 Classes](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/oop_classes.md#es6-classes)
-- More on ES6 classes: [ES6 Classes in Depth](https://ponyfoo.com/articles/es6-classes-in-depth)
+   - **HeaderView**
+   - **RepoView**
+   - **ContributorsView**
+   - **ErrorView**
 
-#### 3.2.4 axios
+### Week 3 Assignment
 
-1. Modify the `fetchJSON` static method in **Model.js** to replace **fetch** with **axios**.
-2. Add a `<script>` tag to **index.html** to load the **axios** library from a CDN (Content Delivery Network) site.
+**PART 1: Modify your existing code base**
 
-#### 3.2.5 ARIA-compliance (BONUS)
+In the `homework` folder, modify the following:
 
-Please review the material from the HTML/CSS module: [Get familiar with Accessible Rich Internet Applications (ARIA)](https://github.com/HackYourFuture/HTML-CSS/tree/master/Week1#get-familiar-with-accessible-rich-internet-applications-aria).
+1. Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
+2. Make sure that your error handling code still works. See the instructions from week 2's [homework](../Week2/MAKEME.md) on how to force an error response from GitHub.
+3. Modify the `fetchJSON` function to replace **fetch** with **axios**.
+4. Add a `<script>` tag to **index.html** to load the **axios** library from a CDN ([Content Delivery Network](https://www.youtube.com/watch?v=52VSbXBlfdc)) site. Use Google to find the right URL.
 
-For the GitHub application ARIA-compliance means that the Contributors list should either be a native HTML list (i.e. using `ul` and `li` elements) or otherwise marked with an appropriate ARIA **role**. Furthermore, a user should be able to navigate through all interactive elements using the keyboard (e.g., using the **Tab** key). Pressing **Enter** on such an element should be equivalent to clicking the mouse.
+**PART 2: Moving to the OOP version of the homework**
 
-#### 3.2.6 Handing in your homework
+In the `homework-classes` folder, modify the following:
 
-If necessary, review the instructions how to [Hand in homework](https://github.com/HackYourFuture/fundamentals/blob/master/fundamentals/homework_pr.md) using GitHub pull request.
+1. Modify the **RepoView.js** and **ContributorsView.js** files, by adding and adapting code from your non-OOP version of the homework to these files.
+2. You should also copy the styling from your non-OOP version.
+3. Make sure everything still works!
 
-To test whether your code will be accepted when you submit your homework as a pull request you need to ensure that it does not contain ESLint errors. Open a terminal window in VSCode and type the following command:
+Good luck!
 
-```
-npm test
-```
+## **SUBMIT YOUR HOMEWORK!**
 
-If any errors or warnings are reported by this command you need to fix them before submitting a pull request.
+After you've finished your todo list it's time to show us what you got! The homework that needs to be submitted is the following:
 
-In addition, check for the following:
+Upload your homework to your forked JavaScript3 repository in GitHub. Make a pull request to the teacher's forked repository.
 
-- Have you removed all commented out code (should never be present in a PR)?
-- Do the variable, function and argument names you created follow the [Naming Conventions](../../../../fundamentals/blob/master/fundamentals/naming_conventions.md)?
-- Is your code well-formatted (see [Code Formatting](../../../../fundamentals/blob/master/fundamentals/code_formatting.md))?
+> Forgotten how to upload your homework? Go through the [guide](../hand-in-homework-guide.md) to learn how to do this again.
 
-If the answer is 'yes' to the preceding questions you are ready to follow these instructions:
-
-1. Push your `week3` branch to GitHub:
-
-   ```
-   git push -u origin week3
-   ```
-
-2. Create a pull request for your `week3` branch.
-
-## Step 4: Read before next lecture
-
-_Deadline Sunday morning_
-
-Go trough the reading material in the [README.md](https://github.com/HackYourFuture/Node.js) of the Node repository to prepare for your next class.
-
-## Alternative _BONUS_ : Code Kata Race
-
-If you haven't already join our clan: "Hack Your Future" in codewars
-
-Solve the following problems:
-
-- [Problem 1](https://www.codewars.com/kata/keep-up-the-hoop)
-- [Problem 2](https://www.codewars.com/kata/find-the-first-non-consecutive-number)
-- [Problem 3](https://www.codewars.com/kata/negation-of-a-value)
-- Some more [Homework](https://www.codewars.com/collections/hyf-homework-1)
-
-_Hints_
-
-- Hint for Q1: split your code into two parts, one part for the case that one of the two strings has an extra letter at the start or the end but is otherwise identical & one part for the case that the strings are the same length but one character is different in one of the strings
-- Also for Q1 this function on strings might be useful: [JavaScript String slice() method](https://www.w3schools.com/jsref/jsref_slice_string.asp)
-- Also potentially useful: [JavaScript String charAt() Method](https://www.w3schools.com/jsref/jsref_charat.asp)
-- [Hint for Q2](https://www.w3schools.com/jsref/jsref_sort.asp) Also there are no sample tests, you need to use submit
-
-Remember the person with the most kata points gets a prize from Gijs (and you can do exercises on this website without us assigning them - anything kyu 7 or kyu 8 you can try to do - kyu 6 or lower is probably too hard) -->
-
--[MORE BONUS](https://www.codewars.com/collections/hyf-homework-1-bonus-credit) :collision:
+_Deadline Saturday 23.59 CET_
