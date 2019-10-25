@@ -35,7 +35,7 @@ After your first class you should start off with checking the `reading materials
 
 If you have any questions or if something is not entirely clear ¯\\\_(ツ)\_/¯, please ask/comment on Slack!
 
-### Before you start
+## Before you start
 
 In the following weeks we will be using a `styleguide` to help you write _"clean code"_. What is a styleguide? Simply put, it's a set of design standards put in one collection. Companies create and use them to define their public identity (their "brand"). Watch the following to get a better idea:
 
