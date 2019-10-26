@@ -194,8 +194,7 @@ Now that you've learned about the utility of libraries, let's talk a little abou
 As an example, try it out with `axios`. To help you out, here are some resources:
 
 - [Documentation](https://github.com/axios/axios)
-- [Guide - Written](https://blog.logrocket.com/how-to-make-http-requests-like-a-pro-with-axios/)
-- [Guide - Video](https://www.youtube.com/watch?v=oAHGpmyJD7g)
+- [Axios Crash Course | HTTP Library](https://www.youtube.com/watch?v=6LyagkoRWYA)
 
 ## Finished?
 
