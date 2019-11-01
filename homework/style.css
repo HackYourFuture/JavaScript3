@@ -1,3 +1,46 @@
 .alert-error {
-  color: red;
+  color: #161616;
+  background-color: #F8D7DA;
+  padding: 20px;
+  width: 95%
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  padding: 5px 50px 20px 50px
+}
+
+header {
+  background-color: #3F51B5;
+  color: #f2f2f2;
+  padding: 20px;
+  width: 95%;
+  color: #f2f2f2;
+  font-size: 2rem;
+}
+
+table {
+  width: 95%;
+  padding: 10px;
+  box-shadow: 2px 2px 6px #e0e0e0;
+  border: 2px solid #dedede;
+  color: #292929;
+  margin: 2px;
+}
+
+th {
+  width: 20%
+}
+
+th tr {
+  font-weight: bold;
+}
+
+li {
+  display: unset;
+}
+
+tr {
+  text-align: left;
+  padding: 7.5px 10px;
 }
