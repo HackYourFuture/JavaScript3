@@ -32,10 +32,10 @@ function renderRepoDetails(repo, ul) {
   const headers = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
   const keys = ['name', 'description', 'forks', 'updated_at'];
 
-  keys.forEach(key => {
+  keys.forEach((key, index) => {
     let tr = createAndAppend('tr', table);
     createAndAppend('th', tr, { text: headers[key] });
-    if (key === 0) {
+    if (index === 0) {
       let td = createAndAppend('td', tr);
       createAndAppend('a', td, { href: repo.html_url, text: repo['name'] });
     } else {
