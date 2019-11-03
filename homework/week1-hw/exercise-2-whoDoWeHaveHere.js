@@ -18,7 +18,9 @@ const userUrl = 'https://www.randomuser.me/api';
     callback(null, { response: xhr.response, status: xhr.status });
   xhr.onerror = () => callback('Oops! An error occured.');
   xhr.send();
-})(userUrl, (err, data) => {
+})(userUrl, randomUserCallback);
+
+function randomUserCallback(err, data) {
   if (err !== null) {
     console.log(err);
   } else {
@@ -27,7 +29,7 @@ const userUrl = 'https://www.randomuser.me/api';
       console.log(`Error (load): ${data.response} status: ${data.status}`);
     }
   }
-});
+}
 
 (function getApiWithAxios() {
   axios

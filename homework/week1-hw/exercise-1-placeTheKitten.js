@@ -8,7 +8,7 @@
 // Log the received data to the console
 // Incorporate error handling
 
-const kittenUrl = 'https://www.randomuser.me/api';
+const kittenUrl = 'https://wwww.placekitten.com/api';
 (function getApiWithXMLHttpRequest(url, callback) {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', url);
@@ -17,7 +17,9 @@ const kittenUrl = 'https://www.randomuser.me/api';
     callback(null, { response: xhr.response, status: xhr.status });
   xhr.onerror = () => callback('There is an error!');
   xhr.send();
-})(kittenUrl, (err, data) => {
+})(kittenUrl, kittenCallback);
+
+function kittenCallback(err, data) {
   if (err) {
     console.log(err);
   } else {
@@ -29,7 +31,7 @@ const kittenUrl = 'https://www.randomuser.me/api';
       );
     }
   }
-});
+}
 
 (function getApiWithAxios() {
   axios

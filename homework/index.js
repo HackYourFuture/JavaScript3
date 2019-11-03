@@ -31,16 +31,17 @@ function renderRepoDetails(repo, ul) {
   const table = createAndAppend('table', li);
   const headers = ['Repository:', 'Description:', 'Forks:', 'Updated:'];
   const keys = ['name', 'description', 'forks', 'updated_at'];
-  for (let i = 0; i < headers.length; ++i) {
+
+  keys.forEach(key => {
     let tr = createAndAppend('tr', table);
-    createAndAppend('th', tr, { text: headers[i] });
-    if (i === 0) {
+    createAndAppend('th', tr, { text: headers[key] });
+    if (key === 0) {
       let td = createAndAppend('td', tr);
       createAndAppend('a', td, { href: repo.html_url, text: repo['name'] });
     } else {
-      createAndAppend('td', tr, { text: repo[keys[i]] });
+      createAndAppend('td', tr, { text: repo[key] });
     }
-  }
+  });
 }
 function main(url) {
   const root = document.getElementById('root');
