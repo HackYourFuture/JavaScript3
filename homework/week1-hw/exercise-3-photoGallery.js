@@ -37,7 +37,7 @@ getRandomizedPhoto(galleryUrl, function(error, data) {
   }
 });
 
-(function getRandomizedPhotoWithAxios() {
+function getRandomizedPhotoWithAxios() {
   axios
     .get(galleryUrl)
     .then(data => {
@@ -46,4 +46,6 @@ getRandomizedPhoto(galleryUrl, function(error, data) {
       document.body.appendChild(img);
     })
     .catch(error => console.log(error));
-})();
+}
+
+getRandomizedPhotoWithAxios();

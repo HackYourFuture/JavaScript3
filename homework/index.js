@@ -14,6 +14,7 @@ function fetchJSON(url, cb) {
   xhr.onerror = () => cb(new Error('Network request failed'));
   xhr.send();
 }
+
 function createAndAppend(name, parent, options = {}) {
   const elem = document.createElement(name);
   parent.appendChild(elem);
@@ -26,6 +27,7 @@ function createAndAppend(name, parent, options = {}) {
   });
   return elem;
 }
+
 function renderRepoDetails(repo, ul) {
   const li = createAndAppend('li', ul);
   const table = createAndAppend('table', li);
@@ -43,6 +45,7 @@ function renderRepoDetails(repo, ul) {
     }
   });
 }
+
 function main(url) {
   const root = document.getElementById('root');
   createAndAppend('header', root, {
@@ -64,6 +67,7 @@ function main(url) {
       .forEach(repo => renderRepoDetails(repo, ul));
   });
 }
+
 const HYF_REPOS_URL =
   'https://api.github.com/orgs/HackYourFuture/repos?per_page100';
 window.onload = () => main(HYF_REPOS_URL);

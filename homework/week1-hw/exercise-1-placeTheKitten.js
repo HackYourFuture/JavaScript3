@@ -9,7 +9,7 @@
 // Incorporate error handling
 
 const kittenUrl = 'https://wwww.placekitten.com/api';
-(function getApiWithXMLHttpRequest(url, callback) {
+function getApiWithXMLHttpRequest(url, callback) {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', url);
   xhr.responseType = 'json';
@@ -17,7 +17,7 @@ const kittenUrl = 'https://wwww.placekitten.com/api';
     callback(null, { response: xhr.response, status: xhr.status });
   xhr.onerror = () => callback('There is an error!');
   xhr.send();
-})(kittenUrl, kittenCallback);
+}
 
 function kittenCallback(err, data) {
   if (err) {
@@ -33,9 +33,13 @@ function kittenCallback(err, data) {
   }
 }
 
-(function getApiWithAxios() {
+getApiWithXMLHttpRequest(kittenUrl, kittenCallback);
+
+function getApiWithAxios() {
   axios
     .get(kittenUrl)
     .then(response => console.log(response.data))
     .catch(error => console.log(error));
-})();
+}
+
+getApiWithAxios();

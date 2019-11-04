@@ -10,7 +10,7 @@
 
 const userUrl = 'https://www.randomuser.me/api';
 
-(function getApiWithXHR(url, callback) {
+function getApiWithXHR(url, callback) {
   const xhr = new XMLHttpRequest();
   xhr.open('GET', url);
   xhr.responseType = 'json';
@@ -18,7 +18,9 @@ const userUrl = 'https://www.randomuser.me/api';
     callback(null, { response: xhr.response, status: xhr.status });
   xhr.onerror = () => callback('Oops! An error occured.');
   xhr.send();
-})(userUrl, randomUserCallback);
+}
+
+getApiWithXHR(userUrl, randomUserCallback);
 
 function randomUserCallback(err, data) {
   if (err !== null) {
@@ -31,9 +33,10 @@ function randomUserCallback(err, data) {
   }
 }
 
-(function getApiWithAxios() {
+function getApiWithAxios() {
   axios
     .get(userUrl)
     .then(response => console.log(response.data))
     .catch(err => console.log(err));
-})();
+}
+window.onload = () => getApiWithAxios();
