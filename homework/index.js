@@ -36,7 +36,8 @@ function renderRepoDetails(repo, ul) {
 
   keys.forEach((key, index) => {
     let tr = createAndAppend('tr', table);
-    createAndAppend('th', tr, { text: headers[key] });
+    createAndAppend('th', tr, { text: headers[index] });
+    console.log({ text: headers[index] });
     if (index === 0) {
       let td = createAndAppend('td', tr);
       createAndAppend('a', td, { href: repo.html_url, text: repo['name'] });
