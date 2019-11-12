@@ -17,38 +17,40 @@ This week's concepts can be challenging, therefore let's get an easy introductio
 
 > Inside of your `JavaScript3` fork and inside of the `Week1` folder, create a folder called `homework`. Inside of that folder, create a folder called `js-exercises`. For all the following exercises create a new `.js` file in that folder (3 files in total). Make sure the name of each file reflects its content: for example, the filename for exercise one could be placeKitten.js.
 
-**Exercise 1: Place the kitten**
-
-Who doesn't love kittens on their screen?
-
-Write an function that makes an API call to https://wwww.placekitten.com/api
-
-- Inside the same file write two programs: one with `XMLHttpRequest`, and the other with `axios`
-- Each function should make an API call to the given endpoint: `https://wwww.placekitten.com/api`
-- Log the received data to the console
-- Incorporate error handling
-
-**Exercise 2: Who do we have here?**
+**Exercise 1: Who do we have here?**
 
 Wouldn't it cool to make a new friend with just the click of a button?
 
-Write a function that makes an API call to https://www.randomuser.me/api
+Write a function that makes an API call to `https://www.randomuser.me/api`
 
 - Inside the same file write two functions: one with `XMLHttpRequest`, and the other with `axios`
 - Each function should make an API call to the given endpoint: `https://www.randomuser.me/api`
 - Log the received data to the console
 - Incorporate error handling
 
-**Exercise 3: Photo gallery**
+**Exercise 2: Programmer humor**
 
-Let's make a randomized photo gallery!
+Who knew programmers could be funny?
 
-Write a function that makes an API call to https://picsum.photos/400
+Write an function that makes an API call to `https://xkcd.com/info.0.json`
+
+- Inside the same file write two programs: one with `XMLHttpRequest`, and the other with `axios`
+- Each function should make an API call to the given endpoint: `https://xkcd.com/info.0.json`
+- Log the received data to the console
+- Render the `img` property into an `<img>` tag in the DOM
+- Incorporate error handling
+
+**Exercise 3: Dog photo gallery**
+
+Let's make a randomized dog photo gallery!
+
+Write a function that makes an API call to `https://dog.ceo/api/breeds/image/random`. It should trigger after clicking a button in your webpage. Every time the button is clicked it should append a new dog image to the DOM.
 
 - Create an `index.html` file that will display your random image
-- Write two programs: one with `XMLHttpRequest`, and the other with `axios`
-- Each function should make an API call to the given endpoint: `https://picsum.photos/400`
-- After receiving the data, render it to the page in a `<img>`
+- Add 2 `<button>` and 1 `<ul>` element, either in the HTML or through JavaScript
+- Write two versions for the button functionality: one with `XMLHttpRequest`, and the other with `axios`
+- When any one of the 2 buttons is clicked it should make an API call to `https://dog.ceo/api/breeds/image/random`
+- After receiving the data, append to the `<ul>` a `<li>` that contains an `<img>` element with the dog image
 - Incorporate error handling
 
 ## **3. Code along**
