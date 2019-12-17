@@ -33,6 +33,7 @@ You can think of an API in the following manner: Imagine you want to rent out a 
 For more research, check out the following resources:
 
 - [What are APIs - series](https://www.youtube.com/watch?v=cpRcK4GS068&list=PLcgRuP1JhcBP8Kh0MC53GH_pxqfOhTVLa)
+- [APIs for Beginners](https://www.youtube.com/watch?v=GZvSYJDk-us)
 
 ### Public/private APIs
 
