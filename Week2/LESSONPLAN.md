@@ -12,19 +12,13 @@ The purpose of this class is to introduce to the student:
 
 FIRST HALF (12.00 - 13.30)
 
-### 1. The structure and use of `Promises`
+## 1. Promises
 
-Notes:
-
-- It's the accepted solution to [callback hell](http://callbackhell.com/)
+### Explanation
 - It's a way to introduce asynchronicity to your application
 - Makes asynchronous code read like it's synchronous
-
-**Show examples**
-
-- First give example about how to create a promise
-
-```
+### Example
+```javascript
 let promiseToDoHomeWork = new Promise(function (resolve, reject) {
   let isDone = true;
 
@@ -40,10 +34,9 @@ promiseToDoHomeWork
   .catch(function () { console.log('home work has something wrong, can\'t be done'); })
 
 ```
-
 - Nested promises example
 
-```
+```javascript
 
 let attendClass = function () {
   return new Promise(function (resolve, reject) {
@@ -78,19 +71,19 @@ attendClass()
 
 - Promise.all
 
-```
+```javascript
 Promise.all([attendClass(), doTheHomeWork(), submitHomework()]).then(function ([res1, res2, res3]) { console.log('all finished') });
 ```
 
 - Promise.race
 
-```
+```javascript
 Promise.race([attendClass(), doTheHomeWork(), submitHomework()]).then(function (result) { console.log('one of them finished') });
 ```
 
 - Example for converting XHR to promise as a preparation for `fetch`
 
-```
+```javascript
 function fetchResource(url) {
   return new Promise(function (resolve, reject) {
     const oReq = new XMLHttpRequest();
@@ -117,18 +110,24 @@ fetchResource(`https://api.openweathermap.org/data/2.5/weather?q=amsterdam&appid
 
 ```
 
-### 2. How to use the `fetch` API to do AJAX calls
+### Excercise
 
-Notes:
+### Essence
 
+- It's the accepted solution to [callback hell](http://callbackhell.com/)
+
+
+## 2. How to use the `fetch` API to do AJAX calls
+
+### Explanation
 - Modern replacement of XMLHttpRequest
 - Uses Promise structure
 - The Fetch API is defined in the browser (window.fetch)
 - Only modern browsers support it (show [caniuse.com](https://caniuse.com/#feat=fetch))
 - Fetch API documentations by mozilla [link](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
+### Example
 
-**Do exercise**
-
+### Excercise
 ```
 fetch('https://seriousnews.com/api/headlines')
   .then(function (response) {
@@ -137,21 +136,22 @@ fetch('https://seriousnews.com/api/headlines')
     console.log(headlines)
   }).catch(error => console.log(error));
 ```
+### Essence
 
 SECOND HALF (14.00 - 16.00)
 
-### 3. The `this` keyword and its relationship with `scope`
+## 3. The `this` keyword and its relationship with `scope`
 
-Notes:-
-
+### Explanation
 - The environment(or scope) in which the line is being executed is know as “Execution Context”
 - The object that `this` refers to, changes every time execution context is changed.
 - Whatever is calling the function passes the `this` value to it by default.
 - We can pass specific `this` by `.bind`, `.call` or `.apply`
+- By default, “this” refers to global object which is `global` in case of NodeJS and `window` object in case of browser
 
-
+### Example
 #### “this” refers to global object
-```
+```javascript
 // Immediately Invoked Function Expression (IIFE)
 (function () {
   // First Example
@@ -184,7 +184,7 @@ foo();	//prints false on console as in “strict mode” value of “this” in 
 
 #### this refers to new instance (constructors)
 
-```
+```javascript
 function Person(fn, ln) {
   this.first_name = fn;
   this.last_name = ln;
@@ -203,7 +203,7 @@ person2.displayName();  // Prints Name: Paul Adams
 - In Javascript, property of an object can be a method or a simple value.
 - When an Object’s method is invoked then “this” refers to the object which contains the method being invoked.
 
-```
+```javascript
 
 function foo() {
   'use strict';
@@ -270,17 +270,24 @@ person2.displayName(); // Prints Name: Paul Adams
 let person2Display = person.displayName.bind(person2);  // Creates new function with value of “this” equals to person2 object
 person2Display(); // Prints Name: Paul Adams
 ```
+### Excercise
+### Essence
 
-### 4. Arrow functions and JS versions
 
-Notes: 
+## 4. Arrow functions and JS versions
+
+### Explanation
 - JS versions https://www.w3schools.com/js/js_versions.asp
 -  Arrow functions can’t be used as constructors as other functions can.
 - If you attempt to use new with an arrow function, it will throw an error.
 - To create class-like objects in JavaScript, you should use the new ES6 classes instead
-- Arrow func exmaples
 
-```
+The this keyword works differently in arrow functions.
+
+- The `this` value inside the arrow function gets binded and calcuated and assigned based on its wrapper/container/parent `this` value.
+- The methods call(), apply(), and bind() will not change the value of this in arrow functions
+### Example
+```javascript
 // ES5
 var multiplyES5 = function (x, y) {
   return x * y;
@@ -289,14 +296,8 @@ var multiplyES5 = function (x, y) {
 // ES6
 const multiplyES6 = (x, y) => { return x * y };
 ```
-
-The this keyword works differently in arrow functions.
-
-- The `this` value inside the arrow function gets binded and calcuated and assigned based on its wrapper/container/parent `this` value.
-- The methods call(), apply(), and bind() will not change the value of this in arrow functions
-
 #### “this” with fat arrow function
-```
+```javascript
 function Person(fn, ln) {
   this.first_name = fn;
   this.last_name = ln;
@@ -313,7 +314,7 @@ person1.displayName(); // this doesn't equal window, because it gets `this` that
 
 In the following example, the foo1() gets the `window` as `this` value, because on interpretation time, the interpreter assign the `this` immediately based on the surrounding execution context which is `window` in the case of simple literal object.
 
-```
+```javascript
 let user = {
   count: 10,
   foo1: () => {
@@ -324,11 +325,10 @@ let user = {
 let user1 = user.foo1() // this equals window
 ```
 
-## test your knowledge
+### Excercise
+In this excercise, let the students guess the result and then go line by line as if you were an interpreter and execute the code. Or use the debugger tools on devtools to execute line by line.
 
-In this example, let the students guess the result and then go line by line as if you were an interpreter and execute the code. Or use the debugger tools on devtools to execute line by line.
-
-```
+```javascript
 function multiply(p, q, callback) {
   callback(p * q);
 }
@@ -348,11 +348,7 @@ user.findMultiply();
 //Prints 6
 //Prints true
 ```
+### Essence
 
-## Wrapping up
 
-### `this` rules
-- By default, “this” refers to global object which is `global` in case of NodeJS and `window` object in case of browser
-- When a method is called as a property of object, then `this` refers to the parent object
-- When a function is called with `new` operator then `this` refers to the newly created instance.
-- When a function is called using `call` and `apply` functions then `this` refers to the value passed as first argument of call or apply method.
+
