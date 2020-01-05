@@ -45,10 +45,6 @@ FIRST HALF (12.00 - 13.30)
 ### Example
 - Give real life example like (Devices like TV, any machine + electricity power socket interface which provides power to any external device)
 
-Use [open weather app](https://openweathermap.org/api)
-- Create an account or use the public key used in the examples.
-- Use the endpoint for forecast and make a request via js file [Get current city weather by city name](https://openweathermap.org/current#name)
-- Let them do the same using another endpoint [Get hourly forcasting by city name](https://openweathermap.org/api/hourly-forecast#name5)
 ### Excercise
 
 ### Essence
