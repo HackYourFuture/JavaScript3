@@ -20,7 +20,7 @@ FIRST HALF (12.00 - 13.30)
 ### Essence
 
 
-## 2. What is `Object-Oriented Programming` (OOP) is and how it's applied to JavaScript
+## 2.Object-Oriented Programming (OOP)
 
 ### Explanation
 - It's a programming style; it defines how to organise your application
@@ -34,7 +34,7 @@ FIRST HALF (12.00 - 13.30)
 
 SECOND HALF (14.00 - 16.00)
 
-## 3. How to use ES6 `classes`
+## 3.ES6 classes
 
 ### Explanation
 - `classes` are a modern way of creating objects in JavaScript
