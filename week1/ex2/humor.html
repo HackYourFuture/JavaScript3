@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Humor</title>
+</head>
+
+<body>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        const url = "https://xkcd.now.sh/?comic=614";
+
+        function xmlData(url) {
+
+            let myJson = new XMLHttpRequest();
+
+            myJson.onreadystatechange = function() {
+
+                if (this.readyState == 4 && this.status == 200) {
+                    const mydata = JSON.parse(this.responseText);
+                    creatImg(mydata.img);
+                    console.log(mydata);
+                }
+            }
+            myJson.open("GET", url);
+            myJson.send();
+
+
+        }
+
+        xmlData("https://xkcd.now.sh/?comic=614");
+
+        function creatImg(link) {
+            const img = document.createElement('img');
+            img.setAttribute('src', link);
+            document.querySelector('body').appendChild(img);
+        }
+
+        function getAxios(url) {
+            axios.get(url)
+                .then(function(response) {
+                    // handle success
+                    creatImg(response.data.img);
+                    console.log(response);
+                })
+                .catch(function(error) {
+                    // handle error
+                    console.log(error);
+                })
+                .finally(function() {
+                    // always executed
+                });
+
+            return axios;
+        }
+
+        getAxios("https://xkcd.now.sh/?comic=614");
+    </script>
+</body>
+
+</html>
