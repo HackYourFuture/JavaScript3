@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>who do we have</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <script>
+
+
+// Write a function that makes an API call to https://www.randomuser.me/api
+
+// Inside the same file write two functions: one with XMLHttpRequest, and the other with axios
+// Each function should make an API call to the given endpoint: https://www.randomuser.me/api
+// Log the received data to the console
+// Incorporate error handling
+
+
+
+        //1. XMLHttpRequest
+
+//********创建函数，将Json字符串数据转为OBject
+
+        // function reqListener() {
+        //     const facts = JSON.parse(this.responseText);
+        //     console.log(facts);
+        // }
+
+//********创建XMLHttpRequest请求（open, 
+
+
+//*****创建对象
+        // var xhr  = new XMLHttpRequest();
+        // console.log("initializing XMLHttpRequest", xhr);
+
+//******绑定事件
+        // xhr.addEventListener("load", reqListener);
+
+//******请求行（method)，如get, post
+        // xhr.open('GET', 'https://www.randomuser.me/api');
+        // console.log("making a request...")
+
+//******发送请求
+        // xhr.send();
+        // console.log("sent the request, let's see...");
+
+
+
+        //2. axios
+        console.log(axios);
+
+        axios.get('https://www.randomuser.me/api')
+
+
+        .then(function (response) {
+            console.log('GetV', response);
+        })
+        .catch(function (error) {
+            console.log('an error???????????', error);
+        })
+        .finally(function () {
+            // always executed
+            console.log('Hey!'
+            )
+    });  
+
+
+
+
+
+
+    </script> 
+</body>
+</html>
+
+
+
+
+

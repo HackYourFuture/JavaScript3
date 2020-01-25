@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+    console.log(axios);
+
+
+    axios.get('https://api.github.com/user/repos?visibility=public', {
+        headers:{ 
+            Authorization: 'bearer 3f5c47b8fb205d784e80eb5df92ae4c71cad4dd0'
+
+            }
+    })
+
+
+
+    .then(function (response) {
+        console.log('this is a a   a a a a a successful!!!!!!!!', response);
+    })
+    .catch(function (error) {
+        console.log('an error???????????', error);
+    })
+    .finally(function () {
+        // always executed
+        console.log('somthing\'s wrong..............'
+        )
+    });  
+
+    
+    </script>
+
+    
+    <!-- <script>
+        function reqListener() {
+            const facts = JSON.parse(this.responseText);
+            console.log(facts);
+        }
+        var oReq = new XMLHttpRequest();
+        console.log("the request", oReq);
+        oReq.addEventListener("load", reqListener);
+        oReq.open('GET', 'https://api.github.com/user/repos');
+        oReq.setRequestHeader('Authorization', 'bearer 3f5c47b8fb205d784e80eb5df92ae4c71cad4dd0');
+        oReq.send();
+        console.log("sent the request, let's see...");
+    </script> -->
+</body>
+</html>

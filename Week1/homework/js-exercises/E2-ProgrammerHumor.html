@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Programmer Humor</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+    
+
+    <script>
+//     Write an function that makes an API call to https://xkcd.com/info.0.json、=>https://xkcd.now.sh/?comic=614
+
+// Inside the same file write two programs: one with XMLHttpRequest, and the other with axios
+// Each function should make an API call to the given endpoint: https://xkcd.com/info.0.json
+// Log the received data to the console
+// Render the img property into an <img> tag in the DOM
+// Incorporate error handling
+
+
+// 1. XMLHttpRequest
+
+
+  
+    // function reqListener() {
+    //     const data = JSON.parse(this.responseText);
+    //     let status = data.status;
+    //     if(status >= 400){
+    //         console.log('erro!')
+    //     }else{
+    //         console.log('success!')
+    //     }
+    //     console.log(data);
+
+    //     let img =document.createElement('img')
+    //     document.body.appendChild(img)
+    //     img.src = data.img
+    // }
+    // var oReq = new XMLHttpRequest();
+    // let status = oReq.status;
+
+    // oReq.addEventListener("load", reqListener);
+    // oReq.open('GET', 'https://xkcd.now.sh/?comic=614');
+    // oReq.send();
+
+
+
+
+    
+    // 2. axios
+    let data
+    let img =document.createElement('img')
+    document.body.appendChild(img)
+
+    axios.get('https://xkcd.now.sh/?comic=614')
+
+    // so nothing can come in-between the axios.get and axio.then/other?
+
+    .then(function (response) {
+        console.log(response);
+        // finding the img
+        data=response.data.img
+        console.log(data)
+        img.src = data
+        
+    })
+    .catch(function (error) {
+        console.log('error');
+    })
+    .finally(function () {
+
+    });  
+
+
+
+        
+    
+    
+    </script>
+</body>
+</html>
