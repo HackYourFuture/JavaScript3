@@ -1,3 +1,38 @@
 .alert-error {
   color: red;
 }
+
+.headerHYF {
+  display: flex;
+  width: 95%;
+  color: white;
+  background-color: darkblue;
+  margin: auto;
+  padding: 1em;
+  box-sizing: border-box;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  box-sizing: border-box;
+  color: black;
+  background-color: white;
+  width: 95%;
+  margin: 1em auto;
+  border: 2px solid black;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+a {
+  color: blue;
+}
+
+.bold-title {
+  font-weight: 800;
+}
