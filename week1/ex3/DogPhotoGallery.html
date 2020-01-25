@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dog photo gallery</title>
+    <style>
+        body {
+            background-color: rgb(218, 165, 147);
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .container {
+            width: 70%;
+            margin: auto;
+            height: 100vh;
+        }
+        
+        .butn {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+        
+        button {
+            margin: 20px auto 20px auto;
+            width: 150px;
+            height: 40px;
+            padding: 5px;
+            border: none;
+            background-color: rgb(218, 165, 147);
+        }
+        
+        button:hover {
+            cursor: pointer;
+            background-color: darksalmon;
+            color: white;
+            box-shadow: 1px 1px 8px rgb(45, 45, 46);
+        }
+        
+        ul {
+            width: 70%;
+            margin: auto;
+        }
+        
+        li {
+            list-style: none;
+        }
+        
+        img {
+            width: 100%;
+            max-height: 70vh;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="butn">
+
+            <button id="json" onclick="xmlDogPhoto()">Click me with Json</button>
+            <button id="ax" onclick="getAxios()">Click me with Axios</button>
+
+        </div>
+
+        <ul>
+            <li><img id="Dog-photo" src="https://dog.ceo/api/breeds/image/random" alt=""></li>
+        </ul>
+
+    </div>
+
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        const butJson = document.querySelector('#json');
+        const butAxios = document.querySelector('#ax');
+        const imgDog = document.querySelector('#Dog-photo');
+
+        function creatImg(link) {
+            imgDog.src = link;
+        }
+
+        const url = "https://dog.ceo/api/breeds/image/random";
+
+        function xmlDogPhoto(url = "https://dog.ceo/api/breeds/image/random") {
+            window.addEventListener('load', () => {
+                imgDog.setAttribute('alt', 'please click the button!');
+            });
+            let myJson = new XMLHttpRequest();
+
+            myJson.onreadystatechange = function() {
+
+
+
+                if (this.readyState == 4 && this.status == 200) {
+                    const mydata = JSON.parse(this.responseText);
+                    // butJson.addEventListener('click', () => {
+                    creatImg(mydata.message);
+
+                    // });
+                }
+
+            }
+
+            myJson.open("GET", url);
+            myJson.send();
+
+        }
+
+        xmlDogPhoto("https://dog.ceo/api/breeds/image/random");
+
+        function getAxios(url = "https://dog.ceo/api/breeds/image/random") {
+            axios.get(url)
+                .then(function(response) {
+                    // handle success
+                    // butAxios.addEventListener('click', () => {
+                    creatImg(response.data.message);
+                    // });
+
+                })
+                .catch(function(error) {
+                    // handle error
+                    imgDog.setAttribute('alt', error);
+                    console.log(error);
+                })
+                .finally(function() {
+                    // always executed
+                });
+            return axios;
+        }
+
+        getAxios("https://dog.ceo/api/breeds/image/random");
+    </script>
+</body>
+
+</html>

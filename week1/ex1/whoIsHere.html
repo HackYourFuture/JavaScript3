@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>who is here</title>
+</head>
+
+<body>
+
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        const url = "https://www.randomuser.me/api";
+
+        function xmlData(url) {
+            let myJosn = new XMLHttpRequest();
+
+            myJosn.onreadystatechange = function() {
+
+                if (this.readyState == 4 && this.status == 200) {
+                    const myObj = JSON.parse(this.responseText);
+
+                    console.log(myObj.results[0]);
+                }
+
+            }
+
+            myJosn.open("GET", url, true);
+            myJosn.send();
+
+        }
+
+        xmlData("https://www.randomuser.me/api");
+
+
+        function getAxios(url) {
+
+            axios.get(url)
+
+            .then(function(response) {
+                // handle success
+                console.log(response.data);
+
+
+
+            })
+
+            .catch(function(error) {
+                // handle error
+                console.log(error);
+            })
+
+            .finally(function() {
+                // always executed
+            });
+
+            return axios;
+        }
+
+        getAxios("https://www.randomuser.me/api");
+    </script>
+
+</body>
+
+</html>
