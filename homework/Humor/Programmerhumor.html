@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Programmerhumor</title>
+    <style>
+        body {
+            text-align: center; 
+            background-color: whitesmoke;
+
+        }
+       
+    </style>
+</head>
+<body>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+// Response by axios
+
+function getByAxios() {
+	axios
+		.get('https://xkcd.now.sh/?comic=614')
+		.then((res) => {
+			console.log(res.data);
+			let h1 = document.createElement('h1');
+			h1.innerText = 'Show by Axios';
+			let img = document.createElement('img');
+			img.src = res.data.img;
+			document.body.appendChild(h1);
+			document.body.appendChild(img);
+		})
+		.catch((err) => console.error(err));
+}
+
+
+
+//Response XMLHttpRequest
+
+ function xhr() {
+	let getByXhr = new XMLHttpRequest();
+	getByXhr.responseType = 'json';
+	getByXhr.onreadystatechange = function() {
+		if (this.readyState === 4 && this.status === 200) {
+			console.log(getByXhr.response);
+			let h1 = document.createElement('h1');
+			h1.innerText = 'Show by XHR';
+			let img = document.createElement('img');
+			img.src = getByXhr.response.img;
+			document.body.appendChild(h1);
+			document.body.appendChild(img);
+		}
+	};
+	getByXhr.open('GET', 'https://xkcd.now.sh/?comic=614', true);
+	getByXhr.send();
+}
+
+getByAxios();
+xhr();
+        
+ </script>
+
+
+</body>
+</html>

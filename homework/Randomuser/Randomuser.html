@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Randomuser.me</title>
+</head>
+<body>
+  
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      //XMLHttpRequest
+function xhr() {
+	 const oRquest = new XMLHttpRequest();
+	oRquest.responseType = 'json';
+	oRquest.onreadystatechange = function() {
+		if (this.readyState === 4 && this.status === 200) {
+			console.log(oRquest.response);
+		}
+	};
+	oRquest.open('GET', 'https://www.randomuser.me/api', true);
+	oRquest.send();
+}
+
+function getByAxios() {
+	axios
+		.get('https://www.randomuser.me/api')
+		.then((res) => {
+			console.log(res.data);
+		})
+		.catch((err) => console.error(err));
+}
+
+getByAxios();
+
+xhr();
+
+    </script>
+
+
+</body>
+</html>
