@@ -37,19 +37,17 @@ If you have any questions or if something is not entirely clear ¯\\\_(ツ)\_/¯
 
 ## Before you start
 
-In the following weeks we will be using a `styleguide` to help you write _"clean code"_. What is a styleguide? Simply put, it's a set of design standards put in one collection. Companies create and use them to define their public identity (their "brand"). Watch the following to get a better idea:
+In the following weeks we will be using a "style guide" to help you write _"clean code"_. Because code is not only meant to be run by computers, but also to be read by humans (your colleagues, and the future version of you), it's best to make your code good. If your code is readable and nicely formatted, you're doing your colleages (and future you) a great server. The idea of a "style guide" comes from visual design, where companies often have a "visual style". For example, watch the following video to get an idea of this:
 
 - [Creating Your Company's Style Guide](https://www.youtube.com/watch?v=gv_wrrY70E0)
 
-A styleguide is made by designers. In the case of website design, this styleguide is then handed over to developers to use when styling the frontend.
-
-The styleguide we'll be using is the one from Airbnb:
+Similarl to how designers have style guides for their design work, programmers often have "programming style guides". This is set of rules to follow when writing/formatting your code. The styleguide we'll be using is the one from Airbnb:
 
 - [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
 
 While you do not need to read this guide in detail, it is recommended that you look at sections 1-8, 12-13, 15-21 and 23.
 
-The required packages you need to install in order to write code according to the styleguide are the following:
+We also have tools that can automatically check whether your code is correctly formatted according to a style guide. These tools are called "linters". We will be using the JavaScript linter called "ESLint". The following packages are already added to this repository's `package.json`:
 
 ```json
 "eslint"
@@ -60,7 +58,7 @@ The required packages you need to install in order to write code according to th
 "prettier"
 ```
 
-They are already in this repository's `package.json` so all you have to do now to prepare is to execute the following command in your command line:
+All you have to do now to prepare is to execute the following command in your command line:
 
 ```md
 npm install
