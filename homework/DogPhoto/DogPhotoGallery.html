@@ -10,7 +10,14 @@
             text-align: center;
             background-color: whitesmoke;
         }
-        button{
+        ul{
+            list-style: none;
+        }
+        img {
+            width: 250px;
+            height: 250px;
+        }
+        #axiosBtn, #xhrBtn{
             padding: 10px;
             margin: 10px;
             font-weight: 600;
@@ -19,14 +26,9 @@
 </head>
 <body>
     <dvi>
-        <button id="btn">Get by Axios</button>
-        <button id="btn2">Get by XHR</button>
+        <button id="axiosBtn">Get by Axios</button>
+        <button id="xhrBtn">Get by XHR</button>
     <div id="main">
-        <ul>
-            <li>
-                
-            </li>
-        </ul>
     </div>
    
     </dvi>
@@ -34,8 +36,8 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         let mainDiv = document.getElementById('main')
-        let getByAxios= document.getElementById('btn');
-        let getByXHR = document.getElementById('btn2');
+        let getByAxios= document.getElementById('axiosBtn');
+        let getByXHR = document.getElementById('xhrBtn');
         getByAxios.addEventListener('click', fetchByAxios);
         getByXHR.addEventListener('click', fetchByXHR);
 
@@ -44,15 +46,16 @@
 	axios
 		.get('https://dog.ceo/api/breeds/image/random')
 		.then((res) => {
-			mainDiv.innerHTML = '';
+            let ul = document.createElement("ul");
+            let li = document.createElement("li")
 			let img = document.createElement('img');
 			img.src = res.data.message;
-			img.style.width = '400px';
-			img.style.height = '400px';
-			let h1 = document.createElement('h1');
-			h1.innerText = 'Show by Axios';
-			mainDiv.appendChild(h1);
-			mainDiv.appendChild(img);
+			let h2 = document.createElement('h2');
+            h2.innerText = 'Show by Axios';
+            li.appendChild(img);
+            ul.appendChild(li);
+			mainDiv.appendChild(h2);
+			mainDiv.appendChild(ul);
 		})
 		.catch((err) => console.error(err));
 }
@@ -62,16 +65,20 @@ function fetchByXHR() {
 	let getByXhr = new XMLHttpRequest();
 	getByXhr.responseType = 'json';
 	getByXhr.onreadystatechange = function() {
-		if (this.readyState === 4 && this.status === 200) {
-			mainDiv.innerHTML = '';
+		if (this.readyState === XMLHttpRequest.DONE && this.status ===200) {
+			 let ul = document.createElement("ul");
+            let li = document.createElement("li")
 			let img = document.createElement('img');
 			img.src = getByXhr.response.message;
-			img.style.width = '400px';
-			img.style.height = '400px';
-			let h1 = document.createElement('h1');
-			h1.innerText = 'Show by XHR';
-			mainDiv.appendChild(h1);
-			mainDiv.appendChild(img);
+			let h2 = document.createElement('h2');
+            h2.innerText = 'Show by XHR';
+            li.appendChild(img);
+            ul.appendChild(li);
+			mainDiv.appendChild(h2);
+			mainDiv.appendChild(ul);
+        }
+        else if (this.status >= 400 && this.status <  500){
+			console.error("There is an error");
 		}
 	};
 	getByXhr.open('GET', 'https://dog.ceo/api/breeds/image/random', true);

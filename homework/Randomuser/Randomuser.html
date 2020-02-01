@@ -16,8 +16,11 @@ function xhr() {
 	 const oRquest = new XMLHttpRequest();
 	oRquest.responseType = 'json';
 	oRquest.onreadystatechange = function() {
-		if (this.readyState === 4 && this.status === 200) {
+		if (this.readyState === XMLHttpRequest.DONE && this.status ===200) {
 			console.log(oRquest.response);
+		}
+		else if (this.status >= 400 && this.status <  500){
+			console.error("There is an error");
 		}
 	};
 	oRquest.open('GET', 'https://www.randomuser.me/api', true);

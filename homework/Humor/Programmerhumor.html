@@ -42,7 +42,7 @@ function getByAxios() {
 	let getByXhr = new XMLHttpRequest();
 	getByXhr.responseType = 'json';
 	getByXhr.onreadystatechange = function() {
-		if (this.readyState === 4 && this.status === 200) {
+		if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
 			console.log(getByXhr.response);
 			let h1 = document.createElement('h1');
 			h1.innerText = 'Show by XHR';
@@ -51,6 +51,8 @@ function getByAxios() {
 			document.body.appendChild(h1);
 			document.body.appendChild(img);
 		}
+		else if (this.status >= 400 && this.status <  500){
+			console.error("There is an error");
 	};
 	getByXhr.open('GET', 'https://xkcd.now.sh/?comic=614', true);
 	getByXhr.send();

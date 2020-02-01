@@ -74,7 +74,10 @@
 
 			const ul = createAndAppend('ul', root);
 			// .sort and .localeCompare used then .forEach
-			repos.sort((a, b) => a.name.localeCompare(b.name)).forEach((repo) => renderRepoDetails(repo, ul));
+			repos
+				.sort((a, b) => a.name.localeCompare(b.name))
+				.slice(0, 10)
+				.forEach((repo) => renderRepoDetails(repo, ul));
 		});
 	}
 
