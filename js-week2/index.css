@@ -1,0 +1,94 @@
+:root {
+    --shadow: 5px 5px 8px rgb(65, 60, 60);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    width: 100%;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+ul {
+    width: 100%;
+    border: 1px solid black;
+    box-shadow: var(--shadow);
+    padding: 15px;
+    word-wrap: break-word;
+}
+
+li {
+    border: ipx solid black;
+    list-style: none;
+}
+
+.first {
+    width: 100%;
+    background-color: rgb(57, 57, 224);
+    box-shadow: var(--shadow);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-around;
+}
+
+select {
+    width: 200px;
+    height: 50px;
+}
+
+option {
+    text-align: center;
+}
+
+.all-elem {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.main-container {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.repo-container {
+    width: 45%;
+}
+
+#repoDiv {
+    padding: 15px;
+    border: 1px solid black;
+    box-shadow: var(--shadow);
+    margin: 10px;
+}
+
+.contributors-container {
+    width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    width: 100px;
+    height: 100px;
+}
+
+#contri {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
