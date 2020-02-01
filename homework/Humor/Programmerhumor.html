@@ -53,6 +53,7 @@ function getByAxios() {
 		}
 		else if (this.status >= 400 && this.status <  500){
 			console.error("There is an error");
+		}
 	};
 	getByXhr.open('GET', 'https://xkcd.now.sh/?comic=614', true);
 	getByXhr.send();
