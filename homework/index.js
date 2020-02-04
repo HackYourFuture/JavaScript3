@@ -1,20 +1,19 @@
 'use strict';
-
 {
-	function fetchJSON(url, cb) {
-		const xhr = new XMLHttpRequest();
-		xhr.open('GET', url);
-		xhr.responseType = 'json';
-		xhr.onload = () => {
-			if (xhr.status >= 200 && xhr.status <= 299) {
-				cb(null, xhr.response);
-			} else {
-				cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-			}
-		};
-		xhr.onerror = () => cb(new Error('Network request failed'));
-		xhr.send();
-	}
+	// function fetchJSON(url, cb) {
+	// 	const xhr = new XMLHttpRequest();
+	// 	xhr.open('GET', url);
+	// 	xhr.responseType = 'json';
+	// 	xhr.onload = () => {
+	// 		if (xhr.status >= 200 && xhr.status <= 299) {
+	// 			cb(null, xhr.response);
+	// 		} else {
+	// 			cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
+	// 		}
+	// 	};
+	// 	xhr.onerror = () => cb(new Error('Network request failed'));
+	// 	xhr.send();
+	// }
 
 	function createAndAppend(name, parent, options = {}) {
 		const elem = document.createElement(name);
@@ -59,39 +58,65 @@
 		createAndAppend('th', tr, { text: 'Updated:' });
 		td = createAndAppend('td', tr, { text: repo.updated_at });
 	}
-	// const root = document.querySelector('#root');
-	// const header = document.createElement('div');
-	// header.setAttribute('class', 'header');
-	// const list = document.createElement('select');
-	// header.appendChild(list);
-	// list.setAttribute('class', 'list');
-	// document.body.insertBefore(header, root);
-	// const contributerBox = document.createElement('div');
-	// contributerBox.setAttribute('class', 'contributerBox');
-	// root.appendChild(contributerBox);
+	function contributorDetail(url) {
+		let select = document.createElement('select');
+		fetch(url).then((response) => response.json()).then((data) => {
+			let byData = data;
+			byData.sort((a, b) => a.name.localeCompare(b.name));
+			byData.forEach((repo, index) => {
+				let option = document.createElement('option');
+				option.value = index;
+				option.innerText = repo.name;
+				select.appendChild(option);
+			});
+			select.addEventListener('click', () => {
+				let repo = document.getElementById('repository');
+				let sectionContributor = document.getElementById('contributor');
+				if (repo.hasChildNodes()) {
+					repo.removeChild(repo.lastChild);
+				}
+				while (sectionContributor.hasChildNodes()) {
+					sectionContributor.removeChild(sectionContributor.lastChild);
+				}
 
-	function main(url) {
-		createAndAppend('header', root, { text: 'HYF Repositories' });
-		fetchJSON(url, (err, repos) => {
-			const root = document.getElementById('root');
-			if (err) {
-				createAndAppend('div', root, {
-					text: err.message,
-					class: 'alert-error'
-				});
-				return;
-			}
-
-			const ul = createAndAppend('ul', root);
-			// .sort and .localeCompare used then .forEach
-			repos
-				.sort((a, b) => a.name.localeCompare(b.name))
-				.slice(0, 10)
-				.forEach((repo) => renderRepoDetails(repo, ul));
+				fetch(`https://api.github.com/repos/HackYourFuture/
+				${byData[select.value].name}/contributors`)
+					.then((response) => response.json())
+					.then((data) => {
+						data.forEach((ele) => {
+							let contributorDiv = document.createElement('div');
+							contributorDiv.id = 'contributorDiv';
+							let h4 = createAndAppend('h4', contributorDiv);
+							let h5 = createAndAppend('h5', contributorDiv);
+							let img = createAndAppend('img', contributorDiv);
+							h4.innerText = ele.login;
+							h5.innerText = ele.contributions;
+							img.src = ele.avatar_url;
+							sectionContributor.appendChild(contributorDiv);
+						});
+					});
+				let ul = createAndAppend('ul', repo);
+				renderRepoDetails(byData[select.value], ul);
+			});
 		});
+		let header = document.getElementById('header');
+		header.appendChild(select);
+		let contributor = document.getElementById('contributor');
+		while (contributor.hasChildNodes()) {
+			contributor.removeChild(contributor.lastChild);
+		}
+	}
+	function main(url) {
+		fetch(url).then((res) => res.json()).then((data) => data).catch((err) => {
+			createAndAppend('div', root, {
+				text: err.message,
+				class: 'alert-error'
+			});
+		});
+		contributorDetail(url);
+		renderRepoDetails(repo, ul);
 	}
 
 	const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-
 	window.onload = () => main(HYF_REPOS_URL);
 }
