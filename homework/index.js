@@ -2,19 +2,19 @@
 
 {
   function fetchJSON(url, cb) {
-    //cb==callback.
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.responseType = 'json';
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status <= 299) {
-        cb(null, xhr.response); // that means we use a function down below. if no error, show data
-      } else {
-        cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-      }
-    };
-    xhr.onerror = () => cb(new Error('Network request failed'));
-    xhr.send();
+    const fetchingPromise = fetch(url)
+
+    const dataPromise = fetchingPromise.then(res => {
+      return res.json()
+    })
+
+    dataPromise.then(repos => {
+      cb(null, repos)
+    })
+    dataPromise.catch(err => {
+      cb(err)
+    })
+
   }
 
   function createAndAppend(name, parent, options = {}) {
@@ -34,18 +34,18 @@
   // since we want each repo to appear indivudually, a repo block was created. The block is defined in the main function
   function repoDetails(repoSegment, repo) {
     const createTable = createAndAppend('div', repoSegment, { class: 'block' });
-    const row1 = createAndAppend('div', createTable, { class: 'row' });
-    createAndAppend('span', row1, { text: 'Repository:', class: 'bold-title' }); //name of the repo
-    createAndAppend('a', row1, { text: repo.name, href: repo.html_url }); // details from the api link
-    const row2 = createAndAppend('div', createTable, { class: 'row' });
-    createAndAppend('span', row2, { text: 'Description:', class: 'bold-title', });
-    createAndAppend('span', row2, { text: repo.description });
-    const row3 = createAndAppend('div', createTable, { class: 'row' });
-    createAndAppend('span', row3, { text: 'Fork:', class: 'bold-title' });
-    createAndAppend('span', row3, { text: repo.fork });
-    const row4 = createAndAppend('div', createTable, { class: 'row' });
-    createAndAppend('span', row4, { text: 'Update:', class: 'bold-title' });
-    createAndAppend('span', row4, { text: repo.updated_at });
+    const repositoryRow = createAndAppend('div', createTable, { class: 'row' });
+    createAndAppend('span', repositoryRow, { text: 'Repository:', class: 'bold-title' }); //name of the repo
+    createAndAppend('a', repositoryRow, { text: repo.name, href: repo.html_url, target: '_blank' }); // details from the api link
+    const descriptionRow = createAndAppend('div', createTable, { class: 'row' });
+    createAndAppend('span', descriptionRow, { text: 'Description:', class: 'bold-title', });
+    createAndAppend('span', descriptionRow, { text: repo.description });
+    const forkRow = createAndAppend('div', createTable, { class: 'row' });
+    createAndAppend('span', forkRow, { text: 'Fork:', class: 'bold-title' });
+    createAndAppend('span', forkRow, { text: repo.fork });
+    const updateRow = createAndAppend('div', createTable, { class: 'row' });
+    createAndAppend('span', updateRow, { text: 'Update:', class: 'bold-title' });
+    createAndAppend('span', updateRow, { text: repo.updated_at });
   }
 
   // Point 2: creating the HTML and CSS elements for the contributors.
@@ -68,7 +68,7 @@
         const eachCont = createAndAppend('div', allCont, { class: 'each-cont' })
         createAndAppend('img', eachCont, { src: cont.avatar_url, class: 'cont-avatar' }) // create the image
         const contDetails = createAndAppend('div', eachCont, { class: 'cont-details' }) // create the details div
-        createAndAppend('a', contDetails, { text: cont.login, class: 'cont-name', href: cont.html_url }) // append details
+        createAndAppend('a', contDetails, { text: cont.login, class: 'cont-name', href: cont.html_url, target: '_blank' }) // append details
         createAndAppend('a', contDetails, { text: cont.contributions, class: 'num-contributions' }) // # of contributions
       })
     })
