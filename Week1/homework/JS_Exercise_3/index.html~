@@ -1,0 +1,62 @@
+
+
+
+<DOCTYPE html>
+<html>
+<head>
+<title> Console stuff</title>
+<style>
+
+#container {
+padding: 50px;
+
+}
+
+#myButton {
+font-family:sans-serif;
+font-size: 24px;
+font-weight: lighter;
+background-color: #FFF;
+border: 3px #333 solid;
+padding:15px;
+
+}
+
+#myButton:hover {
+
+}
+</style>
+</head>
+
+<body>
+<div id="container">
+<button id ="myButton">Click me</button>
+
+</div>
+
+<script>
+var myButton = document.querySelector("#myButton")
+myButton.addEventListener("click",doSomething,false)
+
+function doSomething(e) {
+
+var request = new XMLHttpRequest()
+
+request.open('GET', 'https://www.randomuser.me/api', true)
+request.onload = function() {
+ const data = JSON.parse(this.response);
+console.log(data);
+  
+}
+
+request.send()
+
+
+
+
+}
+
+</script>
+
+</body>
+</html>
