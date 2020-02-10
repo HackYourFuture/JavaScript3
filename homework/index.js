@@ -1,19 +1,11 @@
 'use strict';
 {
-	// function fetchJSON(url, cb) {
-	// 	const xhr = new XMLHttpRequest();
-	// 	xhr.open('GET', url);
-	// 	xhr.responseType = 'json';
-	// 	xhr.onload = () => {
-	// 		if (xhr.status >= 200 && xhr.status <= 299) {
-	// 			cb(null, xhr.response);
-	// 		} else {
-	// 			cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-	// 		}
-	// 	};
-	// 	xhr.onerror = () => cb(new Error('Network request failed'));
-	// 	xhr.send();
-	// }
+	async function fetchJSON(url) {
+		const getByAxios = await axios.get(url).then((res) => {
+			return res.data;
+		});
+		return getByAxios;
+	}
 
 	function createAndAppend(name, parent, options = {}) {
 		const elem = document.createElement(name);
@@ -58,47 +50,50 @@
 		createAndAppend('th', tr, { text: 'Updated:' });
 		td = createAndAppend('td', tr, { text: repo.updated_at });
 	}
-	function contributorDetail(url) {
-		let select = document.createElement('select');
-		fetch(url).then((response) => response.json()).then((data) => {
-			let byData = data;
-			byData.sort((a, b) => a.name.localeCompare(b.name));
-			byData.forEach((repo, index) => {
-				let option = document.createElement('option');
-				option.value = index;
-				option.innerText = repo.name;
-				select.appendChild(option);
-			});
-			select.addEventListener('click', () => {
-				let repo = document.getElementById('repository');
-				let sectionContributor = document.getElementById('contributor');
-				if (repo.hasChildNodes()) {
-					repo.removeChild(repo.lastChild);
-				}
-				while (sectionContributor.hasChildNodes()) {
-					sectionContributor.removeChild(sectionContributor.lastChild);
-				}
 
-				fetch(`https://api.github.com/repos/HackYourFuture/
-				${byData[select.value].name}/contributors`)
-					.then((response) => response.json())
-					.then((data) => {
-						data.forEach((ele) => {
-							let contributorDiv = document.createElement('div');
-							contributorDiv.id = 'contributorDiv';
-							let h4 = createAndAppend('h4', contributorDiv);
-							let h5 = createAndAppend('h5', contributorDiv);
-							let img = createAndAppend('img', contributorDiv);
-							h4.innerText = ele.login;
-							h5.innerText = ele.contributions;
-							img.src = ele.avatar_url;
-							sectionContributor.appendChild(contributorDiv);
-						});
-					});
-				let ul = createAndAppend('ul', repo);
-				renderRepoDetails(byData[select.value], ul);
-			});
+	async function contributorDetail(url) {
+		let select = document.createElement('select');
+		const fetchAxios = await axios.get(url).then((res) => {
+			return res.data;
 		});
+		let byData = fetchAxios;
+		byData.sort((a, b) => a.name.localeCompare(b.name));
+		byData.forEach((repo, index) => {
+			let option = document.createElement('option');
+			option.value = index;
+			option.innerText = repo.name;
+			select.appendChild(option);
+		});
+		select.addEventListener('click', () => {
+			let repo = document.getElementById('repository');
+			let sectionContributor = document.getElementById('contributor');
+			if (repo.hasChildNodes()) {
+				repo.removeChild(repo.lastChild);
+			}
+			while (sectionContributor.hasChildNodes()) {
+				sectionContributor.removeChild(sectionContributor.lastChild);
+			}
+
+			fetch(`https://api.github.com/repos/HackYourFuture/
+				${byData[select.value].name}/contributors`)
+				.then((response) => response.json())
+				.then((data) => {
+					data.forEach((ele) => {
+						let contributorDiv = document.createElement('div');
+						contributorDiv.id = 'contributorDiv';
+						let h4 = createAndAppend('h4', contributorDiv);
+						let h5 = createAndAppend('h5', contributorDiv);
+						let img = createAndAppend('img', contributorDiv);
+						h4.innerText = ele.login;
+						h5.innerText = ele.contributions;
+						img.src = ele.avatar_url;
+						sectionContributor.appendChild(contributorDiv);
+					});
+				});
+			let ul = createAndAppend('ul', repo);
+			renderRepoDetails(byData[select.value], ul);
+		});
+
 		let header = document.getElementById('header');
 		header.appendChild(select);
 		let contributor = document.getElementById('contributor');
@@ -106,13 +101,26 @@
 			contributor.removeChild(contributor.lastChild);
 		}
 	}
-	function main(url) {
-		fetch(url).then((res) => res.json()).then((data) => data).catch((err) => {
+	// function main(url) {
+	// 	fetch(url).then((res) => res.json()).then((data) => data).catch((err) => {
+	// 		createAndAppend('div', root, {
+	// 			text: err.message,
+	// 			class: 'alert-error'
+	// 		});
+	// 	});
+	// 	contributorDetail(url);
+	// 	renderRepoDetails(repo, ul);
+	// }
+
+	async function main(url) {
+		try {
+			await fetch(url).then((res) => res.json()).then((data) => data);
+		} catch (err) {
 			createAndAppend('div', root, {
 				text: err.message,
 				class: 'alert-error'
 			});
-		});
+		}
 		contributorDetail(url);
 		renderRepoDetails(repo, ul);
 	}
