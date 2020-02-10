@@ -1,3 +1,110 @@
+@import url('https://fonts.googleapis.com/css?family=Gelasio&display=swap');
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Gelasio', serif;
+}
 .alert-error {
-  color: red;
+	color: red;
+	width: 100%;
+	height: 100px;
+	padding: 30px;
+	text-align: center;
+	font-weight: 800;
+	font-size: 25px;
+	background-color: whitesmoke;
+}
+
+#root {
+	width: 80%;
+	margin: auto;
+	font-size: 18px;
+}
+
+.header {
+	background-color: #3f51b5;
+	padding: 25px;
+	text-align: left;
+	color: white;
+	font-size: 30px;
+}
+.repo-container {
+	width: 50%;
+	padding: 30px;
+	box-shadow: inset 0 0 0 5px #ccc;
+	max-height: 220px;
+}
+
+select {
+	font-size: 20px;
+}
+
+.main-container {
+	display: flex;
+	justify-content: space-around;
+	background-color: whitesmoke;
+}
+.contributors-container {
+	padding: 30px;
+	width: 50%;
+	margin-left: 10px;
+	box-shadow: inset 0 0 0 5px #ccc;
+}
+
+.contributorsDiv {
+	display: flex;
+	justify-content: space-between;
+	border-bottom: gray 2px solid;
+	padding: 10px;
+}
+.ImgDiv {
+	padding: 5px;
+}
+button {
+	padding: 8px;
+	border: gray;
+	background-color: gray;
+	color: white;
+}
+.login {
+	padding-top: 40px;
+	font-size: px;
+}
+
+.buttonDiv {
+	padding: 30px;
+}
+
+img {
+	width: 100px;
+}
+td {
+	padding: 2px;
+}
+
+@media screen and (max-width: 900px) {
+	#root {
+		width: 98%;
+		font-size: 15px;
+	}
+	.main-container {
+		flex-direction: column;
+	}
+	.repo-container {
+		width: 100%;
+		margin-right: 0px;
+		margin-bottom: 10px;
+		padding: 20px;
+		max-height: 300px;
+	}
+	.header {
+		font-size: 20px;
+	}
+
+	.contributors-container {
+		width: 100%;
+		margin-left: 0px;
+		padding: 20px;
+	}
 }
