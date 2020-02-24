@@ -3,7 +3,7 @@
 You’ll be doing a final JavaScript test. It will be about all the JavaScript you’ve learned, from JavaScript 1 to JavaScript 3.
 
 ## Practical information
--  The test will start at **10.450 until 11.45**. The door will open at 10.30. **Be on time!**
+-  The test will start at **10.30 until 11.30**. The door will open at 10.15. **Be on time!**
 -  It will be done online and you can use google, so please bring your laptop.
 - You can’t use your old code.
 - There will be 5 or 6 questions.
