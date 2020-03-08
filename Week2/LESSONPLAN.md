@@ -18,41 +18,129 @@ FIRST HALF (12.00 - 13.30)
 - It's a way to introduce asynchronicity to your application
 - Makes asynchronous code read like it's synchronous
 ### Example
+
+In the examples `setTimeout` is used to illustrate asynchronous code. In the real world there will be some code doing useful work here, for example `fetch`.
+
+**Callback**
+```javascript
+let doHomeWork = function (cb) {
+  setTimeout(function () {
+    if ( true ) 
+      cb(); // homework done
+    else
+      cb('homework not done, too lazy');
+  }, 1000);
+}
+
+
+doHomeWork(function (err) {
+  if ( err ) 
+    console.warn(err);
+  else
+    console.log('home work is done now');
+})
+```
+
+**Promise**
 ```javascript
 let promiseToDoHomeWork = new Promise(function (resolve, reject) {
-  let isDone = true;
-
-  if (isDone) {
-    resolve('homework is done!');
-  } else {
-    reject('not done!');
-  }
+  setTimeout(function () {
+    if ( true ) 
+      resolve();  // homework done
+    else
+      reject('homework not done, too lazy');
+  }, 1000);
 });
 
 promiseToDoHomeWork
   .then(function () { console.log('home work is done now'); })
-  .catch(function () { console.log('home work has something wrong, can\'t be done'); })
+  .catch(function (err) { console.warn(err); })
 
 ```
-- Nested promises example
+#### Nested callback/promises example
+
+```javascript
+let attendClass = function (cb) {
+  setTimeout(function () {
+    if ( true ) 
+      cb(null, 'I attend the class');
+    else
+      cb('class not attended, stayed home');
+  }, 1000);
+}
+
+let doTheHomeWork = function (message, cb) {
+  setTimeout(function () {
+    if ( true ) 
+      cb(null, message + ' then I did the homework');
+    else
+      cb('homework not done, was lazy');
+  }, 1000);
+}
+
+let submitHomeWork = function (message, cb) {
+  setTimeout(function () {
+    if ( true ) 
+      cb(null, message + ' so I submit my homework'); 
+    else
+      cb('homework not submited, github is down');
+  }, 1000);
+}
+
+// call attendClass, after it is finished call doTheHomeWork then submitHomeWork. In each step pass the output of the previous step. In case of an error show it in the console
+
+attendClass(function (err, data) {
+  if ( err ) 
+    console.warn(err);
+  else
+    doTheHomeWork(data, function (err1, data1) {
+        if ( err1 ) 
+          console.warn(err1);
+        else
+          submitHomeWork(data1, function (err2, data2) {
+            if ( err2 ) 
+              console.warn(err2);
+            else
+              console.log(data2)
+          });
+    })
+})
+```
+Mention how this nested structure is hard to understand and read. Multiple variables with similar names and error handling is all over the place.
+Simulate an error in doTheHomeWork by replacing `if ( true )` with `if ( false )`. 
 
 ```javascript
 
 let attendClass = function () {
   return new Promise(function (resolve, reject) {
-    resolve('I attend the class');
+    setTimeout(function () {
+      if ( true ) 
+        resolve('I attend the class');
+      else
+        reject('class not attended, stayed home');
+    }, 1000);
   });
 }
 
 let doTheHomeWork = function (message) {
   return new Promise(function (resolve, reject) {
-    resolve(message + 'then I did the homework');
+    setTimeout(function () {
+      if ( true ) 
+        resolve(message + ' then I did the homework');
+      else
+        reject('homework not done, was lazy');
+    }, 1000);
   });
 }
 
-let submitHomework = function (message) {
+let submitHomeWork = function (message) {
   return new Promise(function (resolve, reject) {
-    resolve(message + 'so I submit my homework');
+    setTimeout(function () {
+      if ( true ) 
+        resolve(message + ' so I submit my homework'); 
+      else
+        reject('homework not submited, github is down');
+    }, 1000);;
   });
 }
 
@@ -60,14 +148,19 @@ attendClass()
   .then(function (result) {
     return doTheHomeWork(result);
   })
-  .then(function () {
-    return submitHomework(result);
-  }).catch(function (error) {
-    console.log(error);
+  .then(function (result) {
+    return submitHomeWork(result);
+  })
+  .then(function (result) {
+    console.log(result);
+  })  
+  .catch(function (error) {
+    console.warn(error);
   });
 
-```
 
+```
+Simulate an error in doTheHomeWork by replacing `if ( true )` with `if ( false )` and run the example again.
 
 - Promise.all
 
@@ -81,39 +174,75 @@ Promise.all([attendClass(), doTheHomeWork(), submitHomework()]).then(function ([
 Promise.race([attendClass(), doTheHomeWork(), submitHomework()]).then(function (result) { console.log('one of them finished') });
 ```
 
-- Example for converting XHR to promise as a preparation for `fetch`
+### Exercise
+
+#### Easy exercise (see difficult exercise alternative below)
+
+**Part 1**
+Rewrite the following code to use promise instead of callbacks. *As preparation for `fetch`*
 
 ```javascript
-function fetchResource(url) {
-  return new Promise(function (resolve, reject) {
-    const oReq = new XMLHttpRequest();
-    oReq.open('GET', url);
-    oReq.send();
-    oReq.addEventListener('load', function (event) {
-      const data = JSON.parse(this.response);
-      if (data.cod >= 400) {
-        // error
-        console.log('error', data);
-        reject(data);
-      } else {
-        //success
-        console.log('success', data);
-        resolve(data);
-      }
-    });
+{
+const WEATHER_URL = `https://api.openweathermap.org/data/2.5/weather?q=amsterdam&appid=316f8218c0899311cc029a305f39575e`;
+
+function fetchResourceAsCallback(url, cb) {
+  const oReq = new XMLHttpRequest();
+  oReq.open('GET', url);
+  oReq.send();
+  oReq.addEventListener('load', function (event) {
+    const response = JSON.parse(this.response);
+    if (response.code >= 400) {
+      // error
+      cb("Failed to get because:"+response);
+    } else {
+      //success
+      cb(null, response);
+    }
   });
 }
 
-fetchResource(`https://api.openweathermap.org/data/2.5/weather?q=amsterdam&appid=316f8218c0899311cc029a305f39575e`).then(function (result) {
+fetchResourceAsCallback(WEATHER_URL, 
+  function (err, data) {
+    if ( err ) 
+      console.warn(err);
+    else
+      console.log(data);
+ }
+);
+
+function fetchResourceAsPromise(url) {
+  // your code goes in here
+}
+
+fetchResourceAsPromise(WEATHER_URL).then(function (result) {
   console.log(result);
+})
+.catch(function (err) {
+  console.warn(err);
 });
+}
 
 ```
 
-### Excercise
+**Part 2**
+
+Use `Promise.all` to load data for multiple cities in parallel. Ask students to discuss in which scenarios it would be better to load data in parallel. In what scenarios is loading data in parallel not better.
+
+```javascript
+
+const URLS_TO_LOAD = [ 'https://samples.openweathermap.org/data/2.5/weather?q=London&appid=316f8218c0899311cc029a305f39575e', 'https://api.openweathermap.org/data/2.5/weather?q=amsterdam&appid=316f8218c0899311cc029a305f39575e'];
+```
+
+* Hint: use `map` to convert from an array of URLs to an array of promises.
+
+**Alternative exercise - Cooking pasta**
+
+**❗❗❗ Difficult exercise ❗❗❗**
+
 > Async can be hard to understand without real live example. Cooking is a great example of mixed synchronous and asynchronous tasks. In this assignment we'll cook pasta with promises 💍
 
-Let's say we want a programme to cook some pasta. Some of the steps involved in cooking pasta are:
+
+Let's say we want a program to cook some pasta. Some of the steps involved in cooking pasta are:
 
 1. Gathering the ingredients (pasta, garlic, tomatoes, sage, butter)
 2. Cutting the garlic
@@ -124,7 +253,7 @@ Let's say we want a programme to cook some pasta. Some of the steps involved in 
 7. Baking the tomatoes
    X. Mixing the pasta with sauce
 
-If we do this synchronolously there is no chance of it becoming a good meal because the pasta would be cold by the time the vegetables are ready. It would also take way too long this way. So let's fix that!
+If we do this synchronously there is no chance of it becoming a good meal because the pasta would be cold by the time the vegetables are ready. It would also take way too long this way. So let's fix that!
 
 1. Think about how to do this asynchronously; which tasks could be run at the same time? What steps should wait for what other steps? Try to write down a basic recipe (don't write any code yet!)
 2. Now convert your recipe to pseudocode (in markdown). The point is to name functions and show which functions call which other functions. The logic should be there but we'll write the code in the next step.
@@ -142,7 +271,7 @@ If we do this synchronolously there is no chance of it becoming a good meal beca
 ### Essence
 
 - It's the accepted solution to [callback hell](http://callbackhell.com/)
-
+- in terms of features it does not offer something new, everything one can do with promises could also be done with callbacks but it is easier to write and read the code when promises are used
 
 ## 2. How to use the `fetch` API to do AJAX calls
 
@@ -170,7 +299,7 @@ SECOND HALF (14.00 - 16.00)
 ## 3. The `this` keyword and its relationship with `scope`
 
 ### Explanation
-- The environment(or scope) in which the line is being executed is know as “Execution Context”
+- The environment(or scopeis knownich the line is being executed is know as “Execution Context”
 - The object that `this` refers to, changes every time execution context is changed.
 - Whatever is calling the function passes the `this` value to it by default.
 - We can pass specific `this` by `.bind`, `.call` or `.apply`
