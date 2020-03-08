@@ -299,7 +299,7 @@ SECOND HALF (14.00 - 16.00)
 ## 3. The `this` keyword and its relationship with `scope`
 
 ### Explanation
-- The environment(or scopeis knownich the line is being executed is know as “Execution Context”
+- The environment(or scope) in which the line is being executed is know as “Execution Context”
 - The object that `this` refers to, changes every time execution context is changed.
 - Whatever is calling the function passes the `this` value to it by default.
 - We can pass specific `this` by `.bind`, `.call` or `.apply`
@@ -440,7 +440,7 @@ person2Display(); // Prints Name: Paul Adams
 
 The this keyword works differently in arrow functions.
 
-- The `this` value inside the arrow function gets binded and calcuated and assigned based on its wrapper/container/parent `this` value.
+- The `this` value inside the arrow function gets binded and calculated and assigned based on its wrapper/container/parent `this` value.
 - The methods call(), apply(), and bind() will not change the value of this in arrow functions
 ### Example
 ```javascript
