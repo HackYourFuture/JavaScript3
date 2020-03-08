@@ -14,7 +14,7 @@ These are the topics for week 2:
 
 ## 1. JavaScript Versions
 
-You are undoubtably different than when you were a baby. Back then you couldn't really do much: crying, laughing and taking dumps. That's pretty much it. But as the years pass you increasingly could do more and more: walking, socializing or playing an instrument.
+You are undoubtedly different than when you were a baby. Back then you couldn't do much except crying. That's pretty much it. But as the years pass you increasingly could do more and more: walking, socializing or playing an instrument.
 
 Likewise, so has JavaScript evolved. Throughout the course you have, unknowingly, used syntax from different JavaScript versions. For example, if you've ever declared a function like this:
 
@@ -30,7 +30,7 @@ But if you've ever used `arrow` functions (which you'll learn more about in the 
 
 That's good and all, but why is this important to differentiate? There are several reasons:
 
-- Each feature (and its updates) of a language is made to solve a specific problem. It's important to know the context and purpose of each in order to know how to use it
+- Each feature (and its updates) of a language is made to solve a specific problem. It's important to know the context and purpose of each to know how to use it
 - Software is always evolving. This means that there are different versions that different users might be using. This means not every feature will work for every application.
 
 That's why it's important to know a little about the history of JavaScript: it will make you think of JavaScript (and hopefully software in general) as a continually evolving thing, as opposed to "just a bunch of concepts and techniques you need to memorize".
@@ -67,11 +67,30 @@ One of a programmer's favorite things to do is to write clean and concise code. 
 It is written like this:
 
 ```js
+const numbers = [2,3,7,8];
+
+//classical way
+function isBiggerThanFive(number) {
+  if ( number > 5 )
+    return true;
+  else
+    return false;
+}
+console.log(numbers.filter(isBiggerThanFive))
+
 // Arrow function
-() => {};
+console.log(numbers.filter((number) => {
+  if ( number > 5 )
+    return true;
+  else
+    return false;
+}))
+
+// or even shorter, if one arguments no need for (), if return statement no need for {}
+console.log(numbers.filter(number => number > 5));
 ```
 
-Go through the following resources to learn more about why they're important:
+Go through the following resources to learn more about why arrow functions are important:
 
 - [JavaScript ES6 Arrow Functions](https://www.youtube.com/watch?v=h33Srr5J9nY)
 - [Let's learn ES6 - Arrow functions](https://www.youtube.com/watch?v=oTRujqZYhrU)
@@ -81,7 +100,7 @@ Go through the following resources to learn more about why they're important:
 
 In JavaScript, like in any other programming language you'll find, there are certain special keywords that always create a specific effect. The `this` keyword is one of those.
 
-In everyday communication we use words like "this" or "that" whenever we want to refer to things in the world or something someone said. It's similarly used in JavaScript.
+In everyday communication, we use words like "this" or "that" whenever we want to refer to things in the world or something someone said. It's similarly used in JavaScript.
 
 Simply put: `this` refers to any object it's defined in. The global object, `window` is the default value of `this`. However, anything a new object is created will have its own `this` value.
 
@@ -98,7 +117,7 @@ Now as we've learned in the previous sections, JavaScript as a language evolves 
 
 One of those features added to browsers is an upgraded version of the XHR object. It's called `fetch` and it's the modern way to make API calls. It incorporates Promises, making it easier to handle your server responses.
 
-A `fetch` function is now provided in the global `window` scope in the browser. You can check it out by opening your developers tools and searching for `fetch`. Keep in mind that this only counts for certain browser version. To figure out which browsers can use fetch, check [this](https://caniuse.com/#feat=fetch) out.
+A `fetch` function is now provided in the global `window` scope in the browser. You can check it out by opening your developers tools and searching for `fetch`. Keep in mind that `fetch` only works on newer browser version. To figure out which browsers can use fetch, check [this](https://caniuse.com/#feat=fetch) out.
 
 Learn more about `fetch`:
 
