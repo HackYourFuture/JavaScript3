@@ -1,3 +1,4 @@
+
 # Final javascript test
 
 You’ll be doing a final JavaScript test. It will be about all the JavaScript you’ve learned, from JavaScript 1 to JavaScript 3.
@@ -56,3 +57,6 @@ Parse the response and then display the "first_name" and "last_name" of the firs
 
 If there’s anything unclear please let us know. Also, if any of you need additional support, now is the moment to let us know as we could pair you up with someone to answer any questions you may have.
 
+
+
+##Thank you for reading
