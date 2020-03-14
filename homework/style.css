@@ -1,3 +1,41 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+.CardHeader {
+  background-color: blue;
+  color: white;
+  justify-content: left;
+  padding: 15px 5px 15px 5px;
+  margin-bottom: 5px;
+  border: 1px solid blue;
+  width: 72.5%;
+}
+
+.Card {
+  width: 70%;
+  background-color: white;
+  padding: 15px;
+  line-height: 20px;
+  border: 1px solid black;
+  box-shadow: 0px 2px 1px 1px rgba(136, 128, 128, 0.92);
+  border-radius: 4px;
+  list-style-type: none;
+}
+
+.Card li span {
+  font-size: 15px;
+  white-space: normal;
+}
+.firstText {
+  display: inline-block;
+  font-weight: bolder;
+  width: 85px;
+}
 .alert-error {
-  color: red;
+  width: 72%;
+  margin: 2px 0;
+  padding: 10px;
+  border-radius: 3px 3px 3px 3px;
+  color: #d8000c;
+  background-color: #ffbaba;
 }
