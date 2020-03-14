@@ -27,7 +27,6 @@ function main(url){
 
         })
         .forEach(repo=>repoDetails(repo,ul));
-
     })
 }
 function repoDetails(repo,ul) {
