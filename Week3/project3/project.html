@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  
+  <title>HYF</title>
+ 
+  <link rel="stylesheet" href="./style1.css">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+
+<body>
+
+  <div class="root">
+      <div class="header">
+          <label for="repositories" id="HYF">HYF Repositories</label>
+          <select id="repositories">
+              <option selected="Choose Repository">Choose a Repository</option>
+          </select>
+          <div id="loading-icon"></div>
+      </div>
+      
+      <div class="body2">
+          <div id="repo_info" class="repo_info"></div>
+
+          </div>
+          
+          <div id="repo_contributors" class="repo_contributors">>
+            <div id="contributorList">           
+            </div>
+          </div>
+          
+        
+      </div>
+  </div>
+  
+  <script src="project.js"></script>
+</body>
+
+
+</html>

@@ -1,0 +1,28 @@
+
+html{
+    background-color:lightblue;
+}
+
+ #HYF{
+color: rgb(245, 247, 250);
+size: 20px;
+}
+a {
+    font-size: 3.2em;
+    color: rgb(6, 7, 7)
+}  
+.header{
+    background-color: rgb(30, 79, 238);
+    padding: 2em;
+}
+
+.body2{
+    display: flex;
+    
+}
+#repo_contributors{
+    float: right;
+  
+}
+
+
