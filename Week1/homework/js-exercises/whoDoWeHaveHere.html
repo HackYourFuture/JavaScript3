@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <title>Who Do We Have Here </title>
+</head>
+
+<body>
+  <script>
+    // using XMLHttpRequest 
+
+    // function requestListener() {
+    //   const facts = JSON.parse(this.responseText);
+    //   console.lof(facts);
+    // }
+
+    // const xhr = new XMLHttpRequest();
+    // console.log("starting XMLHttpRequest", xhr);
+
+    // xhr.addEventListener("load", requestListener);
+
+    // xhr.open('GET', "https://www.randomuser.me/api");
+    // console.log("making a req ...");
+
+    // xhr.send();
+    // console.log("sent the request");
+
+    // using axios 
+
+    axios.get('https://www.randomuser.me/api')
+
+      .then(function (response) {
+        console.log(response);
+
+      })
+      .catch(function (error) {
+        console.log('an error happened', error);
+      })
+      .finally(function () {
+        console.log("HI!")
+      });
+  </script>
+
+</body>
+
+</html>

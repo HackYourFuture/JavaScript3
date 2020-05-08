@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dog Photo Gallery</title>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <button id="button1">Add A dog pic with XHR</button>
+  <button id="button2">Add a dog Photo with axios </button>
+  <ul class="ul"></ul>
+  <script>
+    let btn1 = document.getElementById("button1")
+    let btn2 = document.getElementById("button2")
+    let ul = document.querySelector('.ul')
+    btn1.addEventListener("click", withXHR);
+    btn2.addEventListener("click", withAxios);
+
+    // USING XMLHttpRequest
+    function withXHR() {
+      const sReq = new XMLHttpRequest()
+      sReq.open('GET', 'https://dog.ceo/api/breeds/image/random');
+      sReq.send();
+      sReq.onload = function () {
+        if (sReq.status == 200) {
+          console.log('success')
+          const data = JSON.parse(sReq.responseText);
+          console.log(data)
+          console.log(data.message)
+
+          let li = document.createElement('li')
+          ul.appendChild(li)
+          let img = document.createElement('img')
+          li.appendChild(img)
+          img.src = data.message
+        }
+        else {
+          console.log('error!')
+        }
+      }
+    }
+
+
+    let data
+    function withAxios() {
+      axios.get('https://dog.ceo/api/breeds/image/random')
+
+        .then(
+          function (response) {
+            console.log(response);
+            data = response.data.message
+            console.log(data)
+
+            let li = document.createElement('li')
+            ul.appendChild(li)
+            let img = document.createElement('img')
+            li.appendChild(img)
+            img.src = data
+          })
+
+        .catch(function (error) {
+          console.log('error');
+        })
+        .finally(function () {
+
+        });
+
+
+    }
+
+  </script>
+</body>
+
+</html>
