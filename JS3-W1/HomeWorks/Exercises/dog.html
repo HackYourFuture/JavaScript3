@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dog Photos Gallery</title>
+
+  <style>
+    body {
+      background-color: cadetblue;
+    }
+
+    .main {
+      display: flex;
+
+      margin: 10px;
+      padding: 10px;
+      flex-direction: row;
+    }
+
+    .addBtn {
+      width: 50%;
+      background-color: black;
+      color: orange;
+      padding: 20px;
+      margin: 20px;
+      text-align: center;
+      font-size: 20px;
+      cursor: progress;
+      border-radius: 6px;
+    }
+
+    .addBtn:hover {
+      background-color: black;
+      color: white;
+    }
+
+    .top {
+      display: flex;
+      justify-content: center;
+    }
+
+    ul {
+      list-style-type: none;
+      display: flow-root;
+    }
+
+    li {
+      margin: 15px;
+    }
+  </style>
+  <!-- <link rel="stylesheet" href="dog_style.css"> -->
+</head>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<body>
+
+  <div class="top">
+    <button id="XHR" class="addBtn">Show with XHR</button>
+    <button id="Axios" class="addBtn">Show with Axios</button>
+  </div>
+  <div id="main" class="main">
+    <ul id="list"></ul>
+
+  </div>
+  <script src="dog.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Who do we have here?</title>
+  <style>
+    .main {
+      background-size: cover;
+      display: flex;
+      background-color: rgb(135, 97, 167);
+      margin: 20px 10px;
+      padding: 25px;
+      font-size: larger;
+      font-weight: bold;
+      width: 100%;
+    }
+
+    span {
+      padding: 5px;
+      margin: 10px;
+
+    }
+
+    .block {
+      display: flex;
+      flex-direction: column-reverse;
+      margin: 10px;
+      padding: 10px;
+    }
+
+    .addBtn {
+      font-size: 24px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 1px;
+      background-color: black;
+      color: orange;
+      padding: 20px;
+      margin: 20px;
+      text-align: center;
+    }
+
+    .addBtn:hover {
+      background-color: rgb(2, 2, 2);
+      color: rgb(175, 14, 14);
+    }
+
+    .header {
+      display: flex;
+      justify-content: center;
+    }
+  </style>
+
+  <!-- <link rel="stylesheet" href="style.css"> -->
+
+</head>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<body>
+
+  <div class="header">
+    <button id="add" class="addBtn">We Have </button>
+
+  </div>
+
+  <script src="randomUser.js"></script>
+</body>
+
+</html>
