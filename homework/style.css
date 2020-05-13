@@ -1,3 +1,135 @@
+* {
+  margin: 0;
+  padding :0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#root {
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  background: #f5f5f0;
+  padding: 5px;
+  justify-content: center;
+  
+}
+
+.heading {
+  background: #1a75ff;
+  box-shadow: 2px 5px 7px #000;
+  margin: auto;
+  padding: 30px 2px 2px 12px; 
+  width: 90%;
+  height: 80px;
+  color: #fff;
+}
+
+li {
+  width: 100%;
+  list-style: none;
+  margin: 10px 0 5px 0 ;
+  box-shadow: 2px 5px 7px #000;
+  background: #fff;
+}
+
+li a {
+  text-decoration: none;
+  color: #000;
+}
+
+.repoInfo {
+  display: flex;
+  flex-flow: column wrap;
+  margin : 10px;
+}
+
+.repoLine {
+  margin: 2px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+
+/* ERROR STYLE*/
+
 .alert-error {
   color: red;
+}
+
+.error {
+  background: pink;
+  margin-top: 22px;
+  box-shadow: 2px 5px 7px #000;
+  margin: auto;
+  padding: 20px 2px 2px 12px; 
+  width: 90%;
+  height: 60px;
+}
+
+
+/* MEDIA QUERIES*/
+
+@media (min-width: 480px) {
+  ul {
+    width: 90%;
+    margin: auto;      
+  }
+  
+  .heading {
+    width: 90%;
+  }
+  
+  .error {
+    width: 90%;
+  }
+		
+}
+
+@media (min-width: 768px) {
+  ul {
+    width: 80%;   
+  }
+  
+  .heading {
+    width: 80%;
+  }
+  
+  .error {
+    width: 80%;
+  }
+		
+}
+
+@media (min-width: 992px) {		
+		ul {
+    width: 70%;   
+  }
+  
+  .heading {
+    width: 70%;
+  }
+  
+  .error {
+    width: 70%;
+  }
+}
+
+@media (min-width: 1200px) {		
+		ul {
+    width: 60%;   
+  }
+  
+  .heading {
+    width: 60%;
+  }
+  
+  .error {
+    width: 60%;
+  }
 }
