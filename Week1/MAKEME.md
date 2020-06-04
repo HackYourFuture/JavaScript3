@@ -15,49 +15,49 @@ This week's concepts can be challenging, therefore let's get an easy introductio
 
 ## **2. JavaScript exercises**
 
-> Inside of your `JavaScript3` fork and inside of the `Week1` folder, create a folder called `homework`. Inside of that folder, create a folder called `js-exercises`. For all the following exercises create a new `.js` file in that folder (3 files in total). Make sure the name of each file reflects its content: for example, the filename for exercise one could be placeKitten.js.
+> Inside of your `JavaScript3` fork and inside of the `Week1` folder, create a folder called `homework`. Inside of that folder, create a folder called `js-exercises`. For all the following exercises create a new `.js` file in that folder (3 files in total). Make sure the name of each file reflects its content: for example, the filename for exercise one could be `getRandomUser.js`.
 
 **Exercise 1: Who do we have here?**
 
 Wouldn't it cool to make a new friend with just the click of a button?
 
-Write a function that makes an API call to `https://www.randomuser.me/api`
+Write a function that makes a HTTP Request to `https://www.randomuser.me/api`
 
-- Inside the same file write two functions: one with `XMLHttpRequest`, and the other with `axios`
-- Each function should make an API call to the given endpoint: `https://www.randomuser.me/api`
+- Inside the JavaScript file write two functions: one with `XMLHttpRequest`, and the other with `axios`
+- Each function should make a HTTP Request to the given endpoint: `https://www.randomuser.me/api`
 - Log the received data to the console
-- Incorporate error handling
+- Incorporate error handling: log to the console the error message
 
 **Exercise 2: Programmer humor**
 
 Who knew programmers could be funny?
 
-Write an function that makes an API call to `https://xkcd.now.sh/?comic=latest`
+Write a function that makes a HTTP Request to `https://xkcd.now.sh/?comic=latest`
 
 - Inside the same file write two programs: one with `XMLHttpRequest`, and the other with `axios`
-- Each function should make an API call to the given endpoint: `https://xkcd.now.sh/?comic=latest`
+- Each function should make a HTTP Request to the given endpoint: `https://xkcd.now.sh/?comic=latest`
 - Log the received data to the console
 - Render the `img` property into an `<img>` tag in the DOM
-- Incorporate error handling
+- Incorporate error handling: log to the console the error message
 
 **Exercise 3: Dog photo gallery**
 
 Let's make a randomized dog photo gallery!
 
-Write a function that makes an API call to `https://dog.ceo/api/breeds/image/random`. It should trigger after clicking a button in your webpage. Every time the button is clicked it should append a new dog image to the DOM.
+Write a function that makes a HTTP Request to `https://dog.ceo/api/breeds/image/random`. It should trigger after clicking a button in your webpage. Every time the button is clicked it should append a new dog image to the DOM.
 
 - Create an `index.html` file that will display your random image
 - Add 2 `<button>` and 1 `<ul>` element, either in the HTML or through JavaScript
 - Write two versions for the button functionality: one with `XMLHttpRequest`, and the other with `axios`
-- When any one of the 2 buttons is clicked it should make an API call to `https://dog.ceo/api/breeds/image/random`
+- When any one of the 2 buttons is clicked it should make a HTTP Request to `https://dog.ceo/api/breeds/image/random`
 - After receiving the data, append to the `<ul>` a `<li>` that contains an `<img>` element with the dog image
-- Incorporate error handling
+- Incorporate error handling: log to the console the error message
 
 ## **3. Code along**
 
 Now that you've learned about APIs and how to connect with them, let's apply it in the context of a complete application.
 
-In the following application you'll be making an API call to an external, public API.
+In the following application you'll be making a HTTP Request to an external, public API. You'll use that data in order to fetch facts that you'll display in your own application: a Numbers Facts application.
 
 Enjoy!
 
@@ -139,7 +139,7 @@ The assignment for this week is to produce a functional application that looks s
 
 Functionally, the application should do the following:
 
-1. Make an API call to the endpoint: https://api.github.com/orgs/HackYourFuture/repos?per_page=100
+1. Make a HTTP Request to the endpoint: https://api.github.com/orgs/HackYourFuture/repos?per_page=100
 2. Display the first 10 items in the HTML file (write JavaScript to add element to the DOM)
 3. Show feedback when an error has happened
 

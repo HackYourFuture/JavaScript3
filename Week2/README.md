@@ -67,27 +67,25 @@ One of a programmer's favorite things to do is to write clean and concise code. 
 It is written like this:
 
 ```js
-const numbers = [2,3,7,8];
+const numbers = [2, 3, 7, 8];
 
 //classical way
 function isBiggerThanFive(number) {
-  if ( number > 5 )
-    return true;
-  else
-    return false;
+  if (number > 5) return true;
+  else return false;
 }
-console.log(numbers.filter(isBiggerThanFive))
+console.log(numbers.filter(isBiggerThanFive));
 
 // Arrow function
-console.log(numbers.filter((number) => {
-  if ( number > 5 )
-    return true;
-  else
-    return false;
-}))
+console.log(
+  numbers.filter((number) => {
+    if (number > 5) return true;
+    else return false;
+  }),
+);
 
 // or even shorter, if one arguments no need for (), if return statement no need for {}
-console.log(numbers.filter(number => number > 5));
+console.log(numbers.filter((number) => number > 5));
 ```
 
 Go through the following resources to learn more about why arrow functions are important:
@@ -111,11 +109,11 @@ Go through the following resources to learn more about `this`:
 
 ## 4. Fetch API
 
-Last week you learned about making API calls. You learned how to do this using the XHR object, which we can access through the browser's `window` object.
+Last week you learned about making HTTP Requests. You learned how to do this using the XHR object, which we can access through the browser's `window` object.
 
 Now as we've learned in the previous sections, JavaScript as a language evolves continually. But so do browsers! New features get added to increase the user experience and make life easier for developers.
 
-One of those features added to browsers is an upgraded version of the XHR object. It's called `fetch` and it's the modern way to make API calls. It incorporates Promises, making it easier to handle your server responses.
+One of those features added to browsers is an upgraded version of the XHR object. It's called `fetch` and it's the modern way to make HTTP Requests. It incorporates Promises, making it easier to handle your server responses.
 
 A `fetch` function is now provided in the global `window` scope in the browser. You can check it out by opening your developers tools and searching for `fetch`. Keep in mind that `fetch` only works on newer browser version. To figure out which browsers can use fetch, check [this](https://caniuse.com/#feat=fetch) out.
 

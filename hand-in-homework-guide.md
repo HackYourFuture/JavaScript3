@@ -6,7 +6,9 @@ In this module you'll submit your homework only using GIT and GitHub.
 
 ## 1. GitHub homework guide
 
-Follow the walkthrough to learn how to submit your homework for each week:
+[![Noer Explains Homework Submission](./assets/homework-submission.png)](https://www.youtube.com/watch?v=CpYARPYGQU8 'How to Submit Your Homework')
+
+Use the video above, or follow the written walkthrough below, to learn about how to submit your homework:
 
 ONE TIME ONLY (START OF EVERY MODULE)
 
