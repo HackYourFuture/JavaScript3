@@ -74,7 +74,7 @@ Figure 1 below shows an example of what your application will look like.
 This application does 2 things:
 
 1. It makes connection to the GitHub API and retrieves all the repositories found in the [HackYourFuture account](https://www.github.com/hackyourfuture).
-2. It displays those repositories in an alphabetically-oreded list. When a user clicks on any of the repository names it will show more details about it.
+2. It displays those repositories in an alphabetically-ordered list. When a user clicks on any of the repository names it will show more details about it.
 
 ### Getting an overview
 
@@ -127,20 +127,24 @@ As you'll experience in your job, you'll be exposed to an already existing codeb
 https://api.github.com/orgs/HackYourFuture/repos?per_page=100
 ```
 
-This URL is special, as it gives us data in JSON format (Try it out in your browser!). This type of URL is also known as an `endpoint`, an address that we can use to send a request to in order to get data. Learn more about endpoints [here](https://smartbear.com/learn/performance-monitoring/api-endpoints/).
+This URL is special, as it gives us data in JSON format (Try it out in your browser!). This type of URL is also known as an `endpoint`, an address that we can use to send an HTTP request to in order to get data.
 
-Note the query string `?per_page=100` in the above URL. If you don't specify this `query string` you will only get the first 30 repositories (the default `per_page` is 30, which we know because it says so in the [API documentation](https://developer.github.com/v3/#pagination)).
+- Learn more about endpoints [here](https://smartbear.com/learn/performance-monitoring/api-endpoints/).
+
+Note the query string `?per_page=100` in the above URL. If you don't specify this `query string` you will only get the first 30 repositories (the default `per_page` is 30. How do we know? It says so in the [API documentation](https://developer.github.com/v3/#pagination)).
+
+> Before using a public API it's always best practice to read the documentation. The developers have written down exactly how to understand and use it!
 
 ### Week 1 Assignment
 
-The assignment for this week is to produce a functional application that looks similar to Figure 1:
+The assignment for this week is to produce a functional web application that looks similar to Figure 1:
 
 ![UI Example](./assets/hyf-github.png)
 
-Functionally, the application should do the following:
+Here are the basic requirements:
 
 1. Make a HTTP Request to the endpoint: https://api.github.com/orgs/HackYourFuture/repos?per_page=100
-2. Display the first 10 items in the HTML file (write JavaScript to add element to the DOM)
+2. Display the first 10 items in the HTML file (write JavaScript to add the elements to the DOM)
 3. Show feedback when an error has happened
 
 Modify the following files:
