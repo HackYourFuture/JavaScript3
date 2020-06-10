@@ -16,7 +16,7 @@ These are the topics for week 2:
 
 You are undoubtedly different than when you were a baby. Back then you couldn't do much except crying. That's pretty much it. But as the years pass you increasingly could do more and more: walking, socializing or playing an instrument.
 
-Likewise, so has JavaScript evolved. Throughout the course you have, unknowingly, used syntax from different JavaScript versions. For example, if you've ever declared a function like this:
+Likewise, so has JavaScript evolved. Throughout the HackYourFuture course you have, unknowingly, used syntax from different JavaScript versions. For example, if you've ever declared a function like this:
 
 ```js
 function aFunction() {
@@ -120,6 +120,7 @@ A `fetch` function is now provided in the global `window` scope in the browser. 
 Learn more about `fetch`:
 
 - [Fetch API Introduction](https://www.youtube.com/watch?v=Oive66jrwBs)
+- [Sending JavaScript Http Requests with the fetch() API](https://www.youtube.com/watch?v=23hrM4saaMk)
 - [Fetch() - Working with Data and APIs in JavaScript](https://www.youtube.com/watch?v=tc8DU14qX6I)
 
 ## Finished?

@@ -9,6 +9,7 @@ These are the topics for week 1:
    - Connecting with APIs
 2. Asynchronous JavaScript and XML (AJAX)
    - JavaScript Object Notation (JSON)?
+   - Stringifying and parsing JSON
    - XMLHttpRequest (XHR)
 3. Modules & Libraries
    - What's a module?
@@ -62,7 +63,47 @@ A big part of what applications do is **moving data from one place to another**.
 
 It's because the HackYourFuture website sends a **HTTP Request** to Stripe. The request basically says "Hey Stripe, some user from the HackYourFuture site wants to make a digital payment, can you handle that?". As a response Stripe answers "Of course, send the user to this specific URL and I'll take it from there!".
 
-> Anytime a request to an API is made this is called a `HTTP Request`. However, in practice people use different terms for the same thing. Synonyms for `HTTP Request` are `API call/request`, `Network call/request` or`HTTP call`. Which do you prefer?
+> Anytime a request to an API is made this is called a `HTTP Request`. However, in practice people use different terms for the same thing. Synonyms for `HTTP Request` are `API call/request`, `Network call/request`, `Web request/call` or`HTTP call`. Which do you prefer?
+
+A HTTP Request has to be made using a special method. The browser gives us two of them: `XMLHttpRequest` and `Fetch API`. `XMLHttpRequest` (or XHR for short) is the older, more verbose method. It looks like this:
+
+```js
+// 1. Create a new XMLHttpRequest object
+const xhr = new XMLHttpRequest();
+
+// 2. Configure it: GET-request for the URL /article/.../load
+xhr.open('GET', '/article/xmlhttprequest/example/load');
+
+// 3. Send the request over the network
+xhr.send();
+
+// 4. This will be called after the response is received
+xhr.onload = function () {
+  if (xhr.status != 200) {
+    // analyze HTTP status of the response
+    alert(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
+  } else {
+    // show the result
+    alert(`Done, got ${xhr.response.length} bytes`); // response is the server
+  }
+};
+
+xhr.onprogress = function (event) {
+  if (event.lengthComputable) {
+    alert(`Received ${event.loaded} of ${event.total} bytes`);
+  } else {
+    alert(`Received ${event.loaded} bytes`); // no Content-Length
+  }
+};
+
+xhr.onerror = function () {
+  alert('Request failed');
+};
+```
+
+This way of making HTTP Requests is outdated (and not recommended to use), but it's good to be aware of it as you might still see it in old code bases.
+
+The newer way of making HTTP Requests involves using the `Fetch API`. You'll learn more about that next week!
 
 For further study of how to make HTTP Requests, check out the following resources:
 
@@ -80,32 +121,70 @@ The term is an acronym for `asynchronous JavaScript and XML`. Let's pick that ap
 
 This technique was used back in the days when the web wasn't that advanced. Back then we used XML is the standard format we used to structure our data in. Nowadays we have replaced it with another data format: `JSON`.
 
-### JSON
+### JavaScript Object Notation (JSON)
 
 `JSON` stands for JavaScript Object Notation and is a very JavaScript-like data format. Here's a small example:
 
 ```json
 {
-  "first name": "John",
-  "last name": "Smith",
-  "age": 25,
+  "first name": "Noer",
+  "last name": "Paanakker",
+  "age": 28,
   "address": {
-    "street address": "21 2nd Street",
-    "city": "New York",
-    "state": "NY",
-    "postal code": "10021"
+    "street address": "Strekkerweg 79",
+    "city": "Amsterdam",
+    "postal code": "1033 DA"
   }
 }
 ```
 
 If you look closely it almost looks exactly like a regular JavaScript object. There are 2 big differences: (1) in a JSON object everything is turned into a string (als known as "stringified"), and (2) it's not tied to the JavaScript language. Actually, many other languages can work with JSON!
 
-In AJAX we make a HTTP Request to a web server, that in response sends us back information to be used in the frontend. Generally speaking, this data will be send in `JSON` format.
+In AJAX we make a HTTP Request to a web server, that then responds back with information to be used in the frontend. Generally speaking, this data will be send in `JSON` format. The web server "stringifies" (makes into a string) the data to be send first before it sends it.
 
-So, technically speaking, the term would actually be AJAJ. However, the industry has decided to stick with the term AJAX to refer to these processes.
+### Stringifying and parsing JSON
 
-Go through the following to learn about how to use JSON and AJAX practically:
+JSON is the modern web standard data format to send and receive data in. In order to make something into JSON format we need to `stringify` it: make the whole object into one string. Luckily, JavaScript gives us a way to do this:
 
+```js
+const noer = {
+  firstName: 'Noer',
+  lastName: 'Paanakker',
+};
+
+const noerJSON = JSON.stringify(noer);
+
+console.log(noerJSON); // Result: {"firstName":"Noer","lastName":"Paanakker"}
+```
+
+Here's another way of looking at the "stringifying" process: let's say you want to send your mother a gift, a brand new HackYourFuture T-shirt. Would you just put the shirt right into the mailbox, like that? Of course not! You would wrap it up nicely and put it into a box. Then you put it in the mailbox and off it goes!
+
+This act of putting something into a box is what's happening when we `stringify` data (either on the client-side or server-side).
+
+After the JSON data has been send, the receiver has to be able to interpret it. This process of making JSON interpretable by the programming language within that environment is called `parsing`. As we're using JavaScript, it doesn't seem like a big stretch. But what if we're using some other programming language like Python or Java?
+
+To follow our analogy, this is basically your mother unpacking her T-shirt from out of the box you put it in!
+
+Again, in JavaScript we can use another method gained from the global `JSON` object in order to `parse` our JSON data:
+
+```js
+const noer = {
+  firstName: 'Noer',
+  lastName: 'Paanakker',
+};
+
+const noerJSON = JSON.stringify(noer);
+
+const noerParsed = JSON.parse(noerJSON);
+
+console.log(noerParsed); // Result: { firstName: 'Noer', lastName: 'Paanakker' };
+```
+
+Nowadays we use JSON to perform asynchronous operations using JavaScript. So, technically speaking, the term would actually be AJAJ. However, the industry has decided to stick with the term AJAX to refer to these processes. Keep that in mind whenever someone asks you about it!
+
+Go through the following to learn more about JSON and AJAX:
+
+- [JSON - Introduction](https://www.w3schools.com/js/js_json_intro.asp)
 - [Learn JSON in 10 Minutes](https://www.youtube.com/watch?v=iiADhChRriM)
 - [JSON Crash Course](https://www.youtube.com/watch?v=wI1CWzNtE-M)
 
@@ -115,7 +194,7 @@ Traditionally, in order to make use of the AJAX technique we need to make use of
 
 > The `window` object is the most top-level object available to us in the browser. It contains the `document`, which contains all the HTML/CSS and JavaScript we write. Besides this, the `window` also contains a lot of other things we use when writing frontend code: `setTimeout()`, `alert()` and it even contains a reference to the `console` (from which we get `console.log()`). Try it out in the console if you want to see for yourself!
 
-By creating a new instance of this object we can start making AJAX requests!
+By creating a new instance of this object we can start making HTTP requests!
 
 ```js
 const xhr = new XMLHttpRequest();
@@ -135,31 +214,42 @@ Check the following resources to learn more about XHR.
 
 ### What's a module?
 
-A `module` is a part of a program that contains one or more functionalities. For example, a single function that has only 1 job could be considered a module.
+A `module` is a part of an application that contains usually a single functionality. For example, a single function that has only 1 job could be considered a module. For example:
 
-When developing applications you'll always be writing multiple functionalities in order for your software to work as expected. These can be written all in one file, and it would fine. The browser/operating system would be able to interpret and execute it anyway. But for you, the human, it's very hard to keep overview of what is happening at what level of the application.
+```js
+function addNums(num1, num2) {
+  return num1 + num2;
+}
+```
 
-In order to keep a better overview, we can choose to **modularize** our application: split it up into smaller parts that, in theory, all work independently.
+If this little function has its own dedicated `.js` file and you can import it into another file, it's a module!
+
+When developing applications you'll always be writing multiple functionalities in order for your software to work as expected. These can be written all in one file, and that would still work. The browser/operating system would be able to interpret and execute it anyway. But for you, the human, it's very hard to keep overview of what is happening at what level of the application. Can you only imagine having to look through one big file of 1000's of lines of code, just to find
+
+In order to keep a better overview, we can choose to **modularize** our application. This means: splitting it up into smaller parts (modules) that, in theory, all work independently.
 
 However, creating better overview is not the only reason. Among other reasons, modules make a developer's job easy by:
 
-- Allowing them to focus on only one area of the functionality of the software application
+- Making the application easier to maintain, by making it more readable and thus easier to modify
 - Isolating individual blocks of code, in order to make errors more easily traceable
 - Encouraging the developer to write code in a way that makes it reusable
 
 For more information about this, go through the following:
 
+- [Introduction to Modular Design](https://www.youtube.com/watch?v=20JP8w6_nVA)
+- [JavaScript Patterns: The Traditional Module Pattern](https://www.youtube.com/watch?v=SKBmJ9P6OAk)
+- [JavaScript Modules in 100 Seconds](youtube.com/watch?v=qgRUr-YUk1Q)
 - [JavaScript Modules: From IIFEs to CommonJS to ES6 Modules](https://www.youtube.com/watch?v=qJWALEoGge4)
 
 ### What's a library?
 
 If you've ever written code you know how easy it is to duplicate it: you just copy and paste it.
 
-Modules are small blocks of code that make up a functionality. But what if you have a bunch of modules that collectively aim to solve a bigger problem, like creating a [Single Page Application](https://en.wikipedia.org/wiki/Single-page_application)?
+Modules are small blocks of code that make up a functionality. But what if you have a bunch of modules that collectively aim to solve a bigger problem, like creating [data visualizations](https://d3js.org/) or make DOM manipulation easier ([jQuery](https://jquery.com/))?
 
-For this we use a `library`: code that a developer (or a team of developers) has written in order to solve these bigger problems within an application. A library, typically, contains a collection of modules that work together in order to solve a bigger problem. Examples of big problems that require libraries are validation ([validator.js](https://www.npmjs.com/package/validator)), or quick DOM manipluation ([jQuery](https://www.npmjs.com/package/jquery)).
+For this we use a `library`: code that a developer (or a team of developers) has written in order to solve these bigger problems within an application. A library, typically, contains a collection of modules that work together in order to solve a bigger problem.
 
-> Like many things in programming, people use various terms to describe the same thing. In the case of `library`, you'll often hear it spoken of as `package` or `namespace`.
+> Like many things in programming, people use various terms to describe the same thing. In the case of `library`, you'll often hear it spoken of as `package`, `namespace` or `dependency`.
 
 Why do we use libraries? We use them to help us make building applications easier. Think of it like building a house: in theory you could do it all by hand. But as you can imagine, this is highly inefficient and time-consuming. So instead we use tools to help us out. These can be small tools (like a hammer or screwdriver) or bigger ones (like a concrete mixer or wheel barrow).
 
@@ -182,10 +272,11 @@ For further study, check the following:
 
 - [Code Libraries](https://www.youtube.com/watch?v=FQAQTXE_vt4)
 - [JavaScript Libraries](https://www.youtube.com/watch?v=uq7omoxwA7A)
+- [https://www.youtube.com/watch?v=24GF5MVEEjE](https://www.youtube.com/watch?v=24GF5MVEEjE)
 
 ### An example of a library
 
-In a previous section we discussed APIs and the importance of being able to make HTTP Requests. We have seen that we can use the XHR object to do so. In this section we'll discuss a `library` that makes this process easier for us. It's called [axios](https://github.com/axios/axios), a JavaScript library that allows us to make HTTP Requests in an easier way.
+In a previous section we discussed APIs and the importance of being able to make HTTP Requests so that we can communicate with them. We have seen that we can use the `XHR` object to do so. In this section we'll discuss a `library` that makes this process easier for us. It's called [axios](https://github.com/axios/axios), a JavaScript library that allows us to make HTTP Requests in an easier way.
 
 Here's what it looks like in action:
 
