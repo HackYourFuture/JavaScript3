@@ -6,9 +6,9 @@ In this module you'll submit your homework only using GIT and GitHub.
 
 ## 1. GitHub homework guide
 
-[![Noer Explains Homework Submission](./assets/homework-submission.png)](https://www.youtube.com/watch?v=CpYARPYGQU8 'How to Submit Your Homework')
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=CpYARPYGQU8" target="_blank"><img src="./assets/submit-homework.png" width="400" height="250" alt="HYF Video" /></a>
 
-Use the video above, or follow the written walkthrough below, to learn about how to submit your homework:
+Watch the video (by clicking the image) or go through the following walk-through to learn how to submit your homework:
 
 ONE TIME ONLY (START OF EVERY MODULE)
 

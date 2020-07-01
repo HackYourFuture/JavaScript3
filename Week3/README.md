@@ -308,7 +308,6 @@ With the `async/await` keywords, we don't get a `catch` function to use. So inst
       console.log('Oops, something went wrong!', err);
     }
   }
-
 ```
 
 Learn more about it here:
