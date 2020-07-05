@@ -17,7 +17,36 @@ Let's continue exercising those programming muscles! Go through the following ex
 
 ## **2. JavaScript exercises**
 
-**_No exercises this week_**
+> Inside of your `JavaScript3` fork and inside of the `Week3` folder, create a folder called `homework`. Inside of that folder, create a folder called `js-exercises`. For all the following exercises create a new `.js` file in that folder (3 files in total). Make sure the name of each file reflects its content: for example, the filename for exercise one could be `getName.js`.
+
+**Exercise 1: **
+
+<!-- This exercise will be about practicing rewriting Promise syntax to async await -->
+
+In this exercise you'll practice refactoring `Promise` syntax into `async/await` + `try/catch` syntax.
+
+```js
+// Exercise A
+
+
+// Exercise B
+function getData(url) {
+  fetch(url)
+    .then(response => response.json)
+    .then(json => console.log(json))
+    .catch(error => console.log(error));
+}
+
+getData('https://randomfox.ca/floof/');
+```
+
+**Exercise 2: **
+
+<!-- This exercise will be about practicing creating and using classes -->
+
+**Exercise 3: **
+
+<!-- This exercise will be about practicing -->
 
 ## **3. Code along**
 
@@ -29,81 +58,43 @@ Happy learning!
 
 ## **4. PROJECT: Hack Your Repo III**
 
-The final week's assignment consists of two parts.
+> This week we'll continue building on our work from last week. Make sure to navigate to the `hackyourrepo-app` folder and start based on the code you wrote!
 
-In the first part you will update the homework from week 2 (in the `homework` folder). In the second part you will refactor your application to use `ES6 classes`. For this, you need to modify the files in the `homework-classes` folder.
+Our application is looking pretty nice so far! This week we'll do 2 things:
 
-### PART 1: `async/await` & `axios`
+1. We'll refactor and modularize our application
+2. We'll add a feature: pagination!
 
-In the first part you'll need to modify some parts of your code with what you've learned about. Implement the following:
+Let's break each of them apart.
 
-### OOP and ES6 classes
+### 4.1 Refactor and modularize application
 
-In this second part requires you'll work with a codebase that is build in the Object Oriented Programming paradigm (OOP). OOP is a vast topic and in this homework we can only scratch the surface. The approach we have taken here is for you, as aspiring junior developer, to complete an application for which the groundwork has been done by an experienced developer. You may find it difficult to understand the full details of the application, however this is not unlike a real world situation where you will be expected to make relative small modifications to a complex application, without breaking anything.
+We'll first start off with refactoring, so that we have a clean codebase to build upon.
 
-### Getting an overview
+Like you've learned this week, refactoring is all about writing "clean code": code that is readible and easy to add to.
 
-The relevant files for this part of the homework can be found in the **homework-classes** folder. In the following table you'll find an outline (with explanations about their role in our application):
+When writing the JavaScript code last week, most likely you wrote everything in a single JavaScript file (the `script.js` one). This week we'll create many more files, that we then will all bring together in that `script.js` file to execute. This act is called `modularization`, and you'll practice with this more and more as time goes on.
 
-| File                | Description                                                                                            |
-| ------------------- | ------------------------------------------------------------------------------------------------------ |
-| index.html          | The application's HTML file.                                                                           |
-| style.css           | CSS styling.                                                                                           |
-| hyf.png             | The HYF logo.                                                                                          |
-| App.js              | The **App** class is the main container class for the app.                                             |
-| Observable.js       | The **Observable** class is a base class implementing functionality of the Observer pattern.           |
-| Model.js            | The **Model** class is concerned with all data handling (e.g. fetching). Extends the Observable class. |
-| HeaderView.js       | The **HeaderView** class renders the header with the select element.                                   |
-| RepoView.js         | The **RepoView** class renders the details for the selected repository.                                |
-| ContributorsView.js | The **ContributorsView** class renders the contributors for the selected repository.                   |
-| ErrorView.js        | The **ErrorView** class renders an error, if present.                                                  |
-| Util.js             | The **Utility** class provides (static) utility functions.                                             |
+Next to that you'll refactor your code using the software design principles you've learned about this week: DRY, KISS and others you might have picked up. How does would look like exactly in your codebase is left up to you.
 
-Like mentioned in the readings, the point of OOP is to split your application up into "entities". These entities then work together like a team in order to make an application work.
+Here are the requirements:
 
-The image below illustrates the interrelationship between the various classes in the application using a [UML Class Diagram](https://en.wikipedia.org/wiki/Class_diagram).
+- Create a separate `.js` for every function you create
+- Import all top-level functions into the `script.js` file to execute
 
-![JavaScript3_classes](./assets/JavaScript3_classes.png)
+### 4.2 Add a feature: Pagination
 
-### A first examination
+You might have noticed that when a user selects a repository that has many contributors, the page's height becomes bigger and bigger (thus forcing the user to scroll down). Let's change that, by adding pagination!
 
-You can conclude the following from this diagram:
+What is pagination? Take a look at this:
 
-1. The **Model** class **extends** (_inherits from_) the **Observable** class. Views (i.e., 'observers') can subscribe to the Model and get notified on data updates.
-2. There are four View classes that implement the **IObservable** interface, i.e. they implement the required `update()` method:
+![Pagination Example](https://lorisleiva.com/assets/img/pagination_1.1785fc69.png)
 
-   - **HeaderView**
-   - **RepoView**
-   - **ContributorsView**
-   - **ErrorView**.
+As you can see there are many pages
 
-3. The **SelectView** class calls the `fetchData()` method from the **Model** class to request a data fetch.
+Here are the requirements:
 
-4. There are four View classes that implement the **IObservable** interface, i.e. they implement the required `update()` method:
-
-   - **HeaderView**
-   - **RepoView**
-   - **ContributorsView**
-   - **ErrorView**
-
-### Week 3 Assignment
-
-**PART 1: Modify your existing code base**
-
-In the `homework` folder, modify the following:
-
-1. Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
-2. Make sure that your error handling code still works. See the instructions from week 2's [homework](../Week2/MAKEME.md) on how to force an error response from GitHub.
-3. Modify the `fetchJSON` function to replace **fetch** with **axios**.
-4. Add a `<script>` tag to **index.html** to load the **axios** library from a CDN ([Content Delivery Network](https://www.youtube.com/watch?v=52VSbXBlfdc)) site. Use Google to find the right URL.
-
-**PART 2: Moving to the OOP version of the homework**
-
-In the `homework-classes` folder, modify the following:
-
-1. Modify the **RepoView.js** and **ContributorsView.js** files, by adding and adapting code from your non-OOP version of the homework to these files.
-2. You should also copy the styling from your non-OOP version.
-3. Make sure everything still works!
+- Each "page" should contain at max 5 contributors. If the repository selected contains more than 5 contributors, it will get split up unto a different page
 
 Good luck!
 

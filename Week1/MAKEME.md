@@ -68,7 +68,7 @@ Enjoy!
 In the following three weeks you are going to write an application that makes use of the [GitHub API](https://developer.github.com/v3/guides/getting-started/). Each week builds on top of the other, just like a real-world application!
 
 [![UI Example](./assets/hyf-github.png)](https://js3-spa.herokuapp.com/)
-Click on the image to open up a demo of the application!
+Click on the image to open up the demo of the application!
 
 This application, HackYourRepo, does 2 things:
 
