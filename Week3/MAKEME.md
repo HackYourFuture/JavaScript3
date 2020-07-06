@@ -19,17 +19,12 @@ Let's continue exercising those programming muscles! Go through the following ex
 
 > Inside of your `JavaScript3` fork and inside of the `Week3` folder, create a folder called `homework`. Inside of that folder, create a folder called `js-exercises`. For all the following exercises create a new `.js` file in that folder (3 files in total). Make sure the name of each file reflects its content: for example, the filename for exercise one could be `getName.js`.
 
-**Exercise 1: **
+**Exercise 1: Promise me to wait**
 
-<!-- This exercise will be about practicing rewriting Promise syntax to async await -->
-
-In this exercise you'll practice refactoring `Promise` syntax into `async/await` + `try/catch` syntax.
+In this exercise you'll practice refactoring `Promise` syntax into `async/await` + `try/catch` syntax. Rewrite exercise A & B using `async/await` + `try/catch` syntax.
 
 ```js
 // Exercise A
-
-
-// Exercise B
 function getData(url) {
   fetch(url)
     .then(response => response.json)
@@ -38,23 +33,71 @@ function getData(url) {
 }
 
 getData('https://randomfox.ca/floof/');
+
+// Exercise B
+const arrayOfWords = ['cucumber', 'tomatos', 'avocado'];
+
+const makeAllCaps = array => {
+  return new Promise((resolve, reject) => {
+    let capsArray = array.map(word => {
+      if (typeof word === 'string') {
+        return word.toUpperCase();
+      } else {
+        reject('Error: Not all items in the array are strings!');
+      }
+    });
+    resolve(capsArray);
+  });
+};
+
+makeAllCaps(arrayOfWords)
+  .then(result => console.log(result))
+  .catch(error => console.log(error));
 ```
 
-**Exercise 2: **
+**Exercise 2: Classify**
 
-<!-- This exercise will be about practicing creating and using classes -->
+In this exercise you'll read a little story. It's your job to turn the characters in it into classes and instantiate the class into the characters you read about!
 
-**Exercise 3: **
+```md
+# STORY
 
-<!-- This exercise will be about practicing -->
+Abdulkareem is a 35 year old man, that lives in Riyadh. He has a wife and 3 children. As a day job he's a construction worker, that makes houses. He likes to eat dates and smoke water pipe.
+
+Abdulkareem has a horse, named Adel. The horse is 15 years old and has the color brown. Usually the horse eats grass or helps transport materials for Abdulkareem.
+
+And they lived happily ever after!
+```
+
+After reading this story, you have to:
+
+- Create a class for Adbulkareem and Adel
+- Instantiate those classes to create an Abdulkareem object and Adel object
+
+**Exercise 3: Trivia time!**
+
+Don't you just love trivia games? Let's make our own!
+
+In this exercise you'll make use of the [Open Trivia Database API](https://opentdb.com/). You are going to fetch 5 random trivia questions and then inject them into the DOM, inside of an accordion. It should behave similar to this:
+
+![Trivia App](./../assets/trivia-app.gif)
+
+Here are the requirements:
+
+- Create a folder called `trivia-app`, that includes an HTML, CSS and JavaScript file
+- Link them all together in the HTML file
+- Only provide the basic structure in the HTML file. All other DOM elements are to be created using JavaScript
+- No CSS frameworks are allowed!
+- Sometimes the strings you get back from the API contains HTML entities (like `&quote;`). Find out a way to turn this into regular text
+- Make use of the following endpoint: https://opentdb.com/api.php?amount=5
 
 ## **3. Code along**
 
-In this weeks `code along` you'll be building a website that uses the YouTube API to fetch channel data and videos. You'll be creating a search form to change channels and use [OAuth2](https://www.youtube.com/watch?v=CPbvxxslDTU) to login and logout.
+In this weeks `code along` you'll be building a Bookmarker application. It'll allow a user to add in URLs of their favorite websites in order to save it into a list.
 
 Happy learning!
 
-- [YouTube API Project with Authentication](https://www.youtube.com/watch?v=r-yxNNO1EI8)
+- [BookMarker Application](https://www.youtube.com/watch?v=32qhBZacCNc)
 
 ## **4. PROJECT: Hack Your Repo III**
 
@@ -80,21 +123,30 @@ Next to that you'll refactor your code using the software design principles you'
 Here are the requirements:
 
 - Create a separate `.js` for every function you create
-- Import all top-level functions into the `script.js` file to execute
+- Import all top-level functions into the `script.js` file to execute when the window has loaded
+- Rewrite your logic to be as simple as possible. Use loops and logical operators when needed
+- Rename your functions and variables to be as semantic as possible
+- Store all your JavaScript files, besides `script.js` in a folder called `util` (short for utility functions)
+
+> Utility functions are reusable functions that are made to solve common problems. They are regular functions that perform tasks like: performing a calculation, transform one data type into another or perform a DOM operation.
 
 ### 4.2 Add a feature: Pagination
 
-You might have noticed that when a user selects a repository that has many contributors, the page's height becomes bigger and bigger (thus forcing the user to scroll down). Let's change that, by adding pagination!
+You might have noticed that when a user selects a repository that has many contributors, the page's height becomes bigger and bigger (thus forcing the user to scroll down). Let's change that by adding pagination!
 
 What is pagination? Take a look at this:
 
 ![Pagination Example](https://lorisleiva.com/assets/img/pagination_1.1785fc69.png)
 
-As you can see there are many pages
+In the illustration, each number represents a page. You might have seen it before on websites like Amazon, when you're browsing through different products.
+
+We'll replicate this functionality to allow a user to browse through different contributors without have to scroll incessantly.
 
 Here are the requirements:
 
-- Each "page" should contain at max 5 contributors. If the repository selected contains more than 5 contributors, it will get split up unto a different page
+- Each "page" should contain at maximum 5 contributors. If the repository selected contains more than 5 contributors, it will get split up unto a different page (and thus create another addition)
+- Slice the array into smaller parts and create a new page every time the maximum has been reached
+- Allow a user to click from page to page by clicking on the number, or an arrow to go one page forward or backward
 
 Good luck!
 
