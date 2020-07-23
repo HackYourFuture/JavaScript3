@@ -12,5 +12,6 @@
     "remarcmij",
     "tabindex",
     "whiteframe"
-  ]
+  ],
+  "deno.enable": false
 }
