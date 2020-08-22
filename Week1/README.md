@@ -238,7 +238,7 @@ For more information about this, go through the following:
 
 - [Introduction to Modular Design](https://www.youtube.com/watch?v=20JP8w6_nVA)
 - [JavaScript Patterns: The Traditional Module Pattern](https://www.youtube.com/watch?v=SKBmJ9P6OAk)
-- [JavaScript Modules in 100 Seconds](youtube.com/watch?v=qgRUr-YUk1Q)
+- [JavaScript Modules in 100 Seconds](https://www.youtube.com/watch?v=qgRUr-YUk1Q)
 - [JavaScript Modules: From IIFEs to CommonJS to ES6 Modules](https://www.youtube.com/watch?v=qJWALEoGge4)
 
 ### What's a library?
