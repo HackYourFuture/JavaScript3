@@ -14,6 +14,12 @@ These are the topics for week 2:
    - 'this' keyword
 4. Fetch API
 
+## 0. Video Lectures
+
+Your teacher Stasel has made video lectures for this week's material. You can find them here: [Videos 6 - 8](https://www.youtube.com/watch?v=j7X0_KwoRD4&list=PLVYDhqbgYpYVchJ9QQ3rC2WxYKrOiceYX)
+
+<a href="https://www.youtube.com/watch?v=j7X0_KwoRD4&list=PLVYDhqbgYpYVchJ9QQ3rC2WxYKrOiceYX" target="_blank"><img src="../assets/stasel.png" width="600" height="350" alt="HYF Video" /></a>
+
 ## 1. JavaScript Versions
 
 You are undoubtedly different than when you were a baby. Back then you couldn't do much except crying. That's pretty much it. But as the years pass you increasingly could do more and more: walking, socializing or playing an instrument.
@@ -58,7 +64,7 @@ But what if you want to have callbacks within callbacks... within callbacks? Thi
 This is where `Promises` come in. The idea of the `Promise` is a product of the evolution within the JavaScript language. A bunch of JavaScript developers wanted to figure out how to solve the problem of callback hell and this is what they came up with. Here's a basic example:
 
 ```js
-const promise = new Promise(function (resolve, reject) {
+const promise = new Promise(function(resolve, reject) {
   if (true) {
     resolve('It has succeeded!');
   } else {
@@ -82,18 +88,18 @@ When a Promises is executed it will first execute the asynchronous code inside. 
 What if you need to perform several asynchronous operations, that depend on the result of the one that came before it? For that we can use the `.then()` method: a special function, given to us by the Promise object, that allows us to directly use the return value of the asynchronous operation that happened before. Here's an example:
 
 ```js
-new Promise(function (resolve, reject) {
+new Promise(function(resolve, reject) {
   setTimeout(() => resolve(1), 1000); // We wait 1 second and then resolve with value 1
 })
-  .then(function (result) {
+  .then(function(result) {
     console.log(result); // Result: 1
     return result * 2;
   })
-  .then(function (result) {
+  .then(function(result) {
     alert(result); // Result: 2
     return result * 2;
   })
-  .catch((error) => {
+  .catch(error => {
     console.log(error);
   });
 ```
@@ -165,7 +171,7 @@ However, this isn't the only value `this` can have. The moment we create a new o
 const wouter = {
   firstName: 'Wouter',
   lastName: 'Kleijn',
-  getFullName: function () {
+  getFullName: function() {
     return this.firstName + ' ' + this.lastName;
   },
 };
@@ -195,14 +201,14 @@ One of those features added to browsers is an upgraded version of the XHR object
 
 ```js
 fetch('https://pokeapi.co/api/v2/pokemon')
-  .then((response) => {
+  .then(response => {
     return response.json();
   })
-  .then((data) => {
+  .then(data => {
     console.log('Pokemon data', data);
     return data;
   })
-  .catch((error) => {
+  .catch(error => {
     console.log('err', error);
   });
 ```

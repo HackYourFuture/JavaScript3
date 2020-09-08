@@ -18,6 +18,12 @@ These are the topics for week 3:
    - Catching errors with try/catch
 4. Thinking like a programmer III
 
+## 0. Video Lectures
+
+Your teacher Stasel has made video lectures for this week's material. You can find them here: [Videos 9 - 10](https://www.youtube.com/watch?v=j7X0_KwoRD4&list=PLVYDhqbgYpYVchJ9QQ3rC2WxYKrOiceYX)
+
+<a href="https://www.youtube.com/watch?v=j7X0_KwoRD4&list=PLVYDhqbgYpYVchJ9QQ3rC2WxYKrOiceYX" target="_blank"><img src="../assets/stasel.png" width="600" height="350" alt="HYF Video" /></a>
+
 ## 1. Object-Oriented Programming (OOP)
 
 So far we've learned about various programming concepts. These are the basics of what makes up any application: it's the **WHAT** of writing applications. However, now that you're familiar with them it's time to go to the next level: the **HOW** of writing applications.
@@ -41,8 +47,8 @@ Take this example:
 ```js
 const numbers = [14, 5, 25, 8];
 
-const filterDoubleDigits = (numbers) => {
-  return numbers.filter((number) => {
+const filterDoubleDigits = numbers => {
+  return numbers.filter(number => {
     return number < 10;
   });
 };
@@ -150,7 +156,7 @@ function createPerson(name, age) {
   var obj = {
     name: name,
     age: age,
-    walk: function () {
+    walk: function() {
       console.log(`${this.name} is walking!`);
     },
   };
@@ -289,7 +295,7 @@ But before we get into that, we should define "catching errors" a little bit. By
 In the Promise object, we can use the function `catch` to take care of errors. It takes in a callback, which automatically receives an error object. Here's an example:
 
 ```js
-Promise.catch(function (error) {
+Promise.catch(function(error) {
   console.log(error);
 });
 ```
@@ -327,6 +333,7 @@ As a great programmer, you always want to be writing clean code. This means: cod
 There are many ways to write clean code. Some of them you might have heard: Don't Repeat Yourself (DRY) or Keep It Simple, Stupid (KISS) are two things to keep in mind. There are many others and you are encouraged to do your own research!
 
 Here are already a couple of them to get you started:
+
 - [Top 5 Programming Principles that any software engineer should follow](https://www.youtube.com/watch?v=d-KbEQM0724)
 - [Programming Terms: DRY (Don't Repeat Yourself)](https://www.youtube.com/watch?v=IGH4-ZhfVDk)
 - [The KISS Principle in Software Development — Everything You Need to Know](https://medium.com/@devisha.singh/the-kiss-principle-in-software-development-everything-you-need-to-know-dd8ea6e46bcd)
