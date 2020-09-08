@@ -17,6 +17,12 @@ These are the topics for week 1:
    - An example of a library
    - How to use a library
 
+## 0. Video Lectures
+
+Your teacher Stasel has made video lectures for this week's material. You can find them here: [Videos 1 - 5](https://www.youtube.com/watch?v=j7X0_KwoRD4&list=PLVYDhqbgYpYVchJ9QQ3rC2WxYKrOiceYX)
+
+<a href="https://www.youtube.com/watch?v=j7X0_KwoRD4&list=PLVYDhqbgYpYVchJ9QQ3rC2WxYKrOiceYX" target="_blank"><img src="../assets/stasel.png" width="600" height="350" alt="HYF Video" /></a>
+
 ## 1. Application Programming Interface (API)
 
 Whenever we talk about software development, we'll inevitably end up talking about `Application Programming Interfaces`, or APIs for short. But what is all the fuss about?
@@ -78,7 +84,7 @@ xhr.open('GET', '/article/xmlhttprequest/example/load');
 xhr.send();
 
 // 4. This will be called after the response is received
-xhr.onload = function () {
+xhr.onload = function() {
   if (xhr.status != 200) {
     // analyze HTTP status of the response
     alert(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
@@ -88,7 +94,7 @@ xhr.onload = function () {
   }
 };
 
-xhr.onprogress = function (event) {
+xhr.onprogress = function(event) {
   if (event.lengthComputable) {
     alert(`Received ${event.loaded} of ${event.total} bytes`);
   } else {
@@ -96,7 +102,7 @@ xhr.onprogress = function (event) {
   }
 };
 
-xhr.onerror = function () {
+xhr.onerror = function() {
   alert('Request failed');
 };
 ```
@@ -286,11 +292,11 @@ const axios = require('axios'); // We have to load in the library first
 // Make a GET request to get user data from the Pokemon API
 axios
   .get('https://pokeapi.co/api/v2/pokemon')
-  .then(function (response) {
+  .then(function(response) {
     console.log(response);
     // Do something with data
   })
-  .catch(function (error) {
+  .catch(function(error) {
     console.log(error);
     // Do something with error
   });
