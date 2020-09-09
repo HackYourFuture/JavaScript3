@@ -19,9 +19,9 @@ These are the topics for week 1:
 
 ## 0. Video Lectures
 
-Your teacher Stasel has made video lectures for this week's material. You can find them here: [Videos 1 - 5](https://www.youtube.com/watch?v=j7X0_KwoRD4&list=PLVYDhqbgYpYVchJ9QQ3rC2WxYKrOiceYX)
+Your teacher Stasel has made video lectures for this week's material. You can find them here: [Videos 1 - 5](https://www.youtube.com/playlist?list=PLVYDhqbgYpYVchJ9QQ3rC2WxYKrOiceYX)
 
-<a href="https://www.youtube.com/watch?v=j7X0_KwoRD4&list=PLVYDhqbgYpYVchJ9QQ3rC2WxYKrOiceYX" target="_blank"><img src="../assets/stasel.png" width="600" height="350" alt="HYF Video" /></a>
+<a href="https://www.youtube.com/playlist?list=PLVYDhqbgYpYVchJ9QQ3rC2WxYKrOiceYX" target="_blank"><img src="../assets/stasel.png" width="600" height="350" alt="HYF Video" /></a>
 
 ## 1. Application Programming Interface (API)
 
