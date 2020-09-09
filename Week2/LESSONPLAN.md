@@ -15,44 +15,145 @@ FIRST HALF (12.00 - 13.30)
 ## 1. Promises
 
 ### Explanation
+- JS versions https://www.w3schools.com/js/js_versions.asp
+    - the javascript language evolves, new things are added and some thing become obsolete
 - It's a way to introduce asynchronicity to your application
 - Makes asynchronous code read like it's synchronous
-### Example
-```javascript
-let promiseToDoHomeWork = new Promise(function (resolve, reject) {
-  let isDone = true;
 
-  if (isDone) {
-    resolve('homework is done!');
-  } else {
-    reject('not done!');
-  }
+
+In the examples `setTimeout` is used to illustrate asynchronous code. In the real world there will be some code doing useful work here, for example `fetch`.
+
+**Callback**
+```javascript
+let didFinishHomework = true;
+let doHomeWork = function (cb) {
+  setTimeout(function () {
+    if ( didFinishHomework ) 
+      cb(null); // call callback function with NO error and no data
+    else
+      cb(new Error('homework not done, too lazy')); // call callback function with error
+  }, 1000);
+}
+
+
+doHomeWork(function (err) {
+  if ( err ) 
+    console.warn(err.message);
+  else
+    console.log('home work is done now');
+})
+```
+
+**Promise**
+```javascript
+let didFinishHomework = true;
+let promiseToDoHomeWork = new Promise(function (resolve, reject) {
+  setTimeout(function () {
+    if ( didFinishHomework ) 
+      resolve();  // goto then
+    else
+      reject(new Error('homework not done, too lazy')); // goto catch and pass the error
+  }, 1000);
 });
 
 promiseToDoHomeWork
   .then(function () { console.log('home work is done now'); })
-  .catch(function () { console.log('home work has something wrong, can\'t be done'); })
+  .catch(function (err) { console.warn(err); })
 
 ```
-- Nested promises example
+
+**!!! Students should watch this video !!!**
+- https://youtu.be/RvYYCGs45L4
+
+
+### Example
+
+#### Nested callback/promises example
+
+```javascript
+let attendClass = function (cb) {
+  setTimeout(function () {
+    if ( true ) 
+      cb(null, 'I attend the class'); // call the callback function with no Error and some data
+    else
+      cb(new Error('class not attended, stayed home')); // call the callback function with an Error
+  }, 1000);
+}
+
+let didFinishHomework = true;
+let doTheHomeWork = function (message, cb) {
+  setTimeout(function () {
+    if ( didFinishHomework ) 
+      cb(null, message + ' then I did the homework'); // call the callback function with no Error and some data
+    else
+      cb(new Error('homework not done, was lazy')); // call the callback function with an Error
+  }, 1000);
+}
+
+let submitHomeWork = function (message, cb) {
+  setTimeout(function () {
+    if ( true ) 
+      cb(null, message + ' so I submit my homework');  // call the callback function with no Error and some data
+    else
+      cb(new Error('homework not submited, github is down')); // call the callback function with an Error
+  }, 1000);
+}
+
+// call attendClass, after it is finished call doTheHomeWork then submitHomeWork. In each step pass the output of the previous step. In case of an error show it in the console
+
+attendClass(function (err, data) {
+  if ( err ) 
+    console.warn(err.message);
+  else
+    doTheHomeWork(data, function (err1, data1) {
+        if ( err1 ) 
+          console.warn(err1.message);
+        else
+          submitHomeWork(data1, function (err2, data2) {
+            if ( err2 ) 
+              console.warn(err2.message);
+            else
+              console.log(data2)
+          });
+    })
+})
+```
+Mention how this nested structure is hard to understand and read. Multiple variables with similar names and error handling is all over the place.
+Simulate an error in doTheHomeWork by setting `didFinishHomework = false` and run the example again
 
 ```javascript
 
 let attendClass = function () {
   return new Promise(function (resolve, reject) {
-    resolve('I attend the class');
+    setTimeout(function () {
+      if ( true ) 
+        resolve('I attend the class'); // goto then and pass the data
+      else
+        reject(new Error('class not attended, stayed home')); // goto catch and pass the error
+    }, 1000);
   });
 }
 
+let didFinishHomework = true;
 let doTheHomeWork = function (message) {
   return new Promise(function (resolve, reject) {
-    resolve(message + 'then I did the homework');
+    setTimeout(function () {
+      if ( true ) 
+        resolve(message + ' then I did the homework'); // goto then and pass the data
+      else
+        reject(new Error('homework not done, was lazy')); // goto catch and pass the error
+    }, 1000);
   });
 }
 
-let submitHomework = function (message) {
+let submitHomeWork = function (message) {
   return new Promise(function (resolve, reject) {
-    resolve(message + 'so I submit my homework');
+    setTimeout(function () {
+      if ( true ) 
+        resolve(message + ' so I submit my homework');  // goto then and pass the data
+      else
+        reject(new Error('homework not submited, github is down')); // goto catch and pass the error
+    }, 1000);;
   });
 }
 
@@ -60,60 +161,106 @@ attendClass()
   .then(function (result) {
     return doTheHomeWork(result);
   })
-  .then(function () {
-    return submitHomework(result);
-  }).catch(function (error) {
-    console.log(error);
+  .then(function (result) {
+    return submitHomeWork(result);
+  })
+  .then(function (result) {
+    console.log(result);
+  })  
+  .catch(function (error) { // catches all errors
+    console.warn(error.message);
   });
 
-```
 
+```
+Simulate an error in doTheHomeWork by setting `didFinishHomework = false` and run the example again.
 
 - Promise.all
 
+Imagine that you are cleaning your house. If you are going to to it alone then it will take you the whole day. However if you ask your friend to help then you can be done in half the time.
+
 ```javascript
-Promise.all([attendClass(), doTheHomeWork(), submitHomework()]).then(function ([res1, res2, res3]) { console.log('all finished') });
+Promise.all([cleanKitchen("Me"), cleanBathroom("friend")]).then(function ([res1, res2]) { console.log('all finished') });
 ```
 
 - Promise.race
 
+Sometimes I get really hungry. Then I want to eat as soon as possible. So I order a pizza. But I never know how long it will take for the pizza to arrive. And I am really hungry. So I start frying some potatotes. When at one of them is ready either the pizza has arrived or the frites are done then I will eat and I do not have to wait for the other one.
+
 ```javascript
-Promise.race([attendClass(), doTheHomeWork(), submitHomework()]).then(function (result) { console.log('one of them finished') });
+Promise.race([fryPotatoes(), orderPizza()]).then(function (food) { console.log('I am eating: '+food) });
 ```
 
-- Example for converting XHR to promise as a preparation for `fetch`
+### Exercise
+
+#### Easy exercise (see difficult exercise alternative below)
+
+**Part 1**
+Rewrite the following code to use promise instead of callbacks. *As preparation for `fetch`*
 
 ```javascript
-function fetchResource(url) {
-  return new Promise(function (resolve, reject) {
-    const oReq = new XMLHttpRequest();
-    oReq.open('GET', url);
-    oReq.send();
-    oReq.addEventListener('load', function (event) {
-      const data = JSON.parse(this.response);
-      if (data.cod >= 400) {
-        // error
-        console.log('error', data);
-        reject(data);
-      } else {
-        //success
-        console.log('success', data);
-        resolve(data);
-      }
-    });
+{
+const WEATHER_URL = `https://api.openweathermap.org/data/2.5/weather?q=amsterdam&appid=316f8218c0899311cc029a305f39575e`;
+
+function fetchResourceAsCallback(url, cb) {
+  const oReq = new XMLHttpRequest();
+  oReq.open('GET', url);
+  oReq.send();
+  oReq.addEventListener('load', function (event) {
+    const response = JSON.parse(this.response);
+    if (response.code >= 400) {
+      // error
+      cb(new Error("Failed to get because:"+response));/´// call callback function with an error
+    } else {
+      //success
+      cb(null, response); // call callback function with NO error and pass the response
+    }
   });
 }
 
-fetchResource(`https://api.openweathermap.org/data/2.5/weather?q=amsterdam&appid=316f8218c0899311cc029a305f39575e`).then(function (result) {
+fetchResourceAsCallback(WEATHER_URL, 
+  function (err, data) {
+    if ( err ) 
+      console.warn(err.message);
+    else
+      console.log(data);
+ }
+);
+
+function fetchResourceAsPromise(url) {
+  // your code goes in here
+}
+
+fetchResourceAsPromise(WEATHER_URL)
+.then(function (result) {
   console.log(result);
+})
+.catch(function (err) {
+  console.warn(err.message);
 });
+}
 
 ```
 
-### Excercise
+**Part 2**
+
+Use `Promise.all` to load data for multiple cities in parallel. Ask students to discuss in which scenarios it would be better to load data in parallel. In what scenarios is loading data in parallel not better.
+
+```javascript
+
+const URLS_TO_LOAD = [ 'https://samples.openweathermap.org/data/2.5/weather?q=London&appid=316f8218c0899311cc029a305f39575e', 'https://api.openweathermap.org/data/2.5/weather?q=amsterdam&appid=316f8218c0899311cc029a305f39575e'];
+```
+
+* Hint: use `map` to convert from an array of URLs to an array of promises.
+
+**Alternative exercise - Cooking pasta**
+
+**❗❗❗ Difficult exercise ❗❗❗**
+
 > Async can be hard to understand without real live example. Cooking is a great example of mixed synchronous and asynchronous tasks. In this assignment we'll cook pasta with promises 💍
 
-Let's say we want a programme to cook some pasta. Some of the steps involved in cooking pasta are:
+
+Let's say we want a program to cook some pasta. Some of the steps involved in cooking pasta are:
 
 1. Gathering the ingredients (pasta, garlic, tomatoes, sage, butter)
 2. Cutting the garlic
@@ -124,7 +271,7 @@ Let's say we want a programme to cook some pasta. Some of the steps involved in 
 7. Baking the tomatoes
    X. Mixing the pasta with sauce
 
-If we do this synchronolously there is no chance of it becoming a good meal because the pasta would be cold by the time the vegetables are ready. It would also take way too long this way. So let's fix that!
+If we do this synchronously there is no chance of it becoming a good meal because the pasta would be cold by the time the vegetables are ready. It would also take way too long this way. So let's fix that!
 
 1. Think about how to do this asynchronously; which tasks could be run at the same time? What steps should wait for what other steps? Try to write down a basic recipe (don't write any code yet!)
 2. Now convert your recipe to pseudocode (in markdown). The point is to name functions and show which functions call which other functions. The logic should be there but we'll write the code in the next step.
@@ -142,7 +289,7 @@ If we do this synchronolously there is no chance of it becoming a good meal beca
 ### Essence
 
 - It's the accepted solution to [callback hell](http://callbackhell.com/)
-
+- in terms of features it does not offer something new, everything one can do with promises could also be done with callbacks but it is easier to write and read the code when promises are used
 
 ## 2. How to use the `fetch` API to do AJAX calls
 
@@ -177,25 +324,76 @@ SECOND HALF (14.00 - 16.00)
 - By default, “this” refers to global object which is `global` in case of NodeJS and `window` object in case of browser
 
 ### Example
-#### “this” refers to global object
+
+#### this refers to new instance (constructors)
+
 ```javascript
-// Immediately Invoked Function Expression (IIFE)
-(function () {
-  // First Example
-  function foo() {
-    console.log("Simple function call");
-    console.log(this === window);
-  }
+function logColor() {
+    // this inside the function refers to the calling javascript object
+    console.log('This refers to: ',this); 
+    console.log('Color of this is: '+this.color);
+}
+let dog = { age: 5, color: 'brown', logColor: logColor};
+let car = { model: 'bmw', color: 'orange', logColor: logColor };
 
-foo();	//prints true on console
-console.log(this === window) //Prints true on console.
-
-})();
+console.log('log color called with dog')
+dog.logColor();
+console.log('log color called with car')
+car.logColor();
 ```
 
-As you see in the example, the `foo()` function is called based on `window`, this makes the default `this` inside this `foo` function get the value `window` 
+- In Javascript, property of an object can be a method or a simple value.
+- When an Object’s method is invoked then “this” refers to the object which contains the method being invoked.
 
-> Note: we say a function is called based on window when there's no object calling it, like `obj.foo()`, but calling `foo()` acts if it was `window.foo()`
+
+#### “this” refers to global object
+```javascript
+function logColor() {
+    // this inside the function refers to the calling javascript object
+    console.log('This refers to: ',this); 
+    console.log('Color of this is: '+this.color);
+}
+
+console.log('log color called with no object')
+logColor(); // no calling object so "this" refers to window by default
+```
+> Note: the value of “this” depends on how a method is being invoked as well.
+
+####  “this” with call, apply methods 
+- These methods can be used to set custom value of `this` to the execution context of function, also they can pass arguments/parameters to the function
+
+```javascript
+function logColor() {
+    // this inside the function refers to the calling javascript object
+    console.log('This refers to: ',this); 
+    console.log('Color of this is: '+this.color);
+}
+let cat = { likes: 'milk', color: 'white'};
+logColor.call(cat); // calls the logColor function with cat as "this"
+```
+
+#### “this” with bind method
+`bind` only create a copy of the function with the binded `this` inside without calling the function.
+```
+function callAfterOneSecond(cb) {
+   setTimeout(function () {
+      cb();
+   }, 1000);
+}
+function logColor() {
+    // this inside the function refers to the calling javascript object
+    console.log('This refers to: ',this); 
+    console.log('Color of this is: '+this.color);
+}
+let cat = { likes: 'milk', color: 'white'};
+let boundLogColor = logColor.bind(cat); // returns a function that can be executed later
+console.log(boundLogColor);
+// a few lines later
+boundLogColor(); // executes logColor with cat as "this"
+
+// callAfterOneSecond(boundLogColor);
+```
+
 
 > Note: If `strict mode` is enabled for any function then the value of “this” will be “undefined” as in strict mode, global object refers to undefined in place of windows object.
 
@@ -209,173 +407,56 @@ function foo() {
 foo();	//prints false on console as in “strict mode” value of “this” in global execution context is undefined.
 ```
 
-#### this refers to new instance (constructors)
-
-```javascript
-function Person(fn, ln) {
-  this.first_name = fn;
-  this.last_name = ln;
-
-  this.displayName = function () {
-    console.log(`Name: ${this.first_name} ${this.last_name}`);
-  }
-}
-
-let person = new Person("John", "Reed");
-person.displayName();  // Prints Name: John Reed
-let person2 = new Person("Paul", "Adams");
-person2.displayName();  // Prints Name: Paul Adams
-```
-
-- In Javascript, property of an object can be a method or a simple value.
-- When an Object’s method is invoked then “this” refers to the object which contains the method being invoked.
-
-```javascript
-
-function foo() {
-  'use strict';
-  console.log("Simple function call")
-  console.log(this === window);
-}
-
-let user = {
-  count: 10,
-  foo: foo,
-  foo1: function () {
-    console.log(this === window);
-  }
-}
-
-user.foo()  // Prints false because now “this” refers to user object instead of global object.
-let fun1 = user.foo1;
-fun1() // Prints true as this method is invoked as a simple function.
-user.foo1()  // Prints false on console as foo1 is invoked as a object’s method
-```
-
-> Note: the value of “this” depends on how a method is being invoked as well.
-
-####  “this” with call, apply methods 
-- These methods can be used to set custom value of `this` to the execution context of function, also they can pass arguments/parameters to the function
-
-```
-function Person(fn, ln) {
-  this.first_name = fn;
-  this.last_name = ln;
-
-  this.displayName = function (prefix) {
-    console.log(`Name: ${prefix} ${this.first_name} ${this.last_name}`);
-  }
-}
-
-let person = new Person("John", "Reed");
-person.displayName(); // Prints Name: John Reed
-let person2 = new Person("Paul", "Adams");
-person2.displayName(); // Prints Name: Paul Adams
-
-person.displayName.call(person2, 'Mr'); // Here we are setting value of this to be person2 object
-person.displayName.call(person2, ['Mr']); // Here we are setting value of this to be person2 object
-
-```
-
-#### “this” with bind method
-`bind` only create a copy of the function with the binded `this` inside without calling the function.
-```
-function Person(fn, ln) {
-  this.first_name = fn;
-  this.last_name = ln;
-
-  this.displayName = function () {
-    console.log(`Name: ${this.first_name} ${this.last_name}`);
-  }
-}
-
-let person = new Person("John", "Reed");
-person.displayName(); // Prints Name: John Reed
-let person2 = new Person("Paul", "Adams");
-person2.displayName(); // Prints Name: Paul Adams
-
-let person2Display = person.displayName.bind(person2);  // Creates new function with value of “this” equals to person2 object
-person2Display(); // Prints Name: Paul Adams
-```
-### Excercise
-### Essence
-
-
-## 4. Arrow functions and JS versions
-
-### Explanation
-- JS versions https://www.w3schools.com/js/js_versions.asp
--  Arrow functions can’t be used as constructors as other functions can.
-- If you attempt to use new with an arrow function, it will throw an error.
-- To create class-like objects in JavaScript, you should use the new ES6 classes instead
-
-The this keyword works differently in arrow functions.
-
-- The `this` value inside the arrow function gets binded and calcuated and assigned based on its wrapper/container/parent `this` value.
+#### “this” in arrow functions
+- The `this` value inside the arrow function gets binded and calculated and assigned based on its wrapper/container/parent `this` value.
 - The methods call(), apply(), and bind() will not change the value of this in arrow functions
-### Example
-```javascript
-// ES5
-var multiplyES5 = function (x, y) {
-  return x * y;
-};
 
-// ES6
-const multiplyES6 = (x, y) => { return x * y };
-```
-#### “this” with fat arrow function
-```javascript
-function Person(fn, ln) {
-  this.first_name = fn;
-  this.last_name = ln;
+Students will learn mroe about this when learning about classes in javascript.
 
-  this.displayName = () => {
-    console.log(this === window);
-    console.log(`Name: ${this.first_name} ${this.last_name}`);
-  }
-}
-
-let person1 = new Person('Nouran', 'Mhmoud');
-person1.displayName(); // this doesn't equal window, because it gets `this` that is inside Person() constructor function.
-```
-
-In the following example, the foo1() gets the `window` as `this` value, because on interpretation time, the interpreter assign the `this` immediately based on the surrounding execution context which is `window` in the case of simple literal object.
-
-```javascript
-let user = {
-  count: 10,
-  foo1: () => {
-    console.log(this === window);
-  }
-}
-
-let user1 = user.foo1() // this equals window
-```
 
 ### Excercise
 In this excercise, let the students guess the result and then go line by line as if you were an interpreter and execute the code. Or use the debugger tools on devtools to execute line by line.
 
-```javascript
-function multiply(p, q, callback) {
-  callback(p * q);
-}
 
+```javascript
 let user = {
   a: 2,
   b: 3,
-  findMultiply: function () {
+  print: function () {
+    console.log(multiply(this.a, this.b));
+  }
+}
+user.a = 5;
+user.print();
+user.b = 10;
+function multiply(p, q) {
+  return p * q;
+}
+```
+
+Variant two (if students find variant one too easy)
+
+```javascript
+let user = {
+  a: 2,
+  b: 3,
+  print: function () {
     multiply(this.a, this.b, function (total) {
       console.log(total);
-      console.log(this === window);
+      console.log(this.a * this.b);
     })
   }
 }
-
-user.findMultiply();
-//Prints 6
-//Prints true
+user.a = 5;
+user.print()
+user.b = 10;
+function multiply(p, q, callback) {
+  callback(p * q);
+}
 ```
+
 ### Essence
+this is special keyword in javascript. this refers to different things depending on how a function is called.
 
 
 

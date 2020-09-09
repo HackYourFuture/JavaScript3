@@ -15,7 +15,62 @@ Let's start this week off with some interactive exercises! Visit the following l
 
 ## **2. JavaScript exercises**
 
-**_No exercises this week_**
+> Inside of your `JavaScript3` fork and inside of the `Week2` folder, create a folder called `homework`. Inside of that folder, create a folder called `js-exercises`. For all the following exercises create a new `.js` file in that folder (3 files in total). Make sure the name of each file reflects its content: for example, the filename for exercise one could be `getName.js`.
+
+**Exercise 1: John who?**
+
+Take a look at the following function (and try it out in your console):
+
+```js
+const getAnonName = (firstName, callback) => {
+  setTimeout(() => {
+    if (!firstName)
+      return callback(new Error("You didn't pass in a first name!"));
+
+    const fullName = `${firstName} Doe`;
+
+    return callback(fullName);
+  }, 2000);
+};
+
+getAnonName('John', console.log);
+```
+
+Rewrite this function, but replace the callback syntax with the Promise syntax:
+
+- Have the `getAnonName` function return a `new Promise` that uses the `firstName` parameter
+- If the Promise `resolves`, pass the full name as an argument to resolve with
+- If the Promise `rejects`, pass an error as the argument to reject with: "You didn't pass in a first name!"
+
+**Exercise 2: Is it bigger than 10?**
+
+Write a function called `checkDoubleDigits` that:
+
+- Takes 1 argument: a number
+- Returns a `new Promise`
+- If the number is bigger than 10, resolve with the string: "The number is bigger than 10!"
+- If the number is smaller than 10, reject with the error: "Error! The number is smaller than 10..."
+
+**Exercise 3: Gotta catch 'em all**
+
+> Inside of your `homework` folder, create another folder called `pokemon-app`. There, create an `index.html` and `script.js` file
+
+Let's catch all original 151 Pokemon in our own little web application! Here's an example of what you'll be building for this exercise:
+
+![Pokemon App](./../assets/pokemon-app.gif)
+
+In this exercise you're going to do several things:
+
+1. Create and append DOM elements using JavaScript only
+2. Fetch data twice from a public API [PokeAPI](https://pokeapi.co/)
+3. Display the results in the DOM.
+
+Here are the requirements:
+
+- Create 3 functions: `fetchData`, `addPokemonToDOM` and `main`
+- The `main` function executes the other functions and contains all the variables
+- In the `fetchData` function, make use of `fetch` and its Promise syntax in order to get the data from the public API
+- Execute the `main` function when the window has finished loading
 
 ## **3. Code along**
 
@@ -27,57 +82,38 @@ Enjoy!
 
 ## **4. PROJECT: Hack Your Repo II**
 
-The assignment this week is to enhance your application to look similar to the following:
+> This week we'll continue building on our work from last week. Make sure to navigate to the `hackyourrepo-app` folder and start based on the code you wrote!
 
-![UI Example](./assets/week2.png)
+This week we'll do a couple of things:
 
-As you can see, it looks different from the one from last week. This week we'll be rewriting most of our code to now show information for a single repository and also list its contributors (instead of the details for all repositories). A user should be able to search for all repositories in the account and select the one they want more information on.
+1. We'll remove our HTML elements and remake them using JavaScript only!
+2. We'll replace our placeholder data with real data from the GitHub API
+3. We'll display this data in a separate column of the user interface
 
-### Week 2 Assignment
+On the surface, it'll look exactly the same. But functionally, it'll based around JavaScript only!
 
-The enhanced application should fulfill the following requirements:
+Here are the requirements:
 
-1. The list of repositories in the `select` element should be sorted (case-insensitive) on repository name.
-2. At start-up your application should display information about the first repository as displayed in the `select` element.
-3. When the user changes the selection, the information in the web page should be refreshed for the newly selected repository.
-4. You should be able to click on the repository name of the selected repository to open a new browser tab with the GitHub page for that repository.
-5. You should be able to click on a contributor to open a new browser tab with the GitHub page for that contributor.
-6. Your UI should be responsive. Try it with Chrome Developer Tools in the browser, using a mobile phone format and a tablet format, portrait and landscape.
-7. The `XMLHttpRequest` in the `fetchJSON` function should be replaced with `fetch`. Hint: Because `fetch` returns a promise out of the box there is no need create a Promise yourself with `new Promise(...)`.
+- Remove the HTML elements you created last week, and only keep the `<script>` tag (you can keep the styling)
+- Recreate all the HTML elements using JavaScript
+- Populate the `<select>` with options. Use the data fetched from the GitHub API, using this URL:
 
-**Hints:**
+```js
+const url = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+```
 
-- The `index.html` file can be divided into several components:
+- When a user changes the option in the `<select>` tag, listen to that "change" event and make an HTTP Request to the GitHub API to get repository-specific data. Read the documentation to find out which URL you need to use: [GitHub API Documentation](https://developer.github.com/v3/)
+- When the repository-specific has been fetched, populate the right columns: contributors and repository details.
+- If there's an error in the HTTP Request, display the following:
 
-  1. An HTML `select` element from which the user can select a HYF repository. This `select` element must be populated with `option` elements, one for each HYF repository.
-  2. A left-hand column that displays basic information about the selected repository.
-  3. A right-hand column that displays a list of contributors to the repository.
+![HTTP Error](./../Week1/assets/hyf-github-error.png)
 
-  A suggested HTML structure could be:
+- Create a `main` function that will execute all of your functions only when the window has fully loaded
 
-  ```html
-  <body>
-    <div id="root">
-      <header class="...">...</header>
-      <main class="main-container">
-        <section class="repo-container">...</section>
-        <section class="contributors-container">...</section>
-      </main>
-    </div>
-  </body>
-  ```
+The end result should be similar to this in styling, but exactly in functionality:
 
-- Add one `option` element per repository to the `select` element, where each `option` element has the array index of the repository as its `value` attribute and the name of the repository as its text content:
-
-  ```html
-  <select>
-    <option value="0">alumni</option>
-    <option value="1">angular</option>
-    <!-- etc -->
-  </select>
-  ```
-
-- To sort the list repositories use [`.sort()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort) and [`.localeCompare()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare).
+[![UI Example](../Week1/assets/hyf-github.png)](https://js3-spa.herokuapp.com/)
+Click on the image to open up the demo of the application!
 
 Good luck!
 

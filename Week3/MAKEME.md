@@ -17,93 +17,136 @@ Let's continue exercising those programming muscles! Go through the following ex
 
 ## **2. JavaScript exercises**
 
-**_No exercises this week_**
+> Inside of your `JavaScript3` fork and inside of the `Week3` folder, create a folder called `homework`. Inside of that folder, create a folder called `js-exercises`. For all the following exercises create a new `.js` file in that folder (3 files in total). Make sure the name of each file reflects its content: for example, the filename for exercise one could be `getName.js`.
+
+**Exercise 1: Promise me to wait**
+
+In this exercise you'll practice refactoring `Promise` syntax into `async/await` + `try/catch` syntax. Rewrite exercise A & B using `async/await` + `try/catch` syntax.
+
+```js
+// Exercise A
+function getData(url) {
+  fetch(url)
+    .then(response => response.json)
+    .then(json => console.log(json))
+    .catch(error => console.log(error));
+}
+
+getData('https://randomfox.ca/floof/');
+
+// Exercise B
+const arrayOfWords = ['cucumber', 'tomatos', 'avocado'];
+
+const makeAllCaps = array => {
+  return new Promise((resolve, reject) => {
+    let capsArray = array.map(word => {
+      if (typeof word === 'string') {
+        return word.toUpperCase();
+      } else {
+        reject('Error: Not all items in the array are strings!');
+      }
+    });
+    resolve(capsArray);
+  });
+};
+
+makeAllCaps(arrayOfWords)
+  .then(result => console.log(result))
+  .catch(error => console.log(error));
+```
+
+**Exercise 2: Classify**
+
+In this exercise you'll read a little story. It's your job to turn the characters in it into classes and instantiate the class into the characters you read about!
+
+```md
+# STORY
+
+Abdulkareem is a 35 year old man, that lives in Riyadh. He has a wife and 3 children. As a day job he's a construction worker, that makes houses. He likes to eat dates and smoke water pipe.
+
+Abdulkareem has a horse, named Adel. The horse is 15 years old and has the color brown. Usually the horse eats grass or helps transport materials for Abdulkareem.
+
+And they lived happily ever after!
+```
+
+After reading this story, you have to:
+
+- Create a class for Adbulkareem and Adel
+- Instantiate those classes to create an Abdulkareem object and Adel object
+
+**Exercise 3: Trivia time!**
+
+Don't you just love trivia games? Let's make our own!
+
+In this exercise you'll make use of the [Open Trivia Database API](https://opentdb.com/). You are going to fetch 5 random trivia questions and then inject them into the DOM, inside of an accordion. It should behave similar to this:
+
+![Trivia App](./../assets/trivia-app.gif)
+
+Here are the requirements:
+
+- Create a folder called `trivia-app`, that includes an HTML, CSS and JavaScript file
+- Link them all together in the HTML file
+- Only provide the basic structure in the HTML file. All other DOM elements are to be created using JavaScript
+- No CSS frameworks are allowed!
+- Sometimes the strings you get back from the API contains HTML entities (like `&quote;`). Find out a way to turn this into regular text
+- Make use of the following endpoint: https://opentdb.com/api.php?amount=5
 
 ## **3. Code along**
 
-In this weeks `code along` you'll be building a website that uses the YouTube API to fetch channel data and videos. You'll be creating a search form to change channels and use [OAuth2](https://www.youtube.com/watch?v=CPbvxxslDTU) to login and logout.
+In this weeks `code along` you'll be building a Bookmarker application. It'll allow a user to add in URLs of their favorite websites in order to save it into a list.
 
 Happy learning!
 
-- [YouTube API Project with Authentication](https://www.youtube.com/watch?v=r-yxNNO1EI8)
+- [BookMarker Application](https://www.youtube.com/watch?v=32qhBZacCNc)
 
 ## **4. PROJECT: Hack Your Repo III**
 
-The final week's assignment consists of two parts.
+> This week we'll continue building on our work from last week. Make sure to navigate to the `hackyourrepo-app` folder and start based on the code you wrote!
 
-In the first part you will update the homework from week 2 (in the `homework` folder). In the second part you will refactor your application to use `ES6 classes`. For this, you need to modify the files in the `homework-classes` folder.
+Our application is looking pretty nice so far! This week we'll do 2 things:
 
-### PART 1: `async/await` & `axios`
+1. We'll refactor and modularize our application
+2. We'll add a feature: pagination!
 
-In the first part you'll need to modify some parts of your code with what you've learned about. Implement the following:
+Let's break each of them apart.
 
-### OOP and ES6 classes
+### 4.1 Refactor and modularize application
 
-In this second part requires you'll work with a codebase that is build in the Object Oriented Programming paradigm (OOP). OOP is a vast topic and in this homework we can only scratch the surface. The approach we have taken here is for you, as aspiring junior developer, to complete an application for which the groundwork has been done by an experienced developer. You may find it difficult to understand the full details of the application, however this is not unlike a real world situation where you will be expected to make relative small modifications to a complex application, without breaking anything.
+We'll first start off with refactoring, so that we have a clean codebase to build upon.
 
-### Getting an overview
+Like you've learned this week, refactoring is all about writing "clean code": code that is readible and easy to add to.
 
-The relevant files for this part of the homework can be found in the **homework-classes** folder. In the following table you'll find an outline (with explanations about their role in our application):
+When writing the JavaScript code last week, most likely you wrote everything in a single JavaScript file (the `script.js` one). This week we'll create many more files, that we then will all bring together in that `script.js` file to execute. This act is called `modularization`, and you'll practice with this more and more as time goes on.
 
-| File                | Description                                                                                            |
-| ------------------- | ------------------------------------------------------------------------------------------------------ |
-| index.html          | The application's HTML file.                                                                           |
-| style.css           | CSS styling.                                                                                           |
-| hyf.png             | The HYF logo.                                                                                          |
-| App.js              | The **App** class is the main container class for the app.                                             |
-| Observable.js       | The **Observable** class is a base class implementing functionality of the Observer pattern.           |
-| Model.js            | The **Model** class is concerned with all data handling (e.g. fetching). Extends the Observable class. |
-| HeaderView.js       | The **HeaderView** class renders the header with the select element.                                   |
-| RepoView.js         | The **RepoView** class renders the details for the selected repository.                                |
-| ContributorsView.js | The **ContributorsView** class renders the contributors for the selected repository.                   |
-| ErrorView.js        | The **ErrorView** class renders an error, if present.                                                  |
-| Util.js             | The **Utility** class provides (static) utility functions.                                             |
+Next to that you'll refactor your code using the software design principles you've learned about this week: DRY, KISS and others you might have picked up. How does would look like exactly in your codebase is left up to you.
 
-Like mentioned in the readings, the point of OOP is to split your application up into "entities". These entities then work together like a team in order to make an application work.
+Here are the requirements:
 
-The image below illustrates the interrelationship between the various classes in the application using a [UML Class Diagram](https://en.wikipedia.org/wiki/Class_diagram).
+- Create a separate `.js` for every function you create
+- Import all top-level functions into the `script.js` file to execute when the window has loaded
+- Rewrite your logic to be as simple as possible. Use loops and logical operators when needed
+- Rename your functions and variables to be as semantic as possible
+- Store all your JavaScript files, besides `script.js` in a folder called `util` (short for utility functions)
 
-![JavaScript3_classes](./assets/JavaScript3_classes.png)
+> Utility functions are reusable functions that are made to solve common problems. They are regular functions that perform tasks like: performing a calculation, transform one data type into another or perform a DOM operation.
 
-### A first examination
+### 4.2 Add a feature: Pagination
 
-You can conclude the following from this diagram:
+You might have noticed that when a user selects a repository that has many contributors, the page's height becomes bigger and bigger (thus forcing the user to scroll down). Let's change that by adding pagination!
 
-1. The **Model** class **extends** (_inherits from_) the **Observable** class. Views (i.e., 'observers') can subscribe to the Model and get notified on data updates.
-2. There are four View classes that implement the **IObservable** interface, i.e. they implement the required `update()` method:
+What is pagination? Take a look at this:
 
-   - **HeaderView**
-   - **RepoView**
-   - **ContributorsView**
-   - **ErrorView**.
+![Pagination Example](https://lorisleiva.com/assets/img/pagination_1.1785fc69.png)
 
-3. The **SelectView** class calls the `fetchData()` method from the **Model** class to request a data fetch.
+In the illustration, each number represents a page. You might have seen it before on websites like Amazon, when you're browsing through different products.
 
-4. There are four View classes that implement the **IObservable** interface, i.e. they implement the required `update()` method:
+We'll replicate this functionality to allow a user to browse through different contributors without have to scroll incessantly.
 
-   - **HeaderView**
-   - **RepoView**
-   - **ContributorsView**
-   - **ErrorView**
+Here are the requirements:
 
-### Week 3 Assignment
-
-**PART 1: Modify your existing code base**
-
-In the `homework` folder, modify the following:
-
-1. Refactor all `.then()` and `.catch()` methods with `async`/`await` and `try...catch`.
-2. Make sure that your error handling code still works. See the instructions from week 2's [homework](../Week2/MAKEME.md) on how to force an error response from GitHub.
-3. Modify the `fetchJSON` function to replace **fetch** with **axios**.
-4. Add a `<script>` tag to **index.html** to load the **axios** library from a CDN ([Content Delivery Network](https://www.youtube.com/watch?v=52VSbXBlfdc)) site. Use Google to find the right URL.
-
-**PART 2: Moving to the OOP version of the homework**
-
-In the `homework-classes` folder, modify the following:
-
-1. Modify the **RepoView.js** and **ContributorsView.js** files, by adding and adapting code from your non-OOP version of the homework to these files.
-2. You should also copy the styling from your non-OOP version.
-3. Make sure everything still works!
+- Each "page" should contain at maximum 5 contributors. If the repository selected contains more than 5 contributors, it will get split up unto a different page (and thus create another addition)
+- Slice the array into smaller parts and create a new page every time the maximum has been reached
+- Allow a user to click from page to page by clicking on the number, or an arrow to go one page forward or backward
 
 Good luck!
 
