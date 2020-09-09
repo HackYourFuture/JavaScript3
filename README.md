@@ -13,9 +13,11 @@ On top of that you'll also learn how to think differently about _how_ you write 
 
 ## Before you start
 
+In the following weeks we will be using a "style guide" to help you write _"clean code"_. Because code is not only meant to be run by computers, but also to be read by humans (your colleagues, and the future version of you), it's best to make your code good. If your code is readable and nicely formatted, you're doing your colleages (and future you) a great service. The idea of a "style guide" comes from visual design, where companies often have a "visual style". For example, watch the following video to get an idea of this:
+
 ### Setup Style Guide
 
-In the following weeks we will be using a front-end `style guide` to help you write _"clean code"_. What is a style guide? Simply put, it's a set of coding standards put into one collection.
+Similar to how designers have style guides for their design work, programmers often have "programming style guides". This is set of rules to follow when writing/formatting your code. The styleguide we'll be using is the one from Airbnb:
 
 - [Front-end Style Guides](https://fronteers.nl/congres/2015/sessions/front-end-style-guides-anna-debenham)
 
@@ -24,6 +26,8 @@ The style guide we'll be using is the one from Airbnb:
 - [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
 
 While you do not need to read this guide in detail, it is recommended that you look at sections 1-8, 12-13, 15-21 and 23.
+
+We also have tools that can automatically check whether your code is correctly formatted according to a style guide. These tools are called "linters". We will be using the JavaScript linter called "ESLint". The following packages are already added to this repository's `package.json`:
 
 The required packages you need to install before you write code according to the style guide are the following:
 
