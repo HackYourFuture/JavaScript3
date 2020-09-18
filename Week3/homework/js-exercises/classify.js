@@ -36,8 +36,8 @@ let abdulkareem = new Details(
   'has a wife',
   3,
 );
-console.log(abdulkareem.doSo());
+// console.log(abdulkareem.doSo());
 
 let adel = new Details('Adel', 15, 'horse', '', '', '', 'brown');
 
-console.log(adel.doSo());
+// console.log(adel.doSo());
