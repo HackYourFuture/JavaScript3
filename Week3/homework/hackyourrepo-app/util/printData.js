@@ -24,7 +24,7 @@ function printData(res) {
       res[this.value].name
     }" 
       target="_blank">${res[this.value].name}</a>`;
-    // console.log(url_repo);
+
     // to print the date format in nice way // it is long code but at the time been it works.
     let dat = res[this.value].updated_at.split('T');
     let tim = dat[1].slice(0, dat[1].length - 1);
@@ -41,7 +41,7 @@ function printData(res) {
 
     // call the function
     getTheContributors(urlCont).catch(err =>
-      console.log(err + ', Please Ismaiel check the address!'),
+      console.log(err + ', Please Ismaiel check the error!'),
     );
   });
 }

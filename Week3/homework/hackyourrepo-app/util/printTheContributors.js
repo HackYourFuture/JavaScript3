@@ -1,18 +1,32 @@
 // the function to print the contributors
 function printTheContributors(contributors) {
-  const contributor = document.getElementById('contributor');
   let resData = contributors.data;
-  let outPut = `<div class="contributors">
-  <h2>Contributors</h2 >
-  </div >`;
-  resData.forEach(element => {
-    outPut += `
-      <div class="contributors">
-      <img src="${element.avatar_url}" alt="avatar" width="50px" />
-      <a  href="${element.html_url}" class="userName" target="_blank" >
-      ${element.login}</a>
-      <div class="badge">${element.contributions}</div>
-      </div ><br>`;
+  let conLength = resData.length;
+  let page_count = Math.ceil(conLength / 5);
+
+  let pages = divideToPages(resData, page_count);
+
+  printPagination(page_count);
+
+  const store = document.getElementById('store');
+  const right = document.getElementById('right');
+  const left = document.getElementById('left');
+  const btn = document.querySelectorAll('.btn');
+
+  right.addEventListener('click', function() {
+    clickRightLeft(true, btn, store, pages);
   });
-  contributor.innerHTML = outPut;
+  left.addEventListener('click', function() {
+    clickRightLeft(false, btn, store, pages);
+  });
+
+  //Initiate page number one
+  selectPage(pages, 0, btn, store);
+
+  for (button of btn) {
+    button.addEventListener('click', function() {
+      let e = this.innerHTML - 1;
+      selectPage(pages, e, btn, store);
+    });
+  }
 }
