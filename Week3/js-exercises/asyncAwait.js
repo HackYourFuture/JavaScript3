@@ -67,7 +67,7 @@ async function makeAllCaps(array) {
       if (typeof word === 'string') {
         return word.toUpperCase();
       }
-    })
+    });
     console.log(capsArray);
   } catch (error) {
     console.log(`Error: Not all items in the array are strings! - ${error}`);
