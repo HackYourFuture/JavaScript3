@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500&display=swap');
+
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #313638;
+    color: #E8E9EB;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+.header-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 70%;
+    margin: auto;
+}
+
+.heading{
+    font-size: 3rem;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.trivia-color-yellow{
+    color: #E4B363;
+}
+
+.trivia-color-red{
+    color: #EF6461;
+}
+
+.instructions-text{
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.section-container{
+    width: 70%;
+    margin: auto;
+}
+
+.div-trivia-container{
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.question-button{
+    background-color: #E0DFD5;
+    color: #313638;
+    border: none;
+    font-family: 'Ubuntu', sans-serif;
+    text-align: left;
+    height: 4rem;
+    padding: 1rem;
+    margin: 0;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+.question-button:hover{
+    background-color: #E4B363;
+}
+
+button:focus {
+    outline:0;
+}
+
+.question-button-clicked{
+    height: 8rem;
+}
+
+.answer-container{
+    background-color: #E8E9EB;
+    color: #313638;
+    height: 3rem;
+    width: 100%;
+    margin-top: 1rem;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    padding-left: 1rem;
+    position: absolute;
+}
+
+.error-message{
+    padding: 2rem;
+    text-align: center;
+    background-color: #EF6461;
+    color: #E8E9EB;
+    font-size: 1.5rem;
+}
+
+@media only screen and (max-width: 600px){
+    .header-container{
+        width: 100%;
+    }
+    .section-container{
+        width: 100%;
+    }
+    .question-button{
+        font-size: 0.8rem;
+    }
+}
