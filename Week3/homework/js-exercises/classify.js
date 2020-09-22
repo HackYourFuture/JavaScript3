@@ -6,29 +6,38 @@
 
 // And they lived happily ever after!
 
-class Details {
-  constructor(name, old, kind, city, wife, children, color) {
+class Person {
+  constructor(name, age, kind, city, wife, children) {
     this.name = name;
-    this.old = old;
+    this.age = age;
     this.kind = kind;
-    if (kind === 'man') {
-      this.city = city;
-      this.wife = wife;
-      this.children = children;
-    } else {
-      this.color = color;
-    }
+
+    this.city = city;
+    this.wife = wife;
+    this.children = children;
   }
-  doSo() {
-    if (this.kind === 'man') {
-      return `${this.name} is a ${this.old} years old ${this.kind}, lives in ${this.city}. He ${this.wife} and ${this.children} childeren ${this.name} is a construction worker, that makes houses he likes to eat dates and smoke water pipe.`;
-    } else {
-      return `${this.name} is a ${this.old} old years ${this.kind} and has a color ${this.color} Usually eats grass or helps transport materials for Abdulkareem`;
-    }
+
+  get info() {
+    return `${this.name} is a ${this.age} years old ${this.kind},`;
+  }
+  get doSo() {
+    return `${this.info} lives in ${this.city}. He ${this.wife} and ${this.children} childeren ${this.name} is a construction worker, that makes houses he likes to eat dates and smoke water pipe.`;
   }
 }
 
-let abdulkareem = new Details(
+class Animal extends Person {
+  constructor(name, age, kind, color) {
+    super(name, age, kind);
+    this.color = color;
+  }
+  get doSo() {
+    return `${super.info} and has a color ${
+      this.color
+    }, Usually eats grass or helps transport materials for Abdulkareem.`;
+  }
+}
+
+let abdulkareem = new Person(
   'Abdulkareem',
   35,
   'man',
@@ -36,8 +45,13 @@ let abdulkareem = new Details(
   'has a wife',
   3,
 );
-// console.log(abdulkareem.doSo());
 
-let adel = new Details('Adel', 15, 'horse', '', '', '', 'brown');
+let adel = new Animal('Adel', 15, 'horse', 'brown');
 
-// console.log(adel.doSo());
+console.log(
+  `${abdulkareem.doSo}
+
+${adel.doSo}
+
+And they lived happily ever after!`,
+);
