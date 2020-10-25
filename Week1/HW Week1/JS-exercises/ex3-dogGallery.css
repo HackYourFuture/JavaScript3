@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 2rem;
+    text-align: center;
+}
+
+
+ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+}
+
+img {
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
+    margin: 0.15rem 0.3rem;
+}
+
+button {
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 1rem;
+    margin: 1rem 0;
+}
