@@ -20,6 +20,49 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
+    <div class="container">
+      <section class="header"> 
+        <p> HYF Repositories </p>
+        <select id="repo-select"> 
+          <option class="placeholder" value="" disabled selected hidden>Choose a repo..</option>
+        </select>
+      </section>
+
+      <div class="info">
+        <section class="info__details">
+          <table>
+            <tr>
+              <td class="table__header">Repository:</td>
+              <td class="repo__details" id="repo-name">  </td>
+            </tr>
+
+            <tr>
+              <td class="table__header">Description:</td>
+              <td class="repo__details"  id="repo-description"> </td>
+            </tr>
+
+            <tr>
+              <td class="table__header">Forks:</td>
+              <td class="repo__details"  id="repo-forks"> </td>
+            </tr>
+
+            <tr>
+              <td class="table__header">Updated:</td>
+              <td class="repo__details"  id="updated"> </td>
+            </tr>
+          </table>
+        </section>
+        
+        <section class="info__contributors"> 
+        <p> Contributors</p>
+        <div class="contributor"> Contributor Placeholder </div>
+        <div class="contributor"> Contributor Placeholder 2 </div>
+        <div class="contributor"> Contributor Placeholder 3 </div>
+        <div class="contributor"> Contributor Placeholder 3 </div>
+        </section>
+      </div>
+    </div>
+
     <script src="./script.js"></script>
   </body>
 </html>
