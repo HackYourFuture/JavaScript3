@@ -1,3 +1,155 @@
-/* 
-  Write here your CSS rules for HackYourRepo!
-*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+.sect-header {
+  background-color: #3c0977;
+  color: #ffffff;
+  width: 70%;
+  height: 4rem;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+}
+
+#repo-selection{
+  height: 1.5rem;
+  width: 10rem;
+  margin-left: 2rem;
+}
+
+.sect-info{
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+}
+
+.repo-detail{
+  flex: 1;
+  margin: .2rem;
+  height: fit-content;
+  padding: 1.5rem;
+  border: 1px solid #C4C4C4;
+  box-shadow: 1px 1px rgb(212, 200, 200);
+}
+
+.form-item{
+  width: 100%;
+  margin-top: .5rem;
+  display: inline-block;
+}
+
+.repo-detail h3{
+  width: 25%;
+  float: left;
+}
+
+.repo-detail p{
+  width: 75%;
+  float: right;
+}
+
+.repo-contr-wrap{
+  flex: 1;
+  margin: .2rem;
+}
+
+.contr-head{
+  background-color: rgb(139, 52, 127);
+  color: #eee3e3;
+  height: 4rem;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  border: 1px solid #C4C4C4;
+  box-shadow: 1px 1px rgb(212, 200, 200);
+}
+
+.contr{
+  height: 5rem;
+  margin-top: .2rem;
+  padding: 1rem;
+  border: 1px solid #C4C4C4;
+  box-shadow: 1px 1px rgb(212, 200, 200);
+  display: flex;
+  align-items: center;
+  transition: height .5s;
+}
+
+.contr:hover{
+  height: 5.5rem;
+}
+
+.contr:hover.contr img{
+  width: 3.5rem;
+}
+
+.contr img{
+  width: 3rem;
+  height: auto;
+  transition: width .5s;
+}
+
+.name{
+  color: #2046EE;
+  flex: 1;
+  padding-left: 1rem;
+}
+
+.repo-number{
+  background-color: #eb9393;
+  color: #ffffff;
+  padding: .5rem 1rem;
+  border-radius: 7px;
+}
+
+.sect-footer{
+  background-color: #3c0977;
+  color: #ffffff;
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
+}
+
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+
+  .sect-info{
+    display: block;
+  }
+
+}
+
+@media screen and (max-width: 600px) {
+
+  .sect-header{
+    width: calc(100% - 5px);
+  }
+
+  .sect-info {
+    width: calc(100% - 5px);
+    display: block;
+  }
+
+  .repo-detail h3{
+    width: 40%;
+    font-size: 1rem;
+  }
+
+  .repo-detail p{
+    width: 60%;
+  }
+
+  .repo-contr-wrap{
+    margin-top: .5rem;
+  }
+
+  .sect-footer{
+    text-align: center;
+  }
+
+}
