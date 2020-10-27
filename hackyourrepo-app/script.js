@@ -60,5 +60,6 @@ function updateInfo() {
       repoUpdates.innerText = property.updated;
     }
 }
+
 updateInfo();
 selectRepos.addEventListener('change', updateInfo);
