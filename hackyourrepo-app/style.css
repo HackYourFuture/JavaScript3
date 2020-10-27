@@ -130,7 +130,7 @@ td {
 }
 
 
-/* mobile phones */
+/* mobile phones  */
 @media only screen and (max-width: 600px) and (min-width: 481px) {
   .info {
     display: flex;
