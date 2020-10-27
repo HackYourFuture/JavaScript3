@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTTP Requests</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      margin: 2rem;   
+    }
+    button {
+      padding: 10px;
+      border: none;
+      color: #fff;
+    }
+    .xml-btn {
+      background-color: #89cff0;
+    }
+    .axios-btn {
+      background-color:#ff0038;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- I understand these weren't required but I wanted a better-looking interface -->
+  <button id="xml" class="xml-btn">XML HTTP Request</button>
+  <button id="axios" class="axios-btn">Axios Request</button>
+
+  <!-- Axios CDN -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- My script -->
+  <script src="makeFriends.js"></script>
+</body>
+</html>
