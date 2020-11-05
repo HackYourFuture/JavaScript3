@@ -136,7 +136,7 @@ You might have noticed that when a user selects a repository that has many contr
 
 What is pagination? Take a look at this:
 
-![Pagination Example](https://lorisleiva.com/assets/img/pagination_1.1785fc69.png)
+![Pagination Example](https://lorisleiva.com/content/images/2020/10/laravel-pagination-with-tailwindcss.png)
 
 In the illustration, each number represents a page. You might have seen it before on websites like Amazon, when you're browsing through different products.
 
