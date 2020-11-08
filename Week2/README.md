@@ -180,7 +180,7 @@ const wouter = {
 In this example `this` refers to the complete `wouter` object. If we execute `wouter.getFullName()`, we get back the value of `wouter.firstName` and `wouter.lastName`.
 
 ```js
-wouter.getFullName; // Result: Wouter Kleijn
+wouter.getFullName(); // Result: Wouter Kleijn
 ```
 
 As you can imagine, this means that there can be multiple `this` keywords at play: the global `this` keyword (which refers to the `window` object) and a `this` keyword for every object that is created within the application.
