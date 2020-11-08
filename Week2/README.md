@@ -143,7 +143,7 @@ const addNum = (num1, num2) => {
 If you've done some research, you may come to the following conclusions:
 
 1. First of all, the Arrow Function is anonymous by design. If we want to refer to it, we should store it into a variable.
-2. Secondly, the way Arrow Functions can be written can differ (while still working the same way). Sometimes you don't need the `()` if there's a single or no parameters. Sometimes you can `return` a value without use for the `return` keyword.
+2. Secondly, the way Arrow Functions can be written can differ (while still working the same way). Sometimes you don't need the `()` if there's a single parameter. Sometimes you can `return` a value without use for the `return` keyword.
 
 Another big important feature of Arrow Functions (and difference with ES5 functions) is the way they relate to the `this` keyword: instead of creating a new `this` object, it actually inherits it from the parent scope!
 
