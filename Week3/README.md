@@ -253,9 +253,9 @@ Last week you learned about Promises. To recap, here's what we learned: in order
 At first we learned about callbacks, as a way to do this:
 
 ```js
-const someFunc(param1, callback) {
-  const callback(param1);
-  return;
+function someFunc(param1, callback) {
+  const result = callback(param1);
+  return result;
 }
 ```
 
