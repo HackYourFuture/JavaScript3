@@ -127,7 +127,7 @@ After you've finished your todo list it's time to show us what you got! The home
 1. JavaScript exercises
 2. PROJECT: HackYourRepo I
 
-Upload both to your forked JavaScript3 repository in GitHub. Make a pull request to your teacher's forked repository.
+Upload both to your forked JavaScript3 repository in GitHub. Make a pull request to the HackYourHomework forked repository.
 
 > Forgotten how to upload your homework? Go through the [guide](../hand-in-homework-guide.md) to learn how to do this again.
 
