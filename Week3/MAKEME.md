@@ -154,6 +154,8 @@ Good luck!
 
 After you've finished your todo list it's time to show us what you got! The homework that needs to be submitted is the following:
 
+1. PROJECT: HackYourRepo III
+
 Upload your homework to your forked JavaScript3 repository in GitHub. Make a pull request to the teacher's forked repository.
 
 > Forgotten how to upload your homework? Go through the [guide](../hand-in-homework-guide.md) to learn how to do this again.
