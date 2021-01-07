@@ -1,3 +1,89 @@
 /* 
   Write here your CSS rules for HackYourRepo!
 */
+*
+{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  font-family: 'Roboto', sans-serif;
+}
+#dropdown-menu{
+  margin: 0 auto;
+  height: 55px;
+  width: calc(100vw - 30%);
+  background-color:#3f51b5;;
+}
+label {
+  position: absolute;
+  color:white;
+  padding: 16px;
+  font-size: 16px;
+}
+select{
+  margin-top: 15px;
+  margin-left: 150px;
+  width: 162px;
+  height: 23px;
+  position: fixed;
+}
+.horisontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#container {
+  width: calc(100vw - 30%);
+  margin: 0 auto;
+  display: flex;
+}
+#repository{
+  width: 50%;
+  margin: 3px;
+  border: 1px solid lightgray;
+  padding: 20px;
+  line-height: 1.6;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.01);
+}
+p {
+  width: calc(70% );
+}
+#contributors {
+  color:rgb(168, 168, 168);
+  margin: 3px;
+  border: 1px solid lightgray;
+  padding: 20px;
+  width: 50%;
+  height: 50px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.01);
+}
+#errorMessage {
+   margin: 0 auto;
+  color: rgb(78, 32, 32);
+  background-color: pink;
+  padding: 0px;
+  margin-top: 2px;
+  width: calc(100vw - 30%);
+ 
+}
+@media screen and (max-width: 769px){
+    #container {
+      display: block;
+  }
+    #repository {
+      width: calc(100vw - 44%);
+
+    }
+    #contributors {
+      float: right;
+      width: 75%;
+    }
+  @media screen and (max-width: 480px){
+    #contributors, #repository, #container, #dropdown-menu{ 
+      width: 100%;
+  }
+  
+}
+}
