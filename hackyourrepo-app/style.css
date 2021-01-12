@@ -38,24 +38,27 @@ select{
   width: calc(100vw - 30%);
   margin: 0 auto;
   display: flex;
+  font-size: 16px;
 }
 #repository{
   width: 50%;
+  height: 20%;
   margin: 3px;
   border: 1px solid lightgray;
   padding: 20px;
   line-height: 1.6;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.01);
 }
-p {
-  width: calc(70% );
+a, p {
+  width: calc(65% );
 }
 #contributors {
+  display: flex;
+  flex-direction: column;
   color:rgb(168, 168, 168);
-  margin: 3px;
   border: 1px solid lightgray;
   padding: 20px;
-  width: 50%;
+  width: 100%;
   height: 50px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.01);
 }
@@ -66,8 +69,48 @@ p {
   padding: 0px;
   margin-top: 2px;
   width: calc(100vw - 30%);
- 
+  
 }
+
+ul {
+  list-style: none;
+}
+
+.info-div{
+  height: 90px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid lightgray;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.01);
+}
+#main-right {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+.info-div img {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+  
+#div-num {
+  background-color:  rgb(173, 173, 173);
+  height: 30px;
+  width: 60px;
+  border-radius: 4px;
+  margin-right: 20px;
+  color: white;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
 @media screen and (max-width: 769px){
     #container {
       display: block;
@@ -76,12 +119,13 @@ p {
       width: calc(100vw - 44%);
 
     }
-    #contributors {
+    #main-right {
       float: right;
       width: 75%;
     }
+
   @media screen and (max-width: 480px){
-    #contributors, #repository, #container, #dropdown-menu{ 
+    #test, #repository, #container, #dropdown-menu{ 
       width: 100%;
   }
   

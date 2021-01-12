@@ -5,6 +5,8 @@
 */
 // writing html in js
 
+
+
 const divMenu = document.createElement("div");
 document.body.appendChild(divMenu);
 divMenu.id = "dropdown-menu";
@@ -17,7 +19,7 @@ divMenu.appendChild(selectElement);
 selectElement.id = "select";
 
 const optionElement = document.createElement("option");
-selectElement.appendChild(optionElement).innerHTML = "Chose repository..."
+selectElement.appendChild(optionElement)
 optionElement.setAttribute("value", "''")
 
 const divError = document.createElement("div")
@@ -38,8 +40,8 @@ divRepository.appendChild(divRepositoryName)
 divRepositoryName.classList.add("horisontal")
 const h4Name = document.createElement("h4")
 divRepositoryName.appendChild(h4Name).innerHTML = "Repository:"
-const pName = document.createElement("p")
-divRepositoryName.appendChild(pName).id = "repository-name"
+const aName = document.createElement("a")
+divRepositoryName.appendChild(aName).id = "repository-name"
 
 const divRepositoryDescription = document.createElement("div")
 divRepository.appendChild(divRepositoryDescription)
@@ -65,26 +67,96 @@ divRepositoryUpdated.appendChild(h4Updated).innerHTML = "Updated:"
 const pUpdated = document.createElement("p")
 divRepositoryUpdated.appendChild(pUpdated).id = "repository-updated"
 
+const divMainRight = document.createElement("div");
+divContainer.appendChild(divMainRight);
+divMainRight.id = "main-right"
+
 const divContributors = document.createElement("div")
-divContainer.appendChild(divContributors)
+divMainRight.appendChild(divContributors)
 divContributors.id = "contributors"
 const pContributors = document.createElement("p")
 divContributors.appendChild(pContributors).innerHTML = "Contributors"
 
 
 
-const repository = document.getElementById("repository");
-const repositoryName = document.getElementById("repository-name");
-const repositoryDescription = document.getElementById("repository-description")
-const repositoryForks = document.getElementById("repository-forks")
-const repositoryUpdated = document.getElementById("repository-updated")
-const select = document.getElementById("select")
-
-
 function main() {
+
+  const repositoryName = document.getElementById("repository-name")
+  const repositoryDescription = document.getElementById("repository-description")
+  const repositoryForks = document.getElementById("repository-forks")
+  const repositoryUpdated = document.getElementById("repository-updated")
+  const select = document.getElementById("select")
+
+
+  document.getElementById("select").innerText = ""
+
+
+
+
+  fetch("https://api.github.com/orgs/HackYourFuture/repos?per_page=100")
+    .then(response1 => {
+      if (response1.ok) {
+        return response1.json()
+      } else {
+        throw `ERROR: ${response1.status} ${response1.statusText}`
+      }
+    })
+    .then((data0) => {
+      aName.setAttribute("href", `https://github.com/HackYourFuture/${data0[0].name}`)
+      repositoryName.innerHTML = data0[0].name
+      repositoryDescription.innerText = data0[0].description
+      repositoryForks.innerText = data0[0].forks
+      repositoryUpdated.innerText = data0[0].updated_at
+      return data0[0].contributors_url
+    })
+    .then(newURL => {
+      fetch(newURL)
+        .then(response4 => {
+          if (response4.ok) {
+            return response4.json()
+          } else {
+            throw `ERROR: ${response1.status} ${response1.statusText}`
+          }
+        })
+        .then(result0 => {
+          divMainRight.innerText = ""
+          result0.forEach(element0 => {
+            const infoDiv = document.createElement("div")
+            divMainRight.appendChild(infoDiv)
+            infoDiv.classList.add("info-div")
+            const avatar = document.createElement("img")
+            avatar.src = element0.avatar_url
+            avatar.style.width = "50px"
+            infoDiv.appendChild(avatar)
+            const aCont = document.createElement("a")
+            aCont.setAttribute("href", `https://github.com/${element0.login}`)
+            infoDiv.appendChild(aCont).innerText = element0.login
+            const divNum = document.createElement("div")
+            divNum.id = "div-num"
+            infoDiv.appendChild(divNum).innerText = element0.contributions
+          })
+        })
+        .catch((error) => {
+          document.getElementById("errorMessage").style.padding = "14px";
+          document.getElementById("errorMessage").innerHTML = error;
+        })
+    })
+    .catch((error) => {
+      document.getElementById("errorMessage").style.padding = "14px";
+      document.getElementById("errorMessage").innerHTML = error;
+    })
+
+
   function fetchData() {
     fetch("https://api.github.com/orgs/HackYourFuture/repos?per_page=100")
-      .then(response1 => response1.json())
+      .then(response1 => {
+        if (response1.ok) {
+          return response1.json()
+        } else {
+          throw `ERROR: ${response1.status} ${response1.statusText}`
+        }
+      })
+
       .then((data) => {
         data.map(element1 => {
           let option = document.createElement("option")
@@ -99,25 +171,65 @@ function main() {
       })
   } fetchData()
 
-
   select.onchange = function getData() {
     fetch(`https://api.github.com/repos/HackYourFuture/${select.value}`)
-      .then(respons2 => respons2.json())
+      .then(response2 => {
+        if (response2.ok) {
+          return response2.json()
+        } else {
+          throw `ERROR: ${response2.status} ${response2.statusText}`
+        }
+      })
+
+
       .then(result2 => {
+        aName.setAttribute("href", `https://github.com/HackYourFuture/${result2.name}`)
         repositoryName.innerText = result2.name
         repositoryDescription.innerText = result2.description
         repositoryForks.innerText = result2.forks
         repositoryUpdated.innerText = result2.updated_at
+        return result2.contributors_url
+      })
+      .then(contributorsURL => {
+        fetch(contributorsURL)
+          .then(response3 => {
+            if (response3.ok) {
+              return response3.json()
+            } else {
+              throw `ERROR: ${response3.status} ${response3.statusText}`
+            }
+          })
+
+          .then(result3 => {
+            divMainRight.innerText = ""
+            result3.forEach(element3 => {
+              const infoDiv = document.createElement("div")
+              divMainRight.appendChild(infoDiv)
+              infoDiv.classList.add("info-div")
+              const avatar = document.createElement("img")
+              avatar.src = element3.avatar_url
+              avatar.style.width = "50px"
+              infoDiv.appendChild(avatar)
+              const aCont = document.createElement("a")
+              aCont.setAttribute("href", `https://github.com/${element3.login}`)
+              infoDiv.appendChild(aCont).innerText = element3.login
+              const divNum = document.createElement("div")
+              divNum.id = "div-num"
+              infoDiv.appendChild(divNum).innerText = element3.contributions
+            });
+          })
+          .catch((error) => {
+            document.getElementById("errorMessage").style.padding = "14px";
+            document.getElementById("errorMessage").innerHTML = error;
+          })
       })
       .catch((error) => {
-        console.log(error)
         document.getElementById("errorMessage").style.padding = "14px";
         document.getElementById("errorMessage").innerHTML = error;
       })
   }
 }
+
 main()
-
-
 
 
