@@ -12,13 +12,14 @@
 function checkDoubleDigits(number) {
   return new Promise((resolve, reject) => {
     if (number > 10) {
-      resolve(console.log("The number is bigger than 10!"))
+      resolve("The number is bigger than 10!")
     } else if (number < 10) {
-      reject(console.log("Error! The number is smaller than 10..."))
+      reject("Error! The number is smaller than 10...")
     }
   })
-    .catch((error) => {
-      console.log(error);
-    })
+
 }
-checkDoubleDigits(11)
+checkDoubleDigits(8).then((res) => console.log(res))
+  .catch((error) => {
+    console.log(error);
+  })
