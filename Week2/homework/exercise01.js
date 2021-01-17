@@ -32,3 +32,7 @@ function getAnonName(firstName) {
 }
 getAnonName("John")
   .then(res => console.log(res))
+  .catch((error) => {
+    console.log(error);
+  })
+
