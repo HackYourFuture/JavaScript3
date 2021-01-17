@@ -29,14 +29,11 @@ function main() {
   button.addEventListener('click',
     function fetchData() {
       fetch(url)
-        .then(res => {
-          if (res.ok) {
-            return res.json()
-          } else {
+        .then(async (res) => {
+          if (!res.ok) {
             throw `ERROR: ${res.status} ${res.statusText}`
           }
-        })
-        .then((jsonData) => {
+          const jsonData = await res.json()
           pokemonArr = jsonData.results
           pokemonArr.map((element) => {
             let option = document.createElement("option")
@@ -52,20 +49,19 @@ function main() {
 
   select.onchange = function addPokemonToDOM() {
     fetch(`https://pokeapi.co/api/v2/pokemon/${select.value}`)
-      .then(res1 => {
-        if (res1.ok) {
-          return res1.json()
-        } else {
+      .then(async (res1) => {
+        if (!res1.ok) {
           throw `ERROR: ${res1.status} ${res1.statusText}`
         }
-      })
-      .then(function (imageData) {
+        const imageData = await res1.json()
+        const image = imageData.sprites.front_default
         div.appendChild(img)
-        img.src = imageData.sprites.front_default
+        img.src = image
       })
       .catch((error) => {
         console.log(error);
-      })
+      }
+      )
   }
 } main()
 

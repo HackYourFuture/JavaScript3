@@ -25,7 +25,7 @@ function getAnonName(firstName) {
         const fullName = `${firstName} Doe`;
         return resolve(fullName)
       } else {
-        reject(console.log("You didn't pass in a first name!"))
+        reject("You didn't pass in a first name!")
       }
     }, 2000)
   })
