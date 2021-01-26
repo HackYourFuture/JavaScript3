@@ -1,11 +1,7 @@
-> Please help us improve and share your feedback! If you find better tutorials
-> or links, please share them by [opening a pull request](https://github.com/HackYourFuture/JavaScript3/pulls).
+# DEPRECATED - JavaScript 3
+This module has been replace with the Using API's module, find it [here](https://github.com/HackYourFuture/UsingAPIs)
 
-# Module #4 - JavaScript 3: Object-Oriented Programming and working with APIs (Frontend)
-
-![JavaScript3](./assets/javascript3.png)
-
-Welcome to JavaScript3! Congratulations on making it this far. You're well on your way to the top!
+```Welcome to JavaScript3! Congratulations on making it this far. You're well on your way to the top!
 
 A big part of being a programmer means moving data from one place to another. It also means working with other people's software. In this module you'll be learning about one of the core things of what makes a web developer: working with APIs!
 
@@ -31,30 +27,30 @@ We also have tools that can automatically check whether your code is correctly f
 
 The required packages you need to install before you write code according to the style guide are the following:
 
-```json
+`json
 "eslint"
 "eslint-config-airbnb-base"
 "eslint-config-prettier"
 "eslint-plugin-import"
 "eslint-plugin-prettier"
 "prettier"
-```
+`
 
 They are already in this repository's `package.json` so all you have to do now to prepare is to execute the following command at the root of this module directory:
 
-```md
+`md
 npm install
-```
+`
 
 ### Forking the right repository
 
 Before you start with the homework, make sure you've made a fork of the right repository: [HackYourHomework/JavaScript3](https://www.github.com/hackyourhomework/javascript3)). Once you've cloned it to your computer you can proceed by making GIT branches for each week. Start at the `master` branch and execute the following (note that they're 3 different commands):
 
-```bash
+`bash
 foo@bar:~$ git branch week1-YOURNAME
 foo@bar:~$ git branch week2-YOURNAME
 foo@bar:~$ git branch week3-YOURNAME
-```
+`
 
 Then execute `git checkout week1-YOURNAME` and you can get started!
 
@@ -132,4 +128,4 @@ If you feel ready for the next challenge, click [here](https://www.github.com/Ha
 
 _The HackYourFuture curriculum is subject to CC BY copyright. This means you can freely use our materials, but just make sure to give us credit for it :)_
 
-<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.```
