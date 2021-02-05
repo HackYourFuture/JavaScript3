@@ -1,3 +1,217 @@
 /* 
   Write here your CSS rules for HackYourRepo!
 */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;1,200;1,300&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body{
+  width: 70%;
+  margin: auto;
+}
+
+.header-container{
+  background-color: #e4007c;
+  color: #ffffff;
+  padding: 2rem;
+  box-shadow: 0 8px 6px -6px rgba(170, 170, 170, 0.8);
+}
+
+.header-elements{
+ border: none;
+ display: flex;
+ flex-wrap: wrap;
+ padding-top: 2rem;
+ padding-bottom: 2rem;
+}
+
+.header-title{
+  border: none;
+  width: 30%;
+}
+
+.header-title p{
+  font-size: 1.2rem;
+}
+
+.header-select{
+  border: none;
+  width: 70%;
+  display: flex;
+  align-content: center;
+}
+
+
+.header-select select{
+  background-color: #ffffff;
+  border: none;
+  width: 50%;
+}
+
+.header-select select {
+  outline: none;
+}
+
+/*--- main section ---*/
+
+.main-container{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  position: relative;
+}
+
+.repo-container, .contributors-container{
+  background-color: #dfe6e9;
+  box-shadow: 0 8px 6px -6px rgba(170, 170, 170, 0.8);
+  margin: 1rem 1rem 1rem 0rem;
+  padding: 0rem;
+  width: calc(50% - 1rem);
+}
+
+.contributors-container{
+  margin: 1rem 0rem 1rem 1rem;
+}
+
+.repo, .contributors{
+  margin: 1rem;
+  padding: 1rem;
+  background-color: #ffffff;
+  height: 6rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.single-contributor{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: stretch;
+}
+
+.profile-pic{
+  width: 4rem;
+  border-radius: 50%;
+  margin-right: 2rem;
+}
+
+.contributions{
+  margin-right: 0;
+  background-color: #2ecc71;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-left: 1rem;
+}
+
+.error-message{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4rem;
+  margin: 0.5rem;
+  background-color: #dfe6e9;
+  box-shadow: 0 8px 6px -6px rgba(170, 170, 170, 0.8);
+}
+
+/*--- footer ---*/
+.footer-container{
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-container p{
+  padding-left: 1rem;
+  font-size: .5rem;
+  color: #636e72;
+}
+
+.fa-github,
+.fa-codepen{
+    margin: 1rem;
+    font-size: 1.5rem;
+    color: #636e72;
+}
+
+.fa-github:hover,
+.fa-codepen:hover{
+    color: #e4007c;
+}
+
+/*---Media Queries---*/
+/*--- phone ---*/
+@media only screen and (max-width: 600px) {
+  body{
+    width: 100%;
+    border: none;
+  } 
+
+  .header-container{
+    margin: 0;
+    padding: 2rem 1rem 2rem 1rem;
+  }
+  
+  .header-elements{
+    margin: 0;
+    padding: 0;
+  }
+
+  .header-title{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  .header-title p{
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  .header-select{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .header-select select{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .repo-container, .contributors-container{
+    width: 100%;
+    margin: 1rem;
+  }
+
+  .footer-container{
+    width: 100%;
+  }
+}
+
+/*--- tablets ---*/
+@media only screen and (min-width: 601px) and (max-width: 1100px) {
+  body{
+    width: 100%;
+    border: none;
+  }
+
+  .header-title, .header-select{
+    width: 50%;
+  }
+
+  .repo-container, .contributors-container{
+    margin: 1rem;
+    width: calc(50% - 2rem);
+  }
+
+  .footer-container{
+    width: 100%;
+  }
+}
