@@ -1,3 +1,143 @@
 /* 
   Write here your CSS rules for HackYourRepo!
 */
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: 'Patrick Hand', cursive;
+}
+
+.main-header {
+  width: calc(100% - 300px);
+  height: 55px;
+  background-color: #3f51b5;
+  margin: auto;
+  display: flex;
+  align-items: center;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+}
+
+.main-container {
+  width: calc(100% - 300px);
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.output-repos,
+.output-contributors {
+  width: calc(50% - 10px);
+  height: 500px;
+}
+
+.main-nav h4 {
+  color: white;
+  font-weight: 300;
+  font-size: 25px;
+  margin: 10px;
+}
+
+.main-nav select {
+  width: 10rem;
+  height: 2rem;
+  font-size: 20px;
+}
+
+.main-container ul {
+  list-style: none;
+}
+
+.contributors-result li {
+  height: 80px;
+  color: gray;
+  font-size: 25px;
+}
+
+.contributors-result li img {
+  width: 3rem;
+  height: 3rem;
+}
+
+.repo-result span {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.repo-result span {
+}
+
+.repo-result table td {
+  font-size: 15px;
+  padding: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Responsive for mobile small screen between 320 and 425 */
+
+@media only screen and (min-width: 320px) and (max-width: 425px) {
+  .main-header {
+    width: 100%;
+  }
+  .main-container {
+    width: 100%;
+    flex-direction: column-reverse;
+    background-color: #3f51b5;
+  }
+  .output-repos,
+  .output-contributors {
+    width: 100%;
+    height: 100%;
+  }
+  .main-nav h4 {
+    padding: 5px;
+    font-size: 1.2rem;
+  }
+}
+/* Responsive for tablets small screen between 426 and 768 */
+@media only screen and (min-width: 426px) and (max-width: 768px) {
+  .main-header {
+    width: 100%;
+  }
+  .main-container {
+    width: 100%;
+    flex-direction: column-reverse;
+    background-color: #3f51b5;
+  }
+  .output-repos,
+  .output-contributors {
+    width: 100%;
+    height: 100%;
+  }
+  .main-nav h4 {
+    padding: 5px;
+    font-size: 1.2rem;
+  }
+}
+
+/* Responsive for tablets small screen between 769 and 1024 */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .main-header {
+    width: 100%;
+  }
+  .main-container {
+    width: 100%;
+    flex-direction: column-reverse;
+    background-color: #3f51b5;
+  }
+  .output-repos,
+  .output-contributors {
+    width: 100%;
+    height: 100%;
+  }
+  .main-nav h4 {
+    padding: 5px;
+    font-size: 1.2rem;
+  }
+}

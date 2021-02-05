@@ -18,8 +18,117 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
+    <header class="main-header">
+      <nav class="main-nav">
+        <h4>HYF Repositories</h4>
+        <select name="repo-selection" id="select">
+          <option value="">repo1</option>
+          <option value="">repo2</option>
+          <option value="">repo3</option>
+        </select>
+      </nav>
+    </header>
+    <div class="main-container">
+      <section class="output-repos">
+        <div class="repo-result shadow p-3 mb-1 bg-white rounded">
+          <table>
+            <table>
+              <tr>
+                <td><span>Repository:</span></td>
+                <td>SampleRepo1</td>
+              </tr>
+              <tr>
+                <td><span>Description:</span></td>
+                <td>This repository is meant to be a sample</td>
+              </tr>
+              <tr>
+                <td><span>Fork:</span></td>
+                <td>5</td>
+              </tr>
+              <tr>
+                <td><span>Updated:</span></td>
+                <td>2020-05-27 12:00:00</td>
+              </tr>
+            </table>
+          </table>
+        </div>
+        <div class="repo-result shadow p-3 mb-1 bg-white rounded">
+          <table>
+            <tr>
+              <td><span>Repository:</span></td>
+              <td>AndAnotherOne</td>
+            </tr>
+            <tr>
+              <td><span>Description:</span></td>
+              <td>Another sample repo! Can you believe it?</td>
+            </tr>
+            <tr>
+              <td><span>Fork:</span></td>
+              <td>9</td>
+            </tr>
+            <tr>
+              <td><span>Updated:</span></td>
+              <td>2020-05-27 12:00:00</td>
+            </tr>
+          </table>
+        </div>
+        <div class="repo-result shadow p-3 mb-1 bg-white rounded">
+          <table>
+            <tr>
+              <td><span>Repository:</span></td>
+              <td>HYF-Is-The-Best</td>
+            </tr>
+            <tr>
+              <td><span>Description:</span></td>
+              <td>
+                This repository contains all things HackYourFuture. That's
+                because HYF is amazing!!!!
+              </td>
+            </tr>
+            <tr>
+              <td><span>Fork:</span></td>
+              <td>5142</td>
+            </tr>
+            <tr>
+              <td><span>Updated:</span></td>
+              <td>2020-05-27 12:00:00</td>
+            </tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="output-contributors">
+        <div class="contributors-result">
+          <ul>
+            <li class="shadow-sm p-3 mb-1 bg-light rounded">
+              Contributors
+            </li>
+            <li class="repo-result shadow p-3 mb-1 bg-white rounded">
+              <img src="./hyf.png" />
+              <a class="ml-3 text-primary">Tarek</a>
+              <span class="badge badge-secondary float-right">45</span>
+            </li>
+            <li class="repo-result shadow p-3 mb-1 bg-white rounded">
+              <img src="./hyf.png" />
+              <a class="ml-3 text-primary">Tarek</a>
+              <span class="badge badge-secondary float-right">45</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
     <script src="./script.js"></script>
   </body>
 </html>
