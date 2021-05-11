@@ -10,3 +10,11 @@ const getAnonName = (firstName, newPromise) => {
 };
 
 getAnonName('John', console.log);
+
+const checkDoubleDigits = (number, newPromise) => {
+  setTimeout(() => {
+    if (number > 10) return 'The number is bigger than 10!';
+    else if (number < 10) return 'Error! The number is smaller than 10...';
+    else return '10';
+  });
+};
