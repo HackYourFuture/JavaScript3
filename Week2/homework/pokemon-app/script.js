@@ -1,9 +1,9 @@
 function main() {
-  function fetchData() { 
-    const fetchPromise = fetch("https://ghibliapi.herokuapp.com/people");
-    fetchPromise.then(response => {
+  function fetchData() {
+    const fetchPromise = fetch('https://ghibliapi.herokuapp.com/people');
+    fetchPromise.then((response) => {
       console.log(response);
     });
   }
-  function addPokemonToDOM(){}
+  function addPokemonToDOM() {}
 }
