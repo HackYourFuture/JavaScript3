@@ -1,3 +1,12 @@
 /* 
   Write here your CSS rules for HackYourRepo!
 */
+* {
+  flex: 1px;
+  width: calc(100% - 8px);
+}
+@media screen and (min-width: 900px) {
+  head {
+    margin: 10rem 30rem;
+  }
+}
